@@ -1,0 +1,471 @@
+﻿
+@{
+    ViewBag.Title = "Family";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input type="hidden" value="" id="fromParishId" />
+<div class="page-header">
+    <h1>Chuyển họ cho gia đình</h1>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo họ/khu nguồn &nbsp;(<span style="color: red">*</span>)</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbCommunitySource"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="radio">
+                <label>
+                    <input type="checkbox" class="ace" id="cbFamiliesChosen" />
+                    <span class="lbl"> Xem danh sách những gia đình được chọn</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="space-4"></div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo họ/khu đích &nbsp;(<span style="color: red">*</span>)</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbCommunityTarget"></select>
+                    <label class="text-danger" id="CommunityTargetValidate" hidden=""></label>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            @*<div class="radio">
+                <label>
+                    <input type="checkbox" class="ace" id="cbFilterIsCounted" />
+                    <span class="lbl"> Chỉ xem gia đình không được thống kê</span>
+                </label>
+            </div>*@
+        </div>
+    </div>
+
+    <div class="space-4"></div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class=" col-sm-12">
+                <button id="btnChangeCommunity" class="btn btn-primary" data-toggle="modal">
+                    <i class="ace-icon fa fa-exchange"></i> Bắt đầu chuyển họ
+                </button>
+            </div>
+        </div>
+        <div class="col-xs-6 align-right">
+
+        </div>
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="col-xs-12">
+    <div class="widget-box transparent ui-sortable-handle">
+        <div class="widget-header">
+            <h4 class="widget-title lighter">Chọn gia đình để chuyển họ</h4>
+        </div>
+        <div class="col-sm-12 align-center"><label class="text-danger" id="ParishionerChosenValidate" hidden=""></label></div>
+        <div class="widget-body">
+
+            <div id="defaultTable">
+                <table id="familyTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                <label class="position-relative">
+                                    <input type="checkbox" class="ace" />
+                                    <span class="lbl"></span>
+                                </label>
+                            </th>
+                            <th>Mã gia đình</th>
+                            <th>Tên gia đình</th>
+                            <th>Chủ hộ</th>
+                            <th>Số nhân khẩu</th>
+                            <th>Giáo họ</th>
+                            <th>Giáo khu</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div id="viewcheckedTable" hidden="">
+                <table id="FamiliesCheckedTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <label class="position-relative">
+                                    <input type="checkbox" class="ace" />
+                                    <span class="lbl"></span>
+                                </label>
+                            </th>
+                            <th>Mã gia đình</th>
+                            <th>Tên gia đình</th>
+                            <th>Chủ hộ</th>
+                            <th>Số nhân khẩu</th>
+                            <th>Giáo họ</th>
+                            <th>Giáo khu</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_ViewReadonlyFamilyModal");
+<script>
+    loadCommunitySource();
+    loadCommunityTarget();
+    initFamiliesDatatable();
+
+    function initFamiliesDatatable() {
+
+        $("#familyTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "sAjaxSource": "/ChangeCommunity/LoadFamiliesDatatables",
+            //"bProcessing": true,
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "communityId", "value": $("#cbbCommunitySource").val() });
+                aoData.push({ "name": "isCounted", "value": $("#cbFilterIsCounted").is(':checked') ? false : true });
+            },
+            "oLanguage": {
+                "sSearch": "Mã GD/ Tên thánh/ Họ tên:",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+
+                        var store = localStorage.getItem("store");
+
+                        var content = "";
+
+                        if (store != null) {
+
+                            store = JSON.parse(store);
+
+                            for (var i = 0; i < store.length; i++) {
+                                if (store[i].id == data) {
+
+                                    content = '<label class="position-relative">' +
+                                     '<input type="checkbox" class="ace" value="' + data + '" checked onclick="localStorageSave(this)"/>' +
+                                     '<span class="lbl"></span> </label>';
+
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!content) {
+                            content = '<label class="position-relative">' +
+                           '<input type="checkbox" class="ace" value="' + data + '" onclick="localStorageSave(this)"/>' +
+                           '<span class="lbl"></span> </label>';
+                        }
+
+                        return content;
+                    },
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [8],
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" onclick="loadReadonlyFamilyById(' + data + ')">' +
+                            '<i class="ace-icon fa fa-search-plus"></i>&nbsp;Chi tiết</button>';
+                        return content;
+                    },
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+
+    }
+    //-------------------------------------------------------------------------------------------
+    function initChosenTable() {
+        var store = localStorage.getItem("store");
+
+        $("#FamiliesCheckedTable").dataTable().fnDestroy();
+        $("#FamiliesCheckedTable > tbody").html("");
+
+        var content = "";
+        if (store != null) {
+
+            store = JSON.parse(store);
+            for (var i in store) {
+
+                var item = store[i];
+
+                content += "<tr>" +
+                    "<td>" + '<label class="position-relative">' +
+                    '<input type="checkbox" class="ace" value="' + item.id + '" checked onclick="combineChosenandInit(this)"/>' +
+                    '<span class="lbl"></span> </label>' +
+                    "</td>" +
+                    "<td>" + item.code + "</td>" +
+                    "<td>" + item.name + "</td>" +
+                    "<td>" + item.houseHolder + "</td>" +
+                    "<td>" + item.numOfPeople + "</td>" +
+                    "<td>" + item.community + "</td>" +
+                    "<td>" + item.parishDivision + "</td>" +
+                    "<td>" +
+                    '<button class="btn btn-minier btn-primary" onclick="loadReadonlyFamilyById(' + item.id + ')"><i class="ace-icon fa fa-search-plus"></i>&nbsp;Chi tiết</button>' +
+                    "</td>" +
+                    "</tr> ";
+
+            }
+
+            $("#FamiliesCheckedTable > tbody").html(content);
+
+        }
+
+        initSimpleChosenFamiliesDatatables("FamiliesCheckedTable");
+    }
+    //---------------------------------------------------------------------
+    function initSimpleChosenFamiliesDatatables(id) {
+
+        $("#" + id).dataTable({
+            "bDestroy": true,
+            "oLanguage": {
+                "sSearch": "Mã GD/ Tên thánh/ Họ tên:",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [7],
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+
+        });
+
+    }
+
+    function combineChosenandInit(element) {
+        localStorageSave(element);
+        initChosenTable();
+    }
+
+    function localStorageSave(element) {
+        var checked = element.checked;
+        var tr = $(element).closest("tr");
+        var td = tr.children();
+
+
+        var id = $(element).val();
+        var code = td[1].innerText;
+        var name = td[2].innerText;
+        var houseHolder = td[3].innerText;
+        var numOfPeople = td[4].innerText;
+        var community = td[5].innerText;
+        var parishDivision = td[6].innerText;
+        var families = {
+            id: id,
+            code: code,
+            name: name,
+            houseHolder: houseHolder,
+            numOfPeople: numOfPeople,
+            community: community,
+            parishDivision: parishDivision,
+        };
+
+        var store = localStorage.getItem("store");
+
+        if (store == null) {
+
+            store = []; //khoi tao array store
+            store[store.length] = families;
+            localStorage.setItem("store", JSON.stringify(store)); //Convert 1 mang sang json
+
+        } else {
+
+            store = JSON.parse(store);
+
+            if (checked) {
+                store[store.length] = families;
+            }
+            else {
+                for (var i = 0; i < store.length; i++) {
+                    if (store[i].id == families.id) {
+                        store.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+
+            localStorage.setItem("store", JSON.stringify(store));
+        }
+
+    }
+    //--------------------------------------------------------------------------------------------------------
+
+    $(document).on('click', 'th input:checkbox', function () {
+        var that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox')
+        .each(function () {
+            this.checked = that.checked;
+            $(this).closest('tr').toggleClass('selected');
+        });
+    });
+
+    //--------------------------------------------------------------------------------------------------------
+    function loadCommunitySource() {
+        $.ajax({
+            url: "/ChangeCommunity/LoadCommunityAndParishDivisionTreeView",
+            data: {},
+            async: false,
+            success: function (data) {
+                var element = $("#cbbCommunitySource");
+                //append data
+                element.html(data);
+            }
+        });
+    }
+    function loadCommunityTarget() {
+        var communitySourceId = $("#cbbCommunitySource").val();
+        $.ajax({
+            url: "/ChangeCommunity/LoadTargetCommunityAndParishDivisionTreeView",
+            data: {
+                communitySourceId : communitySourceId
+            },
+            success: function (data) {
+                var element = $("#cbbCommunityTarget");
+                //append data
+                element.html(data);
+            }
+        });
+    }
+    //-------------------------------------------------------------------------------
+
+    function ChangeCommunity() {
+        var store = localStorage.getItem("store");
+        var communityTarget = $("#cbbCommunityTarget").val();
+
+        store = JSON.parse(store);
+        var families = [];
+        for (var i in store) {
+            var item = store[i];
+            families.push(item.id);
+        }
+        $.ajax({
+            url: "/ChangeCommunity/ChangeFamiliesCommunity",
+            type: "POST",
+            data: {
+                'families': families,
+                communityTargetId: communityTarget
+            },
+            traditional: true,
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Chuyển họ thất bại!", 0);
+                } else {
+                    showMessage("Chuyển họ thành công", 1);
+                    //$("#familyTable").dataTable()._fnAjaxUpdate();
+                    updateTableContent("familyTable");
+                }
+            },
+
+        });
+    }
+    //----------------------------------------------------------------------------------
+    //Sự kiện các nút
+    $("#cbbCommunitySource").change(function () {
+        //$("#familyTable").dataTable()._fnAjaxUpdate();
+        updateTableContent("familyTable");
+        loadCommunityTarget();
+    });
+    $("#cbFilterIsCounted").change(function () {
+        //$("#familyTable").dataTable()._fnAjaxUpdate();
+        updateTableContent("familyTable");
+    });
+    $("#cbFamiliesChosen").change(function () {
+        if (this.checked) {
+            $("#defaultTable").hide();
+
+            initChosenTable();
+            $("#viewcheckedTable").show();
+
+        } else {
+            $("#viewcheckedTable").hide();
+            //$("#familyTable").dataTable()._fnAjaxUpdate();
+            updateTableContent("familyTable");
+            $("#defaultTable").show();
+        }
+    });
+    $("#btnChangeCommunity").click(function () {
+        if (!Validate()) {
+            return false;
+        }
+        ChangeCommunity();
+    });
+
+    //Validate
+    function Validate() {
+        var store = localStorage.getItem("store");
+        var communitySource = $("#cbbCommunitySource").val();
+        var communityTarget = $("#cbbCommunityTarget").val();
+        var result = true;
+        if (communityTarget == 0) {
+            $("#CommunityTargetValidate").html('Hãy chọn giáo họ hoặc giáo khu đích để chuyển!');
+            $("#CommunityTargetValidate").show();
+            result = false;
+        } else {
+            if (communitySource == communityTarget && communityTarget != 0) {
+                $("#CommunityTargetValidate").html('Giáo họ/ khu nguồn phải khác với giáo họ/ khu đích');
+                $("#CommunityTargetValidate").show();
+                result = false;
+            } else {
+                $("#CommunityTargetValidate").html('');
+                $("#CommunityTargetValidate").hide();
+            }
+        }
+        if (store == null || store.length == 2) {
+            $("#ParishionerChosenValidate").html('Hãy chọn gia đình để chuyển họ!');
+            $("#ParishionerChosenValidate").show();
+            result = false;
+        } else {
+            $("#ParishionerChosenValidate").html('');
+            $("#ParishionerChosenValidate").hide();
+        }
+        return result;
+    }
+    //-------------------------------------------------------------------------------
+</script>
+

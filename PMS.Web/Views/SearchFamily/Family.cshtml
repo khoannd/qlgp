@@ -1,0 +1,324 @@
+﻿
+@{
+    ViewBag.Title = "Family";
+}
+
+
+<div class="page-header">
+    <h1>Tìm kiếm gia đình của giáo dân</h1>
+</div>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo hạt</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbVicariateSearch">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo xứ</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbParishSearch">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="space-10"></div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo họ</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbCommunitySearch">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo khu</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbParishDivisionSearch">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="space-10"></div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Mã giáo dân</label>
+                <div class="col-sm-9">
+                    <input type="text" id="txtParishionerCode" value="" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Tên cha</label>
+                <div class="col-sm-9">
+                    <input type="text" id="txtFatherName" value="" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="space-10"></div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Tên giáo dân</label>
+                <div class="col-sm-9">
+                    <input type="text" id="txtParishionerName" value="" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Tên mẹ</label>
+                <div class="col-sm-9">
+                    <input type="text" id="txtMotherName" value="" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="space-10"></div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input type="checkbox" class="ace" id="cbNotIncludeRecord" />
+                    <span class="lbl"> Không tìm kiếm trong hồ sơ lưu trữ</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="space-6"></div>
+        <div class="col-xs-12">
+            <div class="col-sm-12">
+                <button id="btnFamilySearch" class="btn btn-primary" data-toggle="modal" disabled="">
+                    <i class="ace-icon glyphicon glyphicon-search"></i> Tìm kiếm
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="firstLoadFamilySearch" hidden="">
+        <div class="space-10"></div>
+        <table id="tblFamilySearch" class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        <label class="position-relative">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </th>
+                    <th>Mã gia đình</th>
+                    <th>Tên gia đình</th>
+                    <th>Chủ hộ</th>
+                    <th>Số nhân khẩu</th>
+                    <th>Điện thoại</th>
+                    <th>Giáo họ</th>
+                    <th>Giáo xứ</th>                    
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+@Html.Partial("_ViewReadonlyFamilyModal")
+
+<script>
+    $("#cbbVicariateSearch").change(function () {
+        loadParishes();
+        updateTableContent("tblFamilySearch");
+        //$("#tblFamilySearch").dataTable()._fnAjaxUpdate();
+    });
+    $("#cbbParishSearch").change(function () {
+        loadCommunities();
+        updateTableContent("tblFamilySearch");
+        //$("#tblFamilySearch").dataTable()._fnAjaxUpdate();
+    });
+    $("#cbbCommunitySearch").change(function () {
+        loadParishDivisions();
+        updateTableContent("tblFamilySearch");
+        //$("#tblFamilySearch").dataTable()._fnAjaxUpdate();
+    });
+    $("#cbbParishDivisionSearch").change(function () {
+        updateTableContent("tblFamilySearch");
+        //$("#tblFamilySearch").dataTable()._fnAjaxUpdate();
+    });
+    $("#cbNotIncludeRecord").change(function () {
+        updateTableContent("tblFamilySearch");
+        //$("#tblFamilySearch").dataTable()._fnAjaxUpdate();
+    });
+    $("#btnFamilySearch").click(function () {
+        $("#firstLoadFamilySearch").show();
+        startLoading();
+        updateTableContent("tblFamilySearch");
+        //$("#tblFamilySearch").dataTable()._fnAjaxUpdate();
+    });
+    function initFamilySearchDatatable() {
+        $("#tblFamilySearch").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "bFilter": false,
+            "sAjaxSource": "/SearchFamily/LoadFamilySearchDatatables",
+            "bProcessing": false,
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "parishDivisionId", "value": $("#cbbParishDivisionSearch").val() });
+                aoData.push({ "name": "communityId", "value": $("#cbbCommunitySearch").val() });
+                aoData.push({ "name": "parishId", "value": $("#cbbParishSearch").val() });
+                aoData.push({ "name": "vicariateId", "value": $("#cbbVicariateSearch").val() });
+                aoData.push({ "name": "parishionerName", "value": $("#txtParishionerName").val() });
+                aoData.push({ "name": "code", "value": $("#txtParishionerCode").val() });
+                aoData.push({ "name": "fatherName", "value": $("#txtFatherName").val() });
+                aoData.push({ "name": "motherName", "value": $("#txtMotherName").val() });
+                aoData.push({ "name": "notIncludeRecord", "value": $("#cbNotIncludeRecord").is(':checked') });
+            },
+            "oLanguage": {
+                "sSearch": "Mã GD/ Tên thánh/ Họ tên:",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0, 1],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [9],
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" onclick="loadReadonlyFamilyById(' + data + ')">' +
+                            '<i class="ace-icon fa fa-search-plus"></i>&nbsp;Chi tiết</button>';
+                        return content;
+                    },
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+    }
+
+    //-----------------------------------
+    loadVicariates();
+
+    function loadVicariates() {
+        $.ajax({
+            url: "/Parishioner/LoadVicariates",
+            data: {},
+            success: function (data) {
+                var element = $("#cbbVicariateSearch");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+                loadParishes();
+            }
+        });
+    }
+
+    //-----------------------------------
+    function loadParishes() {
+        $.ajax({
+            url: "/Parishioner/LoadParishies",
+            data: {
+                vicariateId: $("#cbbVicariateSearch").val()
+            },
+            success: function (data) {
+                var element = $("#cbbParishSearch");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+                loadCommunities();
+            }
+        });
+    }
+
+    //-----------------------------------
+    function loadCommunities() {
+        $.ajax({
+            url: "/Parishioner/LoadCommunitites",
+            data: {
+                vicariateId: $("#cbbVicariateSearch").val(),
+                parishId: $("#cbbParishSearch").val()
+            },
+            success: function (data) {
+                var element = $("#cbbCommunitySearch");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+                loadParishDivisions();
+            }
+        });
+    }
+    //-----------------------------------
+
+    function loadParishDivisions() {
+        $.ajax({
+            url: "/Parishioner/LoadParishDivisions",
+            data: {
+                communityId: $("#cbbCommunitySearch").val(),
+                vicariateId: $("#cbbVicariateSearch").val(),
+                parishId: $("#cbbParishSearch").val()
+            },
+            success: function (data) {
+                var element = $("#cbbParishDivisionSearch");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+                initFamilySearchDatatable();
+                $("#btnFamilySearch").attr('disabled', false);
+            }
+        });
+    }
+    //-----------------------------------
+    
+</script>

@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "ViewFamilyRequest";
+}
+
+<input id="requestId" type="hidden" value="0" />
+<div class="col-xs-12">
+    <div class="widget-box transparent ui-sortable-handle">
+        <div class="widget-header">
+            <h3 class="widget-title lighter">Danh sách thông tin gia đình chuyển xứ chờ duyệt</h3>
+        </div>
+        <div class="space-6"></div>
+
+        <div class="widget-body">
+            <table id="tblViewFamilyMigrationRequestSending" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <label class="position-relative">
+                                <input type="checkbox" class="ace" />
+                                <span class="lbl"></span>
+                            </label>
+                        </th>
+                        <th>Tên gia đình</th>
+                        <th>Chủ hộ</th>
+                        <th>Số nhân khẩu</th>
+                        <th>Điện thoại</th>
+                        <th>Đến giáo xứ</th>
+                        <th>Ngày tạo yêu cầu</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@Html.Partial("_ViewReadonlyFamilyModal")
+<script>
+    function refreshFamilySendingRequestTable() {
+        updateTableContent("tblViewFamilyMigrationRequestSending");
+        //$("#tblViewFamilyMigrationRequestSending").dataTable()._fnAjaxUpdate();
+    }
+
+    InitViewFamilyMigrationRequestSendingDatatable();
+    function InitViewFamilyMigrationRequestSendingDatatable() {
+
+        $("#tblViewFamilyMigrationRequestSending").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "sAjaxSource": "/ApproveRequest/LoadFamilyMigrationSendingRequest",
+            //"bProcessing": true,
+            //"fnServerParams": function (aoData) {
+            //    aoData.push({ "name": "vicariateId", "value": $("#selectVicariate").val() });
+            //},
+            "oLanguage": {
+                "sSearch": "Tên gia đình/ Chủ hộ",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [8],
+                    "render": function (data, type, full, meta) {
+                        var content =
+                            '<button class="btn btn-minier btn-primary" onclick="loadReadonlyFamilyById(' + full[0] + ')">' + '<i class="ace-icon fa fa-search-plus"></i>&nbsp;Chi tiết</button>' +
+                                '<button class="btn btn-minier btn-danger" onclick="cancelFamilyMigrationSendingRequestConfirm(' + data + ')">' + '<i class="ace-icon fa fa-times"></i>Hủy bỏ</button>';
+                        return content;
+                    },
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+
+    }
+    $(document).on('click', 'th input:checkbox', function () {
+        var that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox')
+            .each(function () {
+                this.checked = that.checked;
+                $(this).closest('tr').toggleClass('selected');
+            });
+    });
+
+    function cancelFamilyMigrationSendingRequestConfirm(id) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "<p>Nếu hủy bỏ yêu cầu chuyển xứ, thông tin của gia đình này (bao gồm cả những thành viên trong gia đình) sẽ được hệ thống trả về trạng thái ban đầu lúc chưa chuyển xứ.</p>" +
+                "<p>Bạn có chắc muốn hủy bỏ thông tin chuyển xứ của gia đình này không?</p>",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Có",
+                    className: "ace-icon fa fa-check btn-danger",
+                    callback: function () {
+                        cancelFamilyMigrationSendingRequest(id);
+                    }
+                },
+                main: {
+                    label: " Không",
+                    className: "ace-icon fa fa-times btn-grey",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    function cancelFamilyMigrationSendingRequest(id) {
+        $.ajax({
+            url: "/ApproveRequest/CancelFamilyMigrationRequestSending",
+            type: "POST",
+            data: {
+                id: id
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Có lỗi xảy ra, vui lòng thực hiện lại!", 0);
+                } else {
+                    showMessage("Hủy bỏ thông tin chuyển xứ thành công", 1);
+                    refreshFamilySendingRequestTable();
+                    countMigrationRequest();
+                }
+            },
+        });
+    }
+</script>
+
+
+

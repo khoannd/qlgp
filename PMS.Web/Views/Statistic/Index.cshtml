@@ -1,0 +1,872 @@
+﻿@using PMS.DataAccess.Enumerations
+
+@{
+    ViewBag.Title = "Index";
+}
+@{
+    var roleId = (int)Session["RoleId"];
+}
+<input type="hidden" id="rdvalue" value="0"/>
+<input type="hidden" id="actionModalStatistic" value="0"/>
+<input type="hidden" id="hiddenMakeSroll" value="0" />
+<div class="page-header">
+    <h1>Thống kê chung</h1>
+</div>
+<div class="container-fluid">
+    <div class="hidden-print">
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Từ ngày</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input class="form-control date-picker" id="txtFromDate" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-110"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Đến ngày &nbsp;(<span style="color: red">*</span>)</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input class="form-control date-picker" id="txtToDate" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-110"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-xs-offset-6">
+            <div class="col-md-12">
+                <h6 class="text-muted">Nếu nhập từ năm = đến năm thì xem như chỉ thống kê trong 1 năm</h6>
+            </div>
+        </div>
+    </div>
+    @if (roleId == (int) AccountEnum.Admin)
+    {
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right">Giáo hạt</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" id="cbbVicariateStatistic">
+                            <option value="0">Tất cả</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right">Giáo xứ</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" id="cbbParishStatistic">
+                            <option value="0">Tất cả</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-10"></div>   
+    }
+    else
+    {
+        @*<div class="col-xs-6" hidden="">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo hạt</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbVicariateStatistic">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>*@
+        @*<div class="col-xs-6" hidden="">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo xứ</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbParishStatistic">
+                        <option value="0">Tất cả</option>
+                    </select>
+                    <input type="hidden" id="cbbParishStatistic" value="@parishId" />
+                </div>
+            </div>
+        </div>*@
+        <input type="hidden" id="cbbVicariateStatistic" value="0" />
+        <input type="hidden" id="cbbParishStatistic" value="@((int)Session["ParishId"])" />
+    }
+    
+    
+
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo họ</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbCommunityStatistic">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo khu</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbDivisionStatistic">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="space-10"></div>
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input name="form-field-radio" type="radio" class="ace" value="1" id="rdWasborn" />
+                    <span class="lbl"> Sinh ra</span>
+                </label>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input name="form-field-radio" type="radio" class="ace" value="2" id="rdBaptism" />
+                    <span class="lbl"> Rửa tội</span>
+                </label>
+            </div>
+        </div>
+        <!-- tong so giao dan-->
+        <div class="col-xs-4">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input name="form-field-radio" type="radio" class="ace" value="9" id="rdCatechuman" />
+                    <span class="lbl"> Tân tòng (thống kê theo ngày rửa tội)</span>
+                </label>
+            </div>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input name="form-field-radio" type="radio" class="ace" value="5" id="rdIsDead" />
+                    <span class="lbl"> Qua đời</span>
+                </label>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input name="form-field-radio" type="radio" class="ace" value="3" id="rdFirstHolyCommunion" />
+                    <span class="lbl"> Xưng tội -  rước lễ lần đầu</span>
+                </label>
+                
+            </div>
+        </div>
+        <!--tan tong-->
+        <div class="col-xs-4">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input name="form-field-radio" type="radio" class="ace" value="7" id="rdParishionerTotal" />
+                    <span class="lbl"> Tổng số giáo dân (tính đến ngày)</span>
+                </label>
+            </div>
+
+        </div>
+        
+        @*<div class="col-xs-6">
+            <div class="radio">
+                <label>
+                    <input name="form-field-radio" type="radio" class="ace" value="4" id="rdConfirmation" />
+                    <span class="lbl"> Thêm sức</span>
+                </label>
+                
+            </div>
+        </div>*@
+    </div>
+    <div class="row">
+        @*<div class="col-xs-6">
+            <div class="radio">
+                <label>
+                    <input name="form-field-radio" type="radio" class="ace" value="5" id="rdIsDead" />
+                    <span class="lbl"> Qua đời</span>
+                </label>
+            </div>
+        </div>*@
+        @*<div class="col-xs-6">
+            <div class="radio">
+                <label>
+                    <input name="form-field-radio" type="radio" class="ace" value="6" id="rdMatrimony" />
+                    <span class="lbl"> Hôn phối</span>
+                </label>
+                
+            </div>
+        </div>*@
+    </div>
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input name="form-field-radio" type="radio" class="ace" value="6" id="rdMatrimony" />
+                    <span class="lbl"> Hôn phối</span>
+                </label>
+
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input name="form-field-radio" type="radio" class="ace" value="4" id="rdConfirmation" />
+                    <span class="lbl"> Thêm sức</span>
+                </label>
+
+            </div>
+        </div>
+     
+        <div class="col-xs-4">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input name="form-field-radio" type="radio" class="ace" value="8" id="rdFamilyTotal" />
+                    <span class="lbl"> Tổng số gia đình (không phụ thuộc năm thống kê)</span>
+                </label>
+                
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @*<div class="col-xs-6">
+            <div class="radio">
+                <label>
+                    <input name="form-field-radio" type="radio" class="ace" value="9" id="rdCatechuman" />
+                    <span class="lbl"> Tân tòng (thống kê theo ngày rửa tội)</span>
+                </label>
+            </div>
+        </div>*@
+    </div>
+    <div class="row">
+        <div class="col-xs-4">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input type="checkbox" class="ace" id="cbIncludeRecord" />
+                    <span class="lbl"> Tính cả trong hồ sơ lưu trữ</span>
+                </label>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input type="checkbox" class="ace" id="cbIncludeWithoutDate" />
+                    <span class="lbl"> Tính cả những dữ liệu không có ngày tháng</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="space-6"></div>
+        <div class="col-xs-12">
+            <div class="col-sm-12">
+                <button class="btn btn-primary" data-toggle="modal" id="btnStatistic">
+                    <i class="ace-icon fa fa-bar-chart-o"></i> Thống kê
+                </button>
+                <button class="btn btn-purple" data-toggle="modal" id="btnPrintStatistic">
+                    <i class="ace-icon fa fa-print"></i> In thống kê
+                </button>
+            </div>
+        </div>
+    </div>
+    <!--print ----------------------------------------------------- -->  
+</div>
+    <!-- ----------------------------------------------------- -->
+    <div class="row" id="parishionerStatisticTable" hidden="">
+        <div class="space-10"></div>
+        <table id="statisticTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        <label class="position-relative">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </th>
+                    <th>Mã giáo dân</th>
+                    <th>Tên thánh</th>
+                    <th>Họ tên</th>
+                    <th>Giới tính</th>
+                    <th>Ngày sinh</th>
+                    <th>Giáo họ</th>
+                    <th>Thao tác</th>
+
+                </tr>
+            </thead>
+
+            <tbody></tbody>
+
+        </table>
+    </div>
+    <div class="row" id="familyStatisticTable" hidden="">
+        <div class="space-10"></div>
+        <table id="tblFamilyStatistic" class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        <label class="position-relative">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </th>
+                    <th>Mã gia đình</th>
+                    <th>Tên gia đình</th>
+                    <th>Chủ hộ</th>
+                    <th>Số nhân khẩu</th>
+                    <th>Điện thoại</th>
+                    <th>Giáo khu</th>
+                    <th>Giáo họ</th>
+                    <th>Thao tác</th>
+
+                </tr>
+            </thead>
+
+            <tbody></tbody>
+
+        </table>
+    </div>
+    
+    <div class="row" id="matrimonyStatisticTable" hidden="">
+        <div class="space-10"></div>
+        <table id="tblMatrimonyStatistic" class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        <label class="position-relative">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </th>
+                    <th>Số HP</th>
+                    <th>Chồng</th>
+                    <th>Vợ</th>
+                    <th>Nơi HP</th>
+                    <th>Ngày HP</th>
+                    <th>Cách thức</th>
+                    <th>Linh mục chứng</th>
+                    <th>Thao tác</th>
+
+                </tr>
+            </thead>
+
+            <tbody></tbody>
+
+        </table>
+    </div>
+
+</div>
+@Html.Partial("_ViewReadonlyFamilyModal")
+@Html.Partial("_ViewReadonlyMatrimonyModal")
+<script>
+
+   
+
+    $("#cbbVicariateStatistic").change(function () {
+        loadParishes();
+    });
+    $("#cbbParishStatistic").change(function () {
+        loadCommunities();
+    });
+    $("#cbbCommunityStatistic").change(function () {
+        loadParishDivisions();
+    });
+    $("#cbbDivisionStatistic").change(function () {
+    });
+    $("#btnStatistic").click(function () {
+        if (!checkRbValue()) {
+            return;
+        }
+        var exFromDate = $("#txtFromDate").val();
+        var rbvalue = $('input[name=form-field-radio]:checked').val();
+        if (rbvalue == 7) {
+            if (!checkToDate()) {
+                return;
+            }
+        } else if (rbvalue == 1 || rbvalue == 2 || rbvalue == 3 || rbvalue == 4 || rbvalue == 5 || rbvalue == 6 || rbvalue == 9) {
+                     
+            if (exFromDate) {
+                if (!compareStatisticDate()) {
+                    return;
+                }
+            }
+            if (!checkToDate()) {
+                return;
+            }
+            
+        }
+
+        if (rbvalue == 1 || rbvalue == 2 || rbvalue == 3 || rbvalue == 4 || rbvalue == 5 || rbvalue == 7 || rbvalue == 9) {
+            $("#familyStatisticTable").hide();
+            $("#matrimonyStatisticTable").hide();
+            $("#parishionerStatisticTable").show();
+            updateTableContent("statisticTable");
+            //$("#statisticTable").dataTable()._fnAjaxUpdate();
+        } else if (rbvalue == 8) {
+            $("#parishionerStatisticTable").hide();
+            $("#matrimonyStatisticTable").hide();
+            $("#familyStatisticTable").show();
+            updateTableContent("tblFamilyStatistic");
+            //$("#tblFamilyStatistic").dataTable()._fnAjaxUpdate();
+        } else if (rbvalue == 6) {
+            $("#parishionerStatisticTable").hide();
+            $("#familyStatisticTable").hide();
+            $("#matrimonyStatisticTable").show();
+            updateTableContent("tblMatrimonyStatistic");
+            //$("#tblMatrimonyStatistic").dataTable()._fnAjaxUpdate();
+        }
+    });
+
+    $("input[name=form-field-radio]").change(function () {
+        var value = $(this).val();
+
+        //qua đời
+        if (value == 5) {
+            $("#cbIncludeRecord").attr('disabled', true);
+            $("#cbIncludeRecord").prop('checked', true);
+        } else if (value == 6) {
+            $("#cbIncludeRecord").attr('disabled', true);
+            $("#cbIncludeRecord").prop('checked', false);
+
+        }
+        else {
+            $("#cbIncludeRecord").attr('disabled', false);
+            $("#cbIncludeRecord").prop('checked', false);
+        }
+
+        //hôn phối
+        //if (value == 6) {
+        //    $("#cbIncludeRecord").attr('disabled', true);
+        //} else {
+        //    $("#cbIncludeRecord").attr('disabled', false);
+        //}
+
+        //tổng số giáo dân
+        if (value == 7) {
+            $("#txtFromDate").attr('disabled', true);
+        } else {
+            $("#txtFromDate").attr('disabled', false);
+        }
+
+        //tổng số gia đình
+        if (value == 8) {
+            $("#txtFromDate").attr('disabled', true);
+            $("#txtToDate").attr('disabled', true);
+            $("#cbIncludeWithoutDate").attr('disabled', true);
+        } else {
+            $("#txtToDate").attr('disabled', false);
+            $("#cbIncludeWithoutDate").attr('disabled', false);
+        }
+    });
+    //parishioner table
+    initDatatable();
+    function initDatatable() {
+        $("#statisticTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "bFilter": false,
+            "sAjaxSource": "/Statistic/LoadParishionerStatisticDatatables",
+            "bProcessing": false,
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "parishDivisionId", "value": $("#cbbDivisionStatistic").val() });
+                aoData.push({ "name": "communityId", "value": $("#cbbCommunityStatistic").val() });
+                aoData.push({ "name": "parishId", "value": $("#cbbParishStatistic").val() });
+                aoData.push({ "name": "vicariateId", "value": $("#cbbVicariateStatistic").val() });
+                aoData.push({ "name": "fromDate", "value": $("#txtFromDate").val() });
+                aoData.push({ "name": "toDate", "value": $("#txtToDate").val() });
+                aoData.push({ "name": "rdValue", "value": ($('input[name=form-field-radio]:checked').val()) ? $('input[name=form-field-radio]:checked').val() : -1 });
+                aoData.push({ "name": "includeRecord", "value": $("#cbIncludeRecord").is(':checked') });
+                aoData.push({ "name": "includeWithoutDate", "value": $("#cbIncludeWithoutDate").is(':checked') });
+            },
+            "oLanguage": {
+                "sSearch": "Mã giáo dân/ Tên thánh/ Họ tên",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0,1],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [8],
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" onclick="viewReadonlyParishioner(' + data + ')">' +
+                            '<i class="ace-icon fa fa-search-plus"></i>Chi tiết</button>';
+                        return content;
+                    },
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+
+    }
+
+    //family table
+    initFamilyDatatable();
+    function initFamilyDatatable() {
+        $("#tblFamilyStatistic").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "bFilter": false,
+            "sAjaxSource": "/Statistic/LoadParishionerStatisticDatatables",
+            "bProcessing": false,
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "parishDivisionId", "value": $("#cbbDivisionStatistic").val() });
+                aoData.push({ "name": "communityId", "value": $("#cbbCommunityStatistic").val() });
+                aoData.push({ "name": "parishId", "value": $("#cbbParishStatistic").val() });
+                aoData.push({ "name": "vicariateId", "value": $("#cbbVicariateStatistic").val() });
+                aoData.push({ "name": "fromDate", "value": $("#txtFromDate").val() });
+                aoData.push({ "name": "toDate", "value": $("#txtToDate").val() });
+                aoData.push({ "name": "rdValue", "value": ($('input[name=form-field-radio]:checked').val()) ? $('input[name=form-field-radio]:checked').val() : -1 });
+                aoData.push({ "name": "includeRecord", "value": $("#cbIncludeRecord").is(':checked') });
+                aoData.push({ "name": "includeWithoutDate", "value": $("#cbIncludeWithoutDate").is(':checked') });
+            },
+            "oLanguage": {
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0, 1],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [9],
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" onclick="loadReadonlyFamilyById(' + data + ')">' +
+                            '<i class="ace-icon fa fa-search-plus"></i>&nbsp;Chi tiết</button>';
+                        return content;
+                    },
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+    }
+    //matrinomy table
+    initMatrimonyDatatable();
+    function initMatrimonyDatatable() {
+        $("#tblMatrimonyStatistic").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "bFilter": false,
+            "sAjaxSource": "/Statistic/LoadParishionerStatisticDatatables",
+            "bProcessing": false,
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "parishDivisionId", "value": $("#cbbDivisionStatistic").val() });
+                aoData.push({ "name": "communityId", "value": $("#cbbCommunityStatistic").val() });
+                aoData.push({ "name": "parishId", "value": $("#cbbParishStatistic").val() });
+                aoData.push({ "name": "vicariateId", "value": $("#cbbVicariateStatistic").val() });
+                aoData.push({ "name": "fromDate", "value": $("#txtFromDate").val() });
+                aoData.push({ "name": "toDate", "value": $("#txtToDate").val() });
+                aoData.push({ "name": "rdValue", "value": ($('input[name=form-field-radio]:checked').val()) ? $('input[name=form-field-radio]:checked').val() : -1 });
+                aoData.push({ "name": "includeRecord", "value": $("#cbIncludeRecord").is(':checked') });
+                aoData.push({ "name": "includeWithoutDate", "value": $("#cbIncludeWithoutDate").is(':checked') });
+            },
+            "oLanguage": {
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0, 1],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [7],
+                    "render": function (data, type, full, meta) {
+                        var content = '';
+                        if (data == 1 ) {
+                            content = 'Bình thường';
+                        } else if (data == 2) {
+                            content = 'Hợp thức hóa';
+                        } else if (data == 3) {
+                            content = 'Chuẩn khác đạo';
+                        } else if (data == 4) {
+                            content = 'Không theo phép đạo';
+                        } else if (data == 5) {
+                            content = 'Đã được tháo gỡ';
+                        } else if (data == 6) {
+                            content = 'Không xác định';
+                        }
+                        
+                        return content;
+                    },
+                },
+                {
+                    "aTargets": [9],
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" onclick="loadReadonlyMatrimonySacrament(' + data + ', 1)">' +
+                            '<i class="ace-icon fa fa-search-plus"></i>&nbsp;Chi tiết</button>';
+                        return content;
+                    },
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+    }
+
+    $('.date-picker').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        forceParse: false
+    });
+    $(".date-picker").focusout(function () {
+        var code = isDate($(this).val());
+
+        if (code == -1) {
+            showMessage("Thời gian không đúng định dạng (ngày/tháng/năm)", 0, 6000);
+            $(this).focus();
+        }
+        else if (code == -2) {
+            showMessage("Thời gian không hợp lệ", 0, 6000);
+            $(this).focus();
+        }
+    });
+    $(document).on('click', 'th input:checkbox', function () {
+        var that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox')
+            .each(function () {
+                this.checked = that.checked;
+                $(this).closest('tr').toggleClass('selected');
+            });
+    });
+    $("#btnPrintStatistic").click(function() {
+        window.print();
+    });
+    function checkRbValue() {
+        var isError = false;
+
+        var rbValue = $('input[name=form-field-radio]:checked').val();
+        if (!rbValue) {
+            showMessage("Vui lòng chọn tiêu chí để thống kê", -1);
+            isError = true;
+        }
+
+        if (isError) {
+            return false;
+        }
+        return true;
+    }
+
+    function checkFromDate() {
+        var isError = false;
+
+        var ckFromDate = $("#txtFromDate").val();
+        if (!ckFromDate) {
+            showMessage("Vui lòng chọn thời điểm 'Từ ngày' để thống kê", -1);
+            isError = true;
+        }
+
+        if (isError) {
+            return false;
+        }
+        return true;
+    }
+
+    function checkToDate() {
+        var isError = false;
+
+        var ckToDate = $("#txtToDate").val();
+        if (!ckToDate) {
+            showMessage("Vui lòng chọn thời điểm 'Đến ngày' để thống kê", -1);
+            isError = true;
+        }
+
+        if (isError) {
+            return false;
+        }
+        return true;
+    }
+
+    function compareStatisticDate() {
+        var cFromDate = $("#txtFromDate").val();
+        var cToDate = $("#txtToDate").val();
+        var result = true;
+        $.ajax({
+            url: "/Statistic/CompareStatisticDate",
+            type: "POST",
+            data: {
+                fromDate: cFromDate,
+                toDate: cToDate
+            },
+            async: false,
+            success: function (data) {
+                if (data.result < 0) {
+                    showMessage("Thời gian thống kê không hợp lệ. 'Từ ngày' không được lớn hơn 'Đến ngày'", 0);
+                    result = false;
+                } else {
+                    result = true;
+                }
+
+            },
+        });
+        return result;
+    }
+    //-----------------------------------
+    loadVicariates();
+
+    function loadVicariates() {
+        $.ajax({
+            url: "/Parishioner/LoadVicariates",
+            data: {},
+            success: function (data) {
+                var element = $("#cbbVicariateStatistic");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+                loadParishes();
+            }
+        });
+    }
+
+    //-----------------------------------
+    function loadParishes() {
+        $.ajax({
+            url: "/Parishioner/LoadParishies",
+            data: {
+                vicariateId: $("#cbbVicariateStatistic").val()
+            },
+            success: function (data) {
+                var element = $("#cbbParishStatistic");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+                loadCommunities();
+            }
+        });
+    }
+
+    //-----------------------------------
+    function loadCommunities() {
+        $.ajax({
+            url: "/Parishioner/LoadCommunitites",
+            data: {
+                vicariateId: $("#cbbVicariateStatistic").val(),
+                parishId: $("#cbbParishStatistic").val()
+            },
+            success: function (data) {
+                var element = $("#cbbCommunityStatistic");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+                loadParishDivisions();
+            }
+        });
+    }
+
+    //-----------------------------------
+
+    function loadParishDivisions() {
+        $.ajax({
+            url: "/Parishioner/LoadParishDivisions",
+            data: {
+                communityId: $("#cbbCommunityStatistic").val(),
+                vicariateId: $("#cbbVicariateStatistic").val(),
+                parishId: $("#cbbParishStatistic").val()
+            },
+            success: function (data) {
+                var element = $("#cbbDivisionStatistic");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+                
+            }
+        });
+    }
+    ////-----------------------------------
+    $("#readonlyMatrimonyModal").on('hidden.bs.modal', function () {
+        var hiddenscroll = $("#hiddenMakeSroll").val();
+        if (hiddenscroll == 1) {
+            makeScrollForModal();
+        } else {
+            removeScrollForModal();
+        }
+        
+        //-------------
+        //-------------
+    });
+    $("#viewReadonlyParishionerModal").on('hidden.bs.modal', function () {
+        var action = $("#actionModalStatistic").val();
+        if (action == 0) {
+            removeScrollForModal();
+        }
+        
+
+        //-------------
+        //-------------
+    });
+</script>

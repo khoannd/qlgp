@@ -1,0 +1,1221 @@
+﻿@{
+    ViewBag.Title = "Thuyên chuyển Linh mục";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="/Content/assets/css/bootstrap-editable.css" />
+<link rel="stylesheet" href="/Content/assets/css/jquery-ui.custom.min.css" />
+<link rel="stylesheet" href="/Content/assets/css/select2.css" />
+<script src="/Content/assets/js/jquery.dataTables.min.js"></script>
+<script src="/Content/assets/js/jquery.dataTables.bootstrap.js"></script>
+<script src="/Content/assets/js/bootstrap-wysiwyg.min.js"></script>
+<script src="/Content/assets/js/select2.min.js"></script>
+<script src="/Content/assets/js/fuelux/fuelux.spinner.min.js"></script>
+<script src="/Content/assets/js/x-editable/bootstrap-editable.min.js"></script>
+<script src="/Content/assets/js/x-editable/ace-editable.min.js"></script>
+
+<input id="priestId" type="hidden" value="" />
+<div class="page-header">
+    <h1>Thuyên chuyển Linh mục</h1>
+</div>
+
+<div class="col-xs-12">
+    <button id="btnTaoThuyenChuyen" class="btn btn-success" data-toggle="modal">
+        <i class="ace-icon fa fa-plus"></i> Thêm đợt thuyên chuyển
+    </button>
+</div>
+
+<div class="col-xs-12">
+    <div class="space-6"></div>
+    <table id="TCLMTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    <label class="position-relative">
+                        <input type="checkbox" class="ace" />
+                        <span class="lbl"></span>
+                    </label>
+                </th>
+
+                <th>Ngày quyết định</th>
+                <th>Mô tả</th>
+                <th>Ngày hiệu lực</th>
+                <th>Người quyết định</th>
+                <th>Số Linh mục</th>
+                <th>Thao tác</th>
+
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!--TCLM Modal-->
+<div id="createTCLMModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+
+                    <h4 class="widget-title lighter" id="titleModal">Thông tin đợt thuyên chuyển Linh Mục</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseTCLMModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+
+                </div>
+                <div class="widget-body">
+                    <div class="space-10"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label no-padding-right">Ngày quyết định&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-8">
+                                        <div class="input-group">
+                                            <input class="form-control fdate-picker" id="ngayQuyetDinh" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar bigger-110"></i>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8 col-sm-offset-4">
+                                        <label id="lbNgayQuyetDinhErrorMessage" class="text-danger" hidden=""></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Mô tả&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="moTa" value="" class="form-control">
+                                        <label id="lbMoTaErrorMessage" class="text-danger" hidden=""></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="space-10"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label no-padding-right">Người quyết định&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="nguoiQuyetDinh" value="" class="form-control autocomplete-priest">
+                                        <label id="lbNguoiQuyetDinhErrorMessage" class="text-danger" hidden=""></label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Ngày hiệu lực&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input class="form-control fdate-picker" id="ngayHieuLuc" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar bigger-110"></i>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8 col-sm-offset-3">
+                                        <label id="lbNgayHieuLucErrorMessage" class="text-danger" hidden=""></label>
+                                    </div>
+                                </div>
+                            </div>                        
+                        </div>
+
+                    </div>
+                    
+                    <div class="space-10"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-md-12">
+                                <h5 class="page-header" style="color: #4383b4">Danh sách những Linh Mục được thuyên chuyển</h5>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button id="btnLookupPriestModal" class="btn btn-primary btn-sm" data-toggle="modal">
+                                        <i class="ace-icon glyphicon glyphicon-search"></i> Chọn Linh mục
+                                    </button>
+                                    <button class="btn btn-success btn-sm" data-toggle="modal" onclick="printAppointmentAll()">
+                                        <i class=" ace-icon fa fa-print">
+                                        </i> In giấy mời
+                                    </button>
+                                    <button class="btn btn-purple btn-sm" data-toggle="modal" onclick="printDecisionAll()" >
+                                        <i class=" ace-icon fa fa-print">
+                                        </i> In quyết định
+                                    </button>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-6"></div>
+                    <div class="form-group">                        
+                        <div class="row" id="hiddenParishManagerTableModal">
+                            <div class="col-xs-12">
+                                <table id="parishManagerTable" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th hidden=""></th>
+                                            <th>
+                                                <label class="position-relative">
+                                                    <input type="checkbox" class="ace sItem" />
+                                                    <span class="lbl"></span>
+                                                </label>
+                                            </th>
+                                            <th>Tên thánh</th>
+                                            <th>Họ tên</th>
+                                            <th>Ngày sinh</th>
+                                            <th>Mã số</th>
+                                            <th>Trạng thái</th>
+                                            <th>Nơi hiện tại</th>
+                                            <th>Nơi được chuyển đến</th>
+                                            <th>Vai trò</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody></tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <!--end row-->
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="align-right">
+                                        <button id="btnCreateTCLMModal" class="btn btn-primary" data-toggle="modal">
+                                            <i class="ace-icon fa fa-save"></i> Lưu
+                                        </button>
+                                        <button id="btnUpdateTCLMModal" class="btn btn-primary" data-toggle="modal">
+                                            <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                        </button>
+                                        <button id="btnCloseTCLMModal" class="btn" data-toggle="modal">
+                                            <i class="ace-icon fa fa-times"></i> Đóng
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-6"></div>
+
+                    </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!--End TCLM Modal-->
+
+<!--Priest Modal-->
+<div id="createPriestModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+                    <div class="col-xs-12">
+                        <h4 class="widget-title lighter" id="PriestModalTitle"></h4>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="space-10"></div>
+                    <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Tên thánh&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="txtchristianName" value="" class="form-control christian">
+                                    <label class="text-danger" id="lbErrorChristianName" hidden=""></label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Họ Tên&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="txtName" value="" class="form-control">
+                                    <label class="text-danger" id="lbErrorName" hidden=""></label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Ngày sinh&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input class="form-control date-picker" id="txtBirthDate" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar bigger-110"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9 col-sm-offset-3">
+                                    <label class="text-danger" id="lbErrorBirthdate" hidden=""></label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="space-10"></div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Số Điện Thoại</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="txtPhone" value="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--end row-->
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="align-right">
+                                    <div class="space-6"></div>
+                                    <button id="btnCreatePriestModal" class="btn btn-primary" data-toggle="modal">
+                                        <i class="ace-icon fa fa-save"></i> Lưu
+                                    </button>
+                                    <button id="btnUpdatePriestModal" class="btn btn-primary" data-toggle="modal">
+                                        <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                    </button>
+                                    <button id="btnClosePriestModal" class="btn btn-grey" data-toggle="modal">
+                                        <i class="ace-icon fa fa-times"></i> Đóng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Priest Modal-->
+
+<!--History Modal-->
+<div id="viewHistoryModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+
+                    <h4 class="widget-title lighter" id="titleViewHistoryModal">Lịch sử thuyên chuyển</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseViewHistoryModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+
+                    <div class="space-6"></div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table id="parishManagerHistory" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th hidden=""></th>
+                                            <th>Ngày bắt đầu</th>
+                                            <th>Ngày kết thúc</th>
+                                            <th>Nơi được chuyển đến</th>
+                                            <th>Vai trò</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody></tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <!--end row-->
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="align-right">
+                                        <button id="btnCloseViewHistoryModal" class="btn" data-toggle="modal">
+                                            <i class="ace-icon fa fa-times"></i> Đóng
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-6"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End History Modal-->
+
+@Html.Partial("_LookupPriestModal")
+
+<script>
+    var idTCLM;
+    $(function () {        
+        $('#createTCLMModal').find('.modal-dialog.modal-lg').css('width', '95%');
+
+        $('.fdate-picker').datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            forceParse: false,
+        }).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });        
+    });
+
+    InitDatatable();
+    function InitDatatable() {
+
+        $("#TCLMTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "sAjaxSource": "/ThuyenChuyenLinhMuc/LoadDataThuyenChuyenLinhMuc",
+            //"bProcessing": true,
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "type", "value": 0 });
+            },
+            "oLanguage": {
+                "sSearch": "Mô tả",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0, 1],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [7],
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" style="margin-right:2px;" onclick="LoadTCLMById(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                            '<button class="btn btn-minier btn-danger" onclick="DeleteTCLMConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                        return content;
+                    },
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+    }
+
+    $("#ngayQuyetDinh").change(function () {
+        var date = $("#ngayQuyetDinh").val();
+        var t = date.split("/");
+        if (t.length == 3) {
+            $("#moTa").val("Đợt thuyên chuyển ngày " + t[0] + " tháng " + t[1] + " năm " + t[2]);
+        } else if (t.length == 2) {
+            $("#moTa").val("Đợt thuyên chuyển tháng " + t[0] + " năm " + t[1]);
+        } else if (t.length == 1) {
+            $("#moTa").val("Đợt thuyên chuyển năm " + t[0]);
+        }
+    });
+
+    $("#btnTaoThuyenChuyen").click(function () {                      
+        idTCLM = 0;
+        $("#titleModal").html("Thêm mới đợt thuyên chuyển Linh Mục");
+        $("#createTCLMModal").modal('show');
+        $("#btnCreateTCLMModal").show();
+        $("#btnUpdateTCLMModal").hide();        
+    });
+
+    $("#btnCloseTCLMModal").click(function() {
+        $("#createTCLMModal").modal('hide');
+        ClearTCLM();
+        refeshTable("TCLMTable");
+    });
+
+    function LoadTCLMById(id) {
+        idTCLM = id;
+        startLoading();
+        $.ajax({
+            url: "/ThuyenChuyenLinhMuc/LoadTCLMById",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                var item = data.result;
+                if (item) {
+                    $("#ngayQuyetDinh").val(item.NgayQuyetDinh);
+                    $("#nguoiQuyetDinh").val(item.NguoiQuyetDinh);
+                    $("#moTa").val(item.MoTa);
+                    $("#ngayHieuLuc").val(item.NgayHieuLuc);
+
+                    $("#titleModal").html("Chỉnh sửa đợt thuyên chuyển Linh Mục");
+                    $("#btnCreateTCLMModal").hide();
+                    $("#btnUpdateTCLMModal").show();
+                    LoadParishManagerByTCLM(id);
+                }
+                else {
+                    showMessage("Tải dữ liệu thất bại", 0);
+                }
+
+            },
+        });
+    }
+
+    function LoadParishManagerByTCLM(id) {
+        $.ajax({
+            url: "/ThuyenChuyenLinhMuc/LoadParishManagerByTCLM",
+            type: "POST",
+            data: {
+                idTCLM: id,
+            },
+            success: function (data) {
+                $("#parishManagerTable").dataTable().fnDestroy();
+                $("#parishManagerTable > tbody").html(data);
+                InitParishManagerDatatables("parishManagerTable");
+                //checkInvalidParticipants();
+                //multiCheck();               
+                $("#createTCLMModal").modal('show');
+            },
+        });
+    }
+
+    function InitParishManagerDatatables(id) {
+
+        $("#" + id).dataTable({
+            "aaSorting": [],
+            "oLanguage": {
+                "sSearch": "Linh mục/Giáo xứ",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }                
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace sItem" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "4%"
+                },
+                {
+                    "aTargets": [2],
+                    "sWidth": "11%"
+                },
+                {
+                    "aTargets": [3],
+                    "sWidth": "14%"
+                },
+                {
+                    "aTargets": [4],
+                    "sWidth": "10%"
+                },
+                {
+                    "aTargets": [5],
+                    "sWidth": "7%"
+                },
+                {
+                    "aTargets": [6],
+                    "sWidth": "10%"
+                },
+                {
+                    "aTargets": [7],
+                    "sWidth": "11%"
+                },
+                {
+                    "aTargets": [8],
+                    "sWidth": "13%"
+                },
+                {
+                    "aTargets": [9],
+                    "sWidth": "9%"
+                },
+                {
+                    "aTargets": [10],
+                    "sWidth": "11%",
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+
+        });
+
+    }
+
+    function ClearTCLM() {
+        idTCLM = 0;
+        $("#parishManagerTable").dataTable().fnDestroy();
+        $("#parishManagerTable tbody").html("");
+
+        $("#ngayQuyetDinh").val('');
+        $("#nguoiQuyetDinh").val('');
+        $("#moTa").val('');
+        $("#ngayHieuLuc").val('');
+
+        $("#lbNgayQuyetDinhErrorMessage").val("");
+        $("#lbNgayQuyetDinhErrorMessage").hide();
+        $("#lbMoTaErrorMessage").val("");
+        $("#lbMoTaErrorMessage").hide();
+        $("#lbNguoiQuyetDinhErrorMessage").val("");
+        $("#lbNguoiQuyetDinhErrorMessage").hide();
+        $("#lbNgayHieuLucErrorMessage").val("");
+        $("#lbNgayHieuLucErrorMessage").hide();
+    }
+
+    function CheckValidTCLM() {
+        var ngayQuyetDinh = $("#ngayQuyetDinh").val();
+        var moTa = $("#moTa").val();
+        var nguoiQuyetDinh = $("#nguoiQuyetDinh").val();
+        var ngayHieuLuc = $("#ngayHieuLuc").val();
+        var isError = false;
+
+
+        if (!ngayQuyetDinh) {
+            $("#lbNgayQuyetDinhErrorMessage").html("Vui lòng nhập ngày quyết định");
+            $("#lbNgayQuyetDinhErrorMessage").show();
+            isError = true;
+        } else {
+            $("#lbNgayQuyetDinhErrorMessage").hide();
+            $("#lbNgayQuyetDinhErrorMessage").html("");
+        }
+
+        //if (!checkExistedSacramentGroup()) {
+        //    isError = true;
+        //}
+
+        if (!moTa) {
+            $("#lbMoTaErrorMessage").html("Vui lòng nhập mô tả");
+            $("#lbMoTaErrorMessage").show();
+
+            isError = true;
+        } else {
+            $("#lbMoTaErrorMessage").hide();
+            $("#lbMoTaErrorMessage").html("");
+        }
+
+        if (!nguoiQuyetDinh) {
+            $("#lbNguoiQuyetDinhErrorMessage").html("Vui lòng nhập người quyết định");
+            $("#lbNguoiQuyetDinhErrorMessage").show();
+
+            isError = true;
+        } else {
+            $("#lbNguoiQuyetDinhErrorMessage").hide();
+            $("#lbNguoiQuyetDinhErrorMessage").html("");
+        }
+
+        if (!ngayHieuLuc) {
+            $("#lbNgayHieuLucErrorMessage").html("Vui lòng nhập ngày hiệu lực");
+            $("#lbNgayHieuLucErrorMessage").show();
+
+            isError = true;
+        } else {
+            $("#lbNgayHieuLucErrorMessage").hide();
+            $("#lbNgayHieuLucErrorMessage").html("");
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
+    $("#btnCreateTCLMModal").click(function () {
+        if (!CheckValidTCLM()) {
+            return;
+        }
+        UpdateTCLM();
+    });
+    $("#btnUpdateTCLMModal").click(function () {
+        if (!CheckValidTCLM()) {
+            return;
+        }
+        UpdateTCLM();
+    });
+
+    $("#btnLookupPriestModal").click(function () {
+        if (!CheckValidTCLM()) {
+            return;
+        }
+        openLookupModal();
+    });
+    
+    function AddTCLM(priestId) {
+
+        if (!CheckValidTCLM()) {
+            return;
+        }
+
+        var ngayQuyetDinh = $("#ngayQuyetDinh").val();
+        var nguoiQuyetDinh = $("#nguoiQuyetDinh").val();
+        var ngayHieuLuc = $("#ngayHieuLuc").val();
+        var moTa = $("#moTa").val();
+        startLoading();
+        $.ajax({
+            url: "/ThuyenChuyenLinhMuc/AddThuyenChuyenLinhMuc",
+            type: "POST",
+            data: {
+                Id: idTCLM,
+                NgayQuyetDinh: ngayQuyetDinh,
+                NguoiQuyetDinh: nguoiQuyetDinh,
+                NgayHieuLuc: ngayHieuLuc,
+                MoTa: moTa,
+                PriestId: priestId
+            },
+            success: function (data) {
+                if (data <= 0) {
+                    if (data == -1) {
+                        showMessage("Chọn Linh mục thất bại", 0);
+                    }
+                    else if (data == -2) {
+                        showMessage("Linh mục đã có trong đợt thuyên chuyển", 0);
+                    }
+                } else {
+                    idTCLM = data;
+                    //$("#lbAddSacramentErrorMessage").hide();
+                    //$("#lbAddSacramentErrorMessage").html("");
+                    LoadTCLMById(idTCLM);
+                    $("#titleModal").html("Cập nhật thông tin đợt thuyên chuyển Linh mục");
+                    
+                    $("#btnCreateTCLMModal").hide();
+                    $("#btnUpdateTCLMModal").show();
+                }
+            },
+        });
+    }
+
+    function UpdateTCLM() {
+
+        if (!CheckValidTCLM()) {
+            return;
+        }
+
+        var ngayQuyetDinh = $("#ngayQuyetDinh").val();
+        var nguoiQuyetDinh = $("#nguoiQuyetDinh").val();
+        var ngayHieuLuc = $("#ngayHieuLuc").val();
+        var moTa = $("#moTa").val();
+        startLoading();
+        $.ajax({
+            url: "/ThuyenChuyenLinhMuc/UpdateThuyenChuyenLinhMuc",
+            type: "POST",
+            data: {
+                Id: idTCLM,
+                NgayQuyetDinh: ngayQuyetDinh,
+                NguoiQuyetDinh: nguoiQuyetDinh,
+                NgayHieuLuc: ngayHieuLuc,
+                MoTa: moTa
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Cập nhật đợt thuyên chuyển Linh mục thật bại", 0);
+                } else {
+                    showMessage("Cập nhật đợt thuyên chuyển Linh mục thành công", 1);
+                    idTCLM = data;
+                    //$("#lbAddSacramentErrorMessage").hide();
+                    //$("#lbAddSacramentErrorMessage").html("");
+                    //LoadTCLMById(idTCLM);
+                    refeshTable("TCLMTable");
+                    $("#createTCLMModal").modal('hide');
+                    ClearTCLM();
+                }
+            },
+        });
+    }
+
+    function refeshTable(tableName) {
+        updateTableContent(tableName);
+        //$("#sacramentTable").dataTable()._fnAjaxUpdate();
+    }
+
+    function LoadPriestByPriestId(id) {
+        $("#priestId").val(id);
+        $.ajax({
+            url: "/Priest/LoadPriestById",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                var item = data.result;
+
+                $("#txtchristianName").val(item.ChristianName);
+                $("#txtName").val(item.Name);
+                $("#txtBirthDate").val(item.BirthDate);
+                $("#txtPhone").val(item.Phone);
+
+                $("#PriestModalTitle").html("Chỉnh sửa linh mục");
+                $("#createPriestModal").modal('show');
+                $("#btnUpdatePriestModal").show();
+                $("#btnCreatePriestModal").hide();
+
+            },
+        });
+    }
+
+    function RemovePriestConfirm(id) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn loại bỏ Linh mục này ra khỏi đợt thuyên chuyển không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Loại bỏ",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        RemovePriest(id);
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                }
+            }
+        });
+    }
+
+    function RemovePriest(id) {
+        $.ajax({
+            url: "/ThuyenChuyenLinhMuc/RemovePriestFromTCLM",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Loại bỏ Linh mục ra khỏi đợt thuyên chuyển thất bại", 0);
+                } else {
+                    showMessage("Loại bỏ Linh mục ra khỏi đợt thuyên chuyển thành công", 1);
+                    LoadParishManagerByTCLM(idTCLM);
+                }
+
+            },
+        });
+    }
+
+    function DeleteTCLMConfirm(id) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn xóa đợt thuyên chuyển này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteTCLM(id);
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                }
+            }
+        });
+    }
+
+    function DeleteTCLM(id) {
+        $.ajax({
+            url: "/ThuyenChuyenLinhMuc/DeleteTCLM",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Xóa đợt thuyên chuyển thất bại", 0);
+                } else {
+                    showMessage("Xóa đợt thuyên chuyển thành công", 1);
+                    refeshTable("TCLMTable");
+                }
+
+            },
+        });
+    }
+
+    $("#btnUpdatePriestModal").click(function () {
+        UpdatePriest();
+    });
+
+    function UpdatePriest() {
+        if (!checkValidate()) {
+            return;
+        }
+        var christianName = $("#txtchristianName").val();
+        var name = $("#txtName").val();
+        var birthdate = $("#txtBirthDate").val();
+        var priestId = $("#priestId").val();
+        var phone = $("#txtPhone").val();
+        startLoading();
+        $.ajax({
+            url: "/Priest/UpdatePriest",
+            type: "POST",
+            data: {
+                Id: priestId,
+                ChristianName: christianName,
+                Name: name,
+                BirthDate: birthdate,
+                Phone: phone
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Cập nhật thông tin linh mục thất bại", 0);
+                } else {
+                    showMessage("Cập nhật thông tin linh mục thành công", 1);
+                    refeshTable("priestTable");
+                    $("#createPriestModal").modal('hide');
+                    clearPriest();
+                }
+            },
+
+        });
+    }    
+
+    function checkValidate() {
+
+        var christianName = $("#txtchristianName").val();
+        var name = $("#txtName").val();
+        var birthdate = $("#txtBirthDate").val();
+        var phone = $("#txtPhone").val();
+        var isError = false;
+
+        if (!christianName) {
+            $("#lbErrorChristianName").html("Vui lòng nhập tên thánh của linh mục");
+            $("#lbErrorChristianName").show();
+            isError = true;
+        } else {
+            $("#lbErrorChristianName").hide();
+            $("#lbErrorChristianName").html("");
+        }
+
+        if (!name) {
+            $("#lbErrorName").html("Vui lòng nhập họ tên linh mục");
+            $("#lbErrorName").show();
+            isError = true;
+        } else {
+            $("#lbErrorName").hide();
+            $("#lbErrorName").html("");
+        }
+
+        if (!birthdate) {
+            $("#lbErrorBirthdate").html("Vui lòng nhập ngày tháng năm sinh của linh mục");
+            $("#lbErrorBirthdate").show();
+            isError = true;
+        } else {
+            $("#lbErrorBirthdate").hide();
+            $("#lbErrorBirthdate").html("");
+        }
+
+        if (!checkYearOldPriest()) {
+            isError = true;
+        }
+
+        if (isError) {
+            return false;
+        }
+        return true;
+
+    }
+
+    function checkYearOldPriest() {
+        var date = $("#txtBirthDate").val();
+        var result = true;
+        $.ajax({
+            url: "/Priest/CheckYearOld",
+            type: "POST",
+            data: { date: date },
+            async: false,
+            success: function (data) {
+                if (data.result < 220000) {
+                    $("#lbErrorBirthdate").html("Linh mục phải từ 22 tuổi trở lên");
+                    $("#lbErrorBirthdate").show();
+                    result = false;
+                } else {
+                    $("#lbErrorBirthdate").html("");
+                    $("#lbErrorBirthdate").hide();
+                    result = true;
+                }
+
+            },
+        });
+        return result;
+    }
+
+    $("#btnClosePriestModal").click(function () {
+        $("#createPriestModal").modal('hide');
+        clearPriest();
+    });
+
+    function clearPriest() {
+        $("#txtchristianName").val("");
+        $("#lbErrorChristianName").val("");
+        $("#lbErrorChristianName").hide();
+
+        $("#txtName").val("");
+        $("#lbErrorName").val("");
+        $("#lbErrorName").hide();
+
+        $("#txtBirthDate").val("");
+        $("#lbErrorBirthdate").val("");
+        $("#lbErrorBirthdate").hide();
+
+        $("#txtPhone").val("");
+    }
+
+    function updateValue(id, columnName, cmb) {
+        var value = cmb.value;        
+        if (value == 0 || value == '') {
+            if (columnName == 'Position') {
+                showMessage("Hãy chọn vai trò cho Linh mục", -1);
+            }
+            else if (columnName == 'ParishId') {
+                showMessage("Hãy chọn giáo xứ cho Linh mục", -1);
+            }
+            var currentValue = $(cmb).attr('currentValue');
+            cmb.value = currentValue;
+            return;
+        }
+        startLoading();
+        $.ajax({
+            url: "/ThuyenChuyenLinhMuc/UpdateValue",
+            type: "POST",
+            data: {
+                id: id,
+                columnName: columnName,
+                value: value
+            },
+            success: function (data) {
+                if (data.result <= 0) {                    
+                    if (data.result == -3) {
+                        showMessage("Giáo xứ bạn đang định thuyên chuyển đã có Chánh xứ", -1);
+                    }
+                    else if (data.result == -2) {
+                        showMessage("Giáo xứ bạn sắp được thuyên chuyển đã có Chánh xứ", -1);
+                    }
+                    else {
+                        showMessage("Cập nhật thông tin linh mục thất bại", 0);
+                    }
+                    //reset value
+                    var currentValue = $(cmb).attr('currentValue');
+                    cmb.value = currentValue;
+                }
+                else {
+                    showMessage("Cập nhật thông tin linh mục thành công", 1);
+                    if (columnName == 'ParishId') {
+                        LoadTCLMById(idTCLM);
+                    }                    
+                }                
+            },
+
+        });
+    }
+
+    function ViewHistoryThuyenChuyen(priestId) {
+        $.ajax({
+            url: "/ThuyenChuyenLinhMuc/ViewHistoryThuyenChuyen",
+            type: "POST",
+            data: { priestId: priestId },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Loại bỏ Linh mục ra khỏi đợt thuyên chuyển thất bại", 0);
+                } else {
+                    showMessage("Loại bỏ Linh mục ra khỏi đợt thuyên chuyển thành công", 1);
+                    LoadParishManagerByTCLM(idTCLM);
+                }
+
+            },
+        });
+    }
+    function ViewHistoryThuyenChuyen(priestId) {
+        $.ajax({
+            url: "/ThuyenChuyenLinhMuc/ViewHistoryThuyenChuyen",
+            type: "POST",
+            data: {
+                priestId: priestId,
+            },
+            success: function (data) {
+                $("#parishManagerHistory").dataTable().fnDestroy();
+                $("#parishManagerHistory > tbody").html(data);
+                InitParishManagerHistory("parishManagerHistory");
+                $("#viewHistoryModal").modal('show');
+            },
+        });
+    }
+
+    function InitParishManagerHistory(id) {
+
+        $("#" + id).dataTable({
+            "aaSorting": [],
+            "oLanguage": {
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [1],
+                    "sWidth": "20%",
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [2],
+                    "sWidth": "20%",
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [3],
+                    "sWidth": "40%",
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [4],
+                    "sWidth": "20%",
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+    }
+
+    $("#btnCloseViewHistoryModal").click(function () {
+        $("#viewHistoryModal").modal('hide');
+    });
+
+    function printDecisionAll() {
+        var checks = new Array();
+        $(".sItem:checked").each(function () {
+            if ($(this).is(':checked')) {
+                if ($(this).val() == "on") {
+                } else {
+                    checks.push($(this).val());
+                }
+
+            }
+        });
+        if (checks.length > 0) {
+            var ids = checks.join(',');
+            PrintDecision(ids);
+        } else {
+            showMessage("Vui lòng chọn ít nhất một Linh mục để thực hiện in quyết định", -1);
+        }
+    }
+    function PrintDecision(Ids) {
+        //var url = "/ThuyenChuyenLinhMuc/PrintPage";
+        var url = "@Html.Raw(Url.Action("InQuyetDinh", "ThuyenChuyenLinhMuc", new { Ids = "param1" }))";
+        url = url.replace("param1", Ids);
+        window.open(url, '_blank');
+        LoadTCLMById(idTCLM);
+    }
+
+    function printAppointmentAll() {
+        var checks = new Array();
+        $(".sItem:checked").each(function () {
+            if ($(this).is(':checked')) {
+                if ($(this).val() == "on") {
+                } else {
+                    checks.push($(this).val());
+                }
+
+            }
+        });
+        if (checks.length > 0) {
+            var ids = checks.join(',');
+            PrintAppointment(ids);
+        } else {
+            showMessage("Vui lòng chọn ít nhất một Linh mục để thực hiện in giấy mời", -1);
+        }
+    }
+    function PrintAppointment(Ids) {
+        var url = "@Html.Raw(Url.Action("InGiayMoi", "ThuyenChuyenLinhMuc", new { Ids = "param1" }))";
+        url = url.replace("param1", Ids);
+        window.open(url, '_blank');
+        LoadTCLMById(idTCLM);
+    }
+
+    $(document).on('click', 'th input:checkbox', function () {
+        var that = this;
+        $(this).closest('table').find('tr > td:nth-child(2) input:checkbox')
+            .each(function () {
+                this.checked = that.checked;
+                $(this).closest('tr').toggleClass('selected');
+            });
+    });
+</script>
+

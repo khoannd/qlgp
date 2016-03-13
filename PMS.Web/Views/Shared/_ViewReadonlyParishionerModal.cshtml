@@ -1,0 +1,1570 @@
+﻿@using PMS.DataAccess.Enumerations
+<input type="hidden" value="" id="viewParishionerId" />
+<input type="hidden" id="hiddenParishionerDomicile" value="0" />
+<div id="viewReadonlyParishionerModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+
+                    <h4 class="widget-title lighter" id="viewReadonlyParishionerModalTitle">Chi tiết giáo dân</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseReadonlyParishionerInformation').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div class="col-xs-12 no-padding">
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li class="active">
+                                    <a id="readonlyPersonalTab" data-toggle="tab" href="#readonlyHome">
+                                        <i class="ace-icon fa fa-user bigger-120"></i>
+                                        Cá nhân
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a data-toggle="tab" href="#readonlySacrament">
+                                        <i class="ace-icon fa fa-arrows bigger-120"></i>
+                                        Bí tích
+                                    </a>
+                                </li>
+
+                                <li id="roMatrimonyTab">
+                                    <a data-toggle="tab" href="#readonlyMatrimony">
+                                        <i class="ace-icon fa fa-heart bigger-120"></i>
+                                        Hôn phối
+                                    </a>
+                                </li>
+
+                                <li id="roVocationTab">
+                                    <a data-toggle="tab" href="#readonlyVocation">
+                                        <span class="bolder bigger-120">†</span>
+                                        Ơn gọi tận hiến
+                                    </a>
+                                </li>
+
+                                <li id="DoctrineTab">
+                                    <a data-toggle="tab" href="#readonlyDoctrine">
+                                        <i class="ace-icon fa fa-book bigger-120"></i>
+                                        Lớp học
+                                    </a>
+                                </li>
+
+                                <li id="SocietyTab">
+                                    <a data-toggle="tab" href="#readonlySociety">
+                                        <i class="ace-icon fa fa-users bigger-120"></i>
+                                        Hội đoàn
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content">
+                                <div id="readonlyHome" class="tab-pane fade in active">
+
+                                    <!-- Thông tin cá nhân-->
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Thông tin cơ bản</h4>
+
+                                            </div>
+
+                                            <div class="widget-body">
+
+
+                                                <div class="form-horizontal">
+
+                                                    <div class="col-xs-6">
+
+
+                                                        <div class="form-group" id="readonlyParishionerCodeDiv">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Mã giáo dân </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtParishionerCodeModal" class="form-control">
+
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1">
+                                                                Tên thánh
+
+                                                            </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" id="viewReadonlyTxtChristianNameModal" type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1">
+                                                                Họ tên
+                                                            </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtParishionerNameModal" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Giáo họ/khu </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtCommunityNameModal" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <label class="position-relative">
+                                                                    <input disabled="" type="checkbox" class="ace" id="viewReadonlyCbIsCountedModal" />
+                                                                    <span class="lbl" style="color: blue"> Là giáo dân không được thống kê</span>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Giới tính </label>
+                                                            <div class="col-sm-8">
+                                                                <select disabled="" id="viewReadonlyCbGenderModal" class="form-control">
+                                                                    <option value="-1"></option>
+                                                                    <option value="1">Nam</option>
+                                                                    <option value="0">Nữ</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Ngày sinh  </label>
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <input disabled="" class="form-control" id="viewReadonlyTxtBirthDateModal" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Nơi sinh </label>
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" id="viewReadonlyTxtBirthPlaceModal" type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Tên cha </label>
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtFatherNameModal" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Tên mẹ </label>
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtMotherNameModal" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <hr />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kết thúc thông tin cá nhân-->
+                                    <!-- Thông tin chuyển xứ-->
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Thông tin chuyển xứ</h4>
+                                            </div>
+
+                                            <div class="widget-body">
+                                                <div class="form-horizontal">
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Thông tin hiện tại  </label>
+                                                            <div class="col-sm-8">
+                                                                <select disabled="" class="form-control" id="viewReadonlyCbbDomicileStatusModal">
+                                                                    <option value="0">Ở tại xứ</option>
+                                                                    <option value="1">Chuyển từ xứ khác đến</option>
+                                                                    <option value="2">Đã chuyển đi xứ khác</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-xs-6">
+                                                        <div hidden="" id="readonlyDomicileDiv" class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Giáo xứ </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtDomicilePlaceModal" class="form-control">
+                                                            </div>
+
+                                                        </div>
+
+
+
+                                                    </div>
+
+                                                    <hr />
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kết thúc Thông tin chuyển xứ-->
+                                    <!--Thông tin khác-->
+
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Thông tin khác</h4>
+
+
+                                            </div>
+
+                                            <div class="widget-body">
+
+
+                                                <div class="form-horizontal">
+
+                                                    <div class="col-xs-6">
+
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Trình độ văn hóa  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" id="viewReadonlyTxtEducationModal" type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Nghề nghiệp </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <input disabled="" id="viewReadonlyTxtCareerModal" type="text" class="form-control">
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Địa chỉ </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <input disabled="" type="text" id="viewReadonlyTxtAddressModal" class="form-control">
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Điện thoại nhà </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="ace-icon fa fa-phone"></i>
+                                                                    </span>
+
+                                                                    <input disabled="" class="form-control" type="text" id="viewReadonlyTxtPhoneModal" />
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Di động </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="ace-icon fa fa-phone"></i>
+                                                                    </span>
+
+                                                                    <input disabled="" class="form-control" type="text" id="viewReadonlyTxtMobilePhoneModal" />
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Email </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="ace-icon fa fa-envelope"></i>
+                                                                    </span>
+
+                                                                    <input disabled="" type="text" id="viewReadonlyTxtEmailModal" class="form-control">
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <label class="position-relative">
+                                                                    <input disabled="" type="checkbox" class="ace" id="viewReadonlyCbIsStudyingModal" />
+                                                                    <span class="lbl"> Còn học</span>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <label class="position-relative">
+                                                                    <input disabled="" type="checkbox" class="ace" id="viewReadonlyCbIsCatechumenModal" />
+                                                                    <span class="lbl"> Tân tòng</span>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <label class="position-relative">
+                                                                    <input disabled="" type="checkbox" class="ace" id="viewReadonlyCbIsMarriedModal" />
+                                                                    <span class="lbl"> Đã lập gia đình</span>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <label class="position-relative">
+                                                                    <input disabled="" type="checkbox" checked="" class="ace" id="viewReadonlyCbIsSingleModal" />
+                                                                    <span class="lbl"> Đang sống độc thân</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <label class="position-relative">
+                                                                    <input disabled="" id="viewReadonlyCbIsDeadModal" type="checkbox" class="ace" />
+                                                                    <span class="lbl"> Qua đời</span>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Ngày qua đời </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input disabled="" class="form-control" id="viewReadonlyTxtDeadDateModal" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-xs-12">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Ghi chú chung  </label>
+
+                                                            <div class="col-sm-10">
+
+                                                                <textarea disabled="" id="viewReadonlyTxtNoteModal" rows="4" style="resize: none" class="form-control"></textarea>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kết thúc thông tin khác-->
+
+                                </div>
+
+                                <div id="readonlySacrament" class="tab-pane fade in ">
+
+                                    <!-- Rửa tội-->
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Rửa tội</h4>
+                                            </div>
+                                            <div class="widget-body">
+                                                <div class="form-horizontal">
+                                                    <div class="col-xs-6">
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Ngày rửa tội  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input disabled="" class="form-control" id="viewReadonlyTxtBaptismDateModal" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Số rửa tội  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtBaptismNumberModal" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Nơi rửa tội </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtBaptismPlaceModal" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Người đỡ đầu </label>
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtBaptismPatronModal" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Người ban bí tích  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtBaptismGiverModal" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kết thúc rửa tội-->
+                                    <!-- Rước lễ lần đầu-->
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Rước lễ lần đầu</h4>
+                                            </div>
+                                            <div class="widget-body">
+                                                <div class="form-horizontal">
+                                                    <div class="col-xs-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Ngày rước lễ  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input disabled="" class="form-control" id="viewReadonlyTxtHolyCommunionDateModal" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Số rước lễ  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtHolyCommunionNumberModal" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Nơi rước lễ </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtHolyCommunionPlaceModal" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Người ban bí tích  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtHolyCommunionGiverModal" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kết thúc rước lễ lần đầu-->
+                                    <!-- Thêm sức-->
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Thêm sức</h4>
+                                            </div>
+                                            <div class="widget-body">
+                                                <div class="form-horizontal">
+                                                    <div class="col-xs-6">
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Ngày thêm sức  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input disabled="" class="form-control" id="viewReadonlyTxtConfirmationDateModal" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                                <label id="lbConfirmationDateErrorMessage" class="text-danger" hidden=""></label>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Số thêm sức  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtConfirmationNumberModal" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Nơi thêm sức </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtConfirmationPlaceModal" class="form-control">
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Người đỡ đầu </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtConfirmationPatronModal" class="form-control">
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Người ban bí tích  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtConfirmationGiverModal" class="form-control">
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <hr />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kết thúc thêm sức-->
+
+                                </div>
+
+                                <div id="readonlyMatrimony" class="tab-pane fade in ">
+
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Danh sách đôi hôn phối</h4>
+
+                                            </div>
+
+                                            <div class="widget-body">
+                                                <div class="space-10"></div>
+
+
+                                                <div class="form-horizontal">
+
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <table id="viewReadonlyTblMatrimony" class="table table-hover"></table>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <hr />
+
+                                                </div>
+                                                @*<div class="row">
+                                                        <div class="col-xs-12">
+                                                            @Html.Partial("_ParishionerStatusLabel")
+                                                        </div>
+                                                    </div>*@
+
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div id="readonlyVocation" class="tab-pane fade in ">
+
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Thông tin ơn gọi</h4>
+
+                                            </div>
+
+                                            <div class="widget-body">
+
+
+                                                <div class="form-horizontal">
+
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Ngày nhập dòng  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input disabled="" id="viewReadonlyDate1" class="form-control" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Ngày vào nhà thử  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input disabled="" id="viewReadonlyDate3" class="form-control" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Ngày khấn lần đầu  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input disabled="" id="viewReadonlyDate5" class="form-control" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Ngày lãnh chức phó tế  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input disabled="" id="viewReadonlyDate7" class="form-control" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Ngày mừng bổn mạng  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input disabled="" id="viewReadonlyDate9" class="form-control" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Dòng tu/chủng viện </label>
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtSeminary" class="form-control">
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Ngày vào ĐCV  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input disabled="" id="viewReadonlyDate2" class="form-control" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Ngày vào nhà tập  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input disabled="" id="viewReadonlyDate4" class="form-control" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Ngày khấn vĩnh viễn  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input disabled="" id="viewReadonlyDate6" class="form-control" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Ngày thụ phong LM  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input disabled="" id="viewReadonlyDate8" class="form-control" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Chức vụ </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <select disabled="" class="form-control" id="viewReadonlyCbbPosition">
+                                                                    <option value="@((int) VocationEnum.None)"></option>
+                                                                    <option value="@((int) VocationEnum.Cleric)">Tu sĩ</option>
+                                                                    <option value="@((int) VocationEnum.Seminarist)">Chủng sinh</option>
+                                                                    <option value="@((int) VocationEnum.Deacon)">Phó tế</option>
+                                                                    <option value="@((int) VocationEnum.Priest)">Linh mục</option>
+                                                                    <option value="@((int) VocationEnum.Bishop)">Giám mục</option>
+                                                                    <option value="@((int) VocationEnum.Fully)">Khấn trọn</option>
+                                                                    <option value="@((int) VocationEnum.Other)">Khác</option>
+                                                                </select>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Địa chỉ </label>
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlytxtSeminaryAddress" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Thông tin nơi phục vụ</h4>
+
+                                            </div>
+
+                                            <div class="widget-body">
+
+
+                                                <div class="form-horizontal">
+
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Nơi phục vụ </label>
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtServedPlace" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Điện thoại </label>
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="ace-icon fa fa-phone"></i>
+                                                                    </span>
+
+                                                                    <input disabled="" id="viewReadonlyTxtServedPhone" class="form-control input-mask-phone" type="text" id="form-field-mask-2" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-xs-6 ">
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Địa chỉ </label>
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtServedAddress" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> Email </label>
+                                                            <div class="col-sm-8">
+                                                                <input disabled="" type="text" id="viewReadonlyTxtServedEmail" class="form-control email">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-xs-12">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label no-padding-right" for="form-field-1"> Ghi chú </label>
+
+                                                            <div class="col-sm-10">
+
+                                                                <textarea disabled="" id="viewReadonlyTxtVocationNote" rows="4" style="resize: none" class="form-control"></textarea>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-6 no-padding">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" for="form-field-1"> </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <label class="position-relative">
+                                                                    <input disabled="" id="viewReadonlyCbIsLeft" type="checkbox" class="ace" />
+                                                                    <span class="lbl"> Đã hồi tục</span>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <hr />
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*Quân bắt đầu-------------------------------------------------*@
+                                <div class="clearfix"></div>
+
+                                <div id="readonlyDoctrine" class="tab-pane fade in ">
+
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Danh sách các lớp học giáo lý đã tham gia</h4>
+                                            </div>
+
+                                            <div class="widget-body">
+
+                                                <div class="form-horizontal">
+                                                    <div class="col-xs-12">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <table id="parishionerClassesSearchTable" class="table table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th>
+                                                                                <label class="position-relative">
+                                                                                    <input type="checkbox" class="ace" />
+                                                                                    <span class="lbl"></span>
+                                                                                </label>
+                                                                            </th>
+                                                                            <th>Năm học</th>
+                                                                            <th>Tên khối</th>
+                                                                            <th>Tên lớp</th>
+                                                                            <th>Phòng học</th>
+                                                                            <th>Ghi chú</th>
+                                                                            <th>Thao tác</th>
+                                                                        </tr>
+                                                                    </thead>
+
+                                                                    <tbody></tbody>
+
+                                                                </table>
+                                                            </div>
+                                                            <!-- Chú thích bảng  -->
+                                                            <div class="row" id="labelnote">
+                                                                <div class="col-sm-12 align-center">
+                                                                    <div class="alert alert-warning">
+                                                                        <button type="button" class="close" data-dismiss="alert">
+                                                                            <i class="ace-icon fa fa-times"></i>
+                                                                        </button>
+                                                                        @*<strong>Chú thích</strong>*@
+                                                                        <span class="green" style="padding:0 16%">Lớp mà giáo dân đã hoàn thành khóa học</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--end row-->
+                                                            <!-- Kết thúc chú thích bảng -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*//----Kết thúc thông tin lớp------------------------*@
+                                <div class="clearfix"></div>
+
+                                <div id="readonlySociety" class="tab-pane fade in ">
+
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Danh sách các hội đã tham gia</h4>
+                                            </div>
+
+                                            <div class="widget-body">
+
+                                                <div class="form-horizontal">
+                                                    <div class="col-xs-12">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                <table id="parishionerSocietiesSearchTable" class="table table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th class="hidden"></th>
+                                                                            <th class="hidden">
+                                                                                <label class="position-relative">
+                                                                                    <input type="checkbox" class="ace" />
+                                                                                    <span class="lbl"></span>
+                                                                                </label>
+                                                                            </th>
+                                                                            <th>Tên hội</th>
+                                                                            <th>Người quản lí</th>
+                                                                            <th>Ngày thành lập</th>
+                                                                            <th>Thao tác</th>
+                                                                        </tr>
+                                                                    </thead>
+
+                                                                    <tbody></tbody>
+
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*Quân kết thúc------------------------------------------------*@
+                                <div class="clearfix"></div>
+                                <div class="col-xs-12">
+                                    <div class="col-sm-12">
+                                        <div class="align-right">
+
+                                            <button id="btnCloseReadonlyParishionerInformation" class="btn btn-default">
+                                                <i class="ace-icon fa fa-times  bigger-110"></i>
+                                                Đóng
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="space-4"></div>
+
+                    <div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_ViewReadonlyMatrimonyModal")
+
+@Html.Partial("_ViewClassDetail")
+@Html.Partial("_ViewSocietyDetail")
+
+<script>
+        function viewReadonlyParishioner(id) {
+            $("#viewParishionerId").val(id);
+            var parishionerDomicile = $("#hiddenParishionerDomicile").val();
+            startLoading();
+            $.ajax({
+                url: "/Parishioner/LoadFullParishioner",
+                type: "POST",
+                data: { id: id },
+                success: function (data) {
+
+                    var parishioner = data.parishioner;
+                    var baptism = data.baptism;
+                    var holyCommunion = data.holyCommunion;
+                    var confirmation = data.confirmation;
+                    var vocation = data.vocation;
+
+
+                    $("#viewReadonlyTxtParishionerCodeModal").val(parishioner.Code);
+
+                    $("#viewReadonlyTxtParishionerCodeModal").attr('readonly', true);
+                    $("#viewReadonlyTxtParishionerCodeModal").show();
+
+                    $("#viewReadonlyTxtChristianNameModal").val(parishioner.ChristianName);
+                    $("#viewReadonlyTxtParishionerNameModal").val(parishioner.Name);
+                    $("#viewReadonlyCbGenderModal").val(parishioner.Gender);
+
+                    $("#viewReadonlyTxtBirthDateModal").val(parishioner.BirthDate);
+                    $("#viewReadonlyTxtBirthPlaceModal").val(parishioner.BirthPlace);
+
+                    $("#viewReadonlyTxtCommunityNameModal").val(data.communityName);
+                    $("#viewReadonlyTxtCommunityNameModal").change();
+                    $("#viewReadonlyCbIsCountedModal").prop("checked", !parishioner.IsCounted);
+
+                    $("#viewReadonlyTxtFatherNameModal").val(parishioner.FatherName);
+                    $("#viewReadonlyTxtMotherNameModal").val(parishioner.MotherName);
+
+                    if (parishionerDomicile == 1) {
+                        $("#viewReadonlyCbbDomicileStatusModal").val(1);
+                        $("#viewReadonlyCbbDomicileStatusModal").change();
+                        $("#viewReadonlyTxtDomicilePlaceModal").val(data.parishName);
+                    } else {
+                        $("#viewReadonlyCbbDomicileStatusModal").val(parishioner.DomicileStatus);
+                        $("#viewReadonlyCbbDomicileStatusModal").change();
+                        $("#viewReadonlyTxtDomicilePlaceModal").val(parishioner.DomicilePlace);
+                    }                    
+
+                    $("#viewReadonlyTxtEducationModal").val(parishioner.Education);
+                    $("#viewReadonlyTxtCareerModal").val(parishioner.Career);
+                    $("#viewReadonlyTxtAddressModal").val(parishioner.Address);
+                    $("#viewReadonlyTxtPhoneModal").val(parishioner.Phone);
+                    $("#viewReadonlyTxtMobilePhoneModal").val(parishioner.MobilePhone);
+                    $("#viewReadonlyTxtEmailModal").val(parishioner.Email);
+                    $("#viewReadonlyTxtNoteModal").val(parishioner.Note);
+
+                    $("#viewReadonlyCbIsStudyingModal").prop("checked", parishioner.IsStudying);
+                    $("#viewReadonlyCbIsCatechumenModal").prop("checked", parishioner.IsCatechumen);
+                    $("#viewReadonlyCbIsMarriedModal").prop("checked", parishioner.IsMarried);
+                    $("#viewReadonlyCbIsMarriedModal").change();
+                    $("#viewReadonlyCbIsSingleModal").prop("checked", parishioner.IsSingle);
+                    $("#viewReadonlyCbIsDeadModal").prop("checked", parishioner.IsDead);
+                    $("#viewReadonlyCbIsDeadModal").change();
+                    $("#viewReadonlyTxtDeadDateModal").val(parishioner.DeadDate);
+
+                    if (baptism) {
+                        $("#txtHiddenBaptismId").val(baptism.Id);
+                        $("#viewReadonlyTxtBaptismDateModal").val(baptism.Date);
+                        $("#viewReadonlyTxtBaptismNumberModal").val(baptism.Number);
+                        $("#viewReadonlyTxtBaptismPlaceModal").val(baptism.ReceivedPlace);
+                        $("#viewReadonlyTxtBaptismPatronModal").val(baptism.Patron);
+                        $("#viewReadonlyTxtBaptismGiverModal").val(baptism.Giver);
+                    }
+
+                    if (holyCommunion) {
+                        $("#txtHiddenHolyCommunionId").val(holyCommunion.Id);
+                        $("#viewReadonlyTxtHolyCommunionDateModal").val(holyCommunion.Date);
+                        $("#viewReadonlyTxtHolyCommunionNumberModal").val(holyCommunion.Number);
+                        $("#viewReadonlyTxtHolyCommunionPlaceModal").val(holyCommunion.ReceivedPlace);
+                        $("#viewReadonlyTxtHolyCommunionGiverModal").val(holyCommunion.Giver);
+                    }
+
+                    if (confirmation) {
+                        $("#txtHiddenConfirmationId").val(confirmation.Id);
+                        $("#viewReadonlyTxtConfirmationDateModal").val(confirmation.Date);
+                        $("#viewReadonlyTxtConfirmationNumberModal").val(confirmation.Number);
+                        $("#viewReadonlyTxtConfirmationPlaceModal").val(confirmation.ReceivedPlace);
+                        $("#viewReadonlyTxtConfirmationPatronModal").val(confirmation.Patron);
+                        $("#viewReadonlyTxtConfirmationGiverModal").val(confirmation.Giver);
+                    }
+
+
+
+                    if (vocation) {
+                        $("#txtHiddenVocationId").val(data.vocationId);
+                        $("#viewReadonlyDate1").val(vocation.Date1);
+                        $("#viewReadonlyDate2").val(vocation.Date2);
+                        $("#viewReadonlyDate3").val(vocation.Date3);
+                        $("#viewReadonlyDate4").val(vocation.Date4);
+                        $("#viewReadonlyDate5").val(vocation.Date5);
+                        $("#viewReadonlyDate6").val(vocation.Date6);
+                        $("#viewReadonlyDate7").val(vocation.Date7);
+                        $("#viewReadonlyDate8").val(vocation.Date8);
+                        $("#viewReadonlyDate9").val(vocation.Date9);
+
+                        $("#viewReadonlyTxtSeminary").val(vocation.Seminary);
+                        $("#viewReadonlyCbbPosition").val(vocation.Position);
+                        $("#viewReadonlytxtSeminaryAddress").val(vocation.SeminaryAddress);
+                        $("#viewReadonlyTxtServedPlace").val(vocation.ServedPlace);
+                        $("#viewReadonlyTxtServedPhone").val(vocation.Phone);
+                        $("#viewReadonlyTxtServedAddress").val(vocation.ServedAddress);
+                        $("#viewReadonlyTxtServedEmail").val(vocation.Email);
+                        $("#viewReadonlyTxtVocationNote").val(vocation.Note);
+                        $("#viewReadonlyCbIsLeft").prop("checked", vocation.IsLeft);
+                    }
+                    ViewReadonlyMatrimonyTable();
+                    $("#viewReadonlyParishionerModal").modal('show');
+
+                    loadParishionerClassesSearch(id);
+                    loadParishionerSocietiesSearch(id);
+                },
+            });
+
+        }
+
+        $("#btnCloseReadonlyParishionerInformation").click(function () {
+            $("#viewReadonlyParishionerModal").modal('hide');
+            $("#readonlyPersonalTab").tab('show');
+            $("#hiddenMakeSroll").val(0);
+        });
+
+        $("#parishionerInformationModal").on('hidden.bs.modal', function () {
+            refreshReadonlyParishionerInformation();
+        });
+
+        function refreshReadonlyParishionerInformation() {
+            $("#viewReadonlyTxtParishionerCodeModal").val("");
+
+            $("#viewReadonlyTxtChristianNameModal").val("");
+            $("#viewReadonlyTxtParishionerNameModal").val("");
+            $("#viewReadonlyCbGenderModal").val("");
+
+            $("#viewReadonlyTxtBirthDateModal").val("");
+            $("#viewReadonlyTxtBirthPlaceModal").val("");
+
+            $("#viewReadonlyTxtCommunityNameModal").val("");
+
+            $("#viewReadonlyTxtFatherNameModal").val("");
+            $("#viewReadonlyTxtMotherNameModal").val("");
+
+            $("#viewReadonlyCbbDomicileStatusModal").val("");
+            $("#viewReadonlyTxtDomicilePlaceModal").val("");
+
+            $("#viewReadonlyTxtEducationModal").val("");
+            $("#viewReadonlyTxtCareerModal").val("");
+            $("#viewReadonlyTxtAddressModal").val("");
+            $("#viewReadonlyTxtPhoneModal").val("");
+            $("#viewReadonlyTxtMobilePhoneModal").val("");
+            $("#viewReadonlyTxtEmailModal").val("");
+            $("#viewReadonlyTxtNoteModal").val("");
+
+
+            $("#viewReadonlyTxtDeadDateModal").val("");
+
+
+            $("#txtHiddenBaptismId").val("");
+            $("#viewReadonlyTxtBaptismDateModal").val("");
+            $("#viewReadonlyTxtBaptismNumberModal").val("");
+            $("#viewReadonlyTxtBaptismPlaceModal").val("");
+            $("#viewReadonlyTxtBaptismPatronModal").val("");
+            $("#viewReadonlyTxtBaptismGiverModal").val("");
+
+
+            $("#txtHiddenHolyCommunionId").val("");
+            $("#viewReadonlyTxtHolyCommunionDateModal").val("");
+            $("#viewReadonlyTxtHolyCommunionNumberModal").val("");
+            $("#viewReadonlyTxtHolyCommunionPlaceModal").val("");
+            $("#viewReadonlyTxtHolyCommunionGiverModal").val("");
+
+
+            $("#txtHiddenConfirmationId").val("");
+            $("#viewReadonlyTxtConfirmationDateModal").val("");
+            $("#viewReadonlyTxtConfirmationNumberModal").val("");
+            $("#viewReadonlyTxtConfirmationPlaceModal").val("");
+            $("#viewReadonlyTxtConfirmationPatronModal").val("");
+            $("#viewReadonlyTxtConfirmationGiverModal").val("");
+
+
+            $("#txtHiddenVocationId").val("");
+            $("#viewReadonlyDate1").val("");
+            $("#viewReadonlyDate2").val("");
+            $("#viewReadonlyDate3").val("");
+            $("#viewReadonlyDate4").val("");
+            $("#viewReadonlyDate5").val("");
+            $("#viewReadonlyDate6").val("");
+            $("#viewReadonlyDate7").val("");
+            $("#viewReadonlyDate8").val("");
+            $("#viewReadonlyDate9").val("");
+
+            $("#viewReadonlyTxtSeminary").val("");
+            $("#viewReadonlyCbbPosition").val("");
+            $("#viewReadonlytxtSeminaryAddress").val("");
+            $("#viewReadonlyTxtServedPlace").val("");
+            $("#viewReadonlyTxtServedPhone").val("");
+            $("#viewReadonlyTxtServedAddress").val("");
+            $("#viewReadonlyTxtServedEmail").val("");
+            $("#viewReadonlyTxtVocationNote").val("");
+
+        }
+
+        function ViewReadonlyMatrimonyTable() {
+            $("#hiddenMakeSroll").val(1);
+            $.ajax({
+                url: "/Parishioner/ViewReadonlyMatrimonyTable",
+                async: false,
+                data: {
+                    id: $("#viewParishionerId").val()
+                },
+                success: function (data) {
+
+                    if (data) {
+
+                        $("#viewReadonlyTblMatrimony").html(data);
+                        initViewReadonlyMatrimonyDatatables("viewReadonlyTblMatrimony");
+                        var quantity = $("#viewReadonlyMatrimonyQuantity").val();
+
+                        if (quantity > 0) {
+                            $("#cbGender").attr("disabled", true); //
+                            $("#cbIsMarried").prop("checked", true); //
+                            $("#cbIsMarried").attr("disabled", true); //
+                        }
+
+                    }
+
+                }
+            });
+
+        }
+
+        function initViewReadonlyMatrimonyDatatables(id) {
+            $("#" + id).dataTable({
+                "bDestroy": true,
+                "oLanguage": {
+                    "sSearch": "Tên chồng - vợ/ Số hôn phối",
+                    "sZeroRecords": "Không có dữ liệu phù hợp",
+                    "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                    "sEmptyTable": "Không có dữ liệu",
+                    "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                    "sLengthMenu": "Hiển thị _MENU_ dòng",
+                    "sProcessing": "Đang xử lý...",
+                    "sInfoEmpty": "",
+                    "oPaginate": {
+                        "sPrevious": "Trước",
+                        "sNext": "Sau"
+                    }
+                },
+                "aoColumns": [
+                { "sTitle": "" },
+                { "sTitle": "Mã giáo dân" },
+                { "sTitle": $("#viewReadonlyCbGenderModal").val() == 1 ? "Vợ" : "Chồng" },
+                { "sTitle": "Số hôn phối" },
+                { "sTitle": "Ngày hôn phối" },
+                { "sTitle": "Tình trạng" },
+                { "sTitle": "Thao tác" }
+                ],
+                "aoColumnDefs": [
+                     {
+                         "aTargets": [0],
+                         "sWidth": "1%",
+                     },
+                    {
+                        "aTargets": [1],
+                        "sWidth": "13%",
+                    },
+                     {
+                         "aTargets": [2],
+                         "sWidth": "24%",
+                     },
+                     {
+                         "aTargets": [3, 4, 5, 6],
+                         "sWidth": "16%",
+                     },
+                     {
+                         "aTargets": [6],
+                         "bSortable": false
+                     }
+                ],
+            });
+        }
+
+        //---------------------
+        $("#viewReadonlyCbbDomicileStatusModal").change(function () {
+            var status = $(this).val();
+
+            if (status == 0) {
+                $("#readonlyDomicileDiv").hide();
+            } else {
+                $("#readonlyDomicileDiv").show();
+            }
+        });
+
+        //Quân's Script----------------------------------------------------------------------------------------
+        function initParishionerClassesTable() {
+            $("#parishionerClassesSearchTable").dataTable({
+                "bDestroy": true,
+                "oLanguage": {
+                    "sSearch": "Tên lớp",
+                    "sZeroRecords": "Không có dữ liệu phù hợp",
+                    "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                    "sEmptyTable": "Không có dữ liệu",
+                    "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                    "sLengthMenu": "Hiển thị _MENU_ dòng",
+                    "sProcessing": "Đang xử lý...",
+                    "sInfoEmpty": "",
+                    "oPaginate": {
+                        "sPrevious": "Trước",
+                        "sNext": "Sau"
+                    }
+                },
+                "aaSorting": [],
+                "aoColumnDefs": [
+                    {
+                        "aTargets": [0],
+                        "bSortable": false,
+                        "bVisible": false,
+                    },
+                    {
+                        "aTargets": [1],
+                        "bSortable": false,
+                        "bVisible": false,
+                        "sWidth": "4%",
+                    },
+                    {
+                        "aTargets": [2],
+                        "sWidth": "12%",
+                    },
+                    {
+                        "aTargets": [3],
+                        "sWidth": "20%",
+                    },
+                    {
+                        "aTargets": [4],
+                        "sWidth": "20%",
+                    },
+                    {
+                        "aTargets": [5],
+                        "sWidth": "12%",
+                    },
+                    {
+                        "aTargets": [6],
+                        "sWidth": "20%",
+                    },
+                    {
+                        "aTargets": [7],
+                        "sWidth": "12%",
+                    }
+                ],
+                "bAutoWidth": false,
+
+            });
+        }
+        function loadParishionerClassesSearch(id) {
+            var parishionerId = id;
+            $.ajax({
+                url: "/DoctrineCourse/LoadClassesByParishionerId",
+                type: "POST",
+                data: {
+                    parishionerId: parishionerId,
+                },
+                success: function (data) {
+                    $("#parishionerClassesSearchTable").dataTable().fnDestroy();
+                    $("#parishionerClassesSearchTable > tbody").html(data);
+                    initParishionerClassesTable();
+                    $("#parishionerClassSearchModal").modal('show');
+                    $("#hiddenParishionerClassSearchModal").val('1');
+                },
+            });
+        }
+
+        $("#btnCloseParishionerClassesSearchModal").click(function () {
+            $("#parishionerClassSearchModal").modal('hide');
+            $("#hiddenParishionerClassSearchModal").val('0');
+        });
+    //---Phần hội đoàn---------------------------------------------------------------------------------------------------
+        function initParishionerSocietiesTable() {
+            $("#parishionerSocietiesSearchTable").dataTable({
+                "bDestroy": true,
+                "oLanguage": {
+                    "sSearch": "Tên hội",
+                    "sZeroRecords": "Không có dữ liệu phù hợp",
+                    "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                    "sEmptyTable": "Không có dữ liệu",
+                    "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                    "sLengthMenu": "Hiển thị _MENU_ dòng",
+                    "sProcessing": "Đang xử lý...",
+                    "sInfoEmpty": "",
+                    "oPaginate": {
+                        "sPrevious": "Trước",
+                        "sNext": "Sau"
+                    }
+                },
+                "aaSorting": [],
+                "aoColumnDefs": [
+                    {
+                        "aTargets": [0],
+                        "sWidth": "10%",
+                        "bSortable": false,
+                        "bVisible": false,
+                    },
+                    {
+                        "aTargets": [1],
+                        "bSortable": false,
+                        "bVisible": false,
+                        "sWidth": "5%",
+                    },
+                    {
+                        "aTargets": [2],
+                        "sWidth": "25%",
+                    },
+                    {
+                        "aTargets": [3],
+                        "sWidth": "25%",
+                    },
+                    {
+                        "aTargets": [4],
+                        "sWidth": "25%",
+                    },
+                    {
+                        "aTargets": [5],
+                        "sWidth": "10%",
+                    }
+                ],
+                "bAutoWidth": false,
+
+            });
+        }
+        function loadParishionerSocietiesSearch(id) {
+            var parishionerId = id;
+            $.ajax({
+                url: "/Society/LoadSocietiesByParishionerId",
+                type: "POST",
+                data: {
+                    parishionerId: parishionerId,
+                },
+                success: function (data) {
+                    $("#parishionerSocietiesSearchTable").dataTable().fnDestroy();
+                    $("#parishionerSocietiesSearchTable > tbody").html(data);
+                    initParishionerSocietiesTable();
+                    $("#parishionerSocietySearchModal").modal('show');
+                    $("#parishionerSocietySearchModal").val('1');
+                },
+            });
+        }
+        
+        $("#viewReadonlyParishionerModal").on('show.bs.modal', function () {
+            $("#viewReadonlyParishionerLoading").fadeIn();
+        });
+
+        $("#viewReadonlyParishionerModal").on('hidden.bs.modal', function () {
+            $("#viewReadonlyParishionerLoading").fadeOut();
+        });
+
+        ////-----------------------------------
+        $("#readonlyMatrimonyModal").on('hidden.bs.modal', function () {
+
+                makeScrollForModal();
+   
+
+            //-------------
+            //-------------
+        });
+
+</script>

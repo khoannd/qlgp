@@ -1,0 +1,283 @@
+﻿
+@{
+    ViewBag.Title = "Vocation";
+}
+
+<div class="page-header">
+    <h1>Thống kê ơn gọi tận hiến</h1>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Từ ngày</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input class="form-control date-picker" id="birthDate" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-110"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Đến ngày</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input class="form-control date-picker" id="birthDate" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
+                        <span class="input-group-addon">
+                            <i class="fa fa-calendar bigger-110"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-xs-offset-6">
+            <div class="col-md-12">
+                <h6 class="text-muted">Nếu nhập từ năm = đến năm thì xem như chỉ thống kê trong 1 năm</h6>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="col-sm-3 control-label no-padding-right">Giáo họ</label>
+            <div class="col-sm-9">
+                <select class="form-control" id="form-field-select-1">
+                    <option value=""></option>
+                    <option value="hcm">Hồ Chí Minh</option>
+                    <option value="dl">Đà Lạt</option>
+                    <option value="hn">Hà Nội</option>
+                    <option value="all">Tất cả</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="space-14"></div>
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="col-sm-3 control-label no-padding-right">Chức vụ</label>
+            <div class="col-sm-9">
+                <select class="form-control" id="form-field-select-1">
+                    <option value=""></option>
+                    <option value="hcm">Tu sĩ</option>
+                    <option value="dl">Chủng sinh</option>
+                    <option value="hn">Phó tế</option>
+                    <option value="all">Linh mục</option>
+                    <option value="all">Giám mục</option>
+                    <option value="all">Khác</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <label class="col-sm-3 control-label no-padding-right">Dòng tu/Chủng viện</label>
+            <div class="col-sm-9">
+                <input type="text" id="form-field-1-1" placeholder="" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="space-14"></div>
+    <div class="row">
+        <div class="col-xs-6">
+            <label class="col-sm-3 control-label no-padding-right">Địa chỉ</label>
+            <div class="col-sm-9">
+                <input type="text" id="form-field-1-1" placeholder="" class="form-control">
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <label class="col-sm-3 control-label no-padding-right">Nơi phục vụ</label>
+            <div class="col-sm-9">
+                <input type="text" id="form-field-1-1" placeholder="" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="space-14"></div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="radio">
+                <label>
+                    <input type="checkbox" class="ace" />
+                    <span class="lbl"> Tính cả trong hồ sơ lưu trữ</span>
+                </label>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="radio">
+                <label>
+                    <input type="checkbox" class="ace" />
+                    <span class="lbl"> Tính cả những dữ liệu không có ngày tháng</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="space-10"></div>
+        <div class="col-xs-6">
+            <button class="btn btn-primary btn-lg">
+                <i class="ace-icon fa fa-bar-chart-o"></i> Thống kê
+            </button>
+            <button class="btn btn-purple btn-lg">
+                <i class="ace-icon fa fa-print"></i> In danh sách
+            </button>
+        </div>
+        <div class="col-xs-6">
+            <label class="text-primary">Tổng cộng</label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="space-10"></div>
+        <table id="statisticTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        <label class="position-relative">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </th>                           
+                    <th>Tên thánh</th>
+                    <th>Họ tên</th>
+                    <th>Ngày sinh</th>
+                    <th>Chức vụ</th>  
+                    <th>Giáo xứ</th>                   
+                    <th>Thao tác</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td>
+                        <label class="position-relative">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </td>
+                    <td>Giuse</td>
+                    <td>Nguyễn Văn Phương</td>
+                    <td>06/12/1980</td>
+                    <td>Linh mục</td>
+                    <td>Tân Hiệp</td>
+                    <td>
+                        <button class="btn btn-minier btn-primary">
+                            <i class="ace-icon fa fa-search-plus"></i>
+                            Chi tiết
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <label class="position-relative">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </td>
+                    <td>Mattheu</td>
+                    <td>Huỳnh Minh Khôi</td>
+                    <td>02/03/1993</td>
+                    <td>Giám mục</td>
+                    <td>Đồng Tháp</td>
+                    <td>
+                        <button class="btn btn-minier btn-primary">
+                            <i class="ace-icon fa fa-search-plus"></i>
+                            Chi tiết
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <label class="position-relative">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </td>
+                    <td>Antôn</td>
+                    <td>Huỳnh Minh Tuấn</td>
+                    <td>25/07/1990</td>
+                    <td>Tu sĩ</td>
+                    <td>Sapa</td>
+                    <td>
+                        <button class="btn btn-minier btn-primary">
+                            <i class="ace-icon fa fa-search-plus"></i>
+                            Chi tiết
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <label class="position-relative">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </td>
+                    <td>Đaminh</td>
+                    <td>Lê Minh Quân</td>
+                    <td>14/02/1992</td>
+                    <td>Linh mục</td>
+                    <td>Đông Đường</td>
+                    <td>
+                        <button class="btn btn-minier btn-primary">
+                            <i class="ace-icon fa fa-search-plus"></i>
+                            Chi tiết
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<script>
+    $("#statisticTable").dataTable({
+        "oLanguage": {
+            "sSearch": "Tìm kiếm:",
+            "sZeroRecords": "Không có dữ liệu phù hợp",
+            "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+            "sEmptyTable": "Không có dữ liệu",
+            "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+            "sLengthMenu": "Hiển thị _MENU_ dòng",
+            "sProcessing": "Đang xử lý...",
+            "sInfoEmpty": "",
+            "oPaginate": {
+                "sPrevious": "Trước",
+                "sNext": "Sau"
+            }
+        },
+        "aoColumnDefs": [
+                 {
+                     "aTargets": [1, 7],
+                     "bSortable": false,
+                 },
+                 {
+                     "aTargets": [0],
+                     "bVisible": false,
+                 }
+        ],
+    });
+    $('.date-picker').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        forceParse: false
+    });
+    $(document).on('click', 'th input:checkbox', function () {
+        var that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox')
+        .each(function () {
+            this.checked = that.checked;
+            $(this).closest('tr').toggleClass('selected');
+        });
+    });
+</script>
+

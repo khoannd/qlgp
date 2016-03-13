@@ -1,0 +1,449 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@model PMS.DataAccess.Models.Parish
+
+<input type="hidden" id="parishId" value="@Model.Id" />
+
+<div class="space-10"></div>
+
+<div class="col-xs-12 no-padding">
+    <div class="tabbable">
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active">
+                <a id="parishInfoTab" data-toggle="tab" href="#basicParishInfo">
+                    <span class="bigger-120 bolder">†</span>
+                    Thông tin giáo xứ
+                </a>
+            </li>
+
+            <li>
+                <a id="parishStructureTab" data-toggle="tab" href="#parishStructureInfo">
+                    <i class="ace-icon fa fa-sitemap bigger-120"></i>
+                    Sơ đồ tổ chức
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        <div id="basicParishInfo" class="tab-pane fade in active">
+            
+            <div id="parishPartial">
+                @Html.Partial("_ParishInformation", Model)
+            </div>
+
+        </div>
+        
+        <div id="parishStructureInfo" class="tab-pane fade in">
+
+            @Html.Partial("_OrganizationTreeView")
+
+        </div>
+    </div>
+</div>
+
+
+
+<div id="editParishModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+                    <h4 class="widget-title lighter">Chỉnh sửa thông tin giáo xứ</h4>
+
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseParish').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="space-10"></div>
+                    <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Tên giáo xứ &nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="parishName" value="" class="form-control" disabled="">
+                                    <label class="text-danger" id="parishNameValidate" hidden=""></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Địa chỉ</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="parishAddress" value="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Chánh xứ</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="parishPriest" value="" class="form-control priest">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Website</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="parishWebsite" value="" class="form-control">
+                                    <label class="text-danger" id="parishUrlValidate" hidden=""></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Số điện thoại</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="parishPhone" value="" class="form-control">
+                                    <label class="text-danger" id="parishPhoneValidate" hidden=""></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Email</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="parishEmail" value="" class="form-control">
+                                    <label class="text-danger" id="parishEmailValidate" hidden=""></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Ảnh hiện tại</label>
+                                <div class="col-sm-9">
+                                    <div class="widget-box">
+                                        <div class="widget-body">
+                                            <div class="widget-main">
+                                                <div class="form-group">
+                                                    <div class="space-10"></div>
+                                                    <div class="col-xs-12">
+                                                        <img class="img-responsive" id="parishImage" src="" />
+                                                    </div>
+                                                </div>
+                                                <label>
+                                                    <span class="lbl"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Ảnh mới</label>
+                                <div class="col-sm-9">
+                                    <div class="widget-box">
+                                        <div class="widget-body">
+                                            <div class="widget-main">
+                                                <div class="form-group">
+                                                    <div class="space-10"></div>
+                                                    <div class="col-xs-12" id="newParishHomeId">
+                                                        @using (Html.BeginForm("UploadParishImage", "ParishHome", FormMethod.Post,
+                                                        new
+                                                        {
+                                                            enctype = "multipart/form-data",
+                                                            id = "ImgForm",
+                                                            name = "ImgForm",
+                                                            target = "UploadTarget"
+                                                        }))
+                                                        {
+                                                            <input multiple="" name="inputFile" type="file" id="inputFile" />
+                                                        }
+                                                        <iframe id="UploadTarget" name="UploadTarget" onload="UploadImage_Complete();" style="position: absolute; left: -999em; top: -999em;"></iframe>
+                                                        <label class="text-danger" id="parishImageValidate" hidden=""></label>
+                                                    </div>
+                                                </div>
+                                                <label>
+                                                    <span class="lbl"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end row-->
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-12 col-sm-4 col-sm-offset-8">
+                                <div class="align-right">
+                                    <div class="space-6"></div>
+                                    <button id="btnUpdateParish" class="btn btn-primary" data-toggle="modal" onclick="UploadImage()">
+                                        <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                    </button>
+                                    <button id="btnCloseParish" class="btn btn" data-toggle="modal">
+                                        <i class="ace-icon fa fa-times"></i> Đóng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Modal-->
+
+
+
+<script>
+    $("#btnCloseParish").click(function () {
+        $("#editParishModal").modal('hide');
+        ClearParish();
+    });
+    //Upload Images
+    function UploadImage() {
+        if (!checkValidate()) {
+            return;
+        }
+        $("#ImgForm").submit();
+    }
+
+    function UploadImage_Complete() {
+        var url = $("#UploadTarget").contents().find('body').html();
+        if (url.substring(0, 4) == "<pre") {
+            url = "";
+        }
+        SaveParish(url);
+    }
+    jQuery(function ($) {
+        $("#parishPhone").mask("9999 999 999?9");
+        $('#inputFile').ace_file_input({
+            style: 'well',
+            btn_choose: 'Thả hình vào đây hoặc click vào để chọn',
+            btn_change: null,
+            no_icon: 'ace-icon fa fa-picture-o',
+            droppable: true,
+            thumbnail: 'fit',
+            allowExt: ['jpg', 'jpeg', 'png'],
+            denyExt: 'exe|php|dll|txt',
+            preview_error: function (filename, error_code) {
+
+            },
+            before_change: function (files, dropped) {
+
+                var valid_files = [];
+
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+
+                    if (typeof file === 'string') {
+
+                        valid_files.push(file);
+                        $("#parishImageValidate").hide();
+                        break;
+                    } else if ('File' in window && file instanceof window.File) {
+
+                        valid_files.push(file);
+                        $("#parishImageValidate").hide();
+                        break;
+
+                    }
+                }
+                return valid_files;
+            }
+
+        }).on('file.error.ace', function (event, info) {
+            $("#parishImageValidate").html("Chỉ hỗ trợ với những ảnh có định dạng jpg, jpeg, png");
+            $("#parishImageValidate").show();
+        });
+    });
+
+    var a;
+    function loadData(id) {
+        startLoading();
+        $.ajax({
+            url: "/ParishHome/LoadParishByParishId",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                var item = data.result;
+                $("#parishName").val(item.Name);
+                $("#parishAddress").val(item.Address);
+                $("#parishPriest").val(item.Priest);
+                $("#parishWebsite").val(item.Website);
+                $("#parishPhone").val(item.Phone);
+                $("#parishEmail").val(item.Email);
+                $("#parishId").val(item.Id);
+                $("#parishImage").attr('src', item.ImageUrl);
+
+                $("#editParishModal").modal('show');
+            },
+        });
+    }
+
+    function SaveParish(url) {
+        startLoading();
+        var id = $("#parishId").val();
+        var name = $("#parishName").val();
+        var address = $("#parishAddress").val();
+        var priest = $("#parishPriest").val();
+        var website = $("#parishWebsite").val();
+        var phone = $("#parishPhone").val();
+        var email = $("#parishEmail").val();
+        var imageUrl = url;
+        startLoading();
+        $.ajax({
+            url: "/ParishHome/Update",
+            type: "POST",
+            data: {
+                Id: id,
+                Name: name,
+                Address: address,
+                Priest: priest,
+                Website: website,
+                Phone: phone,
+                Email: email,
+                ImageUrl: imageUrl
+            },
+
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Cập nhật thất bại", 0);
+                } else {
+                    refeshParishInformation();
+                    showMessage("Cập nhật thông tin giáo xứ thành công", 1);
+                    $("#editParishModal").modal('hide');
+
+                }
+            },
+        });
+    }
+
+    function refeshParishInformation() {
+        var id = $("#parishId").val();
+        $.ajax({
+            url: "/ParishHome/LoadParishInformation",
+            type: "POST",
+            data: {
+                Id: id
+            },
+            success: function (data) {
+                $("#parishPartial").html(data);
+
+            },
+        });
+    }
+
+    function checkValidate() {
+        var isError = false;
+
+        var website = $("#parishWebsite").val();
+
+        if (website) {
+            if (!validateUrl(website)) {
+                $("#parishUrlValidate").html("Website không đúng định dạng (Ví dụ: www.pms.com)");
+                $("#parishUrlValidate").show();
+                isError = true;
+            } else {
+                $("#parishUrlValidate").hide();
+                $("#parishUrlValidate").html("");
+            }
+        }
+
+        var email = $("#parishEmail").val();
+        if (!validateEmail(email)) {
+            $("#parishEmailValidate").html("Email không đúng định dạng (Ví dụ: pms@@gmail.com)");
+            $("#parishEmailValidate").show();
+            isError = true;
+        } else {
+            $("#parishEmailValidate").hide();
+            $("#parishEmailValidate").html("");
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function ClearParish() {
+        $("#parishName").val("");
+        $("#parishAddress").val("");
+        $("#parishPriest").val("");
+        $("#parishWebsite").val("");
+        $("#parishPhone").val("");
+        $("#parishEmail").val("");
+        $("#parishNameValidate").html("");
+        $("#parishNameValidate").hide();
+        $("#parishUrlValidate").html("");
+        $("#parishUrlValidate").hide();
+        $("#parishEmailValidate").html("");
+        $("#parishEmailValidate").hide();
+        $('#inputFile').ace_file_input('reset_input');
+        $("#parishImageValidate").html("");
+        $("#parishImageValidate").hide();
+    }
+    //---------------------
+    $(".priest").each(function () {
+        initPriestAutocomplete(this, false);
+    });
+    function initPriestAutocomplete(element, isForce) {
+
+        var input = $(element).autocomplete({
+            autoFocus: !isForce,
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Parishioner/LoadPriestNames",
+                    dataType: "json",
+                    data: {
+                        name: request.term
+                    },
+                    success: function (data) {
+                        response(data.result);
+                    }
+                });
+            },
+            focus: function (event, ui) {
+                //  $(element).data("uiItem", ui.item.value);
+                if (isForce) {
+                    $(element).val(ui.item.value);
+                    return false;
+                }
+            },
+            select: function (event, ui) {
+                if (isForce) {
+                    $(this).data("uiItem", ui.item.value);
+                    $(element).val(ui.item.value);
+                    return false;
+                }
+            },
+            minLength: 1
+        });
+
+        if (isForce) {
+            input.bind("blur", function () {
+
+                var current = $(this).val();
+                if (current) {
+                    $(this).val($(this).data("uiItem"));
+                }
+
+            }).data("uiItem", $(element).val());
+        }
+
+    }
+    //----------
+
+</script>

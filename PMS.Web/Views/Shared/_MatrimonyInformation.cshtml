@@ -1,0 +1,745 @@
+﻿
+<input type="hidden" id="txtHiddenMatrimonyId" value="0" />
+<input type="hidden" id="isMatrimonyContinue" value="1"/>
+
+<div class="col-xs-6">
+
+    <div class="form-group">
+
+        <label class="col-sm-4 control-label no-padding-right">Người nam (<span style="color:red">*</span>)</label>
+
+        <div class="col-sm-8">
+            <div class="input-group">
+                <input type="hidden" id="txtHiddenMatrimonyHusbandId">
+                <input type="text" disabled="" id="txtMatrimonyHusband" class="form-control">
+                <span class="input-group-btn">
+                    <button disabled="" id="btnAddMatrimonyHusband" class="btn btn-success btn-sm">
+                        <i class="ace-icon fa fa-plus"></i>
+                    </button>
+                    <button disabled="" id="btnChooseMatrimonyHusband" class="btn btn-info btn-sm">
+                        <i class="ace-icon fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+            <label id="lbHusbandNameErrorMessage" class="text-danger" hidden=""></label>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-4 control-label no-padding-right">
+            Người nữ (<span style="color:red">*</span>)
+
+        </label>
+
+        <div class="col-sm-8">
+            <div class="input-group">
+                <input type="hidden" id="txtHiddenMatrimonyWifeId">
+                <input type="text" disabled="" id="txtMatrimonyWife" class="form-control">
+                <span class="input-group-btn">
+                    <button disabled="" id="btnAddMatrimonyWife" class="btn btn-success btn-sm">
+                        <i class="ace-icon fa fa-plus"></i>
+                    </button>
+                    <button disabled="" id="btnChooseMatrimonyWife" class="btn btn-info btn-sm">
+                        <i class="ace-icon fa fa-search"></i>
+                    </button>
+                </span>               
+            </div>
+            <label id="lbWifeNameErrorMessage" class="text-danger" hidden=""></label>
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-4 control-label no-padding-right">
+            Đôi hôn phối (<span style="color:red">*</span>)
+        </label>
+
+        <div class="col-sm-8">
+            <input disabled="" type="text" id="txtMatrimonyName" class="form-control">
+            <label id="lbMatrimonyNameErrorMessage" class="text-danger" hidden=""></label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-4 control-label no-padding-right"> Số hôn phối </label>
+
+        <div class="col-sm-8">
+            <input disabled="" type="text" id="txtMatrimonyNumber" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-4 control-label no-padding-right"> Ngày hôn phối  </label>
+
+        <div class="col-sm-8">
+
+            <div class="input-group">
+                <input disabled="" class="form-control date-picker" id="txtMatrimonyDate" type="text" data-date-format="dd/mm/yyyy" />
+                <span class="input-group-addon">
+                    <i class="fa fa-calendar bigger-110"></i>
+                </span>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<div class="col-xs-6">
+
+    <div class="form-group">
+        <label class="col-sm-4 control-label no-padding-right"> Nơi hôn phối </label>
+
+        <div class="col-sm-8">
+            <input disabled="" type="text" id="txtMatrimonyPlace" class="form-control place">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-4 control-label no-padding-right"> Linh mục chứng </label>
+
+        <div class="col-sm-8">
+            <input disabled="" type="text" id="txtMatrimonyPriest" class="form-control priest">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-4 control-label no-padding-right"> Người chứng 1 </label>
+
+        <div class="col-sm-8">
+            <input disabled="" type="text" id="txtMatrimonyFirstWitness" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-sm-4 control-label no-padding-right"> Người chứng 2 </label>
+
+        <div class="col-sm-8">
+            <input disabled="" type="text" id="txtMatrimonySecondWitness" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group">
+
+        <label class="col-sm-4 control-label no-padding-right"> Tình trạng hôn phối </label>
+
+        <div class="col-sm-8">
+
+            <select disabled="" class="form-control" id="cbbMatrimonyStatus">
+                <option value="0"></option>
+                <option value="1">Bình thường</option>
+                <option value="2">Hợp thức hóa</option>
+                <option value="3">Chuẩn khác đạo</option>
+                <option value="4">Không theo phép đạo</option>
+                <option value="5">Đã được tháo gỡ</option>
+                <option value="6">Không xác định</option>
+            </select>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+<div class="col-xs-12">
+    <div class="form-group">
+        <label class="col-sm-2 control-label no-padding-right"> Ghi chú </label>
+        <div class="col-sm-10">
+            <textarea disabled="" id="txtMatrimonyNote" rows="4" style="resize: none" class="form-control"></textarea>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    //Khong duoc sua ---->>
+    $("#btnAddMatrimonyHusband").click(function () {
+        openParishionerModal(4, 1);
+    });
+
+    $("#btnAddMatrimonyWife").click(function () {
+        openParishionerModal(5, 0);
+    });
+
+    $("#btnChooseMatrimonyHusband").click(function () {
+        openLookupModal(6, "", 1, 1, 0, 1);
+    });
+
+    $("#btnChooseMatrimonyWife").click(function () {
+        openLookupModal(7, "", 0, 1, 0, 1);
+    });
+
+    function loadMatrimonyName() {
+        var husband = $("#txtMatrimonyHusband").val();
+        var wife = $("#txtMatrimonyWife").val();
+
+        var husbandSplit = husband.split(" ");
+        var wifeSplit = wife.split(" ");
+
+        var husbandName = husbandSplit[husbandSplit.length - 1];
+        var wifeName = wifeSplit[wifeSplit.length - 1];
+
+        var result = "";
+        if (husbandName) {
+            result += husbandName;
+            if (wifeName) {
+                result += " - " + wifeName;
+            }
+        }
+        else if (wifeName) {
+            result += wifeName;
+        }
+
+        $("#txtMatrimonyName").val(result);
+    }
+
+    function checkValidMatrimony(id, type, christianName, name) {
+        startLoading();
+        $.ajax({
+            url: "/Parishioner/CheckValidMatrimony",
+            async: false,
+            data: {
+                parishionerId: id
+            },
+            success: function (data) {
+
+                if (data == "-2") {
+                    //Do add action
+                    if (type == 1) {
+                        addHusbandInformation(id, christianName, name);
+                    }
+                    else if (type == 0) {
+                        addWifeInformation(id, christianName, name);
+                    }
+
+                }
+                else if (data == "-3") {
+                    showMessage("Không thể chọn giáo dân đang có hôn phối với người chưa qua đời", -1, 6000);
+                }
+                else if (data == "-4") {
+                    showMessage("Không thể chọn giáo dân được đánh dấu là đã lập gia đình", -1, 6000);
+                }
+                else if (data == "0" || data == "-1") {
+
+                    showMessage("Không thể kiểm tra thông tin giáo dân, vui lòng thử lại sau", 0);
+
+                } else {
+
+                    var message = "";
+
+                    if (data.search("1") > -1) {
+                        message += "<p>Giáo dân này chưa đến tuổi được phép kết hôn (vì nhỏ hơn 18 tuổi).</p>";
+                    }
+                    else if (data.search("2") > -1) {
+                        message += "<p>Giáo dân này chưa đến tuổi được phép kết hôn (vì nhỏ hơn 20 tuổi).</p>";
+                    }
+
+                    if (data.search("3") > -1) {
+                        message += "<p>Giáo dân này đang có hôn phối với người chưa qua đời</p> ";
+                    }
+                    else if (data.search("5") > -1) {
+                        message += "<p>Giáo dân này không có ngày sinh nên không thể xác định được tuổi cho phép kết hôn</p> ";
+                    }
+                    if (data.search("4") > -1) {
+                        message += "<p>Giáo dân này đã đi tu và chưa hồi tục (nếu tiếp tục thì thông tin ơn gọi sẽ được sửa thành đã hồi tục khi hôn phối được lưu).</p>";
+                    }
+
+                    message += "<p>Bạn có chắc tiếp tục chọn giáo dân này không ?</p>";
+
+                    bootbox.dialog({
+                        closeButton: false,
+                        message: message,
+                        title: "Thông tin lưu ý",
+                        buttons: {
+                            danger: {
+                                label: " Có",
+                                className: "ace-icon fa fa-check btn-info",
+                                callback: function () {
+                                    //Do add action
+                                    if (type == 1) {
+                                        addHusbandInformation(id, christianName, name);
+                                    }
+                                    else if (type == 0) {
+                                        addWifeInformation(id, christianName, name);
+                                    }
+
+                                    setTimeout(function () {
+                                        makeScrollForModal();
+                                    }, 500);
+                                }
+                            },
+                            main: {
+                                label: " Không",
+                                className: "ace-icon fa fa-times btn-default",
+                                callback: function () {
+                                    setTimeout(function () {
+                                        makeScrollForModal();
+                                    }, 500);
+                                }
+                            }
+                        }
+                    });
+
+                }
+
+            }
+        });
+
+    }
+
+    function addHusbandInformation(id, christianName, name) {
+        var wifeId = $("#txtHiddenMatrimonyWifeId").val();
+
+        if (wifeId != 0 && wifeId != 'undefined') {
+            if (!checkMatrimonyExist(wifeId, id)) {
+                return;
+            }
+        }
+
+        $("#txtHiddenMatrimonyHusbandId").val(id);
+        $("#txtMatrimonyHusband").val(christianName ? (christianName + " " + name) : name);
+        $("#txtMatrimonyHusband").attr("title", christianName ? (christianName + " " + name) : name);
+        loadMatrimonyName();
+        closeLookupModal();
+    }
+
+    function addWifeInformation(id, christianName, name) {
+        var husbandId = $("#txtHiddenMatrimonyHusbandId").val();
+
+        if (husbandId != 0 && husbandId != 'undefined') {
+            if (!checkMatrimonyExist(husbandId, id)) {
+                return;
+            }
+        }
+
+        $("#txtHiddenMatrimonyWifeId").val(id);
+        $("#txtMatrimonyWife").val(christianName ? (christianName + " " + name) : name);
+        $("#txtMatrimonyWife").attr("title", christianName ? (christianName + " " + name) : name);
+        loadMatrimonyName();
+        closeLookupModal();
+    }
+
+    function checkMatrimonyExist(parishionerId1, parishionerId2) {
+
+        var result = false;
+
+        $.ajax({
+            url: "/Parishioner/CheckExistedMatrimony",
+            async: false,
+            data: {
+                parishionerId1: parishionerId1,
+                parishionerId2: parishionerId2
+            },
+            success: function (data) {
+
+                if (data == 1) {
+                    showMessage("Giáo dân được chọn đã kết hôn với giáo dân này", -1, 6000);
+                } else if (data == 0) {
+                    result = true;
+                } else {
+                    showMessage("Không thể kiểm tra thông tin giáo dân được chọn, vui lòng thử lại sau", 0, 6000);
+                }
+
+            }
+        });
+
+        return result;
+    }
+
+    //Ket thuc khong duoc sua ---->
+
+    function addMatrimonySacrament() {
+        //Open edit
+        $("#txtMatrimonyName").attr("disabled", false);
+        $("#txtMatrimonyNumber").attr("disabled", false);
+        $("#txtMatrimonyDate").attr("disabled", true);
+        $("#txtMatrimonyPlace").attr("disabled", true);
+        $("#txtMatrimonyPriest").attr("disabled", true);
+        $("#txtMatrimonyFirstWitness").attr("disabled", false);
+        $("#txtMatrimonySecondWitness").attr("disabled", false);
+        $("#cbbMatrimonyStatus").attr("disabled", false);
+        $("#txtMatrimonyNote").attr("disabled", false);
+
+        $("#btnAddMatrimonyHusband").attr("disabled", false);
+        $("#btnChooseMatrimonyHusband").attr("disabled", false);
+        $("#btnAddMatrimonyWife").attr("disabled", false);
+        $("#btnChooseMatrimonyWife").attr("disabled", false);
+    }
+
+    function refreshMatrimonySacrament() {
+        $("#txtHiddenMatrimonyId").val(0);
+        $("#txtHiddenMatrimonyWifeId").val(0);
+        $("#txtMatrimonyWife").val("");
+        $("#txtMatrimonyWife").attr("title", "");
+        $("#txtHiddenMatrimonyHusbandId").val(0);
+        $("#txtMatrimonyHusband").val("");
+        $("#txtMatrimonyHusband").attr("title", "");
+        $("#txtMatrimonyName").val("");
+        $("#txtMatrimonyNumber").val("");
+        $("#txtMatrimonyDate").val("");
+        $("#txtMatrimonyPlace").val("");
+        $("#txtMatrimonyPriest").val("");
+        $("#txtMatrimonyFirstWitness").val("");
+        $("#txtMatrimonySecondWitness").val("");
+        $("#cbbMatrimonyStatus").val(0);
+        $("#txtMatrimonyNote").val("");
+
+        $("#lbHusbandNameErrorMessage").hide();
+        $("#lbHusbandNameErrorMessage").html("");
+        $("#lbWifeNameErrorMessage").hide();
+        $("#lbWifeNameErrorMessage").html("");
+        $("#lbMatrimonyNameErrorMessage").hide();
+        $("#lbMatrimonyNameErrorMessage").html("");
+    }
+
+    function saveAddMatrimonySacrament() {
+        //Check validate
+        if (!checkMatrimonySacramentValidate()) {
+            return;
+        }
+
+        startLoading();
+        $.ajax({
+            url: "/Parishioner/AddMatrimony",
+            data: {
+                HusbandId: $("#txtHiddenMatrimonyHusbandId").val(),
+                WifeId: $("#txtHiddenMatrimonyWifeId").val(),
+                Name: $("#txtMatrimonyName").val(),
+                Number: $("#txtMatrimonyNumber").val(),
+                Date: $("#sacramentDate").val(),
+                Place: $("#sacramentReceivedPlaced").val(),
+                Priest: $("#sacramentGiver").val(),
+                FirstWitness: $("#txtMatrimonyFirstWitness").val(),
+                SecondWitness: $("#txtMatrimonySecondWitness").val(),
+                Status: $("#cbbMatrimonyStatus").val(),
+                Note: $("#txtMatrimonyNote").val(),
+                parishionerId: 0,
+                oldGender: 0,
+                newGender: 0
+            },
+            
+            success: function (data) {
+                if (data > 0) {
+                    showMessage("Thêm thông tin hôn phối thành công", 1);
+                    //data la id cua hon phoi duoc add thanh cong. O day goi ham de no add vao sacrament group la duoc
+                    AddMatrimonySacramentGroup(data);
+
+                } else if (data == -3) {
+                    showMessage("Không thể tồn tại trạng thái là chuẩn khác đạo đối với hôn phối của 2 giáo dân", -1);
+                } else {
+                    showMessage("Thêm thông tin hôn phối thất bại, vui lòng thử lại sau", 0);
+                }
+
+            }
+        });
+    }
+
+    function saveMatrimonyAndAddFamily() {
+        //Check validate
+        if (!checkMatrimonySacramentValidate()) {
+            return;
+        }
+        if (!checkBelongInternalParish()) {
+            return;
+        }
+        startLoading();
+        $.ajax({
+            url: "/Parishioner/AddMatrimony",
+            data: {
+                HusbandId: $("#txtHiddenMatrimonyHusbandId").val(),
+                WifeId: $("#txtHiddenMatrimonyWifeId").val(),
+                Name: $("#txtMatrimonyName").val(),
+                Number: $("#txtMatrimonyNumber").val(),
+                Date: $("#sacramentDate").val(),
+                Place: $("#sacramentReceivedPlaced").val(),
+                Priest: $("#sacramentGiver").val(),
+                FirstWitness: $("#txtMatrimonyFirstWitness").val(),
+                SecondWitness: $("#txtMatrimonySecondWitness").val(),
+                Status: $("#cbbMatrimonyStatus").val(),
+                Note: $("#txtMatrimonyNote").val(),
+                parishionerId: 0,
+                oldGender: 0,
+                newGender: 0
+            },
+
+            success: function (data) {
+                if (data > 0) {
+                    showMessage("Thêm thông tin hôn phối thành công", 1);
+                    //data la id cua hon phoi duoc add thanh cong. O day goi ham de no add vao sacrament group la duoc
+                    AddMatrimonySacramentGroup(data);
+                    addFamilyAndFamilyMember(data);
+                } else if (data == -3) {
+                    showMessage("Không thể tồn tại trạng thái là chuẩn khác đạo đối với hôn phối của 2 giáo dân", -1);
+                } else {
+                    showMessage("Thêm thông tin hôn phối thất bại, vui lòng thử lại sau", 0);
+                }
+
+            }
+        });
+    }
+
+    function saveUpdateMatrimonySacrament() {
+        //Check validate
+        if (!checkMatrimonySacramentValidate()) {
+            return;
+        }
+        startLoading();
+        $.ajax({
+            url: "/Parishioner/UpdateMatrimony",
+            data: {
+                Id: $("#txtHiddenMatrimonyId").val(),
+                HusbandId: $("#txtHiddenMatrimonyHusbandId").val(),
+                WifeId: $("#txtHiddenMatrimonyWifeId").val(),
+                Name: $("#txtMatrimonyName").val(),
+                Number: $("#txtMatrimonyNumber").val(),
+                Date: $("#txtMatrimonyDate").val(),
+                Place: $("#txtMatrimonyPlace").val(),
+                Priest: $("#txtMatrimonyPriest").val(),
+                FirstWitness: $("#txtMatrimonyFirstWitness").val(),
+                SecondWitness: $("#txtMatrimonySecondWitness").val(),
+                Status: $("#cbbMatrimonyStatus").val(),
+                Note: $("#txtMatrimonyNote").val(),
+            },
+            success: function (data) {
+                if (data > 0) {
+                    showMessage("Cập nhật thông tin hôn phối thành công", 1);
+                    //Do something you want
+                    LoadMatrimonyBySacramentGroupId();
+                    $("#addMatrimonyModal").modal('hide');
+                    refreshMatrimonySacrament();
+                } else if (data == -3) {
+                    showMessage("Không thể tồn tại trạng thái là chuẩn khác đạo đối với hôn phối của 2 giáo dân", -1);
+                }
+                else {
+                    showMessage("Cập nhật thông tin hôn phối thất bại, vui lòng thử lại sau", 0);
+                }
+            }
+        });
+    }
+
+    function loadEditMatrimonySacrament(id) {
+        startLoading();
+        $.ajax({
+            url: "/Parishioner/LoadEditMatrimony",
+            data: {
+                id: id
+            },
+            success: function (data) {
+
+                if (data.matrimony) {
+                    var item = data.matrimony;
+
+                    $("#txtHiddenMatrimonyId").val(item.Id);
+                    $("#txtHiddenMatrimonyWifeId").val(data.wifeId);
+                    $("#txtMatrimonyWife").val(data.wifeName);
+                    $("#txtMatrimonyWife").attr("title", data.wifeName);
+                    $("#txtHiddenMatrimonyHusbandId").val(data.husbandId);
+                    $("#txtMatrimonyHusband").val(data.husbandName);
+                    $("#txtMatrimonyHusband").attr("title", data.husbandName);
+                    $("#txtMatrimonyName").val(item.Name);
+                    $("#txtMatrimonyNumber").val(item.Number);
+                    $("#txtMatrimonyDate").val(item.Date);
+                    $("#txtMatrimonyPlace").val(item.Place);
+                    $("#txtMatrimonyPriest").val(item.Priest);
+                    $("#txtMatrimonyFirstWitness").val(item.FirstWitness);
+                    $("#txtMatrimonySecondWitness").val(item.SecondWitness);
+                    $("#cbbMatrimonyStatus").val(item.Status);
+                    $("#txtMatrimonyNote").val(item.Note);
+
+                    $("#txtMatrimonyName").attr("disabled", false);
+                    $("#txtMatrimonyNumber").attr("disabled", false);
+                    $("#txtMatrimonyDate").attr("disabled", false);
+                    $("#txtMatrimonyPlace").attr("disabled", false);
+                    $("#txtMatrimonyPriest").attr("disabled", false);
+                    $("#txtMatrimonyFirstWitness").attr("disabled", false);
+                    $("#txtMatrimonySecondWitness").attr("disabled", false);
+                    $("#cbbMatrimonyStatus").attr("disabled", false);
+                    $("#txtMatrimonyNote").attr("disabled", false);
+
+                    $("#btnAddMatrimonyHusband").attr("disabled", false);
+                    $("#btnChooseMatrimonyHusband").attr("disabled", false);
+                    $("#btnAddMatrimonyWife").attr("disabled", false);
+                    $("#btnChooseMatrimonyWife").attr("disabled", false);
+
+                    //Co the open modal tai day
+                    $("#addMatrimonyModal").modal('show');
+                    $("#btnCreateMatrimonyAndFamilyModal").hide();
+                    $("#titleMatrimonyModal").html("Chỉnh sửa hôn phối");
+                    $("#btnSaveMatrimonyModal").hide();
+                    $("#btnUpdateMatrimonyModal").show();
+
+
+                } else {
+                    showMessage("Không thể lấy được thông tin hôn phối, vui lòng thử lại sau", 0);
+                }
+
+            }
+        });
+
+    }
+
+    function checkMatrimonySacramentValidate() {
+
+        var husband = $("#txtMatrimonyHusband").val();
+        var wife = $("#txtMatrimonyWife").val();
+        var matrimonyName = $("#txtMatrimonyName").val();
+
+        var isError = false;
+
+        if (!husband) {
+            $("#lbHusbandNameErrorMessage").html("Người nam không được để trống");
+            $("#lbHusbandNameErrorMessage").show();
+            document.getElementById("txtMatrimonyHusband").scrollIntoView();
+
+            isError = true;
+        } else {
+            $("#lbHusbandNameErrorMessage").hide();
+            $("#lbHusbandNameErrorMessage").html("");
+        }
+
+        if (!wife) {
+            $("#lbWifeNameErrorMessage").html("Người nữ không được để trống");
+            $("#lbWifeNameErrorMessage").show();
+            document.getElementById("txtMatrimonyWife").scrollIntoView();
+
+            isError = true;
+        } else {
+            $("#lbWifeNameErrorMessage").hide();
+            $("#lbWifeNameErrorMessage").html("");
+        }
+
+        if (!matrimonyName) {
+            $("#lbMatrimonyNameErrorMessage").html("Đôi hôn phối không được để trống");
+            $("#lbMatrimonyNameErrorMessage").show();
+            document.getElementById("txtMatrimonyName").scrollIntoView();
+
+            isError = true;
+        } else {
+            $("#lbMatrimonyNameErrorMessage").hide();
+            $("#lbMatrimonyNameErrorMessage").html("");
+        }
+
+        if (!checkBothBelongAnotherParish()) {
+            isError = true;
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function checkBelongInternalParish() {
+        var husbandId = $("#txtHiddenMatrimonyHusbandId").val();
+        var wifeId = $("#txtHiddenMatrimonyWifeId").val();
+        var result = true;
+        $.ajax({
+            url: "/Sacrament/CheckMatrimonyCoupleBelongInternalParish",
+            type: "POST",
+            data: {
+                husbandId: husbandId,
+                wifeId: wifeId
+            },
+            async: false,
+            success: function (data) {
+                if (data == -1) {
+                    showMessage("Không thể thực hiện tự động tạo gia đình cho đôi hôn phối hiện tại vì có chồng hoặc vợ là giáo dân thuộc xứ khác. Xin vui lòng lưu hôn phối, và tự tạo gia đình sau.", -1);
+                    result = false;
+                } else {
+                    result = true;
+                }
+
+            },
+        });
+        return result;
+    }
+
+    function checkBothBelongAnotherParish() {
+        var husbandId = $("#txtHiddenMatrimonyHusbandId").val();
+        var wifeId = $("#txtHiddenMatrimonyWifeId").val();
+        var result = true;
+        $.ajax({
+            url: "/Sacrament/CheckMatrimonyCoupleBelongInternalParish",
+            type: "POST",
+            data: {
+                husbandId: husbandId,
+                wifeId: wifeId
+            },
+            async: false,
+            success: function (data) {
+                if (data == -2) {
+                    showMessage("Không thể thực hiện hôn phối cho hai giáo dân đều thuộc giáo xứ khác", -1);
+                    result = false;
+                } else {
+                    result = true;
+                }
+
+            },
+        });
+        return result;
+    }
+
+    function confirmDeleteMatrimonySacrament(id) {
+
+        var message = "<p>Bạn có chắc muốn xóa hôn phối được chọn ?</p>";
+
+        bootbox.dialog({
+            closeButton: false,
+            message: message,
+            title: "Xác nhận xóa",
+            buttons: {
+                danger: {
+                    label: " Có",
+                    className: "ace-icon fa fa-check btn-info",
+                    callback: function () {
+
+                        deleteMatrimonySacrament(id);
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+
+                    }
+                },
+                main: {
+                    label: " Không",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+
+                    }
+                }
+            }
+        });
+
+    }
+
+    function deleteMatrimonySacrament(id) {
+        startLoading();
+        $.ajax({
+            url: "/Parishioner/DeleteMatrimony",
+            data: {
+                id: id
+            },
+            success: function (data) {
+
+                if (data > 0) {
+                    showMessage("Xóa hôn phối thành công", 1);
+                    LoadMatrimonyBySacramentGroupId();
+                    
+
+                } else {
+                    showMessage("Xóa hôn phối thất bại, vui lòng thử lại sau", 0);
+                }
+
+            }
+        });
+    }
+
+
+</script>

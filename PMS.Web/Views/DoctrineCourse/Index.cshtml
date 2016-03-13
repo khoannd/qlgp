@@ -1,0 +1,526 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="/Content/assets/js/jquery.dataTables.min.js"></script>
+<script src="/Content/assets/js/jquery.dataTables.bootstrap.js"></script>
+
+@{
+    int range = 15;
+    int currentYear = DateTime.Now.Year;
+    int endYear = currentYear - range;
+}
+
+<input type="hidden" id="currentYear" value="@currentYear" />
+<input type="hidden" id="ClassGroupId" />
+<input type="hidden" id="ClassGroupManagerId" />
+
+<div class="page-header">
+    <h1>Danh sách khối giáo lý</h1>
+</div>
+
+
+<div class="page-header">
+    <div>
+        <div class="row">
+            <div class="col-xs-12">
+
+                Năm học
+                <select id="ccbYear" class="input-large">
+                    <option value="0"> Tất cả </option>
+                    @for (int i = currentYear + 1; i >= endYear; i--)
+                    {
+                        <option value="@i"> @i </option>
+                    }
+                </select>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="page-header">
+    <button id="btnCreateClassGroup" class="btn btn-success" data-toggle="modal">
+        <i class="ace-icon fa fa-plus"></i> Thêm khối
+    </button>
+    @*<button id="btnPrintClassGroup" class="btn btn-purple">
+        <i class="ace-icon fa fa-print"></i> In danh sách
+    </button>*@
+    <a href="/DoctrineCourse/ManageClass" class="btn btn-yellow">
+        <i class="ace-icon fa fa-book"></i> Danh sách lớp giáo lý
+    </a>
+</div>
+
+<div class="page-header">
+    <h1> Danh sách khối giáo lý </h1>
+    <div class="row">
+        <table id="classGroupTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        <label class="position-relative">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </th>
+                    <th>Năm học</th>
+                    <th>Tên khối</th>
+                    <th>Người quản lí</th>
+                    <th>Ghi chú</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+
+            <tbody></tbody>
+
+        </table>
+
+    </div>
+</div>
+
+<!-- Popup Thêm mới khối giáo lý -->
+
+<input type="hidden" id="hiddenCreateClassGroupModal" value="0" />
+
+<div id="createClassGroupModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-body">
+                    <div class="col-xs-12 no-padding">
+                        <div class="col-sm-12  ui-sortable">
+                            <div class="widget-box transparent ui-sortable-handle">
+                                <div class="widget-header align-center">
+                                    <h4 class="widget-title lighter" id="ClassGroupModalTitle"> </h4>
+                                    <div class="widget-toolbar no-border">
+                                        <a href="#" onclick="$('#btnCloseClassGroupModal').click()">
+                                            <i class="ace-icon fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="widget-body">
+                                    <div class="form-horizontal">
+                                        <div class="col-sm-10">
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label no-padding-right align-left" for="form-field-1"> Năm học &nbsp;(<span style="color: red">*</span>) </label>
+                                                <div class="col-sm-9">
+                                                    <select id="ccbYearModal" class="form-control">
+                                                        <option value="0"></option>
+                                                        @for (int i = currentYear + 1; i >= endYear; i--)
+                                                        {
+                                                            <option value="@i">@i</option>
+                                                        }
+                                                    </select>
+                                                    <label class="text-danger" id="classGroupYearValidate" hidden=""></label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label no-padding-right align-left" for="form-field-1"> Tên khối  &nbsp;(<span style="color: red">*</span>) </label>
+                                                <div class="col-sm-9">
+                                                    <input type="text" id="ClassGroupName" class="form-control">
+                                                    <label class="text-danger" id="classGroupNameValidate" hidden=""></label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label no-padding-right align-left" for="form-field-1"> Người quản lí </label>
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <input disabled="" type="text" id="ClassGroupManager" class="form-control">
+                                                        <span class="input-group-btn">
+                                                                <button id="btnClassGroupManagerCreateModal" class="btn btn-success btn-sm">
+                                                                    <i class="ace-icon fa fa-plus"></i> Thêm
+                                                                </button>
+                                                            <button id="btnManagerLookupModal" class="btn btn-info btn-sm">
+                                                                <i class="ace-icon fa fa-search"></i> Chọn
+                                                            </button>
+                                                            @*<button class="btn btn-sm btn-danger">
+                                                                    <i class="ace-icon fa fa-trash-o"></i> Xóa
+                                                                </button>*@
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group align-right">
+                                                <label class="col-sm-3 control-label no-padding-right align-left" for="form-field-1"> Ghi chú </label>
+                                                <div class="col-sm-9">
+                                                    <textarea id="ClassGroupNote" rows="4" style="resize: none" class="form-control"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2"></div>
+                                        <div class="space-10"></div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <div class="col-xs-12 col-sm-12">
+                                                    <div class="form-group align-right">
+                                                        <button id="btnCreateClassGroupModal" class="btn btn-primary" data-toggle="modal">
+                                                            <i class="ace-icon fa fa-save"></i> Lưu
+                                                        </button>
+                                                        <button id="btnUpdateClassGroupModal" class="btn btn-primary" data-toggle="modal" onclick="UpdateClassGroup()">
+                                                            <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                                        </button>
+                                                        <button id="btnCloseClassGroupModal" class="btn btn-grey" data-toggle="modal">
+                                                            <i class="ace-icon fa fa-times"></i> Đóng
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Kết thúc thông tin khối giáo lý -->
+            <div id="matrimony" class="tab-pane fade in ">
+            </div>
+            <div id="vocation" class="tab-pane fade in ">
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<!-- kết thúc Popup thêm mới khối giáo lý -->
+@Html.Partial("_LookupParishionerModal")
+@Html.Partial("_CreateParishionerModal")
+
+<script>
+
+    $("#ccbYear").val($("#currentYear").val());
+    loadClassGroupDatatable();
+
+
+    //Load bảng khối giáo lí
+    function loadClassGroupDatatable() {
+        $("#classGroupTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bSCrollCollapse": true,
+            "sAjaxSource": "/DoctrineCourse/LoadClassGroupDataTables",
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "year", "value": $("#ccbYear").val() });
+            },
+            "oLanguage": {
+                "sSearch": "Tên khối",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bVisible": false,
+                    "bSortable": false,
+                },
+                {
+                    "aTargets": [5],
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [6],
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" onclick="LoadDataModal(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                            '<button class="btn btn-minier btn-danger" onclick="DeleteConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "15%",
+                }
+            ],
+            "bAutoWidth": false,
+
+        });
+    }
+    $(document).on('click', 'th input:checkbox', function () {
+        var that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox')
+            .each(function () {
+                this.checked = that.checked;
+                $(this).closest('tr').toggleClass('selected');
+            });
+    });
+    //---------------------------------------------------------------------------
+
+    //Thêm xóa sửa khối giáo lý
+    function AddClassGroup() {
+        if (!checkValidate()) {
+            return false;
+        }
+        var year = $("#ccbYearModal").val();
+        var name = $("#ClassGroupName").val();
+        var manager = $("#ClassGroupManagerId").val();
+        var note = $("#ClassGroupNote").val();
+
+        $.ajax({
+            url: "/DoctrineCourse/AddClassGroup",
+            type: "POST",
+            data: {
+                Year: year,
+                Name: name,
+                ManagedBy: manager,
+                Note: note
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Thêm khối thất bại", 0);
+                } else {
+                    showMessage("Thêm khối thành công", 1);
+                    $("#createClassGroupModal").modal('hide');
+                    refreshTable();
+                    ClearModal();
+                }
+            },
+        });
+    }
+    //--------------------------------------------------------------------
+
+    function LoadDataModal(id) {
+        $("#ClassGroupModalTitle").html('Chỉnh sửa khối giáo lý');
+        $("#ClassGroupId").val(id);
+        $("#classGroupNameValidate").html("");
+        $("#classGroupNameValidate").hide();
+
+        $.ajax({
+            url: "/DoctrineCourse/LoadClassGroupById",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                var item = data.result;
+                $("#ccbYearModal").val(item.Year);
+                $("#ClassGroupName").val(item.Name);
+                $("#ClassGroupManager").val(item.ManagerName);
+                $("#ClassGroupNote").val(item.Note);
+                $("#vicariateNameValidate").html("");
+                $("#vicariateNameValidate").hide();
+
+                $("#createClassGroupModal").modal('show');
+                $("#btnCreateClassGroupModal").hide();
+                $("#btnUpdateClassGroupModal").show();
+
+            },
+        });
+
+    }
+
+    function UpdateClassGroup() {
+        if (!checkValidate()) {
+            return false;
+        }
+        var id = $("#ClassGroupId").val();
+        var year = $("#ccbYearModal").val();
+        var name = $("#ClassGroupName").val();
+        var manager = $("#ClassGroupManagerId").val();
+        var note = $("#ClassGroupNote").val();
+        $.ajax({
+            url: "/DoctrineCourse/UpdateClassGroup",
+            type: "POST",
+            data: {
+                Id: id,
+                Year: year,
+                Name: name,
+                ManagedBy: manager,
+                Note: note
+            },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("chỉnh sửa khối thất bại", 0);
+                } else {
+                    showMessage("Chỉnh sửa khối thành công", 1);
+                    $("#createClassGroupModal").modal('hide');
+                    refreshTable();
+                    ClearModal();
+                }
+            },
+        });
+    }
+    function DeleteConfirm(id) {
+        bootbox.dialog({
+            message: "Bạn có chắc muốn xóa khối này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteClassGroup(id);
+                        refreshTable();
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+
+                    }
+                }
+            }
+        });
+    }
+    function DeleteClassGroup(id) {
+        $.ajax({
+            url: "/DoctrineCourse/DeleteClassGroup",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Không thể xóa khối giáo lý đã có chứa lớp!", 0);
+                } else {
+                    showMessage("Xóa khối giáo lý thành công", 1);
+                    refreshTable();
+                    ClearModal();
+                }
+
+            },
+        });
+    }
+
+    //----------------------------------------------------------------
+
+
+
+
+    function refreshTable() {
+        $("#classGroupTable").dataTable()._fnAjaxUpdate();
+    }
+    function ClearModal() {
+        $("#ClassGroupName").val("");
+        $("#ClassGroupManager").val("");
+        $("#ClassGroupNote").val("");
+        $("#classGroupYearValidate").html("");
+        $("#classGroupYearValidate").hide();
+        $("#classGroupNameValidate").html("");
+        $("#classGroupNameValidate").hide();
+    }
+    //Sự kiện các nút
+    $("#ccbYear").change(function () {
+        $("#classGroupTable").dataTable()._fnAjaxUpdate();
+        $("#ccbYearModal").val($("#ccbYear").val());
+    });
+    $("#btnCreateClassGroup").click(function () {
+        ClearModal();
+        $("#ccbYearModal").val($("#ccbYear").val());
+        $("#ClassGroupId").val('0');
+        $("#ClassGroupModalTitle").html("Thêm mới khối giáo lý");
+        $("#ClassGroupModalTitle").show();
+        $("#createClassGroupModal").modal('show');
+        $("#hiddenCreateClassGroupModal").val("1");
+        $("#btnUpdateClassGroupModal").hide();
+        $("#btnCreateClassGroupModal").show();
+    });
+    $("#btnCreateClassGroupModal").click(function () {
+        AddClassGroup();
+    });
+    $("#btnCloseClassGroupModal").click(function () {
+        $("#createClassGroupModal").modal('hide');
+    });
+    $("#btnClassGroupManagerCreateModal").click(function() {
+        openParishionerModal(9, -1);
+    });
+    $("#btnManagerLookupModal").click(function () {
+        openLookupModal(5, " ", -1, 0);
+    });
+
+    //---------------------------------------------------------
+
+    //Validate khối lớp
+    function checkValidate() {
+        var isError = false;
+
+        var name = $("#ClassGroupName").val();
+        var year = $("#ccbYearModal").val();
+        if (year == 0) {
+            $("#classGroupYearValidate").html("Vui lòng chọn năm!");
+            $("#classGroupYearValidate").show();
+            isError = true;
+        } else {
+            $("#classGroupYearValidate").html("");
+            $("#classGroupYearValidate").hide();
+        }
+        if (!name) {
+            $("#classGroupNameValidate").html("Vui lòng nhập tên khối");
+            $("#classGroupNameValidate").show();
+            isError = true;
+        } else {
+            $("#classGroupNameValidate").html("");
+            $("#classGroupNameValidate").hide();
+        }
+
+        if (!validateUnique()) {
+            isError = true;
+        }
+
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    function validateUnique() {
+
+        var classGroupId = $("#ClassGroupId").val();
+        var name = $("#ClassGroupName").val();
+        var result = true;
+
+        $.ajax({
+            url: "/DoctrineCourse/CheckUniqueName",
+            type: "POST",
+            data: {
+                classGroupId: classGroupId,
+                name: name
+            },
+            async: false,
+            success: function (data) {
+                if (data.result <= 0) {
+                    $("#classGroupNameValidate").html("Tên khối đã tồn tại. Vui lòng nhập tên khác!");
+                    $("#classGroupNameValidate").show();
+                    result = false;
+                } else {
+                    if (!name) {
+                        return true;
+                    }
+                    $("#classGroupNameValidate").html("");
+                    $("#classGroupNameValidate").hide();
+                    result = true;
+                }
+
+            },
+        });
+
+        return result;
+    }
+
+
+</script>
+

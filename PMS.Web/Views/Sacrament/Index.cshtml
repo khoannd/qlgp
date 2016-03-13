@@ -1,0 +1,1648 @@
+﻿@using PMS.DataAccess.Enumerations
+
+@{
+    ViewBag.Title = "Index";
+}
+<link rel="stylesheet" href="/Content/assets/css/bootstrap-editable.css" />
+<link rel="stylesheet" href="/Content/assets/css/jquery-ui.custom.min.css" />
+<link rel="stylesheet" href="/Content/assets/css/select2.css" />
+<script src="/Content/assets/js/jquery.dataTables.min.js"></script>
+<script src="/Content/assets/js/jquery.dataTables.bootstrap.js"></script>
+<script src="/Content/assets/js/bootstrap-wysiwyg.min.js"></script>
+<script src="/Content/assets/js/select2.min.js"></script>
+<script src="/Content/assets/js/fuelux/fuelux.spinner.min.js"></script>
+<script src="/Content/assets/js/x-editable/bootstrap-editable.min.js"></script>
+<script src="/Content/assets/js/x-editable/ace-editable.min.js"></script>
+
+<input id="firstload" type="hidden" value="1" />
+<input id="sacramentGroupId" type="hidden" />
+<input id="addsacrament" type="hidden" value="0" />
+<input id="matrimonyId" type="hidden" value="" />
+<input id="hParishionerId" type="hidden" value="" />
+<input id="actionButton" type="hidden" value="" />
+<input id="actionMatrimony" type="hidden" />
+<input id="currentType" type="hidden" value="@ViewBag.SacramentType" />
+<input id="familyCodeGeneration" type="hidden" value="@ViewBag.FamilyConfig" />
+
+@{
+    int type = (int)ViewBag.SacramentType;
+    int config = (int) ViewBag.FamilyConfig;
+}
+
+<div class="page-header">
+
+    @if (type == 1)
+    {
+        <h1>Sổ bí tích rửa tội</h1>
+    }
+    else if (type == 2)
+    {
+        <h1>Sổ bí tích xưng tội - rước lễ lần đầu</h1>
+    }
+    else if (type == 3)
+    {
+        <h1>Sổ bí tích thêm sức</h1>
+    }
+    else if (type == 4)
+    {
+        <h1>Sổ bí tích hôn phối</h1>
+    }
+</div>
+
+<div class="col-xs-12 col-sm-6" hidden="">
+    <div>
+        <label for="txtSacrament">Chọn loại bí tích</label>
+        <select class="form-control" id="txtSacrament">
+            <option value="0"></option>
+            <option value="@((int) SacramentEnum.Baptism)">Rửa tội</option>
+            <option value="@((int) SacramentEnum.HolyCommunion)">Xưng tội - Rước lễ lần đầu</option>
+            <option value="@((int) SacramentEnum.Confirmation)">Thêm sức</option>
+            <option value="@((int) SacramentEnum.Matrimony)">Hôn phối</option>
+            <option value="@((int) SacramentEnum.Anoint)">Xức dầu</option>
+        </select>
+        @*<div class="space-6"></div>
+            <label class="text-primary" id="selectSacramentNote">Vui lòng chọn đợt bí tích trước khi làm việc tiếp</label>*@
+    </div>
+</div>
+
+<div class="col-xs-12">
+    <button id="btnCreateSacramentGroup" class="btn btn-success" data-toggle="modal">
+        <i class="ace-icon fa fa-plus"></i> Thêm đợt bí tích
+    </button>
+</div>
+
+<div class="col-xs-12">
+    <div class="space-6"></div>
+    <table id="sacramentTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    <label class="position-relative">
+                        <input type="checkbox" class="ace" />
+                        <span class="lbl"></span>
+                    </label>
+                </th>
+
+                <th>Ngày</th>
+                <th>Mô tả</th>
+                <th>Người ban bí tích</th>
+                <th>Nơi nhận bí tích</th>
+                @if (type == 4)
+                {
+                    <th>Số đôi hôn phối</th>
+                }
+                else
+                {
+                    <th>Số người</th>
+                }
+                <th>Thao tác</th>
+
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<!--SacramentGroup Modal-->
+<div id="createSacramentGroupModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+
+                    @if (type == 1)
+                    {
+                        <h4 class="widget-title lighter" id="titleBaptism">Thông tin đợt bí tích rửa tội</h4>
+                    }
+                    else if (type == 2)
+                    {
+                        <h4 class="widget-title lighter" id="titleFirstHolyCommon">Thông tin đợt bí tích xưng tội - rước lễ lần đầu</h4>
+                    }
+                    else if (type == 3)
+                    {
+                        <h4 class="widget-title lighter" id="titleConfirmation">Thông tin đợt bí tích thêm sức</h4>
+                    }
+                    else if (type == 4)
+                    {
+                        <h4 class="widget-title lighter" id="titleMatrimony">Thông tin đợt bí tích hôn phối</h4>
+                    }
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseSacramentGroupModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+
+                </div>
+                <div class="widget-body">
+                    <div class="space-10"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Ngày ban&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input class="form-control date-picker" id="sacramentDate" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar bigger-110"></i>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-9 col-sm-offset-3">
+                                        <label id="lbDateErrorMessage" class="text-danger" hidden=""></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Mô tả&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="sacramentDescription" value="" class="form-control">
+                                        <label id="lbDescriptionErrorMessage" class="text-danger" hidden=""></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="space-10"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Người ban&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="sacramentGiver" value="" class="form-control priest">
+                                        <label id="lbGiverErrorMessage" class="text-danger" hidden=""></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Nơi nhận&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="sacramentReceivedPlaced" value="" class="form-control">
+                                        <label id="lbReceivedPlaceErrorMessage" class="text-danger" hidden=""></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    @*<div class="space-10"></div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-xs-12 col-sm-10">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label no-padding-right"></label>
+                                        <div class="col-sm-9">
+                                            <div class="alert alert-info">
+                                                <button type="button" class="close" data-dismiss="alert">
+                                                    <i class="ace-icon fa fa-times"></i>
+                                                </button>
+                                                <strong>Lưu ý!</strong>
+                                                Các thông tin trên đây sẽ tự động lưu vào mỗi giáo dân trong danh sách bên dưới. Trong bảng dưới đây, các thuộc tính "Số bí tích", "Ghi chú", "Người đỡ đầu" có thể được nhập lại trực tiếp sau.
+                                                <br />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                    <div class="space-10"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-md-12">
+                                @if (type == 1 || type == 2 || type == 3)
+                                {
+                                    <h5 class="page-header" style="color: #4383b4">Danh sách những người chịu bí tích</h5>
+
+                                }
+                                else
+                                {
+                                    <h5 class="page-header" style="color: #4383b4">Danh sách các đôi hôn phối</h5>
+                                }
+
+                            </div>
+                            <div class="col-md-12">
+                                <label id="lbAddSacramentErrorMessage" class="text-danger" hidden=""></label>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    @if (type == 1 || type == 2 || type == 3)
+                                    {
+                                        <button id="btnAddParishionerSacramentGroupModal" class="btn btn-success btn-sm" data-toggle="modal">
+                                            <i class=" ace-icon fa fa-plus">
+                                            </i> Thêm giáo dân
+                                        </button>
+                                        <button id="btnLookupParishionerSacramentGroupModal" class="btn btn-primary btn-sm" data-toggle="modal">
+                                            <i class="ace-icon glyphicon glyphicon-search"></i> Chọn giáo dân
+                                        </button>
+                                        <button class="btn btn-purple btn-sm" onclick="printSacrament(@type)">
+                                            <i class="ace-icon fa fa-print"></i> In chứng nhận bí tích
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button id="btnAddMatrimonyModal" class="btn btn-success btn-sm" data-toggle="modal">
+                                            <i class=" ace-icon fa fa-plus">
+                                            </i> Thêm hôn phối
+                                        </button>
+                                        <button class="btn btn-purple btn-sm" onclick="printSacrament(@type)">
+                                            <i class="ace-icon fa fa-print"></i> In chứng nhận hôn phối
+                                        </button>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                    <div class="row" id="hiddenSacramentTableModal">
+                        <div class="col-xs-12">
+                            <table id="sacramentparishionerTable" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th hidden=""></th>
+                                        <th>
+                                            <label class="position-relative">
+                                                <input type="checkbox" class="ace sItem" />
+                                                <span class="lbl"></span>
+                                            </label>
+                                        </th>
+                                        <th>Mã GD</th>
+                                        @if (type == 1)
+                                        {
+                                            <th>Số rửa tội</th>
+                                        }
+                                        else if (type == 2)
+                                        {
+                                            <th>Số XTRL</th>
+                                        }
+                                        else if (type == 3)
+                                        {
+                                            <th>Số thêm sức</th>
+                                        }
+
+                                        <th>Tên giáo dân</th>
+                                        <th>Giới tính</th>
+                                        <th>Ngày sinh</th>
+                                        @if (type == 2)
+                                        {
+                                            <th>Thông tin</th>
+                                        }
+                                        else
+                                        {
+                                            <th>Người đỡ đầu</th>
+                                        }
+
+                                        <th>Ghi chú</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody></tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <!--------- matrimony table ----------------------------------------------------->
+                    <div class="row" id="hiddenMatrimonyTableModal">
+                        <div class="col-xs-12">
+                            <table id="tblMatrimonySacrament" class="table table-hover">
+                                <thead>
+                                    <tr style="background: #FFF">
+                                        <th class="hidden"></th>
+                                        <th>
+                                            <label class="position-relative">
+                                                <input type="checkbox" class="ace mItem" />
+                                                <span class="lbl"></span>
+                                            </label>
+                                        </th>
+                                        <th>Số hôn phối</th>
+                                        <th>Chồng</th>
+                                        <th>Vợ</th>
+                                        <th>Người chứng 1</th>
+                                        <th>Người chứng 2</th>
+                                        <th>Tình trạng</th>
+                                        <th>Thao tác</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row" hidden="" id="labelnote">
+                        <div class="col-sm-12">
+                            <div class="alert alert-warning">
+                                <button type="button" class="close" data-dismiss="alert">
+                                    <i class="ace-icon fa fa-times"></i>
+                                </button>
+                                @*<strong>Chú thích</strong>*@
+                                <span class="blue" style="padding:0 19%">Thuộc xứ khác</span>
+                                <span class="red" style="padding:0 19%">Đã qua đời</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end row-->
+                    <div class="space-10"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="align-right">
+                                    <button id="btnCreateSacramentGroupModal" class="btn btn-primary" data-toggle="modal">
+                                        <i class="ace-icon fa fa-save"></i> Lưu
+                                    </button>
+                                    <button id="btnUpdateSacramentGroupModal" class="btn btn-primary" data-toggle="modal">
+                                        <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                    </button>
+                                    <button id="btnCloseSacramentGroupModal" class="btn" data-toggle="modal">
+                                        <i class="ace-icon fa fa-times"></i> Đóng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End SacramentGroup Modal-->
+<!--Add Matrimony Modal-->
+<div id="addMatrimonyModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+
+
+                    <h4 class="widget-title lighter" id="titleMatrimonyModal">Thêm mới hôn phối</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseMatrimonyModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+
+                </div>
+                <div class="space-10"></div>
+                <div class="widget-body">
+                    <div class="form-horizontal">
+                        @Html.Partial("_MatrimonyInformation")
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right"></label>
+
+                                <div class="col-sm-10 align-right">
+                                    @if (config == 1)
+                                    {
+                                        <button id="btnCreateMatrimonyAndFamilyModal" class="btn btn-primary btn" onclick="saveMatrimonyAndAddFamily()">
+                                            <i class="ace-icon fa fa-save"></i>
+                                            Lưu hôn phối và tạo gia đình
+                                        </button>
+                                    }
+                                                    
+                                    <button id="btnSaveMatrimonyModal" class="btn btn-primary btn" onclick="saveAddMatrimonySacrament()">
+                                        <i class="ace-icon fa fa-save"></i>
+                                        Lưu hôn phối
+                                    </button>
+                                    <button id="btnUpdateMatrimonyModal" class="btn btn-primary btn" onclick="saveUpdateMatrimonySacrament()">
+                                        <i class="ace-icon fa fa-save"></i>
+                                        Cập nhật hôn phối
+                                    </button>
+                                    <button id="btnCloseMatrimonyModal" class="btn btn">
+                                        <i class="ace-icon fa fa-times"></i>
+                                        Đóng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div id="inputFamilyCodeModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+                    
+                    <h4 class="widget-title lighter" id="titleFamilyCodeModal">Nhập mã gia đình</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseMatrimonyModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+
+                </div>
+                <div class="space-10"></div>
+                <div class="widget-body">
+                    <div class="form-horizontal">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label no-padding-right">Mã gia đình (<span style="color:red">*</span>)</label>
+                                <div class="col-sm-8">
+                                    <input type="text" id="txtFamilyCode" class="form-control">
+                                    <label id="lbFamilyCodeError" class="text-danger" hidden=""></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right"></label>
+
+                                <div class="col-sm-10 align-right">
+                                    <button id="btnSaveFamilyCodeModal" class="btn btn-primary btn" onclick="saveAddMatrimonySacrament()">
+                                        <i class="ace-icon fa fa-save"></i>
+                                        Lưu
+                                    </button>   
+                                    <button id="btnCloseFamilyCodeModal" class="btn btn">
+                                        <i class="ace-icon fa fa-times"></i>
+                                        Đóng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>*@
+<!--End Matrimony Modal-->
+@Html.Partial("_ParishionerInformation")
+@Html.Partial("_ViewReadonlyParishionerModal")
+
+<script>
+
+    var ctype = $("#currentType").val();
+    $("#txtSacrament").val(ctype);
+    InitDatatable();
+    //open lookup modal
+    $("#btnLookupParishionerSacramentGroupModal").click(function () {
+        if (!checkValidSacramentGroup()) {
+            return;
+        }
+        var currentType = $("#currentType").val();
+        var date = $("#sacramentDate").val();
+
+        if (currentType == 1 || currentType == 2 || currentType == 3) {
+            openLookupModal(2, "hParishionerId", -1, 0, currentType, 0, date);
+        } else {
+            openLookupModal(2, "hParishionerId", -1, 0);
+        }
+    });
+
+    $("#sacramentDate").change(function () {
+        var date = $("#sacramentDate").val();
+        var t = date.split("/");
+        if (t.length == 3) {
+            $("#sacramentDescription").val("Đợt bí tích ngày " + t[0] + " tháng " + t[1] + " năm " + t[2]);
+        } else if (t.length == 2) {
+            $("#sacramentDescription").val("Đợt bí tích tháng " + t[0] + " năm " + t[1]);
+        } else if (t.length == 1) {
+            $("#sacramentDescription").val("Đợt bí tích năm " + t[0]);
+        }
+    });
+    //$("#txtSacrament").change(function () {
+    //    var s = $(this).val();
+    //    var a = $("#firstload").val();
+    //    if (s != 0) {
+    //        $("#btnCreateSacramentGroup").attr("disabled", false);
+
+    //        if (a == 1) {
+    //            InitDatatable();
+    //            $("#firstload").val(0);
+    //        }
+    //        $("#selectSacramentNote").hide();
+    //        $("#sacramentTable").show();
+    //    } else {
+    //        $("#sacramentTable").hide();
+    //        $("#btnCreateSacramentGroup").attr("disabled", true);
+    //        $("#selectSacramentNote").show();
+    //    }
+    //    refeshTable();
+    //});
+
+    function refeshTable() {
+        updateTableContent("sacramentTable");
+        //$("#sacramentTable").dataTable()._fnAjaxUpdate();
+    }
+
+    function refeshMatrimonyTable()
+    {
+        updateTableContent("tblMatrimonySacrament");
+        //$("tblMatrimonySacrament").dataTable()._fnAjaxUpdate();
+    }
+    function InitDatatable() {
+
+        $("#sacramentTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "sAjaxSource": "/Sacrament/LoadSacramentGroupDatatables",
+            //"bProcessing": true,
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "type", "value": $("#currentType").val() });
+            },
+            "oLanguage": {
+                "sSearch": "Mô tả",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0, 1],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [7],
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" onclick="LoadSacramentGroupById(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                            '<button class="btn btn-minier btn-danger" onclick="DeleteConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                        return content;
+                    },
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+    }
+
+
+    $(document).on('click', 'th input:checkbox', function () {
+        var that = this;
+        $(this).closest('table').find('tr > td:nth-child(2) input:checkbox')
+            .each(function () {
+                this.checked = that.checked;
+                $(this).closest('tr').toggleClass('selected');
+            });
+    });
+
+
+    //function multiCheck() {
+    //    $(document).on('click', 'th input:checkbox', function () {
+    //        var that = this;
+    //        $(this).closest('table').find('tr > td:first-child input:checkbox')
+    //            .each(function () {
+    //                this.checked = that.checked;
+    //                $(this).closest('tr').toggleClass('selected');
+    //            });
+    //    });
+    //}
+
+    $("#btnCreateSacramentGroup").click(function () {
+        if (ctype == 1) {
+            $("#titleBaptism").html("Thêm mới đợt bí tích rửa tội");
+        } else if (ctype == 2) {
+            $("#titleFirstHolyCommon").html("Thêm mới đợt bí tích xưng tội - rước lễ lần đầu");
+        } else if (ctype == 3) {
+            $("#titleConfirmation").html("Thêm mới đợt bí tích thêm sức");
+        } else {
+            $("#titleMatrimony").html("Thêm mới đợt bí tích hôn phối");
+        }
+        if (ctype == 1 || ctype == 2 || ctype == 3) {
+            $("#hiddenSacramentTableModal").show();
+            $("#hiddenMatrimonyTableModal").hide();
+        } else {
+            $("#hiddenSacramentTableModal").hide();
+            $("#hiddenMatrimonyTableModal").show();
+        }
+        $("#addsacrament").val(0);
+        $("#sacramentGroupId").val(0);
+        $("#createSacramentGroupModal").modal('show');
+        $("#btnCreateSacramentGroupModal").show();
+        $("#btnUpdateSacramentGroupModal").hide();
+    });
+
+    $("#btnCloseSacramentGroupModal").click(function () {
+        $("#createSacramentGroupModal").modal('hide');
+        $("#labelnote").hide();
+        ClearSacramentGroup();
+    });
+
+    $("#btnAddParishionerSacramentGroupModal").click(function () {
+        if (!checkValidSacramentGroup()) {
+            return;
+        }
+
+        var date = $("#sacramentDate").val();
+        var giver = $("#sacramentGiver").val();
+        var receivedPlace = $("#sacramentReceivedPlaced").val();
+
+        openParishionerModal(2, -1);
+        if (ctype == 1) {
+            $("#txtBaptismDateModal").prop('disabled', true);
+            $("#txtBaptismNumberModal").prop('disabled', true);
+            $("#txtBaptismPlaceModal").prop('disabled', true);
+            $("#txtBaptismPatronModal").prop('disabled', true);
+            $("#txtBaptismGiverModal").prop('disabled', true);
+            $("#txtBaptismGiverModal").val(giver);
+            $("#txtBaptismDateModal").val(date);
+            $("#txtBaptismPlaceModal").val(receivedPlace);
+        }
+        if (ctype == 2) {
+            $("#txtHolyCommunionDateModal").prop('disabled', true);
+            $("#txtHolyCommunionNumberModal").prop('disabled', true);
+            $("#txtHolyCommunionPlaceModal").prop('disabled', true);
+            $("#txtHolyCommunionGiverModal").prop('disabled', true);
+            $("#txtHolyCommunionGiverModal").val(giver);
+            $("#txtHolyCommunionDateModal").val(date);
+            $("#txtHolyCommunionPlaceModal").val(receivedPlace);
+        }
+        if (ctype == 3) {
+            $("#txtConfirmationDateModal").prop('disabled', true);
+            $("#txtConfirmationNumberModal").prop('disabled', true);
+            $("#txtConfirmationPlaceModal").prop('disabled', true);
+            $("#txtConfirmationPatronModal").prop('disabled', true);
+            $("#txtConfirmationGiverModal").prop('disabled', true);
+            $("#txtConfirmationDateModal").val(date);
+            $("#txtConfirmationPlaceModal").val(receivedPlace);
+            $("#txtConfirmationGiverModal").val(giver);
+        }
+
+    });
+
+    $('.date-picker').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        forceParse: false
+    });
+
+    $("#btnAddMatrimonyModal").click(function () {
+        if (!checkValidSacramentGroup()) {
+            return;
+        }
+        $("#btnCreateMatrimonyAndFamilyModal").show();
+        $("#btnSaveMatrimonyModal").show();
+        $("#btnUpdateMatrimonyModal").hide();
+        $("#titleMatrimonyModal").html("Thêm mới hôn phối");
+        $("#addMatrimonyModal").modal('show');
+        addMatrimonySacrament();
+    });
+
+    //function addFamilyCode() {
+    //    if (!checkMatrimonySacramentValidate()) {
+    //        return;
+    //    }
+    //    $("#inputFamilyCodeModal").modal('show');
+    //}
+
+    //$("#btnCloseFamilyCodeModal").click(function () {
+    //    $("#inputFamilyCodeModal").modal('hide');
+    //});
+
+    $("#btnCloseMatrimonyModal").click(function() {
+        $("#addMatrimonyModal").modal('hide');
+        refreshMatrimonySacrament();
+    });
+
+    function AddSacramentGroup() {
+
+        if (!validateSacrament()) {
+            return;
+        }
+
+        var id = $("#addsacrament").val();
+        var date = $("#sacramentDate").val();
+        var type = $("#currentType").val();
+        var description = $("#sacramentDescription").val();
+        var giver = $("#sacramentGiver").val();
+        var receivedPlace = $("#sacramentReceivedPlaced").val();
+        var parishionerId = $("#hParishionerId").val();
+        startLoading();
+        $.ajax({
+            url: "/Sacrament/AddSacramentGroup",
+            type: "POST",
+            data: {
+                Id: id,
+                Date: date,
+                Type: type,
+                Description: description,
+                Giver: giver,
+                ReceivedPlace: receivedPlace,
+                ParishionerId: parishionerId
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Thêm giáo dân thất bại", 0);
+                } else {
+                    $("#addsacrament").val(data);
+                    $("#lbAddSacramentErrorMessage").hide();
+                    $("#lbAddSacramentErrorMessage").html("");
+                    LoadSacramentBySacramentGroupId();
+                    $("#titleMatrimonyModal").html("Cập nhật thông tin hôn phối");
+                    if (ctype == 1) {
+                        $("#titleBaptism").html("Chỉnh sửa đợt bí tích rửa tội");
+                    } else if (ctype == 2) {
+                        $("#titleFirstHolyCommon").html("Chỉnh sửa đợt bí tích xưng tội - rước lễ lần đầu");
+                    } else if (ctype == 3) {
+                        $("#titleConfirmation").html("Chỉnh sửa đợt bí tích thêm sức");
+                    } else {
+                        $("#titleMatrimony").html("Chỉnh sửa đợt bí tích hôn phối");
+                    }
+                    $("#btnCreateSacramentGroupModal").hide();
+                    $("#btnUpdateSacramentGroupModal").show();
+                }
+            },
+        });
+    }
+
+    //add sacramentGroupId cho matrimony
+    function AddMatrimonySacramentGroup(matrimonyId) {
+        var id = $("#addsacrament").val();
+        var date = $("#sacramentDate").val();
+        var type = $("#currentType").val();
+        var description = $("#sacramentDescription").val();
+        var giver = $("#sacramentGiver").val();
+        var receivedPlace = $("#sacramentReceivedPlaced").val();
+        $("#matrimonyId").val(matrimonyId);
+        startLoading();
+        $.ajax({
+            url: "/Sacrament/AddMatrimonySacramentGroup",
+            type: "POST",
+            data: {
+                Id: id,
+                Date: date,
+                Type: type,
+                Description: description,
+                Giver: giver,
+                ReceivedPlace: receivedPlace,
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Thêm đợt bí tích hôn phối thất bại", 0);
+                } else {
+                    $("#addsacrament").val(data);
+                    $("#titleMatrimonyModal").html("Cập nhật thông tin hôn phối");
+                    if (ctype == 1) {
+                        $("#titleBaptism").html("Chỉnh sửa đợt bí tích rửa tội");
+                    } else if (ctype == 2) {
+                        $("#titleFirstHolyCommon").html("Chỉnh sửa đợt bí tích xưng tội - rước lễ lần đầu");
+                    } else if (ctype == 3) {
+                        $("#titleConfirmation").html("Chỉnh sửa đợt bí tích thêm sức");
+                    } else {
+                        $("#titleMatrimony").html("Chỉnh sửa đợt bí tích hôn phối");
+                    }
+                    $("#lbAddSacramentErrorMessage").hide();
+                    $("#lbAddSacramentErrorMessage").html("");
+                    $("#btnCreateSacramentGroupModal").hide();
+                    $("#btnUpdateSacramentGroupModal").show();
+                    AddSacramentGroupIdForMatrimony();
+                }
+            },
+        });
+    }
+
+    function AddSacramentGroupIdForMatrimony() {
+        var matrimonyId = $("#matrimonyId").val();
+        var sacramentGroupId = $("#addsacrament").val();
+        startLoading();
+        $.ajax({
+            url: "/Sacrament/AddSacramentGroupIdForMatrimony",
+            type: "POST",
+            data: {
+                id: matrimonyId,
+                sacramentGroupId: sacramentGroupId,
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Thêm hôn phối vào đợt bí tích thất bại", 0);
+                } else {
+                    $("#addMatrimonyModal").modal('hide');
+                    LoadMatrimonyBySacramentGroupId();
+                    refreshMatrimonySacrament();
+                }
+            },
+        });
+    }
+
+    $("#btnCreateSacramentGroupModal").click(function () {
+        if (!validateSaveSacramentGroup()) {
+            return;
+        }
+        $("#actionButton").val(1);
+        UpdateSacramentGroup();
+    });
+    $("#btnUpdateSacramentGroupModal").click(function () {
+        if (!validateSaveSacramentGroup()) {
+            return;
+        }
+        $("#actionButton").val(2);
+        UpdateSacramentGroup();
+    });
+
+    function UpdateSacramentGroup() {
+        var id = $("#addsacrament").val();
+        var date = $("#sacramentDate").val();
+        var type = $("#currentType").val();
+        var description = $("#sacramentDescription").val();
+        var giver = $("#sacramentGiver").val();
+        var receivedPlace = $("#sacramentReceivedPlaced").val();
+        var ab = $("#actionButton").val();
+
+        if (ab == 2) {
+            if (!checkInvalidParticipants()) {
+                showMessage("Không thể cập nhật thông tin đợt bí tích do có giáo dân có thông tin không phù hợp với ngày ban đợt bí tích này", -1);
+                return;
+            }
+        }
+
+        $.ajax({
+            url: "/Sacrament/UpdateSacramentGroup",
+            type: "POST",
+            data: {
+                Id: id,
+                Date: date,
+                Type: type,
+                Description: description,
+                Giver: giver,
+                ReceivedPlace: receivedPlace
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    if (ab == 1) {
+                        showMessage("Thêm đợt bí tích thất bại, vui lòng thử lại sau", 0);
+                    } else if (ab == 2) {
+                        showMessage("Cập nhật thông tin đợt bí tích thất bại, vui lòng thử lại sau", 0);
+                    }
+
+                } else {
+                    if (ab == 1) {
+                        showMessage("Thêm mới đợt bí tích thành công", 1);
+                        refeshTable();
+                        $("#createSacramentGroupModal").modal('hide');
+                        ClearSacramentGroup();
+                    } else if (ab == 2) {
+                        showMessage("Cập nhật thông tin đợt bí tích thành công", 1);
+                        refeshTable();
+                        $("#createSacramentGroupModal").modal('hide');
+                        ClearSacramentGroup();
+                    }
+                }
+            },
+        });
+    }
+
+    function DeleteConfirm(id) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn xóa đợt bí tích này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteSacramentGroup(id);
+                        refeshTable();
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+    function DeleteSacramentGroup(id) {
+        $.ajax({
+            url: "/Sacrament/DeleteSacramentGroup",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Xóa đợt bí tích thất bại, vui lòng xóa hết thông tin bí tích của giáo dân trong đợt bí trước", 0);
+                } else {
+                    showMessage("Xóa đợt bí tích thành công", 1);
+                    refeshTable();
+                }
+
+            },
+        });
+    }
+
+    function DeleteParishionerConfirm(id) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn loại bỏ thông tin bí tích của giáo dân này ra khỏi đợt bí tích không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Loại bỏ",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteSacrament(id);
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                }
+            }
+        });
+    }
+
+    function DeleteSacrament(id) {
+        $.ajax({
+            url: "/Sacrament/DeleteSacramentFromSacramentGroup",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Loại bỏ thông tin bí tích của giáo dân ra khỏi đợt bí tích thất bại", 0);
+                } else {
+                    showMessage("Loại bỏ thông tin bí tích của giáo dân ra khỏi đợt bí tích thành công", 1);
+                    LoadSacramentBySacramentGroupId();
+                }
+
+            },
+        });
+    }
+
+    function RemoveMatrimonyConfirm(id) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn loại bỏ thông tin đôi hôn phối này ra khỏi đợt bí tích không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Loại bỏ",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        RemoveMatrimony(id);
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                }
+            }
+        });
+    }
+
+    function RemoveMatrimony(id) {
+        $.ajax({
+            url: "/Sacrament/RemoveMatrimonyFromSacramentGroup",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Loại bỏ thông tin đôi hôn phối ra khỏi đợt bí tích thất bại", 0);
+                } else {
+                    showMessage("Loại bỏ thông tin đôi hôn phối ra khỏi đợt bí tích thành công", 1);
+                    LoadMatrimonyBySacramentGroupId();
+                }
+
+            },
+        });
+    }
+
+    function LoadSacramentGroupById(id) {
+        $("#sacramentGroupId").val(id);
+        startLoading();
+        $.ajax({
+            url: "/Sacrament/LoadSacramentGroupsById",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                var item = data.result;
+                if (item) {
+                    $("#currentType").val(item.Type);
+                    $("#sacramentDate").val(item.Date);
+                    $("#sacramentDescription").val(item.Description);
+                    $("#sacramentGiver").val(item.Giver);
+                    $("#sacramentReceivedPlaced").val(item.ReceivedPlace);
+
+                    if (ctype == 1) {
+                        $("#titleBaptism").html("Chỉnh sửa đợt bí tích rửa tội");
+                        $("#labelnote").show();
+                    } else if (ctype == 2) {
+                        $("#titleFirstHolyCommon").html("Chỉnh sửa đợt bí tích xưng tội - rước lễ lần đầu");
+                        $("#labelnote").show();
+                    } else if (ctype == 3) {
+                        $("#titleConfirmation").html("Chỉnh sửa đợt bí tích thêm sức");
+                        $("#labelnote").show();
+                    } else {
+                        $("#titleMatrimony").html("Chỉnh sửa đợt bí tích hôn phối");
+                    }
+
+                    $("#addsacrament").val(id);
+
+                    $("#btnUpdateSacramentGroupModal").show();
+                    $("#btnCreateSacramentGroupModal").hide();
+                    if (ctype == 1 || ctype == 2 || ctype == 3) {
+                        LoadSacramentBySacramentGroupId();
+                        $("#hiddenSacramentTableModal").show();
+                        $("#hiddenMatrimonyTableModal").hide();
+                    } else {
+                        LoadMatrimonyBySacramentGroupId();
+                        $("#hiddenSacramentTableModal").hide();
+                        $("#hiddenMatrimonyTableModal").show();
+                    }
+
+                    $("#createSacramentGroupModal").modal('show');
+                } else {
+                    showMessage("Tải dữ liệu thất bại", 0);
+                }
+
+            },
+        });
+    }
+
+
+    function initSacramentGroupDatatables(id) {
+
+        $("#" + id).dataTable({
+            "oLanguage": {
+                "sSearch": "Mã giáo dân/Tên thánh/Họ tên",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+
+            },
+            "aoColumnDefs": [
+
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace sItem" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "4%"
+                },
+                {
+                    "aTargets": [2],
+                    "sWidth": "6%"
+                },
+                {
+                    "aTargets": [3],
+                    "sWidth": "12%"
+                },
+                {
+                    "aTargets": [4],
+                    "sWidth": "19%"
+                },
+                {
+                    "aTargets": [5],
+                    "sWidth": "9%"
+                },
+                {
+                    "aTargets": [6],
+                    "sWidth": "12%"
+                },
+                {
+                    "aTargets": [7],
+                    "sWidth": "17%"
+                },
+                {
+                    "aTargets": [8],
+                    "sWidth": "12%"
+                },
+                {
+                    "aTargets": [9],
+                    "sWidth": "9%",
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+
+        });
+
+    }
+
+    function LoadSacramentBySacramentGroupId() {
+        var id = $("#addsacrament").val();
+        $.ajax({
+            url: "/Sacrament/LoadSacramentBySacramentGroupId",
+            type: "POST",
+            data: {
+                sacramentGroupId: id,
+            },
+            success: function (data) {
+                $("#sacramentparishionerTable").dataTable().fnDestroy();
+                $("#sacramentparishionerTable > tbody").html(data);
+                initSacramentGroupDatatables("sacramentparishionerTable");
+                checkInvalidParticipants();
+                //multiCheck();
+            },
+        });
+    }
+
+    function initMatrimonySacramentGroupDatatables(id) {
+
+        $("#" + id).dataTable({
+            "oLanguage": {
+                "sSearch": "Chồng/Vợ",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace sItem" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "4%"
+                },
+
+                {
+                    "aTargets": [2],
+                    "sWidth": "12%"
+                },
+                {
+                    "aTargets": [3, 4],
+                    "sWidth": "15%"
+                },
+                {
+                    "aTargets": [5, 6],
+                    "sWidth": "14%"
+                },
+                {
+                    "aTargets": [7],
+                    "sWidth": "12%"
+                },
+                {
+                    "aTargets": [8],
+                    "sWidth": "14%",
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+
+        });
+
+    }
+
+    function LoadMatrimonyBySacramentGroupId() {
+        var id = $("#addsacrament").val();
+        $.ajax({
+            url: "/Sacrament/LoadMatrimonyBySacramentGroupId",
+            type: "POST",
+            data: {
+                sacramentGroupId: id,
+            },
+            success: function (data) {
+                $("#tblMatrimonySacrament").dataTable().fnDestroy();
+                $("#tblMatrimonySacrament > tbody").html(data);
+                initMatrimonySacramentGroupDatatables("tblMatrimonySacrament");
+            },
+        });
+    }
+
+    function printSacrament(type) {
+
+        var checks = new Array();
+
+        $(".sItem:checked").each(function () {
+            if ($(this).is(':checked')) {
+                if ($(this).val() == "on") {
+                } else {
+                    checks.push($(this).val());
+                }
+
+            }
+        });
+        if (checks.length > 0) {
+            var ids = sessionStorage.getItem("ids");
+
+            if (ids == null) {
+                sessionStorage.setItem("ids", JSON.stringify(checks));
+                sessionStorage.setItem("type", type);
+            } else {
+                sessionStorage.setItem("ids", JSON.stringify(checks));
+                sessionStorage.setItem("type", type);
+            }
+
+            var url = "/Parishioner/PrintPage";
+            window.open(url, '_blank');
+
+        } else {
+            showMessage("Vui lòng chọn ít nhất một giáo dân để thực hiện in chứng nhận", -1);
+        }
+
+    }
+
+    function ClearSacramentGroup() {
+        $("#sacramentDate").val("");
+        $("#sacramentDescription").val("");
+        $("#sacramentGiver").val("");
+        $("#sacramentReceivedPlaced").val("");
+        $("#sacramentparishionerTable").dataTable().fnDestroy();
+        $("#sacramentparishionerTable tbody").html("");
+        $("#tblMatrimonySacrament").dataTable().fnDestroy();
+        $("#tblMatrimonySacrament tbody").html("");
+
+        $("#lbDateErrorMessage").val("");
+        $("#lbDateErrorMessage").hide();
+        $("#lbDescriptionErrorMessage").val("");
+        $("#lbDescriptionErrorMessage").hide();
+        $("#lbAddSacramentErrorMessage").val("");
+        $("#lbAddSacramentErrorMessage").hide();
+        $("#lbGiverErrorMessage").val("");
+        $("#lbGiverErrorMessage").hide();
+        $("#lbReceivedPlaceErrorMessage").val("");
+        $("#lbReceivedPlaceErrorMessage").hide();
+    }
+
+    function validateSaveSacramentGroup() {
+        var date = $("#sacramentDate").val();
+        var description = $("#sacramentDescription").val();
+        var giver = $("#sacramentGiver").val();
+        var receiveplace = $("#sacramentReceivedPlaced").val();
+        var addsacrament = $("#addsacrament").val();
+        var isError = false;
+
+        if (!date) {
+            $("#lbDateErrorMessage").html("Vui lòng nhập ngày ban bí tích");
+            $("#lbDateErrorMessage").show();
+
+            isError = true;
+        } else {
+            $("#lbDateErrorMessage").hide();
+            $("#lbDateErrorMessage").html("");
+        }
+
+        if (!checkExistedSacramentGroup()) {
+            isError = true;
+        }
+
+        if (!description) {
+            $("#lbDescriptionErrorMessage").html("Vui lòng nhập mô tả");
+            $("#lbDescriptionErrorMessage").show();
+
+            isError = true;
+        } else {
+            $("#lbDescriptionErrorMessage").hide();
+            $("#lbDescriptionErrorMessage").html("");
+        }
+
+        if (!giver) {
+            $("#lbGiverErrorMessage").html("Vui lòng nhập người ban bí tích");
+            $("#lbGiverErrorMessage").show();
+
+            isError = true;
+        } else {
+            $("#lbGiverErrorMessage").hide();
+            $("#lbGiverErrorMessage").html("");
+        }
+
+        if (!receiveplace) {
+            $("#lbReceivedPlaceErrorMessage").html("Vui lòng nhập nơi nhận bí tích");
+            $("#lbReceivedPlaceErrorMessage").show();
+
+            isError = true;
+        } else {
+            $("#lbReceivedPlaceErrorMessage").hide();
+            $("#lbReceivedPlaceErrorMessage").html("");
+        }
+
+        if (addsacrament == 0) {
+            if (ctype == 4) {
+                $("#lbAddSacramentErrorMessage").html("Đợt bí tích phải có ít nhất một đôi hôn phối, vui lòng thêm hôn phối");
+            } else {
+                $("#lbAddSacramentErrorMessage").html("Đợt bí tích phải có ít nhất một giáo dân, vui lòng chọn hoặc thêm giáo dân");
+            }
+            $("#lbAddSacramentErrorMessage").show();
+            isError = true;
+        } else {
+            $("#lbAddSacramentErrorMessage").hide();
+            $("#lbAddSacramentErrorMessage").html("");
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function checkValidSacramentGroup() {
+        var date = $("#sacramentDate").val();
+        var description = $("#sacramentDescription").val();
+        var giver = $("#sacramentGiver").val();
+        var receiveplace = $("#sacramentReceivedPlaced").val();
+        var isError = false;
+
+
+        if (!date) {
+            $("#lbDateErrorMessage").html("Vui lòng nhập ngày ban bí tích");
+            $("#lbDateErrorMessage").show();
+            isError = true;
+        } else {
+            $("#lbDateErrorMessage").hide();
+            $("#lbDateErrorMessage").html("");
+        }
+
+        if (!checkExistedSacramentGroup()) {
+            isError = true;
+        }
+
+        if (!description) {
+            $("#lbDescriptionErrorMessage").html("Vui lòng nhập mô tả");
+            $("#lbDescriptionErrorMessage").show();
+
+            isError = true;
+        } else {
+            $("#lbDescriptionErrorMessage").hide();
+            $("#lbDescriptionErrorMessage").html("");
+        }
+
+        if (!giver) {
+            $("#lbGiverErrorMessage").html("Vui lòng nhập người ban bí tích");
+            $("#lbGiverErrorMessage").show();
+
+            isError = true;
+        } else {
+            $("#lbGiverErrorMessage").hide();
+            $("#lbGiverErrorMessage").html("");
+        }
+
+        if (!receiveplace) {
+            $("#lbReceivedPlaceErrorMessage").html("Vui lòng nhập nơi nhận bí tích");
+            $("#lbReceivedPlaceErrorMessage").show();
+
+            isError = true;
+        } else {
+            $("#lbReceivedPlaceErrorMessage").hide();
+            $("#lbReceivedPlaceErrorMessage").html("");
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function checkAddParishioner() {
+        var addsacrament = $("#addsacrament").val();
+        var isError = false;
+        if (addsacrament == 0) {
+            $("#lbAddSacramentErrorMessage").html("Đợt bí tích phải có ít nhất một giáo dân, vui lòng chọn hoặc thêm giáo dân");
+            $("#lbAddSacramentErrorMessage").show();
+
+            isError = true;
+        } else {
+            $("#lbAddSacramentErrorMessage").hide();
+            $("#lbAddSacramentErrorMessage").html("");
+        }
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function checkExistedSacramentGroup() {
+        var date = $("#sacramentDate").val();
+        var sacramentGroupId = $("#sacramentGroupId").val();
+        var result = true;
+
+        $.ajax({
+            url: "/Sacrament/CheckExistedSacramentGroup",
+            type: "POST",
+            data: {
+                date: date,
+                type: ctype,
+                sacramentGroupId: sacramentGroupId
+            },
+            async: false,
+            success: function (data) {
+                if (data.result <= 0) {
+                    $("#lbDateErrorMessage").html("Đợt bí tích vào ngày này đã tồn tại. Vui lòng nhập đợt bí tích khác!");
+                    $("#lbDateErrorMessage").show();
+                    result = false;
+                } else {
+                    if (!date) {
+                        return true;
+                    }
+                    $("#lbDateErrorMessage").html("");
+                    $("#lbDateErrorMessage").hide();
+                    result = true;
+                }
+
+            }
+        });
+        return result;
+    }
+
+    function validateSacrament() {
+
+        var parishionerId = $("#hParishionerId").val();
+        var type = $("#currentType").val();
+        var result = true;
+
+        $.ajax({
+            url: "/Sacrament/CheckSacrament",
+            type: "POST",
+            data: {
+                parishionerId: parishionerId,
+                type: type
+            },
+            async: false,
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Giáo dân hiện tại đã tồn tại bí tích này, xin vui lòng chọn giáo dân khác.", 0, 5000);
+                    result = false;
+                } else {
+
+                    result = true;
+                }
+            },
+        });
+
+        return result;
+    }
+    //------------------------------------------------------------------
+    function addFamilyAndFamilyMember(id) {
+
+        var familyId = 0;
+        startLoading();
+        $.ajax({
+            url: "/Sacrament/AddFamilyAndFamilyMember",
+            data: {
+                matrimonyId: id,
+                Id: familyId,
+            },
+            success: function (data) {
+
+                if (data > 0) {
+                    showMessage("Thêm mới gia đình thành công", 1);
+                } else {
+                    showMessage("Thêm mới gia đình thất bại, xin vui lòng thử lại sau", 0);
+                }
+
+            }
+        });
+
+    }
+
+    $("#addMatrimonyModal").on('show.bs.modal', function () {
+        //-------------
+        $("#addMatrimonyModalLoading").fadeIn();
+    });
+    $("#addMatrimonyModal").on('hidden.bs.modal', function () {
+
+        //-------------
+        $("#addMatrimonyModalLoading").fadeOut();
+        makeScrollForModal();
+    });
+
+    //$("#inputFamilyCodeModal").on('show.bs.modal', function () {
+    //    //-------------
+    //    $("#inputFamilyCodeModalLoading").fadeIn();
+    //});
+    //$("#inputFamilyCodeModal").on('hidden.bs.modal', function () {
+
+    //    //-------------
+    //    $("#inputFamilyCodeModalLoading").fadeOut();
+    //    makeScrollForModal();
+    //});
+
+    $("#viewReadonlyParishionerModal").on('hidden.bs.modal', function () {
+
+        //-------------
+        makeScrollForModal();
+    });
+
+
+    function checkInvalidParticipants() {
+        var result = true;
+        $.ajax({
+            async: false,
+            url: "/Sacrament/CheckInvalidParticipants",
+            data: {
+                sacramentGroupId : $("#sacramentGroupId").val(),
+                sacramentDate : $("#sacramentDate").val()
+            },
+            success: function (data) {
+                if (data) {
+                    result = false;
+                    if (data == "0") {
+                        showMessage("Không thể kiểm tra dữ liệu, vui lòng thử lại sau", 0);
+                    }
+
+                    var s = data.split(",");
+                    var tbody = $("#sacramentparishionerTable > tbody");
+                    var rows = tbody.find("tr");
+
+                    try {
+                        for (var p in rows) {
+                            var cols = $(rows[p]).find("td");
+                            cols[2].innerHTML = cols[2].innerText;
+                            cols[3].innerHTML = cols[3].innerText;
+                            cols[4].innerHTML = cols[4].innerText;
+                            cols[5].innerHTML = cols[5].innerText;
+                            cols[6].innerHTML = cols[6].innerText;
+                            cols[7].innerHTML = cols[7].innerText;
+                            cols[8].innerHTML = cols[8].innerText;
+                        }
+                    }
+                    catch(e) {}
+                    
+                    if (s) {
+                        for (var i in s) {
+                            for (var j in rows) {
+
+                                cols = $(rows[j]).find("td");
+
+                                if (cols[0].innerText == s[i]) {
+
+                                    cols[2].innerHTML = "<s>" + cols[2].innerText + "</s>";
+                                    cols[3].innerHTML = "<s>" + cols[3].innerText + "</s>";
+                                    cols[4].innerHTML = "<s>" + cols[4].innerText + "</s>";
+                                    cols[5].innerHTML = "<s>" + cols[5].innerText + "</s>";
+                                    cols[6].innerHTML = "<s>" + cols[6].innerText + "</s>";
+                                    cols[7].innerHTML = "<s>" + cols[7].innerText + "</s>";
+                                    cols[8].innerHTML = "<s>" + cols[8].innerText + "</s>";
+                                    break;
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+            }
+        });
+        return result;
+    }
+
+</script>

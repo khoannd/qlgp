@@ -1,0 +1,174 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Utilities
+@model IEnumerable<PMS.DataAccess.Models.Matrimony>
+@{
+    var converter = new DateConverter();
+}
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="hidden">@item.Id</td>   
+                <td>@item.HusbandId</td> 
+                <td class="editableMatrimonyNumber">@item.Number</td>  
+                <td>@item.Parishioner.ChristianName @item.Parishioner.Name</td>                              
+                <td>@item.Parishioner1.ChristianName @item.Parishioner1.Name</td>                 
+                <td class="editableFirstWitness">@item.FirstWitness</td>
+                <td class="editableSecondWitness">@item.SecondWitness</td>
+                @if (item.Status == (int)MatrimonyStatusEnum.None)
+                {
+                    <td></td>
+                }
+                else if (item.Status == (int)MatrimonyStatusEnum.Legal)
+                {
+                    <td>Bình thường</td>
+                }
+                else if (item.Status == (int)MatrimonyStatusEnum.Regularized)
+                {
+                    <td>Hợp thức hóa</td>
+                }
+                else if (item.Status == (int)MatrimonyStatusEnum.Standard)
+                {
+                    <td>Chuẩn khác đạo</td>
+                }
+                else if (item.Status == (int)MatrimonyStatusEnum.RuleBreak)
+                {
+                    <td>Không theo phép đạo</td>
+                }
+                else if (item.Status == (int)MatrimonyStatusEnum.Removed)
+                {
+                    <td>Đã được tháo gỡ</td>
+                }
+                else
+                {
+                    <td>Không xác định</td>
+                }
+
+                <td>
+                    <button class="btn btn-minier btn-primary" onclick="loadEditMatrimonySacrament(@item.Id)">
+                        <i class="ace-icon fa fa-pencil"></i>
+                        Sửa
+                    </button>
+                    <button class="btn btn-minier btn-danger" onclick="RemoveMatrimonyConfirm(@item.Id)">
+                        <i class="ace-icon fa fa-trash-o"></i>
+                        Xóa
+                    </button>
+                </td>
+            </tr>
+
+        }
+
+<script>
+    //editables on first profile page
+    $.fn.editable.defaults.mode = 'inline';
+    $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
+    $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>' +
+        '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';
+
+
+
+    $('.editableMatrimonyNumber')
+        .editable({
+            type: 'text',
+            name: 'editableMatrimonyNumber',
+            emptytext: "",
+            success: function (response, newValue) {
+                var row = $(this).closest("tr");
+                var cols = row.children();
+                var id = cols[0].innerText;
+                var current = $(this).text();
+
+                if (current == newValue) {
+                    return;
+                }
+
+                $.ajax({
+                    url: "/Sacrament/UpdateEditableMatrimonyNumber",
+                    type: "POST",
+                    data: {
+                        Id: id,
+                        Number: newValue
+                    },
+                    async: false,
+                    success: function (data) {
+                        if (data.result <= 0) {
+                            showMessage("Cập nhật thông tin thất bại", 0);
+                        } else {
+                            //showMessage("Cập nhật thành công", 1);
+                        }
+                    },
+                });
+            }
+        });
+    $('.editableFirstWitness')
+        .editable({
+            type: 'text',
+            name: 'editableFirstWitness',
+            emptytext: "",
+            success: function (response, newValue) {
+                var row = $(this).closest("tr");
+                var cols = row.children();
+                var id = cols[0].innerText;
+                var current = $(this).text();
+
+                if (current == newValue) {
+                    return;
+                }
+
+                $.ajax({
+                    url: "/Sacrament/UpdateEditableFirstWitness",
+                    type: "POST",
+                    data: {
+                        Id: id,
+                        FirstWitness: newValue
+                    },
+                    async: false,
+                    success: function (data) {
+                        if (data.result <= 0) {
+                            showMessage("Cập nhật thông tin thất bại", 0);
+                        } else {
+                            //showMessage("Cập nhật thành công", 1);
+                        }
+                    },
+                });
+
+            }
+        });
+
+    $('.editableSecondWitness')
+        .editable({
+            type: 'text',
+            name: 'editableSecondWitness',
+            emptytext: "",
+            success: function (response, newValue) {
+                var row = $(this).closest("tr");
+                var cols = row.children();
+                var id = cols[0].innerText;
+                var current = $(this).text();
+
+                if (current == newValue) {
+                    return;
+                }
+
+                $.ajax({
+                    url: "/Sacrament/UpdateEditableSecondWitness",
+                    type: "POST",
+                    data: {
+                        Id: id,
+                        SecondWitness: newValue
+                    },
+                    async: false,
+                    success: function (data) {
+                        if (data.result <= 0) {
+                            showMessage("Cập nhật thông tin thất bại", 0);
+                        } else {
+                            //showMessage("Cập nhật thành công", 1);
+                        }
+                    },
+                });
+
+            }
+        });
+
+</script>

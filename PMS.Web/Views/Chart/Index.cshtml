@@ -1,0 +1,369 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    int range = 50;
+    int currentYear = DateTime.Now.Year;
+    int endYear = currentYear - range;
+
+    int roleId = (int)Session["RoleId"];
+    int adminId = (int)AccountEnum.Admin;
+    int managerId = (int)AccountEnum.Manager;
+}
+
+<script src="~/Content/assets/js/Chart/Chart.min.js"></script>
+<input type="hidden" id="currentYear" value="@currentYear" />
+<input type="hidden" id="currentRoleId" value="@roleId" />
+<input type="hidden" id="currentAdminId" value="@adminId" />
+<input type="hidden" id="currentManagerId" value="@managerId" />
+
+
+<div class="page-header">
+    <h1>Biểu đồ thống kê</h1>
+</div>
+<div class="col-sm-12  ui-sortable">
+    <div class="widget-box transparent ui-sortable-handle">
+        <div class="widget-body">
+            <div class="form-horizontal">
+                <div class="col-sm-12  ui-sortable">
+
+                    <div class="col-xs-4 align-left">
+                        <div class="form-group align-center">
+                            <h4> Điều kiện thống kê </h4>
+                        </div>
+                        <div class="control-group col-sm-12">
+                            <div class="radio">
+                                <label>
+                                    <input name="chartCondition" type="radio" class="ace" value="1">
+                                    <span class="lbl"> Tổng giáo dân</span>
+                                </label>
+                            </div>
+
+                            <div class="radio">
+                                <label>
+                                    <input name="chartCondition" type="radio" class="ace" value="2">
+                                    <span class="lbl"> Hôn phối </span>
+                                </label>
+                            </div>
+
+                            <div class="radio">
+                                <label>
+                                    <input name="chartCondition" type="radio" class="ace" value="3">
+                                    <span class="lbl"> Tình hình bí tích </span>
+                                </label>
+                            </div>
+
+                            <div class="radio">
+                                <label>
+                                    <input name="chartCondition" type="radio" class="ace" value="5">
+                                    <span class="lbl"> Số giáo dân được sinh ra </span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input name="chartCondition" type="radio" class="ace" value="6">
+                                    <span class="lbl"> So sánh độ tuổi (không phụ thuộc năm thống kê)</span>
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input name="chartCondition" type="radio" class="ace" value="4">
+                                    <span class="lbl"> So sánh giáo họ (không phụ thuộc năm thống kê)</span>
+                                </label>
+                            </div>
+                        </div>
+                        <label class="text-danger" id="chartConditionValidate" hidden=""></label>
+                    </div>
+
+
+                    <div class="col-xs-4">
+
+                        <div class="form-group align-center">
+                            <h4> Thời gian thống kê </h4>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4">Năm bắt đầu</label>
+                            <div class="col-sm-8">
+                                <select id="ccbFromYear" class="form-control">
+                                    <option value="0"> </option>
+                                    @{
+                                        for (int i = currentYear; i >= endYear; i--)
+                                        {
+                                            <option value="@i"> @i </option>
+                                        }
+                                    }
+
+                                </select>
+                                <label class="text-danger" id="ccbFromYearValidate" hidden=""></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4">Năm kết thúc</label>
+                            <div class="col-sm-8">
+                                <select id="ccbToYear" class="form-control">
+                                    @{
+                                        for (int i = currentYear; i >= endYear; i--)
+                                        {
+                                            <option value="@i"> @i </option>
+                                        }
+                                    }
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4">
+                        @if (roleId == adminId)
+                        {
+                            <div class="form-group align-center">
+                                <h4> Giới hạn thống kê </h4>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 align-center">Giáo hạt</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="cbbVicariateSearch">
+                                        <option value="0">Tất cả</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 align-center">Giáo xứ</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="cbbParishSearch">
+                                        <option value="0">Tất cả</option>
+                                    </select>
+                                    <label class="text-danger" id="ccbParishValidate" hidden=""></label>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <div class="col-sm-12  ui-sortable align-center">
+                    <div class="space-10"></div>
+                    <button id="btnViewChart" class="btn btn-purple btn-lg">
+                        <i class="ace-icon fa fa-bar-chart-o"></i>Xem biểu đồ
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*---------------------------------------------------------*@
+@*//Phần hiển thị chart*@'
+<div class="col-sm-12  ui-sortable align-center">
+    <div class="space-10"></div>
+    <div class="form-group">
+        <div class="col-sm-12 ui-sortable align-center" hidden="" id ="typeChart">
+            <button id="btnBarChart" class="btn btn-white btn-info btn-bold">
+                @*<i class="ace-icon fa fa-bar-chart-o bigger-120 blue"></i>*@
+                Biểu đồ cột
+            </button>
+            <button id="btnLineChart" class="btn btn-white btn-warning btn-bold">
+                @*<i class="ace-icon fa fa-trash-o bigger-120 orange"></i>*@
+                Biểu đồ đường
+            </button>
+
+            @*<button id="btnRadarChart" class="btn btn-white btn-success btn-bold">*@
+                @*<i class="ace-icon fa fa-trash-o bigger-120 green"></i>*@
+                @*Biểu đồ radar
+            </button>*@
+
+        </div>
+    </div>
+    <div class="space-30"></div>
+    <div class="col-sm-12 ui-sortable align-center">
+        <canvas id="myChart" width="600" height="400"></canvas>
+    </div>
+</div>
+
+
+<script>
+
+    var currentRoleId = $("#currentRoleId").val();
+    var currentAdminId = $("#currentAdminId").val();
+    var currentManagerId = $("#currentManagerId").val();
+
+    loadVicariates();
+
+    function loadVicariates() {
+        $.ajax({
+            url: "/Parishioner/LoadVicariates",
+            data: {},
+            success: function (data) {
+                var element = $("#cbbVicariateSearch");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+                loadParishes();
+            }
+        });
+    }
+
+    //-----------------------------------
+    function loadParishes() {
+        $.ajax({
+            url: "/Parishioner/LoadParishies",
+            data: {
+                vicariateId: $("#cbbVicariateSearch").val()
+            },
+            success: function (data) {
+                var element = $("#cbbParishSearch");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+                loadCommunities();
+            }
+        });
+    }
+
+    //-----------------------------------
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var data;
+    var myChart;
+
+
+
+    function drawChart() {
+        var fromYear = $("#ccbFromYear").val();
+        var toYear = $("#ccbToYear").val();
+        var years = new Array();
+        var length = toYear - fromYear;
+
+        var vicariateId;
+        var parishId;
+        var chartCondition = $('input[name=chartCondition]:checked').val();
+
+        if (currentRoleId == currentAdminId) {
+            vicariateId = $("#cbbVicariateSearch").val();
+            parishId = $("#cbbParishSearch").val();
+        } else {
+            vicariateId = 1;
+            parishId = 1;
+        }
+
+        if (chartCondition == 4 || chartCondition == 6) {
+            years.push(0);
+        }
+        else {
+            for (i = 0; i <= length; i++) {
+                years.push(fromYear);
+                fromYear = parseInt(fromYear) + 1;
+            };
+        }
+        $.ajax({
+            url: "/Chart/GetSumOfParishionerByYear",
+            type: "POST",
+            traditional: true,
+            data: {
+                vicariateId: vicariateId,
+                parishId: parishId,
+                'years': years,
+                chartCondition: chartCondition
+            },
+            success: function (datas) {
+                data = datas.result;
+                myChart = new Chart(ctx).Bar(data, {});
+                //Chart.defaults.global.responsive = true;
+            }
+        });
+    }
+
+    //------------------------------------------------------------------------------
+
+    //Sự kiện các nút
+    $("#cbbVicariateSearch").change(function () {
+        loadParishes();
+        $("#tblParishioner").dataTable()._fnAjaxUpdate();
+    });
+    $("#btnViewChart").click(function () {
+        if (!validate()) {
+            return false;
+        }
+        if (data != null) {
+            myChart.destroy();
+        }
+        drawChart();
+        $("#typeChart").show();
+    });
+    $("#btnBarChart").click(function () {
+        myChart.destroy();
+        myChart = new Chart(ctx).Bar(data, {});
+    });
+    $("#btnLineChart").click(function () {
+        myChart.destroy();
+        myChart = new Chart(ctx).Line(data, {});
+    });
+    $("#btnRadarChart").click(function () {
+        myChart.destroy();
+        myChart = new Chart(ctx).Radar(data, {});
+    });
+    $("input[name=chartCondition]").change(function () {
+        var chartCondition = $(this).val();
+        if (chartCondition == 4 || chartCondition == 6) {
+            $("#ccbFromYear").attr('disabled', true);
+            $("#ccbToYear").attr('disabled', true);
+        } else {
+            $("#ccbFromYear").attr('disabled', false);
+            $("#ccbToYear").attr('disabled', false);
+        }
+    });
+    function validate() {
+        var fromYear = $("#ccbFromYear").val();
+        var toYear = $("#ccbToYear").val();
+        var chartCondition = $('input[name=chartCondition]:checked').val();
+        var parishId = $("#cbbParishSearch").val();
+        var result = true;
+        if (fromYear == 0 && (chartCondition != 4 && chartCondition != 6)) {
+            $("#ccbFromYearValidate").html("Hãy chọn năm bắt đầu!");
+            $("#ccbFromYearValidate").show();
+            result = false;
+        } else {
+            if (fromYear > toYear && (chartCondition != 4 && chartCondition != 6)) {
+                $("#ccbFromYearValidate").html("Năm bắt đầu phải nhỏ hơn năm kết thúc!");
+                $("#ccbFromYearValidate").show();
+                result = false;
+            } else {
+                $("#ccbFromYearValidate").html("");
+                $("#ccbFromYearValidate").hide();
+            }
+        }
+        if (chartCondition != 1 && chartCondition != 2 && chartCondition != 3 && chartCondition != 4 && chartCondition != 5 && chartCondition != 6) {
+            $("#chartConditionValidate").html("Hãy chọn điều kiện thống kê!");
+            $("#chartConditionValidate").show();
+            result = false;
+        } else {
+            $("#chartConditionValidate").html('');
+            $("#chartConditionValidate").hide();
+        }
+        if (parishId == 0 && chartCondition == 4) {
+            $("#ccbParishValidate").html("Hãy chọn giáo xứ cụ thể !");
+            $("#ccbParishValidate").show();
+            result = false;
+        } else {
+            $("#ccbParishValidate").html("");
+            $("#ccbParishValidate").hide();
+        }
+        return result;
+    }
+
+</script>

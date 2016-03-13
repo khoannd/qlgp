@@ -1,0 +1,58 @@
+﻿@using PMS.DataAccess.Utilities
+@model List<PMS.DataAccess.Models.ClassMember>
+
+@{
+    DateConverter dateConverter = new DateConverter();
+    var currentParish = (int) Session["ParishId"];
+}
+@foreach (var item in Model)
+{
+    string rowClass = "";
+    if (item.Parishioner.Community.ParishId != currentParish)
+    {
+        rowClass = "blue";
+    }
+    else
+    {
+        rowClass = item.Parishioner.IsDead ? "red" : "";
+    }
+    <tr class="@rowClass">
+        <td class="hidden">@item.Id</td>
+        <td>
+            <label class="position-relative">
+                <input type="checkbox" class="ace ccl" value="@item.Id" />
+                <span class="lbl"></span>
+            </label>
+        </td>
+        <td>@item.Parishioner.ChristianName</td>
+        <td>@item.Parishioner.Name</td>
+        @if (item.Parishioner.Gender == 0)
+        {
+            <td>Nữ</td>
+        }
+        else
+        {
+            <td>Nam</td>
+        }
+        <td>@dateConverter.ConvertStringToDate(item.Parishioner.BirthDate)</td>
+        <td aria-disabled="True" class="align-center">
+            @if (item.IsDone == true)
+            {
+                @*<span class="label label-success">
+                    <i class="ace-icon glyphicon glyphicon-ok"></i>
+                </span>*@
+                <i class="ace-icon glyphicon glyphicon-ok bigger-140 green"></i>
+            }
+            else
+            {
+            }
+        </td>
+        <td>@item.Note</td>
+        <td>
+            <button class="btn btn-minier btn-danger" onclick="DeleteLearnerConfirm(@item.Id)">
+                <i class="ace-icon fa fa-trash-o"></i>
+                Loại bỏ
+            </button>
+        </td>
+    </tr>
+}

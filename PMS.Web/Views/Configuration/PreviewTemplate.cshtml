@@ -1,0 +1,81 @@
+﻿@{
+    Layout = null;
+}
+<style>
+    p {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+</style>
+
+<div style="width: 100%;">
+        <div id="preview" style="width: 702.2756px; height: 1089.8898px; margin-left: 50px;">
+        </div>
+</div>
+
+<script>
+    
+    var storage = sessionStorage.getItem("template");
+    storage = storage.replace(/\[TenGiaoPhan]/g, "Thị nghè");
+    storage = storage.replace(/\[TenGiaoHat]/g, "An Đông");
+    storage = storage.replace(/\[TenGiaoXu]/g, "Mông Triệu");
+    storage = storage.replace(/\[TenLinhMucGui]/g, "Giuse Huỳnh Lâm Q");
+    storage = storage.replace(/\[HoTen]/g, "Huỳnh Minh K");
+    storage = storage.replace(/\[NgaySinh]/g, "02/03/1993");
+    storage = storage.replace(/\[NoiSinh]/g, "Đông Đường");
+    storage = storage.replace(/\[TenCha]/g, "Mattheu Huỳnh Văn M");
+    storage = storage.replace(/\[TenMe]/g, "Rosa Nguyễn Thị Thanh L");
+
+    storage = storage.replace(/\[NgayRuaToi]/g, "02/07/1993");
+    storage = storage.replace(/\[NoiRuaToi]/g, "Đông Đường");
+    storage = storage.replace(/\[ChaRuaToi]/g, "Phanxicô Lại Thành A");
+    storage = storage.replace(/\[NguoiDoDauRuaToi]/g, "Mattheu Lương Trung Q");
+    storage = storage.replace(/\[SoRuaToi]/g, "2932986677");
+
+    storage = storage.replace(/\[NgayThemSuc]/g, "20/09/2011");
+    storage = storage.replace(/\[NoiThemSuc]/g, "Đông Đường");
+    storage = storage.replace(/\[ChaThemSuc]/g, "Mattheu Đỗ Thành P");
+    storage = storage.replace(/\[NguoiDoDauThemSuc]/g, "Mattheu Lương Trung Q");
+    storage = storage.replace(/\[SoThemSuc]/g, "129689878");
+
+    storage = storage.replace(/\[NgayRuocLe]/g, "19/8/2004");
+    storage = storage.replace(/\[NoiRuocLe]/g, "Đông Đường");
+    storage = storage.replace(/\[ChaRuocLe]/g, "Phêrô Huỳnh Quang T");
+    storage = storage.replace(/\[SoRuocLe]/g, "5689122341");
+
+    storage = storage.replace(/\[HoTenNam]/g, "Huỳnh Minh T");
+    storage = storage.replace(/\[NgaySinhNam]/g, "22/08/1990");
+    storage = storage.replace(/\[NoiSinhNam]/g, "Tích Thuận");
+    storage = storage.replace(/\[NgayRuaToiNam]/g, "23/12/2000");
+    storage = storage.replace(/\[SoRuaToiNam]/g, "4568799962");
+    storage = storage.replace(/\[TenChaNam]/g, "Huỳnh Văn T");
+    storage = storage.replace(/\[TenMeNam]/g, "Nguyễn Thị M");
+    storage = storage.replace(/\[GiaoXuNam]/g, "Thị Nghè");
+
+    storage = storage.replace(/\[HoTenNu]/g, "Lê Minh Q");
+    storage = storage.replace(/\[NgaySinhNu]/g, "12/01/1991");
+    storage = storage.replace(/\[NoiSinhNu]/g, "Đông Đường");
+    storage = storage.replace(/\[NgayRuaToiNu]/g, "02/04/1999");
+    storage = storage.replace(/\[SoRuaToiNu]/g, "7899541232");
+    storage = storage.replace(/\[TenChaNu]/g, "Lê Minh T");
+    storage = storage.replace(/\[TenMeNu]/g, "Nguyễn Thị C");
+    storage = storage.replace(/\[GiaoXuNu]/g, "Đông Đường");
+
+    storage = storage.replace(/\[NgayThangNamHP]/g, "08/12/2014");
+    storage = storage.replace(/\[NoiHonPhoi]/g, "Thị Nghè");
+    storage = storage.replace(/\[LinhMucChung]/g, "Mattheu Lương Vân Q");
+    storage = storage.replace(/\[NguoiChung1]/g, "Antôn Huỳnh Minh Q");
+    storage = storage.replace(/\[NguoiChung2]/g, "Rosa Nguyễn Thị H"); 
+    storage = storage.replace(/\[SoHonPhoi]/g, "4865988127");
+
+    storage = storage.replace(/\[NgayThangNam]/g, "21/11/2014");
+
+    if (storage != null) {
+        var div = document.getElementById("preview");
+        div.innerHTML += storage;
+        //var div2 = document.getElementById("preview2");
+        //div2.innerHTML += storage;
+    }
+
+    window.print();
+</script>

@@ -1,0 +1,104 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Models
+@using PMS.DataAccess.Utilities
+@model List<FamilyMember>
+
+@{
+    var converter = new DateConverter();
+    var gender = -1;
+}
+
+@foreach (var item in Model)
+{
+    string rowClass = "";
+    var parishioner = item.Parishioner;
+
+    if (item.Status != (int)FamilyMemberStatusEnum.Main)
+    {
+        rowClass = "default";
+    }
+    if (parishioner.IsDead)
+    {
+        rowClass = "red";
+    }
+    if (string.IsNullOrEmpty(rowClass))
+    {
+        <tr class="@rowClass">
+        @if (item.Position == (int)FamilyEnum.Chuho)
+        {
+            gender = parishioner.Gender;
+        }
+        <td class="hidden">@item.Id</td>
+        <td>@parishioner.Code</td>
+        <td>@parishioner.ChristianName @parishioner.Name</td>
+
+        <td>
+            <span class="familyPosition no-padding">@item.Position</span>
+        </td>
+
+        @if (parishioner.Gender == 0)
+        {
+            <td>Nữ</td>
+        }
+        else
+        {
+            <td>Nam</td>
+        }
+
+        <td>@converter.ConvertStringToDate(parishioner.BirthDate)</td>
+        <td>
+            <button class="btn btn-minier btn-primary" onclick="viewReadonlyParishioner(@parishioner.Id) ">
+                <i class="ace-icon fa fa-search-plus"></i>&nbsp;Chi tiết
+            </button>
+        </td>
+    </tr>
+    } else {
+         <tr class="@rowClass">
+            @if (item.Position == (int) FamilyEnum.Chuho)
+            {
+                gender = parishioner.Gender;
+            }
+            <td class="hidden">@item.Id</td>
+             <td><s>@parishioner.Code</s></td>
+             <td><s>@parishioner.ChristianName @parishioner.Name</s></td>
+
+            <td>
+                <span class="familyPosition no-padding"><s>@item.Position</s></span>
+            </td>
+
+            @if (parishioner.Gender == 0)
+            {
+                <td><s>Nữ</s></td>
+            }
+            else
+            {
+                <td><s>Nam</s></td>
+            }
+
+            <td><s>@converter.ConvertStringToDate(parishioner.BirthDate)</s></td>
+             <td>
+                 <button class="btn btn-minier btn-primary" onclick="viewReadonlyParishioner(@parishioner.Id) ">
+                     <i class="ace-icon fa fa-search-plus"></i>&nbsp;Chi tiết
+                 </button>
+             </td>
+        </tr>
+    }
+    
+}
+
+<input type="hidden" id="txtHiddenHouseHolderType" value="@gender" />
+<script>
+    initEditableFamilyPosition();
+
+    function initEditableFamilyPosition() {
+
+        $(".familyPosition").each(function (index) {
+
+            var id = $(this).text().trim();            
+            $(this).text(convertPosition(id));
+
+        });
+    }
+
+
+</script>

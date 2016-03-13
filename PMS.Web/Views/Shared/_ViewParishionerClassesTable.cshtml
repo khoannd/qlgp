@@ -1,0 +1,43 @@
+﻿@using System.Globalization
+@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Utilities
+@using System.Data.Linq
+@model List<PMS.DataAccess.Models.Class>
+
+@{
+    DateConverter dateConverter = new DateConverter();
+    int parishionerId = ViewBag.parishionerId;
+}
+
+
+@foreach (var item in Model)
+{
+    string rowClass = "";
+    if (item.ClassMembers.Single(p => p.ClassId == item.Id && p.ParishionerId == parishionerId).IsDone == true)
+    {
+        rowClass = "green";
+    }
+    else
+    {
+    }   
+    <tr class="@rowClass">
+        <td class="hidden">@item.Id</td>
+        <td class="hidden">
+            <label class="position-relative">
+                <input type="checkbox" class="ace cc" value="@item.Id" />
+                <span class="lbl"></span>
+            </label>
+        </td>
+        <td>@item.Year</td>
+        <td>@item.ClassGroup.Name</td>
+        <td>@item.Name</td>
+        <td>@item.RoomNo</td>
+        <td>@item.Note</td>
+        <td>
+            <button class="btn btn-minier btn-primary" onclick="LoadClassDetailModal(@item.Id)">
+                <i class="ace-icon fa fa-search-plus"></i>
+                Chi tiết
+            </button>
+        </td>
+    </tr>
+}

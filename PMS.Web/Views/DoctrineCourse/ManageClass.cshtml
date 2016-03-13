@@ -1,0 +1,1805 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Models
+@{
+    ViewBag.Title = "ManageClass";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="/Content/assets/css/bootstrap-editable.css" />
+<link rel="stylesheet" href="/Content/assets/css/jquery-ui.custom.min.css" />
+<link rel="stylesheet" href="/Content/assets/css/select2.css" />
+<script src="/Content/assets/js/bootstrap-wysiwyg.min.js"></script>
+<script src="/Content/assets/js/select2.min.js"></script>
+<script src="/Content/assets/js/x-editable/bootstrap-editable.min.js"></script>
+<script src="/Content/assets/js/x-editable/ace-editable.min.js"></script>
+@{
+    int range = 15;
+    int currentYear = DateTime.Now.Year;
+    int endYear = currentYear - range;
+}
+
+@{
+    int roleId = 0;
+    int currentManagerId = (int)AccountEnum.Manager;
+    int currentStaffId = (int)AccountEnum.Staff;
+
+    if (Session["RoleId"] != null)
+    {
+        roleId = (int)Session["RoleId"];
+    }
+}
+<input type="hidden" id="classId" value="0" />
+<input type="hidden" id="classGroupId" />
+<input type="hidden" id="currentYear" value="@currentYear" />
+<input type="hidden" id="cmParishionerId" value="0" />
+<input type="hidden" id="classMemberPosition" value="0" />
+<input type="hidden" id="currentRole" value="@roleId" />
+<input type="hidden" id="currentManagerId" value="@currentManagerId" />
+<input type="hidden" id="currentStaffId" value="@currentStaffId" />
+
+<div class="page-header">
+    <h1>Danh sách lớp giáo lý</h1>
+</div>
+
+
+<div class="page-header">
+    <div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="col-sm-3">
+                    Năm học
+                    <select id="ccbYear" class="input-large">
+                        <option value="0">Tất cả</option>
+                        @{
+                            for (int i = currentYear + 1; i >= endYear; i--)
+                            {
+                                <option value="@i"> @i </option>
+                            }
+                        }
+
+                    </select>
+
+                </div>
+                <div class="col-sm-3">
+                    Khối
+                    <select id="ccbClassGroup" class="input-large">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="col-sm-6"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="page-header">
+    @if (roleId == currentManagerId || roleId == currentStaffId)
+    {
+        <button id="btnCreateClass" class="btn btn-success" data-toggle="modal">
+            <i class="ace-icon fa fa-plus"></i> Thêm lớp
+        </button>
+    }
+    @*<button class="btn btn-purple">
+            <i class="ace-icon fa fa-print"></i> In danh sách
+        </button>*@
+</div>
+
+<div class="page-header">
+    <h1> Danh sách lớp giáo lý </h1>
+    <div class="row">
+        <table id="classTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        <label class="position-relative">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </th>
+                    <th>Năm học</th>
+                    <th>Tên khối</th>
+                    <th>Tên lớp</th>
+                    <th>Phòng học</th>
+                    <th>Giáo lý viên</th>
+                    <th>Ghi chú</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+
+            <tbody></tbody>
+
+        </table>
+
+    </div>
+</div>
+
+<!-- Popup thêm lớp giáo lý -->
+
+<input type="hidden" id="hiddenCreateClassModal" value="0" />
+
+<div id="createClassModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header align-center">
+                    <h4 class="widget-title lighter" id="ClassModalTitle"> </h4>
+
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseClassModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="widget-body">
+                    <div class="col-xs-12 no-padding">
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li class="active">
+                                    <a id="detailClasss" data-toggle="tab" href="#home">
+                                        <i class="ace-icon fa fa-home bigger-120"></i>
+                                        Chi tiết
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a data-toggle="tab" href="#learnerList">
+                                        <i class="ace-icon fa fa-book bigger-120"></i>
+                                        Danh sách học viên
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+
+                                <!-- Tab Chi tiết lớp -->
+                                <div id="home" class="tab-pane fade in active">
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Chi tiết lớp</h4>
+                                            </div>
+                                            <div class="space-10"></div>
+                                            <div class="widget-body">
+                                                <div class="form-horizontal">
+
+                                                    @if (roleId == currentManagerId || roleId == currentStaffId)
+                                                    {
+                                                        <div class="col-xs-12">
+                                                            <div class="col-xs-6">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1"> Năm học &nbsp;(<span style="color: red">*</span>) </label>
+                                                                    <div class="col-sm-8">
+                                                                        <select id="ccbYearModal" class="form-control">
+                                                                            <option value="0"></option>
+                                                                            @{
+                                                        for (int i = currentYear + 1; i >= endYear; i--)
+                                                        {
+                                                            <option value="@i"> @i </option>
+                                                        }
+                                                                            }
+                                                                        </select>
+                                                                        <label class="text-danger" id="classYearValidate" hidden=""></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1"> Tên lớp &nbsp;(<span style="color: red">*</span>) </label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="text" id="classNameModal" class="form-control">
+                                                                        <label class="text-danger" id="classNameValidate" hidden=""></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1"> Khối &nbsp;(<span style="color: red">*</span>) </label>
+                                                                    <div class="col-sm-8">
+                                                                        <select id="ccbClassGroupModal" class="form-control"></select>
+                                                                        <label class="text-danger" id="classGroupNameValidate" hidden=""></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1">
+                                                                        Phòng học
+                                                                    </label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="text" id="classRoomModal" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-2 control-label no-padding-right align-left" for="form-field-1"> Ghi chú </label>
+                                                                    <div class="col-sm-10">
+                                                                        <textarea id="classNoteModal" rows="4" style="resize: none" class="form-control"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="col-xs-12">
+                                                            <div class="col-xs-6">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1"> Năm học </label>
+                                                                    <div class="col-sm-8">
+                                                                        <select disabled="" id="ccbYearModal" class="form-control">
+                                                                            <option value="0"></option>
+                                                                            @{
+                                                        for (int i = currentYear + 1; i >= endYear; i--)
+                                                        {
+                                                            <option value="@i"> @i </option>
+                                                        }
+                                                                            }
+                                                                        </select>
+                                                                        <label class="text-danger" id="classYearValidate" hidden=""></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1"> Tên lớp </label>
+                                                                    <div class="col-sm-8">
+                                                                        <input disabled="" type="text" id="classNameModal" class="form-control">
+                                                                        <label class="text-danger" id="classNameValidate" hidden=""></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1"> Khối </label>
+                                                                    <div class="col-sm-8">
+                                                                        <select disabled="" id="ccbClassGroupModal" class="form-control"></select>
+                                                                        <label class="text-danger" id="classGroupNameValidate" hidden=""></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1">
+                                                                        Phòng học
+                                                                    </label>
+                                                                    <div class="col-sm-8">
+                                                                        <input disabled="" type="text" id="classRoomModal" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12">
+                                                                <div class="form-group">
+                                                                    <label class="col-sm-2 control-label no-padding-right align-left" for="form-field-1"> Ghi chú </label>
+                                                                    <div class="col-sm-10">
+                                                                        <textarea disabled="" id="classNoteModal" rows="4" style="resize: none" class="form-control"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Danh sách giáo lý viên</h4>
+                                            </div>
+
+                                            <div class="widget-body">
+                                                <div class="form-horizontal">
+                                                    <div class="col-xs-12">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                @if (roleId == currentManagerId || roleId == currentStaffId)
+                                                                {
+                                                                    <button id="btnCreateTeacherModal" class="btn btn-sm btn-success" data-toggle="modal">
+                                                                        <i class="ace-icon fa fa-plus"></i> Thêm giáo lý viên
+                                                                    </button>
+                                                                    <button id="btnLookupTeacherModal" class="btn btn-info btn-sm">
+                                                                        <i class="ace-icon fa fa-search"></i> Chọn giáo lý viên
+                                                                    </button>
+                                                                }
+                                                                @*<button id="btnPrintTeacherModal" class="btn btn-sm btn-purple">
+                                                                        <i class="fa fa-print"></i> In danh sách
+                                                                    </button>*@
+                                                                <table id="teacherTable" class="table table-hover">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th class="hidden"></th>
+                                                                            <th class="hidden">
+                                                                                <label class="position-relative">
+                                                                                    <input type="checkbox" class="ace" />
+                                                                                    <span class="lbl"></span>
+                                                                                </label>
+                                                                            </th>
+                                                                            <th>Tên thánh</th>
+                                                                            <th>Họ tên</th>
+                                                                            <th>Phái</th>
+                                                                            <th>Ngày sinh</th>
+                                                                            @if (roleId == currentManagerId)
+                                                                            {
+                                                                                <td>Thao tác</td>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <td class="hidden"></td>
+                                                                            }
+                                                                        </tr>
+                                                                    </thead>
+
+                                                                    <tbody></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                </div>
+                                            </div>
+                                            <hr />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Kết thúc Tab Chi tiết lớp -->
+                                <!-- Tab Danh sách học viên -->
+                                <div id="learnerList" class="tab-pane fade in">
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter"> Danh sách học viên </h4>
+                                            </div>
+                                            <div class="widget-body">
+                                                <div class="form-horizontal">
+                                                    <div class="col-xs-12">
+                                                        <div class="form-group">
+                                                            <div class="row">
+                                                                @if (roleId == currentManagerId || roleId == currentStaffId)
+                                                                {
+                                                                    <button id="btnCreateLearnerModal" class="btn btn-sm btn-success" data-toggle="modal">
+                                                                        <i class="ace-icon fa fa-plus"></i> Thêm học viên
+                                                                    </button>
+                                                                    <button id="btnLookupLearnerModal" class="btn btn-info btn-sm">
+                                                                        <i class="ace-icon fa fa-search"></i> Chọn học viên
+                                                                    </button>
+                                                                }
+                                                                <button id="btnCompleteCourseApprove" class="btn btn-yellow btn-sm">
+                                                                    <i class="fa fa-check"></i> Hoàn thành khóa học
+                                                                </button>
+                                                                <button id="btnInCompleteCourseApprove" class="btn btn-sm">
+                                                                    <i class="fa fa-ban"></i> Hủy hoàn thành khóa học
+                                                                </button>
+                                                                @if (roleId == currentManagerId || roleId == currentStaffId)
+                                                                {
+                                                                    <button id="btnCompleteCourse" class="btn btn-purple btn-sm">
+                                                                        <i class="ace-icon fa fa-exchange"></i> Xét chuyển lớp
+                                                                    </button>
+                                                                }
+                                                                <div class="col-xs-12 align-center">
+                                                                    <label class="text-danger" id="completeCourseValidate" hidden=""></label>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <table id="learnerTable" class="table table-hover">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th class="hidden"></th>
+                                                                                <th>
+                                                                                    <label class="position-relative">
+                                                                                        <input type="checkbox" class="ace" />
+                                                                                        <span class="lbl"></span>
+                                                                                    </label>
+                                                                                </th>
+                                                                                <th>Tên thánh</th>
+                                                                                <th>Họ tên</th>
+                                                                                <th>Phái</th>
+                                                                                <th>Ngày sinh</th>
+                                                                                <th>Hoàn thành khóa học</th>
+                                                                                <th>Ghi chú</th>
+                                                                                @if (roleId == currentManagerId || roleId == currentStaffId)
+                                                                                {
+                                                                                    <th>Thao tác</th>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <th class="hidden"></th>
+                                                                                }
+                                                                            </tr>
+                                                                        </thead>
+
+                                                                        <tbody></tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Kết thúc tab danh sách học viên -->
+                                <!-- Chú thích bảng  -->
+                                <div class="row" hidden="" id="labelnote">
+                                    <div class="col-sm-12">
+                                        <div class="alert alert-warning">
+                                            <button type="button" class="close" data-dismiss="alert">
+                                                <i class="ace-icon fa fa-times"></i>
+                                            </button>
+                                            @*<strong>Chú thích</strong>*@
+                                            <span class="blue" style="padding:0 16%">Giáo dân thuộc xứ khác</span>
+                                            <span class="red" style="padding:0 16%">Giáo dân đã qua đời</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end row-->
+                                <!-- Kết thúc chú thích bảng -->
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-12 col-sm-12">
+                                            <div class="form-group align-right">
+                                                <button id="btnCreateClassModal" class="btn btn-primary" data-toggle="modal">
+                                                    <i class="ace-icon fa fa-save"></i> Lưu
+                                                </button>
+                                                @if (roleId == currentManagerId || roleId == currentStaffId)
+                                                {
+                                                    <button id="btnUpdateClassModal" class="btn btn-primary" data-toggle="modal">
+                                                        <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                                    </button>
+                                                }
+                                                <button id="btnCloseClassModal" class="btn btn-grey" data-toggle="modal">
+                                                    <i class="ace-icon fa fa-times"></i> Đóng
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Kết thúc thông tin lớp giáo lý -->
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- kết thúc Popup thêm lớp giáo lý -->
+<!---------------------------------------------------------------------------------------->
+<!-- Popup chuyển lớp -->
+
+<input type="hidden" id="hiddenChangeClassModal" value="0" />
+<div id="ChangeClassModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header align-center">
+                    <h4 class="widget-title lighter"> Chuyển lớp giáo lý </h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseChangeClassModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                @*---------------------------------------------------------------------*@
+
+                <div class="col-sm-12  ui-sortable">
+                    <div class="widget-box transparent ui-sortable-handle">
+                        <div class="widget-header">
+                            <h4 class="widget-title lighter"> Thông tin lớp hiện tại </h4>
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="widget-body">
+                            <div class="form-horizontal">
+
+                                <div class="col-xs-12">
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1"> Năm học </label>
+                                            <div class="col-sm-8">
+                                                <input disabled="" type="text" id="currentYearClassModal" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1"> Tên lớp </label>
+                                            <div class="col-sm-8">
+                                                <input disabled="" type="text" id="currentClassNameModal" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1"> Khối </label>
+                                            <div class="col-sm-8">
+                                                <input disabled="" type="text" id="currentClassGroupModal" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1">
+                                                Phòng học
+                                            </label>
+                                            <div class="col-sm-8">
+                                                <input disabled="" type="text" id="currentClassRoomModal" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label no-padding-right align-left" for="form-field-1"> Ghi chú </label>
+                                            <div class="col-sm-10">
+                                                <textarea disabled="" id="currentClassNoteModal" rows="4" style="resize: none" class="form-control"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*----------------------------------------------------------------------*@
+                <div class="col-sm-12  ui-sortable">
+                    <div class="widget-box transparent ui-sortable-handle">
+                        <div class="widget-header">
+                            <h4 class="widget-title lighter">Thông tin lớp chuyển tới</h4>
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="widget-body">
+                            <div class="form-horizontal">
+                                <div class="col-xs-12">
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1"> Năm học &nbsp;(<span style="color: red">*</span>) </label>
+                                            <div class="col-sm-8">
+                                                <select id="ccbYearTargetModal" class="form-control">
+                                                    <option value="0"></option>
+                                                    @{
+                                                        for (int i = currentYear + 1; i >= endYear; i--)
+                                                        {
+                                                            <option value="@i"> @i </option>
+                                                        }
+                                                    }
+                                                </select>
+                                                <label class="text-danger" id="YearTargetValidate" hidden=""></label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1"> Lớp &nbsp;(<span style="color: red">*</span>) </label>
+                                            <div class="col-sm-8">
+                                                <select id="ccbClassTargetModal" class="form-control"></select>
+                                                <label class="text-danger" id="classTargetValidate" hidden=""></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1"> Khối &nbsp;(<span style="color: red">*</span>) </label>
+                                            <div class="col-sm-8">
+                                                <select id="ccbClassGroupTargetModal" class="form-control"></select>
+                                                <label class="text-danger" id="classGroupTargetValidate" hidden=""></label>
+                                            </div>
+                                        </div>
+                                        @*<div class="form-group">
+                                                <div class="radio">
+                                                    <label>
+                                                        <input type="checkbox" class="ace" id="cbParishionerTargetChosen" />
+                                                        <span class="lbl"> Xem danh sách những học viên được chọn</span>
+                                                    </label>
+                                                </div>
+                                            </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Danh sách học viên -->
+                <div class="col-sm-12  ui-sortable">
+                    <div class="widget-box transparent ui-sortable-handle">
+                        <div class="widget-header">
+                            <h4 class="widget-title lighter"> Chọn học viên để chuyển lớp </h4>
+                        </div>
+                        <div class="widget-body">
+                            <div class="form-horizontal">
+                                <div class="col-xs-12 align-center">
+                                    <label class="text-danger" id="changeClassValidate" hidden=""></label>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <div class="col-sm-6">
+                                            <label class="col-sm-4 control-label no-padding-right align-left" for="form-field-1"> Hiển thị học viên </label>
+                                            <div class="col-sm-8">
+                                                <select id="learnerType" class="form-control">
+                                                    <option value="0"> Tất cả </option>
+                                                    <option value="1"> Hoàn thành khóa học </option>
+                                                    <option value="2"> Chưa hoàn thành khóa học </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <table id="learnerTargetTable" class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="hidden"></th>
+                                                        <th>
+                                                            <label class="position-relative">
+                                                                <input type="checkbox" class="ace" />
+                                                                <span class="lbl"></span>
+                                                            </label>
+                                                        </th>
+                                                        <th>Tên thánh</th>
+                                                        <th>Họ tên</th>
+                                                        <th>Phái</th>
+                                                        <th>Ngày sinh</th>
+                                                        <th>Hoàn thành khóa học</th>
+                                                        <th>Ghi chú</th>
+                                                        <th>Thao tác</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                        <!-- Chú thích bảng  -->
+                                        <div class="row" id="changeClassLabelnote">
+                                            <div class="col-sm-12">
+                                                <div class="alert alert-warning">
+                                                    <button type="button" class="close" data-dismiss="alert">
+                                                        <i class="ace-icon fa fa-times"></i>
+                                                    </button>
+                                                    @*<strong>Chú thích</strong>*@
+                                                    <span class="blue" style="padding:0 16%">Giáo dân thuộc xứ khác</span>
+                                                    <span class="red" style="padding:0 16%">Giáo dân đã qua đời</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--end row-->
+                                        <!-- Kết thúc chú thích bảng -->
+                                    </div>
+                                </div>
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Kết thúc danh sách học viên -->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="form-group align-right">
+                                <button id="btnChangeClass" class="btn btn-primary">
+                                    <i class="ace-icon fa fa-save"></i> Lưu
+                                </button>
+                                <button id="btnCloseChangeClassModal" class="btn btn-grey" data-toggle="modal">
+                                    <i class="ace-icon fa fa-times"></i> Đóng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kết thúc thông tin lớp giáo lý -->
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- kết thúc Popup chuyển lớp -->
+@Html.Partial("_CreateParishionerModal")
+@Html.Partial("_LookupParishionerModal")
+
+
+<script>
+
+    var currentRole = $("#currentRole").val();
+    var currentManagerId = $("#currentManagerId").val();
+    var currentStaffId = $("#currentStaffId").val();
+
+    //--------------------------------------------------------
+    $("#ccbYear").val($("#currentYear").val());
+    LoadClassGroupDdl();
+    LoadClassGroupDdlModal();
+    loadClassesDatatable();
+
+    //Load Khối giáo lí ra DropDownList
+    function LoadClassGroupDdl() {
+        var year = $("#ccbYear").val();
+        $.ajax({
+            url: "/DoctrineCourse/GetClassGroupByYear",
+            data: {
+                year: year
+            },
+            async: false,
+            success: function (data) {
+                var element = $("#ccbClassGroup");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+            }
+        });
+    }
+
+    //Load Khối giáo lí ra DropDownList trên modal
+    function LoadClassGroupDdlModal() {
+        var year = $("#ccbYearModal").val();
+        $.ajax({
+            url: "/DoctrineCourse/GetClassGroupByYear",
+            data: {
+                year: year
+            },
+            async: false,
+            success: function (data) {
+                var element = $("#ccbClassGroupModal");
+                //append data
+                element.html("");
+                element.append("<option value='0'></option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+            }
+        });
+    }
+
+    //--------------------------------------
+
+    //Load bảng danh sách lớp giáo lý
+    function loadClassesDatatable() {
+        $("#classTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bSCrollCollapse": true,
+            "sAjaxSource": "/DoctrineCourse/LoadClassesDataTables",
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "year", "value": $("#ccbYear").val() });
+                aoData.push({ "name": "classGroupId", "value": $("#ccbClassGroup").val() });
+            },
+            "oLanguage": {
+                "sSearch": "Tên lớp",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+
+                    },
+                    "bVisible": false,
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [7],
+                },
+                {
+                    "aTargets": [8],
+                    "render": function (data, type, full, meta) {
+                        var content;
+                        if (currentRole == currentManagerId || currentRole == currentStaffId) {
+                            content = '<button class="btn btn-minier btn-primary" onclick="LoadDataModal(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                               '<button class="btn btn-minier btn-danger" onclick="DeleteClassConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                        } else {
+                            content = '<button class="btn btn-minier btn-primary" onclick="LoadDataModal(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>';
+                        }
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "15%",
+                }
+            ],
+            "bAutoWidth": false,
+
+        });
+    }
+
+    //Thêm xóa sửa lớp giáo lí
+
+    function AddClass() {
+        if (!CheckUniqueClassMember()) {
+            return false;
+        }
+        var classId = $("#classId").val();
+        var year = $("#ccbYearModal").val();
+        var classGroupId = $("#ccbClassGroupModal").val();
+        var className = $("#classNameModal").val();
+        var roomNo = $("#classRoomModal").val();
+        var note = $("#classNoteModal").val();
+
+        var memberNote = " ";
+        var position = $("#classMemberPosition").val();
+        var parishionerId = $("#cmParishionerId").val();
+
+        startLoading();
+        $.ajax({
+            url: "/DoctrineCourse/AddClass",
+            type: "POST",
+            data:
+            {
+                Id: classId,
+                Year: year,
+                ClassGroupId: classGroupId,
+                Name: className,
+                RoomNo: roomNo,
+                Note: note,
+
+                memberNote: memberNote,
+                position: position,
+                parishionerId: parishionerId
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Thêm học viên thất bại", 0);
+                } else {
+                    $("#classId").val(data);
+                    if (position == 1) {
+                        //showMessage("Thêm giáo viên thành công", 1);
+                        LoadTeacherTable();
+                        closeLookupModal();
+                    } else if (position == 2) {
+                        //showMessage("Thêm học viên thành công", 1);
+                        LoadLearnerTable();
+                        closeLookupModal();
+                    } else {
+                        showMessage("Thêm lớp thành công", 1);
+                        //$("#classTable").dataTable()._fnAjaxUpdate();
+                        updateTableContent("classTable");
+                    }
+                    $("#ClassModalTitle").html('Chỉnh sửa lớp giáo lý');
+                    $("#btnCreateClassModal").hide();
+                    $("#btnUpdateClassModal").show();
+                    //$("#classTable").dataTable()._fnAjaxUpdate();
+                    updateTableContent("classTable");
+                }
+            },
+        });
+    }
+
+    //------------------------------------------------------------------
+    function LoadDataModal(id) {
+        $("#ClassModalTitle").html('Chỉnh sửa lớp giáo lý');
+        $("#classId").val(id);
+        $("#labelnote").show();
+        $("#btnCompleteCourseApprove").show();
+        $("#btnInCompleteCourseApprove").show();
+        $("#btnCompleteCourse").show();
+
+        $.ajax({
+            url: "/DoctrineCourse/LoadClassById",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                var item = data.result;
+                $("#ccbYearModal").val(item.Year);
+                LoadClassGroupDdlModal();
+                $("#ccbClassGroupModal").val(item.ClassGroupId);
+                $("#classNameModal").val(item.Name);
+                $("#classRoomModal").val(item.RoomNo);
+                $("#classNoteModal").val(item.Note);
+                LoadTeacherTable();
+                LoadLearnerTable();
+
+                $("#createClassModal").modal('show');
+                $("#btnCreateClassModal").hide();
+                $("#btnUpdateClassModal").show();
+
+            },
+        });
+
+    }
+
+    function UpdateClass() {
+        var classId = $("#classId").val();
+        var year = $("#ccbYearModal").val();
+        var classGroupId = $("#ccbClassGroupModal").val();
+        var className = $("#classNameModal").val();
+        var roomNo = $("#classRoomModal").val();
+        var note = $("#classNoteModal").val();
+        $.ajax({
+            url: "/DoctrineCourse/UpdateClass",
+            type: "POST",
+            data:
+            {
+                Id: classId,
+                Year: year,
+                ClassGroupId: classGroupId,
+                Name: className,
+                RoomNo: roomNo,
+                Note: note,
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Chỉnh sửa lớp thất bại", 0);
+                } else {
+                    showMessage("Chỉnh sửa lớp thành công", 1);
+                    ClearDataModal();
+                    $("#createClassModal").modal('hide');
+                    //$("#classTable").dataTable()._fnAjaxUpdate();
+                    updateTableContent("classTable");
+
+                }
+            },
+        });
+    }
+
+    function DeleteClass(id) {
+        $.ajax({
+            url: "/DoctrineCourse/DeleteClass",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Không thể xóa lớp giáo lý đã có giáo viên hoặc học viên!", 0);
+                } else {
+                    showMessage("Xóa lớp thành công", 1);
+                    //$("#classTable").dataTable()._fnAjaxUpdate();
+                    updateTableContent("classTable");
+                }
+            }
+        });
+    }
+
+    function DeleteClassConfirm(id) {
+        bootbox.dialog({
+            message: "Bạn có chắc muốn xóa lớp này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteClass(id);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    //----------------------------------------------------------
+
+    //Load bảng danh sách giáo lý viên
+    function initTeacherTable() {
+        $("#teacherTable").dataTable({
+            "bDestroy": true,
+            "oLanguage": {
+                "sSearch": "Tên giáo lý viên",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aaSorting": [],
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bSortable": false,
+                    "bVisible": false,
+                    "sWidth": "7%",
+                },
+                {
+                    "aTargets": [1],
+                    "bSortable": false,
+                    "bVisible": false,
+                    "sWidth": "4%",
+                },
+                {
+                    "aTargets": [2],
+                    "sWidth": "20%",
+                },
+                {
+                    "aTargets": [3],
+                    "sWidth": "30%",
+                },
+                {
+                    "aTargets": [4],
+                    "sWidth": "12%",
+                },
+                {
+                    "aTargets": [5],
+                    "sWidth": "15%",
+                },
+                {
+                    "aTargets": [6],
+                    "sWidth": "12%",
+                }
+            ],
+            "bAutoWidth": false,
+
+        });
+    }
+    function LoadTeacherTable() {
+        var id = $("#classId").val();
+        $.ajax({
+            url: "/DoctrineCourse/LoadClassTeacherByClassId",
+            type: "POST",
+            data: {
+                classId: id,
+            },
+            success: function (data) {
+                $("#teacherTable").dataTable().fnDestroy();
+                $("#teacherTable > tbody").html(data);
+                initTeacherTable();
+            },
+        });
+    }
+
+    //Load bảng danh sách học viên
+    function LoadLearnerTable() {
+        var id = $("#classId").val();
+        $.ajax({
+            url: "/DoctrineCourse/LoadClassMemberByClassId",
+            type: "POST",
+            data: {
+                classId: id,
+            },
+            success: function (data) {
+                $("#learnerTable").dataTable().fnDestroy();
+                $("#learnerTable > tbody").html(data);
+                initLearnerTable();
+            },
+        });
+    }
+
+    function initLearnerTable() {
+        $("#learnerTable").dataTable({
+            "bDestroy": true,
+            "oLanguage": {
+                "sSearch": "Tên học viên",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aaSorting": [],
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bSortable": false,
+                },
+                {
+                    "aTargets": [1],
+                    "bSortable": false,
+                    "sWidth": "4%",
+                },
+                {
+                    "aTargets": [2],
+                    "sWidth": "13%",
+                },
+                {
+                    "aTargets": [3],
+                    "sWidth": "18%",
+                },
+                {
+                    "aTargets": [4],
+                    "sWidth": "8%",
+                },
+                {
+                    "aTargets": [5],
+                    "sWidth": "14%",
+                },
+                {
+                    "aTargets": [6],
+                    "sWidth": "18%",
+                },
+                {
+                    "aTargets": [7],
+                    "sWidth": "15%",
+                },
+                {
+                    "aTargets": [8],
+                    "sWidth": "10%",
+                    "bSortable": false,
+                }
+            ],
+            "bAutoWidth": false,
+
+        });
+    }
+
+    $(document).on('click', 'th input:checkbox', function () {
+        var that = this;
+        $(this).closest('table').find('tr > td:nth-child(2) input:checkbox')
+            .each(function () {
+                this.checked = that.checked;
+                $(this).closest('tr').toggleClass('selected');
+            });
+    });
+
+
+    //---------------------------------------------------------------------------------------------
+    function DeleteTeacher(id) {
+        $.ajax({
+            url: "/DoctrineCourse/DeleteClassMember",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Loại bỏ giáo viên thất bại", 0);
+                } else {
+                    showMessage("Loại bỏ giáo viên thành công", 1);
+                    LoadTeacherTable();
+                }
+            }
+        });
+    }
+
+    function DeleteTeacherConfirm(id) {
+        bootbox.dialog({
+            message: "Bạn có chắc muốn loại bỏ giáo viên này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Loại bỏ",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteTeacher(id);
+                        setTimeout(function() {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                        setTimeout(function() {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                }
+            }
+        });
+    }
+
+    //-----------------------------------------------------------------
+    function DeleteLearner(id) {
+        $.ajax({
+            url: "/DoctrineCourse/DeleteClassMember",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Loại bỏ học viên thất bại", 0);
+                } else {
+                    showMessage("loại bỏ học viên thành công", 1);
+                    LoadLearnerTable();
+                }
+            }
+        });
+    }
+
+    function DeleteLearnerConfirm(id) {
+        bootbox.dialog({
+            message: "Bạn có chắc muốn loại bỏ học viên này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: "Loại bỏ",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteLearner(id);
+                        setTimeout(function() {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                        setTimeout(function() {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                }
+            }
+        });
+    }
+
+    //-------------------------------------------------------------
+
+    //Sự kiện các nút
+    $("#ccbYear").change(function () {
+        LoadClassGroupDdl();
+        //$("#classTable").dataTable()._fnAjaxUpdate();
+        updateTableContent("classTable");
+    });
+    $("#ccbClassGroup").change(function () {
+        //$("#classTable").dataTable()._fnAjaxUpdate();
+        updateTableContent("classTable");
+    });
+    $("#ccbYearModal").change(function () {
+        LoadClassGroupDdlModal();
+    });
+    $("#btnCreateClass").click(function () {
+        $("#ClassModalTitle").html('Thêm mới lớp giáo lý');
+        $("#ccbYearModal").val($("#ccbYear").val());
+        $("#ccbClassGroupModal").val($("#ccbClassGroup").val());
+        $("#createClassModal").modal('show');
+        $("#hiddenCreateClassModal").val("1");
+        $("#btnCreateClassModal").show();
+        $("#btnUpdateClassModal").hide();
+        $("#btnCompleteCourseApprove").hide();
+        $("#btnInCompleteCourseApprove").hide();
+        $("#btnCompleteCourse").hide();
+    });
+    $("#btnCreateClassModal").click(function () {
+        if (!checkValidate()) {
+            return false;
+        }
+        AddClass();
+        $("#createClassModal").modal('hide');
+        ClearDataModal();
+    });
+    $("#btnUpdateClassModal").click(function () {
+        if (!checkValidate()) {
+            return false;
+        }
+        UpdateClass();
+        $("#CreateClassModal").modal('hide');
+    });
+    //Thêm chọn giáo viên
+    $("#btnCreateTeacherModal").click(function () {
+        $("#classMemberPosition").val('1');
+        if (!checkValidate()) {
+            return false;
+        }
+        openParishionerModal(6, -1);
+    });
+    $("#btnLookupTeacherModal").click(function () {
+        $("#classMemberPosition").val('1');
+        if (!checkValidate()) {
+            return false;
+        }
+        openLookupModal(8, "", -1, 1);
+    });
+    //Thêm chọn học viên
+    $("#btnCreateLearnerModal").click(function () {
+        $("#classMemberPosition").val('2');
+        if (!checkValidate()) {
+            return false;
+        }
+        openParishionerModal(6, -1);
+    });
+    $("#btnLookupLearnerModal").click(function () {
+        $("#classMemberPosition").val('2');
+        if (!checkValidate()) {
+            return false;
+        }
+        openLookupModal(8, "", -1, 0);
+    });
+
+
+    $("#btnCloseClassModal").click(function () {
+        ClearDataModal();
+        $("#createClassModal").modal('hide');
+    });
+
+    //$("#btnCreateTeacherModal").click(function () {
+    //    $("#createParishionerModal").modal('show');
+    //    $("#hiddenCreateParishionerModal").val("1");
+    //});
+    //$("#btnCreateLearnerModal").click(function () {
+    //    $("#createParishionerModal").modal('show');
+    //    $("#hiddenCreateParishionerModal").val('1');
+    //});
+    //Approve hoàn thành khóa học
+    $("#btnCompleteCourseApprove").click(function () {
+        CompleteCourseApprove();
+    });
+    $("#btnInCompleteCourseApprove").click(function () {
+        IncompleteCourseApprove();
+    });
+    //Phần chuyển lớp
+    $("#btnCompleteCourse").click(function () {
+        loadCurrentClassInformation();
+        LoadLearnerTargetTable();
+        LoadClassGroupTargetDdlModal();
+        LoadClassTargetDdlModal();
+        $("#ChangeClassModal").modal('show');
+        $("#hiddenChangeClassModal").val('1');
+    });
+    $("#learnerType").change(function() {
+        LoadLearnerTargetTable();
+    });
+    $("#btnCloseChangeClassModal").click(function () {
+        $("#ChangeClassModal").modal('hide');
+        LoadClassGroupTargetDdlModal();
+        LoadClassTargetDdlModal();
+        makeScrollForModal();
+    });
+    $("#ccbYearTargetModal").change(function () {
+        LoadClassGroupTargetDdlModal();
+        LoadClassTargetDdlModal();
+    });
+    $("#ccbClassGroupTargetModal").change(function () {
+        LoadClassTargetDdlModal();
+    });
+    $("#btnChangeClass").click(function () {
+        changeLearnerClass();
+    });
+
+    //--------------------------------------------------------------------------------------
+    function ClearDataModal() {
+        $("#ccbClassGroupModal").val('0');
+        $("#classNameModal").val("");
+        $("#classRoomModal").val("");
+        $("#classNoteModal").val("");
+        $("#ccbYearModal").val('0');
+        $("#classGroupNameValidate").html("");
+        $("#classGroupNameValidate").hide();
+        $("#classYearValidate").html("");
+        $("#classYearValidate").hide();
+        $("#classNameValidate").html("");
+        $("#classNameValidate").hide();
+        $("#ModalValidate").html('');
+        $("#ModalValidate").hide();
+        $("#labelnote").hide();
+
+        $("#classId").val("0");
+        $("#teacherTable").dataTable().fnDestroy();
+        $("#teacherTable tbody").html("");
+        $("#learnerTable").dataTable().fnDestroy();
+        $("#learnerTable tbody").html("");
+        $("#learnerTargetTable").dataTable().fnDestroy();
+        $("#learnerTargetTable tbody").html("");
+    }
+
+    //Validate Lớp giáo lí
+    function checkValidate() {
+        var isError = false;
+
+        var year = $("#ccbYearModal").val();
+        var classGroupName = $("#ccbClassGroupModal").val();
+        var name = $("#classNameModal").val();
+        if (year == 0) {
+            $("#classYearValidate").html("Vui lòng chọn năm !");
+            $("#classYearValidate").show();
+            isError = true;
+        } else {
+            $("#classYearValidate").html("");
+            $("#classYearValidate").hide();
+        }
+        if (classGroupName == 0) {
+            $("#classGroupNameValidate").html("Vui lòng chọn khối !");
+            $("#classGroupNameValidate").show();
+            isError = true;
+        } else {
+            $("#classGroupNameValidate").html("");
+            $("#classGroupNameValidate").hide();
+        }
+        if (!name) {
+            $("#classNameValidate").html("Tên lớp không thể bỏ trống !");
+            $("#classNameValidate").show();
+            isError = true;
+        } else {
+            $("#classNameValidate").html("");
+            $("#classNameValidate").hide();
+        }
+
+        if (!validateUnique()) {
+            isError = true;
+        }
+
+
+        if (isError) {
+            $("#detailClasss").tab('show');
+            return false;
+        }
+
+        return true;
+
+    }
+
+    function validateUnique() {
+
+        var classId = $("#classId").val();
+        var name = $("#classNameModal").val();
+        var result = true;
+
+        $.ajax({
+            url: "/DoctrineCourse/CheckUniqueClassName",
+            type: "POST",
+            data: {
+                classId: classId,
+                name: name
+            },
+            async: false,
+            success: function (data) {
+                if (data.result <= 0) {
+                    $("#classNameValidate").html("Tên lớp đã tồn tại. Vui lòng nhập tên khác!");
+                    $("#classNameValidate").show();
+                    result = false;
+                } else {
+                    if (!name) {
+                        return true;
+                    }
+                    $("#classNameValidate").html("");
+                    $("#classNameValidate").hide();
+                    result = true;
+                }
+            },
+        });
+
+        return result;
+    }
+
+    //---------------------------------------------------------------------------------
+
+    //Validate chọn classMember
+    function CheckUniqueClassMember() {
+        var classId = $("#classId").val();
+        var parishionerId = $("#cmParishionerId").val();
+        var result = true;
+        $.ajax({
+            url: "/DoctrineCourse/CheckUniqueClassMember",
+            type: "POST",
+            data: {
+                classId: classId,
+                parishionerId: parishionerId
+            },
+            async: false,
+            success: function (data) {
+                if (data.result <= 0) {
+                    if (data.result == -2) {
+                        //$("#ModalValidate").html('Giáo dân vừa chọn đã có tên trong danh sách giáo viên. Vui lòng kiểm tra lại');
+                        //$("#ModalValidate").show();
+
+                        showMessage("Giáo dân này đã có tên trong danh sách giáo viên. Vui lòng kiểm tra lại", -1, 7000);
+                        $("#societyModalValidate").show();
+                    } else {
+                        if (data.result == -3) {
+                            //$("#ModalValidate").html('Giáo dân vừa chọn đã có tên trong danh sách học viên. Vui lòng kiểm tra lại');
+                            //$("#ModalValidate").show();
+
+                            showMessage("Giáo dân này đã có tên trong danh sách học viên. Vui lòng kiểm tra lại", -1, 7000);
+                            $("#societyModalValidate").show();
+                        } else {
+                            showMessage("Có lỗi xảy ra do kết nối mạng. Vui lòng kiểm tra lại", 0);
+                            //$("#societyModalValidate").show();
+                            $("#ModalValidate").html('');
+                            $("#ModalValidate").hide();
+                        }
+                    }
+                    result = false;
+                } else {
+                    //$("#societyModalValidate").html("");
+                    //$("#societyModalValidate").hide();
+
+                    $("#ModalValidate").html('');
+                    $("#ModalValidate").hide();
+                    result = true;
+                }
+
+            },
+        });
+        return result;
+    }
+    //-----------------------------------------------------------------------
+    //Check hoàn thành khóa học
+    function CompleteCourseApprove() {
+        var checks = new Array();
+
+        $(".cc:checked").each(function () {
+            if ($(this).is(':checked')) {
+                checks.push($(this).val());
+            }
+        });
+
+        if (checks.length > 0) {
+            $.ajax({
+                url: "/DoctrineCourse/CompleteCourseApprove",
+                type: "POST",
+                traditional: true,
+                data: {
+                    'learnerId': checks
+                },
+                success: function (data) {
+                    if (data.result <= 0) {
+                        showMessage('Cập nhật hoàn thành khóa học thất bại', 0);
+                    } else {
+                        showMessage('Cập nhật hoàn thành khóa học thành công', 1);
+                        LoadLearnerTable();
+                    }
+                }
+            });
+            $("#completeCourseValidate").html('');
+            $("#completeCourseValidate").hide();
+        } else {
+            $("#completeCourseValidate").html('Vui lòng chọn học viên');
+            $("#completeCourseValidate").show();
+        }
+    }
+    function IncompleteCourseApprove() {
+        var checks = new Array();
+
+        $(".cc:checked").each(function () {
+            if ($(this).is(':checked')) {
+                checks.push($(this).val());
+            }
+        });
+
+        if (checks.length > 0) {
+            $.ajax({
+                url: "/DoctrineCourse/IncompleteCourseApprove",
+                type: "POST",
+                traditional: true,
+                data: {
+                    'learnerId': checks
+                },
+                success: function (data) {
+                    if (data.result <= 0) {
+                        showMessage('Hủy hoàn thành khóa học thất bại', 0);
+                    } else {
+                        showMessage('Hủy hoàn thành khóa học thành công', 1);
+                        LoadLearnerTable();
+                    }
+                }
+            });
+            $("#completeCourseValidate").html('');
+            $("#completeCourseValidate").hide();
+        } else {
+            $("#completeCourseValidate").html('Vui lòng chọn học viên');
+            $("#completeCourseValidate").show();
+        }
+    }
+    //---------------------------------------------------------------------------------
+    //Chuyển lớp cho học viên
+
+    //Load Khối giáo lí ra DropDownList để chuyển lớp
+    function LoadClassGroupTargetDdlModal() {
+        var year = $("#ccbYearTargetModal").val();
+        $.ajax({
+            url: "/DoctrineCourse/GetClassGroupByYear",
+            data: {
+                year: year
+            },
+            async: false,
+            success: function (data) {
+                var element = $("#ccbClassGroupTargetModal");
+                //append data
+                element.html("");
+                element.append("<option value='0'></option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+            }
+        });
+    }
+    //Load Lớp giáo lí ra DropDownList để chyển lớp
+    function LoadClassTargetDdlModal() {
+        var year = $("#ccbYearTargetModal").val();
+        var classGroupId = $("#ccbClassGroupTargetModal").val();
+        $.ajax({
+            url: "/DoctrineCourse/GetClassToChangeClass",
+            data: {
+                year: year,
+                classGroupId: classGroupId
+            },
+            async: false,
+            success: function (data) {
+                var element = $("#ccbClassTargetModal");
+                //append data
+                element.html("");
+                element.append("<option value='0'></option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+            }
+        });
+    }
+    //------------------------------------------------------------------------------
+    //Load thông tin lớp cũ trong modal chuyển lớp
+    function loadCurrentClassInformation() {
+        var currentClassId = $("#classId").val();
+
+        $.ajax({
+            url: "/DoctrineCourse/LoadClassById",
+            type: "POST",
+            data: { id: currentClassId },
+            success: function (data) {
+                var item = data.result;
+                $("#currentYearClassModal").val(item.Year);
+                $("#currentClassGroupModal").val(item.ClassGroupName);
+                $("#currentClassNameModal").val(item.Name);
+                $("#currentClassRoomModal").val(item.RoomNo);
+                $("#currentClassNoteModal").val(item.Note);
+
+            },
+        });
+    }
+
+    //--------------------------------------------------------------------
+    //Load bảng danh sách học viên để chuyển lớp
+    function initLearnerTargetTable() {
+        $("#learnerTargetTable").dataTable({
+            "bDestroy": true,
+            "oLanguage": {
+                "sSearch": "Tên học viên",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aaSorting": [],
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    //"bVisible": false,
+                    "bSortable": false,
+                },
+                {
+                    "aTargets": [1],
+                    "bSortable": false,
+                    "sWidth": "4%",
+                },
+                {
+                    "aTargets": [2],
+                    "sWidth": "13%",
+                },
+                {
+                    "aTargets": [3],
+                    "sWidth": "18%",
+                },
+                {
+                    "aTargets": [4],
+                    "sWidth": "8%",
+                },
+                {
+                    "aTargets": [5],
+                    "sWidth": "14%",
+                },
+                {
+                    "aTargets": [6],
+                    "sWidth": "18%",
+                },
+                {
+                    "aTargets": [7],
+                    "sWidth": "15%",
+                },
+                {
+                    "aTargets": [8],
+                    "sWidth": "10%",
+                    "bSortable": false,
+                    "bVisible": false,
+                }
+            ],
+            "bAutoWidth": false,
+
+        });
+    }
+    function LoadLearnerTargetTable() {
+        var id = $("#classId").val();
+        var learnerType = $("#learnerType").val();
+        $.ajax({
+            url: "/DoctrineCourse/LoadClassMemberToChangeClass",
+            type: "POST",
+            data: {
+                classId: id,
+                learnerType: learnerType,
+            },
+            success: function (data) {
+                $("#learnerTargetTable").dataTable().fnDestroy();
+                $("#learnerTargetTable > tbody").html(data);
+                initLearnerTargetTable();
+            },
+        });
+    }
+    function changeLearnerClass() {
+        var classId = $("#ccbClassTargetModal").val();
+        var checks = new Array();
+        var classTarget = $("#ccbClassTargetModal").val();
+
+        $(".ccl:checked").each(function () {
+            if ($(this).is(':checked')) {
+                checks.push($(this).val());
+            }
+        });
+        if (classTarget == 0 || checks.length == 0) {
+            if (classTarget == 0) {
+                $("#classTargetValidate").html('Vui lòng chọn lớp để chuyển!');
+                $("#classTargetValidate").show();
+            } else {
+                $("#classTargetValidate").html('');
+                $("#classTargetValidate").hide();
+            }
+            if (checks.length == 0) {
+                $("#changeClassValidate").html('Vui lòng chọn học viên');
+                $("#changeClassValidate").show();
+            } else {
+                $("#changeClassValidate").html('');
+                $("#changeClassValidate").hide();
+            }
+            return false;
+        } else {
+            $.ajax({
+                url: "/DoctrineCourse/ChangeLearnerClass",
+                type: "POST",
+                traditional: true,
+                data: {
+                    'learnerId': checks,
+                    classId: classId
+                },
+                success: function (data) {
+                    if (data.result <= 0) {
+                        showMessage('Chuyển lớp thất bại', 0);
+                        makeScrollForModal();
+                    } else {
+                        showMessage('Chuyển lớp thành công', 1);
+                        makeScrollForModal();
+                    }
+                }
+            });
+            $("#ChangeClassModal").modal('hide');
+            $("#classTargetValidate").html('');
+            $("#classTargetValidate").hide();
+            $("#changeClassValidate").html('');
+            $("#changeClassValidate").hide();
+        }
+    }
+
+    //Phần tìm kiếm------------------------------------
+
+
+</script>

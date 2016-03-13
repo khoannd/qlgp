@@ -1,0 +1,128 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Utilities
+@model List<PMS.DataAccess.ViewModels.ParishManagerViewModel>
+
+@{
+    var lstVaiTro = new List<object>();
+    if(ViewBag.ListVaiTro != null)
+    {         
+        foreach (var vaiTro in ViewBag.ListVaiTro)
+        {
+            lstVaiTro.Add(new { Position = vaiTro.Id, PositionName = vaiTro.Name });
+        }
+    }
+    
+    var lstParish = new List<object>();
+    if(ViewBag.ListParish != null)
+    {         
+        foreach (var parish in ViewBag.ListParish)
+        {
+            lstParish.Add(new { ParishId = parish.Id, Parish = parish.Name });
+        }
+    }
+
+    var lstStatus = new List<object>();
+    if (ViewBag.ListStatus != null)
+    {
+        foreach (var status in ViewBag.ListStatus)
+        {
+            lstStatus.Add(new { StatusId = status.Id, Status = status.Status });
+        }
+    }
+}
+
+@foreach (var item in Model)
+{
+    <tr position="@item.Position">
+        <td class="hidden">@item.Id</td>
+        <td>@item.Id</td>
+        <td>@item.ChristianName</td>
+        <td>@item.Priest</td>
+        <td>@item.BirthDate</td>
+        <td class="editableCode">@item.Code</td>
+        <td>
+            @{
+                SelectList slStatus = new SelectList(lstStatus, "StatusId", "Status", item.StatusId);
+            }
+            @Html.DropDownListFor(m => item.StatusId, slStatus, "", new { @class = "form-control update-value", currentValue = @item.StatusId, onchange = "updateValue(" + @item.Id + ",'StatusId',this);" })
+        </td>
+        <td>@item.ParishCurrent</td>        
+        <td style="padding:1px;">
+            @{
+                SelectList slParish = new SelectList(lstParish, "ParishId", "Parish", item.ParishId);
+            }
+            @Html.DropDownListFor(m => item.ParishId, slParish, "[Chọn giáo xứ]", new { @class = "form-control update-value", currentValue = @item.ParishId, onchange = "updateValue(" + @item.Id + ",'ParishId',this);" })
+            @*<input type="text" value="" class="form-control parishName">*@
+        </td>
+        <td style="padding:1px;">            
+            @{
+                SelectList slVaiTro = new SelectList(lstVaiTro, "Position", "PositionName", item.Position);
+            }
+            @Html.DropDownListFor(m => item.Position, slVaiTro, "[Chọn vai trò]", new { @class = "form-control update-value", currentValue = @item.Position, onchange = "updateValue(" + @item.Id + ",'Position',this);" })
+        </td>
+        <td>
+            <button class="btn btn-minier btn-primary" title="Sửa" onclick="LoadPriestByPriestId(@item.PriestId)">
+                <i class="ace-icon fa fa-edit"></i>
+            </button>                        
+            <button class="btn btn-minier btn-info" title="Lịch sử" onclick="ViewHistoryThuyenChuyen(@item.PriestId)">
+                <i class="ace-icon fa fa-book fa-fw"></i>
+            </button>            
+            @*<button class="btn btn-minier btn-success" title="In giấy mời" onclick="PrintAppointment(@item.Id)">
+                <i class="ace-icon fa fa-print fa-fw"></i>
+            </button>
+            <button class="btn btn-minier btn-purple" title="In quyết định" onclick="PrintDecision(@item.Id)">
+                <i class="ace-icon fa fa-print fa-fw"></i>
+            </button>*@
+            <button class="btn btn-minier btn-danger" title="Loại bỏ" onclick="RemovePriestConfirm(@item.Id)">
+                <i class="ace-icon fa fa-trash-o"></i>
+            </button>
+        </td>
+    </tr>   
+}
+<script>
+    $(function () { 
+        //$('.update-value').selectpicker({
+        //    noneSelectedText: '-',
+        //    style: 'form-control'
+        //});
+    });
+    $.fn.editable.defaults.mode = 'inline';
+    $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
+    $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>' +
+        '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';
+
+    $('.editableCode')
+        .editable({
+            type: 'text',
+            name: 'editableCode',
+            emptytext:"",
+            success: function (response, newValue) {
+                var row = $(this).closest("tr");
+                var cols = row.children();
+                var id = cols[0].innerText;
+                var current = $(this).text();
+                      
+                if (current == newValue) {
+                    return;
+                }
+
+                $.ajax({
+                    url: "/ThuyenChuyenLinhMuc/UpdateEditableCode",
+                    type: "POST",
+                    data: {
+                        Id: id,
+                        Code: newValue
+                    },
+                    async: false,
+                    success: function (data) {
+                        if (data.result <= 0) {
+                            showMessage("Cập nhật thông tin thất bại", 0);
+                        } else {
+                            showMessage("Cập nhật thành công", 1);
+                        }
+                    },
+                });
+            }
+        });
+</script>
+

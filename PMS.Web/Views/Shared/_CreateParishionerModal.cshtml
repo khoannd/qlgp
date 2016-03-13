@@ -1,0 +1,1677 @@
+﻿<style>
+    .ui-autocomplete {
+        max-height: 200px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+    }
+</style>
+
+<input type="hidden" id="defaultCommunity" value="@((int)Session["DefaultCommunity"])" />
+<input type="hidden" id="hiddenParishionerIdModal" value="0" />
+<input type="hidden" id="txtHiddenBaptismIdModal" value="0" />
+<input type="hidden" id="txtHiddenHolyCommunionIdModal" value="0" />
+<input type="hidden" id="txtHiddenConfirmationIdModal" value="0" />
+<input type="hidden" id="txtHiddenVocationIdModal" value="0" />
+
+<input type="hidden" id="hiddenActionModal" value="0" />
+<input type="hidden" id="hiddenTargetIdModal" value="0" />
+<input type="hidden" id="hiddenGenderModal" value="-1" />
+<input type="hidden" id="isLoadedModal" value="0"/>
+
+
+<div id="createParishionerModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+                    <h4 id="parishionerModalTitle" class="widget-title">Thêm mới giáo dân</h4>
+                    
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseParishionerModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+                <div class="widget-body">
+                    <div class="col-xs-12 no-padding">
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs" id="myTab">
+                                <li class="active">
+                                    <a id="homeLinkTab" data-toggle="tab" href="#home">
+                                        <i class="ace-icon fa fa-user bigger-120"></i>
+                                        Cá nhân
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a id="sacramentLinkTab" data-toggle="tab" href="#sacrament">
+                                        <i class="ace-icon fa fa-arrows bigger-120"></i>
+                                        Bí tích
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div id="home" class="tab-pane fade in active">
+
+                                    <!-- Thông tin cá nhân-->
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Thông tin cơ bản</h4>
+
+                                            </div>
+
+                                            <div class="widget-body">
+
+
+                                                <div class="form-horizontal">
+
+                                                    <div class="col-xs-6">
+
+
+                                                        <div class="form-group" id="parishionerCodeDiv">
+
+                                                            <label class="col-sm-4 control-label no-padding-right"> Mã giáo dân (<span style="color:red">*</span>)</label>
+
+                                                            <div class="col-sm-8">
+                                                                <input readonly="" type="text" id="txtParishionerCodeModal" class="form-control">
+                                                                <label id="lbCodeErrorMessage" class="text-danger" hidden=""></label>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right">
+                                                                Tên thánh
+
+                                                            </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input id="txtChristianNameModal" type="text" class="form-control christian">
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right">
+                                                                Họ tên  (<span style="color:red">*</span>)
+                                                            </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtParishionerNameModal" class="form-control">
+                                                                <label id="lbParishionerNameErrorMessage" class="text-danger" hidden=""></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Giáo họ/khu  (<span style="color:red">*</span>) </label>
+
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control" id="cbbCommunityModal">
+                                                                    <option value=""></option>
+                                                                </select>
+                                                                <label id="lbCommunityErrorMessage" class="text-danger" hidden=""></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <label class="position-relative">
+                                                                    <input type="checkbox" class="ace" id="cbIsCountedModal" />
+                                                                    <span class="lbl" style="color: blue"> Là người không được thống kê</span>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-xs-6">
+
+
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right"> Giới tính (<span style="color:red">*</span>)  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <select id="cbGenderModal" class="form-control">
+                                                                    <option value="-1"></option>
+                                                                    <option value="1">Nam</option>
+                                                                    <option value="0">Nữ</option>
+                                                                </select>
+                                                                <label id="lbGenderErrorMessage" class="text-danger" hidden=""></label>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right"> Ngày sinh  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input class="form-control date-picker" id="txtBirthDateModal" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                                <label id="lbBirthDateErrorMessage" class="text-danger" hidden=""></label>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Nơi sinh </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input id="txtBirthPlaceModal" type="text" class="form-control place">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Tên cha </label>
+
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txtFatherNameModal" class="form-control maleParishioner">
+                                                                    <span class="input-group-btn">
+                                                                        <button id="btnMaleSearch" class="btn btn-info btn-sm">
+                                                                            <i class="ace-icon fa fa-search"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Tên mẹ </label>
+
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <input type="text" id="txtMotherNameModal" class="form-control femaleParishioner">
+                                                                    <span class="input-group-btn">
+                                                                        <button id="btnFemaleSearch" class="btn btn-info btn-sm">
+                                                                            <i class="ace-icon fa fa-search"></i>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <hr />
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kết thúc thông tin cá nhân-->
+                                    <!-- Thông tin chuyển xứ-->
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Thông tin chuyển xứ</h4>
+
+                                            </div>
+
+                                            <div class="widget-body">
+
+
+                                                <div class="form-horizontal">
+
+                                                    <div class="col-xs-6">
+
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right"> Thông tin hiện tại  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control" id="cbbDomicileStatusModal">
+                                                                    <option value="0">Ở tại xứ</option>
+                                                                    <option value="1">Chuyển từ xứ khác đến</option>
+                                                                    <option value="2">Đã chuyển đi xứ khác</option>
+                                                                </select>
+                                                            </div>
+
+                                                        </div>
+
+
+
+                                                    </div>
+                                                    <div class="col-xs-6">
+
+
+
+                                                        <div hidden="" id="domicileDiv" class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right"> Giáo xứ </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtDomicilePlaceModal" class="form-control parishName">
+                                                            </div>
+
+                                                        </div>
+
+
+
+                                                    </div>
+
+                                                    <hr />
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kết thúc Thông tin chuyển xứ-->
+                                    <!--Thông tin khác-->
+
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Thông tin khác</h4>
+
+
+                                            </div>
+
+                                            <div class="widget-body">
+
+
+                                                <div class="form-horizontal">
+
+                                                    <div class="col-xs-6">
+
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Trình độ văn hóa  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input id="txtEducationModal" type="text" class="form-control education">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Nghề nghiệp </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <input id="txtCareerModal" type="text" class="form-control career">
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Địa chỉ </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <input type="text" id="txtAddressModal" class="form-control">
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Điện thoại nhà </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="ace-icon fa fa-phone"></i>
+                                                                    </span>
+
+                                                                    <input class="form-control input-mask-phone" type="text" id="txtPhoneModal" />
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Di động </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="ace-icon fa fa-phone"></i>
+                                                                    </span>
+
+                                                                    <input class="form-control input-mask-phone" type="text" id="txtMobilePhoneModal" />
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Email </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="ace-icon fa fa-envelope"></i>
+                                                                    </span>
+
+                                                                    <input type="text" id="txtEmailModal" class="form-control email">                                                                  
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <label class="position-relative">
+                                                                    <input type="checkbox" class="ace" id="cbIsStudyingModal" />
+                                                                    <span class="lbl"> Còn học</span>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <label class="position-relative">
+                                                                    <input type="checkbox" class="ace" id="cbIsCatechumenModal" />
+                                                                    <span class="lbl"> Tân tòng</span>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <label class="position-relative">
+                                                                    <input type="checkbox" class="ace" id="cbIsMarriedModal" />
+                                                                    <span class="lbl"> Đã lập gia đình</span>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <label class="position-relative">
+                                                                    <input type="checkbox" disabled="" checked="" class="ace" id="cbIsSingleModal" />
+                                                                    <span class="lbl"> Đang sống độc thân</span>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <label class="position-relative">
+                                                                    <input id="cbIsDeadModal" type="checkbox" class="ace" />
+                                                                    <span class="lbl"> Qua đời</span>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right"> Ngày qua đời </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input class="form-control date-picker" disabled="" id="txtDeadDateModal" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                                <label id="lbDeadErrorMessage" class="text-danger" hidden=""></label>
+                                                            </div>
+                                                        </div>
+
+
+
+
+                                                    </div>
+                                                    <div class="col-xs-12">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-2 control-label no-padding-right"> Ghi chú chung  </label>
+
+                                                            <div class="col-sm-10">
+
+                                                                <textarea id="txtNoteModal" rows="4" style="resize: none" class="form-control"></textarea>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <hr />
+
+                                                </div>
+
+
+
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kết thúc thông tin khác-->
+
+
+
+
+                                </div>
+
+                                <div id="sacrament" class="tab-pane fade in ">
+
+                                    <!-- Rửa tội-->
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Thông tin rửa tội</h4>
+
+
+                                            </div>
+
+                                            <div class="widget-body">
+
+
+                                                <div class="form-horizontal">
+
+                                                    <div class="col-xs-6">
+
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right"> Ngày rửa tội  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input class="form-control date-picker" id="txtBaptismDateModal" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                                <label id="lbBaptismDateErrorMessage" class="text-danger" hidden=""></label>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Số rửa tội  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtBaptismNumberModal" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Nơi rửa tội </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtBaptismPlaceModal" class="form-control">
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-xs-6">
+
+
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" > Người đỡ đầu </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtBaptismPatronModal" class="form-control priest">
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" > Người ban bí tích  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtBaptismGiverModal" class="form-control priest">
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <hr />
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kết thúc rửa tội-->
+                                    <!-- Rước lễ lần đầu-->
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Thông tin xưng tội rước lễ lần đầu</h4>
+
+
+                                            </div>
+
+                                            <div class="widget-body">
+
+
+                                                <div class="form-horizontal">
+
+                                                    <div class="col-xs-6">
+
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" > Ngày xưng tội rước lễ  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input class="form-control date-picker" id="txtHolyCommunionDateModal" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                                <label id="lbHolyCommunionDateErrorMessage" class="text-danger" hidden=""></label>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" > Số xưng tội rước lễ  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtHolyCommunionNumberModal" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" > Nơi xưng tội rước lễ </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtHolyCommunionPlaceModal" class="form-control">
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" > Người ban bí tích  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtHolyCommunionGiverModal" class="form-control priest">
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <hr />
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kết thúc rước lễ lần đầu-->
+                                    <!-- Thêm sức-->
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Thông tin thêm sức</h4>
+
+
+                                            </div>
+
+                                            <div class="widget-body">
+
+
+                                                <div class="form-horizontal">
+
+                                                    <div class="col-xs-6">
+
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" > Ngày thêm sức  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input class="form-control date-picker" id="txtConfirmationDateModal" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                                <label id="lbConfirmationDateErrorMessage" class="text-danger" hidden=""></label>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" > Số thêm sức  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtConfirmationNumberModal" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right" > Nơi thêm sức </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtConfirmationPlaceModal" class="form-control">
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" > Người đỡ đầu </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtConfirmationPatronModal" class="form-control priest">
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right" > Người ban bí tích  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtConfirmationGiverModal" class="form-control priest">
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <hr />
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kết thúc thêm sức-->
+
+
+                                </div>                           
+                                <div class="clearfix"></div>
+                                <div class="col-xs-12">
+                                    <div class="col-sm-12">
+                                        <div class="align-right">
+                                            <button class="btn btn-primary" type="button" onclick="checkTransferParishInformationForAdding()">
+                                                <i class="ace-icon fa fa-save bigger-110"></i>
+                                                Lưu
+                                            </button>
+                                            <button id="btnCloseParishionerModal" class="btn btn-default">
+                                                <i class="ace-icon fa fa-times  bigger-110"></i>
+                                                Đóng
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="clearfix"></div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="space-4"></div>
+
+                    <div>
+
+
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+@Html.Partial("_LookupParishionerModal")
+
+
+<script>
+    //---------------------
+    $("#btnCloseParishionerModal").click(function () {
+        $("#createParishionerModal").modal('hide');
+    });
+    //---------------------
+    $("#cbIsDeadModal").change(function () {
+
+        if ($(this).is(":checked")) {
+            $("#txtDeadDateModal").attr('disabled', false);
+        } else {
+            $("#txtDeadDateModal").attr('disabled', true);
+            $("#txtDeadDateModal").val("");
+        }
+    });
+    //---------------------
+    $("#cbIsMarriedModal").change(function () {
+
+        if ($(this).is(":checked")) {
+            $("#cbIsSingleModal").attr('disabled', false);
+            $("#cbIsSingleModal").attr('checked', false);
+        } else {
+            document.getElementById("cbIsSingleModal").checked = true;
+            $("#cbIsSingleModal").attr('disabled', true);
+        }
+    });
+    //---------------------
+    $("#cbbDomicileStatusModal").change(function () {
+        var status = $(this).val();
+
+        if (status == 0) {
+            $("#domicileDiv").hide();
+        } else {
+            $("#domicileDiv").show();
+        }
+    });
+    //----------------------
+    $("#cbbCommunityModal").change(function () {
+        var defaultId = $("#defaultCommunity").val();
+        var value = $(this).val();
+
+        if (value == defaultId) {
+            $("#cbIsCountedModal").prop("checked", true);
+            $("#cbIsCountedModal").attr("disabled", true);
+        } else {
+            $("#cbIsCountedModal").attr("disabled", false);
+            $("#cbIsCountedModal").prop("checked", false);
+        }
+    });
+    //----------------------
+    $("#btnMaleSearch").click(function () {
+        openLookupModal(1, "txtFatherNameModal", 1, 1);
+    });
+
+    $("#btnFemaleSearch").click(function () {
+        openLookupModal(1, "txtMotherNameModal", 0, 1);
+    });
+
+    $(".email").focusout(function () {
+
+        var email = $(this).val();
+        if (email) {
+            if (!validateEmail(email)) {
+                showMessage("Email không đúng định dạng, định dạng: abc@@xyz.def", -1, 6000);
+                $(this).focus();
+            }
+        }
+    });
+
+    $('.input-mask-phone').mask("9999 999 999?9");
+
+    //---------------
+    var educations = [
+        "Mẫu giáo",
+        "Cấp I",
+        "Cấp II",
+        "Cấp III",
+        "Trung học",
+        "Cao đẳng",
+        "Đại học",
+        "Trên Đại học"
+    ];
+
+    $(".education").autocomplete({
+        autoFocus: true,
+        source: educations,
+        minLength: 0
+    }).focus(function () {
+        $(this).autocomplete("search");
+    });
+    //-----------------
+
+    var careers = [
+        "Nông dân",
+        "Công nhân",
+        "Nhân viên",
+        "Buôn bán",
+        "Nội trợ",
+        "Nghề tự do"
+    ];
+
+    $(".career").autocomplete({
+        autoFocus: true,
+        source: careers,
+        minLength: 0
+    }).focus(function () {
+        $(this).autocomplete("search");
+    });
+
+
+    //-----------------
+    loadCommunity();
+
+    function loadCommunity() {
+        $.ajax({
+            url: "/Parishioner/LoadCommunityAndParishDivisionTreeView",
+            data: {},
+            success: function (data) {
+                var element = $("#cbbCommunityModal");
+                //append data
+                element.html(data);
+            }
+        });
+    }
+    //---------------------
+    function checkValidParishioner() {
+        var code = $("#txtParishionerCodeModal").val();
+        var name = $("#txtParishionerNameModal").val();
+        var communityId = $("#cbbCommunityModal").val();
+        var gender = $("#cbGenderModal").val();
+
+        var isError = false;
+
+
+        var isDateError = false;
+        var birthDate = convertDateToString($("#txtBirthDateModal").val());
+        var baptismDate = convertDateToString($("#txtBaptismDateModal").val());
+        var holyCommunionDate = convertDateToString($("#txtHolyCommunionDateModal").val());
+        var confirmationDate = convertDateToString($("#txtConfirmationDateModal").val());
+
+        var baptismError = "Ngày rửa tội phải lớn hơn hoặc bằng ";
+        var holyCommunionError = "Ngày xưng tội rước lễ phải lớn hơn hoặc bằng ";
+        var confirmationError = "Ngày thêm sức phải lớn hơn hoặc bằng ";
+
+        if (confirmationDate) {
+
+            var cd = parseInt(confirmationDate);
+            var flagC = false;
+
+            if (birthDate) {
+                var bid = parseInt(birthDate);
+                var duration = cd - bid;
+                if (duration < 0) {
+                    confirmationError += "ngày sinh";
+                    flagC = true;
+                }
+            }
+
+            if (baptismDate) {
+                var bd = parseInt(baptismDate);
+                duration = cd - bd;
+                if (duration < 0) {
+                    if (flagC) {
+                        confirmationError += ", ";
+                    }
+                    confirmationError += "ngày rửa tội";
+                    flagC = true;
+                }
+            }
+
+            if (holyCommunionDate) {
+                var hcd = parseInt(holyCommunionDate);
+                duration = cd - hcd;
+                if (duration < 0) {
+                    if (flagC) {
+                        confirmationError += ", ";
+                    }
+                    confirmationError += "ngày xưng tội rước lễ";
+                    flagC = true;
+                }
+            }
+
+            if (flagC) {
+                $("#lbConfirmationDateErrorMessage").text(confirmationError);
+                $("#lbConfirmationDateErrorMessage").show();
+
+                document.getElementById("txtConfirmationDateModal").scrollIntoView();
+                isDateError = true;
+            } else {
+                $("#lbConfirmationDateErrorMessage").hide();
+                $("#lbConfirmationDateErrorMessage").html("");
+            }
+
+        }
+
+        if (holyCommunionDate) {
+
+            hcd = parseInt(holyCommunionDate);
+            var flagH = false;
+
+            if (birthDate) {
+                bid = parseInt(birthDate);
+                duration = hcd - bid;
+                if (duration < 0) {
+                    holyCommunionError += "ngày sinh";
+                    flagH = true;
+                }
+            }
+
+            if (baptismDate) {
+                bd = parseInt(baptismDate);
+                duration = hcd - bd;
+                if (duration < 0) {
+                    if (flagH) {
+                        holyCommunionError += ", ";
+                    }
+                    holyCommunionError += "ngày rửa tội";
+                    flagH = true;
+                }
+            }
+
+            if (flagH) {
+                $("#lbHolyCommunionDateErrorMessage").text(holyCommunionError);
+                $("#lbHolyCommunionDateErrorMessage").show();
+
+                document.getElementById("txtHolyCommunionDateModal").scrollIntoView();
+                isDateError = true;
+            } else {
+                $("#lbHolyCommunionDateErrorMessage").hide();
+                $("#lbHolyCommunionDateErrorMessage").html("");
+            }
+
+        }
+
+        if (baptismDate) {
+
+            bd = parseInt(baptismDate);
+            if (birthDate) {
+                bid = parseInt(birthDate);
+                duration = bd - bid;
+                if (duration < 0) {
+                    baptismError += "ngày sinh";
+
+                    $("#lbBaptismDateErrorMessage").text(baptismError);
+                    $("#lbBaptismDateErrorMessage").show();
+
+                    document.getElementById("txtBaptismDateModal").scrollIntoView();
+                    isDateError = true;
+                } else {
+                    $("#lbBaptismDateErrorMessage").hide();
+                    $("#lbBaptismDateErrorMessage").html("");
+                }
+            } else {
+                $("#lbBaptismDateErrorMessage").hide();
+                $("#lbBaptismDateErrorMessage").html("");
+            }
+        }
+
+        //------------
+
+        var deadDate = convertDateToString($("#txtDeadDateModal").val());
+        if (deadDate) {
+            var dead = parseInt(deadDate);
+            if (birthDate) {
+                bid = parseInt(birthDate);
+                duration = dead - bid;
+
+                if (duration < 0) {
+                    $("#lbDeadErrorMessage").html("Ngày qua đời không được nhỏ hơn ngày sinh");
+                    $("#lbDeadErrorMessage").show();
+
+                    document.getElementById("txtDeadDateModal").scrollIntoView();
+                    isError = true;
+                } else {
+                    $("#lbDeadErrorMessage").hide();
+                    $("#lbDeadErrorMessage").html("");
+                }
+            } else {
+                $("#lbDeadErrorMessage").hide();
+                $("#lbDeadErrorMessage").html("");
+            }
+        }
+
+        if (gender == -1) {
+            $("#lbGenderErrorMessage").html("Hãy chọn giới tính");
+            $("#lbGenderErrorMessage").show();
+
+            document.getElementById("cbGenderModal").scrollIntoView();
+            $("#cbGenderModal").focus();
+
+            isError = true;
+        } else {
+            $("#lbGenderErrorMessage").hide();
+            $("#lbGenderErrorMessage").html("");
+        }
+        //
+
+        //
+        if (communityId == 0 || communityId == null) {
+            $("#lbCommunityErrorMessage").html("Hãy chọn giáo họ/khu");
+            $("#lbCommunityErrorMessage").show();
+
+            document.getElementById("cbbCommunityModal").scrollIntoView();
+            $("#cbbCommunityModal").focus();
+
+            isError = true;
+        } else {
+            $("#lbCommunityErrorMessage").hide();
+            $("#lbCommunityErrorMessage").html("");
+        }
+
+        if (!name) {
+            $("#lbParishionerNameErrorMessage").html("Họ tên không được để trống");
+            $("#lbParishionerNameErrorMessage").show();
+
+            document.getElementById("txtParishionerNameModal").scrollIntoView();
+            $("#txtParishionerNameModal").focus();
+
+            isError = true;
+        } else {
+            $("#lbParishionerNameErrorMessage").hide();
+            $("#lbParishionerNameErrorMessage").html("");
+        }
+
+        if (!code) {
+            $("#lbCodeErrorMessage").html("Mã giáo dân không được để trống");
+            $("#lbCodeErrorMessage").show();
+
+            document.getElementById("txtParishionerCodeModal").scrollIntoView();
+            $("#txtParishionerCodeModal").focus();
+
+            isError = true;
+        } else {
+            $("#lbCodeErrorMessage").hide();
+            $("#lbCodeErrorMessage").html("");
+        }
+        //Check trung code
+
+        if (isError) {
+            $("#homeLinkTab").tab('show');
+            return false;
+        }
+        else if (isDateError) {
+            $("#sacramentLinkTab").tab('show');
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateUniqueCode() {
+        var id = $("#hiddenParishionerIdModal").val();
+        var code = $("#txtParishionerCodeModal").val();
+        var result = true;
+
+        $.ajax({
+            url: "/Parishioner/CheckUniqueCode",
+            type: "POST",
+            data: {
+                id: id,
+                code: code
+            },
+            async: false,
+            success: function (data) {
+                if (data.result) {
+                    $("#lbCodeErrorMessage").html("Mã giáo dân đã tồn tại");
+                    $("#lbCodeErrorMessage").show();
+                    result = false;
+                } else {
+                    $("#lbCodeErrorMessage").html("");
+                    $("#lbCodeErrorMessage").hide();
+                    result = true;
+                }
+            },
+        });
+
+        return result;
+    }
+
+    function refreshSubParishionerModal() {
+        //Basic Information
+        $("#hiddenParishionerIdModal").val(0);
+
+        $("#txtHiddenBaptismIdModal").val(0);
+        $("#txtHiddenHolyCommunionIdModal").val(0);
+        $("#txtHiddenConfirmationIdModal").val(0);
+        $("#txtHiddenVocationIdModal").val(0);
+
+        $("#hiddenActionModal").val(0);
+        $("#hiddenTargetIdModal").val(0);
+        $("#hiddenGenderModal").val(-1);
+
+
+        $("#txtParishionerCodeModal").val("");
+        $("#txtParishionerCodeModal").attr('readonly', true);
+        $("#parishionerCodeDiv").hide();
+
+        $("#txtChristianNameModal").val("");
+        $("#txtParishionerNameModal").val("");
+        $("#cbGenderModal").val(-1);
+        $("#txtBirthDateModal").val("");
+        $("#txtBirthPlaceModal").val("");
+
+        $("#cbbCommunityModal").val(0);
+        $("#cbbCommunityModal").change();
+
+        $("#cbIsCountedModal").prop("checked", false);
+        $("#txtFatherNameModal").val("");
+        $("#txtMotherNameModal").val("");
+
+        $("#cbbDomicileStatusModal").val(0);
+        $("#cbbDomicileStatusModal").change();
+        $("#txtDomicilePlaceModal").val("");
+
+        $("#txtEducationModal").val("");
+        $("#txtCareerModal").val("");
+        $("#txtAddressModal").val("");
+        $("#txtPhoneModal").val("");
+        $("#txtMobilePhoneModal").val("");
+        $("#txtEmailModal").val("");
+        $("#txtNoteModal").val("");
+
+        $("#cbIsStudyingModal").prop("checked", false);
+        $("#cbIsCatechumenModal").prop("checked", false);
+        $("#cbIsMarriedModal").prop("checked", false);
+        $("#cbIsMarriedModal").change();
+        $("#cbIsSingleModal").prop("checked", true);
+        $("#cbIsDeadModal").prop("checked", false);
+        $("#cbIsDeadModal").change();
+        $("#txtDeadDateModal").val("");
+
+        //Sacrament
+        $("#txtBaptismDateModal").val("");
+        $("#txtBaptismNumberModal").val("");
+        $("#txtBaptismPlaceModal").val("");
+        $("#txtBaptismPatronModal").val("");
+        $("#txtBaptismGiverModal").val("");
+
+        $("#txtHolyCommunionDateModal").val("");
+        $("#txtHolyCommunionNumberModal").val("");
+        $("#txtHolyCommunionPlaceModal").val("");
+        $("#txtHolyCommunionGiverModal").val("");
+
+        $("#txtConfirmationDateModal").val("");
+        $("#txtConfirmationNumberModal").val("");
+        $("#txtConfirmationPlaceModal").val("");
+        $("#txtConfirmationPatronModal").val("");
+        $("#txtConfirmationGiverModal").val("");
+
+        $("#txtBaptismDateModal").prop('disabled', false);
+        $("#txtBaptismNumberModal").prop('disabled', false);
+        $("#txtBaptismPlaceModal").prop('disabled', false);
+        $("#txtBaptismPatronModal").prop('disabled', false);
+        $("#txtBaptismGiverModal").prop('disabled', false);
+        $("#txtHolyCommunionDateModal").prop('disabled', false);
+        $("#txtHolyCommunionNumberModal").prop('disabled', false);
+        $("#txtHolyCommunionPlaceModal").prop('disabled', false);
+        $("#txtHolyCommunionGiverModal").prop('disabled', false);
+        $("#txtConfirmationDateModal").prop('disabled', false);
+        $("#txtConfirmationNumberModal").prop('disabled', false);
+        $("#txtConfirmationPlaceModal").prop('disabled', false);
+        $("#txtConfirmationPatronModal").prop('disabled', false);
+
+        //Error Label
+        $("#lbCodeErrorMessage").text("");
+        $("#lbCodeErrorMessage").hide();
+        $("#lbParishionerNameErrorMessage").text("");
+        $("#lbParishionerNameErrorMessage").hide();
+        $("#lbCommunityErrorMessage").text("");
+        $("#lbCommunityErrorMessage").hide();
+        $("#lbGenderErrorMessage").text("");
+        $("#lbGenderErrorMessage").hide();
+        $("#lbConfirmationDateErrorMessage").hide();
+        $("#lbConfirmationDateErrorMessage").html("");
+        $("#lbHolyCommunionDateErrorMessage").hide();
+        $("#lbHolyCommunionDateErrorMessage").html("");
+        $("#lbBaptismDateErrorMessage").hide();
+        $("#lbBaptismDateErrorMessage").html("");
+
+        $("#homeLinkTab").tab('show');
+        //$("#btnAddParishionerInformation").show();
+        //$("#btnUpdateParishionerInformation").hide();
+        //$("#parishionerInformationTitle").html("Thêm mới giáo dân");
+
+    }
+
+    function checkTransferParishInformationForAdding() {
+
+        var value = $("#cbbDomicileStatusModal").val();
+
+        if (value == 2) {
+
+            var message = "<p>Giáo dân này đã được lựa chọn là chuyển xứ, hệ thống sẽ chuyển thông tin giáo dân này qua xứ khác và không thể cập nhật thông tin " +
+                "giáo dân này nếu xứ khác đồng ý sử dụng</p> " +
+                "<p>Bạn có chắc muốn tiếp tục lưu giáo dân này không ?</p>";
+
+            bootbox.dialog({
+                closeButton: false,
+                message: message,
+                title: "Xác nhận",
+                buttons: {
+                    save: {
+                        label: " Có",
+                        className: "ace-icon fa fa-check btn-info",
+                        callback: function () {
+                            addParishioner();
+                            setTimeout(function () {
+                                makeScrollForModal();
+                            }, 500);
+                        }
+                    },
+                    danger: {
+                        label: " Không",
+                        className: "ace-icon fa fa-times btn-default",
+                        callback: function () {
+                            setTimeout(function () {
+                                makeScrollForModal();
+                            }, 500);
+                        }
+                    },
+                }
+
+            });
+
+        } else {
+            addParishioner();
+        }
+
+    }
+
+    function addParishioner() {
+        //Validation
+        if (!checkValidParishioner()) {
+            return;
+        }
+
+        startLoading();
+        //Get Data From Input
+        $.ajax({
+            url: "/Parishioner/AddParishioner",
+            data: {
+                Code: $("#txtParishionerCodeModal").val(),
+                ChristianName: $("#txtChristianNameModal").val(),
+                Name: $("#txtParishionerNameModal").val(),
+                Gender: $("#cbGenderModal").val(),
+                BirthDate: $("#txtBirthDateModal").val(),
+                BirthPlace: $("#txtBirthPlaceModal").val(),
+                CommunityId: $("#cbbCommunityModal").val(),
+                IsCounted: (!$("#cbIsCountedModal").is(':checked')),
+                FatherName: $("#txtFatherNameModal").val(),
+                MotherName: $("#txtMotherNameModal").val(),
+                DomicileStatus: $("#cbbDomicileStatusModal").val(),
+                DomicilePlace: $("#txtDomicilePlaceModal").val(),
+                Education: $("#txtEducationModal").val(),
+                Career: $("#txtCareerModal").val(),
+                Address: $("#txtAddressModal").val(),
+                Phone: $("#txtPhoneModal").val(),
+                MobilePhone: $("#txtMobilePhoneModal").val(),
+                Email: $("#txtEmailModal").val(),
+                Note: $("#txtNoteModal").val(),
+                IsStudying: $("#cbIsStudyingModal").is(':checked'),
+                IsCatechumen: $("#cbIsCatechumenModal").is(':checked'),
+                IsMarried: $("#cbIsMarriedModal").is(':checked'),
+                IsSingle: $("#cbIsSingleModal").is(':checked'),
+                IsDead: $("#cbIsDeadModal").is(':checked'),
+                DeadDate: $("#txtDeadDateModal").val(),
+
+                baptismDate: $("#txtBaptismDateModal").val(),
+                baptismNumber: $("#txtBaptismNumberModal").val(),
+                baptismPlace: $("#txtBaptismPlaceModal").val(),
+                baptismPatron: $("#txtBaptismPatronModal").val(),
+                baptismGiver: $("#txtBaptismGiverModal").val(),
+
+                holyCommunionDate: $("#txtHolyCommunionDateModal").val(),
+                holyCommunionNumber: $("#txtHolyCommunionNumberModal").val(),
+                holyCommunionPlace: $("#txtHolyCommunionPlaceModal").val(),
+                holyCommunionGiver: $("#txtHolyCommunionGiverModal").val(),
+
+                confirmationDate: $("#txtConfirmationDateModal").val(),
+                confirmationNumber: $("#txtConfirmationNumberModal").val(),
+                confirmationPlace: $("#txtConfirmationPlaceModal").val(),
+                confirmationPatron: $("#txtConfirmationPatronModal").val(),
+                confirmationGiver: $("#txtConfirmationGiverModal").val(),
+            },
+            success: function (data) {
+                if (data > 0) {
+                    showMessage("Thêm giáo dân thành công", 1);
+                    //Do something here base on hidden input
+                    //Temp
+                    // Them action vao day
+                    var action = $("#hiddenActionModal").val();
+
+                    if (action == 1) {
+                        updateTableContent("parishionerTable");
+                    //    $("#parishionerTable").dataTable()._fnAjaxUpdate();
+                        $("#createParishionerModal").modal('hide');
+                    }
+
+                    if (action == 2) {
+                        $("#hParishionerId").val(data);
+                        AddSacramentGroup();
+                        $("#createParishionerModal").modal('hide');
+                    }
+
+                    // Quân
+                    if (action ==3) 
+                    {
+                        $("#smParishionerId").val(data);
+                        AddSociety();
+                        $("#createParishionerModal").modal('hide');
+                    }
+
+                    if (action == 4) {                     
+                        var christianName = $("#txtChristianNameModal").val();
+                        var name = $("#txtParishionerNameModal").val();
+                        checkValidMatrimony(data, 1, christianName, name);                       
+                        $("#createParishionerModal").modal('hide');
+                    }
+
+                    if (action == 5) {
+                        christianName = $("#txtChristianNameModal").val();
+                        name = $("#txtParishionerNameModal").val();
+                        checkValidMatrimony(data, 0, christianName, name);
+                        $("#createParishionerModal").modal('hide');
+                    }
+                    if (action == 6) {
+                        $("#cmParishionerId").val(data);
+                        AddClass();
+                        $("#createParishionerModal").modal('hide');
+                    }
+                    if (action == 7) {
+
+                        christianName = $("#txtChristianNameModal").val();
+                        name = $("#txtParishionerNameModal").val();
+                        var gender = ($("#cbGenderModal").val() == 1 ? "Nam" : "Nữ");
+                        //var code = getCodeByParishionerId(data);
+                        var code = "";
+                        var birthDate = $("#txtBirthDateModal").val();
+                        checkValidateFamilyMember(data, code, gender, christianName, name, birthDate);
+                        $("#createParishionerModal").modal('hide');
+                    }
+                    //Quân
+                    if (action == 8) {
+                        christianName = $("#txtChristianNameModal").val();
+                        name = $("#txtParishionerNameModal").val();
+                        $("#managerId").val(data);
+                        $("#createParishionerModal").modal('hide');
+                        $("#txtManagerNameModal").val(christianName ? (christianName + " " + name) : name);
+                    }
+                    if (action == 9) {
+                        christianName = $("#txtChristianNameModal").val();
+                        name = $("#txtParishionerNameModal").val();
+                        $("#ClassGroupManagerId").val(data);
+                        $("#createParishionerModal").modal('hide');
+                        $("#ClassGroupManager").val(christianName ? (christianName + " " + name) : name);
+                    }
+                }
+                else if (data == -2) {
+                    $("#lbCodeErrorMessage").html("Mã giáo dân đã tồn tại");
+                    $("#lbCodeErrorMessage").show();
+                    document.getElementById("txtParishionerCodeModal").scrollIntoView();
+                    $("#txtParishionerCodeModal").focus();
+                }
+                else if (data == -4) {
+                    showMessage("Không thể thực hiện chuyển đến xứ hiện tại", -1, 6000);
+                }
+                else {
+                    showMessage("Thêm giáo dân thất bại, vui lòng thử lại sau", 0);
+                }
+            }
+        });
+    }
+
+    //---------------------
+
+    function openParishionerModal(action, gender) {
+        $("#hiddenActionModal").val(action);
+        $("#hiddenGenderModal").val(gender);       
+        $("#createParishionerModal").modal('show');
+    }
+
+    $("#createParishionerModal").on('show.bs.modal', function () {
+        var loaded = $("#isLoadedModal").val();
+        
+        if (loaded == 0) {
+            checkParishionerCode();
+            var gender = $("#hiddenGenderModal").val();
+
+            if (gender == 0) {
+                $("#cbGenderModal").val(0);
+                $("#cbGenderModal").attr('disabled', true);
+            }
+            else if (gender == 1) {
+                $("#cbGenderModal").val(1);
+                $("#cbGenderModal").attr('disabled', true);
+            } else {
+                $("#cbGenderModal").val(-1);
+                $("#cbGenderModal").attr('disabled', false);
+            }
+
+            //Chinh sua z-index----
+            $("#createParishionerLoading").fadeIn();
+            //-------
+
+            $("#isLoadedModal").val(1);
+        }
+
+    });
+
+    $("#createParishionerModal").on('hidden.bs.modal', function () {
+        makeScrollForModal();
+        refreshSubParishionerModal();
+
+        //-------------
+        $("#createParishionerLoading").fadeOut();
+        //-------------
+
+        $("#isLoadedModal").val(0);
+    });
+
+    function checkParishionerCode() {
+        startLoading();
+        $.ajax({
+            url: "/Parishioner/CheckParishionerCode",
+            data: {},
+            async: false,
+            success: function (data) {
+
+                if (data == -1) {
+                    $("#createParishionerModal").modal('hide');
+                    showMessage("Không thể kết nối dữ liệu, vui lòng thử lại sau", 0);
+                } else if (data == 0) {
+                    $("#txtParishionerCodeModal").val("");
+                    $("#txtParishionerCodeModal").attr('readonly', false);
+                    $("#parishionerCodeDiv").show();
+                }
+                else {
+                    $("#parishionerCodeDiv").hide();
+                    $("#txtParishionerCodeModal").attr('readonly', true);
+                    $("#txtParishionerCodeModal").val("0");
+                }
+            }
+        });
+    }
+    //---------------------
+
+    function initParishionerAutocomplete(element, gender, isForce) {
+
+        var input = $(element).autocomplete({
+            autoFocus: true,
+            minLength: 1,
+            source: function(request, response) {
+                $.ajax({
+                    url: "/Parishioner/LoadInsideParishioners",
+                    dataType: "json",
+                    data: {
+                        name: request.term,
+                        gender: gender
+                    },
+                    success: function(data) {
+                        response(data.result);
+                    }
+                });
+            }
+        });
+        //    focus: function (event, ui) {
+        //        $(element).data("uiItem", ui.item.ChristianName + " " + ui.item.Name);
+        //        //$(element).val(ui.item.ChristianName + " " + ui.item.Name);
+        //        return false;
+        //    },
+        //    select: function (event, ui) {            
+        //        //$(this).data("uiItem", ui.item.value);          
+        //        $(element).val(ui.item.ChristianName + " " + ui.item.Name);
+        //        return false;
+        //    }
+        //}).autocomplete("instance")._renderItem = function (ul, item) {
+        //    return $("<li>")
+        //        .append("<p>" + item.ChristianName + " " + item.Name + "</p>" + "<p>Ngày sinh: " + item.BirthDate + "</p>")
+        //        .appendTo(ul);
+        //};
+
+        //.bind("blur",function(){
+        //    $(this).val($(this).data("uiItem"));        
+        //}).data("uiItem", $(element).val())
+    }
+
+    function initPriestAutocomplete(element, isForce) {
+
+        var input = $(element).autocomplete({
+            autoFocus: !isForce,
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Parishioner/LoadPriestNames",
+                    dataType: "json",
+                    data: {
+                        name: request.term
+                    },
+                    success: function (data) {
+                        response(data.result);
+                    }
+                });
+            },
+            focus: function (event, ui) {
+                //  $(element).data("uiItem", ui.item.value);
+                if (isForce) {
+                    $(element).val(ui.item.value);
+                    return false;
+                }
+            },
+            select: function (event, ui) {
+                if (isForce) {
+                    $(this).data("uiItem", ui.item.value);
+                    $(element).val(ui.item.value);
+                    return false;
+                }           
+            },
+            minLength: 1
+        });
+
+        if (isForce) {
+            input.bind("blur", function () {
+
+                var current = $(this).val();
+                if (current) {
+                    $(this).val($(this).data("uiItem"));
+                }
+
+            }).data("uiItem", $(element).val());
+        }
+
+    }
+
+    $(".maleParishioner").each(function () {
+        initParishionerAutocomplete(this, 1);
+    });
+
+    $(".femaleParishioner").each(function () {
+        initParishionerAutocomplete(this, 0);
+    });
+
+    $(".priest").each(function () {
+        initPriestAutocomplete(this, false);
+    });
+
+    //---------------------
+    $(".christian").autocomplete({
+        autoFocus: true,
+        source: function (request, response) {
+            $.ajax({
+                url: "/Parishioner/LoadChristianName",
+                dataType: "json",
+                data: {
+                    name: request.term
+                },
+                success: function (data) {
+                    response(data.result);
+                }
+            });
+        },
+        minLength: 0
+    }).focus(function () {
+        $(this).autocomplete("search");
+    });
+
+    //----------
+    
+    function getCodeByParishionerId(id) {
+        var code = "";
+        $.ajax({
+            url: "/Parishioner/GetCodeByParishionerId",
+            async: false,
+            data: {
+                id : id
+            },
+            success: function (data) {
+                code = data;
+            }
+        });
+        return code;
+    }
+
+</script>

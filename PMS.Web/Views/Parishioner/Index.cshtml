@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<div class="page-header">
+    <h1>Danh sách giáo dân</h1>
+</div>
+
+<input type="hidden" id="txtHiddenMultiple" value="@((int)ViewBag.Configuration)" />
+
+@Html.Partial("_ParishionerFilter")
+
+<div class="page-header">
+    <button id="btnCreateParishioner" class="btn btn-success" data-toggle="modal">
+        <i class="ace-icon fa fa-plus"></i> Thêm giáo dân
+    </button>
+    @Html.Partial("_ActionButton")
+</div>
+
+@Html.Partial("_ParishionerBody")

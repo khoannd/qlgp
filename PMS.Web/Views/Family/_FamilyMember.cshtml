@@ -1,0 +1,329 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Models
+@using PMS.DataAccess.Utilities
+@model List<FamilyMember>
+
+@{
+    var parishId = (int)Session["ParishId"];
+    var defaultCommunity = (int) Session["DefaultCommunity"];
+    var converter = new DateConverter();
+    var gender = -1;
+}
+
+@foreach (var item in Model)
+{
+    string rowClass = "";
+    var parishioner = item.Parishioner;
+
+    if (item.Status != (int)FamilyMemberStatusEnum.Main)
+    {
+        rowClass = "default";
+    }
+
+    if ((parishioner.Community.ParishId != parishId) || (parishioner.DomicileStatus == (int)DomicileStatusEnum.TransferredToAnotherParish)
+        || (parishioner.CommunityId == defaultCommunity))
+    {
+        rowClass = "blue";
+    }
+
+    if (parishioner.IsDead)
+    {
+        rowClass = "red";
+    }
+
+    if (string.IsNullOrEmpty(rowClass))
+    {
+        <tr>
+            @if (item.Position == (int)FamilyEnum.Chuho)
+            {
+                gender = parishioner.Gender;
+            }
+            <td class="hidden">@item.Id</td>
+            <td>@parishioner.Code</td>
+            <td>@parishioner.ChristianName @parishioner.Name</td>
+
+            <td>
+                <span class="familyPosition no-padding">@item.Position</span>
+            </td>
+
+            @if (parishioner.Gender == 0)
+            {
+                <td>Nữ</td>
+            }
+            else
+            {
+                <td>Nam</td>
+            }
+
+            <td>@converter.ConvertStringToDate(parishioner.BirthDate)</td>
+            <td>
+                @if (item.Parishioner.Status == (int)ParishionerStatusEnum.Saved || (parishioner.Community.ParishId != parishId))
+                {
+                    <button class="btn btn-minier btn-primary" onclick="viewReadonlyParishioner(@item.ParishionerId) ">
+                        <i class="ace-icon fa fa-search-plus"></i>&nbsp;Chi tiết
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-minier btn-primary" onclick="loadFullParishionerInfo(@item.ParishionerId) ">
+                        <i class="ace-icon fa fa-pencil"></i>&nbsp;Sửa
+                    </button>
+                }
+
+                @if (!item.IsHouseholder)
+                {
+                    <button class="btn btn-minier btn-danger" onclick="confirmDeleteFamilyMember(@item.Id) ">
+                        <i class="ace-icon fa fa-times"></i>&nbsp;Loại bỏ
+                    </button>
+                }
+            </td>
+
+        </tr>
+    }
+    else
+    {
+        <tr class="@rowClass">
+            @if (item.Position == (int)FamilyEnum.Chuho)
+            {
+                gender = parishioner.Gender;
+            }
+            <td class="hidden">@item.Id</td>
+            <td><s>@parishioner.Code</s></td>
+            <td><s>@parishioner.ChristianName @parishioner.Name</s></td>
+
+            <td>
+                <span class="familyPosition no-padding"><s>@item.Position</s></span>
+            </td>
+
+            @if (parishioner.Gender == 0)
+            {
+                <td><s>Nữ</s></td>
+            }
+            else
+            {
+                <td><s>Nam</s></td>
+            }
+
+            <td><s>@converter.ConvertStringToDate(parishioner.BirthDate)</s></td>
+            <td>
+                @if (item.Parishioner.Status == (int)ParishionerStatusEnum.Saved || (parishioner.Community.ParishId != parishId))
+                {
+                    <button class="btn btn-minier btn-primary" onclick="viewReadonlyParishioner(@item.ParishionerId) ">
+                        <i class="ace-icon fa fa-search-plus"></i>&nbsp;Chi tiết
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-minier btn-primary" onclick="loadFullParishionerInfo(@item.ParishionerId) ">
+                        <i class="ace-icon fa fa-pencil"></i>&nbsp;Sửa
+                    </button>
+                }
+
+                @if (!item.IsHouseholder)
+                {
+                    <button class="btn btn-minier btn-danger" onclick="confirmDeleteFamilyMember(@item.Id) ">
+                        <i class="ace-icon fa fa-times"></i>&nbsp;Loại bỏ
+                    </button>
+                }
+            </td>
+
+        </tr>
+    }
+
+}
+
+<input type="hidden" id="txtHiddenHouseHolderType" value="@gender" />
+
+<script>
+
+    var position = [];
+    var position2 = [];
+    var gender = $("#txtHiddenHouseHolderType").val();
+
+    if (gender == 0) {
+        $.each({
+            "1": "Chủ hộ", "2": "Chồng", "4": "Con", "5": "Cháu", "6": "Cha",
+            "8": "Ông", "10": "Anh", "12": "Em", "14": "Rể", "16": "Chú", "17": "Bác",
+            "18": "Cậu", "22": "Dượng", "23": "Chưa rõ"
+        }, function (k, v) {
+            position.push({ id: k, text: v });
+        });
+        $.each({
+            "1": "Chủ hộ", "4": "Con", "5": "Cháu", "7": "Mẹ",
+            "9": "Bà", "11": "Chị", "12": "Em", "13": "Dâu", "15": "Cô", "17": "Bác",
+            "19": "Dì", "20": "Mợ", "21": "Thím", "23": "Chưa rõ"
+        }, function (k, v) {
+            position2.push({ id: k, text: v });
+        });
+    }
+    else {
+        $.each({
+            "1": "Chủ hộ", "4": "Con", "5": "Cháu", "6": "Cha",
+            "8": "Ông", "10": "Anh", "12": "Em", "14": "Rể", "16": "Chú", "17": "Bác",
+            "18": "Cậu", "22": "Dượng", "23": "Chưa rõ"
+        }, function (k, v) {
+            position.push({ id: k, text: v });
+        });
+        $.each({
+            "1": "Chủ hộ", "3": "Vợ", "4": "Con", "5": "Cháu", "7": "Mẹ",
+            "9": "Bà", "11": "Chị", "12": "Em", "13": "Dâu", "15": "Cô", "17": "Bác",
+            "19": "Dì", "20": "Mợ", "21": "Thím", "23": "Chưa rõ"
+        }, function (k, v) {
+            position2.push({ id: k, text: v });
+        });
+    }
+
+
+    initEditableFamilyPosition();
+
+    function initEditableFamilyPosition() {
+
+        $(".familyPosition").each(function (index) {
+
+            var id = $(this).text().trim();
+            var tr = $(this).closest("tr");
+            var tds = tr.children();
+            var gender = tds[4].innerText;
+
+            $(this).editable({
+                type: 'select2',
+                value: $(this).text().trim(),
+                source: gender == "Nam" ? position : position2,
+                select2: {
+                    'width': 140,
+                    'minimumResultsForSearch': -1
+                },
+                success: function (response, newValue) {
+                    tr = $(this).closest("tr");
+                    tds = tr.children();
+                    var memberId = tds[0].innerText;
+                    var oldValue = $(this).text().trim();
+
+                    if (oldValue == "Chủ hộ") {
+                        showMessage("Vui lòng chọn người khác làm chủ hộ trước khi chuyển quan hệ cho giáo dân này", -1);
+                        return false;
+                    }
+
+                    var result = changeFamilyPosition(memberId, newValue);
+                    return result;
+
+
+                }
+
+            });
+
+            var row = $(this);
+            var html = row.html().trim();
+            var text = row.text().trim();
+            if (html == text) {
+                row.text(convertPosition(id));
+            } else {
+                row.html("<s>" + convertPosition(id) + "</s>");
+            }
+
+        });
+
+    }
+
+    function changeFamilyPosition(memberId, position) {
+        var result = false;
+        startLoading();
+        $.ajax({
+
+            url: "/Family/ChangeFamilyPosition",
+            async: false,
+            data: {
+                memberId: memberId,
+                position: position,
+                familyId: $("#txtHiddenFamilyId").val()
+            },
+            success: function (data) {
+
+                if (data == -2) {
+                    showMessage("Không thể chuyển chủ hộ cho người hiện tại không còn thuộc gia đình này", -1);
+                }
+                else if (data == -3) {
+                    showMessage("Quan hệ này không phù hợp với giới tính của giáo dân", -1);
+                }
+                else if (data == -4) {
+                    showMessage("Chủ hộ không thể có cùng một lúc 2 người vợ", -1);
+                } else if (data == -5) {
+                    showMessage("Chủ hộ không thể có cùng một lúc 2 người chồng", -1);
+                }
+                else if (data > 0) {
+                    result = true;
+                    refreshFamilyMemberTable();
+                }
+                else {
+                    showMessage("Cập nhật quan hệ cho thành viên gia đình thất bại", 0);
+                }
+
+            }
+
+        });
+        return result;
+    }
+
+    function confirmDeleteFamilyMember(id) {
+
+        var message = "<p>Bạn có chắc muốn loại thành viên được chọn ra khỏi gia đình không ?</p>";
+
+        bootbox.dialog({
+            closeButton: false,
+            message: message,
+            title: "Xác nhận loại bỏ",
+            buttons: {
+                danger: {
+                    label: " Có",
+                    className: "ace-icon fa fa-check btn-info",
+                    callback: function () {
+                        deleteFamilyMember(id);
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                },
+                main: {
+                    label: " Không",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                }
+            }
+        });
+
+    }
+
+    function deleteFamilyMember(id) {
+        startLoading();
+        $.ajax({
+            url: "/Family/DeleteFamilyMember",
+            data: {
+                id: id
+            },
+            success: function (data) {
+
+                if (data == -2) {
+                    showMessage("Không thể thực hiện xóa chủ hộ", -1);
+                    refreshFamilyMemberTable();
+                }
+                else if (data > 0) {
+                    showMessage("Xóa thành viên gia đình thành công", 1);
+                    refreshFamilyMemberTable();
+
+                    updateTableContent("familyTable");
+                    //   $("#familyTable").dataTable()._fnAjaxUpdate();
+                } else {
+                    showMessage("Xóa thành viên gia đình thất bại, vui lòng thử lại sau", 0);
+                }
+
+            }
+
+        });
+
+    }
+
+</script>

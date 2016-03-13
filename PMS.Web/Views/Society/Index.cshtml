@@ -1,0 +1,741 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="/Content/assets/css/bootstrap-editable.css" />
+<link rel="stylesheet" href="/Content/assets/css/jquery-ui.custom.min.css" />
+<link rel="stylesheet" href="/Content/assets/css/select2.css" />
+<script src="/Content/assets/js/jquery.dataTables.min.js"></script>
+<script src="/Content/assets/js/jquery.dataTables.bootstrap.js"></script>
+<script src="/Content/assets/js/bootstrap-wysiwyg.min.js"></script>
+<script src="/Content/assets/js/select2.min.js"></script>
+<script src="/Content/assets/js/fuelux/fuelux.spinner.min.js"></script>
+<script src="/Content/assets/js/x-editable/bootstrap-editable.min.js"></script>
+<script src="/Content/assets/js/x-editable/ace-editable.min.js"></script>
+
+
+<input type="hidden" id="societyId" value="-1" />
+<input type="hidden" id="managerId" />
+<input type="hidden" id="parishId" value="@((int)Session["ParishId"])" />
+<input type="hidden" id="smParishionerId" value="0" />
+<input type="hidden" id="CheckAddMember" />
+
+<div class="page-header">
+    <h1>Danh sách hội đoàn</h1>
+</div>
+
+<div class="page-header">
+    <button id="btnCreateSociety" class="btn btn-success" data-toggle="modal">
+        <i class="fa fa-plus"></i> Thêm hội đoàn
+    </button>
+    @*<button id="btnPrintSociety" class="btn btn-purple">
+        <i class="fa fa-print"></i> In danh sách hội đoàn
+    </button>*@
+</div>
+
+<div class="row">
+
+    <table id="societyTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    <label class="position-relative">
+                        <input type="checkbox" class="ace" />
+                        <span class="lbl"></span>
+                    </label>
+                </th>
+                <th>Tên hội</th>
+                <th>Người quản lý</th>
+                <th>Ngày thành lập</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody></tbody>
+    </table>
+</div>
+
+<style>
+    .datepicker {
+        z-index: 1151 !important;
+    }
+</style>
+<!-- Popup thêm hội -->
+
+<input type="hidden" id="hiddenCreateSocietyModal" value="0" />
+
+<div id="createSocietyModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header align-center">
+                    <h3 class="widget-title lighter" id="SocietyTitleModal"> </h3>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseSocietyModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+
+                    <div class="col-sm-12  ui-sortable">
+                        <div class="widget-box transparent ui-sortable-handle">
+                            <div class="widget-header">
+                                <h4 class="widget-title lighter"> Thông tin hội đoàn </h4>
+                            </div>
+
+                            <div class="widget-body">
+
+                                <div class="space-10"></div>
+                                <div class="row form-horizontal">
+                                    <div class="col-xs-12">
+                                        <div class="form-group align-left">
+                                            <label class="col-sm-3 control-label no-padding-right align-left" for="form-field-1"> Tên hội &nbsp;(<span style="color: red">*</span>) </label>
+                                            <div class="col-sm-9">
+                                                <input id="societyNameModal" type="text" class="form-control">
+                                                <label class="text-danger" id="societyNameValidate" hidden=""></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group align-left">
+                                            <label class="col-sm-3 control-label no-padding-right align-left" for="form-field-1"> Ngày thành lập </label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group">
+                                                    <input class="form-control date-picker" id="establishedDate" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-sm-3 control-label no-padding-right align-left" for="form-field-1"> Người quản lí </label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group">
+                                                    <input disabled="" id="txtManagerNameModal" type="text" class="form-control">
+                                                    <span class="input-group-btn">
+                                                        <button id="btnManagerCreateModal" class="btn btn-success btn-sm">
+                                                            <i class="ace-icon fa fa-plus"></i> Thêm
+                                                        </button>
+                                                    </span>
+                                                    <span class="input-group-btn">
+                                                        <button id="btnManagerSearchModal" class="btn btn-info btn-sm">
+                                                            <i class="ace-icon fa fa-search"></i> Chọn
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Danh sách hội viên -->
+                    <div class="col-sm-12  ui-sortable">
+                        <div class="widget-box transparent ui-sortable-handle">
+                            <div class="widget-header">
+                                <h4 class="widget-title lighter"> Danh sách hội viên </h4>
+                            </div>
+
+                            <div class="widget-body">
+                                <div class="row form-horizontal">
+                                    <div class="col-xs-12">
+                                        <div class="col-md-12">
+                                            <h2><label class="text-danger" id="societyModalValidate" hidden=""></label></h2>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <button id="btnAddMemberModal" class="btn btn-sm btn-success" data-toggle="modal">
+                                                <i class="ace-icon fa fa-plus"></i> Thêm hội viên
+                                            </button>
+                                            <button id="btnLookupMemberModal" class="btn btn-info btn-sm">
+                                                <i class="ace-icon fa fa-search"></i> Chọn hội viên
+                                            </button>
+                                            @*<button id="btnPrintMemberModal" class="btn btn-sm btn-purple">
+                                                <i class="fa fa-print"></i> In danh sách
+                                            </button>*@
+                                        </div>
+
+                                        <div class="space-6"></div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <table id="societyMemberTable" class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="hidden"></th>
+                                                            <th class="hidden">
+                                                                <label class="position-relative">
+                                                                    <input type="checkbox" class="ace" />
+                                                                    <span class="lbl"></span>
+                                                                </label>
+                                                            </th>
+                                                            <th>Tên thánh</th>
+                                                            <th>Họ tên</th>
+                                                            <th>Phái</th>
+                                                            <th>Ngày sinh</th>
+                                                            <th>Ghi chú</th>
+                                                            <th>Thao tác</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                            <!-- Chú thích bảng hội viên  -->
+                                            <div class="row" hidden="" id="labelnote">
+                                                <div class="col-sm-12">
+                                                    <div class="alert alert-warning">
+                                                        <button type="button" class="close" data-dismiss="alert">
+                                                            <i class="ace-icon fa fa-times"></i>
+                                                        </button>
+                                                        @*<strong>Chú thích</strong>*@
+                                                        <span class="blue" style="padding:0 16%">Hội viên thuộc xứ khác</span>
+                                                        <span class="red" style="padding:0 16%">Hội viên đã qua đời</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--end row-->
+                                            <!-- Kết thúc chú thích bảng hội viên -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <!-- Kết thúc danh sách hội viên -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="form-group align-right">
+                                    <button id="btnCreateSocietyModal" class="btn btn-primary" data-toggle="modal">
+                                        <i class="ace-icon fa fa-save">
+                                        </i> Lưu
+                                    </button>
+                                    <button id="btnUpdateSocietyModal" class="btn btn-primary" data-toggle="modal">
+                                        <i class="ace-icon fa fa-save"></i> Cập nhật
+                                    </button>
+                                    <button id="btnCloseSocietyModal" class="btn btn-grey" data-toggle="modal">
+                                        <i class="ace-icon fa fa-times"></i> Đóng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Kết thúc danh sách hội viên -->
+
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("_LookupParishionerModal")
+@Html.Partial("_CreateParishionerModal")
+
+<script>
+    InitDatatable();
+    LoadSocietyMemberTable();
+
+    //Load bảng danh sách hội đoàn
+    function InitDatatable() {
+        $("#societyTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bSCrollCollapse": true,
+            "sAjaxSource": "/Society/LoadSocietyDataTables",
+            "oLanguage": {
+                "sSearch": "Tên hội",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false,
+                },
+            {
+                "aTargets": [1],
+                "render": function (data, type, full, meta) {
+                    var content = '<label class="position-relative">' +
+                                  '<input type="checkbox" class="ace" value="' + data + '"/>' +
+                                  '<span class="lbl"></span> </label>';
+                    return content;
+                },
+                "bVisible": false,
+                "bSortable": false
+            },
+                  {
+                      "aTargets": [5],
+                      "render": function (data, type, full, meta) {
+                          var content = '<button class="btn btn-minier btn-primary" onclick="LoadEditSocietyDataModal(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                                '<button class="btn btn-minier btn-danger" onclick="DeleteConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                          return content;
+                      },
+                      "bSortable": false,
+                      "sWidth": "15%",
+                  }
+            ],
+            "bAutoWidth": false,
+
+        });
+    }
+
+    //Load bảng danh sách hội viên
+    function LoadSocietyMemberTable() {
+        var id = $("#societyId").val();
+        $.ajax({
+            url: "/Society/LoadSocietyMemberBySocietyId",
+            type: "POST",
+            data: {
+                societyId: id,
+            },
+            success: function (data) {
+                $("#societyMemberTable").dataTable().fnDestroy();
+                $("#societyMemberTable > tbody").html(data);
+                initSocietyMemberTable();
+            },
+        });
+    }
+    function initSocietyMemberTable() {
+        $("#societyMemberTable").dataTable({
+            "bDestroy": true,
+            "oLanguage": {
+                "sSearch": "Tên hội viên",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bSortable": false,
+                    "sWidth": "6%",
+                },
+            {
+                "aTargets": [1],
+                "bSortable": false,
+                "sWidth": "4%",
+            },
+            {
+                "aTargets": [2],
+                "sWidth": "15%"
+            },
+                    {
+                        "aTargets": [3],
+                        "sWidth": "25%"
+                    },
+                    {
+                        "aTargets": [4],
+                        "sWidth": "10%"
+                    },
+                    {
+                        "aTargets": [5],
+                        "sWidth": "14%"
+                    },
+                    {
+                        "aTargets": [6],
+                        "sWidth": "14%"
+                    },
+                  {
+                      "aTargets": [7],
+                      "bSortable": false,
+                      "sWidth": "12%"
+                  }
+            ],
+            "bAutoWidth": false,
+
+        });
+    }
+    //----------------------------------------------
+
+    //Thêm xóa sửa hội đoàn
+    function AddSociety() {
+        if (!checkValidate()) {
+            return false;
+        }
+        if (!CheckUniqueMember()) {
+            return false;
+        }
+        var societyId = $("#societyId").val();
+        var name = $("#societyNameModal").val();
+        var establishedDate = $("#establishedDate").val();
+        var manager = $("#managerId").val();
+        var parishId = $("#parishId").val();
+        var smParishionerId = $("#smParishionerId").val();
+        var position = 1;
+
+        startLoading();
+
+        $.ajax({
+            url: "/Society/AddSociety",
+            type: "POST",
+            data:
+            {
+                Id: societyId,
+                Name: name,
+                ManagedBy: manager,
+                ParishId: parishId,
+                EstablishedDate: establishedDate,
+                parishionerId: smParishionerId,
+                position: position,
+            },
+            success: function (data) {
+                if (data.result <= 0 && smParishionerId > 0) {
+                    showMessage("Thêm hội thất bại", 0);
+                } else {
+                    //showMessage("Thêm hội thành công", 1);
+                    $("#societyModalValidate").html("");
+                    $("#societyModalValidate").hide();
+                    $("#CheckAddMember").val(data);
+                    $("#societyId").val(data);
+                    closeLookupModal();
+                    LoadSocietyMemberTable();
+                }
+            },
+        });
+    }
+
+    // Update hội đoàn
+    function LoadDataModal(id) {
+        $("#societyId").val(id);
+        $("#labelnote").show();
+        $.ajax({
+            url: "/Society/LoadSocietyById",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                var item = data.result;
+                $("#societyNameModal").val(item.Name);
+                $("#establishedDate").val(item.EstablishedDate);
+                $("#txtManagerNameModal").val(item.Manager);
+                $("#createSocietyModal").modal('show');
+
+            },
+        });
+        LoadSocietyMemberTable();
+    }
+    //load Edit hội đoàn
+    function LoadEditSocietyDataModal(id) {
+        $("#SocietyTitleModal").html("Chỉnh sửa hội đoàn");
+        $("#btnCreateSocietyModal").hide();
+        $("#btnUpdateSocietyModal").show();
+        LoadDataModal(id);
+    }
+
+    function UpdateSociety() {
+        if (!checkValidate()) {
+            return false;
+        }
+        var id = $("#societyId").val();
+        var name = $("#societyNameModal").val();
+        var establishDate = $("#establishedDate").val();
+        var manager = $("#managerId").val();
+        $.ajax({
+            url: "/Society/UpdateSociety",
+            type: "POST",
+            data: {
+                Id: id,
+                Name: name,
+                EstablishedDate: establishDate,
+                ManagedBy: manager
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Chỉnh sửa hội đoàn thất bại", 0);
+                } else {
+                    showMessage("Chỉnh sửa hội đoàn thành công", 1);
+                    $("#createSocietyModal").modal('hide');
+                    refreshTable();
+                    clearModal();
+                }
+            },
+
+        });
+    }
+
+    function DeleteConfirm(id) {
+        bootbox.dialog({
+            message: "Bạn có chắc muốn xóa hội này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteSociety(id);
+                        refreshTable();
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                        
+                    }
+                }
+            }
+        });
+    }
+    function DeleteSociety(id) {
+        $.ajax({
+            url: "/Society/DeleteSociety",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Không thể xóa hội đang có hội viên", 0);
+                } else {
+                    showMessage("Xóa hội đoàn thành công", 1);
+                    refreshTable();
+                    clearModal();
+                }
+
+            },
+        });
+    }
+
+    //----------------------------------------------------------------
+
+    //Xóa sửa hội viên
+    function DeleteSocietyMember(id) {
+        $.ajax({
+            url: "/Society/DeleteSocietyMember",
+            type: "POST",
+            data: { societyMemberId: id },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Loại bỏ hội viên thất bại", 0);
+                } else {
+                    showMessage("Loại bỏ hội viên thành công", 1);
+                    LoadDataModal($("#societyId").val());
+                }
+            }
+        });
+    }
+    function DeleteMemberConfirm(id) {
+        bootbox.dialog({
+            message: "Bạn có chắc muốn loại bỏ hội viên này ra khỏi hội không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Loại bỏ",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteSocietyMember(id);
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                }
+            }
+        });
+    }
+
+    //-------------------------------------------
+
+    // Sự kiện các nút
+    $("#btnCreateSociety").click(function () {
+        clearModal();
+        $("#CheckAddMember").val('0');
+        $("#societyId").val('0');
+        $("#createSocietyModal").modal('show');
+        $("#SocietyTitleModal").html('Thêm mới hội đoàn');
+        $("#btnCreateSocietyModal").show();
+        $("#btnUpdateSocietyModal").hide();
+        $("#hiddenCreateSocietyModal").val('1');
+
+    });
+    $("#btnCloseSocietyModal").click(function () {
+        $("#createSocietyModal").modal('hide');
+        clearModal();
+        updateTableContent("societyTable");
+    });
+    $("#btnUpdateSocietyModal").click(function () {
+        UpdateSociety();
+        updateTableContent("societyTable");
+    });
+    $("#btnManagerCreateModal").click(function() {
+        openParishionerModal(8, -1);
+    });
+    $("#btnManagerSearchModal").click(function () {
+        openLookupModal(3, "txtManagerNameModal", -1, 0);
+    });
+    $("#btnCreateSocietyModal").click(function () {
+        if (!checkValidate()) {
+            return false;
+        }
+        $("#smParishionerId").val('0');
+        AddSociety();
+        $("#createSocietyModal").modal('hide');
+        updateTableContent("societyTable");
+        showMessage("Thêm hội thành công", 1);
+
+    });
+
+    $("#btnAddMemberModal").click(function () {
+        if (!checkValidate()) {
+            return false;
+        }
+        openParishionerModal(3, -1);
+    });
+    $("#btnLookupMemberModal").click(function () {
+        if (!checkValidate()) {
+            return false;
+        }
+        openLookupModal(4, "", -1, 0);
+    });
+
+
+
+    //------------------------------------------------
+
+
+    //Validate hội đoàn
+    function clearModal() {
+        $("#societyNameModal").val("");
+        $("#txtManagerNameModal").val("");
+        $("#establishedDate").val("");
+        $("#societyMemberTable").dataTable().fnDestroy();
+        $("#societyMemberTable tbody").html("");
+        $("#managerId").val("");
+        $("#societyNameValidate").html("");
+        $("#societyNameValidate").hide();
+        $("#labelnote").hide();
+    }
+
+    function refreshTable() {
+        //$("#societyTable").dataTable()._fnAjaxUpdate();
+        updateTableContent("societyTable");
+    }
+
+    function checkValidate() {
+        var isError = false;
+
+        var name = $("#societyNameModal").val();
+        if (!name) {
+            $("#societyNameValidate").html("Vui lòng nhập tên hội");
+            $("#societyNameValidate").show();
+            isError = true;
+        }
+
+        if (!checkUniqueName()) {
+            isError = true;
+        }
+
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function checkUniqueName() {
+        var societyId = $("#societyId").val();
+        var name = $("#societyNameModal").val();
+        var result = true;
+        $.ajax({
+            url: "/Society/CheckUniqueName",
+            type: "POST",
+            data: {
+                name: name,
+                societyId: societyId
+            },
+            async: false,
+            success: function (data) {
+                if (data.result <= 0) {
+                    $("#societyNameValidate").html("Tên hội này đã tồn tại. Vui lòng chọn tên khác!");
+                    $("#societyNameValidate").show();
+                    result = false;
+                } else {
+                    if (!name) {
+                        return true;
+                    }
+                    $("#societyNameValidate").html("");
+                    $("#societyNameValidate").hide();
+                    result = true;
+                }
+
+            },
+        });
+
+        return result;
+    }
+
+    //Validate hội viên
+    function CheckUniqueMember() {
+        var societyId = $("#societyId").val();
+        var SocietyMemberId = $("#smParishionerId").val();
+        var result = true;
+        $.ajax({
+            url: "/Society/CheckUniqueMember",
+            type: "POST",
+            data: {
+                societyId: societyId,
+                parishionerId: SocietyMemberId
+            },
+            async: false,
+            success: function (data) {
+                if (data.result <= 0) {
+                    //$("#societyModalValidate").html("Hội viên này đã có trong danh sách. Vui lòng kiểm tra lại");
+                    //$("#societyModalValidate").show();
+                    showMessage("Hội viên này đã có trong danh sách. Vui lòng kiểm tra lại", -1, 7000);
+                    result = false;
+                } else {
+                    //$("#societyModalValidate").html("");
+                    //$("#societyModalValidate").hide();
+                    result = true;
+                }
+
+            },
+        });
+        return result;
+    }
+    //function CheckAddMember() {
+    //    var check = $("#CheckAddMember").val();
+    //    if (check == 0) {
+    //        $("#societyModalValidate").html("Trong hội phải có ít nhất một thành viên. Vui lòng thêm hội viên!");
+    //        $("#societyModalValidate").show();
+    //        return false;
+    //    } else {
+    //        $("#societyModalValidate").html("");
+    //        $("#societyModalValidate").hide();
+    //        return true;
+    //    }
+    //}
+
+</script>

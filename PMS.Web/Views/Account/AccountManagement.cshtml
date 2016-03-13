@@ -1,0 +1,657 @@
+﻿@using PMS.DataAccess.Models
+@{
+    ViewBag.Title = "AccountManagement";
+}
+
+<input type="hidden" id="myId" value="@((int)Session["AccountId"])" />
+
+<div class="page-header">
+    <h1>Danh sách tài khoản</h1>
+</div>
+
+<div class="page-header">
+    <div>
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label no-padding-right">Giáo xứ</label>
+                    <div class="col-sm-9">
+                        <select id="cbbParish" class="form-control">
+                            <option value="0">Tất cả</option>
+                            @foreach (var item in ((List<Parish>)ViewBag.Parishes))
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>                        
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-header">
+    <button id="btnCreateAccount" class="btn btn-success" data-toggle="modal">
+        <i class="ace-icon fa fa-plus"></i> Thêm tài khoản
+    </button>
+</div>
+
+<div class="widget-body">
+
+    <table id="tblAccountTable" class="table table-hover">
+
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    <label class="position-relative">
+                        <input type="checkbox" class="ace" />
+                        <span class="lbl"></span>
+                    </label>
+                </th>
+                <th>Tên tài khoản</th>
+                <th>Tên hiển thị</th>
+                <th>Ngày tạo</th>
+                <th>Vai trò</th>
+                <th>Giáo xứ</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody></tbody>
+    </table>
+
+</div>
+
+<input type="hidden" id="txtHiddenAccountId" value="0" />
+
+<div id="accountModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+                        <h4 id="accountTitle" class="widget-title lighter">Thêm mới tài khoản</h4>
+                        
+                        <div class="widget-toolbar no-border">
+                            <a href="#" onclick="$('#btnCloseAccountModal').click()">
+                                <i class="ace-icon fa fa-times"></i>
+                            </a>
+                        </div>
+                </div>
+                <div class="widget-body">
+
+                    <div class="col-sm-12  ui-sortable">
+                        <div class="widget-box transparent ui-sortable-handle">
+                            <div class="widget-header">
+                                <h4 class="widget-title lighter">Thông tin tài khoản</h4>                                                              
+                            </div>
+
+                            <div class="widget-body">
+
+                                <div class="space-10"></div>
+                                <div class="row form-horizontal">
+                                    <div class="col-xs-offset-2 col-xs-7">
+
+                                        <div class="form-group">
+
+                                            <label class="align-left col-sm-4 control-label no-padding-right"> Tên tài khoản (<span style="color:red">*</span>)  </label>
+
+                                            <div class="col-sm-8">
+                                                <input type="text" id="txtUsername" class="form-control">
+                                                <label id="lbUsernameError" class="text-danger" hidden=""></label>
+                                            </div>
+
+                                        </div>
+  
+                                        <div id="divPassword" class="form-group">
+                                            <label class="align-left col-sm-4 control-label no-padding-right"> Mật khẩu (<span style="color:red">*</span>) </label>
+
+                                            <div class="col-sm-8">
+                                                <input type="password" id="txtPassword" class="form-control">
+                                                <label id="lbPasswordError" class="text-danger" hidden=""></label>
+                                            </div>
+                                        </div>
+
+                                        <div id="divConfirmPassword" class="form-group">
+                                            <label class="align-left col-sm-4 control-label no-padding-right"> Xác nhận mật khẩu (<span style="color:red">*</span>) </label>
+
+                                            <div class="col-sm-8">
+                                                <input type="password" id="txtConfirmPassword" class="form-control">
+                                                <label id="lbConfirmPasswordError" class="text-danger" hidden=""></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="align-left col-sm-4 control-label no-padding-right"> Tên hiển thị (<span style="color:red">*</span>) </label>
+
+                                            <div class="col-sm-8">
+                                                <input type="text" id="txtName" class="form-control">
+                                                <label id="lbNameError" class="text-danger" hidden=""></label>
+                                            </div>
+                                        </div>
+
+                                        <div id="divRoleId" class="form-group">
+                                            <label class="align-left col-sm-4 control-label no-padding-right"> Vai trò (<span style="color:red">*</span>)  </label>
+
+                                            <div class="col-sm-8">
+                                                <select class="form-control" id="cbbRole">
+                                                    <option value="0"></option>
+                                                    <option value="2">Quản lý</option>
+                                                    <option value="3">Nhập liệu</option>
+                                                    <option value="4">Giáo lý viên</option>
+                                                </select>
+                                                <label id="lbRoleError" class="text-danger" hidden=""></label>
+                                            </div>
+                                        </div>
+
+                                        <div id="divParishId" class="form-group">
+
+                                            <label class="align-left col-sm-4 control-label no-padding-right"> Giáo xứ (<span style="color:red">*</span>)   </label>
+
+                                            <div class="col-sm-8">
+                                                <select class="form-control" id="cbbAccountParish">
+                                                    <option value="0"></option>
+
+                                                    @foreach (var item in ((List<Parish>)ViewBag.Parishes))
+                                                    {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                    }
+                                                </select>
+                                                <label id="lbAccountParishError" class="text-danger" hidden=""></label>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-xs-6">
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-12">
+                                <div class="align-right">
+                                    <button id="btnCreateAccountModal" class="btn btn-primary" type="button" onclick="addAccount()">
+                                        <i class="ace-icon fa fa-save bigger-110"></i>
+                                        Lưu
+                                    </button>
+
+                                    <button id="btnUpdateAccountModal" class="btn btn-primary" type="button" onclick="updateAccount()">
+                                        <i class="ace-icon fa fa-save bigger-110"></i>
+                                        Cập nhật
+                                    </button>
+
+                                    <button id="btnCloseAccountModal" class="btn btn-default">
+                                        <i class="ace-icon fa fa-times  bigger-110"></i>
+                                        Đóng
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="space-6"></div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    initAccountDatatable();
+
+    var roleTemp;
+    var idTemp;
+    function initAccountDatatable() {
+
+        $("#tblAccountTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "sAjaxSource": "/Account/LoadAccount",
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "parishId", "value": $("#cbbParish").val() });
+            },
+            "oLanguage": {
+                "sSearch": "Tên đăng nhập",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [1],
+                    "bVisible": false,
+                },
+                 {
+                     "aTargets": [0],
+                     "render": function (data, type, full, meta) {
+                         roleTemp = data;
+                         return data;
+                     },
+                     "bVisible": false,
+                 },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        idTemp = data;
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [7],
+                    "render": function (data, type, full, meta) {
+                        var content = "";
+
+                        if (roleTemp == 1) {
+
+                            if (data == 1) {
+                                content = '<button class="btn btn-minier btn-success" disabled>' + '<i class="ace-icon fa fa-circle-o-notch"></i>&nbsp;Hoạt động</button>';
+                            } else {
+                                content = '<button class="btn btn-minier btn-inverse" disabled>' + '<i class="ace-icon fa fa-power-off"></i>&nbsp;Tạm khóa</button>';
+                            }
+
+                        } else {
+
+                            if (data == 1) {
+                                content = '<button class="btn btn-minier btn-success" onclick="confirmChangeAccountStatus(' + idTemp + ',0)">' + '<i class="ace-icon fa fa-circle-o-notch"></i>&nbsp;Hoạt động</button>';
+                            } else {
+                                content = '<button class="btn btn-minier btn-inverse" onclick="confirmChangeAccountStatus(' + idTemp + ',1)">' + '<i class="ace-icon fa fa-power-off"></i>&nbsp;Tạm khóa</button>';
+                            }
+
+                        }
+                        return content;
+                    },
+                },
+                {
+                    "aTargets": [8],
+                    "render": function (data, type, full, meta) {
+                        var id = $("#myId").val();
+
+                        if (roleTemp == 1) {
+                            if (idTemp != id) {
+                                return "";
+                            }
+                        }
+
+                        var content = '<button class="btn btn-minier btn-primary" onclick="getAccount(' + data + ')">' + '<i class="ace-icon fa fa-pencil"></i>&nbsp;Sửa</button>';
+                        return content;
+                    },
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+    }
+
+    $("#cbbParish").change(function () {
+        updateTableContent("tblAccountTable");
+    //    $("#tblAccountTable").dataTable()._fnAjaxUpdate();
+    });
+
+    $("#btnCreateAccount").click(function () {
+        $("#cbbAccountParish").val($("#cbbParish").val());
+        $("#btnUpdateAccountModal").hide();
+        $("#accountModal").modal('show');
+    });
+
+    $("#btnCloseAccountModal").click(function () {
+        $("#accountModal").modal('hide');
+    });
+
+    $("#accountModal").on('hidden.bs.modal', function () {
+        refreshModal();
+    });
+
+    function checkValidUsername() {
+        var result = false;
+        $.ajax({
+            url: "/Account/CheckValidUsername",
+            type: "POST",
+            async: false,
+            data: {
+                username: $("#txtUsername").val(),
+                accountId: $("#txtHiddenAccountId").val()
+            },
+            success: function (data) {
+
+                if (data == 1) {
+                    result = true;
+                }
+
+            },
+        });
+
+        return result;
+    }
+
+    function addAccount() {
+        //Check validation
+        if (!checkAccountValidate()) {
+            return;
+        }
+
+        if (!checkValidUsername()) {
+            $("#lbUsernameError").html("Tên tài khoản đã tồn tại");
+            $("#lbUsernameError").show();
+            return;
+        } else {
+            $("#lbUsernameError").hide();
+            $("#lbUsernameError").html("");
+        }
+        startLoading();
+        $.ajax({
+            url: "/Account/AddAccount",
+            type: "POST",
+            data: {
+                Username: $("#txtUsername").val(),
+                Password: $("#txtPassword").val(),
+                Name: $("#txtName").val(),
+                RoleId: $("#cbbRole").val(),
+                ParishId: $("#cbbAccountParish").val()
+            },
+            success: function (data) {
+
+                if (data > 0) {
+                    updateTableContent("tblAccountTable");
+                   // $("#tblAccountTable").dataTable()._fnAjaxUpdate();
+                    showMessage("Thêm tài khoản thành công", 1);
+                    $("#accountModal").modal('hide');
+                } else {
+                    showMessage("Thêm tài khoản thất bại, vui lòng thử lại sau", 0);
+                }
+
+            },
+        });
+    }
+
+    function refreshModal() {
+        $("#txtUsername").val("");
+        $("#txtPassword").val("");
+        $("#txtConfirmPassword").val("");
+        $("#txtName").val("");
+        $("#cbbRole").val(0);
+        $("#cbbAccountParish").val(0);
+        $("#txtHiddenAccountId").val(0);
+
+        $("#txtUsername").attr("disabled", false);
+
+        $("#divRoleId").show();
+        $("#divParishId").show();
+        $("#divPassword").show();
+        $("#divConfirmPassword").show();
+        $("#btnCreateAccountModal").show();
+        $("#btnUpdateAccountModal").hide();
+        $("#accountTitle").html("Thêm mới tài khoản");
+
+        $("#lbUsernameError").hide();
+        $("#lbUsernameError").html("");
+        $("#lbPasswordError").hide();
+        $("#lbPasswordError").html("");
+        $("#lbConfirmPasswordError").hide();
+        $("#lbConfirmPasswordError").html("");
+        $("#lbNameError").hide();
+        $("#lbNameError").html("");
+        $("#lbRoleError").hide();
+        $("#lbRoleError").html("");
+        $("#lbAccountParishError").hide();
+        $("#lbAccountParishError").html("");
+
+    }
+
+    function confirmChangeAccountStatus(id, status) {
+        var message = "";
+
+        if (status == 0) {
+            message = "Bạn có chắc muốn tạm khóa tài khoản này không ?";
+        } else {
+            message = "Bạn có chắc muốn cho tài khoản này hoạt động lại không ?";
+        }
+
+        bootbox.dialog({
+            closeButton: false,
+            message: message,
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Có",
+                    className: "ace-icon fa fa-check btn-info",
+                    callback: function () {
+                        changeAccountStatus(id, status);
+                    }
+                },
+                main: {
+                    label: " Không",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+
+                    }
+                }
+            }
+        });
+
+    }
+
+    function changeAccountStatus(id, status) {
+        startLoading();
+        $.ajax({
+            url: "/Account/ChangeAccountStatus",
+            type: "POST",
+            data: {
+                accountId: id,
+                status: status
+            },
+            success: function (data) {
+
+                if (data > 0) {
+                    updateTableContent("tblAccountTable");
+               //     $("#tblAccountTable").dataTable()._fnAjaxUpdate();
+                    showMessage("Thay đổi trạng thái tài khoản thành công", 1);
+                } else {
+                    showMessage("Thay đổi trạng thái tài khoản thất bại, vui lòng thử lại sau", 0);
+                }
+
+            },
+        });
+
+    }
+
+    function getAccount(id) {
+
+        startLoading();
+        $.ajax({
+            url: "/Account/GetAccountById",
+            type: "POST",
+            data: {
+                accountId: id,
+            },
+            success: function (data) {
+
+                if (data) {
+                    var item = data.account;
+
+                    $("#txtUsername").val(item.Username);
+                    $("#txtHiddenAccountId").val(item.Id);
+                    $("#txtName").val(item.Name);
+
+                    if (data.roleId != 1) {
+                        $("#cbbRole").val(data.roleId);
+                        $("#cbbAccountParish").val(data.parishId);
+                    } else {
+                        $("#divRoleId").hide();
+                        $("#divParishId").hide();
+                    }
+
+
+                    $("#txtUsername").attr("disabled", true);
+                    $("#btnUpdateAccountModal").show();
+                    $("#btnCreateAccountModal").hide();
+                    $("#divPassword").hide();
+                    $("#divConfirmPassword").hide();
+
+                    $("#accountTitle").html("Chỉnh sửa tài khoản");
+                    $("#accountModal").modal('show');
+
+                } else {
+                    showMessage("Không thể lấy dữ liệu tài khoản", 0);
+                }
+
+            },
+        });
+    }
+
+    function updateAccount() {
+        //Check validation
+        if (!checkAccountValidate()) {
+            return;
+        }
+        startLoading();
+        $.ajax({
+            url: "/Account/UpdateAccount",
+            type: "POST",
+            data: {
+                Id: $("#txtHiddenAccountId").val(),
+                Name: $("#txtName").val(),
+                RoleId: $("#cbbRole").val(),
+                ParishId: $("#cbbAccountParish").val()
+            },
+            success: function (data) {
+                if (data > 0) {
+                    updateTableContent("tblAccountTable");
+                 //   $("#tblAccountTable").dataTable()._fnAjaxUpdate();
+                    showMessage("Cập nhật tài khoản thành công", 1);
+                    $("#accountModal").modal('hide');
+                } else {
+                    showMessage("Cập nhật tài khoản thất bại, vui lòng thử lại sau", 0);
+                }
+            },
+        });
+
+    }
+
+    function checkAccountValidate() {
+
+        var id = $("#txtHiddenAccountId").val();
+        var myId = $("#myId").val();
+
+        var isError = false;
+
+        var username = $("#txtUsername").val();
+
+        if (!username) {
+            $("#lbUsernameError").html("Tên đăng nhập không được để trống");
+            $("#lbUsernameError").show();
+            isError = true;
+        } else {
+            $("#lbUsernameError").hide();
+            $("#lbUsernameError").html("");
+        }
+
+        if (id == 0) {
+
+            var password = $("#txtPassword").val();
+
+            if (!password) {
+                $("#lbPasswordError").html("Mật khẩu không được để trống");
+                $("#lbPasswordError").show();
+                isError = true;
+            } else if (password.length > 0 && password.length < 6) {
+                $("#lbPasswordError").html("Mật khẩu phải từ 6 ký tự trở lên");
+                $("#lbPasswordError").show();
+                isError = true;
+            } 
+            else {
+                $("#lbPasswordError").hide();
+                $("#lbPasswordError").html("");
+            }
+
+            var confirmPassword = $("#txtConfirmPassword").val();
+
+            if (!confirmPassword) {
+                $("#lbConfirmPasswordError").html("Xác nhận mật khẩu không được để trống");
+                $("#lbConfirmPasswordError").show();
+                isError = true;
+            } else {
+                $("#lbConfirmPasswordError").hide();
+                $("#lbConfirmPasswordError").html("");
+
+                if (confirmPassword != password) {
+                    $("#lbConfirmPasswordError").html("Xác nhận mật khẩu không khớp với mật khẩu đã nhập");
+                    $("#lbConfirmPasswordError").show();
+                    isError = true;
+                } else {
+                    $("#lbConfirmPasswordError").hide();
+                    $("#lbConfirmPasswordError").html("");
+                }
+
+            }
+        }
+
+        var name = $("#txtName").val();
+
+        if (!name) {
+            $("#lbNameError").html("Tên hiển thị không được để trống");
+            $("#lbNameError").show();
+            isError = true;
+        } else {
+            $("#lbNameError").hide();
+            $("#lbNameError").html("");
+        }
+
+        if (id != myId) {
+            var role = $("#cbbRole").val();
+
+            if (role == 0) {
+                $("#lbRoleError").html("Hãy chọn vai trò");
+                $("#lbRoleError").show();
+                isError = true;
+            } else {
+                $("#lbRoleError").hide();
+                $("#lbRoleError").html("");
+            }
+
+            var parish = $("#cbbAccountParish").val();
+
+            if (parish == 0) {
+                $("#lbAccountParishError").html("Hãy chọn giáo xứ");
+                $("#lbAccountParishError").show();
+                isError = true;
+            } else {
+                $("#lbAccountParishError").hide();
+                $("#lbAccountParishError").html("");
+            }
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+
+    }
+</script>

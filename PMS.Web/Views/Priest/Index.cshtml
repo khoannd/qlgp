@@ -1,0 +1,490 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<input id="priestId" type="hidden" value="" />
+<div class="col-xs-12">
+    <div class="widget-box transparent ui-sortable-handle">
+        <div class="space-4"></div>
+        <div class="widget-header">
+            <h3 class="widget-title lighter">Danh sách linh mục</h3>
+        </div>
+        <div class="space-6"></div>
+        <div class="widget-body">
+            <button id="btnCreatePriest" class="btn btn-success" data-toggle="modal">
+                <i class="ace-icon fa fa-plus"></i> Thêm linh mục
+            </button>
+            <div style="display: inline-block;">
+                @using (Html.BeginForm("ImportFromExcel", "Priest", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="btn btn-info">
+                        <input type="file" name="file" />
+                    </div>
+                    <button id="btnImportPriest" type="submit" class="btn btn-info">
+                        <i class="ace-icon fa fa-plus"></i> Thêm linh mục từ file Excel
+                    </button>
+                }
+            </div>        
+            <div class="space-6"></div>
+            <table id="priestTable" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <label class="position-relative">
+                                <input type="checkbox" class="ace" />
+                                <span class="lbl"></span>
+                            </label>
+                        </th>
+                        <th>Mã linh mục</th>
+                        <th>Tên thánh</th>
+                        <th>Họ tên</th>
+                        <th>Ngày sinh</th>
+                        <th>Số điện thoại</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--Priest Modal-->
+<div id="createPriestModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+                    <div class="col-xs-12">
+                        <h4 class="widget-title lighter" id="PriestModalTitle"></h4>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="space-10"></div>
+                    <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Tên thánh&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="txtchristianName" value="" class="form-control christian">
+                                    <label class="text-danger" id="lbErrorChristianName" hidden=""></label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Họ Tên&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="txtName" value="" class="form-control">
+                                    <label class="text-danger" id="lbErrorName" hidden=""></label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Ngày sinh&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input class="form-control date-picker" id="txtBirthDate" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar bigger-110"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9 col-sm-offset-3">
+                                    <label class="text-danger" id="lbErrorBirthdate" hidden=""></label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="space-10"></div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Số Điện Thoại</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="txtPhone" value="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--end row-->
+                    
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="align-right">
+                                    <div class="space-6"></div>
+                                    <button id="btnCreatePriestModal" class="btn btn-primary" data-toggle="modal">
+                                        <i class="ace-icon fa fa-save"></i> Lưu
+                                    </button>
+                                    <button id="btnUpdatePriestModal" class="btn btn-primary" data-toggle="modal">
+                                        <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                    </button>
+                                    <button id="btnClosePriestModal" class="btn btn-grey" data-toggle="modal">
+                                        <i class="ace-icon fa fa-times"></i> Đóng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Priest Modal-->
+<script>
+    InitDatatable();
+    function InitDatatable() {
+        $("#priestTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "sAjaxSource": "/Priest/LoadParishDatatable",
+            //"bProcessing": true,
+            "oLanguage": {
+                "sSearch": "Tên linh mục",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0, 1],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [7],
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" onclick="LoadPriestByPriestId(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                            '<button class="btn btn-minier btn-danger" onclick="DeleteConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "15%"
+                }
+            ],
+            "bAutoWidth": false,
+        });
+
+    }
+    function refreshPriestTable() {
+        updateTableContent("priestTable");
+        //$("#priestTable").dataTable()._fnAjaxUpdate();
+    }
+    $(document).on('click', 'th input:checkbox', function () {
+        var that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox')
+        .each(function () {
+            this.checked = that.checked;
+            $(this).closest('tr').toggleClass('selected');
+        });
+    });
+
+    $("#btnCreatePriest").click(function () {
+        $("#PriestModalTitle").html("Thêm mới linh mục");
+        $("#createPriestModal").modal('show');
+        $("#btnCreatePriestModal").show();
+        $("#btnUpdatePriestModal").hide();
+    });
+
+    $("#btnClosePriestModal").click(function () {
+        $("#createPriestModal").modal('hide');
+        clearPriest();
+    });
+
+    $("#btnCreatePriestModal").click(function () {
+        AddPriest();
+    });
+
+    $("#btnUpdatePriestModal").click(function () {
+        UpdatePriest();
+    });
+
+    //---------------------
+    $(".christian").autocomplete({
+        autoFocus: true,
+        source: function (request, response) {
+            $.ajax({
+                url: "/Parishioner/LoadChristianName",
+                dataType: "json",
+                data: {
+                    name: request.term
+                },
+                success: function (data) {
+                    response(data.result);
+                }
+            });
+        },
+        minLength: 0
+    }).focus(function () {
+        $(this).autocomplete("search");
+    });
+
+    //----------
+
+    function AddPriest() {
+        if (!checkValidate()) {
+            return;
+        }
+        var christianName = $("#txtchristianName").val();
+        var name = $("#txtName").val();
+        var birthdate = $("#txtBirthDate").val();
+        var phone = $("#txtPhone").val();
+        startLoading();
+        $.ajax({
+            url: "/Priest/AddPriest",
+            type: "POST",
+            data: {
+                ChristianName: christianName,
+                Name: name,
+                BirthDate: birthdate,
+                Phone: phone
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Thêm linh mục thất bại", 0);
+                } else {
+                    showMessage("Thêm linh mục thành công", 1);
+                    refreshPriestTable();
+                    $("#createPriestModal").modal('hide');
+                    clearPriest();
+                }
+            },
+
+        });
+    }
+
+    function UpdatePriest() {
+        if (!checkValidate()) {
+            return;
+        }
+        var christianName = $("#txtchristianName").val();
+        var name = $("#txtName").val();
+        var birthdate = $("#txtBirthDate").val();
+        var priestId = $("#priestId").val();
+        var phone = $("#txtPhone").val();
+        startLoading();
+        $.ajax({
+            url: "/Priest/UpdatePriest",
+            type: "POST",
+            data: {
+                Id: priestId,
+                ChristianName: christianName,
+                Name: name,
+                BirthDate: birthdate,
+                Phone: phone
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Cập nhật thông tin linh mục thất bại", 0);
+                } else {
+                    showMessage("Cập nhật thông tin linh mục thành công", 1);
+                    refreshPriestTable();
+                    $("#createPriestModal").modal('hide');
+                    clearPriest();
+                }
+            },
+
+        });
+    }
+
+    function LoadPriestByPriestId(id) {
+        $("#priestId").val(id);
+        $.ajax({
+            url: "/Priest/LoadPriestById",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                var item = data.result;
+
+                $("#txtchristianName").val(item.ChristianName);
+                $("#txtName").val(item.Name);
+                $("#txtBirthDate").val(item.BirthDate);
+                $("#txtPhone").val(item.Phone);
+
+                $("#PriestModalTitle").html("Chỉnh sửa linh mục");
+                $("#createPriestModal").modal('show');
+                $("#btnUpdatePriestModal").show();
+                $("#btnCreatePriestModal").hide();
+
+            },
+        });
+    }
+
+    function DeleteConfirm(id) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn xóa linh mục này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeletePriest(id);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    function DeletePriest(id) {
+        $.ajax({
+            url: "/Priest/DeletePriest",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Xóa linh mục thất bại", 0);
+                } else {
+                    showMessage("Xóa linh mục thành công", 1);
+                    refreshPriestTable();
+                }
+
+            },
+        });
+    }
+
+    $('.date-picker').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        forceParse: false
+    });
+    $(".date-picker").focusout(function () {
+        var code = isDate($(this).val());
+
+        if (code == -1) {
+            showMessage("Thời gian không đúng định dạng (ngày/tháng/năm)", 0, 6000);
+            $(this).focus();
+        }
+        else if (code == -2) {
+            showMessage("Thời gian không hợp lệ", 0, 6000);
+            $(this).focus();
+        }
+    });
+
+    function checkValidate() {
+
+        var christianName = $("#txtchristianName").val();
+        var name = $("#txtName").val();
+        var birthdate = $("#txtBirthDate").val();
+        var phone = $("#txtPhone").val();
+        var isError = false;
+
+        if (!christianName) {
+            $("#lbErrorChristianName").html("Vui lòng nhập tên thánh của linh mục");
+            $("#lbErrorChristianName").show();
+            isError = true;
+        } else {
+            $("#lbErrorChristianName").hide();
+            $("#lbErrorChristianName").html("");
+        }
+
+        if (!name) {
+            $("#lbErrorName").html("Vui lòng nhập họ tên linh mục");
+            $("#lbErrorName").show();
+            isError = true;
+        } else {
+            $("#lbErrorName").hide();
+            $("#lbErrorName").html("");
+        }
+
+        if (!birthdate) {
+            $("#lbErrorBirthdate").html("Vui lòng nhập ngày tháng năm sinh của linh mục");
+            $("#lbErrorBirthdate").show();
+            isError = true;
+        } else {
+            $("#lbErrorBirthdate").hide();
+            $("#lbErrorBirthdate").html("");
+        }
+
+        if (!checkYearOldPriest()) {
+            isError = true;
+        }
+
+        if (isError) {
+            return false;
+        }
+        return true;
+
+    }
+
+    function checkYearOldPriest() {
+        var date = $("#txtBirthDate").val();
+        var result = true;
+        $.ajax({
+            url: "/Priest/CheckYearOld",
+            type: "POST",
+            data: { date: date },
+            async: false,
+            success: function (data) {
+                if (data.result < 220000) {
+                    $("#lbErrorBirthdate").html("Linh mục phải từ 22 tuổi trở lên");
+                    $("#lbErrorBirthdate").show();
+                    result = false;
+                } else {
+                    $("#lbErrorBirthdate").html("");
+                    $("#lbErrorBirthdate").hide();
+                    result = true;
+                }
+
+            },
+        });
+        return result;
+    }
+
+    function clearPriest() {
+        $("#txtchristianName").val("");
+        $("#lbErrorChristianName").val("");
+        $("#lbErrorChristianName").hide();
+
+        $("#txtName").val("");
+        $("#lbErrorName").val("");
+        $("#lbErrorName").hide();
+
+        $("#txtBirthDate").val("");
+        $("#lbErrorBirthdate").val("");
+        $("#lbErrorBirthdate").hide();
+
+        $("#txtPhone").val("");
+    }
+
+</script>
+

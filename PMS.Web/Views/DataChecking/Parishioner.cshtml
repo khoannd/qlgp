@@ -1,0 +1,529 @@
+﻿@using PMS.DataAccess.Models
+
+@{
+    ViewBag.Title = "Parishioner";
+}
+
+<input type="hidden" id="firstCheck" value="1" />
+
+<div class="page-header">
+    <h1>Kiểm tra dữ liệu giáo dân</h1>
+</div>
+
+<div class="page-header">
+
+    <div>
+
+        <div class="row">
+
+            <div class="col-xs-4">
+                Giáo họ
+                <select id="cbbCommunity" class="form-control">
+                    <option value="0">Tất cả</option>
+
+                    @foreach (var item in ((List<Community>)ViewBag.Communities))
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-xs-4">
+                Giáo khu
+                <select id="cbbParishDivision" class="form-control">
+                    <option value="0">Tất cả</option>
+
+                    @foreach (var item in ((List<Community>)ViewBag.ParishDivisions))
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="space-8"></div>
+
+        <div class="row">
+            <div class="col-xs-4">
+                <label class="position-relative">
+                    <input type="checkbox" class="ace" id="cbNoBirthDate" />
+                    <span class="lbl"> Không có ngày sinh</span>
+                </label>
+            </div>
+
+            <div class="col-xs-4">
+                <label class="position-relative">
+                    <input type="checkbox" class="ace" id="cbWrongDate" />
+                    <span class="lbl"> Sai quan hệ ngày tháng</span>
+                </label>
+            </div>
+
+            <div class="col-xs-4">
+                <label class="position-relative">
+                    <input type="checkbox" class="ace" id="cbEarlyCommunion" />
+                    <span class="lbl"> Rước lễ trước tuổi</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">
+                <label class="position-relative">
+                    <input type="checkbox" class="ace" id="cbManyMatrimony" />
+                    <span class="lbl"> Có nhiều hôn phối</span>
+                </label>
+            </div>
+
+            <div class="col-xs-4">
+                <label class="position-relative">
+                    <input type="checkbox" class="ace" id="cbEnoughMatrimony" />
+                    <span class="lbl"> Hôn phối trước tuổi (nam 20 tuổi, nữ 18 tuổi)</span>
+                </label>
+            </div>
+
+            <div class="col-xs-4">
+                <label class="position-relative">
+                    <input type="checkbox" class="ace" id="cbNoMatrimonyDate" />
+                    <span class="lbl"> Không có ngày hôn phối</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-4">
+                <label class="position-relative">
+                    <input type="checkbox" class="ace" id="cbNoFamily" />
+                    <span class="lbl"> Không thuộc gia đình nào</span>
+                </label>
+            </div>
+
+            <div class="col-xs-3">
+                <label class="position-relative">
+                    <input type="checkbox" class="ace" id="cbManyFamily" />
+                    <span class="lbl"> Đã từng ở nhiều gia đình</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="space-8"></div>
+        <div class="row">
+            <div class="col-xs-4">
+                <button id="btnChangeParish" class="btn btn-primary" data-toggle="modal" onclick="checkData()">
+                    <i class="ace-icon fa fa-search"></i> Bắt đầu kiểm tra
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div id="divCheckingTable" class="widget-body" hidden="">
+
+    <table id="checkingParishionerTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    <label class="position-relative">
+                        <input type="checkbox" class="ace" />
+                        <span class="lbl"></span>
+                    </label>
+                </th>
+                <th>Nguyên nhân</th>
+                <th>Mã giáo dân</th>
+                <th>Tên thánh</th>
+                <th>Họ tên</th>
+                <th>Giới tính</th>
+                <th>Ngày sinh</th>
+                <th>Giáo khu</th>
+                <th>Giáo họ</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody></tbody>
+
+    </table>
+
+</div>
+
+<div id="mainParishionerModalContainer">
+    @Html.Partial("_ParishionerInformation")
+</div>
+
+@Html.Partial("_ViewReadonlyParishionerModal")
+
+<script>
+
+    function checkData() {
+        if (!checkChooseOption()) {
+            showMessage("Vui lòng chọn tiêu chí để kiểm tra", -1, 6000);
+            return;
+        }
+
+        $("#firstCheck").val(0);
+        $("#divCheckingTable").show();
+        startLoading();
+        updateTableContent("checkingParishionerTable");
+    }
+
+    function checkChooseOption() {
+        var noBirthDate = $("#cbNoBirthDate").is(':checked');
+        if (noBirthDate) {
+            return true;
+        }
+
+        var wrongDate = $("#cbWrongDate").is(':checked');
+        if (wrongDate) {
+            return true;
+        }
+
+        var earlyCommunion = $("#cbEarlyCommunion").is(':checked');
+        if (earlyCommunion) {
+            return true;
+        }
+
+        var manyMatrimony = $("#cbManyMatrimony").is(':checked');
+        if (manyMatrimony) {
+            return true;
+        }
+
+        var enoughMatrimony = $("#cbEnoughMatrimony").is(':checked');
+        if (enoughMatrimony) {
+            return true;
+        }
+
+        var noMatrimonyDate = $("#cbNoMatrimonyDate").is(':checked');
+        if (noMatrimonyDate) {
+            return true;
+        }
+
+        var noFamily = $("#cbNoFamily").is(':checked');
+        if (noFamily) {
+            return true;
+        }
+
+        var manyFamily = $("#cbManyFamily").is(':checked');
+        if (manyFamily) {
+            return true;
+        }
+
+        return false;
+    }
+
+    initCheckingParishionerDatatable();
+
+    function initCheckingParishionerDatatable() {
+
+        $("#checkingParishionerTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "sAjaxSource": "/DataChecking/LoadCheckingParishionerDatatables",
+            "aLengthMenu": [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, "Tất cả"]],
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "communityId", "value": $("#cbbCommunity").val() });
+                aoData.push({ "name": "parishDivisionId", "value": $("#cbbParishDivision").val() });
+                aoData.push({ "name": "noBirthDate", "value": $("#cbNoBirthDate").is(':checked') });
+                aoData.push({ "name": "wrongDate", "value": $("#cbWrongDate").is(':checked') });
+                aoData.push({ "name": "earlyCommunion", "value": $("#cbEarlyCommunion").is(':checked') });
+                aoData.push({ "name": "manyMatrimony", "value": $("#cbManyMatrimony").is(':checked') });
+                aoData.push({ "name": "enoughMatrimony", "value": $("#cbEnoughMatrimony").is(':checked') });
+                aoData.push({ "name": "noMatrimonyDate", "value": $("#cbNoMatrimonyDate").is(':checked') });
+                aoData.push({ "name": "noFamily", "value": $("#cbNoFamily").is(':checked') });
+                aoData.push({ "name": "manyFamily", "value": $("#cbManyFamily").is(':checked') });
+                aoData.push({ "name": "firstCheck", "value": $("#firstCheck").val() });
+            },
+            "oLanguage": {
+                "sSearch": "Mã giáo dân/ Tên thánh/ Họ tên",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0, 1, 7],
+                    "bVisible": false,
+                },
+                 {
+                     "aTargets": [2],
+                     "sWidth": "30%",
+                 },
+                 {
+                     "aTargets": [3, 4, 5, 6, 8, 9],
+                     "sWidth": "9%",
+                 },
+                 {
+                     "aTargets": [10],
+                     "sWidth": "15%",
+                 },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace pItem" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [10],
+                    "render": function (data, type, full, meta) {
+                        var content = "";
+
+                        if (full[0] == 0) {
+                            content = '<button class="btn btn-minier btn-primary" onclick="viewReadonlyParishioner(' + data + ')">' +
+                                '<i class="ace-icon fa fa-search-plus"></i>&nbsp;Chi tiết</button>';
+
+                            content += '<button class="btn btn-minier btn-inverse" onclick="undoParishioner(' + data + ')"><i class="ace-icon fa fa-undo"></i>&nbsp;Phục hồi</button>';
+                            content += '<button class="btn btn-minier btn-danger" onclick="deleteParishionerInSaveStorage(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>&nbsp;Xóa</button>';
+                        } else {
+                            content = '<button class="btn btn-minier btn-primary" onclick="loadFullParishionerInfo(' + data + ')"><i class="ace-icon fa fa-pencil"></i>&nbsp;Sửa</button>';
+                            content += '<button class="btn btn-minier btn-danger" onclick="deleteParishioner(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>&nbsp;Xóa</button>';
+                        }
+                       
+
+                        return content;
+                    },
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+    }
+
+    $("#cbbCommunity").change(function () {
+        loadParishDivisionsByCommunityId();
+    });
+
+    function loadParishDivisionsByCommunityId() {
+        $.ajax({
+            url: "/Parishioner/LoadParishDivisionsByCommunityId",
+            type: "POST",
+            async: false,
+            data: { communityId: $("#cbbCommunity").val() },
+            success: function (data) {
+
+                var element = $("#cbbParishDivision");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+            },
+        });
+    }   
+
+    //-------
+    function undoParishioner(id) {
+        var message = "<p>Bạn có muốn phục hồi giáo dân được chọn không?</p>";
+
+        bootbox.dialog({
+            closeButton: false,
+            message: message,
+            title: "Xác nhận phục hồi",
+            buttons: {
+                danger: {
+                    label: " Có",
+                    className: "ace-icon fa fa-check btn-info",
+                    callback: function () {
+                        changeParishionerStatus(id, 1, false);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    function deleteParishioner(id) {
+
+        var message = "<p>Bạn muốn xóa vĩnh viễn giáo dân được chọn không?</p>";
+
+        bootbox.dialog({
+            closeButton: false,
+            message: message,
+            title: "Xác nhận xóa",
+            buttons: {
+                save: {
+                    label: " Đưa vào hồ sơ lưu trữ",
+                    className: "ace-icon fa fa-save btn-primary",
+                    callback: function () {
+                        changeParishionerStatus(id, 0, false);
+                    }
+                },
+                danger: {
+                    label: " Xóa vĩnh viễn",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        changeParishionerStatus(id, -1, false);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+
+                    }
+                }
+            }
+        });
+
+    }
+
+    function deleteParishionerInSaveStorage(id) {
+        var message = "<p>Bạn muốn xóa vĩnh viễn giáo dân được chọn không?</p>";
+
+        bootbox.dialog({
+            closeButton: false,
+            message: message,
+            title: "Xác nhận xóa",
+            buttons: {
+                danger: {
+                    label: " Xóa vĩnh viễn",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        changeParishionerStatus(id, -1, false);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+
+                    }
+                }
+            }
+        });
+
+    }
+
+    function changeParishionerStatus(id, status, isForced) {
+
+        $.ajax({
+            url: "/Parishioner/ChangeParishionerStatus",
+            type: "POST",
+            data: {
+                id: id,
+                status: status,
+                isForced: isForced
+            },
+            success: function (data) {
+
+                if (data > 0) {
+
+                    if (status == 0) {
+                        showMessage("Đưa giáo dân vào hồ sơ lưu trữ thành công", 1);
+                    } else if (status == -1) {
+                        showMessage("Xóa giáo dân thành công", 1);
+                    } else {
+                        showMessage("Phục hồi giáo dân thành công", 1);
+                    }
+
+                    updateTableContent("checkingParishionerTable");
+                    //  $("#parishionerTable").dataTable()._fnAjaxUpdate();
+                } else {
+
+                    if (status == 0) {
+                        showMessage("Đưa giáo dân vào hồ sơ lưu trữ thất bại, vui lòng thử lại sau", 0);
+                    }
+                    else if (data == -3) {             
+                        //confirmAgainToSureDelete(id);
+                        showMessage("Không thể xóa giáo dân đang được sử dụng ở những thông tin khác (hội đoàn, gia đình, giáo lý, hôn phối)", -1, 6000);
+                    }
+                    else if (data == -2) {
+                        confirmAgainToSureRestore(id);
+                    }
+                    else if (data == -4) {
+                        showMessage("Không thể phục hồi giáo dân đang chờ chuyển xứ, vui lòng hủy thông tin chuyển xứ để có thể phục hồi giáo dân này", -1, 6000);
+                    }
+                    else if (data == -5) {
+                        showMessage("Không thể xóa giáo dân đang chờ chuyển xứ, vui lòng hủy thông tin chuyển xứ để có thể xóa giáo dân này", -1, 6000);
+                    }
+                    else {
+                        showMessage("Xóa giáo dân thất bại, vui lòng thử lại sau", 0);
+                    }
+
+                }
+
+            },
+        });
+
+    }
+
+    function confirmAgainToSureRestore(id) {
+        var message = "<p>Giáo dân này đã qua đời</p> " +
+                     "<p>Bạn có thực sự muốn phục hồi giáo dân này không ? (nếu phục hồi thì sẽ mất đi thông tin qua đời)</p>";
+
+        bootbox.dialog({
+            closeButton: false,
+            message: message,
+            title: "Xác nhận phục hồi",
+            buttons: {
+                danger: {
+                    label: " Có",
+                    className: "ace-icon fa fa-check btn-info",
+                    callback: function () {
+                        changeParishionerStatus(id, 1, true);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    function confirmAgainToSureDelete(id) {
+
+        var message = "<p>Giáo dân này đang được sử dụng ở những thông tin khác (hội đoàn, gia đình, giáo lý, hôn phối)</p> " +
+                      "<p>Bạn có thực sự muốn xóa vĩnh viễn giáo dân này không ?</p>";
+
+        bootbox.dialog({
+            closeButton: false,
+            message: message,
+            title: "Xác nhận xóa",
+            buttons: {
+                danger: {
+                    label: " Có",
+                    className: "ace-icon fa fa-check btn-info",
+                    callback: function () {
+                        changeParishionerStatus(id, -1, true);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+
+    }
+    //------
+
+
+</script>
+

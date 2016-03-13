@@ -1,0 +1,249 @@
+﻿<!--Add Matrimony Modal-->
+
+
+<div id="readonlyMatrimonyModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+                   
+                    <h4 class="widget-title lighter" id="titleReadonlyMatrimonyModal">Thông tin chi tiết hôn phối</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseReadonlyMatrimonyModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+                
+                </div>
+                <div class="space-10"></div>
+                <div class="widget-body">
+                    <div class="form-horizontal">
+                        <div class="col-xs-6">
+
+                            <div class="form-group">
+
+                                <label class="col-sm-4 control-label no-padding-right">Người nam </label>
+
+                                <div class="col-sm-8">
+                            
+                                        <input type="hidden" id="txtHiddenMatrimonyHusbandId">
+                                        <input type="text" disabled="" id="txtReadonlyMatrimonyHusband" class="form-control">
+       
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label no-padding-right">
+                                    Người nữ 
+                                </label>
+
+                                <div class="col-sm-8">
+            
+                                        <input type="hidden" id="txtHiddenMatrimonyWifeId">
+                                    <input type="text" disabled="" id="txtReadonlyMatrimonyWife" class="form-control">
+                   
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label no-padding-right">
+                                    Đôi hôn phối
+                                </label>
+
+                                <div class="col-sm-8">
+                                    <input disabled="" type="text" id="txtReadonlyMatrimonyName" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label no-padding-right"> Số hôn phối </label>
+
+                                <div class="col-sm-8">
+                                    <input disabled="" type="text" id="txtReadonlyMatrimonyNumber" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label no-padding-right"> Ngày hôn phối  </label>
+
+                                <div class="col-sm-8">
+
+                                    <div class="input-group">
+                                        <input disabled="" class="form-control date-picker" id="txtReadonlyMatrimonyDate" type="text" data-date-format="dd/mm/yyyy" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar bigger-110"></i>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-xs-6">
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label no-padding-right"> Nơi hôn phối </label>
+
+                                <div class="col-sm-8">
+                                    <input disabled="" type="text" id="txtReadonlyMatrimonyPlace" class="form-control place">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label no-padding-right"> Linh mục chứng </label>
+
+                                <div class="col-sm-8">
+                                    <input disabled="" type="text" id="txtReadonlyMatrimonyPriest" class="form-control priest">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label no-padding-right"> Người chứng 1 </label>
+
+                                <div class="col-sm-8">
+                                    <input disabled="" type="text" id="txtReadonlyMatrimonyFirstWitness" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label no-padding-right"> Người chứng 2 </label>
+
+                                <div class="col-sm-8">
+                                    <input disabled="" type="text" id="txtReadonlyMatrimonySecondWitness" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+
+                                <label class="col-sm-4 control-label no-padding-right"> Tình trạng hôn phối </label>
+
+                                <div class="col-sm-8">
+
+                                    <select class="form-control" id="cbbReadonlyMatrimonyStatus" disabled="">
+                                        <option value="0"></option>
+                                        <option value="1">Bình thường</option>
+                                        <option value="2">Hợp thức hóa</option>
+                                        <option value="3">Chuẩn khác đạo</option>
+                                        <option value="4">Không theo phép đạo</option>
+                                        <option value="5">Đã được tháo gỡ</option>
+                                        <option value="6">Không xác định</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right"> Ghi chú </label>
+                                <div class="col-sm-10">
+                                    <textarea disabled="" id="txtReadonlyMatrimonyNote" rows="4" style="resize: none" class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label no-padding-right"></label>
+
+                                <div class="col-sm-10 align-right">
+                                    <button id="btnCloseReadonlyMatrimonyModal" class="btn">
+                                        <i class="ace-icon fa fa-times"></i>
+                                        Đóng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function loadReadonlyMatrimonySacrament(id) {
+        //if (scroll) {
+        //    $("#hiddenMakeSroll").val(scroll);
+        //}
+        
+        startLoading();
+        $.ajax({
+            url: "/Parishioner/LoadEditMatrimony",
+            data: {
+                id: id
+            },
+            success: function (data) {
+
+                if (data.matrimony) {
+                    var item = data.matrimony;
+
+                    $("#txtHiddenMatrimonyId").val(item.Id);
+                    $("#txtHiddenMatrimonyWifeId").val(data.wifeId);
+                    $("#txtReadonlyMatrimonyWife").val(data.wifeName);
+                    $("#txtReadonlyMatrimonyWife").attr("title", data.wifeName);
+                    $("#txtHiddenMatrimonyHusbandId").val(data.husbandId);
+                    $("#txtReadonlyMatrimonyHusband").val(data.husbandName);
+                    $("#txtReadonlyMatrimonyHusband").attr("title", data.husbandName);
+                    $("#txtReadonlyMatrimonyName").val(item.Name);
+                    $("#txtReadonlyMatrimonyNumber").val(item.Number);
+                    $("#txtReadonlyMatrimonyDate").val(item.Date);
+                    $("#txtReadonlyMatrimonyPlace").val(item.Place);
+                    $("#txtReadonlyMatrimonyPriest").val(item.Priest);
+                    $("#txtReadonlyMatrimonyFirstWitness").val(item.FirstWitness);
+                    $("#txtReadonlyMatrimonySecondWitness").val(item.SecondWitness);
+                    $("#cbbReadonlyMatrimonyStatus").val(item.Status);
+                    $("#txtReadonlyMatrimonyNote").val(item.Note);
+
+                    //$("#txtMatrimonyName").attr("disabled", false);
+                    //$("#txtMatrimonyNumber").attr("disabled", false);
+                    //$("#txtMatrimonyPlace").attr("disabled", false);
+                    //$("#txtMatrimonyPriest").attr("disabled", false);
+                    //$("#txtMatrimonyFirstWitness").attr("disabled", false);
+                    //$("#txtMatrimonySecondWitness").attr("disabled", false);
+                    //$("#txtMatrimonyNote").attr("disabled", false);
+
+                    //Co the open modal tai day
+                    $("#readonlyMatrimonyModal").modal('show');
+                    $("#titleReadonlyMatrimonyModal").html("Thông tin hôn phối chi tiết");
+
+                } else {
+                    showMessage("Không thể lấy được thông tin hôn phối, vui lòng thử lại sau", 0);
+                }
+
+            }
+        });
+
+    }
+
+    $("#btnCloseReadonlyMatrimonyModal").click(function () {
+        $("#readonlyMatrimonyModal").modal('hide');
+        refreshReadonlyMatrimonySacrament();
+    });
+
+    function refreshReadonlyMatrimonySacrament() {
+        $("#txtHiddenMatrimonyId").val(0);
+        $("#txtHiddenMatrimonyWifeId").val(0);
+        $("#txtReadonlyMatrimonyWife").val("");
+        $("#txtReadonlyMatrimonyWife").attr("title", "");
+        $("#txtHiddenMatrimonyHusbandId").val(0);
+        $("#txtReadonlyMatrimonyHusband").val("");
+        $("#txtReadonlyMatrimonyHusband").attr("title", "");
+        $("#txtReadonlyMatrimonyName").val("");
+        $("#txtReadonlyMatrimonyNumber").val("");
+        $("#txtReadonlyMatrimonyDate").val("");
+        $("#txtReadonlyMatrimonyPlace").val("");
+        $("#txtReadonlyMatrimonyPriest").val("");
+        $("#txtReadonlyMatrimonyFirstWitness").val("");
+        $("#txtReadonlyMatrimonySecondWitness").val("");
+        $("#cbbReadonlyMatrimonyStatus").val(0);
+        $("#txtReadonlyMatrimonyNote").val("");
+    }
+</script>

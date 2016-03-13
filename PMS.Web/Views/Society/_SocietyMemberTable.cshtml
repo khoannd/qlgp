@@ -1,0 +1,95 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Utilities
+@model List<PMS.DataAccess.Models.SocietyMember>
+@{
+    var currentParish = (int) Session["ParishId"];
+}
+@{
+    DateConverter dateConverter = new DateConverter();
+}
+@foreach (var item in Model)
+{
+    string rowClass = "";
+    if (item.Parishioner.Community.ParishId != currentParish)
+    {
+        rowClass = "blue";
+    }
+    else
+    {
+        rowClass = item.Parishioner.IsDead ? "red" : "";
+    }
+    <tr class="@rowClass">
+        <td class="hidden">@item.Id</td>
+        <td class="hidden">
+            <label class="position-relative">
+                <input type="checkbox" class="ace cc" value="@item.Id" />
+                <span class="lbl"></span>
+            </label>
+        </td>
+        <td>@item.Parishioner.ChristianName</td>
+        <td>@item.Parishioner.Name</td>
+        @if (item.Parishioner.Gender == 0)
+        {
+            <td>Nữ</td>
+        }
+        else
+        {
+            <td>Nam</td>
+        }
+        <td>@dateConverter.ConvertStringToDate(item.Parishioner.BirthDate)</td>
+        <td class="editableNote">@item.Note
+        </td>
+        <td>
+            <button class="btn btn-minier btn-danger" onclick="DeleteMemberConfirm(@item.Id)">
+                <i class="ace-icon fa fa-trash-o"></i>
+                Loại bỏ
+            </button>
+        </td>
+    </tr>
+}
+<script>
+    //editables on first profile page
+    $.fn.editable.defaults.mode = 'inline';
+    $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
+    $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>' +
+        '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';
+
+    //--------------------------------------------------------------------------------
+    $('.editableNote')
+    .editable({
+        type: 'text',
+        name: 'editableNote' +
+            '',
+        emptytext: "",
+        success: function (response, newValue) {
+            var row = $(this).closest("tr");
+            var cols = row.children();
+            var id = cols[0].innerText;
+            var current = $(this).text();
+
+            if (current == newValue) {
+                return;
+            }
+
+            $.ajax({
+                url: "/Society/EditableSocietyMemberPosition",
+                type: "POST",
+                data: {
+                    Id: id,
+                    Note: newValue
+                },
+                async: false,
+                success: function (data) {
+                    if (data.result <= 0) {
+                        showMessage("Cập nhật thông tin thất bại", 0);
+                    } else {
+                        //showMessage("Cập nhật thành công", 1);
+                    }
+                },
+            });
+
+        }
+    });
+
+</script>
+

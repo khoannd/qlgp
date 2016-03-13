@@ -1,0 +1,33 @@
+﻿@using System.Globalization
+@using PMS.DataAccess.ViewModels;
+@model List<CommunityTreeViewModel>
+
+@{
+    int communityCheckId = ViewBag.communitySourceId;
+}
+
+<option value="0"> </option>
+@foreach (var item in Model)
+{
+    if (item.ParishDivisions.Count > 0)
+    {
+        <option disabled>@item.Name</option>
+
+        foreach (var parishDivision in item.ParishDivisions)
+        {
+            if (@parishDivision.Id == communityCheckId)
+            {
+                <option disabled>&nbsp;&nbsp;&nbsp;&nbsp;@parishDivision.Name</option>
+            }
+            else
+            {
+                <option value="@parishDivision.Id">&nbsp;&nbsp;&nbsp;&nbsp;@parishDivision.Name</option>
+            }
+        }
+    }
+    else
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+}
+

@@ -1,0 +1,406 @@
+﻿@using PMS.DataAccess.Enumerations
+
+@{
+    ViewBag.Title = "Parishioner";
+}
+@{
+    var roleId = (int)Session["RoleId"];
+}
+<div class="page-header">
+    <h1>Tìm kiếm giáo dân</h1>
+</div>
+
+<div class="container-fluid">
+    
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo hạt</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbVicariateSearch">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo xứ</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbParishSearch">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="space-10"></div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo họ</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbCommunitySearch">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo khu</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbParishDivisionSearch">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="space-10"></div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Mã giáo dân</label>
+                <div class="col-sm-9">
+                    <input type="text" id="txtParishionerCode" value="" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Tên cha</label>
+                <div class="col-sm-9">
+                    <input type="text" id="txtFatherName" value="" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="space-10"></div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Tên giáo dân</label>
+                <div class="col-sm-9">
+                    <input type="text" id="txtParishionerName" value="" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Tên mẹ</label>
+                <div class="col-sm-9">
+                    <input type="text" id="txtMotherName" value="" class="form-control">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="space-10"></div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input type="checkbox" class="ace" id="cbNotIncludeRecord" />
+                    <span class="lbl"> Không tìm kiếm trong hồ sơ lưu trữ</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="space-6"></div>   
+        <div class="col-xs-12">
+            <div class="col-sm-12">
+                <button id="btnParishionerSearch" class="btn btn-primary" data-toggle="modal" disabled="">
+                    <i class="ace-icon glyphicon glyphicon-search"></i> Tìm kiếm
+                </button>
+
+                @if(roleId == (int)AccountEnum.Manager){
+                    <button class="btn btn-grey" onclick="printSacrament(0)">
+                    <i class="ace-icon fa fa-print"></i> In chứng nhận bí tích
+                </button>
+                <button class="btn btn-grey" onclick="printSacrament(4)">
+                    <i class="ace-icon fa fa-print"></i> In chứng nhận hôn phối
+                </button>
+                }
+                
+            </div>
+        </div>
+    </div>
+    <div class="row" id="firstLoadParishionerSearch" hidden="">
+        <div class="space-10"></div>
+        <table id="tblParishioner" class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        <label class="position-relative">
+                            <input type="checkbox" class="ace sAce" />
+                            <span class="lbl"></span>
+                        </label>
+                    </th>
+                    <th>Mã</th>
+                    <th>Tên thánh</th>
+                    <th>Họ tên</th>
+                    <th>Giới tính</th>
+                    <th>Ngày sinh</th>
+                    <th>Tên cha</th>
+                    <th>Tên mẹ</th>
+                    <th>Giáo xứ</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+@Html.Partial("_ViewReadonlyParishionerModal")
+<script>
+    
+    $("#cbbVicariateSearch").change(function () {
+        loadParishes();
+        updateTableContent("tblParishioner");
+        //$("#tblParishioner").dataTable()._fnAjaxUpdate();
+    });
+    $("#cbbParishSearch").change(function () {
+        loadCommunities();
+        updateTableContent("tblParishioner");
+        //$("#tblParishioner").dataTable()._fnAjaxUpdate();
+    });
+    $("#cbbCommunitySearch").change(function () {
+        loadParishDivisions();
+        updateTableContent("tblParishioner");
+        //$("#tblParishioner").dataTable()._fnAjaxUpdate();
+    });
+    $("#cbbParishDivisionSearch").change(function () {
+        updateTableContent("tblParishioner");
+        //$("#tblParishioner").dataTable()._fnAjaxUpdate();
+    });
+    $("#cbNotIncludeRecord").change(function () {
+        updateTableContent("tblParishioner");
+        //$("#tblParishioner").dataTable()._fnAjaxUpdate();
+    });
+    $("#btnParishionerSearch").click(function () {
+        $("#firstLoadParishionerSearch").show();
+        startLoading();
+        updateTableContent("tblParishioner");
+        //$("#tblParishioner").dataTable()._fnAjaxUpdate();
+    });
+
+    function initDatatable() {
+        $("#tblParishioner").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "bFilter": false,
+            "sAjaxSource": "/Search/LoadParishionerSearchDatatables",
+            "bProcessing": false,
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "parishDivisionId", "value": $("#cbbParishDivisionSearch").val() });
+                aoData.push({ "name": "communityId", "value": $("#cbbCommunitySearch").val() });
+                aoData.push({ "name": "parishId", "value": $("#cbbParishSearch").val() });
+                aoData.push({ "name": "vicariateId", "value": $("#cbbVicariateSearch").val() });
+                aoData.push({ "name": "parishionerName", "value": $("#txtParishionerName").val() });
+                aoData.push({ "name": "code", "value": $("#txtParishionerCode").val() });
+                aoData.push({ "name": "fatherName", "value": $("#txtFatherName").val() });
+                aoData.push({ "name": "motherName", "value": $("#txtMotherName").val() });
+                aoData.push({ "name": "notIncludeRecord", "value": $("#cbNotIncludeRecord").is(':checked') });
+            },
+            "oLanguage": {
+                "sSearch": "Mã giáo dân/ Tên thánh/ Họ tên:",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false,
+                },
+
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace sAce" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false
+                },
+
+                {
+                    "aTargets": [10],
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" onclick="viewReadonlyParishioner(' + data + ')">' +
+                            '<i class="ace-icon fa fa-search-plus"></i>&nbsp;Chi tiết</button>';
+                        return content;
+                    },
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+    }
+
+    //-----------------------------------
+    loadVicariates();
+
+    function loadVicariates() {
+        $.ajax({
+            url: "/Parishioner/LoadVicariates",
+            data: {},
+            success: function (data) {
+                var element = $("#cbbVicariateSearch");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+                loadParishes();
+            }
+        });
+    }
+
+    //-----------------------------------
+    function loadParishes() {
+        $.ajax({
+            url: "/Parishioner/LoadParishies",
+            data: {
+                vicariateId: $("#cbbVicariateSearch").val()
+            },
+            success: function (data) {
+                var element = $("#cbbParishSearch");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+                loadCommunities();
+            }
+        });
+    }
+
+    //-----------------------------------
+    function loadCommunities() {
+        $.ajax({
+            url: "/Parishioner/LoadCommunitites",
+            data: {
+                vicariateId: $("#cbbVicariateSearch").val(),
+                parishId: $("#cbbParishSearch").val()
+            },
+            success: function (data) {
+                var element = $("#cbbCommunitySearch");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+                loadParishDivisions();
+            }
+        });
+    }
+
+    //-----------------------------------
+
+    function loadParishDivisions() {
+        $.ajax({
+            url: "/Parishioner/LoadParishDivisions",
+            data: {
+                communityId: $("#cbbCommunitySearch").val(),
+                vicariateId: $("#cbbVicariateSearch").val(),
+                parishId: $("#cbbParishSearch").val()
+            },
+            success: function (data) {
+                var element = $("#cbbParishDivisionSearch");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+                initDatatable();
+                searchParishionerFromSearchBar();
+                $("#btnParishionerSearch").attr('disabled', false);
+            }
+        });
+    }
+    //-----------------------------------
+    function searchParishionerFromSearchBar() {
+        var searchName = localStorage.getItem("parishionerName");
+        if (searchName != "") {
+            $("#txtParishionerName").val(searchName);
+            $("#firstLoadParishionerSearch").show();
+            updateTableContent("tblParishioner");
+            localStorage.setItem("parishionerName", "");
+        }
+        
+    }
+    //-----------------------------------
+    $(document).on('click', 'th input:checkbox', function () {
+        var that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox')
+            .each(function () {
+                this.checked = that.checked;
+                $(this).closest('tr').toggleClass('selected');
+            });
+    });
+
+    function printSacrament(type) {
+
+        var checks = new Array();
+
+        $(".sAce:checked").each(function () {
+            if ($(this).is(':checked')) {
+                if ($(this).val() == "on") {
+                } else {
+                    checks.push($(this).val());
+                }
+
+            }
+        });
+        if (checks.length > 0) {
+            var ids = sessionStorage.getItem("ids");
+
+            if (ids == null) {
+                sessionStorage.setItem("ids", JSON.stringify(checks));
+                sessionStorage.setItem("type", type);
+            } else {
+                sessionStorage.setItem("ids", JSON.stringify(checks));
+                sessionStorage.setItem("type", type);
+            }
+
+            var url = "/Parishioner/PrintPage";
+            window.open(url, '_blank');
+
+        } else {
+            showMessage("Vui lòng chọn ít nhất một giáo dân để thực hiện in chứng nhận", -1);
+        }
+
+        
+    }
+</script>

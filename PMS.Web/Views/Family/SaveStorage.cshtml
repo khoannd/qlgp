@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "SaveStorage";
+}
+
+<div class="page-header">
+    <h1>Hồ sơ lưu trữ gia đình</h1>
+</div>
+
+@Html.Partial("_FamilyFilter")
+
+<script>
+    $("#cbFilterSavedStatus").prop("checked", true);
+    $("#spaceforFamilyFilter").show();
+    $("#divFilterForFamilySaveStorage").show();
+</script>
+
+@Html.Partial("_FamilyBody")
+
+@Html.Partial("_ViewReadonlyFamilyModal")

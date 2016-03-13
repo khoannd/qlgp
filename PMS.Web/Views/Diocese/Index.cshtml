@@ -1,0 +1,611 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@model PMS.DataAccess.Models.Diocese
+
+
+<link rel="stylesheet" href="/Content/assets/css/chosen.css" />
+<link rel="stylesheet" href="/Content/assets/css/colorpicker.css" />
+
+<input type="hidden" id="dioceseId" value="@Model.Id" />
+<div class="page-header">
+    <div class="space-10"></div>
+</div>
+
+<div class="col-xs-12 no-padding">
+    <div class="tabbable">
+        <ul class="nav nav-tabs" id="myDioceseTab">
+            <li class="active">
+                <a id="parishInfoTab" data-toggle="tab" href="#basicDioceseInfo">
+                    <span class="bigger-120 bolder">†</span>
+                    Thông tin giáo phận
+                </a>
+            </li>
+
+            <li>
+                <a id="parishStructureTab" data-toggle="tab" href="#dioceseStructureInfo">
+                    <i class="ace-icon fa fa-sitemap bigger-120"></i>
+                    Sơ đồ tổ chức
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        <div id="basicDioceseInfo" class="tab-pane fade in active">
+
+            <div id="diocesePartial">
+                @Html.Partial("_DioceseInformation", Model)
+            </div>
+
+        </div>
+
+        <div id="dioceseStructureInfo" class="tab-pane fade in">
+
+            @Html.Partial("_OrganizationTreeView")
+
+        </div>
+    </div>
+</div>
+
+
+<div class="clearfix"></div>
+<!--Modal-->
+<div id="editDioceseModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+           
+                        <h4 class="widget-title lighter">Chỉnh sửa thông tin giáo phận</h4>
+                        <div class="widget-toolbar no-border">
+                            <a href="#" onclick="$('#btnCloseDiocese').click()">
+                                <i class="ace-icon fa fa-times"></i>
+                            </a>
+                        </div>
+                  
+                </div>
+                <div class="widget-body">
+                    <div class="space-10"></div>
+                    <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Tên giáo phận (<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="dioceseName" value="" class="form-control">
+                                    <label class="text-danger" id="dioceseNameValidate" hidden=""></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Địa chỉ</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="dioceseAddress" value="" class="form-control">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Giám mục</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="dioceseBishop" value="" class="form-control priest">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Nhà thờ chính</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="dioceseChurch" value="" class="form-control">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Website</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="ace-icon fa fa-globe"></i>
+                                        </span>
+                                        <input type="text" id="dioceseWebsite" value="" class="form-control website">
+                                    </div>
+
+                                    <label class="text-danger" id="dioceseUrlValidate" hidden=""></label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Điện thoại</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="ace-icon fa fa-phone"></i>
+                                        </span>
+                                        <input type="text" id="diocesePhone" value="" class="form-control input-mask-phone">
+                                    </div>
+
+                                    <label class="text-danger" id="diocesePhoneValidate" hidden=""></label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Email</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="ace-icon fa fa-envelope"></i>
+                                        </span>
+                                        <input type="text" id="dioceseEmail" value="" class="form-control email">
+                                    </div>
+
+                                    <label class="text-danger" id="dioceseEmailValidate" hidden=""></label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Ảnh hiện tại</label>
+                                <div class="col-sm-9">
+                                    <div class="widget-box">
+                                        <div class="widget-body">
+                                            <div class="widget-main">
+                                                <div class="form-group">
+                                                    <div class="space-10"></div>
+                                                    <div class="col-xs-12">
+                                                        <img class="img-responsive" id="dioceseImage" src="" />
+                                                    </div>
+                                                </div>
+                                                <label>
+                                                    <span class="lbl"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Ảnh mới</label>
+                                <div class="col-sm-9">
+                                    <div class="widget-box">
+                                        <div class="widget-body">
+                                            <div class="widget-main">
+                                                <div class="form-group">
+                                                    <div class="space-10"></div>
+                                                    <div class="col-xs-12" id="newDioceseImage">
+                                                        @using (Html.BeginForm("UploadDioceseImage", "Diocese", FormMethod.Post,
+                                                                new
+                                                                {
+                                                                    enctype = "multipart/form-data",
+                                                                    id = "ImgForm",
+                                                                    name = "ImgForm",
+                                                                    target = "UploadTarget"
+                                                                }))
+                                                        {
+                                                            <input multiple="" name="inputFile" type="file" id="inputFile" />
+                                                        }
+                                                        <iframe id="UploadTarget" name="UploadTarget" onload="UploadImage_Complete();" style="position: absolute; left: -999em; top: -999em;"></iframe>
+                                                        <label class="text-danger" id="dioceseImageValidate" hidden=""></label>
+                                                    </div>
+                                                </div>
+                                                <label>
+                                                    <span class="lbl"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--end row-->
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-xs-12">
+                            <div class="col-xs-12 col-sm-4 col-sm-offset-8">
+                                <div class="align-right">
+                                    <div class="space-6"></div>
+                                    <button id="btnUpdateDiocese" class="btn btn-primary" data-toggle="modal" onclick="UploadImage()">
+                                        <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                    </button>
+                                    <button id="btnCloseDiocese" class="btn btn-grey" data-toggle="modal">
+                                        <i class="ace-icon fa fa-times"></i> Đóng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Modal-->
+
+
+<script>
+
+    $("#btnCloseDiocese").click(function () {
+        $("#editDioceseModal").modal('hide');
+        ClearDiocese();
+    });
+    //Upload Images
+    function UploadImage() {
+        if (!checkValidate()) {
+            return false;
+        }
+        $("#ImgForm").submit();
+
+    }
+
+    function UploadImage_Complete() {
+        var url = $("#UploadTarget").contents().find('body').html();
+        if (url.substring(0, 4) == "<pre") {
+            url = "";
+        }
+        SaveDiocese(url);
+    }
+
+    jQuery(function ($) {
+        $("#diocesePhone").mask("9999 999 999?9");
+        $('#inputFile').ace_file_input({
+            style: 'well',
+            btn_choose: 'Thả hình vào đây hoặc click vào để chọn',
+            btn_change: null,
+            no_icon: 'ace-icon fa fa-picture-o',
+            droppable: true,
+            thumbnail: 'fit' //small | large
+            //,icon_remove:null//set null, to hide remove/reset button
+            /**,before_change:function(files, dropped) {
+                //Check an example below
+                //or examples/file-upload.html
+                return true;
+            }*/
+            /**,before_remove : function() {
+                return true;
+            }*/,
+            allowExt: ['jpg', 'jpeg', 'png'],
+            denyExt: 'exe|php|dll|txt',
+            preview_error: function (filename, error_code) {
+                //name of the file that failed
+                //error_code values
+                //1 = 'FILE_LOAD_FAILED',
+                //2 = 'IMAGE_LOAD_FAILED',
+                //3 = 'THUMBNAIL_FAILED'
+                //alert(error_code);
+            },
+            before_change: function (files, dropped) {
+                //files is a "File" object array in modern browsers
+                //files is a "string" (file name) array in older browsers
+
+                //dropped=true if files are drag & dropped
+
+                var valid_files = [];
+
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+
+                    if (typeof file === 'string') {
+
+                        valid_files.push(file);
+                        $("#dioceseImageValidate").hide();
+                        break;
+                    } else if ('File' in window && file instanceof window.File) {
+
+                        valid_files.push(file);
+                        $("#dioceseImageValidate").hide();
+                        break;
+
+                    }
+                }
+
+
+                return valid_files;
+
+            }
+
+        }).on('file.error.ace', function (event, info) {
+            $("#dioceseImageValidate").html("Chỉ hỗ trợ với những ảnh có định dạng jpg, jpeg, png");
+            $("#dioceseImageValidate").show();
+        });
+    });
+
+    var availableTags = [
+        "Đaminh",
+        "Giuse",
+        "Mattheu",
+        "Phanxicô",
+        "Phaolô",
+        "Phêrô",
+        "Rosa"
+    ];
+
+    //---------------------
+    $(".priest").each(function () {
+        initPriestAutocomplete(this, false);
+    });
+    function initPriestAutocomplete(element, isForce) {
+
+        var input = $(element).autocomplete({
+            autoFocus: !isForce,
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Parishioner/LoadPriestNames",
+                    dataType: "json",
+                    data: {
+                        name: request.term
+                    },
+                    success: function (data) {
+                        response(data.result);
+                    }
+                });
+            },
+            focus: function (event, ui) {
+                //  $(element).data("uiItem", ui.item.value);
+                if (isForce) {
+                    $(element).val(ui.item.value);
+                    return false;
+                }
+            },
+            select: function (event, ui) {
+                if (isForce) {
+                    $(this).data("uiItem", ui.item.value);
+                    $(element).val(ui.item.value);
+                    return false;
+                }
+            },
+            minLength: 1
+        });
+
+        if (isForce) {
+            input.bind("blur", function () {
+
+                var current = $(this).val();
+                if (current) {
+                    $(this).val($(this).data("uiItem"));
+                }
+
+            }).data("uiItem", $(element).val());
+        }
+
+    }
+    //----------
+    $('.date-picker').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        forceParse: false
+    });
+
+    function loadData(id) {
+        $.ajax({
+            url: "/Diocese/LoadDioceseById",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                var item = data.def;
+                $("#dioceseName").val(item.Name);
+                $("#dioceseChurch").val(item.Church);
+                $("#dioceseAddress").val(item.Address);
+                $("#dioceseBishop").val(item.Bishop);
+                $("#dioceseWebsite").val(item.Website);
+                $("#diocesePhone").val(item.Phone);
+                $("#dioceseEmail").val(item.Email);
+                $("#dioceseId").val(item.Id);
+                $("#dioceseImage").attr('src', item.ImageUrl);
+
+                $("#editDioceseModal").modal('show');
+            },
+        });
+    }
+
+    function SaveDiocese(url) {
+        if (!checkValidate()) {
+            return;
+        }
+        var id = $("#dioceseId").val();
+        var name = $("#dioceseName").val();
+        var church = $("#dioceseChurch").val();
+        var address = $("#dioceseAddress").val();
+        var bishop = $("#dioceseBishop").val();
+        var website = $("#dioceseWebsite").val();
+        var phone = $("#diocesePhone").val();
+        var email = $("#dioceseEmail").val();
+        var imageUrl = url;
+        startLoading();
+        $.ajax({
+            url: "/Diocese/Update",
+            type: "POST",
+            data: {
+                Id: id,
+                Name: name,
+                Church: church,
+                Address: address,
+                Bishop: bishop,
+                Website: website,
+                Phone: phone,
+                Email: email,
+                ImageUrl: imageUrl
+            },
+            success: function (data) {
+
+                if (data.abc <= 0) {
+                    showMessage("Cập nhật thất bại. Xin vui lòng thử lại sau!", 0);
+                } else {
+                    refeshDioceseInformation();
+                    showMessage("Cập nhật thông tin giáo phận thành công", 1);
+                    $("#editDioceseModal").modal('hide');
+                    ClearDiocese();
+                }
+            },
+        });
+    }
+
+    function refeshDioceseInformation() {
+        var id = $("#dioceseId").val();
+        $.ajax({
+            url: "/Diocese/LoadDioceseInformation",
+            type: "POST",
+            data: {
+                Id: id
+            },
+            success: function (data) {
+                $("#diocesePartial").html(data);
+
+            },
+        });
+    }
+
+    function checkValidate() {
+        var isError = false;
+
+        var name = $("#dioceseName").val();
+
+        if (!name) {
+            $("#dioceseNameValidate").html("Tên giáo phận không thể để trống. Vui lòng nhập tên giáo phận!");
+            $("#dioceseNameValidate").show();
+            isError = true;
+        }
+
+        if (!validateUnique()) {
+            isError = true;
+        }
+
+        var website = $("#dioceseWebsite").val();
+        if (website) {
+            if (!validateUrl(website)) {
+                $("#dioceseUrlValidate").html("Website không đúng định dạng (Ví dụ: www.pms.com)");
+                $("#dioceseUrlValidate").show();
+                isError = true;
+            }
+        }
+
+        var email = $("#dioceseEmail").val();
+        if (!validateEmail(email)) {
+            $("#dioceseEmailValidate").html("Email không đúng định dạng (Ví dụ: pms@@gmail.com)");
+            $("#dioceseEmailValidate").show();
+            isError = true;
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    $("#dioceseName").change(function () {
+        var name = $(this).val();
+
+        if (!name) {
+            $("#dioceseNameValidate").html("Tên giáo phận không thể để trống. Vui lòng nhập tên giáo phận!");
+            $("#dioceseNameValidate").show();
+        } else {
+            $("#dioceseNameValidate").html("");
+            $("#dioceseNameValidate").hide();
+            validateUnique();
+        }
+    });
+    $("#dioceseWebsite").change(function () {
+        var website = $(this).val();
+        if (website) {
+            if (!validateUrl(website)) {
+                $("#dioceseUrlValidate").html("Website không đúng định dạng (Ví dụ: www.pms.com)");
+                $("#dioceseUrlValidate").show();
+            } else {
+                $("#dioceseUrlValidate").html("");
+                $("#dioceseUrlValidate").hide();
+            }
+        }
+
+
+    });
+    $("#dioceseEmail").change(function () {
+        var email = $(this).val();
+        if (!validateEmail(email)) {
+            $("#dioceseEmailValidate").html("Email không đúng định dạng (Ví dụ: pms@@gmail.com)");
+            $("#dioceseEmailValidate").show();
+        } else {
+            $("#dioceseEmailValidate").html("");
+            $("#dioceseEmailValidate").hide();
+        }
+    });
+
+    function validateUnique() {
+        var id = $("#dioceseId").val();
+        var name = $("#dioceseName").val();
+        var result = true;
+
+        $.ajax({
+            url: "/Diocese/CheckUniqueDiocese",
+            type: "POST",
+            data: {
+                id: id,
+                name: name
+            },
+            async: false,
+            success: function (data) {
+                if (data.result <= 0) {
+                    $("#dioceseNameValidate").html("Tên giáo phận đã tồn tại. Vui lòng nhập tên khác!");
+                    $("#dioceseNameValidate").show();
+                    result = false;
+                } else {
+                    $("#dioceseNameValidate").html("");
+                    $("#dioceseNameValidate").hide();
+                    result = true;
+                }
+
+            },
+        });
+
+        return result;
+    }
+
+    function ClearDiocese() {
+        $("#dioceseName").val("");
+        $("#dioceseChurch").val("");
+        $("#dioceseAddress").val("");
+        $("#dioceseBishop").val("");
+        $("#dioceseWebsite").val("");
+        $("#diocesePhone").val("");
+        $("#dioceseEmail").val("");
+        $("#dioceseId").val("");
+        $("#dioceseNameValidate").html("");
+        $("#dioceseNameValidate").hide();
+        $("#dioceseUrlValidate").html("");
+        $("#dioceseUrlValidate").hide();
+        $("#dioceseEmailValidate").html("");
+        $("#dioceseEmailValidate").hide();
+        $('#inputFile').ace_file_input('reset_input');
+        $("#dioceseImageValidate").html("");
+        $("#dioceseImageValidate").hide();
+    }
+
+</script>

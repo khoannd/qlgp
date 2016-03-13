@@ -1,0 +1,37 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Utilities
+@model List<PMS.DataAccess.Models.Society>
+
+@{
+    DateConverter dateConverter = new DateConverter();
+}
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td class="hidden">@item.Id</td>
+        <td class="hidden">
+            <label class="position-relative">
+                <input type="checkbox" class="ace cc" value="@item.Id" />
+                <span class="lbl"></span>
+            </label>
+        </td>
+        <td>@item.Name</td>
+        @if (item.ManagedBy == null)
+        {
+            <td></td>
+        }
+        else
+        {
+            <td>@item.Parishioner.Name</td>            
+        }
+        <td>@dateConverter.ConvertStringToDate(item.EstablishedDate)</td>
+        <td>
+            <button class="btn btn-minier btn-primary" onclick="LoadSocietyDetail(@item.Id)">
+                <i class="ace-icon fa fa-search-plus"></i>
+                Chi tiết
+            </button>
+        </td>
+    </tr>
+}
+

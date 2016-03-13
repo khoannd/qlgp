@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PMS.Web", "PMS.Web\PMS.Web.csproj", "{3C3054E7-1B81-4C0D-AEAF-C3B26D84EAE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PMS.Web.Tests", "PMS.Web.Tests\PMS.Web.Tests.csproj", "{E033E62F-64E5-44A5-823B-498255038BBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PMS.BusinessLogic", "PMS.BusinessLogic\PMS.BusinessLogic.csproj", "{74F1A6BC-F0EB-4992-B859-63FC97D4634B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PMS.DataAccess", "PMS.DataAccess\PMS.DataAccess.csproj", "{C11AB1B6-AD39-4F57-BC2D-B869F6577DB8}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://khoihm.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = PMS.Web.Tests\\PMS.Web.Tests.csproj
+		SccProjectName1 = PMS.Web.Tests
+		SccLocalPath1 = PMS.Web.Tests
+		SccProjectUniqueName2 = PMS.Web\\PMS.Web.csproj
+		SccProjectName2 = PMS.Web
+		SccLocalPath2 = PMS.Web
+		SccProjectUniqueName3 = PMS.BusinessLogic\\PMS.BusinessLogic.csproj
+		SccProjectName3 = PMS.BusinessLogic
+		SccLocalPath3 = PMS.BusinessLogic
+		SccProjectUniqueName4 = PMS.DataAccess\\PMS.DataAccess.csproj
+		SccProjectName4 = PMS.DataAccess
+		SccLocalPath4 = PMS.DataAccess
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C3054E7-1B81-4C0D-AEAF-C3B26D84EAE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C3054E7-1B81-4C0D-AEAF-C3B26D84EAE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C3054E7-1B81-4C0D-AEAF-C3B26D84EAE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C3054E7-1B81-4C0D-AEAF-C3B26D84EAE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E033E62F-64E5-44A5-823B-498255038BBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E033E62F-64E5-44A5-823B-498255038BBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E033E62F-64E5-44A5-823B-498255038BBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E033E62F-64E5-44A5-823B-498255038BBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74F1A6BC-F0EB-4992-B859-63FC97D4634B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74F1A6BC-F0EB-4992-B859-63FC97D4634B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74F1A6BC-F0EB-4992-B859-63FC97D4634B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74F1A6BC-F0EB-4992-B859-63FC97D4634B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C11AB1B6-AD39-4F57-BC2D-B869F6577DB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C11AB1B6-AD39-4F57-BC2D-B869F6577DB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C11AB1B6-AD39-4F57-BC2D-B869F6577DB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C11AB1B6-AD39-4F57-BC2D-B869F6577DB8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,1528 @@
+﻿@model PMS.DataAccess.Models.Configuration
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="/Content/assets/js/bootstrap-wysiwyg.min.js"></script>
+<script src="/Content/assets/js/jquery.hotkeys.min.js"></script>
+
+<div class="page-header">
+    <h1>Cấu hình giáo xứ</h1>
+</div>
+
+<div class="space-8"></div>
+
+<div class="row">
+
+    <div class="col-xs-6">
+
+        <label class="position-relative">
+
+            @if (Model.MultipleParishionerAdding == 0)
+            {
+                <input type="checkbox" class="ace" id="cbParishionerMultiple" />
+            }
+            else
+            {
+                <input type="checkbox" class="ace" id="cbParishionerMultiple" checked="" />
+            }
+
+            <span class="lbl">&nbsp;&nbsp;Hỗ trợ thêm giáo dân liên tục</span>
+        </label>
+
+    </div>
+</div>
+
+<div class="space-4"></div>
+
+<div class="row">
+    <div class="col-xs-6">
+
+        <label class="position-relative">
+
+            @if (Model.ParishionerCodeGeneration == 0)
+            {
+                <input type="checkbox" class="ace" id="cbParishionerCodeGeneration" />
+            }
+            else
+            {
+                <input type="checkbox" class="ace" id="cbParishionerCodeGeneration" checked="" />
+            }
+
+            <span class="lbl">&nbsp;&nbsp;Tự động sinh ra mã giáo dân</span>
+        </label>
+
+    </div>
+
+    <div class="col-xs-6">
+
+        <label class="position-relative">
+
+            @if (Model.FamilyCodeGeneration == 0)
+            {
+                <input type="checkbox" class="ace" id="cbFamilyCodeGeneration" />
+            }
+            else
+            {
+                <input type="checkbox" class="ace" id="cbFamilyCodeGeneration" checked="" />
+            }
+
+            <span class="lbl">&nbsp;&nbsp;Tự động sinh ra mã gia đình</span>
+        </label>
+
+    </div>
+
+</div>
+
+<div class="space-4"></div>
+<div class="row">
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label class="col-sm-4 control-label no-padding-left">Tiền tố mã giáo dân</label>
+            <div class="col-sm-8">
+                <input disabled="" type="text" class="form-control" id="txtParishionerPrefix" value="@Model.ParishionerPrefix" />
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label class="col-sm-4 control-label no-padding-left">Tiền tố mã gia đình</label>
+            <div class="col-sm-8">
+                <input disabled="" type="text" class="form-control" id="txtFamilyPrefix" value="@Model.FamilyPrefix" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="space-4"></div>
+<div class="row">
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label class="col-sm-4 control-label no-padding-left no-padding-top">Số chữ số tự động tăng của mã giáo dân</label>
+            <div class="col-sm-8">
+                <input disabled="" type="text" class="form-control" id="txtParishionerNumber" value="@Model.ParishionerCharacterNumber" onkeypress="return numbersOnly(this, event);"
+                       onpaste="return false;" />
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label class="col-sm-4 control-label no-padding-left no-padding-top">Số chữ số tự động tăng của mã gia đình</label>
+            <div class="col-sm-8">
+                <input disabled="" type="text" class="form-control" id="txtFamilyNumber" value="@Model.FamilyCharacterNumber" onkeypress="return numbersOnly(this, event);"
+                       onpaste="return false;" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="space-4"></div>
+<div class="row">
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label class="col-sm-2 control-label no-padding-left">Ví dụ:</label>
+            <label class="col-sm-10 control-label no-padding-left" id="txtParishionerCodeExample"></label>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label class="col-sm-2 control-label no-padding-left">Ví dụ:</label>
+            <label class="col-sm-10 control-label no-padding-left" id="txtFamilyCodeExample"></label>
+        </div>
+    </div>
+</div>
+
+<div class="space-4"></div>
+<div class="row">
+    <div class="col-xs-6">
+        <div class="form-group">
+            <button id="btnUpdateConfiguation" class="btn btn-primary" type="button" onclick="saveConfiguration()">
+                <i class="ace-icon fa fa-save bigger-110"></i>
+                Cập nhật
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="space-4"></div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget-box transparent">
+            <div class="widget-header">
+                <h4 class="widget-title lighter">Mẫu chứng nhận bí tích</h4>
+
+                <div class="widget-toolbar no-border">
+                    <ul class="nav nav-tabs" id="myTab2">
+
+                        <li class="active">
+                            <a data-toggle="tab" href="#sacrament">Bí tích</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#baptism">Rửa tội</a>
+                        </li>
+
+                        <li>
+                            <a data-toggle="tab" href="#holyCommunion">Xưng tội rước lễ</a>
+                        </li>
+
+                        <li>
+                            <a data-toggle="tab" href="#confirmation">Thêm sức</a>
+                        </li>
+
+                        <li>
+                            <a data-toggle="tab" href="#matrimony">Hôn phối</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main padding-12 no-padding-left no-padding-right">
+                    <div class="tab-content padding-4">
+                        <div id="sacrament" class="tab-pane  in active">
+                            <div>
+
+                                <div class="col-xs-12">
+                                    <button class="btn btn-sm btn-purple" onclick="previewTemplate('txtSacramentTemplate')">
+                                        <i class="ace-icon fa fa-search-plus bigger-110"></i>&nbsp;Xem trước mẫu khi in
+                                    </button>
+                                </div>
+
+                                <div class="col-xs-3">
+
+                                    <div class="widget-body">
+                                        <div class="widget-main no-padding">
+                                            <div id="external-events">
+
+                                                <div class="space-8"></div>
+
+                                                <div id="accordion" class="accordion-style1 panel-group accordion-style2">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                                                    <i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin chung
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse in" id="collapseOne">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoPhan]" />
+                                                                    Tên giáo phận
+                                                                </div>
+                                                                <div class="external-event label-info" data-class="label-success">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoHat]" />
+                                                                    Tên giáo hạt
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoXu]" />
+                                                                    Tên giáo xứ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-purple">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenLinhMucGui]" />
+                                                                    Tên linh mục gửi
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgayThangNam]" />
+                                                                    Ngày tháng năm hiện tại
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin cá nhân
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse" id="collapseTwo">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-yellow">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[HoTen]" />
+                                                                    Họ tên
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-pink">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgaySinh]" />
+                                                                    Ngày sinh
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-info">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[Noisinh]" />
+                                                                    Nơi sinh
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenCha]" />
+                                                                    Tên cha
+                                                                </div>
+                                                                <div class="external-event label-info" data-class="label-success">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenMe]" />
+                                                                    Tên mẹ
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+                                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin rửa tội
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse" id="collapseThree">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgayRuaToi]" />
+                                                                    Ngày rửa tội
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-purple">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NoiRuaToi]" />
+                                                                    Nơi rửa tội
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-yellow">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[ChaRuaToi]" />
+                                                                    Cha rửa tội
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-pink">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NguoiDoDauRuaToi]" />
+                                                                    Người đỡ đầu rửa tội
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-info">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[SoRuaToi]" />
+                                                                    Số rửa tội
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+                                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin xưng tội rước lễ
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse" id="collapseFour">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgayRuocLe]" />
+                                                                    Ngày rước lễ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-purple">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NoiRuocLe]" />
+                                                                    Nơi rước lễ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-yellow">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[ChaRuocLe]" />
+                                                                    Cha rước lễ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-info">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[SoRuocLe]" />
+                                                                    Số rước lễ
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive">
+                                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin thêm sức
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse" id="collapseFive">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgayThemSuc]" />
+                                                                    Ngày thêm sức
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-purple">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NoiThemSuc]" />
+                                                                    Nơi thêm sức
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-yellow">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[ChaThemSuc]" />
+                                                                    Cha thêm sức
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-pink">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NguoiDoDauThemSuc]" />
+                                                                    Người đỡ đầu thêm sức
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-info">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[SoThemSuc]" />
+                                                                    Số thêm sức
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-xs-9">
+                                    <div style="width: 702.2756px; max-height: 841.8898px !important; height: 841.8898px !important;" class="wysiwyg-editor center-block template" id="txtSacramentTemplate">
+                                        @Html.Raw(HttpUtility.HtmlDecode(Model.SacramentTemplate))
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="baptism" class="tab-pane">
+
+                            <div>
+                                <div class="col-xs-12">
+                                    <button class="btn btn-sm btn-purple" onclick="previewTemplate('txtBaptismTemplate')">
+                                        <i class="ace-icon fa fa-search-plus bigger-110"></i>&nbsp;Xem trước mẫu khi in
+                                    </button>
+                                </div>
+
+                                <div class="col-xs-3">
+
+                                    <div class="widget-body">
+                                        <div class="widget-main no-padding">
+                                            <div id="external-events">
+
+                                                <div class="space-8"></div>
+
+                                                <div id="accordion2" class="accordion-style1 panel-group accordion-style2">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSix">
+                                                                    <i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin chung
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse in" id="collapseSix">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoPhan]" />
+                                                                    Tên giáo phận
+                                                                </div>
+                                                                <div class="external-event label-info" data-class="label-success">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoHat]" />
+                                                                    Tên giáo hạt
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoXu]" />
+                                                                    Tên giáo xứ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-purple">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenLinhMucGui]" />
+                                                                    Tên linh mục gửi
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgayThangNam]" />
+                                                                    Ngày tháng năm hiện tại
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseSeven">
+                                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin cá nhân
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse" id="collapseSeven">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-yellow">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[HoTen]" />
+                                                                    Họ tên
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-pink">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgaySinh]" />
+                                                                    Ngày sinh
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-info">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[Noisinh]" />
+                                                                    Nơi sinh
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenCha]" />
+                                                                    Tên cha
+                                                                </div>
+                                                                <div class="external-event label-info" data-class="label-success">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenMe]" />
+                                                                    Tên mẹ
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseEight">
+                                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin rửa tội
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse" id="collapseEight">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgayRuaToi]" />
+                                                                    Ngày rửa tội
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-purple">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NoiRuaToi]" />
+                                                                    Nơi rửa tội
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-yellow">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[ChaRuaToi]" />
+                                                                    Cha rửa tội
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-pink">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NguoiDoDauRuaToi]" />
+                                                                    Người đỡ đầu rửa tội
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-info">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[SoRuaToi]" />
+                                                                    Số rửa tội
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-xs-9">
+                                    <div style="width: 702.2756px; max-height: 841.8898px !important; height: 841.8898px !important;" class="wysiwyg-editor center-block template" id="txtBaptismTemplate">
+                                        @Html.Raw(HttpUtility.HtmlDecode(Model.BaptismTemplate))
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div id="holyCommunion" class="tab-pane">
+                            <div>
+
+                                <div class="col-xs-12">
+                                    <button class="btn btn-sm btn-purple" onclick="previewTemplate('txtHolyCommunionTemplate')">
+                                        <i class="ace-icon fa fa-search-plus bigger-110"></i>&nbsp;Xem trước mẫu khi in
+                                    </button>
+                                </div>
+
+                                <div class="col-xs-3">
+
+                                    <div class="widget-body">
+                                        <div class="widget-main no-padding">
+                                            <div id="external-events">
+
+                                                <div class="space-8"></div>
+
+                                                <div id="accordion3" class="accordion-style1 panel-group accordion-style2">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseNine">
+                                                                    <i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin chung
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse in" id="collapseNine">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoPhan]" />
+                                                                    Tên giáo phận
+                                                                </div>
+                                                                <div class="external-event label-info" data-class="label-success">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoHat]" />
+                                                                    Tên giáo hạt
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoXu]" />
+                                                                    Tên giáo xứ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-purple">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenLinhMucGui]" />
+                                                                    Tên linh mục gửi
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgayThangNam]" />
+                                                                    Ngày tháng năm hiện tại
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapseTen">
+                                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin cá nhân
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse" id="collapseTen">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-yellow">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[HoTen]" />
+                                                                    Họ tên
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-pink">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgaySinh]" />
+                                                                    Ngày sinh
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-info">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[Noisinh]" />
+                                                                    Nơi sinh
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenCha]" />
+                                                                    Tên cha
+                                                                </div>
+                                                                <div class="external-event label-info" data-class="label-success">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenMe]" />
+                                                                    Tên mẹ
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion3" href="#collapseEleven">
+                                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin xưng tội rước lễ
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse" id="collapseEleven">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgayRuocLe]" />
+                                                                    Ngày rước lễ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-purple">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NoiRuocLe]" />
+                                                                    Nơi rước lễ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-yellow">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[ChaRuocLe]" />
+                                                                    Cha rước lễ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-info">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[SoRuocLe]" />
+                                                                    Số rước lễ
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-xs-9">
+                                    <div style="width: 702.2756px; max-height: 841.8898px !important; height: 841.8898px !important;" class="wysiwyg-editor center-block template" id="txtHolyCommunionTemplate">
+                                        @Html.Raw(HttpUtility.HtmlDecode(Model.HolyCommunionTemplate))
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div id="confirmation" class="tab-pane">
+                            <div>
+
+                                <div class="col-xs-12">
+                                    <button class="btn btn-sm btn-purple" onclick="previewTemplate('txtConfirmationTemplate')">
+                                        <i class="ace-icon fa fa-search-plus bigger-110"></i>&nbsp;Xem trước mẫu khi in
+                                    </button>
+                                </div>
+
+                                <div class="col-xs-3">
+
+                                    <div class="widget-body">
+                                        <div class="widget-main no-padding">
+                                            <div id="external-events">
+
+                                                <div class="space-8"></div>
+
+                                                <div id="accordion4" class="accordion-style1 panel-group accordion-style2">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion4" href="#collapseTwelve">
+                                                                    <i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin chung
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse in" id="collapseTwelve">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoPhan]" />
+                                                                    Tên giáo phận
+                                                                </div>
+                                                                <div class="external-event label-info" data-class="label-success">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoHat]" />
+                                                                    Tên giáo hạt
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoXu]" />
+                                                                    Tên giáo xứ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-purple">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenLinhMucGui]" />
+                                                                    Tên linh mục gửi
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgayThangNam]" />
+                                                                    Ngày tháng năm hiện tại
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion4" href="#collapseThirteen">
+                                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin cá nhân
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse" id="collapseThirteen">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-yellow">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[HoTen]" />
+                                                                    Họ tên
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-pink">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgaySinh]" />
+                                                                    Ngày sinh
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-info">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[Noisinh]" />
+                                                                    Nơi sinh
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenCha]" />
+                                                                    Tên cha
+                                                                </div>
+                                                                <div class="external-event label-info" data-class="label-success">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenMe]" />
+                                                                    Tên mẹ
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion4" href="#collapseFourteen">
+                                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin thêm sức
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse" id="collapseFourteen">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgayThemSuc]" />
+                                                                    Ngày thêm sức
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-purple">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NoiThemSuc]" />
+                                                                    Nơi thêm sức
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-yellow">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[ChaThemSuc]" />
+                                                                    Cha thêm sức
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-pink">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NguoiDoDauThemSuc]" />
+                                                                    Người đỡ đầu thêm sức
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-info">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[SoThemSuc]" />
+                                                                    Số thêm sức
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-xs-9">
+                                    <div style="width: 702.2756px; max-height: 841.8898px !important; height: 841.8898px !important;" class="wysiwyg-editor center-block template" id="txtConfirmationTemplate">
+                                        @Html.Raw(HttpUtility.HtmlDecode(Model.ConfirmationTemplate))
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div id="matrimony" class="tab-pane">
+                            <div>
+
+                                <div class="col-xs-12">
+                                    <button class="btn btn-sm btn-purple" onclick="previewTemplate('txtMatrimonyTemplate')">
+                                        <i class="ace-icon fa fa-search-plus bigger-110"></i>&nbsp;Xem trước mẫu khi in
+                                    </button>
+                                </div>
+
+                                <div class="col-xs-3">
+
+                                    <div class="widget-body">
+                                        <div class="widget-main no-padding">
+                                            <div id="external-events">
+                                                
+                                                <div class="space-8"></div>
+
+                                                <div id="accordion5" class="accordion-style1 panel-group accordion-style2">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion5" href="#collapseFifthTeen">
+                                                                    <i class="ace-icon fa fa-angle-down bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin chung
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse in" id="collapseFifthTeen">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoPhan]" />
+                                                                    Tên giáo phận
+                                                                </div>
+                                                                <div class="external-event label-info" data-class="label-success">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoHat]" />
+                                                                    Tên giáo hạt
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenGiaoXu]" />
+                                                                    Tên giáo xứ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-purple">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenLinhMucGui]" />
+                                                                    Tên linh mục gửi
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgayThangNam]" />
+                                                                    Ngày tháng năm hiện tại
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion5" href="#collapseSixteen">
+                                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin cá nhân
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse" id="collapseSixteen">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-yellow">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[HoTen]" />
+                                                                    Họ tên
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-pink">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgaySinh]" />
+                                                                    Ngày sinh
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-info">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[Noisinh]" />
+                                                                    Nơi sinh
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenCha]" />
+                                                                    Tên cha
+                                                                </div>
+                                                                <div class="external-event label-info" data-class="label-success">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenMe]" />
+                                                                    Tên mẹ
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion5" href="#collapseSeventeen">
+                                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin người nam
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse" id="collapseSeventeen">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-yellow">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[HoTenNam]" />
+                                                                    Họ tên nam
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-pink">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgaySinhNam]" />
+                                                                    Ngày sinh nam
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-info">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NoisinhNam]" />
+                                                                    Nơi sinh nam
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenChaNam]" />
+                                                                    Tên cha nam
+                                                                </div>
+                                                                <div class="external-event label-info" data-class="label-success">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenMeNam]" />
+                                                                    Tên mẹ nam
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgayRuaToiNam]" />
+                                                                    Ngày rửa tội nam
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[SoRuaToiNam]" />
+                                                                    Số rửa tội nam
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[GiaoXuNam]" />
+                                                                    Giáo xứ nam
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion5" href="#collapseEighteen">
+                                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin người nữ
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse" id="collapseEighteen">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-yellow">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[HoTenNu]" />
+                                                                    Họ tên nữ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-pink">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgaySinhNu]" />
+                                                                    Ngày sinh nữ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-info">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NoisinhNu]" />
+                                                                    Nơi sinh nữ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenChaNu]" />
+                                                                    Tên cha nữ
+                                                                </div>
+                                                                <div class="external-event label-info" data-class="label-success">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[TenMeNu]" />
+                                                                    Tên mẹ nữ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgayRuaToiNu]" />
+                                                                    Ngày rửa tội nữ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[SoRuaToiNu]" />
+                                                                    Số rửa tội nữ
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[GiaoXuNu]" />
+                                                                    Giáo xứ nữ
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion5" href="#collapseNineteen">
+                                                                    <i class="ace-icon fa fa-angle-right bigger-110" data-icon-hide="ace-icon fa fa-angle-down" data-icon-show="ace-icon fa fa-angle-right"></i>
+                                                                    &nbsp;Thông tin hôn phối
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div class="panel-collapse collapse" id="collapseNineteen">
+                                                            <div class="panel-body">
+
+                                                                <div class="external-event label-info" data-class="label-info">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NgayThangNamHP]" />
+                                                                    Ngày hôn phối
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[SoHonPhoi]" />
+                                                                    Số hôn phối
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-grey">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NoiHonPhoi]" />
+                                                                    Nơi hôn phối
+                                                                </div>
+                                                                <div class="external-event label-info" data-class="label-success">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[LinhMucChung]" />
+                                                                    Linh mục chứng
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NguoiChung1]" />
+                                                                    Người chứng 1
+                                                                </div>
+
+                                                                <div class="external-event label-info" data-class="label-danger">
+                                                                    <i class="ace-icon fa fa-arrows"></i>
+                                                                    <input type="hidden" value="[NguoiChung2]" />
+                                                                    Người chứng 2
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-xs-9">
+                                    <div style="width: 702.2756px; max-height: 841.8898px !important; height: 841.8898px !important;" class="wysiwyg-editor center-block template" id="txtMatrimonyTemplate">
+                                        @Html.Raw(HttpUtility.HtmlDecode(Model.MatrimonyTemplate))
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    $("#cbParishionerCodeGeneration").change(function () {
+        if ($(this).is(':checked')) {
+            $("#txtParishionerPrefix").attr("disabled", false);
+            $("#txtParishionerNumber").attr("disabled", false);
+        } else {
+            $("#txtParishionerPrefix").attr("disabled", true);
+            $("#txtParishionerNumber").attr("disabled", true);
+        }
+
+    });
+    $("#cbFamilyCodeGeneration").change(function () {
+        if ($(this).is(':checked')) {
+            $("#txtFamilyPrefix").attr("disabled", false);
+            $("#txtFamilyNumber").attr("disabled", false);
+        } else {
+            $("#txtFamilyPrefix").attr("disabled", true);
+            $("#txtFamilyNumber").attr("disabled", true);
+        }
+    });
+
+    //Parishioner----------
+    $("#txtParishionerPrefix").change(function () {
+        var prefix = $("#txtParishionerPrefix").val();
+        var number = $("#txtParishionerNumber").val();
+
+        var result = generateExampleCode(prefix, number);
+
+        $("#txtParishionerCodeExample").text(result);
+    });
+
+    $("#txtParishionerNumber").change(function () {
+        var prefix = $("#txtParishionerPrefix").val();
+        var number = $("#txtParishionerNumber").val();
+
+        if (!number || number == 0) {
+            number = 1;
+            $("#txtParishionerNumber").val(1);
+        }
+
+        var result = generateExampleCode(prefix, number);
+
+        $("#txtParishionerCodeExample").text(result);
+    });
+    //--------------------
+
+    //Family--------------
+    $("#txtFamilyPrefix").change(function () {
+        var prefix = $("#txtFamilyPrefix").val();
+        var number = $("#txtFamilyNumber").val();
+
+        if (!number || number == 0) {
+            number = 1;
+            $("#txtFamilyNumber").val(1);
+        }
+
+        var result = generateExampleCode(prefix, number);
+
+        $("#txtFamilyCodeExample").text(result);
+    });
+
+    $("#txtFamilyNumber").change(function () {
+        var prefix = $("#txtFamilyPrefix").val();
+        var number = $("#txtFamilyNumber").val();
+
+        var result = generateExampleCode(prefix, number);
+
+        $("#txtFamilyCodeExample").text(result);
+    });
+
+    //-------------------
+
+    $("#txtParishionerPrefix").change();
+    $("#txtFamilyPrefix").change();
+    $("#cbParishionerCodeGeneration").change();
+    $("#cbFamilyCodeGeneration").change();
+
+    function generateExampleCode(prefix, number) {
+
+        var zero = "";
+
+        for (var i = 1; i < number; i++) {
+            zero += "0";
+        }
+
+        var code1 = prefix + zero + "1";
+        var code2 = prefix + zero + "2";
+        var code3 = prefix + zero + "3";
+
+        var max = "";
+
+        for (var j = 0; j < number; j++) {
+            max += "9";
+        }
+
+        var last = prefix + max;
+
+        return code1 + ", " + code2 + ", " + code3 + "... " + last + "...";
+    }
+
+    $('#txtSacramentTemplate').ace_wysiwyg().prev().addClass('wysiwyg-style1');
+    $('#txtBaptismTemplate').ace_wysiwyg().prev().addClass('wysiwyg-style1');
+    $('#txtHolyCommunionTemplate').ace_wysiwyg().prev().addClass('wysiwyg-style1');
+    $('#txtConfirmationTemplate').ace_wysiwyg().prev().addClass('wysiwyg-style1');
+    $('#txtMatrimonyTemplate').ace_wysiwyg().prev().addClass('wysiwyg-style1');
+
+    function previewTemplate(id) {
+        var s = $("#" + id).html();
+
+        var storage = sessionStorage.getItem("template");
+
+        if (storage == null) {
+            sessionStorage.setItem("template", s);
+        } else {
+            sessionStorage.setItem("template", s);
+        }
+
+        var url = "/Configuration/PreviewTemplate";
+        window.open(url, '_blank');
+    }
+
+    function numbersOnly(oToCheckField, oKeyEvent) {
+        return oKeyEvent.charCode === 0 ||
+            /\d/.test(String.fromCharCode(oKeyEvent.charCode));
+    }
+
+    function saveConfiguration() {
+
+        startLoading();
+        $.ajax({
+            url: "/Configuration/UpdateConfiguration",
+            type: "POST",
+            data: {
+                MultipleParishionerAdding: $("#cbParishionerMultiple").is(':checked') ? 1 : 0,
+                ParishionerCodeGeneration: $("#cbParishionerCodeGeneration").is(':checked') ? 1 : 0,
+                ParishionerPrefix: $("#txtParishionerPrefix").val(),
+                ParishionerCharacterNumber: $("#txtParishionerNumber").val(),
+                FamilyCodeGeneration: $("#cbFamilyCodeGeneration").is(':checked') ? 1 : 0,
+                FamilyPrefix: $("#txtFamilyPrefix").val(),
+                FamilyCharacterNumber: $("#txtFamilyNumber").val(),
+                SacramentTemplate: $("#txtSacramentTemplate").html(),
+                BaptismTemplate: $("#txtBaptismTemplate").html(),
+                HolyCommunionTemplate: $("#txtHolyCommunionTemplate").html(),
+                ConfirmationTemplate: $("#txtConfirmationTemplate").html(),
+                MatrimonyTemplate: $("#txtMatrimonyTemplate").html(),
+            },
+            success: function (data) {
+
+                if (data > 0) {
+                    showMessage("Cập nhật cấu hình giáo xứ thành công", 1);
+                } else {
+                    showMessage("Cập nhật cấu hình giáo xứ thất bại, vui lòng thử lại sau", 0);
+                }
+
+            }
+        });
+
+    }
+
+
+    //Drag and drop------
+
+    $(document).ready(function () {
+
+        $('#external-events div.external-event').draggable({
+            zIndex: 999,
+            revert: true,      // will cause the event to go back to its
+            revertDuration: 0,
+        });
+
+        $(".template").droppable({
+            accept: "#external-events div.external-event",
+            drop: function (ev, ui) {
+
+                var element = ui.draggable;
+                var input = element.find("input");
+                $(this).insertAtCaret(input.val());
+            }
+        });
+    });
+
+    $.fn.insertAtCaret = function (myValue) {
+        return this.each(function () {
+
+            var sel, range, html;
+            if (window.getSelection) {
+                sel = window.getSelection();
+                if (sel.getRangeAt && sel.rangeCount) {
+                    range = sel.getRangeAt(0);
+                    range.deleteContents();
+                    range.insertNode(document.createTextNode(myValue));
+
+                    var s = saveSelection();
+                    restoreSelection(s);
+                }
+            } else if (document.selection && document.selection.createRange) {
+                document.selection.createRange().text = myValue;
+            }
+
+        });
+    };
+
+    function saveSelection() {
+        if (window.getSelection) {
+            var sel = window.getSelection();
+            if (sel.getRangeAt && sel.rangeCount) {
+                return sel.getRangeAt(0);
+            }
+        } else if (document.selection && document.selection.createRange) {
+            return document.selection.createRange();
+        }
+        return null;
+    }
+
+    function restoreSelection(range) {
+        if (range) {
+            if (window.getSelection) {
+                var sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+            } else if (document.selection && range.select) {
+                range.select();
+            }
+        }
+    }
+
+    //jquery accordion
+    $("#accordion").accordion({
+        collapsible: true,
+        heightStyle: "content",
+        animate: 250,
+        header: ".accordion-header"
+    }).sortable({
+        axis: "y",
+        handle: ".accordion-header",
+        stop: function (event, ui) {
+            // IE doesn't register the blur when sorting
+            // so trigger focusout handlers to remove .ui-state-focus
+            ui.item.children(".accordion-header").triggerHandler("focusout");
+        }
+    });
+
+</script>
+
+
+

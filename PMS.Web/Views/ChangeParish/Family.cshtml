@@ -1,0 +1,705 @@
+﻿@{
+    ViewBag.Title = "Family";
+}
+<input type="hidden" value="" id="fromParishId" />
+<input type="hidden" value="" id="toParishId" />
+<div class="page-header">
+    <h1>Chuyển xứ cho gia đình</h1>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo xứ nguồn</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="cbbFromParish" type="text" disabled="" value="" />
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo hạt đích</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbToVicariate">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="space-10"></div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo họ nguồn</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbFromCommunity">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo xứ đích&nbsp;(<span style="color: red">*</span>)</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbToParish">
+                        <option value="0"></option>
+                        <option value="-1">Giáo xứ không có trong hệ thống</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="space-10"></div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right">Giáo khu nguồn</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="cbbFromDivision">
+                        <option value="0">Tất cả</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group" id="dvotherParish" hidden="">
+                <label class="col-sm-3 control-label no-padding-right" style="padding-left: 12px !important">
+                    <span class="lbl"> Tên giáo xứ</span>
+                </label>
+                <div class="col-sm-9" id="hdOtherParish">
+                    <input type="text" id="txtOtherParish" class="form-control parishName">
+                    <label class="text-danger" id="otherParishNameError" hidden=""></label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="space-4"></div>
+    <div class="row">
+        @*<div class="col-xs-6">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input type="checkbox" class="ace" id="cbFilterIsCounted" />
+                    <span class="lbl"> Xem gia đình không được thống kê</span>
+                </label>
+            </div>
+        </div>*@
+        <div class="col-xs-6">
+            <div class="radio">
+                <label style="padding-left: 12px !important">
+                    <input type="checkbox" class="ace" id="cbFamilyChosen" />
+                    <span class="lbl"> Xem danh sách những gia đình được chọn</span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="space-4"></div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class=" col-sm-12">
+                <button id="btnChangeParish" class="btn btn-primary" data-toggle="modal">
+                    <i class="ace-icon fa fa-exchange"></i> Bắt đầu chuyển xứ
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-4"></div>
+<div class="col-xs-12">
+    <div class="widget-box transparent ui-sortable-handle">
+        <div class="widget-header">
+            <h4 class="widget-title lighter">Chọn gia đình để chuyển xứ</h4>
+        </div>
+        <div class="widget-body">
+            <div id="tbldefault">
+                <table id="tblfamilyChangeParish" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                <label class="position-relative">
+                                    <input type="checkbox" class="ace" />
+                                    <span class="lbl"></span>
+                                </label>
+                            </th>
+                            <th>Mã gia đình</th>
+                            <th>Tên gia đình</th>
+                            <th>Chủ hộ</th>
+                            <th>Số lượng người</th>
+                            <th>Điện thoại</th>
+                            <th>Giáo khu</th>
+                            <th>Giáo họ</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+
+                    <tbody></tbody>
+
+                </table>
+            </div>
+        </div>
+        <div id="tblviewchecked" hidden="">
+            <table id="tblFamilyChecked" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <label class="position-relative">
+                                <input type="checkbox" class="ace" />
+                                <span class="lbl"></span>
+                            </label>
+                        </th>
+                        <th>Mã gia đình</th>
+                        <th>Tên gia đình</th>
+                        <th>Chủ hộ</th>
+                        <th>Số nhân khẩu</th>
+                        <th>Điện thoại</th>
+                        <th>Giáo khu</th>
+                        <th>Giáo họ</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@Html.Partial("_ViewReadonlyFamilyModal")
+<script>
+    function refreshFamilyDatatable() {
+        updateTableContent("tblfamilyChangeParish");
+        //$("#tblfamilyChangeParish").dataTable()._fnAjaxUpdate();
+    }
+
+    initFamilyChangeParishDatatable();
+    function initFamilyChangeParishDatatable() {
+
+        $("#tblfamilyChangeParish").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "sAjaxSource": "/Family/LoadFamiliesDatatables",
+            "aLengthMenu": [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, "Tất cả"]],
+            //"bProcessing": true,
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "communityId", "value": $("#cbbFromCommunity").val() });
+                aoData.push({ "name": "parishDivisionId", "value": $("#cbbFromDivision").val() });
+                aoData.push({ "name": "isCounted", "value": $("#cbFilterIsCounted").is(':checked') ? false : true });
+                aoData.push({ "name": "status", "value": "1" });
+            },
+            "oLanguage": {
+                "sSearch": "Mã gia đình/ Tên gia đình/ Chủ hộ",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+
+                        var store = localStorage.getItem("store");
+
+                        var content = "";
+
+                        if (store != null) {
+
+                            store = JSON.parse(store);
+
+                            for (var i = 0; i < store.length; i++) {
+                                if (store[i].id == data) {
+
+                                    content = '<label class="position-relative">' +
+                                        '<input type="checkbox" class="ace" value="' + data + '" checked onclick="localStorageSave(this)"/>' +
+                                        '<span class="lbl"></span> </label>';
+
+                                    break;
+                                }
+                            }
+                        }
+
+                        if (!content) {
+                            content = '<label class="position-relative">' +
+                                '<input type="checkbox" class="ace" value="' + data + '" onclick="localStorageSave(this)"/>' +
+                                '<span class="lbl"></span> </label>';
+                        }
+
+                        return content;
+                    },
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [9],
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" onclick="loadReadonlyFamilyById(' + data + ')">' +
+                            '<i class="ace-icon fa fa-search-plus"></i>&nbsp;Chi tiết</button>';
+                        return content;
+                    },
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+
+    }
+
+    $(document).on('click', 'th input:checkbox', function () {
+        var that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox')
+        .each(function () {
+            this.checked = that.checked;
+            $(this).closest('tr').toggleClass('selected');
+        });
+    });
+
+    $("#cbbToVicariate").change(function () {
+        loadToParishes();
+    });
+
+    $("#cbbToParish").change(function () {
+
+        if ($("#cbbToParish").val() == -1) {
+            $("#dvotherParish").show();
+        } else if ($("#cbbToParish").val() > 0) {
+            $("#dvotherParish").hide();
+            $("#txtOtherParish").val("");
+        }
+    });
+
+    $("#txtOtherParish").focusout(function () {
+        if (!validateUnique()) {
+            return;
+        };
+    });
+    $("#cbbFromCommunity").change(function () {
+        updateTableContent("tblfamilyChangeParish");
+        //$("#tblfamilyChangeParish").dataTable()._fnAjaxUpdate();
+        loadFromParishDivisions();
+    });
+    $("#cbbFromDivision").change(function () {
+        updateTableContent("tblfamilyChangeParish");
+        //$("#tblfamilyChangeParish").dataTable()._fnAjaxUpdate();
+    });
+    $("#cbFilterIsCounted").change(function () {
+        updateTableContent("tblfamilyChangeParish");
+        //$("#tblfamilyChangeParish").dataTable()._fnAjaxUpdate();
+    });
+
+    $("#cbFamilyChosen").change(function () {
+        if (this.checked) {
+            $("#tbldefault").hide();
+
+            initChosenTable();
+            $("#tblviewchecked").show();
+
+        } else {
+            $("#tblviewchecked").hide();
+            updateTableContent("tblfamilyChangeParish");
+            //$("#tblfamilyChangeParish").dataTable()._fnAjaxUpdate();
+            $("#tbldefault").show();
+        }
+    });
+
+    function initChosenTable() {
+        var store = localStorage.getItem("store");
+
+        $("#tblFamilyChecked").dataTable().fnDestroy();
+        $("#tblFamilyChecked > tbody").html("");
+
+        var content = "";
+        if (store != null) {
+
+            store = JSON.parse(store);
+            for (var i in store) {
+
+                var item = store[i];
+
+                content += "<tr>" +
+                    "<td>" + '<label class="position-relative">' +
+                    '<input type="checkbox" class="ace" value="' + item.id + '" checked onclick="combineChosenandInit(this)"/>' +
+                    '<span class="lbl"></span> </label>' +
+                    "</td>" +
+                    "<td>" + item.code + "</td>" +
+                    "<td>" + item.name + "</td>" +
+                    "<td>" + item.houseHolder + "</td>" +
+                    "<td>" + item.number + "</td>" +
+                    "<td>" + item.phone + "</td>" +
+                    "<td>" + item.parishDivision + "</td>" +
+                    "<td>" + item.community + "</td>" +
+                    "<td>" +
+                    '<button class="btn btn-minier btn-primary" onclick="loadReadonlyFamilyById(' + item.id + ')"><i class="ace-icon fa fa-search-plus"></i>&nbsp;Chi tiết</button>' +
+                    "</td>" +
+                    "</tr> ";
+
+            }
+
+            $("#tblFamilyChecked > tbody").html(content);
+
+        }
+
+        initSimpleChosenFamilyDatatables("tblFamilyChecked");
+    }
+
+    function initSimpleChosenFamilyDatatables(id) {
+
+        $("#" + id).dataTable({
+            "bDestroy": true,
+            "oLanguage": {
+                "sSearch": "Mã gia đình/ Tên gia đình/ Chủ hộ",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [8],
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+
+        });
+
+    }
+
+    function combineChosenandInit(element) {
+        localStorageSave(element);
+        initChosenTable();
+    }
+
+    //-----------------------------------
+
+    //Change parish button
+
+    $("#btnChangeParish").click(function () {
+        var store = localStorage.getItem("store");
+        var toParishId = $("#cbbToParish").val();
+        var fromParishId = $("#fromParishId").val();
+        var toParishName = $("#txtOtherParish").val();
+        if (toParishId == 0) {
+            showMessage("Vui lòng chọn giáo xứ đích để chuyển xứ", -1);
+            return false;
+        } else if (toParishId == -1) {
+            if (!toParishName) {
+                showMessage("Vui lòng chọn giáo xứ đích để chuyển xứ", -1);
+                return false;
+            }
+        } else if (fromParishId == toParishId) {
+            showMessage("Giáo xứ nguồn và giáo xứ đích phải khác nhau", -1);
+            return false;
+        }
+        if (store.length == 2) {
+            showMessage("Vui lòng chọn gia đình để chuyển xứ", -1);
+        } else {
+            confirmFamilyChange();
+        }
+
+    });
+
+    function beginFamilyChangeParish() {
+        var store = localStorage.getItem("store");
+        var toParishId = $("#cbbToParish").val();
+        var toParishName = $("#txtOtherParish").val();
+
+        store = JSON.parse(store);
+        var families = [];
+        for (var i in store) {
+            var item = store[i];
+            families.push(item.id);
+        }
+        $.ajax({
+            url: "/ChangeParish/ChangeParishForFamily",
+            type: "POST",
+            data: {
+                'families': families,
+                toParishId: toParishId,
+                toParishName: toParishName
+            },
+            traditional: true,
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Chuyển xứ cho gia đình thất bại, vui lòng thực hiện lại quá trình chuyển xứ!", 0);
+                } else {
+                    showMessage("Chuyển xứ cho gia đình thành công!", 1);
+                    refreshFamilyDatatable();
+                    countMigrationRequest();
+                }
+            },
+
+        });
+
+    }
+
+    //-----------------------------------
+    loadToVicariates();
+
+    function loadToVicariates() {
+        $.ajax({
+            url: "/Parishioner/LoadVicariates",
+            data: {},
+            success: function (data) {
+                var element = $("#cbbToVicariate");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+                loadToParishes();
+            }
+        });
+    }
+
+    //-----------------------------------
+    function loadToParishes() {
+        $.ajax({
+            url: "/Parishioner/LoadParishiesNotMine",
+            data: {
+                vicariateId: $("#cbbToVicariate").val()
+            },
+            success: function (data) {
+                var element = $("#cbbToParish");
+                //append data
+                element.html("");
+                element.append("<option value='0'></option>");             
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+                element.append("<option value='-1'>Giáo xứ không có trong hệ thống</option>");
+
+            }
+        });
+    }
+
+    //-----------------------------------
+    loadFromParishes();
+    function loadFromParishes() {
+        $.ajax({
+            url: "/ChangeParish/LoadFromParishies",
+            data: {
+            },
+            success: function (data) {
+                var item = data.result;
+
+                var element = $("#cbbFromParish");
+                //append data
+                $("#fromParishId").val(item.Id);
+                $("#cbbFromParish").val(item.Name);
+                loadFromCommunities();
+            }
+        });
+    }
+    //-----------------------------------
+    function loadFromCommunities() {
+        $.ajax({
+            url: "/Parishioner/LoadCommunity",
+            async: false,
+            data: {
+                parishId: $("#fromParishId").val()
+            },
+            success: function (data) {
+                var element = $("#cbbFromCommunity");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+                loadFromParishDivisions();
+            }
+        });
+    }
+
+    //-----------------------------------
+
+    function loadFromParishDivisions() {
+        $.ajax({
+            url: "/Parishioner/LoadParishDivisions",
+            data: {
+                communityId: $("#cbbFromCommunity").val(),
+                vicariateId: 0,
+                parishId: $("#fromParishId").val()
+            },
+            success: function (data) {
+                var element = $("#cbbFromDivision");
+                //append data
+                element.html("");
+                element.append("<option value='0'>Tất cả</option>");
+                var list = data.result;
+
+                for (var i in list) {
+                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+                }
+
+            }
+        });
+    }
+
+    clearStrorage();
+    function clearStrorage() {
+        var s = localStorage.getItem("store");
+
+        if (s != null) {
+            s = JSON.parse(s);
+
+            while (s.length > 0) {
+                s.pop();
+            }
+
+            localStorage.setItem("store", JSON.stringify(s));
+        }
+    }
+
+
+
+    //-----------------------------------
+    function localStorageSave(element) {
+        var checked = element.checked;
+        var tr = $(element).closest("tr");
+        var td = tr.children();
+
+        var id = $(element).val();
+        var code = td[1].innerText;
+        var name = td[2].innerText;
+        var houseHolder = td[3].innerText;
+        var number = td[4].innerText;
+        var phone = td[5].innerText;
+        var parishDivision = td[6].innerText;
+        var community = td[7].innerText;
+
+        var family = {
+            id: id,
+            code: code,
+            name: name,
+            houseHolder: houseHolder,
+            number: number,
+            phone: phone,
+            parishDivision: parishDivision,
+            community: community
+        };
+
+        var store = localStorage.getItem("store");
+
+        if (store == null) {
+
+            store = []; //khoi tao array store
+            store[store.length] = family;
+            localStorage.setItem("store", JSON.stringify(store));
+
+        } else {
+
+            store = JSON.parse(store);
+
+            if (checked) {
+                store[store.length] = family;
+            }
+            else {
+                for (var i = 0; i < store.length; i++) {
+                    if (store[i].id == family.id) {
+                        store.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+
+            localStorage.setItem("store", JSON.stringify(store));
+        }
+
+    }
+
+    //-----------------------------------
+
+    function validateUnique() {
+
+        var parishId = 0;
+        var name = $("#txtOtherParish").val();
+        var result = true;
+
+        $.ajax({
+            url: "/ChangeParish/CheckOtherParish",
+            type: "POST",
+            data: {
+                parishId: parishId,
+                name: name
+            },
+            async: false,
+            success: function (data) {
+                if (data.result < 0) {
+                    //$("#otherParishNameError").html("Giáo xứ vừa nhập có tồn tại trong hệ thống. Vui lòng chọn giáo xứ đích ở trên!");
+                    //$("#otherParishNameError").show();
+                    //$("#btnChangeParish").prop('disabled', true);
+                    //result = false;
+                    showMessage("Có lỗi xảy ra, vui lòng thử lại sau", 0);
+                    result = false;
+                } else if (data.result > 0) {
+                    //if (!name) {
+                    //    return true;
+                    //}
+                    //$("#otherParishNameError").html("");
+                    //$("#otherParishNameError").hide();
+                    //$("#btnChangeParish").prop('disabled', false);
+                    //result = true;
+                    $("#dvotherParish").hide();
+                    $("#cbbToParish").val(data.result);
+                }
+
+            },
+        });
+
+        return result;
+    }
+    //-----------------------------------
+    //confirm change
+    function confirmFamilyChange() {
+        bootbox.dialog({
+            closeButton: false,
+            message: "<p>Những gia đình này đã được lựa chọn là chuyển xứ, hệ thống sẽ chuyển thông tin của những gia đình (bao gồm cả những giáo dân trong gia đình) được chọn sang giáo xứ khác và bạn sẽ mất quyền chỉnh sửa những gia đình này nếu giáo xứ đích đồng ý sử dụng.</p> " +
+                "<p>Bạn có chắc muốn chuyển xứ cho những gia đình này không?</p>",
+            title: "Xác nhận",
+            buttons: {
+                success: {
+                    label: " Chuyển",
+                    className: "ace-icon fa fa-send btn-primary",
+                    callback: function () {
+                        beginFamilyChangeParish();
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-grey",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+</script>
+

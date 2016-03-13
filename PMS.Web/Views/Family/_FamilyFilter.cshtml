@@ -1,0 +1,72 @@
+﻿@using PMS.DataAccess.Models
+@using PMS.DataAccess.Enumerations
+
+
+<input type="hidden" id="defaultCommunity" value="@((int)Session["DefaultCommunity"])" />
+<input type="hidden" id="txtHiddenRoleId" value="@((int) Session["RoleId"])" />
+<input type="hidden" id="txtManagerId" value="@((int) AccountEnum.Manager)" />
+
+<div class="page-header">
+    <div>
+        <div class="row">
+            <div class="col-xs-4">
+                Giáo họ
+                <select id="cbbCommunity" class="form-control">
+                    <option value="0">Tất cả</option>
+
+                    @foreach (var item in ((List<Community>)ViewBag.Communities))
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-xs-4">
+                Giáo khu
+                <select id="cbbParishDivision" class="form-control">
+                    <option value="0">Tất cả</option>
+
+                    @foreach (var item in ((List<Community>)ViewBag.ParishDivisions))
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-xs-4" hidden="">
+                <label class="position-relative" style="margin-top: 16.5px;">
+                    <input type="checkbox" class="ace" id="cbFilterIsCounted" />
+                    <span class="lbl"> Xem gia đình không được thống kê</span>
+                </label>
+            </div>
+            
+            <div class="space-6" id="spaceforFamilyFilter" hidden=""></div>
+
+            <div class="row" id="divFilterForFamilySaveStorage" hidden="">
+                <div class="col-xs-3">
+                    <div class="radio">
+                        <label class="no-padding-left">
+                            <input type="checkbox" class="ace" id="cbChangeParishFamily">
+                            <span class="lbl"> Chỉ xem gia đình đã chuyển xứ</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+                       
+            <div class="row" hidden="">
+                <div class="col-xs-4">
+                    <label class="position-relative">
+                        <input type="checkbox" class="ace" id="cbFilterSavedStatus" />
+                        <span class="lbl">Hồ sơ lưu trữ gia đình</span>
+                    </label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#cbChangeParishFamily").change(function () {
+        updateTableContent("familyTable");
+    });
+</script>

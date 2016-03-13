@@ -1,0 +1,144 @@
+﻿@using PMS.DataAccess.Enumerations
+
+<script src="/Content/assets/js/fuelux/fuelux.tree.min.js"></script>
+
+<input type="hidden" id="txtHiddenTreeRole" value="@((int) Session["RoleId"])" />
+<input type="hidden" id="txtHiddenNeedRole" value="@((int) AccountEnum.Admin)" />
+
+<div class="row">
+
+    <div class="col-sm-12">
+        <div class="widget-box widget-color-blue2">
+            <div class="widget-header">
+                <h4 class="widget-title lighter smaller">Sơ đồ tổ chức</h4>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main padding-8">
+                    <div id="tree1" class="tree"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@Html.Partial("_ViewReadonlyFamilyModal")
+
+<script>
+
+    var role = $("#txtHiddenTreeRole").val();
+    var need = $("#txtHiddenNeedRole").val();
+
+    var DataSourceTree = function (options) {
+        this._url = options.url;
+    }
+
+    var idLoaded;
+    var typeLoaded;
+    DataSourceTree.prototype.data = function (options, callback) {
+        var self = this;
+        var id = null;
+        var itemType = null;
+
+        if (!("name" in options) && !("type" in options)) {
+            id = 0;
+
+            if (role == need) {
+                itemType = 0;
+            } else {
+                itemType = 2;
+            }
+        }
+        else if ("type" in options && options.type == "folder") {
+            if ("additionalParameters" in options) {
+                id = options.additionalParameters["id"];
+                itemType = options.additionalParameters["itemType"];
+
+                idLoaded = id;
+                typeLoaded = itemType;
+
+            }
+        }
+
+        if (id != null) {
+            $.ajax({
+                url: this._url,
+                dataType: 'json',
+                data: {
+                    id: id,
+                    itemType: itemType
+                },
+                type: 'POST',
+                success: function (response) {
+                    callback({ data: response.result });
+                },
+                error: function (response) {
+                    //console.log(response);
+                }
+            });
+        }
+
+    };
+
+
+    $('#tree1').ace_tree({
+        dataSource: new DataSourceTree({ url: '/ParishHome/GetItemTreeView' }),
+        //  multiSelect: true,
+        loadingHTML: '<div class="tree-loading"><i class="ace-icon fa fa-refresh fa-spin blue"></i></div>',
+        'open-icon': 'ace-icon tree-minus',
+        'close-icon': 'ace-icon tree-plus',
+        'selectable': true,
+        'cacheItems': false,
+        'selected-icon': null,
+        'unselected-icon': null
+    });
+
+    $('#tree1')
+        .on('updated', function (e, result) {
+            idLoaded = result.info[0].id;
+            typeLoaded = result.info[0].itemType;
+            //result.info  >> an array containing selected items
+            //result.item
+            //result.eventType >> (selected or unselected)
+        })
+        .on('selected', function (e) {
+
+        })
+        .on('unselected', function (e) {
+
+        })
+        .on('opened', function (e) {
+
+        })
+        .on('closed', function (e) {
+
+        }).on('dblclick', function (e) {
+            if (idLoaded && typeLoaded) {
+                if (typeLoaded == 5) {
+                    loadReadonlyFamilyById(idLoaded);
+                }
+                else if (typeLoaded == 6) {
+                    viewReadonlyParishioner(idLoaded);
+                }
+                idLoaded = null;
+                typeLoaded = null;
+            }
+        });
+
+    /**
+    $('#tree1').on('loaded', function (evt, data) {
+    });
+
+    $('#tree1').on('opened', function (evt, data) {
+    });
+
+    $('#tree1').on('closed', function (evt, data) {
+    });
+
+    $('#tree1').on('selected', function (evt, data) {
+    });
+    */
+
+</script>
+

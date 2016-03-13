@@ -1,0 +1,1829 @@
+﻿@using PMS.DataAccess.Enumerations
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMS Application</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/Content/assets/css/jquery-ui.custom.min.css" />
+    <link rel="stylesheet" href="/Content/assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/Content/font-awesome.min.css" />
+    <link rel="stylesheet" href="/Content/assets/css/ace.min.css" id="main-ace-style" />
+    <link rel="stylesheet" href="/Content/assets/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="/Content/assets/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="/Content/assets/css/datepicker.css" />
+    <link rel="stylesheet" href="/Content/assets/css/jquery-ui.min.css" />
+    <link rel="stylesheet" href="/Content/assets/css/jquery.gritter.css" />
+
+    <!-- Javascript -->
+    <script src="/Content/jquery.min.js"></script>
+    <script src="/Content/assets/js/ace-extra.min.js"></script>
+    <script src="/Content/bootstrap.min.js"></script>
+    <script src="/Content/assets/js/jquery-ui.min.js"></script>
+    <script src="/Content/assets/js/jquery-ui.custom.min.js"></script>
+    <script src="/Content/assets/js/jquery.ui.touch-punch.min.js"></script>
+    <script src="/Content/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+    <script src="/Content/assets/js/jquery.maskedinput.min.js"></script>
+    <script src="/Content/assets/js/jquery.dataTables.min.js"></script>
+    <script src="/Content/assets/js/jquery.dataTables.bootstrap.js"></script>
+    <script src="/Content/assets/js/jquery.gritter.min.js"></script>
+    <script src="/Content/assets/js/ace-elements.min.js"></script>
+    <script src="/Content/assets/js/ace.min.js"></script>
+    <script src="/Content/assets/js/bootbox.min.js"></script>
+    <script src="/Scripts/pms_common.js"></script>
+
+</head>
+
+@{
+    int roleId = 0;
+
+    if (Session["RoleId"] != null)
+    {
+        roleId = (int)Session["RoleId"];
+    }
+}
+
+<body class="no-skin">
+    <style>
+        * {
+            font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+        }
+
+        .ui-autocomplete {
+            z-index: 1151 !important;
+        }
+
+        .ui-state-focus {
+            background: #f2f2f2;
+        }
+
+        .datepicker {
+            z-index: 1151 !important;
+        }
+
+        .bootbox {
+            z-index: 1060 !important;
+        }
+
+        #loading, #createParishionerLoading,
+        #lookupParishionerLoading, #createDivisionModalLoading,
+        #addMatrimonyModalLoading, #viewReadonlyParishionerLoading, #parishionerInformationModalLoading {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+            opacity: 0.8;
+            background-color: #000;
+            color: #fff;
+            z-index: 9999;
+        }
+        #readonlySocietiesSearch {
+            z-index: 1080 !important;
+        }
+        #readonlyClassesSearch {
+            z-index: 1079 !important;
+        }
+        #readonlyMatrimonyModal {
+            z-index: 1078 !important;
+        }
+        #viewReadonlyParishionerModal {
+            z-index: 1077 !important;
+        }
+        #viewReadonlyParishionerLoading {
+            z-index: 1076 !important;
+        }
+        #createDivisionModal {
+            z-index: 1062 !important;
+        }
+        #createDivisionModalLoading {
+            z-index: 1061 !important;
+        }
+        #chooseParishionerModal {
+            z-index: 1060 !important;
+        }
+
+        #lookupParishionerLoading {
+            z-index: 1059 !important;
+        }
+
+        #createParishionerModal {
+            z-index: 1058 !important;
+        }
+
+        #createParishionerLoading {
+            z-index: 1057 !important;
+        }
+        #parishionerInformationModal {
+            z-index: 1056 !important;
+        }
+
+        #parishionerInformationModalLoading {
+            z-index: 1055 !important;
+        }
+
+
+        #addMatrimonyModal {
+            z-index: 1052 !important;
+        }
+
+        #addMatrimonyModalLoading {
+            z-index: 1051 !important;
+        }
+
+        
+    </style>
+
+    <div id="loading">
+        <img src="/Content/loading.gif" style="position: fixed; top: 40%; left: 44%;" />
+    </div>
+
+    <div id="createParishionerLoading" style="display: none">
+    </div>
+
+    <div id="lookupParishionerLoading" style="display: none">
+    </div>
+
+    <div id="createDivisionModalLoading" style="display: none">
+    </div>
+    
+    <div id="parishionerInformationModalLoading" style="display: none">
+    </div>
+    
+    <div id="viewReadonlyParishionerLoading" style="display: none">
+    </div>
+
+    <div id="addMatrimonyModalLoading" style="display: none">
+    </div>
+    
+   
+
+    <input type="hidden" id="hiddenRoleId" value="@roleId"/>
+    <input type="hidden" id="hiddenAdminPosition" value="@((int)AccountEnum.Admin)" />
+    <input type="hidden" id="hiddenManagerPosition" value="@((int)AccountEnum.Manager)" />
+    
+    <div id="navbar" class="navbar navbar-default navbar-collapse h-navbar">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('navbar', 'fixed');
+            } catch (e) { }
+        </script>
+
+        <div class="navbar-container" id="navbar-container">
+            <div class="navbar-header pull-left">
+                <a href="#" class="navbar-brand" style="padding: 2px 0">
+                    <img class="img-responsive" src="/Images/Logo/logowhite.png" style="max-height: 41px" />
+                </a>
+            </div>
+            <div class="navbar-buttons navbar-header pull-right  collapse navbar-collapse" role="navigation">
+                
+                <ul class="nav ace-nav">
+
+                    
+                    @if (roleId == (int)AccountEnum.Manager || roleId == (int)AccountEnum.Admin)
+                    {
+                        <li class="light-grey">
+                            <div class="input-group" style="padding: 5px">
+                                <input type="text" class="form-control" placeholder="Nhập tên giáo dân" title="Tìm kiếm giáo dân" id="txtSearchBar" />
+                                <span class="input-group-btn" style="width: 0">
+                                    <button type="button" class="btn btn-light form-control" id="btnSearchBar">
+                                        <i class="ace-icon fa fa-search icon-on-right bigger-110"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </li>
+                    }
+                        
+
+                    @if (roleId == (int)AccountEnum.Manager)
+                    {
+                        <li class="green" title="Thông tin chuyển xứ cho gia đình chờ duyệt">
+                            <a class="dropdown-toggle" href="/ApproveRequest/ViewFamilyRequest">
+                                <i class="ace-icon fa fa-home"></i>                              
+                                <span class="" id="numberOfFamilySendingRequest"></span>
+                            </a>
+                        </li>
+                        <li class="green" title="Thông tin chuyển xứ cho giáo dân chờ duyệt">
+                            <a class="dropdown-toggle" href="/ApproveRequest/ViewParishionerRequest">
+                                <i class="ace-icon fa fa-user"></i>
+                                <span class="" id="numberOfSendingRequest"></span>
+                            </a>
+                        </li>
+                        <li class="light-grey" title="Thông tin chuyển xứ cho gia đình đã nhận">
+                            <a class="dropdown-toggle" href="/ApproveRequest/Family">
+                                <i class="ace-icon fa fa-home"></i>
+                                <span class="" id="numberOfFamilyRequest"></span>
+                            </a>
+                        </li>
+                        
+                        <li class="light-grey" title="Thông tin chuyển xứ cho giáo dân đã nhận">
+                            <a class=" dropdown-toggle" href="/ApproveRequest/Parishioner">
+                                <i class="ace-icon fa fa-user"></i>
+                                <span class="" id="numberOfRequest"></span>
+                            </a>
+                        </li>
+                        
+                    }
+                    @if (roleId == (int) AccountEnum.Manager || roleId == (int)AccountEnum.Admin)
+                    {
+                        <li class="light-grey" title="Hộp thư">
+                            <a class="dropdown-toggle" href="/Message/CreateMessage">
+                                <i class="ace-icon fa fa-envelope"></i>
+                                <span class="" id="numberOfMessage">0</span>
+                            </a>
+                        </li>
+                    }
+                    <li class="user-min" style="background-color: #1bb7a0">
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                            <img class="nav-user-photo" src="/Content/assets/avatars/avatar2.png" />
+
+                            Chào mừng,
+                            @Session["Name"]
+
+                            <i class="ace-icon fa fa-caret-down"></i>
+                        </a>
+
+                        <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close" style="padding-top: 12px !important;">
+                            <li>
+                                <a href="/Account/ChangePassword">
+                                    <i class="ace-icon fa fa-cog"></i>
+                                    Đổi mật khẩu
+                                </a>
+                            </li>
+
+                            <li class="divider"></li>
+
+                            <li>
+                                <a href="/Account/Logout">
+                                    <i class="ace-icon fa fa-power-off"></i>
+                                    Đăng xuất
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div><!-- /.navbar-container -->
+    </div>
+
+    <div class="main-container" id="main-container">
+        <script type="text/javascript">
+            try {
+                ace.settings.check('main-container', 'fixed');
+            } catch (e) { }
+        </script>
+
+        <div id="sidebar" class="sidebar h-sidebar navbar-collapse collapse">
+            <script type="text/javascript">
+                try {
+                    ace.settings.check('sidebar', 'fixed');
+                } catch (e) { }
+            </script>
+
+            @if (roleId == (int)AccountEnum.Admin)
+            {
+                <ul id="nav" class="nav nav-list">
+                    <li class="hover">
+                        <a href="/Diocese/Index">
+                            <i class="menu-icon fa fa-home"></i>
+                            <span class="menu-text"> Trang chủ </span>
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    
+                    <li class="hover">
+                        <a href="/Vicariate/Index">
+                            <i class="menu-icon fa fa-sitemap"></i>
+                            <span class="menu-text"> Giáo hạt </span>
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    
+                    <li class="hover">
+                        <a href="/Parish/Index">
+                            <i class="menu-icon fa fa-bank"></i>
+                            <span class="menu-text"> Giáo xứ </span>
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    
+                    <li class="hover">
+                        <a href="/Account/AccountManagement">
+                            <i class="menu-icon fa fa-user"></i>
+                            <span class="menu-text"> Tài khoản </span>
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-arrows"></i>
+                            <span class="menu-text"> Linh mục </span>
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Priest/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách Linh mục
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/ThuyenChuyenLinhMuc/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Thuyên chuyển linh mục
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                        </ul>
+
+                        <b class="arrow"></b>
+                    </li>                 
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-search-plus"></i>
+                            <span class="menu-text"> Tìm kiếm</span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Search/Parishioner">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Tìm kiếm giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/SearchFamily/Family">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Tìm kiếm gia đình của giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-bar-chart-o"></i>
+                            <span class="menu-text"> Thống kê </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Statistic/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Thống kê chung
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Chart/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Biểu đồ
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+                <!-- /.nav-list -->
+            }
+            else if (roleId == (int)AccountEnum.Manager)
+            {
+                <ul id="nav" class="nav nav-list">
+                    <li class="hover">
+                        <a href="/ParishHome/Index">
+                            <i class="menu-icon fa fa-home"></i>
+                            <span class="menu-text"> Trang chủ </span>
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-cogs"></i>
+                            <span class="menu-text"> Thông tin giáo xứ </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+
+                            <li class="hover">
+                                <a href="/Community/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách giáo họ
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+                            
+                            <li class="hover">
+                                <a href="/Society/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách hội đoàn
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Configuration/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Cấu hình giáo xứ
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-users"></i>
+                            <span class="menu-text"> Giáo dân &amp; Gia đình </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Parishioner/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Family/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách gia đình
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-file-text"></i>
+                            <span class="menu-text"> Hồ sơ lưu trữ </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Parishioner/SaveStorage">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Hồ sơ lưu trữ giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Family/SaveStorage">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Hồ sơ lưu trữ gia đình
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-book"></i>
+                            <span class="menu-text">Sổ bí tích </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Sacrament/Index?type=1">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Rửa tội
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Sacrament/Index?type=2">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Xưng tội - rước lễ lần đầu
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Sacrament/Index?type=3">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Thêm sức
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Sacrament/Index?type=4">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Hôn phối
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+
+
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-graduation-cap"></i>
+                            <span class="menu-text"> Quản lý giáo lý </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/DoctrineCourse/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách khối giáo lý
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/DoctrineCourse/ManageClass">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách lớp giáo lý
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-search-plus"></i>
+                            <span class="menu-text"> Tìm kiếm</span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Search/Parishioner">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Tìm kiếm giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/SearchFamily/Family">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Tìm kiếm gia đình của giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-wrench"></i>
+                            <span class="menu-text"> Công cụ dữ liệu </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/ChangeCommunity/Parishioner">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Chuyển họ cho giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/ChangeCommunity/Family">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Chuyển họ cho gia đình
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/ChangeParish/Parishioner">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Chuyển xứ cho giáo dân
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="hover">
+                                <a href="/ChangeParish/Family">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Chuyển xứ cho gia đình
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            @*<li class="hover">
+                                <a href="/SacramentCreation/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Tạo đợt bí tích tự động
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>*@
+
+                            <li class="hover">
+                                <a href="/DataChecking/Parishioner">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Kiểm tra dữ liệu giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-bar-chart-o"></i>
+                            <span class="menu-text"> Thống kê </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Statistic/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Thống kê chung
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Chart/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Biểu đồ
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                        </ul>
+                    </li>
+                </ul>
+                <!-- /.nav-list -->
+            }
+            else if (roleId == (int)AccountEnum.Staff)
+            {
+                <ul id="nav" class="nav nav-list">
+
+                    <li class="hover">
+                        <a href="/ParishHome/Index">
+                            <i class="menu-icon fa fa-home"></i>
+                            <span class="menu-text"> Trang chủ </span>
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-cogs"></i>
+                            <span class="menu-text"> Thông tin giáo xứ </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+
+                            <li class="hover">
+                                <a href="/Community/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách giáo họ
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+                            
+                            <li class="hover">
+                                <a href="/Society/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách hội đoàn
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-users"></i>
+                            <span class="menu-text"> Giáo dân &amp; Gia đình </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Parishioner/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Family/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách gia đình
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-file-text"></i>
+                            <span class="menu-text"> Hồ sơ lưu trữ </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Parishioner/SaveStorage">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Hồ sơ lưu trữ giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Family/SaveStorage">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Hồ sơ lưu trữ gia đình
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-book"></i>
+                            <span class="menu-text">Sổ bí tích </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Sacrament/Index?type=1">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Rửa tội
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Sacrament/Index?type=2">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Xưng tội - rước lễ lần đầu
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Sacrament/Index?type=3">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Thêm sức
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Sacrament/Index?type=4">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Hôn phối
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+
+
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-graduation-cap"></i>
+                            <span class="menu-text"> Quản lý giáo lý </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/DoctrineCourse/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách khối giáo lý
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/DoctrineCourse/ManageClass">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách lớp giáo lý
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-wrench"></i>
+                            <span class="menu-text"> Công cụ dữ liệu </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/ChangeCommunity/Parishioner">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Chuyển họ cho giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/ChangeCommunity/Family">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Chuyển họ cho gia đình
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/ChangeParish/Parishioner">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Chuyển xứ cho giáo dân
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="hover">
+                                <a href="/ChangeParish/Family">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Chuyển xứ cho gia đình
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/SacramentCreation/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Tạo đợt bí tích tự động
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                </ul>
+                <!-- /.nav-list -->
+            }
+            else if (roleId == (int)AccountEnum.Teacher)
+            {
+                @*<ul id="nav" class="nav nav-list">
+                      <li class="hover">
+                            <a href="#" class="dropdown-toggle">
+                                <i class="menu-icon fa fa-graduation-cap"></i>
+                                <span class="menu-text"> Quản lý giáo lý </span>
+
+                                <b class="arrow fa fa-angle-down"></b>
+                            </a>
+                            <b class="arrow"></b>
+
+                            <ul class="submenu">
+                                <li class="hover">
+                                    <a href="/DoctrineCourse/Index">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Danh sách khối giáo lý
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+
+                                <li class="hover">
+                                    <a href="/DoctrineCourse/ManageClass">
+                                        <i class="menu-icon fa fa-caret-right"></i>
+                                        Danh sách lớp giáo lý
+                                    </a>
+
+                                    <b class="arrow"></b>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>*@
+                <!-- /.nav-list -->
+            }
+
+            @*<ul id="nav" class="nav nav-list">
+                    <li class="hover">
+                        <a href="/Diocese/Index">
+                            <i class="menu-icon fa fa-home"></i>
+                            <span class="menu-text"> Trang chủ </span>
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="open hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-cogs"></i>
+                            <span class="menu-text"> Quản lý hệ thống </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Account/AccountManagement">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách tài khoản
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Priest/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách linh mục
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Vicariate/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách giáo hạt
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Parish/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách giáo xứ
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Community/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách giáo họ
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Society/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách hội đoàn
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Configuration/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Cấu hình giáo xứ
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+
+
+
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-users"></i>
+                            <span class="menu-text"> Giáo dân &amp; Gia đình </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Parishioner/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Family/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách gia đình
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-file-text"></i>
+                            <span class="menu-text"> Hồ sơ lưu trữ </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Parishioner/SaveStorage">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Hồ sơ lưu trữ giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Family/SaveStorage">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Hồ sơ lưu trữ gia đình
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-book"></i>
+                            <span class="menu-text">Sổ bí tích </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Sacrament/Index?type=1">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Rửa tội
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Sacrament/Index?type=2">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Xưng tội - rước lễ lần đầu
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Sacrament/Index?type=3">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Thêm sức
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Sacrament/Index?type=4">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Hôn phối
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+
+
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-graduation-cap"></i>
+                            <span class="menu-text"> Quản lý giáo lý </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/DoctrineCourse/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách khối giáo lý
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/DoctrineCourse/ManageClass">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Danh sách lớp giáo lý
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-search-plus"></i>
+                            <span class="menu-text"> Tìm kiếm</span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Search/Parishioner">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Tìm kiếm giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/SearchFamily/Family">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Tìm kiếm gia đình của giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-wrench"></i>
+                            <span class="menu-text"> Công cụ dữ liệu </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/ChangeCommunity/Parishioner">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Chuyển họ cho giáo dân
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/ChangeCommunity/Family">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Chuyển họ cho gia đình
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/ChangeParish/Parishioner">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Chuyển xứ cho giáo dân
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+                            <li class="hover">
+                                <a href="/ChangeParish/Family">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Chuyển xứ cho gia đình
+                                </a>
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/SacramentCreation/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Tạo đợt bí tích tự động
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li class="hover">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-bar-chart-o"></i>
+                            <span class="menu-text"> Thống kê </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="hover">
+                                <a href="/Statistic/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Thống kê chung
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="hover">
+                                <a href="/Chart/Index">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    Biểu đồ
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+
+
+                </ul>*@
+            <!-- /.nav-list -->
+
+
+            <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+            </div>
+
+            <script type="text/javascript">
+                try {
+                    ace.settings.check('sidebar', 'collapsed');
+                } catch (e) { }
+            </script>
+        </div>
+
+        <div class="main-content">
+            <div class="page-content">
+
+                @if (roleId != (int)AccountEnum.Teacher)
+                {
+                    <div class="ace-settings-container" id="ace-settings-container">
+                        <div class="btn btn-app btn-xs btn-primary ace-settings-btn" id="ace-settings-btn">
+                            <i class="ace-icon fa fa-cog bigger-150"></i>
+                        </div>
+
+                        <div class="ace-settings-box clearfix" id="ace-settings-box">
+                            <div class="pull-left width-50">
+                                <div class="ace-settings-item">
+                                    <div class="pull-left">
+                                        <select id="skin-colorpicker" class="hide">
+                                            <option data-skin="no-skin" value="#438EB9">#438EB9</option>
+                                            <option data-skin="skin-1" value="#222A2D">#222A2D</option>
+                                            <option data-skin="skin-2" value="#C6487E">#C6487E</option>
+                                            <option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+                                        </select>
+                                    </div>
+                                    <span>&nbsp; Chọn màu</span>
+                                </div>
+
+                                <div class="ace-settings-item">
+                                    <input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />
+                                    <label class="lbl" for="ace-settings-sidebar"> Cố định thanh menu</label>
+                                </div>
+                            </div><!-- /.pull-left -->
+
+
+                        </div><!-- /.ace-settings-box -->
+
+                    </div><!-- /.ace-settings-container -->
+                }
+                @RenderBody()
+
+
+            </div><!-- /.page-content -->
+
+        </div><!-- /.main-content -->
+        <div class="clearfix"></div>
+        <div class="space-20"></div>
+        <div class="footer">
+            <div class="footer-inner">
+                <div class="footer-content">
+                    <span class="bigger-120">
+                        <span class="blue bolder">PMS</span>
+                        <span class="text-muted">Application &copy; Group 7</span>
+                    </span>
+                    <div class="text-muted center"><h6><i class="fa fa-graduation-cap"></i> FPT University</h6></div>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+            <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+        </a>
+    </div><!-- /.main-container -->
+    <!-- /.main-container -->
+
+    <script type="text/javascript">
+        // if ('ontouchstart' in document.documentElement) document.write("<script src='/Content/assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+        jQuery(function ($) {
+            $('.date-picker').datepicker({
+                autoclose: true,
+                todayHighlight: true,
+                forceParse: false,
+                endDate: '+0d',
+            }).next().on(ace.click_event, function () {
+                $(this).prev().focus();
+            });
+        });
+
+        $(".date-picker").focusout(function () {
+            var code = isDate($(this).val());
+
+            if (code == -1) {
+                showMessage("Thời gian không đúng định dạng, định dạng: ngày/tháng/năm - tháng/năm - năm", -1);
+                $(this).focus();
+            }
+            else if (code == -2) {
+                showMessage("Thời gian không hợp lệ", -1);
+                $(this).focus();
+            }
+
+            var date = convertDateToString($(this).val());
+            var now = new Date();
+            var month = now.getMonth() + 1;
+            var dateString = now.getDate() + "/" + month + "/" + now.getFullYear();
+            var date2 = convertDateToString(dateString);
+
+            var time = parseInt(date2) - parseInt(date);
+
+            if (time < 0) {
+                showMessage("Không thể nhập thời gian của tương lai", -1);
+                $(this).focus();
+            }
+
+        });
+
+        $(".fdate-picker").focusout(function () {
+            var code = isDate($(this).val());
+
+            if (code == -1) {
+                showMessage("Thời gian không đúng định dạng, định dạng: ngày/tháng/năm - tháng/năm - năm", -1);
+                $(this).focus();
+            }
+            else if (code == -2) {
+                showMessage("Thời gian không hợp lệ", -1);
+                $(this).focus();
+            }
+        });
+
+        $(document).ready(function () {
+            $.ajaxSetup({
+                //beforeSend: function(xhr) {
+                //    $("#loading").fadeIn();
+                //},
+                complete: function (xhr) {
+                    $("#loading").fadeOut();
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $("#loading").fadeOut();
+        });
+
+        activeLayout();
+        function activeLayout() {
+            var pathName = window.location.pathname;
+
+            if (pathName == "/Sacrament/Index") {
+                var fullPath = window.location.href;
+                var origin = window.location.origin;
+                pathName = fullPath.replace(origin, "");
+            }
+            pathName = pathName.replace("#", "");
+            var links = $("#nav").find("a");
+
+            for (var i = 0; i < links.length; i++) {
+
+                var href = links[i].getAttribute("href");
+               
+                if (href == pathName) {
+                    $(links[i]).closest("li").addClass("active");
+
+                    //kiem tra cha no co phai submenu
+                    var parent = $(links[i]).closest("li").closest("ul");
+                    if ($(parent).hasClass("submenu")) {
+                        $(parent).closest("li").addClass("open active");
+                    }
+                    break;
+                }
+            }
+        }
+
+        var hiddenRoleId = $("#hiddenRoleId").val();
+        var hiddenPosition = $("#hiddenAdminPosition").val();
+        var hiddenManagerPosition = $("#hiddenManagerPosition").val();
+        if (hiddenRoleId == hiddenPosition) {
+            countMessageByDioceseId();
+            setInterval(function () {
+
+                countMessageByDioceseId();
+                //countParishionerMigrationRequestSending();
+                //countFamilyMigrationRequest();
+                //countFamilyMigrationSendingRequest();
+            }, 900000);
+        }
+
+        if (hiddenRoleId == hiddenManagerPosition) {
+            countMigrationRequest();
+            countMessageByParishId();
+            setInterval(function () {
+                
+                countMigrationRequest();
+                countMessageByParishId();
+                //countParishionerMigrationRequestSending();
+                //countFamilyMigrationRequest();
+                //countFamilyMigrationSendingRequest();
+            }, 900000);
+        }
+        
+        //50000
+        function countMigrationRequest() {
+            
+            $.ajax({
+                url: "/ApproveRequest/CountAllMigrateRequest",
+                data: {
+
+                },
+                success: function (data) {
+                    var element = $("#numberOfRequest");
+                    //append data
+                    element.html("");           
+                    
+                    if (data.parishionerReceiving > 0) {
+                        $("#numberOfRequest").attr('class', 'badge badge-danger');
+                        element.append(data.parishionerReceiving);
+                    } else {
+                        $("#numberOfRequest").attr('class', '');
+                    }
+
+                    var elementSendingRequest = $("#numberOfSendingRequest");
+                    //append data
+                    elementSendingRequest.html("");
+                    
+                    if (data.parishionerSending > 0) {
+                        $("#numberOfSendingRequest").attr('class', 'badge badge-danger');
+                        elementSendingRequest.append(data.parishionerSending);
+                    } else {
+                        $("#numberOfSendingRequest").attr('class', '');
+                    }
+
+                    var elementFamily = $("#numberOfFamilyRequest");
+                    //append data
+                    elementFamily.html("");
+                    
+                    if (data.familyReceiving > 0) {
+                        $("#numberOfFamilyRequest").attr('class', 'badge badge-danger');
+                        elementFamily.append(data.familyReceiving);
+                    } else {
+                        $("#numberOfFamilyRequest").attr('class', '');
+                    }
+
+                    var elementFamilySendingRequest = $("#numberOfFamilySendingRequest");
+                    //append data
+                    elementFamilySendingRequest.html("");
+                    
+                    if (data.familySending > 0) {
+                        $("#numberOfFamilySendingRequest").attr('class', 'badge badge-danger');
+                        elementFamilySendingRequest.append(data.familySending);
+                    } else {
+                        $("#numberOfFamilySendingRequest").attr('class', '');
+                    }
+                }
+            });
+        }
+
+        function countMessageByParishId() {
+            $.ajax({
+                url: "/Message/CountMessageByParishId",
+                data: {
+
+                },
+                success: function (data) {
+                    var element = $("#numberOfMessage");
+                    //append data
+                    element.html("");
+                   
+                    if (data > 0) {
+                        $("#numberOfMessage").attr('class', 'badge badge-danger');
+                        element.append(data);
+                    } else {
+                        $("#numberOfMessage").attr('class', '');
+                    }
+
+                }
+            });
+        }
+
+        function countMessageByDioceseId() {
+            $.ajax({
+                url: "/Message/CountMessageByDioceseId",
+                data: {
+
+                },
+                success: function (data) {
+                    var element = $("#numberOfMessage");
+                    //append data
+                    element.html("");
+                    element.append(data);
+                    if (data > 0) {
+                        $("#numberOfMessage").attr('class', 'badge badge-danger');
+                    } else {
+                        $("#numberOfMessage").attr('class', '');
+                    }
+
+                }
+            });
+        }
+
+        $(".place").autocomplete({
+            autoFocus: true,
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Parishioner/LoadPlaces",
+                    dataType: "json",
+                    data: {
+                        name: request.term
+                    },
+                    success: function (data) {
+                        response(data.result);
+                    }
+                });
+            },
+            minLength: 1
+        });
+
+        $(".parishName").autocomplete({
+            autoFocus: true,
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Parishioner/LoadParishNames",
+                    dataType: "json",
+                    data: {
+                        name: request.term
+                    },
+                    success: function (data) {
+                        response(data.result);
+                    }
+                });
+            },
+            minLength: 1
+        });
+
+        //countInboxMessage();
+
+        //function countInboxMessage() {
+        //    $.ajax({
+        //        url: "/ApproveRequest/CountParishionerMigrationRequestSendingByParishId",
+        //        data: {
+
+        //        },
+        //        success: function (data) {
+        //            var element = $("#numberOfSendingRequest");
+        //            //append data
+        //            element.html("");
+        //            element.append(data);
+        //            if (data > 0) {
+        //                $("#numberOfSendingRequest").attr('class', 'badge badge-danger icon-animated-vertical');
+        //            } else {
+        //                $("#numberOfSendingRequest").attr('class', '');
+        //            }
+        //        }
+        //    });
+        //}
+
+        // sidebar-fixed
+        $("#ace-settings-sidebar").change(function() {
+            if ($(this).is(':checked')) {
+                localStorage.setItem("menuFix", "fix");
+            } else {
+                localStorage.setItem("menuFix", "");
+            }
+        });
+
+        var local = localStorage.getItem("menuFix");
+        if (local) {
+            $("#sidebar").addClass("sidebar-fixed");
+            $("#ace-settings-sidebar").prop("checked", true);
+        }
+        var skin = localStorage.getItem("skin", skin);
+        if (skin) {
+            $('body').removeClass('no-skin');
+            $('body').addClass(skin);
+            var code = localStorage.getItem("code", code);
+            if (code) {
+                $("#skin-colorpicker").val(code);
+            }            
+        }
+
+        $("#skin-colorpicker").change(function() {
+            var el = $(this).find('option:selected');
+            var skin = el.data('skin');
+            var code = el.val();
+            localStorage.setItem("skin", skin);
+            localStorage.setItem("code", code);
+        });
+
+        $("input:text").prop("maxlength", 100);
+        $("input:password").prop("maxlength", 50);
+
+        //--------------------------------------------
+        //Search bar
+        
+        //var searchName = localStorage.getItem("parishionerName");
+        //$("#txtParishionerName").val(searchName);
+        $("#btnSearchBar").click(function() {
+            var parishionerName = $("#txtSearchBar").val();
+            if (parishionerName != "") {
+                localStorage.setItem("parishionerName", parishionerName);
+                window.location = "/Search/Parishioner";
+            } else {
+                showMessage("Vui lòng nhập tên giáo dân để tìm kiếm", -1);
+            }
+            
+        });
+
+        $(".autocomplete-priest").each(function () {
+            initPriestAutocomplete(this, false);
+        });
+        function initPriestAutocomplete(element, isForce) {
+
+            var input = $(element).autocomplete({
+                autoFocus: !isForce,
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Parishioner/LoadPriestNames",
+                        dataType: "json",
+                        data: {
+                            name: request.term
+                        },
+                        success: function (data) {
+                            response(data.result);
+                        }
+                    });
+                },
+                focus: function (event, ui) {
+                    //  $(element).data("uiItem", ui.item.value);
+                    if (isForce) {
+                        $(element).val(ui.item.value);
+                        return false;
+                    }
+                },
+                select: function (event, ui) {
+                    if (isForce) {
+                        $(this).data("uiItem", ui.item.value);
+                        $(element).val(ui.item.value);
+                        return false;
+                    }
+                },
+                minLength: 1
+            });
+
+            if (isForce) {
+                input.bind("blur", function () {
+
+                    var current = $(this).val();
+                    if (current) {
+                        $(this).val($(this).data("uiItem"));
+                    }
+
+                }).data("uiItem", $(element).val());
+            }
+
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,53 @@
+﻿<button class="btn btn-info" onclick="printSacrament(0)">
+    <i class="ace-icon fa fa-print"></i> In chứng nhận bí tích
+</button>
+
+<div class="space-8"></div>
+<div class="row" style="margin-left: 0.1px;">
+
+    <button class="btn btn-primary" onclick="printSacrament(1)">
+        <i class="ace-icon fa fa-print"></i> In chứng nhận rửa tội
+    </button>
+    <button class="btn btn-primary" onclick="printSacrament(2)">
+        <i class="ace-icon fa fa-print"></i> In chứng nhận xưng tội rước lễ
+    </button>
+    <button class="btn btn-primary" onclick="printSacrament(3)">
+        <i class="ace-icon fa fa-print"></i> In chứng nhận thêm sức
+    </button>
+    <button class="btn btn-primary" onclick="printSacrament(4)">
+        <i class="ace-icon fa fa-print"></i> In chứng nhận hôn phối
+    </button>
+</div>
+
+<script>
+    function printSacrament(type) {
+
+        var checks = new Array();
+
+        $(".pItem:checked").each(function () {
+            if ($(this).is(':checked')) {
+                checks.push($(this).val());
+            }
+        });
+
+        if (checks.length > 0) {
+            var ids = sessionStorage.getItem("ids");
+
+            if (ids == null) {
+                sessionStorage.setItem("ids", JSON.stringify(checks));
+                sessionStorage.setItem("type", type);
+            } else {
+                sessionStorage.setItem("ids", JSON.stringify(checks));
+                sessionStorage.setItem("type", type);
+            }
+
+            var url = "/Parishioner/PrintPage";
+            window.open(url, '_blank');
+
+        } else {
+            showMessage("Vui lòng chọn ít nhất một giáo dân để thực hiện in chứng nhận", -1);
+        }
+
+    }
+
+</script>

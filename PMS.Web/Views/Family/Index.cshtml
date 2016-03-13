@@ -1,0 +1,21 @@
+﻿
+
+<div class="page-header">
+    <h1>Danh sách gia đình</h1>
+</div>
+
+@Html.Partial("_FamilyFilter")
+
+<div class="page-header">
+    <button id="btnCreateFamily" class="btn btn-success" data-toggle="modal">
+        <i class="ace-icon fa fa-plus"></i> Thêm gia đình
+    </button>
+</div>
+
+@Html.Partial("_FamilyBody")
+
+<script>
+    $("#viewReadonlyParishionerModal").on('hidden.bs.modal', function () {
+        makeScrollForModal();
+    });
+</script>

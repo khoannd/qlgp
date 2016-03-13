@@ -1,0 +1,97 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Models;
+
+
+<input type="hidden" id="defaultCommunity" value="@((int)Session["DefaultCommunity"])" />
+<input type="hidden" id="txtHiddenRoleId" value="@((int) Session["RoleId"])" />
+<input type="hidden" id="txtManagerId" value="@((int) AccountEnum.Manager)" />
+
+<div class="page-header">
+    <div>
+        <div class="row">
+            <div class="col-xs-3">
+                Giáo họ
+                <select id="cbbCommunity" class="form-control">
+                    <option value="0">Tất cả</option>
+
+                    @foreach (var item in ((List<Community>)ViewBag.Communities))
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-xs-3">
+                Giáo khu
+                <select id="cbbParishDivision" class="form-control">
+                    <option value="0">Tất cả</option>
+
+                    @foreach (var item in ((List<Community>)ViewBag.ParishDivisions))
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-xs-3">
+                Loại bí tích
+                <select class="form-control" id="cbbSacramentType">
+                    <option value="0">Tất cả</option>
+                    <option value="1">Rửa tội</option>
+                    <option value="2">Xưng tội, rước lễ lần đầu</option>
+                    <option value="3">Thêm sức</option>
+                    <option value="4">Hôn phối</option>
+                    <option value="5">Ơn gọi</option>
+                </select>
+            </div>
+
+            <div class="col-xs-3">
+                <label class="position-relative" style="margin-top: 16.5px;">
+                    <input type="checkbox" class="ace" id="cbFilterIsCounted" />
+                    <span class="lbl"> Xem người không được thống kê</span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="space-6" id="spaceforFilter" hidden=""></div>
+
+        <div class="row" id="divFilterForSaveStorage" hidden="">                  
+            <div class="col-xs-3">
+                <div class="radio">
+                    <label class="no-padding-left">
+                        <input type="checkbox" class="ace" id="cbDeadParishioner">
+                        <span class="lbl"> Chỉ xem người đã qua đời</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-xs-3">
+                <div class="radio">
+                    <label class="no-padding-left">
+                        <input type="checkbox" class="ace" id="cbChangeParishParishioner">
+                        <span class="lbl"> Chỉ xem người đã chuyển xứ</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" hidden="">
+            <div class="col-xs-4">
+                <label class="position-relative">
+                    <input type="checkbox" class="ace" id="cbFilterSavedStatus" />
+                    <span class="lbl"></span>
+                </label>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $("#cbDeadParishioner").change(function () {
+        updateTableContent("parishionerTable");
+    });
+
+    $("#cbChangeParishParishioner").change(function () {
+        updateTableContent("parishionerTable");
+    });
+</script>

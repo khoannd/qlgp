@@ -1,0 +1,50 @@
+﻿@model PMS.DataAccess.Models.Diocese
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <ul class="list-unstyled spaced2 bigger-120 margin-15 text-muted left">
+                <li class="bigger-120">
+                    Giáo phận @*@(((Diocese) ViewBag.Diocese).Name)*@ @Model.Name
+                </li>
+                <hr />
+                <li>
+                    <i class="ace-icon fa fa-institution"></i>
+                    @Model.Church
+                </li>
+                <li>
+                    <i class="ace-icon fa fa-map-marker"></i>
+                    @Model.Address
+                </li>
+
+                <li>
+                    <i class="ace-icon fa fa-user"></i>
+                    Giám mục @Model.Bishop
+                </li>
+
+                <li>
+                    <i class="ace-icon fa fa-globe"></i>
+                    @Model.Website
+                </li>
+
+                <li>
+                    <i class="ace-icon fa fa-phone"></i>
+                    @Model.Phone
+                </li>
+
+                <li>
+                    <i class="ace-icon fa fa-envelope"></i>
+                    @Model.Email
+                </li>
+                <li>
+                    <button id="btnEditParish" class="btn btn-primary" onclick="loadData(@Model.Id)">
+                        <i class="ace-icon fa fa-pencil"></i> Chỉnh sửa thông tin
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <img id="profilepicture" class="img-responsive" src="@Model.ImageUrl" />
+        </div>
+    </div>
+</div>

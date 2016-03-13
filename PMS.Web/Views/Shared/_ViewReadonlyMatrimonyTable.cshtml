@@ -1,0 +1,179 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Utilities
+@model List<PMS.DataAccess.Models.Matrimony>
+
+<input type="hidden" id="viewReadonlyMatrimonyQuantity" value="@Model.Count" />
+
+@{
+    string position = "";
+    if (ViewBag.Position != null)
+    {
+        position = ViewBag.Position.ToString();
+    }
+    var converter = new DateConverter();
+}
+
+<thead>
+    <tr style="background: #FFF">
+        <th class="hidden"></th>
+        <th>Mã giáo dân</th>
+        @if (position == "Husband")
+        {
+            <th>Vợ</th>
+        }
+        else if (position == "Wife")
+        {
+            <th>Chồng</th>
+        }
+        else
+        {
+            <th>Chồng/Vợ</th>
+        }
+        <th>Số hôn phối</th>
+        <th>Ngày hôn phối</th>
+        <th>Tình trạng hôn phối</th>
+        <th>Thao tác</th>
+    </tr>
+</thead>
+
+
+
+
+<tbody>
+    @if (Model.Count > 0)
+    {
+        foreach (var item in Model)
+        {
+            string rowClass = "";
+            if (position == "Husband")
+            {
+                var parishioner = item.Parishioner1;
+                if (parishioner.IsDead)
+                {
+                    rowClass = "red";
+                }
+            }
+            else
+            {
+                var parishioner = item.Parishioner;
+                if (parishioner.IsDead)
+                {
+                    rowClass = "red";
+                }
+            }
+            if (rowClass == "red" || item.Status == (int) MatrimonyStatusEnum.Removed)
+            {
+                <tr class="@rowClass">
+
+                    <td class="hidden"></td>
+                    @if (position == "Husband")
+                    {
+                        <td><s>@item.Parishioner1.Code</s></td>
+                        <td><s>@item.Parishioner1.ChristianName @item.Parishioner1.Name</s></td>
+                    }
+                    else
+                    {
+                        <td><s>@item.Parishioner.Code</s></td>
+                        <td><s>@item.Parishioner.ChristianName @item.Parishioner.Name</s></td>
+                    }
+
+                    <td><s>@item.Number</s></td>
+                    <td><s>@converter.ConvertStringToDate(item.Date)</s></td>
+                    @if (item.Status == (int) MatrimonyStatusEnum.None)
+                    {
+                        <td></td>
+                    }
+                    else if (item.Status == (int) MatrimonyStatusEnum.Legal)
+                    {
+                        <td><s>Bình thường</s></td>
+                    }
+                    else if (item.Status == (int) MatrimonyStatusEnum.Regularized)
+                    {
+                        <td><s>Hợp thức hóa</s></td>
+                    }
+                    else if (item.Status == (int) MatrimonyStatusEnum.Standard)
+                    {
+                        <td><s>Chuẩn khác đạo</s></td>
+                    }
+                    else if (item.Status == (int) MatrimonyStatusEnum.RuleBreak)
+                    {
+                        <td><s>Không theo phép đạo</s></td>
+                    }
+                    else if (item.Status == (int) MatrimonyStatusEnum.Removed)
+                    {
+                        <td><s>Đã được tháo gỡ</s></td>
+                    }
+                    else
+                    {
+                        <td><s>Không xác định</s></td>
+                    }
+
+                    <td>
+                        <button class="btn btn-minier btn-primary" onclick="loadReadonlyMatrimonySacrament(@item.Id)">
+                            <i class="ace-icon fa fa-search-plus"></i>
+                            Chi tiết
+                        </button>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr class="@rowClass">
+
+                <td class="hidden"></td>
+                @if (position == "Husband")
+                {
+                    <td>@item.Parishioner1.Code</td>
+                    <td>@item.Parishioner1.ChristianName @item.Parishioner1.Name</td>
+                }
+                else
+                {
+                    <td>@item.Parishioner.Code</td>
+                    <td>@item.Parishioner.ChristianName @item.Parishioner.Name</td>
+                }
+
+                <td>@item.Number</td>
+                <td>@converter.ConvertStringToDate(item.Date)</td>
+                @if (item.Status == (int)MatrimonyStatusEnum.None)
+                {
+                    <td></td>
+                }
+                else if (item.Status == (int)MatrimonyStatusEnum.Legal)
+                {
+                    <td>Bình thường</td>
+                }
+                else if (item.Status == (int)MatrimonyStatusEnum.Regularized)
+                {
+                    <td>Hợp thức hóa</td>
+                }
+                else if (item.Status == (int)MatrimonyStatusEnum.Standard)
+                {
+                    <td>Chuẩn khác đạo</td>
+                }
+                else if (item.Status == (int)MatrimonyStatusEnum.RuleBreak)
+                {
+                    <td>Không theo phép đạo</td>
+                }
+                else if (item.Status == (int)MatrimonyStatusEnum.Removed)
+                {
+                    <td>Đã được tháo gỡ</td>
+                }
+                else
+                {
+                    <td>Không xác định</td>
+                }
+
+                <td>
+                    <button class="btn btn-minier btn-primary" onclick="loadReadonlyMatrimonySacrament(@item.Id)">
+                        <i class="ace-icon fa fa-search-plus"></i>
+                        Chi tiết
+                    </button>
+                </td>
+            </tr>
+            }
+            
+
+        }
+    }
+
+</tbody>

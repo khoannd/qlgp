@@ -1,0 +1,179 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Utilities
+@model List<PMS.DataAccess.Models.Sacrament>
+@{
+    var parishId = (int)Session["ParishId"];
+}
+
+@{
+    DateConverter converter = new DateConverter();
+    var defaultCommunity = (int)Session["DefaultCommunity"];
+}
+
+@foreach (var item in Model)
+{
+    string rowClass = "";
+    var parishioner = item.Parishioner;
+    if ((parishioner.Community.ParishId != parishId) || (parishioner.DomicileStatus == (int)DomicileStatusEnum.TransferredToAnotherParish)
+        || (parishioner.CommunityId == defaultCommunity))
+    {
+        rowClass = "blue";
+    }
+    else
+    {
+        rowClass = parishioner.IsDead ? "red" : "";
+    }
+    <tr class="@rowClass">
+        <td class="hidden">@item.Id</td>
+        <td>@item.ParishionerId</td>
+        <td>@item.Parishioner.Code</td>
+        <td class="editableNumber ">@item.Number</td>
+        <td>@item.Parishioner.ChristianName @item.Parishioner.Name</td>
+        @if (item.Parishioner.Gender == 0)
+        {
+            <td>Nữ</td>
+        }
+        else
+        {
+            <td>Nam</td>
+        }
+        <td>@converter.ConvertStringToDate(item.Parishioner.BirthDate)</td>
+        <td class="editablePatron">@item.Patron</td>
+        <td class="editableNote">@item.Note</td>
+        <td>
+            @if (parishioner.Community.ParishId != parishId || parishioner.Status == (int)ParishionerStatusEnum.Saved)
+            {
+                <button class="btn btn-minier btn-primary" onclick="viewReadonlyParishioner(@parishioner.Id)">
+                    <i class="ace-icon fa fa-search-plus"></i>
+                    Chi tiết
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-minier btn-primary" onclick="loadFullParishionerInfo(@parishioner.Id)">
+                    <i class="ace-icon fa fa-edit"></i>
+                    Sửa
+                </button>
+            }
+            
+            <button class="btn btn-minier btn-danger" onclick="DeleteParishionerConfirm(@item.Id)">
+                <i class="ace-icon fa fa-trash-o"></i>
+                Loại bỏ
+            </button>
+        </td>
+    </tr>   
+}
+<script>
+    //editables on first profile page
+    $.fn.editable.defaults.mode = 'inline';
+    $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
+    $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>' +
+        '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';
+
+
+
+    $('.editableNumber')
+        .editable({
+            type: 'text',
+            name: 'editableNumber',
+            emptytext:"",
+            success: function (response, newValue) {
+                var row = $(this).closest("tr");
+                var cols = row.children();
+                var id = cols[0].innerText;
+                var current = $(this).text();
+                      
+                if (current == newValue) {
+                    return;
+                }
+
+                $.ajax({
+                    url: "/Sacrament/UpdateEditableNumber",
+                    type: "POST",
+                    data: {
+                        Id: id,
+                        Number: newValue
+                    },
+                    async: false,
+                    success: function (data) {
+                        if (data.result <= 0) {
+                            showMessage("Cập nhật thông tin thất bại", 0);
+                        } else {
+                            //showMessage("Cập nhật thành công", 1);
+                        }
+                    },
+                });
+            }
+        });
+    $('.editablePatron')
+        .editable({
+            type: 'text',
+            name: 'editablePatron',
+            emptytext: "",
+            success: function (response, newValue) {
+                var row = $(this).closest("tr");
+                var cols = row.children();
+                var id = cols[0].innerText;
+                var current = $(this).text();
+
+                if (current == newValue) {
+                    return;
+                }
+
+                $.ajax({
+                    url: "/Sacrament/UpdateEditablePatron",
+                    type: "POST",
+                    data: {
+                        Id: id,
+                        Patron: newValue
+                    },
+                    async: false,
+                    success: function (data) {
+                        if (data.result <= 0) {
+                            showMessage("Cập nhật thông tin thất bại", 0);
+                        } else {
+                            //showMessage("Cập nhật thành công", 1);
+                        }
+                    },
+                });
+
+            }
+        });
+
+    $('.editableNote')
+        .editable({
+            type: 'text',
+            name: 'editableNote',
+            emptytext: "",
+            success: function (response, newValue) {
+                var row = $(this).closest("tr");
+                var cols = row.children();
+                var id = cols[0].innerText;
+                var current = $(this).text();
+
+                if (current == newValue) {
+                    return;
+                }
+
+                $.ajax({
+                    url: "/Sacrament/UpdateEditableNote",
+                    type: "POST",
+                    data: {
+                        Id: id,
+                        Note: newValue
+                    },
+                    async: false,
+                    success: function (data) {
+                        if (data.result <= 0) {
+                            showMessage("Cập nhật thông tin thất bại", 0);
+                        } else {
+                            //showMessage("Cập nhật thành công", 1);
+                        }
+                    },
+                });
+
+            }
+        });
+    
+</script>
+

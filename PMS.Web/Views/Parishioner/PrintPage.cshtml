@@ -1,0 +1,129 @@
+﻿@{
+    Layout = null;
+}
+<script src="/Content/jquery.min.js"></script>
+
+<style>
+    p {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+</style>
+
+<div id="txtPrintArea" style="width: 100%;">
+    
+</div>
+
+<script>
+    var ids = sessionStorage.getItem("ids");
+
+    getPrintForSacrament();
+    function getPrintForSacrament() {
+        if (ids == null || ids.length == 0) {
+            return;
+        }
+
+        var type = sessionStorage.getItem("type");
+        printSacrament(type);
+
+    }
+
+    function printSacrament(type) {
+        ids = JSON.parse(ids);
+        $.ajax({
+            url: "/Parishioner/PrintSacrament",
+            type: "POST",
+            traditional: true,
+            data: {
+                'ids': ids,
+                type: type
+            },
+            success: function (data) {
+                var template = data.template;
+                var result = data.result;
+
+                for (i in result) {
+                    var item = result[i];
+                    var temp = template;
+
+                    temp = temp.replace(/\[TenGiaoPhan]/g, item.DioceseName);
+                    temp = temp.replace(/\[TenGiaoHat]/g, item.VicariateName);
+                    temp = temp.replace(/\[TenGiaoXu]/g, item.ParishName);
+                    temp = temp.replace(/\[TenLinhMucGui]/g, item.Priest);
+                    temp = temp.replace(/\[HoTen]/g, item.ChristianName + " " + item.Name);
+                    temp = temp.replace(/\[NgaySinh]/g, item.BirthDate);
+                    temp = temp.replace(/\[NoiSinh]/g, item.BirthPlace);
+                    temp = temp.replace(/\[TenCha]/g, item.FatherName);
+                    temp = temp.replace(/\[TenMe]/g, item.MotherName);
+
+                    if (type == 0 || type == 1) {
+                        temp = temp.replace(/\[NgayRuaToi]/g, item.BaptismDate);
+                        temp = temp.replace(/\[NoiRuaToi]/g, item.BaptismPlace);
+                        temp = temp.replace(/\[ChaRuaToi]/g, item.BaptismPriest);
+                        temp = temp.replace(/\[NguoiDoDauRuaToi]/g, item.BaptismPatron);
+                        temp = temp.replace(/\[SoRuaToi]/g, item.BaptismNumber);
+                    }
+
+                    if (type == 0 || type == 2) {
+                        temp = temp.replace(/\[NgayRuocLe]/g, item.HolyDate);
+                        temp = temp.replace(/\[NoiRuocLe]/g, item.HolyPlace);
+                        temp = temp.replace(/\[ChaRuocLe]/g, item.HolyPriest);
+                        temp = temp.replace(/\[SoRuocLe]/g, item.HolyNumber);
+                    }
+
+                    if (type == 0 || type == 3) {
+                        temp = temp.replace(/\[NgayThemSuc]/g, item.ConfirmDate);
+                        temp = temp.replace(/\[NoiThemSuc]/g, item.ConfirmPlace);
+                        temp = temp.replace(/\[ChaThemSuc]/g, item.ConfirmPriest);
+                        temp = temp.replace(/\[NguoiDoDauThemSuc]/g, item.ConfirmPatron);
+                        temp = temp.replace(/\[SoThemSuc]/g, item.ConfirmNumber);
+                    }
+
+                    if (type == 4) {
+                        temp = temp.replace(/\[HoTenNam]/g, item.HusbandName);
+                        temp = temp.replace(/\[NgaySinhNam]/g, item.HusbandBirthDate);
+                        temp = temp.replace(/\[NoiSinhNam]/g, item.HusbandBirthPlace);
+                        temp = temp.replace(/\[NgayRuaToiNam]/g, item.HusbandBaptism);
+                        temp = temp.replace(/\[SoRuaToiNam]/g, item.HusbandBaptismNumber);
+                        temp = temp.replace(/\[TenChaNam]/g, item.HusbandFatherName);
+                        temp = temp.replace(/\[TenMeNam]/g, item.HusbandMotherName);
+                        temp = temp.replace(/\[GiaoXuNam]/g, item.HusbandParishName);
+
+                        temp = temp.replace(/\[HoTenNu]/g, item.WifeName);
+                        temp = temp.replace(/\[NgaySinhNu]/g, item.WifeBirthDate);
+                        temp = temp.replace(/\[NoiSinhNu]/g, item.WifeBirthPlace);
+                        temp = temp.replace(/\[NgayRuaToiNu]/g, item.WifeBaptism);
+                        temp = temp.replace(/\[SoRuaToiNu]/g, item.WifeBaptismNumber);
+                        temp = temp.replace(/\[TenChaNu]/g, item.WifeFatherName);
+                        temp = temp.replace(/\[TenMeNu]/g, item.WifeMotherName);
+                        temp = temp.replace(/\[GiaoXuNu]/g, item.WifeParishName);
+
+                        temp = temp.replace(/\[NgayThangNamHP]/g, item.MatrimonyDate);
+                        temp = temp.replace(/\[NoiHonPhoi]/g, item.MatrimonyPlace);
+                        temp = temp.replace(/\[LinhMucChung]/g, item.MatrimonyPriest);
+                        temp = temp.replace(/\[NguoiChung1]/g, item.MatrimonyFirstWitness);
+                        temp = temp.replace(/\[NguoiChung2]/g, item.MatrimonySecondWitness);
+                        temp = temp.replace(/\[SoHonPhoi]/g, item.MatrimonyNumber);
+
+                    }
+
+                    temp = temp.replace(/\[NgayThangNam]/g, data.now);
+
+                    var s = "";
+
+                    if (type == 4) {
+                        s = '<div style="width: 702.2756px; height: 1139.8898px; margin-left: 50px;">' + temp + '</div>';
+                    } else {
+                        s = '<div style="width: 702.2756px; height: 1089.8898px; margin-left: 50px;">' + temp + '</div>';
+                    }
+                       
+
+                    $("#txtPrintArea").append(s);
+                }
+
+                window.print();
+            },
+        });
+    }
+
+</script>

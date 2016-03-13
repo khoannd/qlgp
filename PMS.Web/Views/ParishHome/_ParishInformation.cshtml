@@ -1,0 +1,53 @@
+﻿@using PMS.DataAccess.Enumerations
+@model PMS.DataAccess.Models.Parish
+
+@{
+    var roleId = (int)Session["RoleId"];
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-4">
+            <ul class="list-unstyled spaced2 bigger-120 margin-15 text-muted left">
+                <li class="bigger-120 ">
+                    Giáo xứ @Model.Name
+                </li>
+                <hr />
+                <li class="bigger-110">
+                    <i class="ace-icon fa fa-map-marker"></i>
+                    @Model.Address
+                </li>
+                <li class="bigger-110">
+                    <i class="ace-icon fa fa-user"></i>
+                    @Model.Priest
+                </li>
+                <li class="bigger-110">
+                    <i class="ace-icon fa fa-globe"></i>
+                    @Model.Website
+                </li>
+
+                <li class="bigger-110">
+                    <i class="ace-icon fa fa-phone"></i>
+                    @Model.Phone
+                </li>
+
+                <li class="bigger-110">
+                    <i class="ace-icon fa fa-envelope"></i>
+                    @Model.Email
+                </li>
+
+                @if (roleId == (int)AccountEnum.Manager)
+                {
+                <li class="bigger-110 ">
+                    <button id="btnEditParish" class="btn btn-primary" onclick="loadData(@Model.Id)">
+                        <i class="ace-icon fa fa-pencil"></i> Cập nhật thông tin
+                    </button>
+                </li>
+                }
+            </ul>
+        </div>
+        <div class="col-xs-8">
+            <img id="profilepicture" class="img-responsive" src="@Model.ImageUrl" />
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿@using PMS.DataAccess
+@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Utilities
+@model List<PMS.DataAccess.Models.ClassMember>
+
+@{
+    DateConverter dateConverter = new DateConverter();
+    var currentRoleId = (int)Session["RoleId"];
+    var currenManagerId = (int)AccountEnum.Manager;
+    var currentStaffId = (int)AccountEnum.Staff;
+    var currentParish = (int) Session["ParishId"];
+}
+@foreach (var item in Model)
+{
+    string rowClass = "";
+    if (item.Parishioner.Community.ParishId != currentParish)
+    {
+        rowClass = "blue";
+    }
+    else
+    {
+        rowClass = item.Parishioner.IsDead ? "red" : "";
+    }
+    <tr class="@rowClass">
+        <td class="hidden">@item.Id</td>
+        <td>
+            <label class="position-relative">
+                <input type="checkbox" class="ace cc" value="@item.Id" />
+                <span class="lbl"></span>
+            </label>
+        </td>
+        <td>@item.Parishioner.ChristianName</td>
+        <td>@item.Parishioner.Name</td>
+        @if (item.Parishioner.Gender == 0)
+        {
+            <td>Nữ</td>
+        }
+        else
+        {
+            <td>Nam</td>
+        }
+        <td>@dateConverter.ConvertStringToDate(item.Parishioner.BirthDate)</td>
+        @if (currentRoleId == currenManagerId || currentRoleId == currentStaffId)
+        {
+            <td>
+                <button class="btn btn-minier btn-danger" onclick="DeleteTeacherConfirm(@item.Id) ">
+                    <i class="ace-icon fa fa-trash-o"></i>
+                    Loại bỏ
+                </button>
+            </td>
+        }
+        else
+        {
+            <td class="hidden"></td>
+        }
+    </tr>
+}

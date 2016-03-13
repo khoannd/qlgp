@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "SaveStorage";
+}
+
+<div class="page-header">
+    <h1>Hồ sơ lưu trữ giáo dân</h1>
+</div>
+
+@Html.Partial("_ParishionerFilter")
+
+<script>
+    $("#cbFilterSavedStatus").prop("checked", true);
+    $("#spaceforFilter").show();
+    $("#divFilterForSaveStorage").show();
+</script>
+
+<div class="page-header">
+    @Html.Partial("_ActionButton")
+</div>
+
+@Html.Partial("_ParishionerBody")
+
+@Html.Partial("_ViewReadonlyParishionerModal")
+
+

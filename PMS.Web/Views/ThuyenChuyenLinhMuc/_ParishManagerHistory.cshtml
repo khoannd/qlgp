@@ -1,0 +1,15 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Utilities
+@model List<PMS.DataAccess.ViewModels.ParishManagerViewModel>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td class="hidden"></td>
+        <td>@item.StartDate</td>
+        <td>@item.EndDate</td>
+        <td>@item.Parish</td>
+        <td>@item.PositionName</td>        
+    </tr>   
+}
+

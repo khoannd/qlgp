@@ -1,0 +1,857 @@
+﻿<link rel="stylesheet" href="/Content/assets/css/bootstrap-editable.css" />
+<link rel="stylesheet" href="/Content/assets/css/select2.css" />
+<script src="/Content/assets/js/bootstrap-wysiwyg.min.js"></script>
+<script src="/Content/assets/js/select2.min.js"></script>
+<script src="/Content/assets/js/x-editable/bootstrap-editable.min.js"></script>
+<script src="/Content/assets/js/x-editable/ace-editable.min.js"></script>
+
+
+<input type="hidden" id="txtHiddenFamilyId" value="0" />
+
+<div id="familyModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+                        <h4 id="familyTitle" class="widget-title lighter">Thêm mới gia đình</h4>
+ 
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseFamily').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+
+                    <div class="col-sm-12  ui-sortable">
+                        <div class="col-xs-12">
+                            <div class="widget-box transparent ui-sortable-handle">
+
+                                <div class="widget-header">
+                                    <h4 class="widget-title lighter">Thông tin gia đình</h4>
+                                </div>
+
+                                <div class="widget-body">
+
+                                    <div class="space-10"></div>
+                                    <div class="row form-horizontal">
+
+                                        <div class="col-xs-6">
+
+                                            <div id="divFamilyCode" class="form-group">
+
+                                                <label class="col-sm-4 control-label no-padding-right"> Mã gia đình (<span style="color:red">*</span>)  </label>
+
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="txtFamilyCode" class="form-control">
+                                                    <label id="lbFamilyCodeError" class="text-danger" hidden=""></label>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"> Tên gia đình (<span style="color:red">*</span>) </label>
+
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="txtFamilyName" class="form-control">
+                                                    <label id="lbFamilyNameError" class="text-danger" hidden=""></label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right"> Giáo họ/khu (<span style="color:red">*</span>)  </label>
+
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" id="cbbFamilyCommunity">
+                                                        <option value="0"></option>
+                                                    </select>
+                                                    <label id="lbFamilyCommunityError" class="text-danger" hidden=""></label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="col-xs-6">
+
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right">Số điện thoại</label>
+
+                                                <div class="col-sm-8">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="ace-icon fa fa-phone"></i>
+                                                        </span>
+
+                                                        <input class="form-control input-mask-phone" type="text" id="txtFamilyPhone" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-4 control-label no-padding-right">Địa chỉ nhà</label>
+
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="txtFamilyAddress" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" hidden="">
+                                                <label class="col-sm-4 control-label no-padding-right"></label>
+
+                                                <div class="col-sm-8">
+                                                    <label class="position-relative">
+                                                        <input type="checkbox" class="ace" id="cbFamilyIsCounted" />
+                                                        <span class="lbl" style="color: blue"> Là gia đình không được thống kê</span>
+                                                    </label>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xs-12">
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label no-padding-right">Ghi chú</label>
+
+                                                <div class="col-sm-10">
+
+                                                    <textarea id="txtFamilyNote" rows="3" style="resize: none" class="form-control"></textarea>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+                    <div class="col-sm-12  ui-sortable">
+                        <div class="col-xs-12">
+                            <div class="widget-box transparent ui-sortable-handle">
+                                <div class="widget-header">
+                                    <h4 class="widget-title lighter">Thông tin chuyển xứ</h4>
+
+                                </div>
+
+                                <div class="widget-body">
+
+                                    <div class="space-10"></div>
+                                    <div class="row form-horizontal">
+
+                                        <div class="col-xs-6">
+
+
+                                            <div class="form-group">
+
+                                                <label class="col-sm-4 control-label no-padding-right"> Thông tin hiện tại  </label>
+
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" id="cbbFamilyDomicileStatus" disabled="">
+                                                        <option value="0">Ở tại xứ</option>
+                                                        <option value="1">Chuyển từ xứ khác đến</option>
+                                                        <option value="2">Đã chuyển đi xứ khác</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+
+
+
+                                        </div>
+                                        <div class="col-xs-6">
+
+
+
+                                            <div hidden="" id="divFamilyDomicile" class="form-group">
+
+                                                <label class="col-sm-4 control-label no-padding-right"> Giáo xứ </label>
+
+                                                <div class="col-sm-8">
+                                                    <input type="text" id="txtFamilyDomicilePlace" class="form-control parishName">
+                                                </div>
+
+                                            </div>
+
+
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12  ui-sortable">
+                        <div class="col-xs-12">
+                            <div class="widget-box transparent ui-sortable-handle">
+                                <div class="widget-header">
+                                    <h4 class="widget-title lighter">Danh sách thành viên gia đình</h4>
+                                </div>
+
+                                <div class="widget-body">                                  
+                                    <div class="space-10"></div>
+                                    <div class="row form-horizontal">
+
+                                        <div class="col-xs-12">
+                                            <div>
+                                                <label id="lbFamilyMemberError" class="text-danger" hidden=""></label>
+                                            </div>
+                                            <div class="form-group">
+
+                                                <div class="col-sm-7">
+                                                    <button id="btnAddFamilyMember" class="btn btn-success btn-sm">
+                                                        <i class="ace-icon fa fa-plus"></i>
+                                                        Thêm giáo dân
+                                                    </button>
+                                                    <button id="btnChooseFamilyMember" class="btn btn-primary btn-sm">
+                                                        <i class="ace-icon fa fa-search"></i>
+                                                        Chọn giáo dân
+                                                    </button>
+                                                </div>                                                               
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+
+                                                <table id="tblFamilyMember" class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="hidden"></th>
+                                                            <th>Mã giáo dân</th>
+                                                            <th>Tên giáo dân</th>
+                                                            <th>Quan hệ</th>
+                                                            <th>Giới tính</th>
+                                                            <th>Ngày sinh</th>
+                                                            <th>Thao tác</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody></tbody>
+
+                                                </table>
+
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                              
+                                                    @Html.Partial("_ParishionerStatusLabel")
+                                     
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-12">
+                                <div class="align-right">
+
+                                    <button id="btnAddFamily" class="btn btn-primary" type="button" onclick="addFamily()">
+                                        <i class="ace-icon fa fa-save bigger-110"></i>
+                                        Lưu
+                                    </button>
+
+                                    <button style="display: none" id="btnUpdateFamily" class="btn btn-primary" type="button" onclick="checkTransferFamily()">
+                                        <i class="ace-icon fa fa-save bigger-110"></i>
+                                        Cập nhật
+                                    </button>
+
+                                    <button id="btnCloseFamily" class="btn btn-default">
+                                        <i class="ace-icon fa fa-times  bigger-110"></i>
+                                        Đóng
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-6"></div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    initSimpleFamilyMember("tblFamilyMember");
+
+    function initSimpleFamilyMember(id) {
+
+        $("#" + id).dataTable({
+            "aaSorting": [],
+            "bDestroy": true,
+            "oLanguage": {
+                "sSearch": "Mã giáo dân/ Tên giáo dân",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [6],
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+
+    }
+
+    jQuery(function ($) {
+        //editables on first profile page
+        $.fn.editable.defaults.mode = 'inline';
+        $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
+        $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>' +
+            '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';
+    });
+
+    $("#btnCloseFamily").click(function () {
+        $("#familyModal").modal('hide');
+    });
+
+    $("#btnAddFamilyMember").click(function () {
+        if (!checkValidFamily()) {
+            return;
+        } else if (!checkExistedFamilyCode()) {
+            return;
+        }
+        openParishionerModal(7, -1);
+    });
+
+    $("#btnChooseFamilyMember").click(function () {
+        if (!checkValidFamily()) {
+            return;
+        } else if (!checkExistedFamilyCode()) {
+            return;
+        }
+
+        var id = $("#txtHiddenFamilyId").val();
+        openLookupModal(9, "", -1, 0, 0, 0, "", id);
+    });
+
+    $("#cbbFamilyDomicileStatus").change(function () {
+        var status = $(this).val();
+        if (status == 0) {
+            $("#divFamilyDomicile").hide();
+        } else {
+            $("#divFamilyDomicile").show();
+        }
+    });
+
+    $("#familyModal").on('show.bs.modal', function () {
+
+        var id = $("#txtHiddenFamilyId").val();
+        if (id == 0) {
+            checkFamilyCodeGeneration();
+        }
+
+    });
+
+    $("#familyModal").on('hidden.bs.modal', function () {
+        clearFamilyModal();
+        $("#btnAddFamily").show();
+    });
+
+    function checkFamilyCodeGeneration() {
+        startLoading();
+        $.ajax({
+            url: "/Family/CheckFamilyCode",
+            data: {},
+            async: false,
+            success: function (data) {
+
+                if (data == -1) {
+
+                    $("#parishionerInformationModal").modal('hide');
+                    showMessage("Không thể kết nối dữ liệu hệ thống, vui lòng thử lại sau", 0);
+
+                } else if (data == 0) {
+                    $("#txtFamilyCode").val("");
+                    $("#txtFamilyCode").attr('readonly', false);
+                    $("#divFamilyCode").show();
+                }
+                else {
+                    $("#divFamilyCode").hide();
+                    $("#txtFamilyCode").attr('readonly', true);
+                    $("#txtFamilyCode").val("0");
+                }
+
+            }
+
+        });
+
+    }
+
+    loadParishionerCommunity();
+
+    function loadParishionerCommunity() {
+
+        $.ajax({
+            url: "/Parishioner/LoadCommunityAndParishDivisionTreeView",
+            data: {},
+            success: function (data) {
+                var element = $("#cbbFamilyCommunity");
+                element.html(data);
+            }
+        });
+
+    }
+
+    function clearFamilyModal() {
+        $("#txtFamilyCode").attr("disabled", false);
+        $("#txtHiddenFamilyId").val(0);
+        $("#txtFamilyCode").val("");
+        $("#txtFamilyCode").attr('readonly', true);
+        $("#divFamilyCode").hide();
+
+        $("#cbbFamilyCommunity").val(0);
+        $("#cbbFamilyCommunity").change();
+
+        $("#txtFamilyName").val("");
+        $("#txtFamilyPhone").val("");
+        $("#txtFamilyAddress").val("");
+        $("#txtFamilyNote").val("");
+        $("#cbFamilyIsCounted").prop("checked", false);
+        $("#cbbFamilyDomicileStatus").val(0);
+        $("#cbbFamilyDomicileStatus").prop("disabled", true);
+        $("#txtFamilyDomicilePlace").val("");
+
+        $("#lbFamilyCommunityError").hide();
+        $("#lbFamilyCommunityError").html("");
+        $("#lbFamilyNameError").hide();
+        $("#lbFamilyNameError").html("");
+        $("#lbFamilyCodeError").hide();
+        $("#lbFamilyCodeError").html("");
+        $("#lbFamilyMemberError").hide();
+        $("#lbFamilyMemberError").html("");
+
+        //    $("#btnAddFamily").show();
+        $("#btnUpdateFamily").hide();
+        $("#familyTitle").text("Thêm mới gia đình");
+
+        $("#tblFamilyMember").dataTable().fnDestroy();
+        $("#tblFamilyMember > tbody").html("");
+        initSimpleFamilyMember("tblFamilyMember");
+    }
+
+    function checkValidateFamilyMember(id, code, gender, christianName, name, birthDate) {
+
+        ////Kiem tra trong list xoa' xem coi co nguoi do ko ? Neu khong thi tiep tuc neu co thi add luon
+        //for (var i = 0; i < deletedFamilyMember.length; i++) {
+        //    if (deletedFamilyMember[i].Id == id) {
+        //        deletedFamilyMember.splice(i, 1);
+        //        addFamilyMemberRow(id, code, gender, christianName, name, birthDate);
+        //        break;
+        //    }
+
+        //}
+        startLoading();
+        $.ajax({
+            url: "/Family/CheckFamilyMember",
+            async: false,
+            data: {
+                parishionerId: id
+            },
+            success: function (data) {
+
+                if (!data.familyName) {
+                    //Do add action
+                    addFamilyMember(id);
+                }
+                else if (data.result == "-1") {
+                    showMessage("Không thể kiểm tra thông tin giáo dân, vui lòng thử lại sau", 0);
+                }
+                else if (data.familyName) {
+                    var message = "";
+
+                    var familyId = $("#txtHiddenFamilyId").val();
+                    if (familyId == data.familyId && data.status == 1) {
+                        showMessage("Giáo dân hiện tại đang thuộc về gia đình này rồi", -1, 6000);
+                        return;
+                    }
+
+                    if (data.isHouseholder) {
+                        showMessage("Giáo dân này đang là chủ hộ của gia đình " + "[" + data.familyName + "]", -1, 6000);
+                        return;
+                    }
+
+                    message = "<p>" + "Giáo dân này đang thuộc về gia đình [" + data.familyName + "]" + "</p>";
+
+                    message += "<p>" + "Bạn có chắc muốn chọn giáo dân này không ? (gia đình này sẽ trở thành gia đình hiện tại của giáo dân)" + "</p>";
+
+                    bootbox.dialog({
+                        closeButton: false,
+                        message: message,
+                        title: "Thông tin lưu ý",
+                        buttons: {
+                            danger: {
+                                label: " Có",
+                                className: "ace-icon fa fa-check btn-info",
+                                callback: function () {
+                                    //Do add action
+                                    addFamilyMember(id);
+
+                                    setTimeout(function () {
+                                        makeScrollForModal();
+                                    }, 500);
+                                }
+                            },
+                            main: {
+                                label: " Không",
+                                className: "ace-icon fa fa-times btn-default",
+                                callback: function () {
+                                    setTimeout(function () {
+                                        makeScrollForModal();
+                                    }, 500);
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    function checkValidFamily()
+    {
+        var code = $("#txtFamilyCode").val();
+        var name = $("#txtFamilyName").val();
+        var communityId = $("#cbbFamilyCommunity").val();
+        var isError = false;
+
+        if (communityId == 0 || communityId == null) {
+            $("#lbFamilyCommunityError").html("Hãy chọn giáo họ/khu");
+            $("#lbFamilyCommunityError").show();
+
+            document.getElementById("cbbFamilyCommunity").scrollIntoView();
+            $("#cbbFamilyCommunity").focus();
+
+            isError = true;
+        } else {
+            $("#lbFamilyCommunityError").hide();
+            $("#lbFamilyCommunityError").html("");
+        }
+       
+        if (!name) {
+            $("#lbFamilyNameError").html("Tên gia đình không được để trống");
+            $("#lbFamilyNameError").show();
+
+            document.getElementById("txtFamilyName").scrollIntoView();
+            $("#txtFamilyName").focus();
+
+            isError = true;
+        } else {
+            $("#lbFamilyNameError").hide();
+            $("#lbFamilyNameError").html("");
+        }
+
+        if (!code) {
+            $("#lbFamilyCodeError").html("Mã gia đình không được để trống");
+            $("#lbFamilyCodeError").show();
+
+            document.getElementById("txtFamilyCode").scrollIntoView();
+            $("#txtFamilyCode").focus();
+
+            isError = true;
+        } else {
+            $("#lbFamilyCodeError").hide();
+            $("#lbFamilyCodeError").html("");
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function checkFamilyMemberQuantity() {
+        var isError = false;
+
+        var id = $("#txtHiddenFamilyId").val();
+        if (id == 0) {
+            $("#lbFamilyMemberError").html("Vui lòng thêm thành viên để tạo gia đình");
+            $("#lbFamilyMemberError").show();
+            isError = true;
+        } else {
+            $("#lbFamilyMemberError").hide();
+            $("#lbFamilyMemberError").html("");
+        }
+
+        if (isError) {
+            return false;
+        }
+        return true;
+    }
+
+    //Add vao la update luon
+    function addFamilyMember(id) {
+
+        var familyId = $("#txtHiddenFamilyId").val();
+        $.ajax({
+            url: "/Family/AddFamilyMember",
+            data: {
+                parishionerId: id,
+                Id: familyId,
+                Code: $("#txtFamilyCode").val(),
+                Name: $("#txtFamilyName").val(),
+                Phone: $("#txtFamilyPhone").val(),
+                Address: $("#txtFamilyAddress").val(),
+                Note: $("#txtFamilyNote").val(),
+                DomicileStatus: $("#cbbFamilyDomicileStatus").val(),
+                DomicilePlace: $("#txtFamilyDomicilePlace").val(),
+                IsCounted: (!$("#cbFamilyIsCounted").is(':checked')),
+                CommunityId: $("#cbbFamilyCommunity").val(),
+            },
+            success: function (data) {
+
+                if (data.result > 0) {
+
+                    if (familyId == 0) {
+                        //Cap nhat lai Id va nhung thu lien quan
+                        $("#txtHiddenFamilyId").val(data.familyId);
+                        $("#btnAddFamily").hide();
+                        $("#btnUpdateFamily").show();
+                        $("#familyTitle").text("Chỉnh sửa gia đình");
+                        $("#cbbFamilyDomicileStatus").prop("disabled", false);
+                        $("#txtFamilyCode").prop("disabled",true);
+                        checkFamilyMemberQuantity();
+                    }
+                    // $("#familyTable").dataTable()._fnAjaxUpdate();
+                    refreshFamilyMemberTable();
+
+                    suggestMoreMember(data.memberId);
+
+                    closeLookupModal();
+
+                } else if (data.result == -2) {
+
+                    $("#lbFamilyCodeError").html("Mã gia đình đã tồn tại");
+                    $("#lbFamilyCodeError").show();
+                    document.getElementById("txtFamilyCode").scrollIntoView();
+                    $("#txtFamilyCode").focus();
+
+                } else {
+                    showMessage("Không thể thêm thành viên gia đình", 0);
+                }
+
+            }
+        });
+
+    }
+
+    function suggestMoreMember(memberId) {
+        console.log("THE FAK??");
+        $.ajax({
+            url: "/Family/SuggestMoreMember",
+            data: {
+                memberId: memberId
+            },
+            success: function (data) {
+
+                if (data.result != 0) {
+                 
+                    var message = "<p>" + "Thành viên này đang có hôn phối với " + data.name + "</p>" +
+                        "<p>Bạn có muốn thêm người này vào thành viên gia đình không ?</p>";
+
+                    bootbox.dialog({
+                        closeButton: false,
+                        message: message,
+                        title: "Thông tin lưu ý",
+                        buttons: {
+                            danger: {
+                                label: " Có",
+                                className: "ace-icon fa fa-check btn-info",
+                                callback: function () {
+
+                                    checkValidateFamilyMember(data.parishionerId);
+                                    setTimeout(function () {
+                                        makeScrollForModal();
+                                    }, 500);
+                                }
+                            },
+                            main: {
+                                label: " Không",
+                                className: "ace-icon fa fa-times btn-default",
+                                callback: function () {
+                                    setTimeout(function () {
+                                        makeScrollForModal();
+                                    }, 500);
+                                }
+                            }
+                        }
+                    });
+                    
+                }
+
+            }
+        });
+    }
+
+    function refreshFamilyMemberTable() {
+        $.ajax({
+            url: "/Family/GetFamilyMembersByFamilyId",
+            data: {
+                id: $("#txtHiddenFamilyId").val()
+            },
+            success: function (data) {
+
+                $("#tblFamilyMember").dataTable().fnDestroy();
+                $("#tblFamilyMember > tbody").html(data);
+                initSimpleFamilyMember("tblFamilyMember");
+
+            }
+        });
+    }
+
+    function addFamily() {
+
+        if (checkValidFamily()) {
+            checkExistedFamilyCode();
+        }
+        checkFamilyMemberQuantity();
+    }
+
+    function checkExistedFamilyCode() {
+        //startLoading();
+        var result = false;
+        $.ajax({
+            url: "/Family/CheckExistedFamilyCode",
+            async: false,
+            data: {
+                code: $("#txtFamilyCode").val()
+            },
+            success: function (data) {
+
+                if (data <= 0) {
+
+                    if (data == -2) {
+                        $("#lbFamilyCodeError").html("Mã gia đình đã tồn tại");
+                        $("#lbFamilyCodeError").show();
+                        document.getElementById("txtFamilyCode").scrollIntoView();
+                        $("#txtFamilyCode").focus();
+                    }
+
+                } else {
+                    result = true;
+                }
+
+            }
+        });
+
+        return result;
+
+    }
+
+    function updateFamily() {
+        //Check valdiate
+        if (!checkValidFamily()) {
+            return;
+        }
+        startLoading();
+        $.ajax({
+            url: "/Family/UpdateFamily",
+            data: {
+                Id: $("#txtHiddenFamilyId").val(),
+                Name: $("#txtFamilyName").val(),
+                Phone: $("#txtFamilyPhone").val(),
+                Address: $("#txtFamilyAddress").val(),
+                Note: $("#txtFamilyNote").val(),
+                DomicileStatus: $("#cbbFamilyDomicileStatus").val(),
+                DomicilePlace: $("#txtFamilyDomicilePlace").val(),
+                IsCounted: (!$("#cbFamilyIsCounted").is(':checked')),
+                CommunityId: $("#cbbFamilyCommunity").val()
+            },
+            success: function (data) {
+
+                if (data > 0) {
+                    updateTableContent("familyTable");
+                  //  $("#familyTable").dataTable()._fnAjaxUpdate();
+                    showMessage("Cập nhật gia đình thành công", 1);
+                    $("#familyModal").modal('hide');
+
+                }
+                else if (data == -4) {
+                    showMessage("Không thể thực hiện chuyển đến xứ hiện tại", -1, 6000);
+                } else {
+                    showMessage("Cập nhật gia đình thất bại", 0);
+                }
+
+            }
+        });
+
+    }
+
+    function checkTransferFamily() {
+
+        var value = $("#cbbFamilyDomicileStatus").val();
+
+        if (value == 2) {
+
+            var message = "<p>Gia đình này đã được lựa chọn là chuyển xứ, hệ thống sẽ chuyển thông tin gia đình này " +
+                "(bao gồm cả những thành viên đang thuộc gia đình) qua xứ khác và không thể cập nhật thông tin " +
+                "gia đình này nếu xứ khác đồng ý sử dụng</p> " +
+                "<p>Bạn có chắc muốn tiếp tục cập nhật gia đình này không ?</p>";
+
+            bootbox.dialog({
+                closeButton: false,
+                message: message,
+                title: "Xác nhận",
+                buttons: {
+                    save: {
+                        label: " Có",
+                        className: "ace-icon fa fa-check btn-info",
+                        callback: function () {
+                            updateFamily();
+                            setTimeout(function () {
+                                makeScrollForModal();
+                            }, 500);
+                        }
+                    },
+                    danger: {
+                        label: " Không",
+                        className: "ace-icon fa fa-times btn-default",
+                        callback: function () {
+                            setTimeout(function () {
+                                makeScrollForModal();
+                            }, 500);
+                        }
+                    },
+                }
+
+            });
+
+        } else {
+            updateFamily();
+        }
+
+    }
+
+    //End add vao la update luon
+</script>

@@ -1,0 +1,732 @@
+﻿@using PMS.DataAccess.Models
+@using PMS.DataAccess.Enumerations
+@{
+    ViewBag.Title = "CreateMessage";
+}
+@{
+    var roleId = (int)Session["RoleId"];
+}
+<link rel="stylesheet" href="/Content/assets/css/chosen.css" />
+<script src="/Content/assets/js/bootstrap-wysiwyg.min.js"></script>
+<script src="/Content/assets/js/chosen.jquery.min.js"></script>
+<script src="/Content/assets/js/jquery.hotkeys.min.js"></script>
+
+<style>
+    .search-field > input {
+        height: 31px !important;
+    }
+</style>
+<input type="hidden" id="roleId" value="@roleId"/>
+<input type="hidden" id="adminRole" value="@((int)AccountEnum.Admin)" />
+<input type="hidden" id="tabId" value="0"/>
+<input type="hidden" id="sentId" value="" />
+<div class="page-header">
+    <h1>Hộp thư</h1>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="tabbable">
+                    <ul id="inbox-tabs" class="inbox-tabs nav nav-tabs padding-16 tab-size-bigger tab-space-1">
+                        <li class="li-new-mail pull-right">
+                            
+                            <button data-toggle="tab" data-target="modal" class="btn btn-purple" id="btnCreateMessage">
+           
+                                <i class="ace-icon fa fa-envelope bigger-130"></i>
+                                <span class="bigger-110">Soạn thư</span>
+                     
+                            </button>
+                        </li><!-- /.li-new-mail -->
+
+                        <li class="active">
+                            <a data-toggle="tab" href="#inbox" id="inboxTab">
+                                <i class="blue ace-icon fa fa-inbox bigger-130"></i>
+                                <span class="bigger-110">Thư đã nhận</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a data-toggle="tab" href="#sent" id="sentTab">
+                                <i class="orange ace-icon fa fa-location-arrow bigger-130"></i>
+                                <span class="bigger-110">Thư đã gửi</span>
+                            </a>
+                        </li>                     
+                    </ul>
+                    <div class="tab-content">
+                        <!--tab inbox-->
+                        <div id="inbox" class="tab-pane fade in active">
+                            <div class="widget-box transparent ui-sortable-handle">
+
+                                @*<div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-12">
+                                            <button id="btnDeleteChosenMessage" class="btn btn-danger" data-toggle="modal">
+                                                <i class="ace-icon fa fa-trash-o"></i> Xóa thư đã chọn
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>*@
+                                @*<div class="space-6"></div>*@
+                                <div class="widget-body">
+                                    <div class="col-xs-12">
+                                        <table id="tblInboxMessage" class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>
+                                                        <label class="position-relative">
+                                                            <input type="checkbox" class="ace" />
+                                                            <span class="lbl"></span>
+                                                        </label>
+                                                    </th>
+                                                    <th>Nguồn thư</th>
+                                                    <th>Tiêu đề</th>
+                                                    <th>Thời gian gửi</th>
+                                                    <th>Thao tác</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!--end inbox  -->
+                        <!--begin sent  -->
+                        <div id="sent" class="tab-pane fade in">
+                            <div class="widget-box transparent ui-sortable-handle">
+
+                                @*<div class="space-6"></div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-12">
+                                            <button id="btnApproveParishionerMigrationRequest" class="btn btn-danger" data-toggle="modal">
+                                                <i class="ace-icon fa fa-trash-o"></i> Xóa thư đã chọn
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>*@
+                                @*<div class="space-6"></div>*@
+                                <div class="widget-body">
+                                    <div class="col-xs-12">
+                                        <table id="tblSentMessage" class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>
+                                                        <label class="position-relative">
+                                                            <input type="checkbox" class="ace" />
+                                                            <span class="lbl"></span>
+                                                        </label>
+                                                    </th>
+                                                    <th>Gửi đến</th>
+                                                    <th>Tiêu đề</th>
+                                                    <th>Thời gian gửi</th>
+                                                    <th>Thao tác</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <!--end sent  -->
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--begin view message modal-->
+<div id="viewMessageModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header">
+                    <div class="col-xs-6">
+                        <h4 class="widget-title lighter" id="viewMessageTitle"></h4>
+                    </div>
+                    <div class="col-xs-6 align-right">
+                        <div class="space-4"></div>
+                        <div id="viewMessageTime">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <!--end row-->
+                    <div class="col-xs-12">
+                        <div class="space-8"></div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-xs-12">
+                                    <div id="viewMessageContent">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <hr />
+                        <div class="row">
+         
+                                <div class="col-xs-6">
+                                    <div id="viewMessageFrom" class="text-muted">
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="align-right">
+                                        <button id="btnReplyMessageModal" class="btn btn-sm btn-primary" data-toggle="modal">
+                                            <i class="ace-icon fa fa-reply"></i> Trả lời
+                                        </button>
+                                        <button id="btnCloseViewMessageModal" class="btn btn-sm btn-grey" data-toggle="modal">
+                                            <i class="ace-icon fa fa-times"></i> Đóng
+                                        </button>
+                                    </div>
+
+                                </div>
+      
+                        </div>
+                        <div class="space-4"></div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--begin create message modal-->
+<div id="createMessageModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+  
+                        <h4 class="widget-title lighter" id="CreateMessageTitle">Soạn thư</h4>
+                        <div class="widget-toolbar no-border">
+                            <a href="#" onclick="$('#btnCloseMessageModal').click()">
+                                <i class="ace-icon fa fa-times"></i>
+                            </a>
+                        </div>
+
+                </div>
+                <div class="widget-body">
+                    <!--end row-->
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="space-6"></div>
+                            <div class="col-xs-6">
+                                <label class="control-label no-padding-right">Tiêu đề</label>
+                                <input type="text" id="txtMessageTitle" value="" class="form-control">
+                                <label id="lbTitleErrorMessage" class="text-danger" hidden=""></label>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="col-sm-6">
+                                    <span>Gửi đến</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span class="pull-right inline">
+                                        <span class="grey">Kiểu:</span>
+
+                                        <span class="btn-toolbar inline middle no-margin">
+                                            <span id="chosen-multiple-style" data-toggle="buttons" class="btn-group no-margin">
+                                                <label class="btn btn-xs btn-yellow active">
+                                                    1
+                                                    <input type="radio" value="1" />
+                                                </label>
+
+                                                <label class="btn btn-xs btn-yellow">
+                                                    2
+                                                    <input type="radio" value="2" />
+                                                </label>
+                                            </span>
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="space-2"></div>
+                                    <select multiple="" class="chosen-select" id="cbbMessageToParish" name="cbbMessageToParish" data-placeholder="Chọn xứ để gửi...">
+                                        <option value="-2"></option>
+                                        @if (roleId == (int)AccountEnum.Admin)
+                                        {
+                                            <option value="0">Tất cả giáo xứ</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="-1">Giáo phận</option>
+                                        }                                        
+                                        
+                                        @foreach (var item in ((List<Parish>)ViewBag.Parishes))
+                                        {
+                                            <option value="@item.Id">Giáo xứ @item.Name</option>
+                                        }
+                                        
+                                    </select>
+                                    <label id="lbToParishErrorMessage" class="text-danger" hidden=""></label>
+                                    <div class="clearfix"></div>
+                                </div>
+                                
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="space-4"></div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                
+                                <div class="wysiwyg-editor center-block template" id="MessageTemplate">
+                                    
+                                </div>
+                                <label id="lbContentErrorMessage" class="text-danger" hidden=""></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="space-6"></div>       
+                                <div class="align-right">
+                                    <button id="btnSentMessageModal" class="btn btn-primary" data-toggle="modal">
+                                        <i class="ace-icon fa fa-send"></i> Gửi
+                                    </button>
+                                    <button id="btnCloseMessageModal" class="btn btn-grey" data-toggle="modal">
+                                        <i class="ace-icon fa fa-times"></i> Đóng
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="space-6"></div>
+                        
+                    </div>
+                    
+                    
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End Create Message Modal-->
+
+
+<script>
+    var roleId = $("#roleId").val();
+    var adminRole = $("#adminRole").val();
+    $("#btnCreateMessage").click(function () {
+        $("#createMessageModal").modal('show');
+    });
+    $("#btnCloseMessageModal").click(function () {
+        $("#createMessageModal").modal('hide');
+        clearCreateMessageModal();
+    });
+    $("#btnSentMessageModal").click(function () {
+        CreateMessage();
+    });
+    $("#btnCloseViewMessageModal").click(function () {
+        $("#viewMessageModal").modal('hide');
+        clearViewMessageModal();
+    });
+    $('#MessageTemplate').ace_wysiwyg().prev().addClass('wysiwyg-style1');
+
+
+    function refreshSentMessage() {
+        updateTableContent("tblSentMessage");
+    }
+    function refreshInboxMessage() {
+        updateTableContent("tblInboxMessage");
+    }
+
+    InitInboxMessageDatatable();
+    function InitInboxMessageDatatable() {
+
+        $("#tblInboxMessage").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "sAjaxSource": "/Message/LoadInboxMessage",
+            //"bProcessing": true,
+            //"fnServerParams": function (aoData) {
+            //    aoData.push({ "name": "vicariateId", "value": $("#selectVicariate").val() });
+            //},
+            "oLanguage": {
+                "sSearch": "Tiêu đề",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "bVisible": false
+                },
+                {
+                    "aTargets": [5],
+                    "render": function (data, type, full, meta) {
+                        var content =
+                            '<button class="btn btn-minier btn-primary" onclick="LoadMessageModal( ' + data + ')">' + '<i class="ace-icon fa fa-search-plus"></i>&nbsp;Xem thư</button>' +
+                                '<button class="btn btn-minier btn-danger" onclick="confirmDeleteMessage(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "18%"
+                }
+            ],
+            "bAutoWidth": false,
+        });
+
+    }
+    //sent message table
+    InitSentMessageDatatable();
+    function InitSentMessageDatatable() {
+
+        $("#tblSentMessage").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "sAjaxSource": "/Message/LoadSentMessage",
+            //"bProcessing": true,
+            //"fnServerParams": function (aoData) {
+            //    aoData.push({ "name": "vicariateId", "value": $("#selectVicariate").val() });
+            //},
+            "oLanguage": {
+                "sSearch": "Tiêu đề",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "bVisible": false
+                },
+                {
+                    "aTargets": [5],
+                    "render": function (data, type, full, meta) {
+                        var content =
+                            '<button class="btn btn-minier btn-primary" onclick="LoadMessageModal( ' + data + ')">' + '<i class="ace-icon fa fa-search-plus"></i>&nbsp;Xem thư</button>';
+                                //'<button class="btn btn-minier btn-danger" onclick="denyParishionerMigrationRequestConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "18%"
+                }
+            ],
+            "bAutoWidth": false,
+        });
+
+    }
+
+
+    $(document).on('click', 'th input:checkbox', function () {
+        var that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox')
+            .each(function () {
+                this.checked = that.checked;
+                $(this).closest('tr').toggleClass('selected');
+            });
+    });
+    
+    
+
+    $('.chosen-select').chosen({ allow_single_deselect: true });
+    $(window)
+    .off('resize.chosen')
+    .on('resize.chosen', function () {
+        $('.chosen-select').each(function () {
+
+            var $this = $(this);
+	    $this.next().css({ 'width': '100%', 'height': '34px' });
+        })
+    }).trigger('resize.chosen');
+
+
+    if (roleId == adminRole) {
+        var id;
+        $('.chosen-select').on('change', function (evt, params) {
+            id = params;
+            if (id.selected == 0) {
+                $("#cbbMessageToParish > option").prop('disabled', true);
+                $("#cbbMessageToParish > option").prop('selected', false);
+                $("#cbbMessageToParish > option:nth-child(2)").prop('disabled', false);
+                $("#cbbMessageToParish > option:nth-child(2)").prop('selected', true);
+                $("#cbbMessageToParish").trigger('chosen:updated');
+            } else if (id.deselected == 0) {
+                $("#cbbMessageToParish > option").prop('disabled', false);
+                $("#cbbMessageToParish").trigger('chosen:updated');
+            }
+        });
+    }
+    
+
+
+    $('#chosen-multiple-style').on('click', function (e) {
+        var target = $(e.target).find('input[type=radio]');
+        var which = parseInt(target.val());
+        if (which == 2) $('#cbbMessageToParish').addClass('tag-input-style');
+        else $('#cbbMessageToParish').removeClass('tag-input-style');
+    });
+  
+    //------------------------------------------------
+    //$("#cbbMessageToParish").change(function () {
+    //    if ($(this).val() == 0) {
+    //        $('#cbbMessageToParish').prop('disabled', true);
+    //    } else {
+    //        $("#cbbMessageToParish").prop('disabled', false);
+    //    }
+    //});
+
+    $("#inboxTab").click(function() {
+        $("#tabId").val("1");
+    });
+    $("#sentTab").click(function () {
+        $("#tabId").val("2");
+    });
+
+    //CreateMessage-----------------------------------
+    function CreateMessage() {
+        if (!validateCreateMessage()) {
+            return;
+        }
+        var title = $("#txtMessageTitle").val();
+        var ids = $("#cbbMessageToParish").val();
+        var content = $("#MessageTemplate").html();
+        ////var ids = [];
+        //for (var i in store) {
+        //    var item = store[i];
+        //    ids.push(item.id);
+        //}
+        //var newIds = ids.split(',');
+        startLoading();
+        $.ajax({
+            url: "/Message/AddMessage",
+            type: "POST",
+            data: {
+                'ids': ids,
+                title: title,
+                content: content
+          
+            },
+            traditional: true,
+            success: function (data) {
+                if (data <= 0) {
+                    showMessage("Soạn thư mới thất bại", 0);
+                } else {
+                    showMessage("Soạn thư mới thành công", 1);
+                    $("#createMessageModal").modal('hide');
+                    refreshSentMessage();
+                    clearCreateMessageModal();
+                }
+            },
+        });
+    }
+    function clearCreateMessageModal() {
+        $("#txtMessageTitle").val("");
+        $("#MessageTemplate").html("");
+        $("#cbbMessageToParish > option").prop("selected", false);
+        $("#cbbMessageToParish").trigger('chosen:updated');
+    }
+
+    //Load view message modal
+    function LoadMessageModal(id) {
+       
+        $.ajax({
+            url: "/Message/LoadMessageById",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                var item = data.result;
+                var tabId = $("#tabId").val();
+                $("#viewMessageTitle").html(item.Title);
+                $("#viewMessageContent").html(item.Content);
+                $("#viewMessageFrom").html(data.sendPlace);
+                $("#sentId").val(data.sendId);
+                $("#viewMessageTime").html(data.time);
+                if (tabId == 2) {
+                    $("#btnReplyMessageModal").hide();
+                } else {
+                    $("#btnReplyMessageModal").show();
+                }
+
+                //$("#viewMessageFrom").html(from);
+                $("#viewMessageModal").modal('show');
+            },
+        });
+    }
+
+    function clearViewMessageModal() {
+        $("#viewMessageTitle").html("");
+        $("#viewMessageContent").html("");
+    }
+
+    //-------------------------------------------------
+    //Reply Message
+    $("#btnReplyMessageModal").click(function() {
+        replyMessage();
+    });
+
+    function replyMessage() {
+        var sentId = $("#sentId").val();
+        var title = $("#viewMessageTitle").text();
+        var replyTitle = 'Trả lời thư - ' + (title);
+
+        $("#txtMessageTitle").val(replyTitle);
+        var options = $("#cbbMessageToParish > option");
+        for (var i in options) {
+            if (options[i].value == sentId) {
+                $(options[i]).prop("selected", true);
+                break;
+            }
+        }
+
+        $("#cbbMessageToParish").trigger('chosen:updated');
+        $("#createMessageModal").modal('show');
+    }
+    //Delete Message ------------------------------------
+    //$("#btnDeleteChosenMessage").click(function () {
+    //    var checks = new Array();
+
+    //    $(".ace:checked").each(function () {
+    //        if ($(this).is(':checked')) {
+    //            checks.push($(this).val());
+    //        }
+    //    });
+
+    //    if (checks.length == 0) {
+    //        showMessage("Vui lòng chọn yêu cầu để duyệt", 0);
+
+    //    } else {
+    //        openApproveModal(0);
+    //    }
+
+    //});
+
+    function confirmDeleteMessage(id) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn xóa thư này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        deleteMessage(id);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+    function deleteMessage(id) {
+        $.ajax({
+            url: "/Message/DeleteMessage",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Xóa thư thất bại", 0);
+                } else {
+                    showMessage("Xóa thư thành công", 1);
+                    refreshInboxMessage();
+                }
+
+            },
+        });
+    }
+    //-------------------------------------
+    function validateCreateMessage() {
+        var sentTo = $("#cbbMessageToParish").val();
+        var title = $("#txtMessageTitle").val();
+        var content = $("#MessageTemplate").text().trim();
+
+        var isError = false;
+
+        if (!title) {
+            $("#lbTitleErrorMessage").html("Vui lòng nhập tiêu đề");
+            $("#lbTitleErrorMessage").show();
+            isError = true;
+        } else {
+            $("#lbTitleErrorMessage").html("");
+            $("#lbTitleErrorMessage").hide();
+        }
+
+        if (sentTo == -2 || sentTo == null) {
+            $("#lbToParishErrorMessage").html("Vui lòng chọn giáo xứ hoặc giáo phận để gửi");
+            $("#lbToParishErrorMessage").show();
+            isError = true;
+        } else {
+            $("#lbToParishErrorMessage").html("");
+            $("#lbToParishErrorMessage").hide();
+        }   
+
+        if (!content) {
+            $("#lbContentErrorMessage").html("Vui lòng nhập nội dung");
+            $("#lbContentErrorMessage").show();
+            isError = true;
+        } else {
+            $("#lbContentErrorMessage").html("");
+            $("#lbContentErrorMessage").hide();
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+</script>
