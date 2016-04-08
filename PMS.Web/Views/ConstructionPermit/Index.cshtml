@@ -1,0 +1,527 @@
+﻿@using PMS.DataAccess.Models;
+@model ConstructionPermit
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="page-header">
+    <h1>Danh sách đơn xin xây dựng</h1>
+</div>
+<div class="page-header">
+    <div class="row">
+        <!-- Parish DropdownList to Filter -->
+        <div class="form-group">
+            <label class="col-sm-1 control-label no-padding-right">Loại đơn</label>
+            <h2>@ViewBag.Message</h2>
+            <div class="col-sm-3">
+                <select class="form-control" id="selectPermitTypeFilter">
+                    <option value="0">Tất cả</option>
+                    @foreach (var item in (List<ValueSet>)ViewBag.PermitTypes)
+                    {
+                        <option value="@item.Id">@item.Definition</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <!-- End Parish DropdownList to Filter -->
+        <!-- Permit Status DropdownList to Filter -->
+        <div class="form-group">
+            <label class="col-sm-1 control-label no-padding-right">Trạng thái</label>
+            <div class="col-sm-3">
+                <select class="form-control" id="selectPermitStatusFilter">
+                    <option value="0">Tất cả</option>
+                    @foreach (var item in (List<ValueSet>)ViewBag.PermitStatus)
+                    {
+                        <option value="@item.Id">@item.Definition</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <!-- End Permit Status DropdownList to Filter -->
+    </div>
+</div>
+<div class="row">
+    <div class="space-4"></div>
+    <div class="col-xs-12">
+        <div class="col-sm-12">
+            <!-- Button Show Popup To Add New Construction Permit -->
+            <button id="btnCreateConstructionPermit" class="btn btn-success" data-toggle="modal">
+                <i class="fa fa-plus"></i> Thêm đơn xin xây dựng
+            </button>
+            <!-- End Button Show Popup To Add New Construction Permit -->
+        </div>
+    </div>
+</div>
+<div class="col-xs-12">
+    <div class="space-8"></div>
+    <!-- Table View Construction Permit -->
+    <table id="constructionPermitTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Loại đơn</th>
+                <th>Giáo xứ</th>
+                <th>Mô tả</th>
+                <th>Tải lên</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <!-- End Table View Construction Permit -->
+</div>
+
+<!-- Popup Construction Permit Modal -->
+<div id="ConstructionPermitModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <!-- Modal Header -->
+                <div class="widget-header align-center">
+                    <h3 class="widget-title lighter" id="ConstructionPermitModalTitle"> </h3>
+
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseConstructionPermitModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- End Modal Header -->
+                <!-- Modal Body -->
+                <div class="widget-body">
+                    <div class="space-10"></div>
+                    <div class="col-sm-12  ui-sortable">
+                        <div class="widget-box transparent ui-sortable-handle">
+                            <div class="form-horizontal">
+                                <!-- Modal Id Textbox -->
+                                <input type="hidden" id="txtIdModal" value="" class="form-control">
+                                <!-- End Modal Id Textbox -->
+                                <!-- Modal Permit Type DropdownList -->
+                                <div class="form-group align-left" id="PermitTypeModal">
+                                    <label class="col-sm-3 control-label no-padding-right" for="selectPermitTypeModal">Loại đơn&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control" id="selectPermitTypeModal">
+                                            <option value="0">Các loại đơn</option>
+                                            @foreach (var item in (List<ValueSet>)ViewBag.PermitTypes)
+                                            {
+                                                <option value="@item.Id">@item.Definition</option>
+                                            }
+                                        </select>
+                                        <label class="text-danger" id="lbPermitTypeErrorModal" hidden=""></label>
+                                    </div>
+                                </div>
+                                <!-- End Modal Permit Type DropdownList -->
+                                <!-- Modal Parish DropdownList -->
+                                <div class="form-group align-left" id="ParishModal">
+                                    <label class="col-sm-3 control-label no-padding-right" for="selectParishModal">Giáo xứ&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control" id="selectParishModal">
+                                            <option value="0">Các giáo xứ</option>
+                                            @foreach (var item in (List<Parish>)ViewBag.Parishes)
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                        <label class="text-danger" id="lbParishErrorModal" hidden=""></label>
+                                    </div>
+                                </div>
+                                <!-- End Modal Parish DropdownList -->
+                                <!-- Modal Description Textbox -->
+                                <div class="form-group align-left" id="DescriptionModal">
+                                    <label class="col-sm-3 control-label no-padding-right">Mô tả</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="txtDescriptionModal" value="" class="form-control">
+                                    </div>
+                                </div>
+                                <!-- End Modal Description Textbox -->
+                                <!-- Modal FilePath Textbox -->
+                                <div class="form-group align-left" id="FilePathModal">
+                                    <label class="col-sm-3 control-label no-padding-right">Tải lên</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="txtFilePathModal" value="" class="form-control" readonly>
+                                    </div>
+                                </div>
+                                <!-- End Modal FilePath Textbox -->
+                                <!-- Modal Permit Status DropdownList -->
+                                <div class="form-group align-left" id="PermitStatusModal">
+                                    <label class="col-sm-3 control-label no-padding-right" for="selectPermitStatusModal">Trạng Thái</label>
+                                    <div class="col-sm-6">
+                                        <select class="form-control" id="selectPermitStatusModal">
+                                            @foreach (var item in (List<ValueSet>)ViewBag.PermitStatus)
+                                            {
+                                                <option value="@item.Id">@item.Definition</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- End Modal Permit Status DropdownList -->
+                                <!-- Modal Note Textbox -->
+                                <div class="form-group align-left" id="NoteModal">
+                                    <label class="col-sm-3 control-label no-padding-right">Chú thích</label>
+                                    <div class="col-sm-6">
+                                        <textarea rows="4" cols="50" id="txtNoteModal" value="" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <!-- End Modal Note Textbox -->
+                                @using (Html.BeginForm("UpdateFilePath", "ConstructionPermit", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                <!-- Modal FileUpload -->
+                                    <div class="form-group align-left" id="FileUploadModal">
+                                        @Html.TextBoxFor(model => model.Id, new { id = "txtIdUpload", type = "hidden" })
+                                        <div class="col-sm-3"></div>
+                                        <div class="btn btn-info">
+                                            <input type="file" name="file" />
+                                        </div>
+                                        <button id="btnUploadFileConstructionPermitModal" type="submit" class="btn btn-primary">
+                                            <i class="ace-icon fa fa-upload"></i> Tải lên
+                                        </button>
+                                    </div>
+                                <!-- End Modal FileUpload -->
+                                }
+                                <!-- Modal Footer -->
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-12 col-sm-12">
+                                            <div class="form-group align-right">
+                                                <!-- Modal Button Add New Construction Permit -->
+                                                <button id="btnCreateConstructionPermitModal" class="btn btn-primary" data-toggle="modal" onclick="addNewConstructionPermit()">
+                                                    <i class="ace-icon fa fa-save">
+                                                    </i> Lưu
+                                                </button>
+                                                <!-- Modal Button Update Construction Permit -->
+                                                <button id="btnUpdateConstructionPermitModal" class="btn btn-primary" data-toggle="modal" onclick="updateConstructionPermit()">
+                                                    <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                                </button>
+                                                <!-- Modal Button Close Modal Construction Permit -->
+                                                <button id="btnCloseConstructionPermitModal" class="btn btn-grey" data-toggle="modal">
+                                                    <i class="ace-icon fa fa-times"></i> Đóng
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Modal Footer -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Modal Body -->
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Popup Construction Permit Modal -->
+
+<script>
+    InitDatatable();
+
+    //Function LoadDataTable
+    function InitDatatable() {
+        $("#constructionPermitTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bSCrollCollapse": true,
+            "sAjaxSource": "/ConstructionPermit/LoadDataTable",
+            "fnServerParams": function (aoData) {
+                aoData.push(
+                    { "name": "permitType", "value": $("#selectPermitTypeFilter").val() },
+                    { "name": "permitStatus", "value": $("#selectPermitStatusFilter").val() }
+                    );
+            },
+            "oLanguage": {
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                },
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sInfoEmpty": "",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sSearch": "Giáo xứ",
+                "sZeroRecords": "Không có dữ liệu phù hợp"
+            },
+            "columns": [
+                {
+                    "data": "Id",
+                    "bVisible": false
+                },
+                { "data": "TypeName" },
+                { "data": "ParishName" },
+                { "data": "Description" },
+                { "data": "FilePath" },
+                {
+                    "data": "StatusName",
+                    "render": function (data, type, full, meta) {
+                        var content;
+                        if (data == 'Chờ duyệt') {
+                            var content = '<label style="color: #428bca; font-weight: bold;">' + data + '</label>';
+                        } else if (data == 'Ðã duyệt') {
+                            var content = '<label style="color: #5cb85c; font-weight: bold;">' + data + '</label>';
+                        } else {
+                            var content = '<label style="color: #d9534f; font-weight: bold;">' + data + '</label>';
+                        }
+                        return content;
+                    },
+                },
+                {
+                    "data": "Id",
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-success" onclick="UploadFileModal(' + data + ')"><i class="ace-icon fa fa-upload"></i>Tải lên</button>' +
+                                      '<button class="btn btn-minier btn-primary" onclick="LoadDataModal(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                                      '<button class="btn btn-minier btn-danger" onclick="DeleteConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "15%"
+                },
+            ],
+            "bAutoWidth": false,
+        });
+    }
+    // Select Permit Type Filter Text Box
+    $("#selectPermitTypeFilter").change(function () {
+        updateTableContent("constructionPermitTable");
+    });
+
+    // Select Permit Status Filter Text Box
+    $("#selectPermitStatusFilter").change(function () {
+        updateTableContent("constructionPermitTable");
+    });
+
+    //Button Create Construction Permit Event
+    $("#btnCreateConstructionPermit").click(function () {
+        $("#PermitTypeModal").show();
+        $("#ParishModal").show();
+        $("#DescriptionModal").show();
+        $("#NoteModal").show();
+
+        $("#PermitStatusModal").hide();
+        $("#FilePathModal").hide();
+        $("#IdModal").hide();
+        $("#FileUploadModal").hide();
+
+        $("#ConstructionPermitModalTitle").html('Thêm mới đơn xin xây dựng');
+        $("#ConstructionPermitModal").modal('show');
+        $("#btnCreateConstructionPermitModal").show();
+        $("#btnUpdateConstructionPermitModal").hide();
+        $("#lbPermitTypeErrorModal").html("");
+        $("#lbPermitTypeErrorModal").hide();
+        $("#lbParishErrorModal").html("");
+        $("#lbParishErrorModal").hide();
+    });
+
+    //Button Close Modal Construction Permit Event
+    $("#btnCloseConstructionPermitModal").click(function () {
+        $("#ConstructionPermitModal").modal('hide');
+        ClearModalConstructionPermit();
+    });
+
+    //Function Clear Modal Construction Permit
+    function ClearModalConstructionPermit() {
+        $("#selectPermitTypeModal").val('0');
+        $("#selectParishModal").val('0');
+        $("#txtDescriptionModal").val('');
+        $("#txtFilePathModal").val('');
+        $("#txtNoteModal").val('');
+        $("#lbPermitTypeErrorModal").html("");
+        $("#lbPermitTypeErrorModal").hide();
+        $("#lbParishErrorModal").html("");
+        $("#lbParishErrorModal").hide();
+    }
+
+    //Function validate input
+    function checkValidate() {
+        var isError = false;
+
+        var permitTypeValue = $("#selectPermitTypeModal").val();
+        if (permitTypeValue == 0) {
+            $("#lbPermitTypeErrorModal").html("Vui lòng chọn loại đơn.");
+            $("#lbPermitTypeErrorModal").show();
+            isError = true;
+        } else {
+            $("#lbPermitTypeErrorModal").html("");
+            $("#lbPermitTypeErrorModal").hide();
+        }
+        var parishValue = $("#selectParishModal").val();
+        if (parishValue == 0) {
+            $("#lbParishErrorModal").html("Vui lòng chọn giáo xứ.");
+            $("#lbParishErrorModal").show();
+            isError = true;
+        } else {
+            $("#lbParishErrorModal").html("");
+            $("#lbParishErrorModal").hide();
+        }
+        if (isError) {
+            return false;
+        }
+        else return true;
+    }
+
+    //Function refesh Table
+    function refeshTable() {
+        $("#constructionPermitTable").dataTable()._fnAjaxUpdate();
+    }
+
+    //Function Add New Construction Permit
+    function addNewConstructionPermit() {
+        if (!checkValidate()) {
+            return false;
+        }
+
+        $.ajax({
+            url: "/ConstructionPermit/createConstructionPermit",
+            type: "POST",
+            data: {
+                PermitType: $("#selectPermitTypeModal").val(),
+                ParishId: $("#selectParishModal").val(),
+                Description: $("#txtDescriptionModal").val(),
+                FilePath: $("#txtFilePathModal").val(),
+                PermitStatus: $("#selectPermitStatusModal").val(),
+                Note: $("#txtNoteModal").val()
+            },
+            success: function (data) {
+                if (data > 0) {
+                    updateTableContent("constructionPermitTable");
+                    showMessage("Thêm thành công", 1);
+                    $("#ConstructionPermitModal").modal('hide');
+                    ClearModalConstructionPermit();
+                    refeshTable();
+                } else {
+                    showMessage("Thêm thất bại, vui lòng thử lại sau", 0);
+                }
+            },
+        });
+    }
+
+    //Button Edit Construction Permit to Update Event
+    function LoadDataModal(id) {
+        $("#PermitTypeModal").show();
+        $("#ParishModal").show();
+        $("#DescriptionModal").show();
+        $("#FilePathModal").show();
+        $("#PermitStatusModal").show();
+        $("#NoteModal").show();
+        $("#FileUploadModal").hide();
+        $.ajax({
+            url: "/ConstructionPermit/LoadConstructionPermitById",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                var item = data.result;
+                $("#txtIdModal").val(item.Id);
+                $("#selectPermitTypeModal").val(item.PermitType);
+                $("#selectParishModal").val(item.ParishId);
+                $("#txtDescriptionModal").val(item.Description);
+                $("#txtFilePathModal").val(item.FilePath);
+                $("#selectPermitStatusModal").val(item.PermitStatus);
+                $("#txtNoteModal").val(item.Note);
+                $("#lbPermitTypeErrorModal").html("");
+                $("#lbPermitTypeErrorModal").hide();
+                $("#lbParishErrorModal").html("");
+                $("#lbParishErrorModal").hide();
+                $("#ConstructionPermitModalTitle").html("Chỉnh sửa đơn xin");
+                $("#ConstructionPermitModal").modal('show');
+                $("#btnUpdateConstructionPermitModal").show();
+                $("#btnCreateConstructionPermitModal").hide();
+            },
+        });
+    }
+
+    //Function Update Construction Permit
+    function updateConstructionPermit() {
+        if (!checkValidate()) {
+            return false;
+        }
+
+        $.ajax({
+            url: "/ConstructionPermit/UpdateConstructionPermit",
+            type: "POST",
+            data: {
+                Id: $("#txtIdModal").val(),
+                PermitType: $("#selectPermitTypeModal").val(),
+                ParishId: $("#selectParishModal").val(),
+                Description: $("#txtDescriptionModal").val(),
+                FilePath: $("#txtFilePathModal").val(),
+                PermitStatus: $("#selectPermitStatusModal").val(),
+                Note: $("#txtNoteModal").val()
+            },
+            success: function (data) {
+                if (data > 0) {
+                    updateTableContent("constructionPermitTable");
+                    showMessage("Cập nhật thành công", 1);
+                    $("#ConstructionPermitModal").modal('hide');
+                    refeshTable();
+                    ClearModalConstructionPermit();
+                } else {
+                    showMessage("Cập nhật thất bại, vui lòng thử lại sau", 0);
+                }
+            },
+        });
+    }
+
+    //Function Delete Confirm
+    function DeleteConfirm(id) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn xóa đơn xin này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteConstructionPermit(id);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    //Function Delete Construction Permit
+    function DeleteConstructionPermit(id) {
+        startLoading();
+        $.ajax({
+            url: "/ConstructionPermit/DeleteConstructionPermit",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Xóa đơn xin thất bại", 0);
+                } else {
+                    showMessage("Xóa đơn xin thành công", 1);
+                    updateTableContent("constructionPermitTable");
+                    refeshTable();
+                    ClearModalConstructionPermit();
+                }
+
+            },
+        });
+    }
+
+    //Function Upload File
+    function UploadFileModal(id) {
+        $("#ConstructionPermitModalTitle").html('Thêm đơn xin có sẵn');
+        $("#PermitTypeModal").hide();
+        $("#ParishModal").hide();
+        $("#DescriptionModal").hide();
+        $("#FilePathModal").hide();
+        $("#PermitStatusModal").hide();
+        $("#NoteModal").hide();
+        $("#FileUploadModal").show();
+        $("#btnCreateConstructionPermitModal").hide();
+        $("#btnUpdateConstructionPermitModal").hide();
+        $("#txtIdUpload").val(id);
+        $("#ConstructionPermitModal").modal('show');
+    }
+</script>
