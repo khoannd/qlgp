@@ -1282,7 +1282,7 @@ namespace PMS.DataAccess
 
             if (noMatrimonyDate)
             {
-                var item = _db.Matrimonies.FirstOrDefault(m => ((m.HusbandId == parishionerId || m.WifeId == parishionerId) && m.Date.Trim() == "") );
+                var item = _db.Matrimonies.FirstOrDefault(m => ((m.HusbandId == parishionerId || m.WifeId == parishionerId) && m.Date.Trim() == ""));
 
                 if (item != null)
                 {
@@ -2236,7 +2236,7 @@ namespace PMS.DataAccess
         public int AddParishioner(Parishioner parishioner)
         {
             try
-            {             
+            {
                 _db.Parishioners.InsertOnSubmit(parishioner);
                 _db.SubmitChanges();
                 return parishioner.Id;
@@ -2319,11 +2319,11 @@ namespace PMS.DataAccess
 
                 if (updatedParishioner.IsDead)
                 {
-                    parishioner.DeadDate = updatedParishioner.DeadDate;               
+                    parishioner.DeadDate = updatedParishioner.DeadDate;
 
                     if (member != null)
                     {
-                        member.Status = (int) FamilyMemberStatusEnum.Sub;
+                        member.Status = (int)FamilyMemberStatusEnum.Sub;
                     }
                 }
                 else
@@ -2646,9 +2646,9 @@ namespace PMS.DataAccess
                 if (parishioner.Gender == 0)
                 { //Neu la nu
                     var matrimony = _db.Matrimonies.FirstOrDefault(m => (m.WifeId == parishioner.Id &&
-                                                                         ( (!m.Parishioner.IsDead) && 
-                                                                         m.Parishioner.Status != (int) ParishionerStatusEnum.Deleted &&
-                                                                         m.Status != (int) MatrimonyStatusEnum.Removed) ));
+                                                                         ((!m.Parishioner.IsDead) &&
+                                                                         m.Parishioner.Status != (int)ParishionerStatusEnum.Deleted &&
+                                                                         m.Status != (int)MatrimonyStatusEnum.Removed)));
 
                     if (matrimony != null)
                     {
@@ -2900,8 +2900,8 @@ namespace PMS.DataAccess
 
                 if (parishioner.Gender == 0)
                 {
-                    item = parishioner.Matrimonies1.FirstOrDefault(m => (m.Status != (int) MatrimonyStatusEnum.Removed
-                                                                && !m.Parishioner.IsDead && m.Parishioner.Status != (int) ParishionerStatusEnum.Deleted));
+                    item = parishioner.Matrimonies1.FirstOrDefault(m => (m.Status != (int)MatrimonyStatusEnum.Removed
+                                                                && !m.Parishioner.IsDead && m.Parishioner.Status != (int)ParishionerStatusEnum.Deleted));
 
                     var wifeBaptism = parishioner.Sacraments.FirstOrDefault(s => s.Type == (int)SacramentEnum.Baptism);
 
@@ -3002,6 +3002,23 @@ namespace PMS.DataAccess
             }
 
             return result;
+        }
+
+        public IEnumerable<Parishioner> SearchParishionersByKeyword(string keyword, int start, int length)
+        {
+            keyword = keyword.Trim().ToLower();
+            var query = _db.Parishioners.Where(p => p.Name.ToLower().Contains(keyword) || p.ChristianName.ToLower().Contains(keyword) || (p.ChristianName.ToLower() + " " + p.Name.ToLower()).Contains(keyword)
+                || p.Address.ToLower().Contains(keyword)
+                || p.BirthDate.Contains(keyword) || p.Code.ToLower().Contains(keyword) || p.Email.ToLower().Contains(keyword) || p.Phone.Contains(keyword));
+            query = query.OrderBy(p => p.Id).Skip(start);
+            if (length <= 0)
+            {
+                return query.ToList();
+            }
+            else
+            {
+                return query.Take(length).ToList();
+            }
         }
 
     }

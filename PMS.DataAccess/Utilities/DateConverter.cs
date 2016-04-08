@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,12 +43,36 @@ namespace PMS.DataAccess.Utilities
             return result;
         }
 
+        public DateTime ConvertStringToDateObject(string date)
+        {
+            string strDate = ConvertStringToDate(date);
+            DateTime dateObject;
+            DateTime.TryParseExact(strDate, new string[] { "yyyyMMdd", "yyyy0000", "yyyyMM00", "yyyyMM", "yyyy" }, CultureInfo.CurrentCulture, DateTimeStyles.None, out dateObject);
+
+            return dateObject;
+        }
+        public DateTime? ConvertStringToDateObjectNullable(string date)
+        {
+            string strDate = ConvertStringToDate(date);
+            DateTime dateObject;
+            bool parsed = DateTime.TryParseExact(date, new string[] { "yyyyMMdd", "yyyy0000", "yyyyMM00", "yyyyMM", "yyyy" }, CultureInfo.CurrentCulture, DateTimeStyles.None, out dateObject);
+
+            if (parsed)
+            {
+                return dateObject;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public string ConvertDateToString(string date)
         {
             string day;
             string month;
             string year;
-          
+
             if (string.IsNullOrEmpty(date))
             {
                 return "";
@@ -60,7 +85,8 @@ namespace PMS.DataAccess.Utilities
                 day = ConvertStringForDateAndMonth(dateParts[0]);
                 month = ConvertStringForDateAndMonth(dateParts[1]);
                 year = dateParts[2];
-            } else if (dateParts.Count() == 2)
+            }
+            else if (dateParts.Count() == 2)
             {
                 day = "00";
                 month = ConvertStringForDateAndMonth(dateParts[0]);

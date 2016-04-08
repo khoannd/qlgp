@@ -510,6 +510,10 @@ namespace PMS.BusinessLogic
             return _parishionerData.PrintMatrimony(parishId, ids);
         }
 
+        public IEnumerable<Parishioner> SearchParishionerByKeyword(string keyword, int start = 0, int length = 10)
+        {
+            return _parishionerData.SearchParishionersByKeyword(keyword, start, length);
+        }
 
         public IEnumerable<IConvertible[]> GetOrderedCheckingParishionersByParamsAndPaging(int parishId, int communityId, int parishDivisionId,
                             bool noBirthDate, bool wrongDate, bool earlyCommunion, bool manyMatrimony,

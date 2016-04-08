@@ -1222,12 +1222,12 @@ namespace PMS.Web.Controllers
                 {
                     return result;
                 }
-           
+
                 //Thuc hien kiem tra va gui mail
                 if (husband.Community.ParishId != parishId)
                 {
-                    int accountId = (int) Session["AccountId"];
-                    int dioceseId = (int) Session["DioceseId"];
+                    int accountId = (int)Session["AccountId"];
+                    int dioceseId = (int)Session["DioceseId"];
                     var ids = new string[1];
                     ids[0] = husband.Community.ParishId + "";
 
@@ -1357,6 +1357,49 @@ namespace PMS.Web.Controllers
 
         }
 
+        public ActionResult SearchParishionersForAddSeminarian(string keyword, int start = 0, int length = 10)
+        {
+            var parishioners = _parishionerBusiness.SearchParishionerByKeyword(keyword, start, length);
+            var converter = new DateConverter();
+            return Json(new
+            {
+                Result = parishioners.Select(p => new
+                {
+                    p.Address,
+                    BirthDate = converter.ConvertStringToDateObjectNullable(p.BirthDate),
+                    p.BirthPlace,
+                    p.Career,
+                    p.ChristianName,
+                    p.Code,
+                    p.CreatedBy,
+                    p.CreatedDate,
+                    p.DeadDate,
+                    p.DomicilePlace,
+                    p.DomicileStatus,
+                    p.Education,
+                    p.Email,
+                    p.FatherName,
+                    p.Gender,
+                    p.Id,
+                    p.ImageUrl,
+                    p.IsCatechumen,
+                    p.IsCounted,
+                    p.IsDead,
+                    p.IsMarried,
+                    p.IsSingle,
+                    p.IsStudying,
+                    p.LastUpdatedBy,
+                    p.MobilePhone,
+                    p.MotherName,
+                    p.Name,
+                    p.Note,
+                    p.Phone,
+                    p.Status
+                })
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+
         public int UpdateMatrimony(Matrimony matrimony)
         {
             var username = (string)Session["Username"];
@@ -1383,7 +1426,7 @@ namespace PMS.Web.Controllers
             //Lay hon phoi cu ra kiem tra 
             var mat = _matrimonyBusiness.GetMatrimonyById(matrimony.Id);
 
-            if ((mat != null) && ( (mat.HusbandId != matrimony.HusbandId) || (mat.WifeId != matrimony.WifeId) ))
+            if ((mat != null) && ((mat.HusbandId != matrimony.HusbandId) || (mat.WifeId != matrimony.WifeId)))
             {
                 //Thuc hien kiem tra va gui mail
                 if (husband.Community.ParishId != parishId)

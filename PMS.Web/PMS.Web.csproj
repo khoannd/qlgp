@@ -147,6 +147,8 @@
     <Compile Include="Controllers\SacramentCreationController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\SearchFamilyController.cs" />
+    <Compile Include="Controllers\SeminarianController.cs" />
+    <Compile Include="Controllers\SeminaryController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\ParishionerController.cs" />
     <Compile Include="Controllers\SocietyController.cs" />
@@ -297,6 +299,7 @@
     <Content Include="Images\Logo\logoblue.png" />
     <Content Include="Images\Logo\logowhite.png" />
     <Content Include="Images\Parishes\9ae8b05d-f25b-4582-b156-0faf22627f08.jpg" />
+    <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\assets\fonts\glyphicons-halflings-regular.eot" />
@@ -315,6 +318,7 @@
     <Content Include="Scripts\pms_common.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\ui-bootstrap-tpls-1.3.1.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -417,6 +421,8 @@
     <Content Include="Views\ThuyenChuyenLinhMuc\_ParishManagerHistory.cshtml" />
     <Content Include="Views\ThuyenChuyenLinhMuc\InQuyetDinh.cshtml" />
     <Content Include="Views\ThuyenChuyenLinhMuc\InGiayMoi.cshtml" />
+    <Content Include="Views\Seminary\Index.cshtml" />
+    <Content Include="Views\Seminarian\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PMS.BusinessLogic\PMS.BusinessLogic.csproj">

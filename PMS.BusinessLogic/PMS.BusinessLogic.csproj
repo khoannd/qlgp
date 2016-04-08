@@ -65,6 +65,8 @@
     <Compile Include="PlaceBusiness.cs" />
     <Compile Include="ParishManagerBusiness.cs" />
     <Compile Include="GeneralStatusBusiness.cs" />
+    <Compile Include="SeminarianBusiness.cs" />
+    <Compile Include="SeminaryYearBusiness.cs" />
     <Compile Include="VaiTroBusiness.cs" />
     <Compile Include="ThuyenChuyenLinhMucBusiness.cs" />
     <Compile Include="PriestBusiness.cs" />
