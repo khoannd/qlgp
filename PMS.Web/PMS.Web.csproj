@@ -121,6 +121,7 @@
     <Folder Include="Images\Dioceses\" />
     <Folder Include="Images\Parishioners\" />
     <Folder Include="Models\" />
+    <Folder Include="UploadFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
