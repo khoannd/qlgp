@@ -22,7 +22,7 @@ namespace PMS.DataAccess.Models
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="PMS")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="QLGP")]
 	public partial class PMSDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -117,10 +117,16 @@ namespace PMS.DataAccess.Models
     partial void InsertParishManager(ParishManager instance);
     partial void UpdateParishManager(ParishManager instance);
     partial void DeleteParishManager(ParishManager instance);
+    partial void InsertConstructionPermit(ConstructionPermit instance);
+    partial void UpdateConstructionPermit(ConstructionPermit instance);
+    partial void DeleteConstructionPermit(ConstructionPermit instance);
+    partial void InsertValueSet(ValueSet instance);
+    partial void UpdateValueSet(ValueSet instance);
+    partial void DeleteValueSet(ValueSet instance);
     #endregion
 		
 		public PMSDataContext() : 
-				base(global::PMS.DataAccess.Properties.Settings.Default.PMSConnectionString5, mappingSource)
+				base(global::PMS.DataAccess.Properties.Settings.Default.QLGPConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -378,6 +384,22 @@ namespace PMS.DataAccess.Models
 			get
 			{
 				return this.GetTable<ParishManager>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ConstructionPermit> ConstructionPermits
+		{
+			get
+			{
+				return this.GetTable<ConstructionPermit>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ValueSet> ValueSets
+		{
+			get
+			{
+				return this.GetTable<ValueSet>();
 			}
 		}
 	}
@@ -8827,6 +8849,8 @@ namespace PMS.DataAccess.Models
 		
 		private EntitySet<ParishManager> _ParishManagers;
 		
+		private EntitySet<ConstructionPermit> _ConstructionPermits;
+		
 		private EntityRef<Priest> _Priest1;
 		
 		private EntityRef<Vicariate> _Vicariate;
@@ -8876,6 +8900,7 @@ namespace PMS.DataAccess.Models
 			this._Societies = new EntitySet<Society>(new Action<Society>(this.attach_Societies), new Action<Society>(this.detach_Societies));
 			this._Vicariates = new EntitySet<Vicariate>(new Action<Vicariate>(this.attach_Vicariates), new Action<Vicariate>(this.detach_Vicariates));
 			this._ParishManagers = new EntitySet<ParishManager>(new Action<ParishManager>(this.attach_ParishManagers), new Action<ParishManager>(this.detach_ParishManagers));
+			this._ConstructionPermits = new EntitySet<ConstructionPermit>(new Action<ConstructionPermit>(this.attach_ConstructionPermits), new Action<ConstructionPermit>(this.detach_ConstructionPermits));
 			this._Priest1 = default(EntityRef<Priest>);
 			this._Vicariate = default(EntityRef<Vicariate>);
 			OnCreated();
@@ -9308,6 +9333,19 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_ConstructionPermit", Storage="_ConstructionPermits", ThisKey="Id", OtherKey="ParishId")]
+		public EntitySet<ConstructionPermit> ConstructionPermits
+		{
+			get
+			{
+				return this._ConstructionPermits;
+			}
+			set
+			{
+				this._ConstructionPermits.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Priest_Parish", Storage="_Priest1", ThisKey="PriestId", OtherKey="Id", IsForeignKey=true)]
 		public Priest Priest1
 		{
@@ -9511,6 +9549,18 @@ namespace PMS.DataAccess.Models
 		}
 		
 		private void detach_ParishManagers(ParishManager entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = null;
+		}
+		
+		private void attach_ConstructionPermits(ConstructionPermit entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = this;
+		}
+		
+		private void detach_ConstructionPermits(ConstructionPermit entity)
 		{
 			this.SendPropertyChanging();
 			entity.Parish = null;
@@ -10021,6 +10071,549 @@ namespace PMS.DataAccess.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ConstructionPermit")]
+	public partial class ConstructionPermit : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _PermitType;
+		
+		private int _ParishId;
+		
+		private string _Description;
+		
+		private string _FilePath;
+		
+		private int _PermitStatus;
+		
+		private string _Note;
+		
+		private EntityRef<Parish> _Parish;
+		
+		private EntityRef<ValueSet> _ValueSet;
+		
+		private EntityRef<ValueSet> _ValueSet1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnPermitTypeChanging(int value);
+    partial void OnPermitTypeChanged();
+    partial void OnParishIdChanging(int value);
+    partial void OnParishIdChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnFilePathChanging(string value);
+    partial void OnFilePathChanged();
+    partial void OnPermitStatusChanging(int value);
+    partial void OnPermitStatusChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    #endregion
+		
+		public ConstructionPermit()
+		{
+			this._Parish = default(EntityRef<Parish>);
+			this._ValueSet = default(EntityRef<ValueSet>);
+			this._ValueSet1 = default(EntityRef<ValueSet>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PermitType", DbType="Int NOT NULL")]
+		public int PermitType
+		{
+			get
+			{
+				return this._PermitType;
+			}
+			set
+			{
+				if ((this._PermitType != value))
+				{
+					if (this._ValueSet.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPermitTypeChanging(value);
+					this.SendPropertyChanging();
+					this._PermitType = value;
+					this.SendPropertyChanged("PermitType");
+					this.OnPermitTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int NOT NULL")]
+		public int ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					if (this._Parish.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(500)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FilePath", DbType="NVarChar(255)")]
+		public string FilePath
+		{
+			get
+			{
+				return this._FilePath;
+			}
+			set
+			{
+				if ((this._FilePath != value))
+				{
+					this.OnFilePathChanging(value);
+					this.SendPropertyChanging();
+					this._FilePath = value;
+					this.SendPropertyChanged("FilePath");
+					this.OnFilePathChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PermitStatus", DbType="Int NOT NULL")]
+		public int PermitStatus
+		{
+			get
+			{
+				return this._PermitStatus;
+			}
+			set
+			{
+				if ((this._PermitStatus != value))
+				{
+					if (this._ValueSet1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPermitStatusChanging(value);
+					this.SendPropertyChanging();
+					this._PermitStatus = value;
+					this.SendPropertyChanged("PermitStatus");
+					this.OnPermitStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_ConstructionPermit", Storage="_Parish", ThisKey="ParishId", OtherKey="Id", IsForeignKey=true)]
+		public Parish Parish
+		{
+			get
+			{
+				return this._Parish.Entity;
+			}
+			set
+			{
+				Parish previousValue = this._Parish.Entity;
+				if (((previousValue != value) 
+							|| (this._Parish.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parish.Entity = null;
+						previousValue.ConstructionPermits.Remove(this);
+					}
+					this._Parish.Entity = value;
+					if ((value != null))
+					{
+						value.ConstructionPermits.Add(this);
+						this._ParishId = value.Id;
+					}
+					else
+					{
+						this._ParishId = default(int);
+					}
+					this.SendPropertyChanged("Parish");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ValueSet_ConstructionPermit", Storage="_ValueSet", ThisKey="PermitType", OtherKey="Id", IsForeignKey=true)]
+		public ValueSet ValueSet
+		{
+			get
+			{
+				return this._ValueSet.Entity;
+			}
+			set
+			{
+				ValueSet previousValue = this._ValueSet.Entity;
+				if (((previousValue != value) 
+							|| (this._ValueSet.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ValueSet.Entity = null;
+						previousValue.ConstructionPermits.Remove(this);
+					}
+					this._ValueSet.Entity = value;
+					if ((value != null))
+					{
+						value.ConstructionPermits.Add(this);
+						this._PermitType = value.Id;
+					}
+					else
+					{
+						this._PermitType = default(int);
+					}
+					this.SendPropertyChanged("ValueSet");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ValueSet_ConstructionPermit1", Storage="_ValueSet1", ThisKey="PermitStatus", OtherKey="Id", IsForeignKey=true)]
+		public ValueSet ValueSet1
+		{
+			get
+			{
+				return this._ValueSet1.Entity;
+			}
+			set
+			{
+				ValueSet previousValue = this._ValueSet1.Entity;
+				if (((previousValue != value) 
+							|| (this._ValueSet1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ValueSet1.Entity = null;
+						previousValue.ConstructionPermits1.Remove(this);
+					}
+					this._ValueSet1.Entity = value;
+					if ((value != null))
+					{
+						value.ConstructionPermits1.Add(this);
+						this._PermitStatus = value.Id;
+					}
+					else
+					{
+						this._PermitStatus = default(int);
+					}
+					this.SendPropertyChanged("ValueSet1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ValueSet")]
+	public partial class ValueSet : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Code;
+		
+		private string _Definition;
+		
+		private string _Note;
+		
+		private string _Category;
+		
+		private EntitySet<ConstructionPermit> _ConstructionPermits;
+		
+		private EntitySet<ConstructionPermit> _ConstructionPermits1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnCodeChanging(string value);
+    partial void OnCodeChanged();
+    partial void OnDefinitionChanging(string value);
+    partial void OnDefinitionChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    partial void OnCategoryChanging(string value);
+    partial void OnCategoryChanged();
+    #endregion
+		
+		public ValueSet()
+		{
+			this._ConstructionPermits = new EntitySet<ConstructionPermit>(new Action<ConstructionPermit>(this.attach_ConstructionPermits), new Action<ConstructionPermit>(this.detach_ConstructionPermits));
+			this._ConstructionPermits1 = new EntitySet<ConstructionPermit>(new Action<ConstructionPermit>(this.attach_ConstructionPermits1), new Action<ConstructionPermit>(this.detach_ConstructionPermits1));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Code
+		{
+			get
+			{
+				return this._Code;
+			}
+			set
+			{
+				if ((this._Code != value))
+				{
+					this.OnCodeChanging(value);
+					this.SendPropertyChanging();
+					this._Code = value;
+					this.SendPropertyChanged("Code");
+					this.OnCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Definition", DbType="NText NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string Definition
+		{
+			get
+			{
+				return this._Definition;
+			}
+			set
+			{
+				if ((this._Definition != value))
+				{
+					this.OnDefinitionChanging(value);
+					this.SendPropertyChanging();
+					this._Definition = value;
+					this.SendPropertyChanged("Definition");
+					this.OnDefinitionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NVarChar(200)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Category", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Category
+		{
+			get
+			{
+				return this._Category;
+			}
+			set
+			{
+				if ((this._Category != value))
+				{
+					this.OnCategoryChanging(value);
+					this.SendPropertyChanging();
+					this._Category = value;
+					this.SendPropertyChanged("Category");
+					this.OnCategoryChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ValueSet_ConstructionPermit", Storage="_ConstructionPermits", ThisKey="Id", OtherKey="PermitType")]
+		public EntitySet<ConstructionPermit> ConstructionPermits
+		{
+			get
+			{
+				return this._ConstructionPermits;
+			}
+			set
+			{
+				this._ConstructionPermits.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ValueSet_ConstructionPermit1", Storage="_ConstructionPermits1", ThisKey="Id", OtherKey="PermitStatus")]
+		public EntitySet<ConstructionPermit> ConstructionPermits1
+		{
+			get
+			{
+				return this._ConstructionPermits1;
+			}
+			set
+			{
+				this._ConstructionPermits1.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ConstructionPermits(ConstructionPermit entity)
+		{
+			this.SendPropertyChanging();
+			entity.ValueSet = this;
+		}
+		
+		private void detach_ConstructionPermits(ConstructionPermit entity)
+		{
+			this.SendPropertyChanging();
+			entity.ValueSet = null;
+		}
+		
+		private void attach_ConstructionPermits1(ConstructionPermit entity)
+		{
+			this.SendPropertyChanging();
+			entity.ValueSet1 = this;
+		}
+		
+		private void detach_ConstructionPermits1(ConstructionPermit entity)
+		{
+			this.SendPropertyChanging();
+			entity.ValueSet1 = null;
 		}
 	}
 }

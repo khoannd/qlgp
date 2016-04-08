@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PMS" Class="PMSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=THIPC;Initial Catalog=PMS;Integrated Security=True;MultipleActiveResultSets=True" SettingsObjectName="PMS.DataAccess.Properties.Settings" SettingsPropertyName="PMSConnectionString5" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLGP" Class="PMSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=TOANPBSE61011;Initial Catalog=QLGP;Persist Security Info=True;User ID=sa;MultipleActiveResultSets=True" SettingsObjectName="PMS.DataAccess.Properties.Settings" SettingsPropertyName="QLGPConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Account" Member="Accounts">
     <Type Name="Account">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -409,6 +409,7 @@
       <Association Name="Parish_Society" Member="Societies" ThisKey="Id" OtherKey="ParishId" Type="Society" />
       <Association Name="Parish_Vicariate" Member="Vicariates" ThisKey="Id" OtherKey="ParishId" Type="Vicariate" />
       <Association Name="Parish_ParishManager" Member="ParishManagers" ThisKey="Id" OtherKey="ParishId" Type="ParishManager" />
+      <Association Name="Parish_ConstructionPermit" Member="ConstructionPermits" ThisKey="Id" OtherKey="ParishId" Type="ConstructionPermit" />
       <Association Name="Priest_Parish" Member="Priest1" ThisKey="PriestId" OtherKey="Id" Type="Priest" IsForeignKey="true" />
       <Association Name="Vicariate_Parish" Member="Vicariate" ThisKey="VicariateId" OtherKey="Id" Type="Vicariate" IsForeignKey="true" />
     </Type>
@@ -431,6 +432,31 @@
       <Association Name="Priest_ParishManager" Member="Priest" ThisKey="PriestId" OtherKey="Id" Type="Priest" IsForeignKey="true" />
       <Association Name="ThuyenChuyenLinhMuc_ParishManager" Member="ThuyenChuyenLinhMuc" ThisKey="IdThuyenChuyenLinhMuc" OtherKey="Id" Type="ThuyenChuyenLinhMuc" IsForeignKey="true" />
       <Association Name="VaiTro_ParishManager" Member="VaiTro" ThisKey="Position" OtherKey="Id" Type="VaiTro" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ConstructionPermit" Member="ConstructionPermits">
+    <Type Name="ConstructionPermit">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PermitType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParishId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="FilePath" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="PermitStatus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Note" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Parish_ConstructionPermit" Member="Parish" ThisKey="ParishId" OtherKey="Id" Type="Parish" IsForeignKey="true" />
+      <Association Name="ValueSet_ConstructionPermit" Member="ValueSet" ThisKey="PermitType" OtherKey="Id" Type="ValueSet" IsForeignKey="true" />
+      <Association Name="ValueSet_ConstructionPermit1" Member="ValueSet1" ThisKey="PermitStatus" OtherKey="Id" Type="ValueSet" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ValueSet" Member="ValueSets">
+    <Type Name="ValueSet">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Definition" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Note" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Category" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="ValueSet_ConstructionPermit" Member="ConstructionPermits" ThisKey="Id" OtherKey="PermitType" Type="ConstructionPermit" />
+      <Association Name="ValueSet_ConstructionPermit1" Member="ConstructionPermits1" ThisKey="Id" OtherKey="PermitStatus" Type="ConstructionPermit" />
     </Type>
   </Table>
 </Database>
