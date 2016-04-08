@@ -133,6 +133,7 @@
     <Compile Include="Controllers\ChartController.cs" />
     <Compile Include="Controllers\CommunityController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
+    <Compile Include="Controllers\ConstructionPermitController.cs" />
     <Compile Include="Controllers\DataCheckingController.cs" />
     <Compile Include="Controllers\DioceseController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -417,6 +418,7 @@
     <Content Include="Views\ThuyenChuyenLinhMuc\_ParishManagerHistory.cshtml" />
     <Content Include="Views\ThuyenChuyenLinhMuc\InQuyetDinh.cshtml" />
     <Content Include="Views\ThuyenChuyenLinhMuc\InGiayMoi.cshtml" />
+    <Content Include="Views\ConstructionPermit\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PMS.BusinessLogic\PMS.BusinessLogic.csproj">

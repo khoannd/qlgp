@@ -52,6 +52,7 @@
     <Compile Include="ChristianNameBusiness.cs" />
     <Compile Include="CommunityBusiness.cs" />
     <Compile Include="ConfigurationBusiness.cs" />
+    <Compile Include="ConstructionPermitBusiness.cs" />
     <Compile Include="DoctrineCourseBusiness.cs" />
     <Compile Include="FamilyBusiness.cs" />
     <Compile Include="MatrimonyBusiness.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="SocietyBusiness.cs" />
     <Compile Include="StatisticBusiness.cs" />
     <Compile Include="TreeBusiness.cs" />
+    <Compile Include="ValueSetBusiness.cs" />
     <Compile Include="VicariateBusiness.cs" />
     <Compile Include="VocationBusiness.cs" />
   </ItemGroup>
