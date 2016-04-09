@@ -320,19 +320,6 @@
         ClearModalConstructionPermit();
     });
 
-    //Function Clear Modal Construction Permit
-    function ClearModalConstructionPermit() {
-        $("#selectPermitTypeModal").val('0');
-        $("#selectParishModal").val('0');
-        $("#txtDescriptionModal").val('');
-        $("#txtFilePathModal").val('');
-        $("#txtNoteModal").val('');
-        $("#lbPermitTypeErrorModal").html("");
-        $("#lbPermitTypeErrorModal").hide();
-        $("#lbParishErrorModal").html("");
-        $("#lbParishErrorModal").hide();
-    }
-
     //Function validate input
     function checkValidate() {
         var isError = false;
@@ -523,5 +510,18 @@
     //Function refesh Table
     function refeshTable() {
         $("#constructionPermitTable").dataTable()._fnAjaxUpdate();
+    }
+
+    //Function Clear Modal Construction Permit
+    function ClearModalConstructionPermit() {
+        $("#selectPermitTypeModal").val('0');
+        $("#selectParishModal").val('0');
+        $("#txtDescriptionModal").val('');
+        $("#txtFilePathModal").val('');
+        $("#txtNoteModal").val('');
+        $("#lbPermitTypeErrorModal").html("");
+        $("#lbPermitTypeErrorModal").hide();
+        $("#lbParishErrorModal").html("");
+        $("#lbParishErrorModal").hide();
     }
 </script>
