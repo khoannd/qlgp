@@ -361,11 +361,6 @@
         else return true;
     }
 
-    //Function refesh Table
-    function refeshTable() {
-        $("#constructionPermitTable").dataTable()._fnAjaxUpdate();
-    }
-
     //Function Add New Construction Permit
     function addNewConstructionPermit() {
         if (!checkValidate()) {
@@ -523,5 +518,10 @@
         $("#btnUpdateConstructionPermitModal").hide();
         $("#txtIdUpload").val(id);
         $("#ConstructionPermitModal").modal('show');
+    }
+
+    //Function refesh Table
+    function refeshTable() {
+        $("#constructionPermitTable").dataTable()._fnAjaxUpdate();
     }
 </script>
