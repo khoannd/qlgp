@@ -320,19 +320,6 @@
         ClearModalConstructionPermit();
     });
 
-    //Function Clear Modal Construction Permit
-    function ClearModalConstructionPermit() {
-        $("#selectPermitTypeModal").val('0');
-        $("#selectParishModal").val('0');
-        $("#txtDescriptionModal").val('');
-        $("#txtFilePathModal").val('');
-        $("#txtNoteModal").val('');
-        $("#lbPermitTypeErrorModal").html("");
-        $("#lbPermitTypeErrorModal").hide();
-        $("#lbParishErrorModal").html("");
-        $("#lbParishErrorModal").hide();
-    }
-
     //Function validate input
     function checkValidate() {
         var isError = false;
@@ -359,11 +346,6 @@
             return false;
         }
         else return true;
-    }
-
-    //Function refesh Table
-    function refeshTable() {
-        $("#constructionPermitTable").dataTable()._fnAjaxUpdate();
     }
 
     //Function Add New Construction Permit
@@ -523,5 +505,23 @@
         $("#btnUpdateConstructionPermitModal").hide();
         $("#txtIdUpload").val(id);
         $("#ConstructionPermitModal").modal('show');
+    }
+
+    //Function refesh Table
+    function refeshTable() {
+        $("#constructionPermitTable").dataTable()._fnAjaxUpdate();
+    }
+
+    //Function Clear Modal Construction Permit
+    function ClearModalConstructionPermit() {
+        $("#selectPermitTypeModal").val('0');
+        $("#selectParishModal").val('0');
+        $("#txtDescriptionModal").val('');
+        $("#txtFilePathModal").val('');
+        $("#txtNoteModal").val('');
+        $("#lbPermitTypeErrorModal").html("");
+        $("#lbPermitTypeErrorModal").hide();
+        $("#lbParishErrorModal").html("");
+        $("#lbParishErrorModal").hide();
     }
 </script>
