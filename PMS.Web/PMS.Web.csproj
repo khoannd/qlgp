@@ -121,6 +121,7 @@
     <Folder Include="Images\Dioceses\" />
     <Folder Include="Images\Parishioners\" />
     <Folder Include="Models\" />
+    <Folder Include="UploadFiles\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Controllers\ChartController.cs" />
     <Compile Include="Controllers\CommunityController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
+    <Compile Include="Controllers\ConstructionPermitController.cs" />
     <Compile Include="Controllers\DataCheckingController.cs" />
     <Compile Include="Controllers\DioceseController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -423,6 +425,7 @@
     <Content Include="Views\ThuyenChuyenLinhMuc\InGiayMoi.cshtml" />
     <Content Include="Views\Seminary\Index.cshtml" />
     <Content Include="Views\Seminarian\Index.cshtml" />
+    <Content Include="Views\ConstructionPermit\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PMS.BusinessLogic\PMS.BusinessLogic.csproj">

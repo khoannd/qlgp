@@ -29,12 +29,6 @@
       <Association Name="Vocation_VocationSeminaryYear" Member="Vocation" ThisKey="VocationId" OtherKey="ParishionerId" Type="Vocation" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.ChristianSuggestion" Member="ChristianSuggestions">
-    <Type Name="ChristianSuggestion">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
   <Table Name="dbo.Class" Member="Classes">
     <Type Name="Class">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -104,6 +98,26 @@
       <Column Name="MatrimonyTemplate" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="SacramentTemplate" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Association Name="Parish_Configuration" Member="Parish" ThisKey="ParishId" OtherKey="Id" Type="Parish" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ConstructionPermit" Member="ConstructionPermits">
+    <Type Name="ConstructionPermit">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="PermitType" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParishId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="FilePath" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="PermitStatus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Note" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Parish_ConstructionPermit" Member="Parish" ThisKey="ParishId" OtherKey="Id" Type="Parish" IsForeignKey="true" />
+      <Association Name="ValueSet_ConstructionPermit" Member="ValueSet" ThisKey="PermitType" OtherKey="Id" Type="ValueSet" IsForeignKey="true" />
+      <Association Name="ValueSet_ConstructionPermit1" Member="ValueSet1" ThisKey="PermitStatus" OtherKey="Id" Type="ValueSet" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ChristianSuggestion" Member="ChristianSuggestions">
+    <Type Name="ChristianSuggestion">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.DeaconRequisitionComment" Member="DeaconRequisitionComments">
@@ -263,6 +277,7 @@
       <Association Name="Parish_ClassGroup" Member="ClassGroups" ThisKey="Id" OtherKey="ParishId" Type="ClassGroup" />
       <Association Name="Parish_Community" Member="Communities" ThisKey="Id" OtherKey="ParishId" Type="Community" />
       <Association Name="Parish_Configuration" Member="Configuration" ThisKey="Id" OtherKey="ParishId" Type="Configuration" Cardinality="One" />
+      <Association Name="Parish_ConstructionPermit" Member="ConstructionPermits" ThisKey="Id" OtherKey="ParishId" Type="ConstructionPermit" />
       <Association Name="Parish_DeaconRequisitionComment" Member="DeaconRequisitionComments" ThisKey="Id" OtherKey="ParishId" Type="DeaconRequisitionComment" />
       <Association Name="Parish_FamilyMigrationRequest" Member="FamilyMigrationRequests" ThisKey="Id" OtherKey="ToParishId" Type="FamilyMigrationRequest" />
       <Association Name="Parish_Message" Member="Messages" ThisKey="Id" OtherKey="ParishId" Type="Message" />
@@ -510,9 +525,11 @@
     <Type Name="ValueSet">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Code" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Definition" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Definition" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
       <Column Name="Note" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
       <Column Name="Category" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="ValueSet_ConstructionPermit" Member="ConstructionPermits" ThisKey="Id" OtherKey="PermitType" Type="ConstructionPermit" />
+      <Association Name="ValueSet_ConstructionPermit1" Member="ConstructionPermits1" ThisKey="Id" OtherKey="PermitStatus" Type="ConstructionPermit" />
     </Type>
   </Table>
   <Table Name="dbo.Vicariate" Member="Vicariates">

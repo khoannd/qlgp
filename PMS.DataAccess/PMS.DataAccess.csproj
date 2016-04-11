@@ -50,6 +50,7 @@
     <Compile Include="ChartData.cs" />
     <Compile Include="ChristianNameData.cs" />
     <Compile Include="ConfigurationData.cs" />
+    <Compile Include="ConstructionPermitData.cs" />
     <Compile Include="DioceseData.cs" />
     <Compile Include="CommunityData.cs" />
     <Compile Include="DoctrineCourseData.cs" />
@@ -93,12 +94,14 @@
     <Compile Include="Utilities\DateConverter.cs" />
     <Compile Include="Utilities\MessageConverter.cs" />
     <Compile Include="Utilities\CodeConverter.cs" />
+    <Compile Include="ValueSetData.cs" />
     <Compile Include="VicariateData.cs" />
     <Compile Include="ViewModels\ChartBasicComponentViewModel.cs" />
     <Compile Include="ViewModels\ChartCommunityViewModel.cs" />
     <Compile Include="ViewModels\ChartViewModel.cs" />
     <Compile Include="ViewModels\CheckingParishionerViewModel.cs" />
     <Compile Include="ViewModels\ClassGroupViewModel.cs" />
+    <Compile Include="ViewModels\ConstructionPermitViewModel.cs" />
     <Compile Include="ViewModels\PrintParishManagerViewModel.cs" />
     <Compile Include="ViewModels\ThuyenChuyenLinhMucViewModel.cs" />
     <Compile Include="ViewModels\ClassViewModel.cs" />
