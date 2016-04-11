@@ -66,7 +66,35 @@ namespace PMS.DataAccess
                 exist.SeminaryAddress = vocation.SeminaryAddress;
                 exist.ServedAddress = vocation.ServedAddress;
                 exist.ServedPlace = vocation.ServedPlace;
-                
+
+                var seminaryYearIds = vocation.VocationSeminaryYears.Select(v => v.SeminaryYearId);
+
+                var deleteSeminaryYears = exist.VocationSeminaryYears.Where(v => !seminaryYearIds.Contains(v.SeminaryYearId));
+                var updateSeminaryYears = exist.VocationSeminaryYears.Where(v => seminaryYearIds.Contains(v.SeminaryYearId));
+                var insertSeminaryYears = vocation.VocationSeminaryYears.Where(v => !updateSeminaryYears.Any(d => d.SeminaryYearId == v.SeminaryYearId)).Select(v => new VocationSeminaryYear
+                {
+                    ActualEnd = v.ActualEnd,
+                    ActualStart = v.ActualStart,
+                    Status = v.Status,
+                    SeminaryYearId = v.SeminaryYearId,
+                    Vocation = exist
+                });
+
+                _db.VocationSeminaryYears.DeleteAllOnSubmit(deleteSeminaryYears);
+
+                foreach (var item in updateSeminaryYears)
+                {
+                    var updateInfo = vocation.VocationSeminaryYears.FirstOrDefault(v => v.SeminaryYearId == item.SeminaryYearId);
+                    item.ActualEnd = updateInfo.ActualEnd;
+                    item.ActualStart = updateInfo.ActualStart;
+                    item.Status = updateInfo.Status;
+                }
+
+                if (insertSeminaryYears.Count() > 0)
+                {
+                    exist.VocationSeminaryYears.AddRange(insertSeminaryYears);
+                }
+
                 _db.SubmitChanges();
 
                 return exist.ParishionerId;
@@ -93,7 +121,7 @@ namespace PMS.DataAccess
                 _db.LeaveVocationRequisitions.DeleteAllOnSubmit(vocation.LeaveVocationRequisitions);
 
                 _db.Vocations.DeleteOnSubmit(vocation);
-               
+
                 _db.SubmitChanges();
                 return 1;
             }

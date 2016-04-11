@@ -59,6 +59,10 @@
                 .typeahead-wrapper ul.dropdown-menu {
                     width: 100%;
                 }
+
+            tr.deleted {
+                text-decoration: line-through;
+            }
         </style>
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -72,7 +76,7 @@
                     <div class="widget-body">
                         <div class="space-10"></div>
                         <div class="col-sm-offset-1 col-sm-10">
-                            <div class="row">
+                            <div ng-if="!isEdit" class="row">
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label no-padding-right">Chủng sinh&nbsp;(<span style="color: red">*</span>)</label>
                                     <div class="col-sm-9 typeahead-search-box">
@@ -84,6 +88,14 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div ng-if="isEdit" class="row">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Chủng sinh</label>
+                                    <label class="col-sm-9 control-label">
+                                        {{seminarian.Parishioner.Display}}
+                                    </label>
                                 </div>
                             </div>
                             <div class="space-10"></div>
@@ -114,7 +126,7 @@
                                 </div>
                             </div>
                             <div class="space-10"></div>
-                            <div class="row">
+                            <div class="row" ng-if="seminarian.Parishioner.Id">
                                 <div class="col-sm-12 text-center"><label class="control-label"><b>Niên khóa đã học</b></label></div>
                                 <div class="col-sm-12">
                                     <div class="table-responsive">
@@ -130,15 +142,16 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="vsy in seminarian.VocationSeminaryYears">
+                                                <tr ng-repeat="vsy in seminarian.VocationSeminaryYears" ng-class="{'deleted': vsy.Deleted}">
                                                     <td>{{vsy.SeminaryYear.SeminaryName}}</td>
                                                     <td>{{vsy.SeminaryYear.SeminaryYearCode}}</td>
                                                     <td>{{vsy.SeminaryYear.StartAt | date:'yyyy'}} - {{vsy.SeminaryYear.EndAt | date:'yyyy'}}</td>
                                                     <td>{{vsy.ActualStart | date:'yyyy'}} - {{vsy.ActualEnd | date:'yyyy'}}</td>
                                                     <td>{{vsy.Status == 0 ? 'Chưa tốt nghiệp' : 'Đã tốt nghiệp'}}</td>
                                                     <td>
-                                                        <button class="btn btn-minier btn-primary"><i class="ace-icon fa fa-pencil"></i>Sửa</button>
-                                                        <button class="btn btn-minier btn-danger"><i class="ace-icon fa fa-trash-o"></i>Xóa</button>
+                                                        <button ng-if="!vsy.Deleted" class="btn btn-minier btn-primary" ng-click="editVocationSeminaryYear(vsy)"><i class="ace-icon fa fa-pencil"></i>Sửa</button>
+                                                        <button ng-if="!vsy.Deleted" class="btn btn-minier btn-danger" ng-click="deleteVocationSeminaryYear(vsy, $index)"><i class="ace-icon fa fa-trash-o"></i>Xóa</button>
+                                                        <button ng-if="vsy.Deleted" class="btn btn-minier btn-danger" ng-click="undeleteVocationSeminaryYear(vsy, $index)"><i class="ace-icon fa fa-refresh"></i>Phục hồi</button>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -147,17 +160,21 @@
                                 </div>
                             </div>
                             <div class="space-10"></div>
-                            <div class="row">
+                            <div class="row" ng-if="seminarian.Parishioner.Id">
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right">Thêm niên khóa&nbsp;(<span style="color: red">*</span>)</label>
-                                    <div class="col-sm-9 typeahead-search-box">
+                                    <label ng-if="!isEditVocationSeminaryYear" class="col-sm-3 control-label no-padding-right">Thêm niên khóa&nbsp;(<span style="color: red">*</span>)</label>
+                                    <label ng-if="isEditVocationSeminaryYear" class="col-sm-3 control-label no-padding-right">Niên khóa</label>
+                                    <div ng-if="!isEditVocationSeminaryYear" class="col-sm-9 typeahead-search-box">
                                         <div class="typeahead-wrapper">
-                                            <input type="text" typeahead-on-select="changeSeminaryYear(seminarian.NewSeminaryYear)" ng-model="seminarian.NewSeminaryYear.SeminaryYear" placeholder="" typeahead-min-length="0" typeahead-editable="false" uib-typeahead="s as s.Display for s in seminaryYears | filter: $viewValue" typeahead-no-results="noSeminaryYearFound" class="form-control">
+                                            <input type="text" typeahead-on-select="changeSeminaryYear(seminarian.NewSeminaryYear)" ng-model="seminarian.NewSeminaryYear.SeminaryYear" placeholder="" typeahead-min-length="0" typeahead-editable="false" uib-typeahead="s as s.Display for s in getFiltedSeminaryYears($viewValue)" typeahead-no-results="noSeminaryYearFound" class="form-control">
                                             <div ng-show="noResults">
                                                 <i class="glyphicon glyphicon-remove"></i> Không tìm thấy dữ liệu
                                             </div>
                                         </div>
                                     </div>
+                                    <label ng-if="isEditVocationSeminaryYear" class="col-sm-9 control-label">
+                                        <b>{{seminarian.NewSeminaryYear.SeminaryYear.Display}}</b>
+                                    </label>
                                 </div>
                             </div>
                             <div class="space-4"></div>
@@ -187,14 +204,18 @@
                                             <label class="col-sm-3 control-label">
                                                 Tình trạng
                                             </label>
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-6" ng-class="{'col-sm-6': !isEditVocationSeminaryYear, 'col-sm-4': isEditVocationSeminaryYear}">
                                                 <select class="form-control" ng-model="seminarian.NewSeminaryYear.Status">
                                                     <option value="0">Chưa tốt nghiệp</option>
                                                     <option value="1">Tốt nghiệp</option>
                                                 </select>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div ng-if="!isEditVocationSeminaryYear" class="col-sm-3">
                                                 <a ng-click="addNewSeminaryYear()" class="btn btn-success" style="padding: 2px 12px; width: 100%;">Thêm</a>
+                                            </div>
+                                            <div ng-if="isEditVocationSeminaryYear" class="col-sm-5">
+                                                <a ng-click="saveEditVocationSeminaryYear()" class="btn btn-success" style="padding: 2px 12px; width: 60%">Cập nhật</a>
+                                                <a ng-click="cancelEditVocationSeminaryYear()" class="btn btn-grey" style="padding: 2px 12px; width: 37%">Hủy</a>
                                             </div>
                                         </div>
                                     </div>
@@ -324,13 +345,8 @@
     });
 
     $("#btnCreateSeminarian").click(function () {
-        $("#seminarianId").val('');
         var scope = angular.element(document.getElementById('seminarianId')).scope();
         scope.addSeminarian();
-        $("#seminarianModalTitle").html("Thêm chủng sinh mới");
-        $("#createSeminarianModal").modal('show');
-        $("#btnUpdateSeminarianModal").hide();
-        $("#btnCreateSeminarianModal").show();
     });
 
     $("#btnCloseSeminarianModal").click(function () {
@@ -338,83 +354,7 @@
         clearSeminarian();
     });
 
-    $("#btnCreateSeminarianModal").click(function () {
-        AddSeminarian();
-    });
-
-    $("#btnUpdateSeminarianModal").click(function () {
-        UpdateSeminarian();
-    });
-
-
-    function AddSeminarian() {
-        if (!checkValidate()) {
-            return;
-        }
-        var seminarianCode = $("#txtSeminarianCode").val();
-        var seminaryName = $("#txtSeminaryName").val();
-        var startAt = $("#txtStartAt").val();
-        var endAt = $("#txtEndAt").val();
-        startLoading();
-        $.ajax({
-            url: "/Seminarian/AddSeminarian",
-            type: "POST",
-            data: {
-                SeminarianCode: seminarianCode,
-                SeminaryName: seminaryName,
-                StartAt: new Date(startAt, 1, 1).toISOString(),
-                EndAt: new Date(endAt, 1, 1).toISOString()
-            },
-            success: function (data) {
-                if (data.result <= 0) {
-                    showMessage("Thêm chủng sinh thất bại", 0);
-                } else {
-                    showMessage("Thêm chủng sinh thành công", 1);
-                    refreshSeminarianTable();
-                    $("#createSeminarianModal").modal('hide');
-                    clearSeminarian();
-                }
-            },
-
-        });
-    }
-
-    function UpdateSeminarian() {
-        if (!checkValidate()) {
-            return;
-        }
-        var seminarianCode = $("#txtSeminarianCode").val();
-        var seminaryName = $("#txtSeminaryName").val();
-        var startAt = $("#txtStartAt").val();
-        var endAt = $("#txtEndAt").val();
-        var seminarianId = $("#seminarianId").val();
-        startLoading();
-        $.ajax({
-            url: "/Seminarian/UpdateSeminarian",
-            type: "POST",
-            data: {
-                Id: seminarianId,
-                SeminarianCode: seminarianCode,
-                SeminaryName: seminaryName,
-                StartAt: new Date(startAt, 1, 1).toISOString(),
-                EndAt: new Date(endAt, 1, 1).toISOString()
-            },
-            success: function (data) {
-                if (data.result <= 0) {
-                    showMessage("Cập nhật thông tin chủng sinh thất bại", 0);
-                } else {
-                    showMessage("Cập nhật thông tin chủng sinh thành công", 1);
-                    refreshSeminarianTable();
-                    $("#createSeminarianModal").modal('hide');
-                    clearSeminarian();
-                }
-            },
-
-        });
-    }
-
     function LoadSeminarianBySeminarianId(id) {
-        $("#seminarianId").val(id);
         var scope = angular.element(document.getElementById('seminarianId')).scope();
         scope.load(id);
     }
@@ -428,144 +368,14 @@
     }
 
     function DeleteConfirm(id) {
-        bootbox.dialog({
-            closeButton: false,
-            message: "Bạn có chắc muốn xóa chủng sinh này không?",
-            title: "Xác nhận",
-            buttons: {
-                danger: {
-                    label: " Xóa",
-                    className: "ace-icon fa fa-trash-o btn-danger",
-                    callback: function () {
-                        DeleteSeminarian(id);
-                    }
-                },
-                main: {
-                    label: " Đóng",
-                    className: "ace-icon fa fa-times btn-default",
-                    callback: function () {
-                    }
-                }
-            }
-        });
-    }
-
-    function DeleteSeminarian(id) {
-        $.ajax({
-            url: "/Seminarian/DeleteSeminarian",
-            type: "POST",
-            data: { id: id },
-            success: function (data) {
-
-                if (data.result <= 0) {
-                    showMessage("Xóa chủng sinh thất bại", 0);
-                } else {
-                    showMessage("Xóa chủng sinh thành công", 1);
-                    refreshSeminarianTable();
-                }
-
-            },
-        });
-    }
-
-    $('.date-picker').datepicker({
-        minViewMode: 'years',
-        autoclose: true,
-        todayHighlight: true,
-        forceParse: false
-    });
-
-    $(".date-picker").focusout(function () {
-        var code = isDate($(this).val());
-
-        if (code == -1) {
-            showMessage("Thời gian không đúng định dạng (ngày/tháng/năm)", 0, 6000);
-            $(this).focus();
-        }
-        else if (code == -2) {
-            showMessage("Thời gian không hợp lệ", 0, 6000);
-            $(this).focus();
-        }
-    });
-
-    function checkValidate() {
-
-        var seminarianCode = $("#txtSeminarianCode").val();
-        var seminaryName = $("#txtSeminaryName").val();
-        var startAt = $("#txtStartAt").val();
-        var endAt = $("#txtEndAt").val();
-        var isError = false;
-
-        if (!seminarianCode) {
-            $("#lbErrorSeminarianCode").html("Vui lòng nhập mã chủng sinh");
-            $("#lbErrorSeminarianCode").show();
-            isError = true;
-        } else {
-            $("#lbErrorSeminarianCode").hide();
-            $("#lbErrorSeminarianCode").html("");
-        }
-
-        if (!seminaryName) {
-            $("#lbErrorSeminaryName").html("Vui lòng nhập tên chủng viện");
-            $("#lbErrorSeminaryName").show();
-            isError = true;
-        } else {
-            $("#lbErrorSeminaryName").hide();
-            $("#lbErrorSeminaryName").html("");
-        }
-
-        if (!startAt) {
-            $("#lbErrorStartAt").html("Vui lòng nhập năm bắt đầu");
-            $("#lbErrorStartAt").show();
-            isError = true;
-        } else {
-            $("#lbErrorStartAt").hide();
-            $("#lbErrorStartAt").html("");
-        }
-
-        if (!endAt) {
-            $("#lbErrorEndAt").html("Vui lòng nhập năm kết thúc");
-            $("#lbErrorEndAt").show();
-            isError = true;
-        } else {
-            $("#lbErrorEndAt").hide();
-            $("#lbErrorEndAt").html("");
-        }
-
-        if (startAt && endAt) {
-            if (parseInt(startAt) > parseInt(endAt)) {
-                isError = true;
-                $("#lbErrorStartAt").html("Năm bắt đầu phải nhỏ hơn hoặc bằng năm kết thúc");
-                $("#lbErrorStartAt").show();
-            }
-        }
-
-        if (isError) {
-            return false;
-        }
-        return true;
-
+        var scope = angular.element(document.getElementById('seminarianId')).scope();
+        scope.deleteSeminarian(id);
     }
 
     function clearSeminarian() {
         $("#seminarianId").val('');
         var scope = angular.element(document.getElementById('seminarianId')).scope();
         scope.clearSeminarian();
-        $("#txtSeminarianCode").val("");
-        $("#lbErrorSeminarianCode").val("");
-        $("#lbErrorSeminarianCode").hide();
-
-        $("#txtSeminaryName").val("");
-        $("#lbErrorSeminaryName").val("");
-        $("#lbErrorSeminaryName").hide();
-
-        $("#txtStartAt").val("");
-        $("#lbErrorStartAt").val("");
-        $("#lbErrorStartAt").hide();
-
-        $("#txtEndAt").val("");
-        $("#lbErrorEndAt").val("");
-        $("#lbErrorEndAt").hide();
     }
 
 </script>
@@ -621,8 +431,7 @@
         myApp.controller('SeminarianController', ['$scope', '$http', function ($scope, $http) {
             $scope.isEdit = false;
             $scope.seminaryYearDatePickerOptions = {
-                format: 'yyyy',
-                minViewMode: 'years'
+                format: 'dd/mm/yyyy',
             }
 
             $scope.seminaryYears = [];
@@ -635,9 +444,26 @@
                         s.Display = s.SeminaryName + ' khóa ' + s.SeminaryYearCode + ' ' + s.StartAt.getFullYear() + ' - ' + s.EndAt.getFullYear();
                         return s;
                     });
-                })
+                });
 
             $scope.seminarian = { NewSeminaryYear: {} };
+
+
+            $scope.getFiltedSeminaryYears = function (filterValue) {
+                if (!filterValue) {
+                    return $scope.seminaryYears.filter(function (sy) {
+                        return !$scope.seminarian.VocationSeminaryYears || !$scope.seminarian.VocationSeminaryYears.some(function (vsy) {
+                            return vsy.SeminaryYear.Id == sy.Id;
+                        })
+                    });
+                }
+                return $scope.seminaryYears.filter(function (sy) {
+                    return sy.Display.indexOf(filterValue) > -1 && (!$scope.seminarian.VocationSeminaryYears || !$scope.seminarian.VocationSeminaryYears.some(function (vsy) {
+                        return vsy.SeminaryYear.Id == sy.Id;
+                    }));
+                })
+            }
+
             $scope.load = function (id) {
                 $scope.isEdit = true;
                 $http.get('/Seminarian/LoadSeminarianById/' + id)
@@ -648,7 +474,18 @@
                         data.Date8 = getDate(data.Date8);
                         data.Parishioner.Display = data.Parishioner.ChristianName + ' ' + data.Parishioner.Name;
                         data.Parishioner.BirthDate = getDate(data.Parishioner.BirthDate);
+                        if (data.VocationSeminaryYears) {
+                            data.VocationSeminaryYears.forEach(function (vsy) {
+                                vsy.ActualStart = getDate(vsy.ActualStart);
+                                vsy.ActualEnd = getDate(vsy.ActualEnd);
+                                vsy.SeminaryYear.StartAt = getDate(vsy.SeminaryYear.StartAt);
+                                vsy.SeminaryYear.EndAt = getDate(vsy.SeminaryYear.EndAt);
+                                vsy.SeminaryYear.Display = vsy.SeminaryYear.SeminaryName + ' khóa ' + vsy.SeminaryYear.SeminaryYearCode + ' ' + vsy.SeminaryYear.StartAt.getFullYear() + ' - ' + vsy.SeminaryYear.EndAt.getFullYear();
+                                vsy.Status = vsy.Status + '';
+                            })
+                        }
                         $scope.seminarian = data;
+                        $scope.seminarian.NewSeminaryYear = {};
 
                         $("#createSeminarianModal").modal('show');
                     })
@@ -658,8 +495,10 @@
             $scope.actualStartError = '';
 
             $scope.addNewSeminaryYear = function () {
+                $scope.actualStartError = '';
                 if ($scope.seminarian.NewSeminaryYear.ActualStart.getFullYear() > $scope.seminarian.NewSeminaryYear.ActualEnd.getFullYear()) {
                     $scope.actualStartError = 'Năm bắt đầu phải nhỏ hơn hoặc bằng năm kết thúc';
+                    return;
                 }
 
                 if (!$scope.seminarian.VocationSeminaryYears) {
@@ -669,14 +508,7 @@
                 $scope.seminarian.VocationSeminaryYears.push({
                     ActualEnd: $scope.seminarian.NewSeminaryYear.ActualEnd,
                     ActualStart: $scope.seminarian.NewSeminaryYear.ActualStart,
-                    SeminaryYear:
-                    {
-                        EndAt: $scope.seminarian.NewSeminaryYear.SeminaryYear.EndAt,
-                        Id: $scope.seminarian.NewSeminaryYear.SeminaryYear.Id,
-                        SeminaryName: $scope.seminarian.NewSeminaryYear.SeminaryYear.SeminaryName,
-                        SeminaryYearCode: $scope.seminarian.NewSeminaryYear.SeminaryYear.SeminaryYearCode,
-                        StartAt: $scope.seminarian.NewSeminaryYear.SeminaryYear.StartAt
-                    },
+                    SeminaryYear: $scope.seminarian.NewSeminaryYear.SeminaryYear,
                     SeminaryYearId: $scope.seminarian.NewSeminaryYear.SeminaryYear.Id,
                     Status: $scope.seminarian.NewSeminaryYear.Status
                 });
@@ -684,6 +516,7 @@
             }
 
             $scope.addSeminarian = function () {
+                $scope.actualStartError = '';
                 $scope.isEdit = false;
                 $scope.clearSeminarian();
                 $scope.$apply();
@@ -691,6 +524,7 @@
 
             $scope.clearSeminarian = function () {
                 $scope.seminarian = { NewSeminaryYear: {} };
+                $scope.isEditVocationSeminaryYear = false;
             };
 
             $scope.getParishioners = function (value) {
@@ -715,12 +549,157 @@
                 model.Status = typeof model.Status != 'undefined' ? model.Status : '0';
             }
 
+            $scope.editVocationSeminaryYear = function (vsy) {
+                $scope.actualStartError = '';
+                $scope.isEditVocationSeminaryYear = true;
+                $scope.seminarian.NewSeminaryYear = angular.copy(vsy);
+            }
+
+            $scope.saveEditVocationSeminaryYear = function () {
+                $scope.actualStartError = '';
+                if ($scope.seminarian.NewSeminaryYear.ActualStart.getFullYear() > $scope.seminarian.NewSeminaryYear.ActualEnd.getFullYear()) {
+                    $scope.actualStartError = 'Năm bắt đầu phải nhỏ hơn hoặc bằng năm kết thúc';
+                    return;
+                }
+
+                for (var i = 0; i < $scope.seminarian.VocationSeminaryYears.length; i++) {
+                    let vsy = $scope.seminarian.VocationSeminaryYears[i];
+                    if (vsy.SeminaryYear.Id == $scope.seminarian.NewSeminaryYear.SeminaryYear.Id) {
+                        $scope.seminarian.VocationSeminaryYears[i] = {
+                            ActualEnd: $scope.seminarian.NewSeminaryYear.ActualEnd,
+                            ActualStart: $scope.seminarian.NewSeminaryYear.ActualStart,
+                            SeminaryYear: $scope.seminarian.NewSeminaryYear.SeminaryYear,
+                            SeminaryYearId: $scope.seminarian.NewSeminaryYear.SeminaryYear.Id,
+                            Status: $scope.seminarian.NewSeminaryYear.Status
+                        }
+                        break;
+                    }
+                }
+                $scope.seminarian.NewSeminaryYear = {};
+                $scope.isEditVocationSeminaryYear = false;
+            }
+
+            $scope.cancelEditVocationSeminaryYear = function () {
+                $scope.seminarian.NewSeminaryYear = {};
+                $scope.isEditVocationSeminaryYear = false;
+            }
+
+            $scope.deleteVocationSeminaryYear = function (vsy, $index) {
+                if ($scope.seminarian.NewSeminaryYear.SeminaryYear && $scope.seminarian.NewSeminaryYear.SeminaryYear.Id == vsy.SeminaryYear.Id) {
+                    $scope.cancelEditVocationSeminaryYear();
+                }
+                vsy.Deleted = true;
+            }
+
+            $scope.undeleteVocationSeminaryYear = function (vsy, $index) {
+                vsy.Deleted = false;
+            }
+
             $scope.createSeminarian = function () {
-                console.log($scope.seminarian)
+                if (!validateSeminarian()) {
+                    return;
+                }
+
+                var model = getPostModel();
+
+                $http.post('/Seminarian/AddSeminarian', model)
+                    .success(function (response) {
+                        processResponse(response, 'Thêm chủng sinh thành công', 'Thêm chủng sinh không thành công');
+                    }).error(function (error, status) {
+                        showMessage('[' + status + '] Thêm chủng sinh không thành công', 0, 6000);
+                    })
             }
 
             $scope.updateSeminarian = function () {
-                console.log($scope.seminarian)
+                if (!validateSeminarian()) {
+                    return;
+                }
+
+                var model = getPostModel();
+
+                $http.post('/Seminarian/UpdateSeminarian', model)
+                    .success(function (response) {
+                        processResponse(response, 'Cập nhật chủng sinh thành công', 'Cập nhật chủng sinh không thành công');
+                    }).error(function (error, status) {
+                        showMessage('[' + status + '] Cập nhật chủng sinh không thành công', 0, 6000);
+                    })
+            }
+
+            $scope.deleteSeminarian = function (id) {
+                bootbox.dialog({
+                    closeButton: false,
+                    message: "Bạn có chắc muốn xóa chủng sinh này không?",
+                    title: "Xác nhận",
+                    buttons: {
+                        danger: {
+                            label: " Xóa",
+                            className: "ace-icon fa fa-trash-o btn-danger",
+                            callback: function () {
+                                $http.post("/Seminarian/DeleteSeminarian/" + id).success(function (response) {
+                                    if (response.Error) {
+                                        showMessage("Xóa chủng sinh thất bại", 0);
+                                    } else {
+                                        showMessage("Xóa chủng sinh thành công", 1);
+                                        refreshSeminarianTable();
+                                    }
+                                })
+                            }
+                        },
+                        main: {
+                            label: " Đóng",
+                            className: "ace-icon fa fa-times btn-default",
+                            callback: function () {
+                            }
+                        }
+                    }
+                });
+            }
+
+            function processResponse(response, successMessage, notSuccessMessage) {
+                if (response.Error) {
+                    if (response.Errors) {
+                        response.Errors.forEach(function (error) {
+                            showMessage(error, 0, 6000);
+                        })
+                    } else {
+                        showMessage(notSuccessMessage, 0, 6000);
+                    }
+                } else {
+                    showMessage(successMessage, 1, 6000);
+                    $scope.closeSeminarianModal();
+                    refreshSeminarianTable();
+                }
+            }
+
+            function getPostModel() {
+                return {
+                    Parishioner: {
+                        Id: $scope.seminarian.Parishioner.Id
+                    },
+                    VocationSeminaryYears: $scope.seminarian.VocationSeminaryYears.filter(function (vsy) { return !vsy.Deleted }).map(function (vsy) {
+                        return {
+                            ActualStart: vsy.ActualStart,
+                            ActualEnd: vsy.ActualEnd,
+                            SeminaryYearId: vsy.SeminaryYear.Id,
+                            Status: vsy.Status
+                        }
+                    })
+                };
+            }
+
+            function validateSeminarian() {
+                if (!$scope.seminarian.Parishioner || !$scope.seminarian.Parishioner.Id) {
+                    showMessage("Chưa chọn chủng sinh", 0, 6000);
+                    return false;
+                }
+
+                if (!$scope.seminarian.VocationSeminaryYears || $scope.seminarian.VocationSeminaryYears.length == 0
+                    || $scope.seminarian.VocationSeminaryYears.every(function (vsy) { return vsy.Deleted })) {
+                    showMessage("Cần chọn ít nhất một niên khóa cho chủng sinh", 0, 6000);
+                    return false;
+                }
+
+                return true;
             }
 
             $scope.closeSeminarianModal = function () {

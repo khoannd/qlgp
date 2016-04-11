@@ -1,7 +1,9 @@
 ﻿using PMS.BusinessLogic;
+using PMS.DataAccess.Models;
 using PMS.DataAccess.Utilities;
 using PMS.DataAccess.ViewModels;
 using PMS.Web.Filters;
+using PMS.Web.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -143,6 +145,113 @@ namespace PMS.Web.Controllers
                     })
                 }
             }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult AddSeminarian(SeminarianPostModel model)
+        {
+            if (model.VocationSeminaryYears == null || model.VocationSeminaryYears.Count() == 0)
+            {
+                ModelState.AddModelError("VocationSeminaryYears", "Cần chọn ít nhất một niên khóa");
+            }
+            else if (model.VocationSeminaryYears.Any(v => v.ActualEnd.Year < v.ActualStart.Year))
+            {
+                ModelState.AddModelError("ActualStart", "Năm bắt đầu phải nhỏ hơn hoặc bằng năm kết thúc");
+            }
+
+            if (model.VocationSeminaryYears.GroupBy(v => v.SeminaryYearId).Any(g => g.Count() > 1))
+            {
+                ModelState.AddModelError("VocationSeminaryYears", "Một chủng sinh không thể có 2 niên khóa giống nhau");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(new { Error = true, Errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)) });
+            }
+
+            var dateConverter = new DateConverter();
+
+            var vocation = new Vocation();
+            var joinSeminaryDate = model.VocationSeminaryYears.OrderBy(o => o.ActualStart).FirstOrDefault();
+
+            vocation.Date2 = dateConverter.ConvertDateToString(joinSeminaryDate.ActualStart.ToString("dd/MM/yyyy"));
+
+            vocation.ParishionerId = model.Parishioner.Id;
+
+            if (model.VocationSeminaryYears != null && model.VocationSeminaryYears.Count() != 0)
+            {
+                vocation.VocationSeminaryYears.AddRange(model.VocationSeminaryYears.Select(v => new VocationSeminaryYear
+                {
+                    ActualEnd = v.ActualEnd,
+                    ActualStart = v.ActualStart,
+                    SeminaryYearId = v.SeminaryYearId,
+                    Status = v.Status
+                }));
+            }
+
+            var result = _seminarianBusiness.Add(vocation);
+
+            return Json(new
+            {
+                Error = result <= 0
+            });
+        }
+
+        [HttpPost]
+        public ActionResult UpdateSeminarian(SeminarianPostModel model)
+        {
+            if (model.VocationSeminaryYears == null || model.VocationSeminaryYears.Count() == 0)
+            {
+                ModelState.AddModelError("VocationSeminaryYears", "Cần chọn ít nhất một niên khóa");
+            }
+            else if (model.VocationSeminaryYears.Any(v => v.ActualEnd.Year < v.ActualStart.Year))
+            {
+                ModelState.AddModelError("ActualStart", "Năm bắt đầu phải nhỏ hơn hoặc bằng năm kết thúc");
+            }
+
+            if (model.VocationSeminaryYears.GroupBy(v => v.SeminaryYearId).Any(g => g.Count() > 1))
+            {
+                ModelState.AddModelError("VocationSeminaryYears", "Một chủng sinh không thể có 2 niên khóa giống nhau");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(new { Error = true, Errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)) });
+            }
+
+            var dateConverter = new DateConverter();
+
+            var vocation = new Vocation();
+            var joinSeminaryDate = model.VocationSeminaryYears.OrderBy(o => o.ActualStart).FirstOrDefault();
+
+            vocation.Date2 = dateConverter.ConvertDateToString(joinSeminaryDate.ActualStart.ToString("dd/MM/yyyy"));
+
+            vocation.ParishionerId = model.Parishioner.Id;
+
+            if (model.VocationSeminaryYears != null && model.VocationSeminaryYears.Count() != 0)
+            {
+                vocation.VocationSeminaryYears.AddRange(model.VocationSeminaryYears.Select(v => new VocationSeminaryYear
+                {
+                    ActualEnd = v.ActualEnd,
+                    ActualStart = v.ActualStart,
+                    SeminaryYearId = v.SeminaryYearId,
+                    Status = v.Status
+                }));
+            }
+
+            var result = _seminarianBusiness.Update(vocation);
+
+            return Json(new
+            {
+                Error = result <= 0
+            });
+        }
+
+        [HttpPost]
+        public ActionResult DeleteSeminarian(int id)
+        {
+            var result = _seminarianBusiness.Delete(id);
+            return Json(new { Error = result <= 0 });
         }
     }
 }
