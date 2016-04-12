@@ -74,6 +74,7 @@
     <Compile Include="PlaceData.cs" />
     <Compile Include="ParishManagerData.cs" />
     <Compile Include="GeneralStatusData.cs" />
+    <Compile Include="DeaconRequisitionSessionData.cs" />
     <Compile Include="SeminarianData.cs" />
     <Compile Include="SeminaryYearData.cs" />
     <Compile Include="VaiTroData.cs" />

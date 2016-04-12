@@ -117,5 +117,10 @@ namespace PMS.BusinessLogic
         {
             return _seminarianData.Delete(id);
         }
+
+        public IEnumerable<Vocation> SearchSeminarianByKeyword(string keyword, int start = 0, int length = 10, int[] ignore = null)
+        {
+            return _seminarianData.SearchSeminarianByKeyword(keyword, start, length, ignore);
+        }
     }
 }

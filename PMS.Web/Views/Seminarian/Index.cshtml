@@ -82,7 +82,7 @@
                                     <div class="col-sm-9 typeahead-search-box">
                                         <div class="typeahead-wrapper">
                                             <input typeahead-wait-ms="500" typeahead-template-url="searchParishionerTemplate.html" type="text" ng-model="seminarian.Parishioner" placeholder="" typeahead-editable="false" uib-typeahead="p as p.Display for p in getParishioners($viewValue)" typeahead-loading="loadingParishioner" typeahead-no-results="noParishionerFound" class="form-control">
-                                            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                                            <i ng-show="loadingParishioner" class="glyphicon glyphicon-refresh"></i>
                                             <div ng-show="noResults">
                                                 <i class="glyphicon glyphicon-remove"></i> Không tìm thấy dữ liệu
                                             </div>
@@ -520,6 +520,7 @@
                 $scope.isEdit = false;
                 $scope.clearSeminarian();
                 $scope.$apply();
+                $("#createSeminarianModal").modal('show');
             }
 
             $scope.clearSeminarian = function () {

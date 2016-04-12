@@ -127,4 +127,18 @@ namespace PMS.DataAccess.Enumerations
         Parishioner = 6
     }
 
+    public enum DeaconRequisitionSessionStatus
+    {
+        WaitingForComment = 0,
+        WaitingForOrdinationMass = 1,
+        Completed = 2
+    }
+
+    public enum VocationDeaconRequisitionSessionStatus
+    {
+        Pending = 0,
+        Approved = 1,
+        Disapproved = -1
+    }
+
 }

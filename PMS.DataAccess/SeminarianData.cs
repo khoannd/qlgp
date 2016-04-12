@@ -117,6 +117,7 @@ namespace PMS.DataAccess
                 }
 
                 _db.VocationSeminaryYears.DeleteAllOnSubmit(vocation.VocationSeminaryYears);
+                _db.DeaconRequisitionComments.DeleteAllOnSubmit(vocation.VocationDeaconRequisitionSessions.SelectMany(v => v.DeaconRequisitionComments));
                 _db.VocationDeaconRequisitionSessions.DeleteAllOnSubmit(vocation.VocationDeaconRequisitionSessions);
                 _db.LeaveVocationRequisitions.DeleteAllOnSubmit(vocation.LeaveVocationRequisitions);
 
@@ -128,6 +129,27 @@ namespace PMS.DataAccess
             catch (Exception)
             {
                 return -1;
+            }
+        }
+
+        public IEnumerable<Vocation> SearchSeminarianByKeyword(string keyword, int start = 0, int length = 10, int[] ignore = null)
+        {
+            keyword = keyword.Trim().ToLower();
+            if (ignore == null)
+            {
+                ignore = new int[] { };
+            }
+            var query = _db.Vocations.Where(v => !ignore.Contains(v.Parishioner.Id) && v.Date2 != null && v.Date2.Trim() != "" && (v.Date7 == null || v.Date7.Trim() == "") && (v.Parishioner.Name.Contains(keyword) || v.Parishioner.ChristianName.Contains(keyword)
+                || v.Parishioner.Address.ToLower().Contains(keyword) || v.Parishioner.MobilePhone.Contains(keyword) || v.Parishioner.Phone.Contains(keyword)
+                || v.Parishioner.BirthDate.Contains(keyword) || v.Parishioner.Code.ToLower().Contains(keyword) || v.Parishioner.Email.ToLower().Contains(keyword)));
+            query = query.OrderBy(p => p.Parishioner.Name).Skip(start);
+            if (length <= 0)
+            {
+                return query.ToList();
+            }
+            else
+            {
+                return query.Take(length).ToList();
             }
         }
 

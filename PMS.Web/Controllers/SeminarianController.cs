@@ -118,7 +118,7 @@ namespace PMS.Web.Controllers
                             c.VocationDeaconRequisitionId
                         }),
                         l.Key.CreatedAt,
-                        l.Key.DeaconOrdinationMassParishId,
+                        l.Key.DeaconOrdinationMassParish,
                         l.Key.DeaconOrdinationMassTime,
                         l.Key.DeadlineForParish,
                         l.Key.DeadlineForPriest,
@@ -252,6 +252,48 @@ namespace PMS.Web.Controllers
         {
             var result = _seminarianBusiness.Delete(id);
             return Json(new { Error = result <= 0 });
+        }
+
+        public ActionResult SearchSeminariansForAddDeaconRequisitionSession(string keyword, int start = 0, int length = 10, int[] ignore = null)
+        {
+            var seminarians = _seminarianBusiness.SearchSeminarianByKeyword(keyword, start, length, ignore);
+            var converter = new DateConverter();
+            return Json(new
+            {
+                Result = seminarians.Select(p => new
+                {
+                    p.Parishioner.Address,
+                    BirthDate = converter.ConvertStringToDateObjectNullable(p.Parishioner.BirthDate),
+                    p.Parishioner.BirthPlace,
+                    p.Parishioner.Career,
+                    p.Parishioner.ChristianName,
+                    p.Parishioner.Code,
+                    p.Parishioner.CreatedBy,
+                    p.Parishioner.CreatedDate,
+                    p.Parishioner.DeadDate,
+                    p.Parishioner.DomicilePlace,
+                    p.Parishioner.DomicileStatus,
+                    p.Parishioner.Education,
+                    p.Parishioner.Email,
+                    p.Parishioner.FatherName,
+                    p.Parishioner.Gender,
+                    p.Parishioner.Id,
+                    p.Parishioner.ImageUrl,
+                    p.Parishioner.IsCatechumen,
+                    p.Parishioner.IsCounted,
+                    p.Parishioner.IsDead,
+                    p.Parishioner.IsMarried,
+                    p.Parishioner.IsSingle,
+                    p.Parishioner.IsStudying,
+                    p.Parishioner.LastUpdatedBy,
+                    p.Parishioner.MobilePhone,
+                    p.Parishioner.MotherName,
+                    p.Parishioner.Name,
+                    p.Parishioner.Note,
+                    p.Parishioner.Phone,
+                    p.Parishioner.Status
+                })
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }

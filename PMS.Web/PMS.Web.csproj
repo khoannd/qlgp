@@ -136,6 +136,7 @@
     <Compile Include="Controllers\ConfigurationController.cs" />
     <Compile Include="Controllers\ConstructionPermitController.cs" />
     <Compile Include="Controllers\DataCheckingController.cs" />
+    <Compile Include="Controllers\DeaconRequisitionController.cs" />
     <Compile Include="Controllers\DioceseController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\DoctrineCourseController.cs" />
@@ -162,6 +163,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AddDeaconRequisitionSessionModel.cs" />
     <Compile Include="ViewModels\AddSeminarianModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -427,6 +429,7 @@
     <Content Include="Views\Seminary\Index.cshtml" />
     <Content Include="Views\Seminarian\Index.cshtml" />
     <Content Include="Views\ConstructionPermit\Index.cshtml" />
+    <Content Include="Views\DeaconRequisition\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PMS.BusinessLogic\PMS.BusinessLogic.csproj">
