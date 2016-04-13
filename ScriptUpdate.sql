@@ -294,3 +294,6 @@ REFERENCES [dbo].[Vocation] ([ParishionerId])
 GO
 ALTER TABLE [dbo].[VocationSeminaryYear] CHECK CONSTRAINT [FK_VocationSeminaryYear_Vocation1]
 GO
+
+-- comment: 2016-04-12 PhuongND add script to modify table DeaconRequisitionComment for allow null ParishId
+ALTER TABLE DeaconRequisitionComment ALTER COLUMN ParishId INTEGER NULL

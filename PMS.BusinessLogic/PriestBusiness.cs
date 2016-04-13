@@ -165,5 +165,10 @@ namespace PMS.BusinessLogic
 
             return result;
         }
+
+        public IEnumerable<Priest> SearchPriestForCommentDeaconRequisition(string keyword, int start, int length)
+        {
+            return _priestData.SearchPriestForCommentDeaconRequisition(keyword, start, length);
+        }
     }
 }

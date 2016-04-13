@@ -61,9 +61,6 @@
     <Compile Include="FamilyData.cs" />
     <Compile Include="MatrimonyData.cs" />
     <Compile Include="MessageData.cs" />
-    <Compile Include="Models\PMS.cs">
-      <DependentUpon>PMS.dbml</DependentUpon>
-    </Compile>
     <Compile Include="Models\PMS.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -75,6 +72,7 @@
     <Compile Include="ParishManagerData.cs" />
     <Compile Include="GeneralStatusData.cs" />
     <Compile Include="DeaconRequisitionSessionData.cs" />
+    <Compile Include="DeaconRequisitionCommentData.cs" />
     <Compile Include="SeminarianData.cs" />
     <Compile Include="SeminaryYearData.cs" />
     <Compile Include="VaiTroData.cs" />
@@ -121,7 +119,6 @@
     <Compile Include="ViewModels\VicariateViewModel.cs" />
     <Compile Include="VocationData.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="Models\PMS.dbml">
@@ -137,6 +134,7 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Models\PMS.dbml.layout">
       <DependentUpon>PMS.dbml</DependentUpon>

@@ -156,5 +156,10 @@ namespace PMS.BusinessLogic
         }
 
 
+        public IEnumerable<Parish> SearchParishByKeyword(string keyword, int start, int length)
+        {
+            return _parishData.SearchParishByKeyword(keyword, start, length);
+        }
+
     }
 }

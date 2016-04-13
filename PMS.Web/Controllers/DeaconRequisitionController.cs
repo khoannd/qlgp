@@ -185,7 +185,8 @@ namespace PMS.Web.Controllers
                                 Status = v.Vocation.Parishioner.Status.ToString()
                             }
                         },
-                        Status = v.Status.ToString()
+                        Status = v.Status.ToString(),
+                        Id = v.Id
                     })
                 }
             }, JsonRequestBehavior.AllowGet);

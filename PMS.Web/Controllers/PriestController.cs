@@ -72,7 +72,7 @@ namespace PMS.Web.Controllers
 
         public ActionResult LoadPriestById(int id)
         {
-            
+
             Priest result = _priestBusiness.GetPriestByPriestId(id);
             var converter = new DateConverter();
             result.BirthDate = converter.ConvertStringToDate(result.BirthDate);
@@ -88,16 +88,16 @@ namespace PMS.Web.Controllers
             var converter = new DateConverter();
             priest.BirthDate = converter.ConvertDateToString(priest.BirthDate);
             int result = _priestBusiness.AddPriest(priest);
-            return Json(new {result = result}, JsonRequestBehavior.AllowGet);
+            return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult UpdatePriest(Priest priest)
-        {         
+        {
             var converter = new DateConverter();
             priest.BirthDate = converter.ConvertDateToString(priest.BirthDate);
             int result = _priestBusiness.UpdatePriest(priest);
             return Json(new { result = result }, JsonRequestBehavior.AllowGet);
-            
+
         }
 
         public ActionResult DeletePriest(int id)
@@ -205,5 +205,19 @@ namespace PMS.Web.Controllers
             }
             return RedirectToAction("Index");
         }
-	}
+
+        public ActionResult SearchPriestForCommentDeaconRequisition(string keyword, int start, int length)
+        {
+            var priests = _priestBusiness.SearchPriestForCommentDeaconRequisition(keyword, start, length);
+            var dateConverter = new DateConverter();
+            return Json(priests.Select(p => new
+            {
+                p.Id,
+                p.ChristianName,
+                p.Name,
+                p.Phone,
+                BirthDate = dateConverter.ConvertStringToDateObjectNullable(p.BirthDate)
+            }), JsonRequestBehavior.AllowGet);
+        }
+    }
 }

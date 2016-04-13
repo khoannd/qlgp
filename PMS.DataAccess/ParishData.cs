@@ -221,8 +221,21 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<string>(query2, "%" + name + "%", parishId);
         }
 
+        public IEnumerable<Parish> SearchParishByKeyword(string keyword, int start, int length)
+        {
+            keyword = keyword.Trim().ToLower();
+            var query = _db.Parishes.Where(p => p.Name.ToLower().Contains(keyword) || p.Email.ToLower().Contains(keyword) || p.Phone.ToLower().Contains(keyword) || p.Website.ToLower().Contains(keyword)
+                || p.Address.ToLower().Contains(keyword) || p.Ward.ToLower().Contains(keyword) || p.District.ToLower().Contains(keyword) || p.Province.ToLower().Contains(keyword)).OrderBy(p => p.Name);
 
-
-
+            if (length <= 0)
+            {
+                return query.ToList();
+            }
+            else
+            {
+                return query.Skip(start).Take(length);
+            }
+                
+        }
     }
 }

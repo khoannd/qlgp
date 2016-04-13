@@ -1,0 +1,658 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<div ng-controller="DeaconRequisitionSessionController">
+    <div class="col-xs-12">
+        <div class="widget-box transparent ui-sortable-handle">
+            <div class="space-4"></div>
+            <div class="widget-header">
+                <h3 class="widget-title lighter">Danh sách đợt xin chức phó tế</h3>
+            </div>
+            <div class="space-6"></div>
+            <div class="widget-body">
+                <button id="btnCreateDeaconRequisitionSession" class="btn btn-success" data-toggle="modal">
+                    <i class="ace-icon fa fa-plus"></i> Thêm đợt xin chức phó tế
+                </button>
+                <div class="space-6"></div>
+                <table id="deaconRequisitionSessionTable" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                <label class="position-relative">
+                                    <input type="checkbox" class="ace" />
+                                    <span class="lbl"></span>
+                                </label>
+                            </th>
+                            <th>Đợt</th>
+                            <th>Số</th>
+                            <th>Hạn cuối nhận xét của các cha</th>
+                            <th>Hạn cuối nhận xét của giáo xứ</th>
+                            <th>Trạng thái</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--Seminary Year Modal-->
+    <div id="createDeaconRequisitionModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <style>
+            .error {
+                color: #a94442;
+            }
+
+            .typeahead-search-box ul.dropdown-menu li:nth-child(2n+1) {
+                background: #fff;
+            }
+
+            .typeahead-search-box ul.dropdown-menu li:nth-child(2n) {
+                background: #f5f5f5;
+            }
+
+            .typeahead-wrapper {
+                position: relative;
+            }
+
+                .typeahead-wrapper ul.dropdown-menu {
+                    width: 100%;
+                }
+
+            tr.deleted {
+                text-decoration: line-through;
+            }
+        </style>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="widget-box transparent">
+                    <div class="widget-header center">
+                        <div class="col-xs-12">
+                            <h4 class="widget-title lighter">{{isEdit ? 'Chỉnh sửa đợt xin chức phó tế' : 'Thêm đợt xin chức phó tế'}}</h4>
+                            <input type="hidden" id="sessionId" />
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="space-10"></div>
+                        <div class="col-sm-offset-1 col-sm-10">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">Đợt&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" ng-model="session.SessionName" />
+                                        <div class="error">
+                                            {{errors.SessionName}}
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label no-padding-right">Số&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" ng-model="session.SessionCode" />
+                                        <div class="error">
+                                            {{errors.SessionCode}}
+                                        </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label no-padding-right">Năm&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control" datepicker datepicker-options="yearsDatepickerOptions" ng-model="session.Year" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-10"></div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Hạn cuối nhận xét của các cha&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" datepicker datepicker-options="deadlineCommentDatepickerOptions" ng-model="session.DeadlineForPriest" />
+                                    </div>
+                                    <label class="col-sm-3 control-label no-padding-right">Hạn cuối nhận xét của giáo xứ&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" datepicker datepicker-options="deadlineCommentDatepickerOptions" ng-model="session.DeadlineForParish" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Tình trạng&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-3">
+                                        <select class="form-control" ng-model="session.Status">
+                                            <option value="0">Đang chờ nhận xét</option>
+                                            <option value="1">Đang chờ cử hành lễ</option>
+                                            <option value="2">Đã xong</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-10"></div>
+                            <div class="row">
+                                <div class="col-sm-12 text-center"><label class="control-label"><b>Danh sách chủng sinh</b></label></div>
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tên thánh</th>
+                                                    <th>Họ tên</th>
+                                                    <th>Ngày sinh</th>
+                                                    <th>Số điện thoại</th>
+                                                    <th>Email</th>
+                                                    <th>Tình trạng</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="vd in session.VocationDeaconRequisitionSessions" ng-class="{'deleted': vd.Deleted}">
+                                                    <td>{{vd.Vocation.Parishioner.ChristianName}}</td>
+                                                    <td>{{vd.Vocation.Parishioner.Name}}</td>
+                                                    <td>{{vd.Vocation.Parishioner.BirthDate | date:'dd/MM/yyyy'}}</td>
+                                                    <td>{{vd.Vocation.Parishioner.Phone}} {{vd.Vocation.Parishioner.Phone && vd.Vocation.Parishioner.MobilePhone ? '-' : ''}} {{vd.Vocation.Parishioner.MobilePhone}}</td>
+                                                    <td>{{vd.Vocation.Parishioner.Email}}</td>
+                                                    <td>{{vd.Status == 0 ? 'Đang xử lý' : vd.Status == 1 ? 'Đã duyệt' : 'Không duyệt'}}</td>
+                                                    <td>
+                                                        <button ng-if="!vd.Deleted" class="btn btn-minier btn-primary" ng-click="editVocationDeaconRequisition(vd)"><i class="ace-icon fa fa-pencil"></i>Sửa</button>
+                                                        <button ng-if="!vd.Deleted" class="btn btn-minier btn-danger" ng-click="deleteVocationDeaconRequisition(vd, $index)"><i class="ace-icon fa fa-trash-o"></i>Xóa</button>
+                                                        <button ng-if="vd.Deleted" class="btn btn-minier btn-danger" ng-click="undeleteVocationDeaconRequisition(vd, $index)"><i class="ace-icon fa fa-refresh"></i>Phục hồi</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-10"></div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Thêm chủng sinh&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-9 typeahead-search-box">
+                                        <div class="typeahead-wrapper">
+                                            <input typeahead-wait-ms="500" typeahead-on-select="changeSeminarian(session.NewSeminarian)" typeahead-template-url="searchSeminarianTemplate.html" type="text" ng-model="session.NewSeminarian.Parishioner" placeholder="" typeahead-editable="false" uib-typeahead="s as s.Display for s in getSeminarians($viewValue)" typeahead-loading="loadingSeminarian" typeahead-no-results="noSeminarianFound" class="form-control">
+                                            <i ng-show="loadingSeminarian" class="glyphicon glyphicon-refresh"></i>
+                                            <div ng-show="noSeminarianFound">
+                                                <i class="glyphicon glyphicon-remove"></i> Không tìm thấy dữ liệu
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-4"></div>
+                            <div class="row" ng-if="session.NewSeminarian.Parishioner.Id">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">
+                                        Tình trạng
+                                    </label>
+                                    <div class="col-sm-4">
+                                        <select class="form-control" ng-model="session.NewSeminarian.Status">
+                                            <option value="0">Đang xử lý</option>
+                                            <option value="1">Đã duyệt</option>
+                                            <option value="-1">Không duyệt</option>
+                                        </select>
+                                    </div>
+                                    <div ng-if="!isEditVocationDeaconRequisition" class="col-sm-3">
+                                        <a ng-click="addVocationDeaconRequisition()" class="btn btn-success" style="padding: 2px 12px; width: 100%;">Thêm</a>
+                                    </div>
+                                    <div ng-if="isEditVocationDeaconRequisition" class="col-sm-5">
+                                        <a ng-click="saveEditVocationDeaconRequisition()" class="btn btn-success" style="padding: 2px 12px; width: 60%">Cập nhật</a>
+                                        <a ng-click="cancelEditVocationDeaconRequisition()" class="btn btn-grey" style="padding: 2px 12px; width: 37%">Hủy</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-10"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="align-right">
+                                        <div class="space-6"></div>
+                                        <button ng-if="!isEdit" ng-click="addDeaconRequisitionSession()" class="btn btn-primary" data-toggle="modal">
+                                            <i class="ace-icon fa fa-save"></i> Lưu
+                                        </button>
+                                        <button ng-if="isEdit" ng-click="updateDeaconRequisitionSession()" class="btn btn-primary" data-toggle="modal">
+                                            <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                        </button>
+                                        <button ng-click="closeDeaconRequisitionSessionModal()" class="btn btn-grey" data-toggle="modal">
+                                            <i class="ace-icon fa fa-times"></i> Đóng
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/ng-template" id="searchSeminarianTemplate.html">
+        <a>
+            <div class="table-responsive">
+                <table class="table" style="border:none">
+                    <tbody>
+                        <tr>
+                            <td width="120px" style="border:none">Tên</td>
+                            <td style="border:none">{{match.model.ChristianName}} {{match.model.Name}}</td>
+                        </tr>
+                        <tr ng-if="match.model.BirthDate || match.model.BirthDate">
+                            <td>Ngày sinh</td>
+                            <td>{{match.model.BirthDate | date: 'dd/MM/yyyy'}}</td>
+                        </tr>
+                        <tr ng-if="match.model.Phone || match.model.MobilePhone">
+                            <td>Số điện thoại</td>
+                            <td>{{match.model.Phone}} {{match.model.Phone && match.model.MobilePhone ? '-' : ''}} {{match.model.MobilePhone}}</td>
+                        </tr>
+                        <tr ng-if="match.model.Email">
+                            <td>Email</td>
+                            <td>{{match.model.Email}}</td>
+                        </tr>
+                        <tr ng-if="match.model.Address">
+                            <td>Địa chỉ</td>
+                            <td>{{match.model.Address}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </a>
+    </script>
+</div>
+<!--End Seminary Year Modal-->
+<script>
+    InitDatatable();
+    function InitDatatable() {
+        $("#deaconRequisitionSessionTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "sAjaxSource": "/DeaconRequisition/LoadDeaconRequisitionSessionDatatable",
+            //"bProcessing": true,
+            "oLanguage": {
+                "sSearch": "Từ khóa",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0, 1],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [6],
+                    "render": function (data, type, full, meta) {
+                        var content = data == '0' ? 'Đang chờ nhận xét' : data == '1' ? 'Đang chờ cử hành lễ' : 'Đã xong';
+                        return content;
+                    }
+                },
+                {
+                    "aTargets": [7],
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" onclick="LoadDeaconRequisitionSesssionById(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                            '<button class="btn btn-minier btn-danger" onclick="DeleteConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>' +
+                        '<a class="btn btn-minier btn-success" href="/DeaconRequisitionComment/Index/' + data + '">' + '<i class="ace-icon fa fa-comment-o"></i>Nhận xét</a>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "15%"
+                }
+            ],
+            "bAutoWidth": false,
+        });
+
+    }
+    function refreshDeaconRequisitionSessionTable() {
+        updateTableContent("deaconRequisitionSessionTable");
+    }
+    $(document).on('click', 'th input:checkbox', function () {
+        var that = this;
+        $(this).closest('table').find('tr > td:first-child input:checkbox')
+        .each(function () {
+            this.checked = that.checked;
+            $(this).closest('tr').toggleClass('selected');
+        });
+    });
+
+    $("#btnCreateDeaconRequisitionSession").click(function () {
+        var scope = angular.element(document.getElementById('sessionId')).scope();
+        scope.createDeaconRequisitionSession();
+    });
+
+    function LoadDeaconRequisitionSesssionById(id) {
+        var scope = angular.element(document.getElementById('sessionId')).scope();
+        scope.load(id);
+    }
+    
+    function getDate(str) {
+        if (!str) {
+            return null;
+        }
+        var date = eval('new ' + str.replace(/\//g, ''));
+        return date;
+    }
+
+    function DeleteConfirm(id) {
+        var scope = angular.element(document.getElementById('sessionId')).scope();
+        scope.deleteDeaconRequisitionSession(id);
+    }
+
+    function clearDeaconRequisitionSession() {
+        $("#sessionId").val('');
+        var scope = angular.element(document.getElementById('sessionId')).scope();
+        scope.clearDeaconRequisitionSession();
+    }
+
+</script>
+
+@section Scripts
+{
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/ui-bootstrap-tpls-1.3.1.min.js"></script>
+    <script type="text/javascript">
+        var myApp = angular.module('myApp', ['ui.bootstrap']);
+
+        myApp.directive('datepicker', ['$filter', function ($filter) {
+            return {
+                restrict: 'A',
+                require: 'ngModel',
+                link: function (scope, element, attrs, ngModel) {
+                    var baseOptions = {
+                        autoclose: true,
+                        todayHighlight: true,
+                        forceParse: false,
+                        format: "dd/MM/yyyy"
+                    }
+                    var options = attrs.datepickerOptions;
+                    if (options) {
+                        options = scope.$eval(options);
+                        for (var key in options) {
+                            baseOptions[key] = options[key];
+                        }
+                    }
+
+                    if (ngModel) {
+                        ngModel.$parsers.unshift(function (data) {
+                            //convert data from view format to model format
+                            data = $(element).datepicker('getDate');
+                            return data; //converted
+                        });
+
+                        ngModel.$render = function () {
+                            $(element).datepicker('setDate', new Date(ngModel.$viewValue));
+                        };
+                    }
+
+                    element.datepicker(baseOptions)
+                        .on('changeDate', function () {
+                            ngModel.$viewValue = element.datepicker('getDate');
+                            ngModel.$modelValue = ngModel.$viewValue;
+                            ngModel.$commitViewValue();
+                        });
+                }
+            }
+        }])
+
+        myApp.controller('DeaconRequisitionSessionController', ['$scope', '$http', function ($scope, $http) {
+            $scope.isEdit = false;
+            $scope.deadlineCommentDatepickerOptions = {
+                format: 'dd/mm/yyyy',
+            }
+
+            $scope.yearsDatepickerOptions = {
+                format: 'yyyy',
+                minViewMode: 'years'
+            }
+
+            $scope.session = { DeadlineForPriest: new Date(), DeadlineForParish: new Date(), Status: '0', VocationDeaconRequisitionSessions: [], Year: new Date(new Date().getFullYear(), 0) };
+            $scope.load = function (id) {
+                $scope.isEdit = true;
+                $http.get('/DeaconRequisition/LoadDeaconRequisitionSessionById/' + id)
+                    .success(function (data) {
+                        data = data.result;
+                        data.DeaconOrdinationMassTime = getDate(data.DeaconOrdinationMassTime);
+                        data.DeadlineForParish = getDate(data.DeadlineForParish);
+                        data.DeadlineForPriest = getDate(data.DeadlineForPriest);
+                        data.Year = getDate(data.Year);
+
+                        data.VocationDeaconRequisitionSessions.forEach(function (vd) {
+                            vd.Vocation.Parishioner.BirthDate = getDate(vd.Vocation.Parishioner.BirthDate);
+                            vd.Vocation.Parishioner.Display = vd.Vocation.Parishioner.ChristianName + ' ' + vd.Vocation.Parishioner.Name;
+                        })
+
+                        $scope.session = data;
+                        $scope.session.NewSeminarian = {};
+
+                        $("#createDeaconRequisitionModal").modal('show');
+                    })
+                $scope.$apply();
+            }
+
+            $scope.addVocationDeaconRequisition = function () {
+                if (!$scope.session.VocationDeaconRequisitionSessions) {
+                    $scope.session.VocationDeaconRequisitionSessions = [];
+                }
+
+                $scope.session.VocationDeaconRequisitionSessions.push({
+                    Vocation: { Parishioner: $scope.session.NewSeminarian.Parishioner },
+                    Status: $scope.session.NewSeminarian.Status
+                });
+                $scope.session.NewSeminarian = {};
+            }
+
+            $scope.createDeaconRequisitionSession = function () {
+                $scope.isEdit = false;
+                $scope.clearDeaconRequisitionSession();
+                $scope.$apply();
+                $("#createDeaconRequisitionModal").modal('show');
+            }
+
+            $scope.clearDeaconRequisitionSession = function () {
+                $scope.session = { DeadlineForPriest: new Date(), DeadlineForParish: new Date(), Status: '0', VocationDeaconRequisitionSessions: [], Year: new Date(new Date().getFullYear(), 0, 1) };
+                $scope.isEdit = false;
+            };
+
+            $scope.getSeminarians = function (value) {
+                return $http.get('/Seminarian/SearchSeminariansForAddDeaconRequisitionSession', {
+                    params: {
+                        keyword: value,
+                        start: 0,
+                        length: 10,
+                        ignore: $scope.session.VocationDeaconRequisitionSessions.map(function (vd) { return vd.Vocation.Parishioner.Id })
+                    }
+                }).then(function (response) {
+                    return response.data.Result.map(function (p) {
+                        p.Display = p.ChristianName + ' ' + p.Name;
+                        p.BirthDate = getDate(p.BirthDate);
+                        return p;
+                    });
+                });
+            }
+
+            $scope.changeSeminarian = function (model) {
+                model.Status = typeof model.Status != 'undefined' ? model.Status : '0';
+            }
+
+            $scope.editVocationDeaconRequisition = function (vd) {
+                $scope.isEditVocationDeaconRequisition = true;
+                $scope.session.NewSeminarian = angular.copy(vd);
+                $scope.session.NewSeminarian.Parishioner = $scope.session.NewSeminarian.Vocation.Parishioner;
+            }
+
+            $scope.saveEditVocationDeaconRequisition = function () {
+                for (var i = 0; i < $scope.session.VocationDeaconRequisitionSessions.length; i++) {
+                    let vd = $scope.session.VocationDeaconRequisitionSessions[i];
+                    if (vd.Vocation.Parishioner.Id == $scope.session.NewSeminarian.Parishioner.Id) {
+                        $scope.session.VocationDeaconRequisitionSessions[i] = {
+                            Vocation: { Parishioner: $scope.session.NewSeminarian.Parishioner },
+                            Status: $scope.session.NewSeminarian.Status
+                        }
+                        break;
+                    }
+                }
+                $scope.cancelEditVocationDeaconRequisition();
+            }
+
+            $scope.cancelEditVocationDeaconRequisition = function () {
+                $scope.session.NewSeminarian = {};
+                $scope.isEditVocationDeaconRequisition = false;
+            }
+
+            $scope.deleteVocationDeaconRequisition = function (vd, $index) {
+                if ($scope.session.NewSeminarian.Parishioner && $scope.session.NewSeminarian.Parishioner.Id == vd.Vocation.Parishioner.Id) {
+                    $scope.cancelEditVocationDeaconRequisition();
+                }
+                vd.Deleted = true;
+            }
+
+            $scope.undeleteVocationDeaconRequisition = function (vd, $index) {
+                vd.Deleted = false;
+            }
+
+            $scope.addDeaconRequisitionSession = function () {
+                if (!validateVocationDeaconRequisitionSession()) {
+                    return;
+                }
+
+                var model = getPostModel();
+
+                $http.post('/DeaconRequisition/AddDeaconRequisitionSession', model)
+                    .success(function (response) {
+                        processResponse(response, 'Thêm đợt xin chức phó tế thành công', 'Thêm đợt xin chức phó tế không thành công');
+                    }).error(function (error, status) {
+                        showMessage('[' + status + '] Thêm đợt xin chức phó tế không thành công', 0, 6000);
+                    })
+            }
+
+            $scope.updateDeaconRequisitionSession = function () {
+                if (!validateVocationDeaconRequisitionSession()) {
+                    return;
+                }
+
+                var model = getPostModel();
+
+                $http.post('/DeaconRequisition/UpdateDeaconRequisitionSession', model)
+                    .success(function (response) {
+                        processResponse(response, 'Cập nhật đợt xin chức phó tế thành công', 'Cập nhật đợt xin chức phó tế không thành công');
+                    }).error(function (error, status) {
+                        showMessage('[' + status + '] Cập nhật đợt xin chức phó tế không thành công', 0, 6000);
+                    })
+            }
+
+            $scope.deleteDeaconRequisitionSession = function (id) {
+                bootbox.dialog({
+                    closeButton: false,
+                    message: "Bạn có chắc muốn xóa đợt xin chức phó tế này không?",
+                    title: "Xác nhận",
+                    buttons: {
+                        danger: {
+                            label: " Xóa",
+                            className: "ace-icon fa fa-trash-o btn-danger",
+                            callback: function () {
+                                $http.post("/DeaconRequisition/DeleteDeaconRequisitionSession/" + id).success(function (response) {
+                                    if (response.Error) {
+                                        showMessage("Xóa đợt xin chức phó tế thất bại", 0);
+                                    } else {
+                                        showMessage("Xóa đợt xin chức phó tế thành công", 1);
+                                        refreshDeaconRequisitionSessionTable();
+                                    }
+                                }).error(function (error, status) {
+                                    showMessage('[' + status + "] Xóa đợt xin chức phó tế thất bại", 0);
+                                })
+                            }
+                        },
+                        main: {
+                            label: " Đóng",
+                            className: "ace-icon fa fa-times btn-default",
+                            callback: function () {
+                            }
+                        }
+                    }
+                });
+            }
+
+            function processResponse(response, successMessage, notSuccessMessage) {
+                if (response.Error) {
+                    if (response.Errors) {
+                        response.Errors.forEach(function (error) {
+                            showMessage(error, 0, 6000);
+                        })
+                    } else {
+                        showMessage(notSuccessMessage, 0, 6000);
+                    }
+                } else {
+                    showMessage(successMessage, 1, 6000);
+                    $scope.closeDeaconRequisitionSessionModal();
+                    refreshDeaconRequisitionSessionTable();
+                }
+            }
+
+            function getPostModel() {
+                return {
+                    Id: $scope.session.Id,
+                    SessionName: $scope.session.SessionName,
+                    SessionCode: $scope.session.SessionCode,
+                    Year: $scope.session.Year,
+                    DeadlineForPriest: $scope.session.DeadlineForPriest,
+                    DeadlineForParish: $scope.session.DeadlineForParish,
+                    DeaconOrdinationMassParish: $scope.session.DeaconOrdinationMassParish,
+                    DeaconOrdinationMassTime: $scope.session.DeaconOrdinationMassTime,
+                    Status: $scope.session.Status,
+                    VocationDeaconRequisitionSessions: $scope.session.VocationDeaconRequisitionSessions.filter(function (vd) {
+                        return !vd.Deleted;
+                    }).map(function (vd) {
+                        return {
+                            SeminarianId: vd.Vocation.Parishioner.Id,
+                            Status: vd.Status
+                        }
+                    })
+                };
+            }
+
+            function validateVocationDeaconRequisitionSession() {
+                $scope.errors = {};
+                var valid = true;
+                if (!$scope.session.SessionName) {
+                    $scope.errors.SessionName = 'Xin vui lòng nhập vào tên đợt';
+                    valid = false;
+                }
+
+                if (!$scope.session.SessionCode) {
+                    $scope.errors.SessionCode = 'Xin vui lòng nhập vào số';
+                    valid = false;
+                }
+
+                if ($scope.session.VocationDeaconRequisitionSessions.length == 0 || $scope.session.VocationDeaconRequisitionSessions.every(function (vd) { return vd.Deleted })) {
+                    showMessage('Xin vui nhập vào danh sách chủng sinh', 0);
+                    valid = false;
+                }
+
+                return valid;
+            }
+
+            $scope.closeDeaconRequisitionSessionModal = function () {
+                $scope.clearDeaconRequisitionSession();
+                $("#createDeaconRequisitionModal").modal('hide');
+            }
+
+        }]);
+
+        //bootstrap angular app
+        angular.element(document).ready(function () {
+            angular.bootstrap(document, ['myApp']);
+        });
+    </script>
+}

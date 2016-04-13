@@ -110,5 +110,21 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<string>(query, dioceseId, "%" + name + "%");
         }
 
+
+        public IEnumerable<Priest> SearchPriestForCommentDeaconRequisition(string keyword, int start, int length)
+        {
+            keyword = keyword.Trim().ToLower();
+            var query = _db.Priests.Where(p => p.ChristianName.ToLower().Contains(keyword) || p.Name.ToLower().Contains(keyword) || p.Phone.Contains(keyword) || p.BirthDate.Contains(keyword) || (p.ChristianName + " " + p.Name).ToLower().Contains(keyword)).OrderBy(p => p.Name);
+
+            if (length == 0)
+            {
+                return query.ToList();
+            }
+            else
+            {
+                return query.Skip(start).Take(length).ToList();
+            }
+        }
+
     }
 }

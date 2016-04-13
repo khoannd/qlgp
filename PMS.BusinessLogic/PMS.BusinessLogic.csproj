@@ -53,6 +53,7 @@
     <Compile Include="CommunityBusiness.cs" />
     <Compile Include="ConfigurationBusiness.cs" />
     <Compile Include="ConstructionPermitBusiness.cs" />
+    <Compile Include="DeaconRequisitionCommentBusiness.cs" />
     <Compile Include="DoctrineCourseBusiness.cs" />
     <Compile Include="FamilyBusiness.cs" />
     <Compile Include="MatrimonyBusiness.cs" />

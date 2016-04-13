@@ -170,6 +170,23 @@ namespace PMS.Web.Controllers
             model.ImageUrl = parish.ImageUrl;
             return Json(new { result = model }, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult SearchParishByKeyword(string keyword, int start, int length)
+        {
+            var parishes = _parishBusiness.SearchParishByKeyword(keyword, start, length);
+            return Json(parishes.Select(p => new {
+                p.Name,
+                p.Email,
+                p.Phone,
+                p.Website,
+                p.Address,
+                p.Ward,
+                p.District,
+                p.Province,
+                p.Id
+            }), JsonRequestBehavior.AllowGet);
+        }
+
         public string UploadParishImage(HttpPostedFileWrapper inputFile)
         {
             if (inputFile == null || inputFile.ContentLength == 0)

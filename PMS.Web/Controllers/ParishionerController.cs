@@ -1399,6 +1399,45 @@ namespace PMS.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult SearchParishionerByKeyword(string keyword, int start, int length)
+        {
+            var parishioners = _parishionerBusiness.SearchParishionerByKeyword(keyword, start, length);
+            var converter = new DateConverter();
+            return Json(parishioners.Select(p => new
+                {
+                    p.Address,
+                    BirthDate = converter.ConvertStringToDateObjectNullable(p.BirthDate),
+                    p.BirthPlace,
+                    p.Career,
+                    p.ChristianName,
+                    p.Code,
+                    p.CreatedBy,
+                    p.CreatedDate,
+                    p.DeadDate,
+                    p.DomicilePlace,
+                    p.DomicileStatus,
+                    p.Education,
+                    p.Email,
+                    p.FatherName,
+                    p.Gender,
+                    p.Id,
+                    p.ImageUrl,
+                    p.IsCatechumen,
+                    p.IsCounted,
+                    p.IsDead,
+                    p.IsMarried,
+                    p.IsSingle,
+                    p.IsStudying,
+                    p.LastUpdatedBy,
+                    p.MobilePhone,
+                    p.MotherName,
+                    p.Name,
+                    p.Note,
+                    p.Phone,
+                    p.Status
+                }), JsonRequestBehavior.AllowGet);
+        }
+
 
         public int UpdateMatrimony(Matrimony matrimony)
         {

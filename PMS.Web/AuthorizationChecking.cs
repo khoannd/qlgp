@@ -10,6 +10,7 @@ namespace PMS.Web
     public class AuthorizationChecking
     {
         private readonly string _urlForAdmin;
+        private readonly string _urlWithIdForAdmin;
         private readonly string _urlForManager;
         private readonly string _urlForStaff;
         private readonly string _urlForTeacher;
@@ -19,6 +20,8 @@ namespace PMS.Web
             _urlForAdmin = @"/Account/AccountManagement, /Account/ChangePassword, /Diocese/Index, /Priest/Index, /Vicariate/Index, /Parish/Index,
                             /Search/Parishioner, /SearchFamily/Family, /Statistic/Index, /Chart/Index, /Message/CreateMessage,
                             /ThuyenChuyenLinhMuc/Index, /ConstructionPermit/Index, /Seminary/Index, /Seminarian/Index, /DeaconRequisition/Index";
+
+            _urlWithIdForAdmin = @"/DeaconRequisitionComment/Index/{Id}";
 
             _urlForManager = "/Account/ChangePassword, /ApproveRequest/Family, /ApproveRequest/ViewFamilyRequest, /ApproveRequest/Parishioner, /ApproveRequest/ViewParishionerRequest, /Configuration/Index, /Configuration/PreviewTemplate, " +
                              "/ParishHome/Index, /Community/Index, /Society/Index, " +
@@ -39,9 +42,11 @@ namespace PMS.Web
 
         public bool CheckValidUrl(string url, int roleId)
         {
-            if (roleId == (int) AccountEnum.Admin)
+            if (roleId == (int)AccountEnum.Admin)
             {
-                return _urlForAdmin.Contains(url);
+                var fragments = url.Split('/');
+                var urlWithId = string.Join("/", fragments.Take(fragments.Length - 1)) + "/{Id}";
+                return _urlForAdmin.Contains(url) || _urlWithIdForAdmin.Contains(urlWithId);
             }
 
             if (roleId == (int)AccountEnum.Manager)
