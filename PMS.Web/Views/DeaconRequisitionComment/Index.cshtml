@@ -140,8 +140,8 @@
                                                 <textarea ng-model="newComment.Comment" rows="4" class="form-control" placeholder="Nhận xét"></textarea>
                                             </div>
                                             <div class="col-sm-6" style="padding-right: 0">
-                                                <a ng-click="saveComment()" ng-if="isEdit == false" style="width: 100%" class="btn btn-success">Lưu</a>
-                                                <a ng-click="saveComment()" ng-if="isEdit == true" style="width: 100%" class="btn btn-success">Cập nhật</a>
+                                                <a ng-click="saveComment()" ng-if="isEdit == false" style="width: 100%" ng-class="{'disabled': isSaving}" class="btn btn-success">Lưu</a>
+                                                <a ng-click="saveComment()" ng-if="isEdit == true" style="width: 100%" ng-class="{'disabled': isSaving}" class="btn btn-success">Cập nhật</a>
                                             </div>
                                             <div class="col-sm-6" style="padding-left: 0">
                                                 <a ng-click="cancelAddEditComment()" style="width: 100%" class="btn btn-grey">Hủy</a>
@@ -176,7 +176,7 @@
                                                 <td>{{c.Comment}}</td>
                                                 <td>
                                                     <button class="btn btn-minier btn-primary" ng-click="editComment(c)"><i class="ace-icon fa fa-pencil"></i>Sửa</button>
-                                                    <button class="btn btn-minier btn-danger" ng-click="deleteComment(c, $index)"><i class="ace-icon fa fa-trash-o"></i>Xóa</button>
+                                                    <button ng-class="{'disabled': c.Deleting}" class="btn btn-minier btn-danger" ng-click="deleteComment(c, $index)"><i class="ace-icon fa fa-trash-o"></i>Xóa</button>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -453,9 +453,64 @@
                 })
             }
 
+            $scope.deleteComment = function (comment, index) {
+                if (comment.Deleting) {
+                    return;
+                }
+
+                comment.Deleting = true;
+
+                bootbox.dialog({
+                    closeButton: false,
+                    message: "Bạn có chắc muốn xóa nhận xét này không?",
+                    title: "Xác nhận",
+                    buttons: {
+                        danger: {
+                            label: " Xóa",
+                            className: "ace-icon fa fa-trash-o btn-danger",
+                            callback: function () {
+                                $http.post('/DeaconRequisitionComment/DeleteComment/' + comment.Id)
+                                    .success(function (response) {
+                                        if (response.Error) {
+                                            if (response.Errors) {
+                                                response.Errors.forEach(function (error) {
+                                                    showMessage(error, 0, 6000);
+                                                })
+                                            } else {
+                                                showMessage('Xóa nhận xét không thành công', 0, 6000);
+                                            }
+                                            comment.Deleting = false;
+                                        } else {
+                                            showMessage('Xóa nhận xét thành công', 1, 6000);
+                                            $scope.deaconRequisition.Comments.splice(index, 1);
+                                        }
+                                    }).error(function (error, status) {
+                                        showMessage('[' + status + '] Xóa nhận xét không thành công', 0, 6000);
+                                        comment.Deleting = false;
+                                    })
+                                }
+                        },
+                        main: {
+                            label: " Đóng",
+                            className: "ace-icon fa fa-times btn-default",
+                            callback: function () {
+                                comment.Deleting = false;
+                                $scope.$apply();
+                            }
+                        }
+                    }
+                });
+
+
+            }
+
             $scope.isSaving = false;
 
             $scope.saveComment = function () {
+                if ($scope.isSaving) {
+                    return;
+                }
+
                 $scope.isSaving = true;
                 if (!validateSaveComment()) {
                     $scope.isSaving = false;
@@ -513,7 +568,7 @@
                     showMessage('Vui lòng nhập vào nhận xét', 0);
                     valid = false;
                 }
-                
+
                 if ($scope.newComment.Commentator && $scope.newComment.Commentator.Type != $scope.newComment.Type) {
                     $scope.newComment.Commentator = null;
                 }

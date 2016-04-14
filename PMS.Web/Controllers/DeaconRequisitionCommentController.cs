@@ -133,5 +133,17 @@ namespace PMS.Web.Controllers
 
             return Json(new { Error = result <= 0 });
         }
+
+        /// <summary>
+        /// Delete a comment
+        /// </summary>
+        /// <param name="id">Deacon Requisition Comment Id</param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult DeleteComment(int id)
+        {
+            var result = _deaconRequisitionCommentBusiness.DeleteComment(id);
+            return Json(new { Error = result <= 0 });
+        }
     }
 }
