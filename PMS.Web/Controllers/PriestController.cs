@@ -140,7 +140,17 @@ namespace PMS.Web.Controllers
             }
             else
             {
-                result = _priestBusiness.AddPriest(priest);
+                Vocation vocation = new Vocation();
+                vocation.ParishionerId = priest.ParishionerId.GetValueOrDefault();
+                vocation.Position = 4;
+                vocation.IsLeft = false;
+                var vocationParishionerId = _vocationBusiness.AddVocation(vocation);
+
+                if (vocationParishionerId == priest.ParishionerId)
+                {
+                    result = _priestBusiness.AddPriest(priest);
+                }
+                else result = 0;
             }
             return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }
