@@ -36,6 +36,9 @@ namespace PMS.DataAccess.Models
     partial void InsertVocationSeminaryYear(VocationSeminaryYear instance);
     partial void UpdateVocationSeminaryYear(VocationSeminaryYear instance);
     partial void DeleteVocationSeminaryYear(VocationSeminaryYear instance);
+    partial void InsertChristianSuggestion(ChristianSuggestion instance);
+    partial void UpdateChristianSuggestion(ChristianSuggestion instance);
+    partial void DeleteChristianSuggestion(ChristianSuggestion instance);
     partial void InsertClass(Class instance);
     partial void UpdateClass(Class instance);
     partial void DeleteClass(Class instance);
@@ -54,9 +57,6 @@ namespace PMS.DataAccess.Models
     partial void InsertConstructionPermit(ConstructionPermit instance);
     partial void UpdateConstructionPermit(ConstructionPermit instance);
     partial void DeleteConstructionPermit(ConstructionPermit instance);
-    partial void InsertChristianSuggestion(ChristianSuggestion instance);
-    partial void UpdateChristianSuggestion(ChristianSuggestion instance);
-    partial void DeleteChristianSuggestion(ChristianSuggestion instance);
     partial void InsertDeaconRequisitionComment(DeaconRequisitionComment instance);
     partial void UpdateDeaconRequisitionComment(DeaconRequisitionComment instance);
     partial void DeleteDeaconRequisitionComment(DeaconRequisitionComment instance);
@@ -156,7 +156,7 @@ namespace PMS.DataAccess.Models
     #endregion
 		
 		public PMSDataContext() : 
-				base(global::PMS.DataAccess.Properties.Settings.Default.QLGPConnectionString, mappingSource)
+				base(global::PMS.DataAccess.Properties.Settings.Default.QLGPConnectionString1, mappingSource)
 		{
 			OnCreated();
 		}
@@ -198,6 +198,14 @@ namespace PMS.DataAccess.Models
 			get
 			{
 				return this.GetTable<VocationSeminaryYear>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ChristianSuggestion> ChristianSuggestions
+		{
+			get
+			{
+				return this.GetTable<ChristianSuggestion>();
 			}
 		}
 		
@@ -246,14 +254,6 @@ namespace PMS.DataAccess.Models
 			get
 			{
 				return this.GetTable<ConstructionPermit>();
-			}
-		}
-		
-		public System.Data.Linq.Table<ChristianSuggestion> ChristianSuggestions
-		{
-			get
-			{
-				return this.GetTable<ChristianSuggestion>();
 			}
 		}
 		
@@ -1158,6 +1158,92 @@ namespace PMS.DataAccess.Models
 						this._VocationId = default(int);
 					}
 					this.SendPropertyChanged("Vocation");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ChristianSuggestion")]
+	public partial class ChristianSuggestion : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public ChristianSuggestion()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
 				}
 			}
 		}
@@ -2783,10 +2869,6 @@ namespace PMS.DataAccess.Models
 		
 		private EntityRef<Parish> _Parish;
 		
-		private EntityRef<ValueSet> _ValueSet;
-		
-		private EntityRef<ValueSet> _ValueSet1;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -2810,8 +2892,6 @@ namespace PMS.DataAccess.Models
 		public ConstructionPermit()
 		{
 			this._Parish = default(EntityRef<Parish>);
-			this._ValueSet = default(EntityRef<ValueSet>);
-			this._ValueSet1 = default(EntityRef<ValueSet>);
 			OnCreated();
 		}
 		
@@ -2846,10 +2926,6 @@ namespace PMS.DataAccess.Models
 			{
 				if ((this._PermitType != value))
 				{
-					if (this._ValueSet.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnPermitTypeChanging(value);
 					this.SendPropertyChanging();
 					this._PermitType = value;
@@ -2934,10 +3010,6 @@ namespace PMS.DataAccess.Models
 			{
 				if ((this._PermitStatus != value))
 				{
-					if (this._ValueSet1.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
 					this.OnPermitStatusChanging(value);
 					this.SendPropertyChanging();
 					this._PermitStatus = value;
@@ -3001,160 +3073,6 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ValueSet_ConstructionPermit", Storage="_ValueSet", ThisKey="PermitType", OtherKey="Id", IsForeignKey=true)]
-		public ValueSet ValueSet
-		{
-			get
-			{
-				return this._ValueSet.Entity;
-			}
-			set
-			{
-				ValueSet previousValue = this._ValueSet.Entity;
-				if (((previousValue != value) 
-							|| (this._ValueSet.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._ValueSet.Entity = null;
-						previousValue.ConstructionPermits.Remove(this);
-					}
-					this._ValueSet.Entity = value;
-					if ((value != null))
-					{
-						value.ConstructionPermits.Add(this);
-						this._PermitType = value.Id;
-					}
-					else
-					{
-						this._PermitType = default(int);
-					}
-					this.SendPropertyChanged("ValueSet");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ValueSet_ConstructionPermit1", Storage="_ValueSet1", ThisKey="PermitStatus", OtherKey="Id", IsForeignKey=true)]
-		public ValueSet ValueSet1
-		{
-			get
-			{
-				return this._ValueSet1.Entity;
-			}
-			set
-			{
-				ValueSet previousValue = this._ValueSet1.Entity;
-				if (((previousValue != value) 
-							|| (this._ValueSet1.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._ValueSet1.Entity = null;
-						previousValue.ConstructionPermits1.Remove(this);
-					}
-					this._ValueSet1.Entity = value;
-					if ((value != null))
-					{
-						value.ConstructionPermits1.Add(this);
-						this._PermitStatus = value.Id;
-					}
-					else
-					{
-						this._PermitStatus = default(int);
-					}
-					this.SendPropertyChanged("ValueSet1");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ChristianSuggestion")]
-	public partial class ChristianSuggestion : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private string _Name;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    #endregion
-		
-		public ChristianSuggestion()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -3192,7 +3110,7 @@ namespace PMS.DataAccess.Models
 		
 		private System.Nullable<int> _ParishionerId;
 		
-		private int _ParishId;
+		private System.Nullable<int> _ParishId;
 		
 		private int _VocationDeaconRequisitionId;
 		
@@ -3218,7 +3136,7 @@ namespace PMS.DataAccess.Models
     partial void OnPriestIdChanged();
     partial void OnParishionerIdChanging(System.Nullable<int> value);
     partial void OnParishionerIdChanged();
-    partial void OnParishIdChanging(int value);
+    partial void OnParishIdChanging(System.Nullable<int> value);
     partial void OnParishIdChanged();
     partial void OnVocationDeaconRequisitionIdChanging(int value);
     partial void OnVocationDeaconRequisitionIdChanged();
@@ -3341,8 +3259,8 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int NOT NULL")]
-		public int ParishId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int")]
+		public System.Nullable<int> ParishId
 		{
 			get
 			{
@@ -3416,7 +3334,7 @@ namespace PMS.DataAccess.Models
 					}
 					else
 					{
-						this._ParishId = default(int);
+						this._ParishId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Parish");
 				}
@@ -3558,6 +3476,8 @@ namespace PMS.DataAccess.Models
 		
 		private string _SessionCode;
 		
+		private System.DateTime _Year;
+		
 		private System.DateTime _DeadlineForPriest;
 		
 		private System.Nullable<System.DateTime> _DeadlineForParish;
@@ -3566,7 +3486,7 @@ namespace PMS.DataAccess.Models
 		
 		private System.DateTime _CreatedAt;
 		
-		private string _DeaconOrdinationMassParishId;
+		private string _DeaconOrdinationMassParish;
 		
 		private System.Nullable<System.DateTime> _DeaconOrdinationMassTime;
 		
@@ -3582,6 +3502,8 @@ namespace PMS.DataAccess.Models
     partial void OnSessionNameChanged();
     partial void OnSessionCodeChanging(string value);
     partial void OnSessionCodeChanged();
+    partial void OnYearChanging(System.DateTime value);
+    partial void OnYearChanged();
     partial void OnDeadlineForPriestChanging(System.DateTime value);
     partial void OnDeadlineForPriestChanged();
     partial void OnDeadlineForParishChanging(System.Nullable<System.DateTime> value);
@@ -3590,8 +3512,8 @@ namespace PMS.DataAccess.Models
     partial void OnStatusChanged();
     partial void OnCreatedAtChanging(System.DateTime value);
     partial void OnCreatedAtChanged();
-    partial void OnDeaconOrdinationMassParishIdChanging(string value);
-    partial void OnDeaconOrdinationMassParishIdChanged();
+    partial void OnDeaconOrdinationMassParishChanging(string value);
+    partial void OnDeaconOrdinationMassParishChanged();
     partial void OnDeaconOrdinationMassTimeChanging(System.Nullable<System.DateTime> value);
     partial void OnDeaconOrdinationMassTimeChanged();
     #endregion
@@ -3658,6 +3580,26 @@ namespace PMS.DataAccess.Models
 					this._SessionCode = value;
 					this.SendPropertyChanged("SessionCode");
 					this.OnSessionCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Year", DbType="DateTime NOT NULL")]
+		public System.DateTime Year
+		{
+			get
+			{
+				return this._Year;
+			}
+			set
+			{
+				if ((this._Year != value))
+				{
+					this.OnYearChanging(value);
+					this.SendPropertyChanging();
+					this._Year = value;
+					this.SendPropertyChanged("Year");
+					this.OnYearChanged();
 				}
 			}
 		}
@@ -3742,22 +3684,22 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeaconOrdinationMassParishId", DbType="NVarChar(255)")]
-		public string DeaconOrdinationMassParishId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeaconOrdinationMassParish", DbType="NVarChar(255)")]
+		public string DeaconOrdinationMassParish
 		{
 			get
 			{
-				return this._DeaconOrdinationMassParishId;
+				return this._DeaconOrdinationMassParish;
 			}
 			set
 			{
-				if ((this._DeaconOrdinationMassParishId != value))
+				if ((this._DeaconOrdinationMassParish != value))
 				{
-					this.OnDeaconOrdinationMassParishIdChanging(value);
+					this.OnDeaconOrdinationMassParishChanging(value);
 					this.SendPropertyChanging();
-					this._DeaconOrdinationMassParishId = value;
-					this.SendPropertyChanged("DeaconOrdinationMassParishId");
-					this.OnDeaconOrdinationMassParishIdChanged();
+					this._DeaconOrdinationMassParish = value;
+					this.SendPropertyChanged("DeaconOrdinationMassParish");
+					this.OnDeaconOrdinationMassParishChanged();
 				}
 			}
 		}
@@ -7118,6 +7060,8 @@ namespace PMS.DataAccess.Models
 		
 		private EntitySet<ParishionerMigrationRequest> _ParishionerMigrationRequests;
 		
+		private EntitySet<Priest> _Priests;
+		
 		private EntitySet<Sacrament> _Sacraments;
 		
 		private EntitySet<Society> _Societies;
@@ -7205,6 +7149,7 @@ namespace PMS.DataAccess.Models
 			this._Matrimonies = new EntitySet<Matrimony>(new Action<Matrimony>(this.attach_Matrimonies), new Action<Matrimony>(this.detach_Matrimonies));
 			this._Matrimonies1 = new EntitySet<Matrimony>(new Action<Matrimony>(this.attach_Matrimonies1), new Action<Matrimony>(this.detach_Matrimonies1));
 			this._ParishionerMigrationRequests = new EntitySet<ParishionerMigrationRequest>(new Action<ParishionerMigrationRequest>(this.attach_ParishionerMigrationRequests), new Action<ParishionerMigrationRequest>(this.detach_ParishionerMigrationRequests));
+			this._Priests = new EntitySet<Priest>(new Action<Priest>(this.attach_Priests), new Action<Priest>(this.detach_Priests));
 			this._Sacraments = new EntitySet<Sacrament>(new Action<Sacrament>(this.attach_Sacraments), new Action<Sacrament>(this.detach_Sacraments));
 			this._Societies = new EntitySet<Society>(new Action<Society>(this.attach_Societies), new Action<Society>(this.detach_Societies));
 			this._SocietyMembers = new EntitySet<SocietyMember>(new Action<SocietyMember>(this.attach_SocietyMembers), new Action<SocietyMember>(this.detach_SocietyMembers));
@@ -7928,6 +7873,19 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_Priest", Storage="_Priests", ThisKey="Id", OtherKey="ParishionerId")]
+		public EntitySet<Priest> Priests
+		{
+			get
+			{
+				return this._Priests;
+			}
+			set
+			{
+				this._Priests.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_Sacrament", Storage="_Sacraments", ThisKey="Id", OtherKey="ParishionerId")]
 		public EntitySet<Sacrament> Sacraments
 		{
@@ -8129,6 +8087,18 @@ namespace PMS.DataAccess.Models
 		}
 		
 		private void detach_ParishionerMigrationRequests(ParishionerMigrationRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = null;
+		}
+		
+		private void attach_Priests(Priest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = this;
+		}
+		
+		private void detach_Priests(Priest entity)
 		{
 			this.SendPropertyChanging();
 			entity.Parishioner = null;
@@ -9087,6 +9057,8 @@ namespace PMS.DataAccess.Models
 		
 		private string _Phone;
 		
+		private System.Nullable<int> _ParishionerId;
+		
 		private EntitySet<DeaconRequisitionComment> _DeaconRequisitionComments;
 		
 		private EntitySet<Parish> _Parishes;
@@ -9094,6 +9066,8 @@ namespace PMS.DataAccess.Models
 		private EntitySet<ParishManager> _ParishManagers;
 		
 		private EntityRef<Diocese> _Diocese;
+		
+		private EntityRef<Parishioner> _Parishioner;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -9111,6 +9085,8 @@ namespace PMS.DataAccess.Models
     partial void OnDioceseIdChanged();
     partial void OnPhoneChanging(string value);
     partial void OnPhoneChanged();
+    partial void OnParishionerIdChanging(System.Nullable<int> value);
+    partial void OnParishionerIdChanged();
     #endregion
 		
 		public Priest()
@@ -9119,6 +9095,7 @@ namespace PMS.DataAccess.Models
 			this._Parishes = new EntitySet<Parish>(new Action<Parish>(this.attach_Parishes), new Action<Parish>(this.detach_Parishes));
 			this._ParishManagers = new EntitySet<ParishManager>(new Action<ParishManager>(this.attach_ParishManagers), new Action<ParishManager>(this.detach_ParishManagers));
 			this._Diocese = default(EntityRef<Diocese>);
+			this._Parishioner = default(EntityRef<Parishioner>);
 			OnCreated();
 		}
 		
@@ -9182,7 +9159,7 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BirthDate", DbType="Char(8)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BirthDate", DbType="Char(10)")]
 		public string BirthDate
 		{
 			get
@@ -9242,6 +9219,30 @@ namespace PMS.DataAccess.Models
 					this._Phone = value;
 					this.SendPropertyChanged("Phone");
 					this.OnPhoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishionerId", DbType="Int")]
+		public System.Nullable<int> ParishionerId
+		{
+			get
+			{
+				return this._ParishionerId;
+			}
+			set
+			{
+				if ((this._ParishionerId != value))
+				{
+					if (this._Parishioner.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishionerIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishionerId = value;
+					this.SendPropertyChanged("ParishionerId");
+					this.OnParishionerIdChanged();
 				}
 			}
 		}
@@ -9315,6 +9316,40 @@ namespace PMS.DataAccess.Models
 						this._DioceseId = default(int);
 					}
 					this.SendPropertyChanged("Diocese");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_Priest", Storage="_Parishioner", ThisKey="ParishionerId", OtherKey="Id", IsForeignKey=true)]
+		public Parishioner Parishioner
+		{
+			get
+			{
+				return this._Parishioner.Entity;
+			}
+			set
+			{
+				Parishioner previousValue = this._Parishioner.Entity;
+				if (((previousValue != value) 
+							|| (this._Parishioner.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parishioner.Entity = null;
+						previousValue.Priests.Remove(this);
+					}
+					this._Parishioner.Entity = value;
+					if ((value != null))
+					{
+						value.Priests.Add(this);
+						this._ParishionerId = value.Id;
+					}
+					else
+					{
+						this._ParishionerId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Parishioner");
 				}
 			}
 		}
@@ -12169,7 +12204,7 @@ namespace PMS.DataAccess.Models
 		
 		private int _Id;
 		
-		private string _Code;
+		private int _Code;
 		
 		private string _Definition;
 		
@@ -12177,17 +12212,13 @@ namespace PMS.DataAccess.Models
 		
 		private string _Category;
 		
-		private EntitySet<ConstructionPermit> _ConstructionPermits;
-		
-		private EntitySet<ConstructionPermit> _ConstructionPermits1;
-		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
     partial void OnIdChanging(int value);
     partial void OnIdChanged();
-    partial void OnCodeChanging(string value);
+    partial void OnCodeChanging(int value);
     partial void OnCodeChanged();
     partial void OnDefinitionChanging(string value);
     partial void OnDefinitionChanged();
@@ -12199,8 +12230,6 @@ namespace PMS.DataAccess.Models
 		
 		public ValueSet()
 		{
-			this._ConstructionPermits = new EntitySet<ConstructionPermit>(new Action<ConstructionPermit>(this.attach_ConstructionPermits), new Action<ConstructionPermit>(this.detach_ConstructionPermits));
-			this._ConstructionPermits1 = new EntitySet<ConstructionPermit>(new Action<ConstructionPermit>(this.attach_ConstructionPermits1), new Action<ConstructionPermit>(this.detach_ConstructionPermits1));
 			OnCreated();
 		}
 		
@@ -12224,8 +12253,8 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string Code
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="Int NOT NULL")]
+		public int Code
 		{
 			get
 			{
@@ -12304,32 +12333,6 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ValueSet_ConstructionPermit", Storage="_ConstructionPermits", ThisKey="Id", OtherKey="PermitType")]
-		public EntitySet<ConstructionPermit> ConstructionPermits
-		{
-			get
-			{
-				return this._ConstructionPermits;
-			}
-			set
-			{
-				this._ConstructionPermits.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ValueSet_ConstructionPermit1", Storage="_ConstructionPermits1", ThisKey="Id", OtherKey="PermitStatus")]
-		public EntitySet<ConstructionPermit> ConstructionPermits1
-		{
-			get
-			{
-				return this._ConstructionPermits1;
-			}
-			set
-			{
-				this._ConstructionPermits1.Assign(value);
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -12348,30 +12351,6 @@ namespace PMS.DataAccess.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_ConstructionPermits(ConstructionPermit entity)
-		{
-			this.SendPropertyChanging();
-			entity.ValueSet = this;
-		}
-		
-		private void detach_ConstructionPermits(ConstructionPermit entity)
-		{
-			this.SendPropertyChanging();
-			entity.ValueSet = null;
-		}
-		
-		private void attach_ConstructionPermits1(ConstructionPermit entity)
-		{
-			this.SendPropertyChanging();
-			entity.ValueSet1 = this;
-		}
-		
-		private void detach_ConstructionPermits1(ConstructionPermit entity)
-		{
-			this.SendPropertyChanging();
-			entity.ValueSet1 = null;
 		}
 	}
 	

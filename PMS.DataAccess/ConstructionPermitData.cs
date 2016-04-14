@@ -20,9 +20,9 @@ namespace PMS.DataAccess
             const string query = "SELECT c.Id, t.Definition AS TypeName, p.Name AS ParishName , c.Description, c.FilePath, s.Definition AS StatusName, c.Note " +
                 "FROM ConstructionPermit c " +
                 "INNER JOIN ValueSet t " +
-                "ON c.PermitType = t.Id AND t.Category LIKE 'PermitType' " +
+                "ON c.PermitType = t.Code AND t.Category LIKE 'PermitType' " +
                 "INNER JOIN ValueSet s " +
-                "ON c.PermitStatus = s.Id AND s.Category LIKE 'PermitStatus' " +
+                "ON c.PermitStatus = s.Code AND s.Category LIKE 'PermitStatus' " +
                 "INNER JOIN Parish p " +
                 "ON c.ParishId = p.Id " +
                 "ORDER BY c.Id DESC";
@@ -99,9 +99,9 @@ namespace PMS.DataAccess
             const string query = "SELECT c.Id, t.Definition AS TypeName, p.Name AS ParishName , c.Description, c.FilePath, s.Definition AS StatusName, c.Note " +
                 "FROM ConstructionPermit c " +
                 "INNER JOIN ValueSet t " +
-                "ON c.PermitType = t.Id AND t.Category LIKE 'PermitType' " +
+                "ON c.PermitType = t.Code AND t.Category LIKE 'PermitType' " +
                 "INNER JOIN ValueSet s " +
-                "ON c.PermitStatus = s.Id AND s.Category LIKE 'PermitStatus' " +
+                "ON c.PermitStatus = s.Code AND s.Category LIKE 'PermitStatus' " +
                 "INNER JOIN Parish p " +
                 "ON c.ParishId = p.Id " +
                 "WHERE c.PermitType = {0} " +
@@ -114,9 +114,9 @@ namespace PMS.DataAccess
             const string query = "SELECT c.Id, t.Definition AS TypeName, p.Name AS ParishName , c.Description, c.FilePath, s.Definition AS StatusName, c.Note " +
                 "FROM ConstructionPermit c " +
                 "INNER JOIN ValueSet t " +
-                "ON c.PermitType = t.Id AND t.Category LIKE 'PermitType' " +
+                "ON c.PermitType = t.Code AND t.Category LIKE 'PermitType' " +
                 "INNER JOIN ValueSet s " +
-                "ON c.PermitStatus = s.Id AND s.Category LIKE 'PermitStatus' " +
+                "ON c.PermitStatus = s.Code AND s.Category LIKE 'PermitStatus' " +
                 "INNER JOIN Parish p " +
                 "ON c.ParishId = p.Id " +
                 "WHERE c.PermitStatus = {0} " +
@@ -129,9 +129,9 @@ namespace PMS.DataAccess
             const string query = "SELECT c.Id, t.Definition AS TypeName, p.Name AS ParishName , c.Description, c.FilePath, s.Definition AS StatusName, c.Note " +
                 "FROM ConstructionPermit c " +
                 "INNER JOIN ValueSet t " +
-                "ON c.PermitType = t.Id AND t.Category LIKE 'PermitType' " +
+                "ON c.PermitType = t.Code AND t.Category LIKE 'PermitType' " +
                 "INNER JOIN ValueSet s " +
-                "ON c.PermitStatus = s.Id AND s.Category LIKE 'PermitStatus' " +
+                "ON c.PermitStatus = s.Code AND s.Category LIKE 'PermitStatus' " +
                 "INNER JOIN Parish p " +
                 "ON c.ParishId = p.Id " +
                 "WHERE c.PermitType= {0} AND c.PermitStatus= {1} " +

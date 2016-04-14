@@ -65,15 +65,15 @@ namespace PMS.BusinessLogic
 
             if (deadParishioner == 1)
             {
-                filteredListItems = filteredListItems.Where(c => (c.IsDead && c.Status != (int) ParishionerStatusEnum.Deleted));
+                filteredListItems = filteredListItems.Where(c => (c.IsDead && c.Status != (int)ParishionerStatusEnum.Deleted));
             }
 
             if (changeParishParishioner == 1)
             {
                 filteredListItems =
                     filteredListItems.Where(
-                        c => ((c.DomicileStatus == (int) DomicileStatusEnum.TransferredToAnotherParish
-                              ||  c.ParishionerMigrationRequests.Any(p => p.Community.ParishId == parishId)) && c.Status != (int) ParishionerStatusEnum.Deleted));
+                        c => ((c.DomicileStatus == (int)DomicileStatusEnum.TransferredToAnotherParish
+                              || c.ParishionerMigrationRequests.Any(p => p.Community.ParishId == parishId)) && c.Status != (int)ParishionerStatusEnum.Deleted));
             }
 
             //Search
@@ -273,7 +273,7 @@ namespace PMS.BusinessLogic
                     parishioners.Where(
                        p =>
                            ((p.IsSingle) || (p.Matrimonies1.Any() ? (p.Matrimonies1.Count(m => (m.Status != (int)MatrimonyStatusEnum.Removed
-                                    && !m.Parishioner.IsDead && m.Parishioner.Status != (int)ParishionerStatusEnum.Deleted)) == 0) : (p.IsSingle)) ));
+                                    && !m.Parishioner.IsDead && m.Parishioner.Status != (int)ParishionerStatusEnum.Deleted)) == 0) : (p.IsSingle))));
                 }
                 else if (gender == 1)
                 {
@@ -281,12 +281,12 @@ namespace PMS.BusinessLogic
                     parishioners.Where(
                         p =>
                             ((p.IsSingle) || (p.Matrimonies.Any() ? (p.Matrimonies.Count(m => (m.Status != (int)MatrimonyStatusEnum.Removed
-                                && !m.Parishioner1.IsDead && m.Parishioner1.Status != (int)ParishionerStatusEnum.Deleted)) == 0) : (p.IsSingle)) ));
+                                && !m.Parishioner1.IsDead && m.Parishioner1.Status != (int)ParishionerStatusEnum.Deleted)) == 0) : (p.IsSingle))));
                 }
-               
+
             }
 
-            var conveter = new DateConverter();           
+            var conveter = new DateConverter();
 
             if (!string.IsNullOrEmpty(sacramentDate))
             {
@@ -295,12 +295,12 @@ namespace PMS.BusinessLogic
                 Sacrament c;
                 var date = conveter.ConvertDateToString(sacramentDate);
 
-                if (notSacramentType == (int) SacramentEnum.Baptism)
+                if (notSacramentType == (int)SacramentEnum.Baptism)
                 {
                     parishioners =
-                        parishioners.Where(p => ( (string.IsNullOrEmpty(p.BirthDate.Trim()) || string.Compare(p.BirthDate, date) < 1)
+                        parishioners.Where(p => ((string.IsNullOrEmpty(p.BirthDate.Trim()) || string.Compare(p.BirthDate, date) < 1)
                             && (string.IsNullOrEmpty((h = p.Sacraments.FirstOrDefault(s => s.Type == (int)SacramentEnum.HolyCommunion)) != null ? h.Date.Trim() : "") || string.Compare(date, h.Date) < 1)
-                            && (string.IsNullOrEmpty((c = p.Sacraments.FirstOrDefault(s => s.Type == (int)SacramentEnum.Confirmation)) != null ? c.Date.Trim() : "") || string.Compare(date, c.Date) < 1) ));
+                            && (string.IsNullOrEmpty((c = p.Sacraments.FirstOrDefault(s => s.Type == (int)SacramentEnum.Confirmation)) != null ? c.Date.Trim() : "") || string.Compare(date, c.Date) < 1)));
                 }
                 else if (notSacramentType == (int)SacramentEnum.HolyCommunion)
                 {
@@ -322,7 +322,7 @@ namespace PMS.BusinessLogic
             if (familyId != 0)
             {
                 parishioners =
-                    parishioners.Where(p => (p.FamilyMembers.FirstOrDefault(fm => ((fm.FamilyId == familyId && fm.Status == (int)FamilyMemberStatusEnum.Main) 
+                    parishioners.Where(p => (p.FamilyMembers.FirstOrDefault(fm => ((fm.FamilyId == familyId && fm.Status == (int)FamilyMemberStatusEnum.Main)
                         || (fm.IsHouseholder && fm.Status == (int)FamilyMemberStatusEnum.Main))) == null));
             }
 
@@ -334,7 +334,7 @@ namespace PMS.BusinessLogic
                 if (society != null)
                 {
                     parishioners =
-                        parishioners.Where(p => ((p.SocietyMembers.FirstOrDefault(sm => sm.SocietyId == societyId) == null) && (!society.ManagedBy.HasValue || p.Id != society.ManagedBy) ));
+                        parishioners.Where(p => ((p.SocietyMembers.FirstOrDefault(sm => sm.SocietyId == societyId) == null) && (!society.ManagedBy.HasValue || p.Id != society.ManagedBy)));
                 }
             }
 
@@ -402,7 +402,7 @@ namespace PMS.BusinessLogic
             //Paging
             var list = filteredListItems.ToList();
             int records = list.Count;
-            var displayedList = list.Skip(displayStart).Take(displayLength);          
+            var displayedList = list.Skip(displayStart).Take(displayLength);
 
             //var result = from c in displayedList
             //             select new IConvertible[]
@@ -421,12 +421,12 @@ namespace PMS.BusinessLogic
             var result = from c in displayedList
                          select new IConvertible[]
                        {
-                           c.Id,                          
+                           c.Id,
                            c.Code,
                            c.ChristianName,
                            c.Name,
                            c.Gender == 0 ? "Nữ" : "Nam",
-                           conveter.ConvertStringToDate(c.BirthDate),                        
+                           conveter.ConvertStringToDate(c.BirthDate),
                            c.Community.Name,
                            c.Id
                        };
@@ -524,13 +524,13 @@ namespace PMS.BusinessLogic
             //Load data
             IEnumerable<Parishioner> parishioners;
             const int gender = -1;
-            const int status = (int) ParishionerStatusEnum.AvailableAndSaved;
+            const int status = (int)ParishionerStatusEnum.AvailableAndSaved;
 
             if (parishDivisionId != 0)
             {
                 parishioners = _parishionerData.GetCheckingParishionersByParishDivisionId(parishDivisionId, null, status,
                     gender);
-            } 
+            }
             else if (communityId != 0)
             {
                 parishioners = _parishionerData.GetCheckingParishionersByCommunityId(communityId, null, status, gender);
@@ -565,17 +565,17 @@ namespace PMS.BusinessLogic
                 if (!string.IsNullOrEmpty(error))
                 {
                     var clone = new CheckingParishionerViewModel()
-                                {
-                                    Id = item.Id,
-                                    BirthDate = item.BirthDate,
-                                    ChristianName = item.ChristianName,
-                                    Code = item.Code,
-                                    Community = item.Community,
-                                    Gender = item.Gender,
-                                    Name = item.Name,
-                                    Error = error,
-                                    Status = item.Status,
-                                };
+                    {
+                        Id = item.Id,
+                        BirthDate = item.BirthDate,
+                        ChristianName = item.ChristianName,
+                        Code = item.Code,
+                        Community = item.Community,
+                        Gender = item.Gender,
+                        Name = item.Name,
+                        Error = error,
+                        Status = item.Status,
+                    };
 
                     checkedList.Add(clone);
                 }
@@ -649,6 +649,28 @@ namespace PMS.BusinessLogic
             totalRecords = records;
             totalDisplayRecords = records;
             return result;
+        }
+
+        //Get Parishioner Name to Auto Complete
+        public List<ParishionerViewModel> getAllParishionerByName(string name)
+        {
+            List<ParishionerViewModel> result = _parishionerData.getAllParishionerByName(name).ToList();
+            var converter = new DateConverter();
+            for (int i = 0; i < result.Count; i++)
+            {
+                result[i].BirthDate = converter.ConvertStringToDate(result[i].BirthDate);
+            }
+            return result;
+        }
+
+        public string getMaxCode(string code)
+        {
+            return _parishionerData.getMaxCode(code).ToList()[0];
+        }
+
+        public Parishioner getParishionerById(int id)
+        {
+            return _parishionerData.getParishionerById(id);
         }
 
     }

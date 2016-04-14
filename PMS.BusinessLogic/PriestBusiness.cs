@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using PMS.DataAccess;
 using PMS.DataAccess.Models;
 using PMS.DataAccess.Utilities;
+using PMS.DataAccess.ViewModels;
 
 namespace PMS.BusinessLogic
 {
@@ -46,16 +47,16 @@ namespace PMS.BusinessLogic
         public int DeletePriest(int id)
         {
             return _priestData.DeletePriest(id);
-        }        
-        public IEnumerable<IConvertible[]> GetOrderedPriestsByParamsAndPaging(int dioceseId, string searchValue, int sortColumnIndex, string sortDirection,
+        }
+        public List<PriestViewModel> GetOrderedPriestsByParamsAndPaging(int dioceseId, string searchValue, int sortColumnIndex, string sortDirection,
                             int displayStart, int displayLength, out int totalRecords, out int totalDisplayRecords)
         {
             //Load Data
-            IEnumerable<Priest> priests;
-           
-            priests = _priestData.GetPriestByDioceseId(dioceseId);
+            IEnumerable<PriestViewModel> priests;
 
-            IEnumerable<Priest> filteredListItems;
+            priests = _priestData.GetPriestByDioceseId(dioceseId).ToList();
+
+            IEnumerable<PriestViewModel> filteredListItems;
             if (!string.IsNullOrEmpty(searchValue))
             {
                 searchValue = searchValue.Trim().ToLower();
@@ -67,19 +68,19 @@ namespace PMS.BusinessLogic
             }
 
             //Sort
-            if (sortColumnIndex == 2)
+            if (sortColumnIndex == 1)
             {
                 filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.ChristianName) : filteredListItems.OrderByDescending(p => p.ChristianName);
             }
-            else if (sortColumnIndex == 3)
+            else if (sortColumnIndex == 2)
             {
                 filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.Name) : filteredListItems.OrderByDescending(p => p.Name);
             }
-            else if (sortColumnIndex == 4)
+            else if (sortColumnIndex == 3)
             {
                 filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.BirthDate) : filteredListItems.OrderByDescending(p => p.BirthDate);
             }
-            else if (sortColumnIndex == 5)
+            else if (sortColumnIndex == 4)
             {
                 filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.Phone) : filteredListItems.OrderByDescending(p => p.Phone);
             }
@@ -89,18 +90,11 @@ namespace PMS.BusinessLogic
             int records = list.Count;
             var displayedList = list.Skip(displayStart).Take(displayLength);
             var converter = new DateConverter();
-            var result = from c in displayedList
-                         select new IConvertible[]
-                       {
-                           c.Id,
-                           c.Id,
-                           c.Id,
-                           c.ChristianName,
-                           c.Name,
-                           converter.ConvertStringToDate(c.BirthDate),
-                           c.Phone,
-                           c.Id                           
-                       };
+            for (int i = 0; i < displayedList.ToList().Count; i++)
+            {
+                displayedList.ToList()[i].BirthDate = converter.ConvertStringToDate(displayedList.ToList()[i].BirthDate);
+            }
+            var result = displayedList.ToList();
             totalRecords = records;
             totalDisplayRecords = records;
 
@@ -158,17 +152,12 @@ namespace PMS.BusinessLogic
                            c.Name,
                            converter.ConvertStringToDate(c.BirthDate),
                            c.Phone,
-                           c.Id                           
+                           c.Id
                        };
             totalRecords = records;
             totalDisplayRecords = records;
 
             return result;
-        }
-
-        public IEnumerable<Priest> SearchPriestForCommentDeaconRequisition(string keyword, int start, int length)
-        {
-            return _priestData.SearchPriestForCommentDeaconRequisition(keyword, start, length);
         }
     }
 }

@@ -18,7 +18,7 @@
                     <option value="0">Tất cả</option>
                     @foreach (var item in (List<ValueSet>)ViewBag.PermitTypes)
                     {
-                        <option value="@item.Id">@item.Definition</option>
+                        <option value="@item.Code">@item.Definition</option>
                     }
                 </select>
             </div>
@@ -32,7 +32,7 @@
                     <option value="0">Tất cả</option>
                     @foreach (var item in (List<ValueSet>)ViewBag.PermitStatus)
                     {
-                        <option value="@item.Id">@item.Definition</option>
+                        <option value="@item.Code">@item.Definition</option>
                     }
                 </select>
             </div>
@@ -105,7 +105,7 @@
                                             <option value="0">Các loại đơn</option>
                                             @foreach (var item in (List<ValueSet>)ViewBag.PermitTypes)
                                             {
-                                                <option value="@item.Id">@item.Definition</option>
+                                                <option value="@item.Code">@item.Definition</option>
                                             }
                                         </select>
                                         <label class="text-danger" id="lbPermitTypeErrorModal" hidden=""></label>
@@ -150,7 +150,7 @@
                                         <select class="form-control" id="selectPermitStatusModal">
                                             @foreach (var item in (List<ValueSet>)ViewBag.PermitStatus)
                                             {
-                                                <option value="@item.Id">@item.Definition</option>
+                                                <option value="@item.Code">@item.Definition</option>
                                             }
                                         </select>
                                     </div>

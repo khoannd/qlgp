@@ -101,6 +101,7 @@
     <Compile Include="ViewModels\CheckingParishionerViewModel.cs" />
     <Compile Include="ViewModels\ClassGroupViewModel.cs" />
     <Compile Include="ViewModels\ConstructionPermitViewModel.cs" />
+    <Compile Include="ViewModels\PriestViewModel.cs" />
     <Compile Include="ViewModels\PrintParishManagerViewModel.cs" />
     <Compile Include="ViewModels\ThuyenChuyenLinhMucViewModel.cs" />
     <Compile Include="ViewModels\ClassViewModel.cs" />

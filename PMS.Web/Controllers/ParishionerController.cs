@@ -131,11 +131,11 @@ namespace PMS.Web.Controllers
             }
 
             return Json(new
-                        {
-                            result = result,
-                            template = template,
-                            now = DateTime.Now.ToString("dd/MM/yyyy")
-                        }, JsonRequestBehavior.AllowGet);
+            {
+                result = result,
+                template = template,
+                now = DateTime.Now.ToString("dd/MM/yyyy")
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LoadParishionerDatatables(jQueryDataTableParamModel param, int communityId, int parishDivisionId,
@@ -150,21 +150,21 @@ namespace PMS.Web.Controllers
                                                                          param.iDisplayLength, out totalRecords, out totalDisplayRecords);
 
             return Json(new
-               {
-                   sEcho = param.sEcho,
-                   iTotalRecords = totalRecords,
-                   iTotalDisplayRecords = totalDisplayRecords,
-                   aaData = result
-               }, JsonRequestBehavior.AllowGet);
+            {
+                sEcho = param.sEcho,
+                iTotalRecords = totalRecords,
+                iTotalDisplayRecords = totalDisplayRecords,
+                aaData = result
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LoadChristianName(string name)
         {
             var result = _christianNameBusiness.GetChristianNamesByName(name);
             return Json(new
-                        {
-                            result = result
-                        }, JsonRequestBehavior.AllowGet);
+            {
+                result = result
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LoadCommunity()
@@ -184,9 +184,9 @@ namespace PMS.Web.Controllers
             }
 
             return Json(new
-                        {
-                            result = communities
-                        }, JsonRequestBehavior.AllowGet);
+            {
+                result = communities
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LoadCommunityAndParishDivisionTreeView()
@@ -197,11 +197,11 @@ namespace PMS.Web.Controllers
             var result = new List<CommunityTreeViewModel>();
 
             result.AddRange(communities.Select(item => new CommunityTreeViewModel()
-                                                           {
-                                                               Id = item.Id,
-                                                               Name = item.Name,
-                                                               ParishDivisions = parishDivisions.Where(p => p.ParentId == item.Id).ToList()
-                                                           }));
+            {
+                Id = item.Id,
+                Name = item.Name,
+                ParishDivisions = parishDivisions.Where(p => p.ParentId == item.Id).ToList()
+            }));
             ViewBag.CommunityTreeViewModel = result;
 
             return PartialView("_CommunityAndParishDivisionTreeView", result);
@@ -376,15 +376,15 @@ namespace PMS.Web.Controllers
                     {
                         //Add Baptism Sacrament
                         var baptism = new Sacrament()
-                                      {
-                                          ParishionerId = id,
-                                          Number = baptismNumber,
-                                          Type = (int)SacramentEnum.Baptism,
-                                          Patron = baptismPatron,
-                                          Date = baptismDate,
-                                          Giver = baptismGiver,
-                                          ReceivedPlace = baptismPlace
-                                      };
+                        {
+                            ParishionerId = id,
+                            Number = baptismNumber,
+                            Type = (int)SacramentEnum.Baptism,
+                            Patron = baptismPatron,
+                            Date = baptismDate,
+                            Giver = baptismGiver,
+                            ReceivedPlace = baptismPlace
+                        };
                         int baptismId = _sacramentBusiness.AddSacrament(baptism);
                         if (baptismId <= 0)
                         {
@@ -786,9 +786,9 @@ namespace PMS.Web.Controllers
             }
 
             return Json(new
-                        {
-                            result = vicariates
-                        }, JsonRequestBehavior.AllowGet);
+            {
+                result = vicariates
+            }, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -822,9 +822,9 @@ namespace PMS.Web.Controllers
             }
 
             return Json(new
-                        {
-                            result = parishes
-                        }, JsonRequestBehavior.AllowGet);
+            {
+                result = parishes
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LoadParishiesNotMine(int vicariateId)
@@ -892,9 +892,9 @@ namespace PMS.Web.Controllers
             }
 
             return Json(new
-                        {
-                            result = communities
-                        }, JsonRequestBehavior.AllowGet);
+            {
+                result = communities
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LoadParishDivisions(int communityId, int parishId, int vicariateId)
@@ -1020,9 +1020,9 @@ namespace PMS.Web.Controllers
             }
 
             return Json(new
-                        {
-                            result = result
-                        }, JsonRequestBehavior.AllowGet);
+            {
+                result = result
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LoadInsideParishioners(string name, int gender)
@@ -1055,9 +1055,9 @@ namespace PMS.Web.Controllers
             //}
 
             return Json(new
-                        {
-                            result = result
-                        }, JsonRequestBehavior.AllowGet);
+            {
+                result = result
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LoadPriestNames(string name)
@@ -1067,9 +1067,9 @@ namespace PMS.Web.Controllers
             var result = _priestBusiness.GetPriestNamesByName(dioceseId, name);
 
             return Json(new
-                        {
-                            result = result
-                        }, JsonRequestBehavior.AllowGet);
+            {
+                result = result
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LoadPriest(string name)
@@ -1162,17 +1162,17 @@ namespace PMS.Web.Controllers
             }
 
             return Json(new
-                        {
-                            parishioner = parishioner,
-                            communityId = communityIdTemp,
-                            baptism = baptism,
-                            holyCommunion = holyCommunion,
-                            confirmation = confirmation,
-                            vocation = vocation,
-                            vocationId = vocationIdTemp,
-                            communityName = communityName,
-                            parishName = parishName
-                        }, JsonRequestBehavior.AllowGet);
+            {
+                parishioner = parishioner,
+                communityId = communityIdTemp,
+                baptism = baptism,
+                holyCommunion = holyCommunion,
+                confirmation = confirmation,
+                vocation = vocation,
+                vocationId = vocationIdTemp,
+                communityName = communityName,
+                parishName = parishName
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult RefreshMainParishionerModal()
@@ -1347,13 +1347,13 @@ namespace PMS.Web.Controllers
             }
 
             return Json(new
-                        {
-                            matrimony = matrimony,
-                            husbandId = husbandId,
-                            wifeId = wifeId,
-                            husbandName = husbandName,
-                            wifeName = wifeName
-                        }, JsonRequestBehavior.AllowGet);
+            {
+                matrimony = matrimony,
+                husbandId = husbandId,
+                wifeId = wifeId,
+                husbandName = husbandName,
+                wifeName = wifeName
+            }, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -1397,45 +1397,6 @@ namespace PMS.Web.Controllers
                     p.Status
                 })
             }, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult SearchParishionerByKeyword(string keyword, int start, int length)
-        {
-            var parishioners = _parishionerBusiness.SearchParishionerByKeyword(keyword, start, length);
-            var converter = new DateConverter();
-            return Json(parishioners.Select(p => new
-                {
-                    p.Address,
-                    BirthDate = converter.ConvertStringToDateObjectNullable(p.BirthDate),
-                    p.BirthPlace,
-                    p.Career,
-                    p.ChristianName,
-                    p.Code,
-                    p.CreatedBy,
-                    p.CreatedDate,
-                    p.DeadDate,
-                    p.DomicilePlace,
-                    p.DomicileStatus,
-                    p.Education,
-                    p.Email,
-                    p.FatherName,
-                    p.Gender,
-                    p.Id,
-                    p.ImageUrl,
-                    p.IsCatechumen,
-                    p.IsCounted,
-                    p.IsDead,
-                    p.IsMarried,
-                    p.IsSingle,
-                    p.IsStudying,
-                    p.LastUpdatedBy,
-                    p.MobilePhone,
-                    p.MotherName,
-                    p.Name,
-                    p.Note,
-                    p.Phone,
-                    p.Status
-                }), JsonRequestBehavior.AllowGet);
         }
 
 
@@ -1547,5 +1508,14 @@ namespace PMS.Web.Controllers
             return _parishionerBusiness.GetCodeByParishionerId(id);
         }
 
+        //Get Parishioner Name to Auto Complete
+        public ActionResult getAllParishionerByName(string name)
+        {
+            var result = _parishionerBusiness.getAllParishionerByName(name);
+            return Json(new
+            {
+                result = result
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

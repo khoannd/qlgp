@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PMS.DataAccess.Models;
+using PMS.DataAccess.ViewModels;
 
 namespace PMS.DataAccess
 {
@@ -16,11 +17,12 @@ namespace PMS.DataAccess
             _db = new PMSDataContext(connection);
         }
 
-        public IEnumerable<Priest> GetPriestByDioceseId(int dioceseId)
+        public IEnumerable<PriestViewModel> GetPriestByDioceseId(int dioceseId)
         {
             const string query = "SELECT * FROM Priest " +
-                                 "WHERE DioceseId = {0}";
-            return _db.ExecuteQuery<Priest>(query, dioceseId);
+                                 "WHERE DioceseId = {0} " +
+                                 "ORDER By Id DESC";
+            return _db.ExecuteQuery<PriestViewModel>(query, dioceseId);
         }
 
         public IEnumerable<Priest> GetPriestForTCLM(int tclmId)
@@ -108,22 +110,6 @@ namespace PMS.DataAccess
 
             name = name.Trim();
             return _db.ExecuteQuery<string>(query, dioceseId, "%" + name + "%");
-        }
-
-
-        public IEnumerable<Priest> SearchPriestForCommentDeaconRequisition(string keyword, int start, int length)
-        {
-            keyword = keyword.Trim().ToLower();
-            var query = _db.Priests.Where(p => p.ChristianName.ToLower().Contains(keyword) || p.Name.ToLower().Contains(keyword) || p.Phone.Contains(keyword) || p.BirthDate.Contains(keyword) || (p.ChristianName + " " + p.Name).ToLower().Contains(keyword)).OrderBy(p => p.Name);
-
-            if (length == 0)
-            {
-                return query.ToList();
-            }
-            else
-            {
-                return query.Skip(start).Take(length).ToList();
-            }
         }
 
     }

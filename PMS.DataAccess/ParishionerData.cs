@@ -2804,14 +2804,14 @@ namespace PMS.DataAccess
                 }
 
                 var parishioner = new ParishionerSacramentViewModel()
-                                  {
-                                      BirthDate = converter.ConvertStringToDate(item.BirthDate),
-                                      ChristianName = item.ChristianName,
-                                      Name = item.Name,
-                                      FatherName = item.FatherName,
-                                      MotherName = item.MotherName,
-                                      BirthPlace = item.BirthPlace,
-                                  };
+                {
+                    BirthDate = converter.ConvertStringToDate(item.BirthDate),
+                    ChristianName = item.ChristianName,
+                    Name = item.Name,
+                    FatherName = item.FatherName,
+                    MotherName = item.MotherName,
+                    BirthPlace = item.BirthPlace,
+                };
 
                 parishioner.ParishName = parish.Name;
                 parishioner.VicariateName = vicariate.Name;
@@ -3019,6 +3019,35 @@ namespace PMS.DataAccess
             {
                 return query.Take(length).ToList();
             }
+        }
+
+        //Get Parishioner Name to Auto Complete
+        public IEnumerable<ParishionerViewModel> getAllParishionerByName(string name)
+        {
+            const string query = "SELECT * " +
+                "FROM Parishioner " +
+                "WHERE Name LIKE {0} " +
+                "AND Gender = 1 " +
+                "AND Id NOT IN " +
+                "(SELECT ParishionerId FROM Priest) " +
+                "ORDER BY Name ";
+            return _db.ExecuteQuery<ParishionerViewModel>(query, "%" + name + "%");
+        }
+
+        public IEnumerable<string> getMaxCode(string code)
+        {
+            const string query = "SELECT Max(Code) " +
+                "FROM Parishioner " +
+                "WHERE Code LIKE {0}";
+            return _db.ExecuteQuery<string>(query, "%" + code + "%");
+        }
+
+        public Parishioner getParishionerById(int id)
+        {
+            const string query = "SELECT * " +
+                "FROM Parishioner " +
+                "WHERE Id = {0} ";
+            return _db.ExecuteQuery<Parishioner>(query, id).SingleOrDefault();
         }
 
     }
