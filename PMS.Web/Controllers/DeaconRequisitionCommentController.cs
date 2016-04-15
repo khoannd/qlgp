@@ -114,7 +114,7 @@ namespace PMS.Web.Controllers
                 Id = model.Id.HasValue ? model.Id.Value : 0,
                 Comment = model.Comment,
                 CreatedAt = model.CreatedAt,
-                ParishId = model.ParishId,
+                ParishId = model.ParishId.GetValueOrDefault(),
                 ParishionerId = model.ParishionerId,
                 PriestId = model.PriestId,
                 VocationDeaconRequisitionId = model.VocationDeaconRequisitionId

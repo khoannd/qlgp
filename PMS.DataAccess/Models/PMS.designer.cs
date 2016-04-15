@@ -156,7 +156,7 @@ namespace PMS.DataAccess.Models
     #endregion
 		
 		public PMSDataContext() : 
-				base(global::PMS.DataAccess.Properties.Settings.Default.QLGPConnectionString, mappingSource)
+				base(global::PMS.DataAccess.Properties.Settings.Default.QLGPConnectionString2, mappingSource)
 		{
 			OnCreated();
 		}
@@ -3110,7 +3110,7 @@ namespace PMS.DataAccess.Models
 		
 		private System.Nullable<int> _ParishionerId;
 		
-		private System.Nullable<int> _ParishId;
+		private int _ParishId;
 		
 		private int _VocationDeaconRequisitionId;
 		
@@ -3136,7 +3136,7 @@ namespace PMS.DataAccess.Models
     partial void OnPriestIdChanged();
     partial void OnParishionerIdChanging(System.Nullable<int> value);
     partial void OnParishionerIdChanged();
-    partial void OnParishIdChanging(System.Nullable<int> value);
+    partial void OnParishIdChanging(int value);
     partial void OnParishIdChanged();
     partial void OnVocationDeaconRequisitionIdChanging(int value);
     partial void OnVocationDeaconRequisitionIdChanged();
@@ -3259,8 +3259,8 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int")]
-		public System.Nullable<int> ParishId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int NOT NULL")]
+		public int ParishId
 		{
 			get
 			{
@@ -3334,7 +3334,7 @@ namespace PMS.DataAccess.Models
 					}
 					else
 					{
-						this._ParishId = default(Nullable<int>);
+						this._ParishId = default(int);
 					}
 					this.SendPropertyChanged("Parish");
 				}
@@ -12204,7 +12204,7 @@ namespace PMS.DataAccess.Models
 		
 		private int _Id;
 		
-		private int _Code;
+		private string _Code;
 		
 		private string _Definition;
 		
@@ -12218,7 +12218,7 @@ namespace PMS.DataAccess.Models
     partial void OnCreated();
     partial void OnIdChanging(int value);
     partial void OnIdChanged();
-    partial void OnCodeChanging(int value);
+    partial void OnCodeChanging(string value);
     partial void OnCodeChanged();
     partial void OnDefinitionChanging(string value);
     partial void OnDefinitionChanged();
@@ -12253,8 +12253,8 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="Int NOT NULL")]
-		public int Code
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Code
 		{
 			get
 			{

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLGP" Class="PMSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=ToanPBSE61011;Initial Catalog=QLGP;Integrated Security=True;MultipleActiveResultSets=True" SettingsObjectName="PMS.DataAccess.Properties.Settings" SettingsPropertyName="QLGPConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=ToanPBSE61011;Initial Catalog=QLGP;Persist Security Info=True;User ID=sa;MultipleActiveResultSets=True" SettingsObjectName="PMS.DataAccess.Properties.Settings" SettingsPropertyName="QLGPConnectionString2" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Account" Member="Accounts">
     <Type Name="Account">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -125,7 +125,7 @@
       <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="PriestId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="ParishionerId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ParishId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ParishId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="VocationDeaconRequisitionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Parish_DeaconRequisitionComment" Member="Parish" ThisKey="ParishId" OtherKey="Id" Type="Parish" IsForeignKey="true" />
       <Association Name="Parishioner_DeaconRequisitionComment" Member="Parishioner" ThisKey="ParishionerId" OtherKey="Id" Type="Parishioner" IsForeignKey="true" />
@@ -526,7 +526,7 @@
   <Table Name="dbo.ValueSet" Member="ValueSets">
     <Type Name="ValueSet">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Code" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Definition" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
       <Column Name="Note" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
       <Column Name="Category" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
