@@ -1,0 +1,84 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Utilities
+@model List<PMS.DataAccess.ViewModels.HDLMMemberViewModel>
+
+@{
+    var ListRole = new List<object>();
+    if (ViewBag.ListRole != null)
+    {
+        foreach (var role in ViewBag.ListRole)
+        {
+            ListRole.Add(new { Position = role.Code, PositionName = role.Definition });
+        }
+    }
+}
+
+@foreach (var item in Model)
+{
+    <tr position="@item.Position">
+        <td class="hidden">@item.Id</td>
+        <td>@item.Id</td>
+        <td>@item.ChristianName</td>
+        <td>@item.Name</td>
+        <td>@item.BirthDate</td>
+        <td>@item.Phone</td>
+        <td style="padding:1px;">
+            @{
+                SelectList lsRole = new SelectList(ListRole, "Position", "PositionName", item.Position);
+            }
+            @Html.DropDownListFor(m => item.Position, lsRole, "[Chọn vai trò]", new { @class = "form-control update-value", currentValue = @item.Position, onchange = "updateRole(" + @item.Id + ",'Position',this);" })
+        </td>
+        <td>
+            <button class="btn btn-minier btn-danger" title="Loại bỏ" onclick="RemovePriestConfirm(@item.Id)">
+                <i class="ace-icon fa fa-trash-o"></i>
+            </button>
+        </td>
+    </tr>
+                }
+@*<script>
+    $(function () {
+        //$('.update-value').selectpicker({
+        //    noneSelectedText: '-',
+        //    style: 'form-control'
+        //});
+    });
+    $.fn.editable.defaults.mode = 'inline';
+    $.fn.editableform.loading = "<div class='editableform-loading'><i class='ace-icon fa fa-spinner fa-spin fa-2x light-blue'></i></div>";
+    $.fn.editableform.buttons = '<button type="submit" class="btn btn-info editable-submit"><i class="ace-icon fa fa-check"></i></button>' +
+        '<button type="button" class="btn editable-cancel"><i class="ace-icon fa fa-times"></i></button>';
+
+    $('.editableCode')
+        .editable({
+            type: 'text',
+            name: 'editableCode',
+            emptytext:"",
+            success: function (response, newValue) {
+                var row = $(this).closest("tr");
+                var cols = row.children();
+                var id = cols[0].innerText;
+                var current = $(this).text();
+
+                if (current == newValue) {
+                    return;
+                }
+
+                $.ajax({
+                    url: "/ThuyenChuyenLinhMuc/UpdateEditableCode",
+                    type: "POST",
+                    data: {
+                        Id: id,
+                        Code: newValue
+                    },
+                    async: false,
+                    success: function (data) {
+                        if (data.result <= 0) {
+                            showMessage("Cập nhật thông tin thất bại", 0);
+                        } else {
+                            showMessage("Cập nhật thành công", 1);
+                        }
+                    },
+                });
+            }
+        });
+</script>*@
+

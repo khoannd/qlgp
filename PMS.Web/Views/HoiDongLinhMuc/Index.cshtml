@@ -1,0 +1,756 @@
+﻿@using PMS.DataAccess.Models;
+@{
+    ViewBag.Title = "Index";
+}
+
+@*<input type="hidden" id="vicariateId" />
+    <input type="hidden" id="dioceseId" value="@((int)Session["DioceseId"])" />*@
+
+<input type="hidden" id="priestId" />
+<div class="page-header">
+    <h1>Hội đồng linh mục</h1>
+</div>
+
+<div class="page-header">
+    <div>
+        <button id="btnCreateHDLM" class="btn btn-success" data-toggle="modal">
+            <i class="fa fa-plus"></i> Thêm mới
+        </button>
+    </div>
+</div>
+
+<div class="row">
+
+    <table id="hdlmTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    <label class="position-relative">
+                        <input type="checkbox" class="ace" />
+                        <span class="lbl"></span>
+                    </label>
+                </th>
+                <th>Tên hội đồng</th>
+                <th>Hội trưởng</th>
+                <th>Số thành viên</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody></tbody>
+    </table>
+</div>
+
+<style>
+    .datepicker {
+        z-index: 1151 !important;
+    }
+</style>
+
+<!-- Popup Thêm mới HĐLM -->
+<input type="hidden" id="txtHiddenHDLMId" value="0" />
+<div id="hdlmModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+
+                    <h4 class="widget-title lighter" id="titleModal"></h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseHDLMModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+
+                </div>
+                <div class="widget-body">
+                    <div class="space-10"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label no-padding-right">Tên hội đồng&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="txtName" value="" class="form-control">
+                                        <label id="lbeName" class="text-danger" hidden=""></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="space-10"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label no-padding-right">Mô tả</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" id="txtDescription" value="" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Ghi chú</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="txtNote" value="" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="space-10"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-md-12">
+                                <h5 class="page-header" style="color: #4383b4">Danh sách thành viên trong hội đồng</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button id="btnLookupMember" class="btn btn-primary btn-sm" data-toggle="modal">
+                                        <i class="ace-icon glyphicon glyphicon-search"></i> Thêm thành viên
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-6"></div>
+                    <div class="form-group">
+                        <div class="row" id="hiddenParishManagerTableModal">
+                            <div class="col-xs-12">
+                                <table id="HDLMMemberTable" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th hidden=""></th>
+                                            <th>
+                                                <label class="position-relative">
+                                                    <input type="checkbox" class="ace sItem" />
+                                                    <span class="lbl"></span>
+                                                </label>
+                                            </th>
+                                            <th>Tên thánh</th>
+                                            <th>Họ tên</th>
+                                            <th>Ngày sinh</th>
+                                            <th>Số điện thoại</th>
+                                            <th>Vai trò</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody></tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <!--end row-->
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="align-right">
+                                        <button id="btnCreateHDLMModal" class="btn btn-primary" data-toggle="modal">
+                                            <i class="ace-icon fa fa-save"></i> Lưu
+                                        </button>
+                                        <button id="btnUpdateHDLMModal" class="btn btn-primary" data-toggle="modal">
+                                            <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                        </button>
+                                        <button id="btnCloseHDLMModal" class="btn" data-toggle="modal">
+                                            <i class="ace-icon fa fa-times"></i> Đóng
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-6"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Kết thúc thêm mới HĐLM -->
+
+@Html.Partial("_HDLMMember")
+
+
+<script>
+    var idHDLM;
+    $(function () {
+        $('#hdlmModal').find('.modal-dialog.modal-lg').css('width', '95%');
+
+        $('.fdate-picker').datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            forceParse: false,
+        }).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+    });
+
+    InitDatatable();
+    function InitDatatable() {
+
+        $("#hdlmTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bSCrollCollapse": true,
+            "sAjaxSource": "/HoiDongLinhMuc/LoadAllHoiDongLinhMuc",
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "priestId", "value": $("#cbbPriest").val() });
+            },
+            "oLanguage": {
+                "sSearch": "Tên hội đồng",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                                      '<input type="checkbox" class="ace" value="' + data + '"/>' +
+                                      '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bVisible": false,
+                    "bSortable": false,
+                },
+                      {
+                          "aTargets": [5],
+                          "render": function (data, type, full, meta) {
+                              var content = '<button class="btn btn-minier btn-primary" onclick="LoadHDLMById(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                                    '<button class="btn btn-minier btn-danger" onclick="DeleteConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                              return content;
+                          },
+                          "bSortable": false,
+                          "sWidth": "15%"
+                      }
+            ],
+            "bAutoWidth": false,
+        });
+    }
+
+    //refresh table
+    function refeshTable(tableName) {
+        updateTableContent(tableName);
+    }
+
+    function ClearModal() {
+        idHDLM = 0;
+        $("#txtName").val("");
+        $("#txtDescription").val("");
+        $("#txtNote").val("");
+
+        $("#lbeName").html("");
+        $("#lbeName").hide();
+
+        $("#HDLMMemberTable").dataTable().fnDestroy();
+        $("#HDLMMemberTable tbody").html("");
+    }
+
+    //Button event
+    $("#btnLookupMember").click(function () {
+        if (!CheckValid()) {
+            return;
+        }
+
+        if (!checkUniqueHDLM(idHDLM)) {
+            $("#lbeName").html("Tên hội đồng đã tồn tại, vui lòng nhập tên khác");
+            $("#lbeName").show();
+        } else {
+            $("#lbeName").hide();
+            $("#lbeName").html("");
+            openLookupModal();
+        }
+
+    });
+
+    $("#btnCreateHDLM").click(function () {
+        idHDLM = 0;
+        $("#titleModal").html('Thêm mới hội đồng linh mục');
+        $("#hdlmModal").modal('show');
+        $("#btnCreateHDLMModal").show();
+        $("#btnUpdateHDLMModal").hide();
+    });
+
+    $("#btnUpdateHDLMModal").click(function () {
+        if (!CheckValid()) {
+            return;
+        }
+
+        if (!checkUniqueHDLM(idHDLM)) {
+            $("#lbeName").html("Tên hội đồng đã tồn tại, vui lòng nhập tên khác");
+            $("#lbeName").show();
+        } else {
+            $("#lbeName").hide();
+            $("#lbeName").html("");
+            UpdateHDLM();
+        }
+    });
+
+    $("#btnCloseHDLMModal").click(function () {
+
+        $("#hdlmModal").modal('hide');
+        ClearModal();
+        refeshTable("hdlmTable");
+    });
+
+
+    //Validate
+
+    function CheckValid() {
+        var tenHoiDong = $("#txtName").val();
+        var isError = false;
+
+        if (!tenHoiDong) {
+            $("#lbeName").html("Vui lòng nhập tên hội đồng");
+            $("#lbeName").show();
+            isError = true;
+        } else {
+            $("#lbeName").hide();
+            $("#lbeName").html("");
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function checkUniqueHDLM(idHDLM) {
+        var result = false;
+        $.ajax({
+            url: "/HoiDongLinhMuc/CheckUniqueHDLM",
+            type: "POST",
+            async: false,
+            data: {
+                name: $("#txtName").val(),
+                id: idHDLM,
+            },
+            success: function (data) {
+
+                if (data == 1) {
+                    result = true;
+                }
+
+            },
+        });
+
+        return result;
+    }
+
+    //Method
+    //===================================================================
+
+    //Update HDLM
+    function UpdateHDLM() {
+
+        var tenHoiDong = $("#txtName").val();
+        var mota = $("#txtDescription").val();
+        var ghichu = $("#txtNote").val();
+        startLoading();
+        $.ajax({
+            url: "/HoiDongLinhMuc/UpdateHDLM",
+            type: "POST",
+            data: {
+                Id: idHDLM,
+                Name: tenHoiDong,
+                Description: mota,
+                Note: ghichu,
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Cập nhật hội đồng linh mục thất bại", 0);
+                } else {
+                    showMessage("Cập nhật hội đồng linh mục thành công", 1);
+                    idTCLM = data;
+                    refeshTable("hdlmTable");
+                    $("#hdlmModal").modal('hide');
+                    ClearModal();
+                }
+            },
+        });
+    }
+
+
+    //Update value when change role
+    function updateRole(id, columnName, cmb) {
+        var value = cmb.value;
+        if (value == '') {
+            if (columnName == 'Position') {
+                showMessage("Hãy chọn vai trò cho Linh mục", -1);
+            }
+            return;
+        }
+        startLoading();
+        $.ajax({
+            url: "/HoiDongLinhMuc/UpdateRole",
+            type: "POST",
+            data: {
+                id: id,
+                columnName: columnName,
+                value: value
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    if (data.result == -2) {
+                        showMessage("Hội đồng linh mục đã có hội trưởng", -1);
+                    }
+                    else {
+                        showMessage("Cập nhật vai trò thành viên cho hội đồng thất bại", 0);
+                    }
+                    //reset value
+                    var currentValue = $(cmb).attr('currentValue');
+                    cmb.value = currentValue;
+                }
+                else {
+                    showMessage("Cập nhật vai trò thành viên cho hội đồng thành công", 1);
+                    if (columnName == 'ParishId') {
+                        LoadHDLMById(idTCLM);
+                    }
+                }
+            },
+
+        });
+    }
+
+    //Action when choose priest
+    function AddHDLM(priestId) {
+        var tenHoiDong = $("#txtName").val();
+        var mota = $("#txtDescription").val();
+        var ghichu = $("#txtNote").val();
+        startLoading();
+        $.ajax({
+            url: "/HoiDongLinhMuc/AddHDLM",
+            type: "POST",
+            data: {
+                Id: idHDLM,
+                Name: tenHoiDong,
+                Description: mota,
+                Note: ghichu,
+                PriestID: priestId
+            },
+            success: function (data) {
+                if (data <= 0) {
+                    if (data == -1) {
+                        showMessage("Thêm mới hội đồng thất bại", 0);
+                    }
+                } else {
+                    //showMessage("Thêm mới hội đồng thành công", 1);
+                    idHDLM = data;
+                    LoadHDLMById(idHDLM);
+
+                }
+            },
+        });
+    }
+
+    //Load HDLM after Added
+    function LoadHDLMById(id) {
+        idHDLM = id;
+        startLoading();
+        $.ajax({
+            url: "/HoiDongLinhMuc/LoadHDLMById",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                var item = data.result;
+                if (item) {
+                    $("#txtName").val(item.name);
+                    $("#txtDescription").val(item.des);
+                    $("#txtNote").val(item.note);
+
+                    $("#titleModal").html("Chỉnh sửa hội đồng linh mục");
+                    $("#btnCreateHDLMModal").hide();
+                    $("#btnUpdateHDLMModal").show();
+                    LoadHDLMMember(idHDLM);
+                }
+                else {
+                    showMessage("Tải dữ liệu thất bại", 0);
+                }
+
+            },
+        });
+    }
+
+    //Load HDLM member after added
+    function LoadHDLMMember(id) {
+        $.ajax({
+            url: "/HoiDongLinhMuc/LoadHDLMMembers",
+            type: "POST",
+            data: {
+                idHDLM: id,
+            },
+            success: function (data) {
+                $("#HDLMMemberTable").dataTable().fnDestroy();
+                $("#HDLMMemberTable > tbody").html(data);
+                InitMembersDatatables("HDLMMemberTable");
+                $("#hdlmModal").modal('show');
+
+            },
+        });
+    }
+
+    function InitMembersDatatables(id) {
+
+        $("#" + id).dataTable({
+            "aaSorting": [],
+            "oLanguage": {
+                "sSearch": "Linh mục/Giáo xứ",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace sItem" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "5%"
+                },
+                {
+                    "aTargets": [2],
+                    "sWidth": "20%"
+                },
+                {
+                    "aTargets": [3],
+                    "sWidth": "20%"
+                },
+                {
+                    "aTargets": [4],
+                    "sWidth": "10%"
+                },
+                {
+                    "aTargets": [5],
+                    "sWidth": "10%"
+                },
+                {
+                    "aTargets": [6],
+                    "sWidth": "20%"
+                },
+                {
+                    "aTargets": [7],
+                    "sWidth": "15%",
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+
+        });
+
+    }
+
+    //Delete HDLM confirm
+    function DeleteConfirm(id) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn xóa hội đồng linh mục này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteHDLM(id);
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                }
+            }
+        });
+    }
+
+    //Delete HDLM
+    function DeleteHDLM(id) {
+        $.ajax({
+            url: "/HoiDongLinhMuc/DeleteHDLM",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Xóa hội đồng linh mục thất bại", 0);
+                } else {
+                    showMessage("Xóa hội đồng linh mục thành công", 1);
+                    refeshTable("hdlmTable");
+                }
+
+            },
+        });
+    }
+
+    //Delete Priest confirm
+    function RemovePriestConfirm(id) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn loại bỏ Linh mục này ra khỏi hội đồng không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Loại bỏ",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        RemovePriest(id);
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                        setTimeout(function () {
+                            makeScrollForModal();
+                        }, 500);
+                    }
+                }
+            }
+        });
+    }
+
+    //Delete Priest
+    function RemovePriest(id) {
+        $.ajax({
+            url: "/HoiDongLinhMuc/RemovePriestFromHDLM",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Loại bỏ Linh mục ra khỏi hội đồng thất bại", 0);
+                } else {
+                    showMessage("Loại bỏ Linh mục ra khỏi hội đồng thành công", 1);
+                    LoadHDLMMember(id);
+                }
+
+            },
+        });
+    }
+
+    function InitHDLMMemberDatatables(id) {
+
+        $("#" + id).dataTable({
+            "aaSorting": [],
+            "oLanguage": {
+                "sSearch": "Linh mục/Giáo xứ",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace sItem" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "4%"
+                },
+                {
+                    "aTargets": [2],
+                    "sWidth": "11%"
+                },
+                {
+                    "aTargets": [3],
+                    "sWidth": "14%"
+                },
+                {
+                    "aTargets": [4],
+                    "sWidth": "10%"
+                },
+                {
+                    "aTargets": [5],
+                    "sWidth": "7%"
+                },
+                {
+                    "aTargets": [6],
+                    "sWidth": "10%"
+                },
+                {
+                    "aTargets": [7],
+                    "sWidth": "11%"
+                },
+                {
+                    "aTargets": [8],
+                    "sWidth": "13%"
+                },
+                {
+                    "aTargets": [9],
+                    "sWidth": "9%"
+                },
+                {
+                    "aTargets": [10],
+                    "sWidth": "11%",
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+
+        });
+
+    }
+
+</script>

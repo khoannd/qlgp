@@ -39,6 +39,11 @@ namespace PMS.BusinessLogic
             return _priestData.AddPriest(priest);
         }
 
+        public IEnumerable<Priest> GetAllPriests()
+        {
+            return _priestData.GetAllPriests();
+        }
+        
         public int UpdatePriest(Priest priest)
         {
             return _priestData.UpdatePriest(priest);
@@ -146,6 +151,66 @@ namespace PMS.BusinessLogic
                          select new IConvertible[]
                        {
                            c.Id,
+                           c.Id,
+                           c.Id,
+                           c.ChristianName,
+                           c.Name,
+                           converter.ConvertStringToDate(c.BirthDate),
+                           c.Phone,
+                           c.Id
+                       };
+            totalRecords = records;
+            totalDisplayRecords = records;
+
+            return result;
+        }
+
+        //VuongVM - Get Priest for HDLM Members
+        public IEnumerable<IConvertible[]> GetOrderedPriestsByParamsAndPagingForHDLM(string searchValue, int sortColumnIndex, string sortDirection,
+                           int displayStart, int displayLength, out int totalRecords, out int totalDisplayRecords)
+        {
+            //Load Data
+            IEnumerable<Priest> priests;
+
+            priests = _priestData.GetPriestForHDLM();
+
+            IEnumerable<Priest> filteredListItems;
+            if (!string.IsNullOrEmpty(searchValue))
+            {
+                searchValue = searchValue.Trim().ToLower();
+                filteredListItems = priests.Where(c => (c.Name.Trim().ToLower().Contains(searchValue)));
+            }
+            else
+            {
+                filteredListItems = priests;
+            }
+
+            //Sort
+            if (sortColumnIndex == 2)
+            {
+                filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.ChristianName) : filteredListItems.OrderByDescending(p => p.ChristianName);
+            }
+            else if (sortColumnIndex == 3)
+            {
+                filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.Name) : filteredListItems.OrderByDescending(p => p.Name);
+            }
+            else if (sortColumnIndex == 4)
+            {
+                filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.BirthDate) : filteredListItems.OrderByDescending(p => p.BirthDate);
+            }
+            else if (sortColumnIndex == 5)
+            {
+                filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.Phone) : filteredListItems.OrderByDescending(p => p.Phone);
+            }
+
+            //Paging
+            var list = filteredListItems.ToList();
+            int records = list.Count;
+            var displayedList = list.Skip(displayStart).Take(displayLength);
+            var converter = new DateConverter();
+            var result = from c in displayedList
+                         select new IConvertible[]
+                       {
                            c.Id,
                            c.Id,
                            c.ChristianName,

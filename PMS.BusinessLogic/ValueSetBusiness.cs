@@ -20,5 +20,10 @@ namespace PMS.BusinessLogic
         {
             return _valueSetData.getValueSetByCategory(category);
         }
+
+        public IEnumerable<ValueSet> getAllHDLMRole()
+        {
+           return _valueSetData.getAllHDLMRole();
+        }
     }
 }

@@ -112,5 +112,21 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<string>(query, dioceseId, "%" + name + "%");
         }
 
+        public IEnumerable<Priest> GetAllPriests()
+        {
+            string query = "SELECT * FROM Priest ORDER BY ChristianName";
+            return _db.ExecuteQuery<Priest>(query, 0);
+        }
+
+        public IEnumerable<Priest> GetPriestForHDLM()
+        {
+            const string query = @" select * 
+                                    from Priest as pr 
+                                    where pr.Id not in (
+						                                    select PriestID from HDLMMember
+					                                    )";
+            return _db.ExecuteQuery<Priest>(query);
+        }
+
     }
 }

@@ -279,5 +279,22 @@ namespace PMS.Web.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        //VuongVM - Load priest for HDLM Members
+        public ActionResult LoadParishDatatableForHDLM(jQueryDataTableParamModel param)
+        {
+            int totalRecords = 0;
+            int totalDisplayRecords = 0;
+            var result = _priestBusiness.GetOrderedPriestsByParamsAndPagingForHDLM(param.sSearch,
+               param.iSortCol_0, param.sSortDir_0, param.iDisplayStart, param.iDisplayLength, out totalRecords,
+               out totalDisplayRecords);
+            return Json(new
+            {
+                sEcho = param.sEcho,
+                iTotalRecords = totalRecords,
+                iTotalDisplayRecords = totalDisplayRecords,
+                aaData = result
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }
