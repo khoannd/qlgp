@@ -156,7 +156,7 @@ namespace PMS.DataAccess.Models
     #endregion
 		
 		public PMSDataContext() : 
-				base(global::PMS.DataAccess.Properties.Settings.Default.QLGPConnectionString2, mappingSource)
+				base(global::PMS.DataAccess.Properties.Settings.Default.QLGPConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
