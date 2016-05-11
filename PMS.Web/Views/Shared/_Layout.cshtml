@@ -33,7 +33,12 @@
     <script src="/Content/assets/js/ace.min.js"></script>
     <script src="/Content/assets/js/bootbox.min.js"></script>
     <script src="/Scripts/pms_common.js"></script>
-
+<script src="~/Content/assets/js/date-time/bootstrap-datetimepicker.min.js"></script>
+    <script src="~/Content/assets/js/date-time/bootstrap-timepicker.min.js"></script>
+    <script src="~/Content/assets/js/date-time/jquery.timepicker.js"></script>
+    <script src="~/Content/assets/js/date-time/jquery.timepicker.min.js"></script>
+    <script src="/Content/assets/js/bootstrap-wysiwyg.min.js"></script>
+    <script src="/Content/assets/js/jquery.hotkeys.min.js"></script>
 </head>
 
 @{
@@ -142,7 +147,18 @@
             z-index: 1051 !important;
         }
     </style>
-
+#btn1 {
+    background-color: #4CAF50;  
+    border: none;
+    color: white;
+    padding: 6px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    
+}
+    #btn1 {border-radius: 4px;}
     <div id="loading">
         <img src="/Content/loading.gif" style="position: fixed; top: 40%; left: 44%;" />
     </div>
@@ -458,6 +474,13 @@
                         <a href="/ConstructionPermit/Index">
                             <i class="menu-icon fa fa-building"></i>
                             <span class="menu-text"> Xây dựng </span>
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+					<li class="hover">
+                        <a href="/GiayMoi/GiayMoi">
+                            <i class="menu-icon fa fa-paper-plane"></i>
+                            <span class="menu-text"> Giấy Mời </span>
                         </a>
                         <b class="arrow"></b>
                     </li>
