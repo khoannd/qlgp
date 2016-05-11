@@ -178,6 +178,13 @@ namespace PMS.BusinessLogic
             totalDisplayRecords = records;
             return result;
         }
+		
+		//get all parishioner
+        public IEnumerable<Parishioner> GetAllParishioner()
+        {
+            return _parishionerData.GetAllParishioner();
+        }
+		
 
         public int AddParishioner(Parishioner parishioner)
         {
