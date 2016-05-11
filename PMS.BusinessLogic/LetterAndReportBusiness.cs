@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using PMS.DataAccess.Utilities;
 using PMS.DataAccess;
 using PMS.DataAccess.ViewModels;
+using PMS.DataAccess;
 
 namespace PMS.BusinessLogic
 {
@@ -18,6 +19,14 @@ namespace PMS.BusinessLogic
         public LetterAndReportBusiness(string connection)
         {
             _letterAndReportData = new LetterAndReportData(connection);
+        }
+		public List<LetterAndReport> GetAllLetterAndReport()
+		{
+            return _letterAndReportData.GetAllLetterAndReport().ToList();
+        }
+		public string  getTemplate(int id)
+        {
+            return _letterAndReportData.getTemplate(id);
         }
 
         public List<ValueSet> GetLoai()
