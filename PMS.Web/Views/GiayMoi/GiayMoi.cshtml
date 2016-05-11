@@ -1,0 +1,1202 @@
+﻿@using PMS.DataAccess.Models
+@{
+    ViewBag.Title = "GiayMoi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+
+
+<div class="page-header">
+    <h1>Giấy Mời</h1>
+</div>
+
+<div class="page-header">
+    <button id="btnCreateGiayMoi" class="btn btn-success" data-toggle="modal">
+        <i class="fa fa-plus"></i> Thêm Giấy Mời
+    </button>
+</div>
+
+<div class="col-xs-12">
+    <div class="space-6"></div>
+    <table id="GiayMoiTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Tên giấy mời</th>
+                <th>Ngày diễn ra</th>
+                <th>Thời gian</th>
+                <th>Địa điểm</th>
+                @*<th>Ngày gửi</th>*@
+                <th>Người mời</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</div>
+
+
+<!--GiayMoi Modal-->
+<div id="createGiayMoiModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" style="width: 95%">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+
+                    <h4 class="widget-title lighter" id="GiayMoiModalTitle"></h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseGiayMoiModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+                <input type="hidden" id="Id" value="0" class="form-control">
+
+                <div class="space-10"></div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Tên giấy mời&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input type="text" id="TenGiayMoi" value="" class="form-control">
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-thumb-tack bigger-110"></i>
+                                        </span>
+                                    </div>
+                                    <label id="lbTenGiayMoiErrorMessage" class="text-danger" hidden=""></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Loại giấy mời&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <select class="form-control" id="LoaiGiayMoi">
+                                            <option value="0">Chọn loại giấy mời</option>
+                                            @foreach (var item in (List<ValueSet>)ViewBag.Valueset)
+                                            {
+                                                <option value="@item.Code">@item.Definition</option>
+                                            }
+                                        </select>
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-indent bigger-110"></i>
+                                        </span>
+                                    </div>
+                                    <label id="lbLoaiGiayMoiErrorMessage" class="text-danger" hidden=""></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Người gởi&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <select class="form-control" id="NguoiGoi">
+                                            <option value="0">Chọn người gởi</option>
+                                            @foreach (var item in (List<Parishioner>)ViewBag.Parishioner)
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-user bigger-110"></i>
+                                        </span>
+                                    </div>
+                                    <label id="lbNguoiGoiErrorMessage" class="text-danger" hidden=""></label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="widget-body">
+                    <div class="space-10"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Ngày mời</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input class="form-control fdate-picker" id="NgayMoi" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar bigger-110"></i>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 col-sm-offset-3">
+                                        <label id="lbNgayMoiErrorMessage" class="text-danger" hidden=""></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Ngày diễn ra</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input class="form-control fdate-picker" id="NgayDienRa" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar bigger-110"></i>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 col-sm-offset-3">
+                                        <label id="lbNgayDienRaErrorMessage" class="text-danger" hidden=""></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Thời gian</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group">
+                                            <input class="form-control time-picker" id="ThoiGian" type="text" data-format="hh:mm" placeholder="" />
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-clock-o bigger-110"></i>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 col-sm-offset-3">
+                                        <label id="lbThoiGianErrorMessage" class="text-danger" hidden=""></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="space-10"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <label class="col-sm-1 control-label padding-right">Địa điểm</label>
+                                    <div class="col-sm-11">
+                                        <div class="input-group">
+                                            <input type="text" id="DiaDiem" value="" class="form-control">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-location-arrow bigger-110"></i>
+                                            </span>
+                                        </div>
+                                        <label id="lbDiaDiemErrorMessage" class="text-danger" hidden=""></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="space-10"></div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-4">
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label padding-right">Mẫu giấy mời</label>
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <select class="form-control" id="MauGiayMoi">
+                                                <option value="0">Chọn Mẫu</option>
+                                                @foreach (var item in (List<LetterAndReport>)ViewBag.LetterAndReport)
+                                                {
+                                                    <option value="@item.Id">@item.Ten</option>
+                                                }
+                                            </select>
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-file-text-o bigger-110"></i>
+                                            </span>
+                                        </div>
+                                        <label id="lbMauGiayMoiErrorMessage" class="text-danger" hidden=""></label>
+
+                                    </div>
+                                    <button class="col-sm-3" id="btn1">ẩn/ hiện mẫu</button>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="space-10"></div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <div style="width: 702.2756px; max-height: 841.8898px !important; height: 841.8898px !important;" class="wysiwyg-editor center-block template" id="txtTemplate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="space-10"></div>
+                    <div class="row" style="">
+                        <div class="col-xs-12">
+                            <div class="col-md-12">
+                                <h5 class="page-header" style="color: #4383b4">Danh sách những người được mời</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button id="btnLookupKhachMoiModal" class="btn btn-primary btn-sm" data-toggle="modal">
+                                        <i class="ace-icon fa fa-plus-circle"></i> Thêm khách mời
+                                    </button>
+                                    <button class="btn btn-success btn-sm" data-toggle="modal" onclick="printAppointmentAll()">
+                                        <i class=" ace-icon fa fa-print">
+                                        </i> In giấy mời
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-6"></div>
+                    <div class="form-group">
+                        <div class="row" id="hiddenKhachMoiTableModal">
+                            <div class="col-xs-12">
+                                <table id="KhachMoiTable" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th hidden=""></th>
+                                            <th>
+                                                <label class="position-relative">
+                                                    <input type="checkbox" class="ace sItem" />
+                                                    <span class="lbl"></span>
+                                                </label>
+                                            </th>
+                                            <th>Họ tên</th>
+                                            <th>Chức danh</th>
+                                            <th>Địa chỉ</th>
+                                            <th>Số điện thoại</th>
+                                            <th>Email</th>
+                                            <th>Ghi chú</th>
+                                            <th>Thao tác</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody></tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <!--end row-->
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="align-right">
+                                        <button id="btnGiayMoiModal" class="btn btn-primary" data-toggle="modal" onclick="AddOnlyGiayMoi()">
+                                            <i class="ace-icon fa fa-save"></i> Lưu
+                                        </button>
+                                        <button id="btnUpdateGiayMoiModal" class="btn btn-primary" data-toggle="modal" onclick="UpdateGiayMoi()">
+                                            <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                        </button>
+                                        <button id="btnCloseGiayMoiModal" class="btn" data-toggle="modal">
+                                            <i class="ace-icon fa fa-times"></i> Đóng
+                                        </button>
+                                        <button id="btnHoanTatGiayMoiModal" class="btn btn-primary" data-toggle="modal">
+                                            <i class="ace-icon fa fa-save"></i> Hoàn Tất
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-6"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End GiayMoi Modal-->
+<!--Khach Moi Modal-->
+<div id="KhachMoiModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+                    <h4 class="widget-title lighter" id="KhachMoiModalTitle"></h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseKhachMoiModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <input type="hidden" id="IdKhachMoi" value="" class="form-control">
+
+                <div class="widget-body">
+                    <div class="space-10"></div>
+                    <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Họ tên&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="HoTenKhachMoi" value="" class="form-control christian">
+                                    <label class="text-danger" id="lbErrorHoTenKhachMoi" hidden=""></label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Chức danh</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="ChucDanh" value="" class="form-control">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Địa chỉ</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="DiaChi" value="" class="form-control">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="space-10"></div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Số Điện Thoại</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="SoDienThoai" value="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-10"></div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Email</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="Email" value="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Ghi chú</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="GhiChuKhachMoi" value="" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-10"></div>
+                    </div>
+                    <!--end row-->
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="align-right">
+                                    <div class="space-6"></div>
+                                    <button id="btnCreateKhachMoiModal" class="btn btn-primary" data-toggle="modal" onclick="AddGiayMoi()">
+                                        <i class="ace-icon fa fa-save"></i> Lưu
+                                    </button>
+                                    <button id="btnUpdateKhachMoiModal" class="btn btn-primary" data-toggle="modal" onclick="UpdateKhachMoi()">
+                                        <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                    </button>
+                                    <button id="btnCloseKhachMoiModal" class="btn btn-grey" data-toggle="modal">
+                                        <i class="ace-icon fa fa-times"></i> Đóng
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-6"></div>
+                </div>
+                <div class="space-6"></div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!--End Khach Moi Modal-->
+
+
+<script type="text/javascript">
+    var idGiayMoi;
+
+    $(function () {
+        $('#createTCLMModal').find('.modal-dialog.modal-lg').css('width', '95%');
+
+        $('.fdate-picker').datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            forceParse: false,
+
+        }).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+    });
+
+
+    $('.time-picker').timepicker({
+        'step': 15
+    });
+
+
+    InitDatatable();
+
+    function InitDatatable() {
+        $("#GiayMoiTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "sAjaxSource": "/GiayMoi/LoadGiayMoiDatatable",
+            //"bProcessing": true,
+            "oLanguage": {
+                "sSearch": "Tên giấy mời",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false,
+                },
+
+                {
+                    "aTargets": [6],
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" onclick="LoadGiayMoiByGiayMoitId(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                            '<button class="btn btn-minier btn-danger" onclick="DeleteConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "15%"
+                }
+            ],
+            "bAutoWidth": false,
+        });
+
+    }
+    //su kien button
+    $("#btnCreateGiayMoi").click(function () {
+
+        clearGiayMoi();
+        $("#GiayMoiModalTitle").html("Thêm giấy mời");
+        $("#createGiayMoiModal").modal('show');
+        $("#btnGiayMoiModal").show();
+        $("#btnUpdateGiayMoiModal").hide();
+        $("#btnHoanTatGiayMoiModal").hide();
+    });
+
+    $("#btnLookupKhachMoiModal").click(function () {
+        //clearKhachMoi();
+        if (!CheckValidGiayMoi()) {
+            return;
+        }
+
+        $("#KhachMoiModalTitle").html("Thêm khách mời");
+        $("#KhachMoiModal").modal('show');
+        $("#btnCreateKhachMoiModal").show();
+        $("#btnUpdateKhachMoiModal").hide();
+
+    });
+
+    $("#btnCloseGiayMoiModal").click(function () {
+        $("#createGiayMoiModal").modal('hide');
+        clearGiayMoi();
+    });
+
+    $("#btnHoanTatGiayMoiModal").click(function () {
+        $("#createGiayMoiModal").modal('hide');
+        clearGiayMoi();
+    });
+
+    $("#btnCloseKhachMoiModal").click(function () {
+        $("#KhachMoiModal").modal('hide');
+        clearKhachMoi();
+    });
+
+
+    $('#txtTemplate').ace_wysiwyg().prev().addClass('wysiwyg-style1');
+
+    $("#btn1").click(function () {
+        $("#txtTemplate").slideToggle('slow');
+    });
+
+
+    //change combo box
+    $("#MauGiayMoi").change(function () {
+        $.get("/GiayMoi/GetTemplateContent", { id: $("#MauGiayMoi option:selected").val() }, function (data) {
+            $("#txtTemplate").html(data);
+        });
+    });
+
+    //delete giay moi confirm
+    function DeleteConfirm(id) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn xóa giấy mời không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteGiayMoi(id);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    //delete khach moi confirm
+    function DeleteKhachMoiConfirm(id) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn xóa khách mời không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteKhachMoi(id);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+    //delete giay moi
+    function DeleteGiayMoi(id) {
+        $.ajax({
+            url: "/GiayMoi/DeleteGiayMoi",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Vui lòng xóa khách mời", 0);
+                } else {
+                    showMessage("Xóa giấy mời thành công", 1);
+                    refreshGiayMoiTable();
+                }
+
+            },
+        });
+    }
+
+    //delete khach moi
+    function DeleteKhachMoi(id) {
+        $.ajax({
+            url: "/GiayMoi/DeleteKhachMoi",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Xóa khách mời thất bại", 0);
+                } else {
+                    showMessage("Xóa khách thành công", 1);
+                    refreshKhachMoiTable();
+                }
+
+            },
+        });
+    }
+
+    //Clear giay moi popup
+    function clearGiayMoi() {
+        $("#TenGiayMoi").val("");
+        $("#lbTenGiayMoiErrorMessage").val("");
+        $("#lbTenGiayMoiErrorMessage").hide();
+
+        $("#LoaiGiayMoi").val('0');
+        $("#lbLoaiGiayMoiErrorMessage").val("");
+        $("#lbLoaiGiayMoiErrorMessage").hide();
+
+
+        $("#NgayMoi").val("");
+        $("#lbNgayMoiErrorMessage").hide();
+        $("#lbNgayMoiErrorMessage").val("");
+
+
+        $("#NgayDienRa").val("");
+        $("#lbNgayDienRaErrorMessage").val("");
+        $("#lbNgayDienRaErrorMessage").hide();
+
+
+        $("#lbDiaDiemErrorMessage").val("");
+        $("#lbDiaDiemErrorMessage").hide();
+        $("#DiaDiem").val("");
+
+        $("#NguoiGoi").val('0');
+        $("#lbNguoiGoiErrorMessage").val("");
+        $("#lbNguoiGoiErrorMessage").hide();
+
+
+        $("#MauGiayMoi").val('0');
+        $("#lbMauGiayMoiErrorMessage").val("");
+        $("#lbMauGiayMoiErrorMessage").hide();
+
+
+        $("#txtTemplate").html("");
+
+        $("#ThoiGian").val("");
+        $("#lbThoiGianErrorMessage").val("");
+        $("#lbThoiGianErrorMessage").hide();
+
+        $("#KhachMoiTable").dataTable().fnDestroy();
+        $("#KhachMoiTable tbody").html("");
+
+    }
+
+    //clear khach moi popup
+    function clearKhachMoi() {
+        idGiayMoi = 0;
+        $("#HoTenKhachMoi").val("");
+        $("#lbErrorHoTenKhachMoi").val("");
+        $("#lbErrorHoTenKhachMoi").hide();
+
+        $("#DiaChi").val("");
+
+        $("#ChucDanh").val("");
+
+        $("#Email").val("");
+
+        $("#SoDienThoai").val("");
+
+        $("#GhiChuKhachMoi").val("");
+
+
+
+    }
+
+    //Thêm giấy mời
+
+    function AddGiayMoi() {
+        if (!CheckValidKhachMoi()) {
+            return;
+        }
+        //var HoTen = $("#HoTenKhachMoi").val();
+        //var ChucDanh = $("#ChucDanh").val();
+        //var DiaChi = $("#DiaChi").val();
+        //var SoDienThoai = $("#SoDienThoai").val();
+        //var Email = $("#Email").val();
+        //var GhiChu = $("#GhiChuKhachMoi").val();
+        //
+        var TenGiayMoi = $("#TenGiayMoi").val();
+        var LoaiGiayMoi = $("#LoaiGiayMoi").val();
+        var NguoiGoi = $("#NguoiGoi").val();
+        var NgayMoi = $("#NgayMoi").val();
+        var NgayDienRa = $("#NgayDienRa").val();
+        var ThoiGian = $("#ThoiGian").val();
+        var DiaDiem = $("#DiaDiem").val();
+        var MauGiayMoi = $("#MauGiayMoi").val();
+        var Mau = $("#txtTemplate").html();
+        startLoading();
+        $.ajax({
+            url: "/GiayMoi/AddGiayMoi",
+            type: "POST",
+            data: {
+                Id: idGiayMoi,
+                Ten: TenGiayMoi,
+                Loai: LoaiGiayMoi,
+                Mau: Mau,
+                NgayMoi: NgayMoi,
+                NgaySuKien: NgayDienRa,
+                DiaDiem: DiaDiem,
+                NguoiGoi: NguoiGoi,
+                ThoiGian: ThoiGian,
+                MauId: MauGiayMoi,
+            },
+            success: function (data) {
+                if (data.id <= 0) {
+                    showMessage("Thêm giấy mời thất bại", 0);
+                } else {
+                    idGiayMoi = data;
+                    //updateTableContent("KhachMoiTable");
+                    //showMessage("Thêm giấy mời thành công", 1);
+                    //$("#createGiayMoiModal").modal('hide');
+                    //refreshKhachMoiTable();
+                    //clearKhachMoi();
+                    AddKhachMoi(idGiayMoi);
+
+                }
+            },
+
+        });
+    }
+
+    function AddOnlyGiayMoi() {
+        if (!CheckValidGiayMoi()) {
+            return;
+        }
+        var TenGiayMoi = $("#TenGiayMoi").val();
+        var LoaiGiayMoi = $("#LoaiGiayMoi").val();
+        var NguoiGoi = $("#NguoiGoi").val();
+        var NgayMoi = $("#NgayMoi").val();
+        var NgayDienRa = $("#NgayDienRa").val();
+        var ThoiGian = $("#ThoiGian").val();
+        var DiaDiem = $("#DiaDiem").val();
+        var MauGiayMoi = $("#MauGiayMoi").val();
+        var Mau = $("#txtTemplate").html();
+        startLoading();
+        $.ajax({
+            url: "/GiayMoi/AddGiayMoi",
+            type: "POST",
+            data: {
+                Id: idGiayMoi,
+                Ten: TenGiayMoi,
+                Loai: LoaiGiayMoi,
+                Mau: Mau,
+                NgayMoi: NgayMoi,
+                NgaySuKien: NgayDienRa,
+                DiaDiem: DiaDiem,
+                NguoiGoi: NguoiGoi,
+                ThoiGian: ThoiGian,
+                MauId: MauGiayMoi,
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Thêm giấy mời thất bại", 0);
+                } else {
+                    idGiayMoi = data;
+
+                    showMessage("Thêm giấy mời thành công", 1);
+                    $("#createGiayMoiModal").modal('hide');
+                    refreshGiayMoiTable();
+                    //$("#btnGiayMoiModal").hide();
+                    //$("#btnUpdateGiayMoiModal").show();
+
+                }
+            },
+
+        });
+    }
+
+
+    function AddKhachMoi(id) {
+        if (!CheckValidGiayMoi()) {
+            return;
+        }
+        idGiayMoi = id;
+        var HoTen = $("#HoTenKhachMoi").val();
+        var ChucDanh = $("#ChucDanh").val();
+        var DiaChi = $("#DiaChi").val();
+        var SoDienThoai = $("#SoDienThoai").val();
+        var Email = $("#Email").val();
+        var GhiChu = $("#GhiChuKhachMoi").val();
+        startLoading();
+        $.ajax({
+            url: "/GiayMoi/AddKhachMoi",
+            type: "POST",
+            data: {
+                HoTen: HoTen,
+                ChucDanh: ChucDanh,
+                DiaChi: DiaChi,
+                SoDienThoai: SoDienThoai,
+                Email: Email,
+                GhiChu: GhiChu,
+                GiayMoiId: idGiayMoi
+            },
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Thêm khách mời thất bại", 0);
+
+                } else {
+                    //updateTableContent("GiayMoiTable");
+                    //showMessage("Thêm giấy mời thành công", 1);
+                    //$("#createGiayMoiModal").modal('hide');
+                    //refreshGiayMoiTable();
+                    //clearGiayMoi();
+                    showMessage("Thêm khách mời thành công", 1);
+                    $("#KhachMoiModal").modal('hide');
+                    $("#btnCloseGiayMoiModal").hide();
+                    $("#btnUpdateGiayMoiModal").hide();
+                    $("#btnHoanTatGiayMoiModal").show();
+                    $("#btnGiayMoiModal").hide();
+                    refreshKhachMoiTable();
+                    refreshGiayMoiTable();
+                    clearKhachMoi();
+
+                }
+            },
+
+        });
+    }
+
+    //Sửa giấy mời
+    function UpdateGiayMoi() {
+        if (!CheckValidGiayMoi()) {
+            return;
+        }
+        var Id = $("#Id").val();
+        var TenGiayMoi = $("#TenGiayMoi").val();
+        var LoaiGiayMoi = $("#LoaiGiayMoi").val();
+        var NguoiGoi = $("#NguoiGoi").val();
+        var NgayMoi = $("#NgayMoi").val();
+        var NgayDienRa = $("#NgayDienRa").val();
+        var ThoiGian = $("#ThoiGian").val();
+        var DiaDiem = $("#DiaDiem").val();
+        var MauGiayMoi = $("#MauGiayMoi").val();
+        var Mau = $("#txtTemplate").html();
+
+        startLoading();
+        $.ajax({
+            url: "/GiayMoi/UpdateGiayMoi",
+            type: "POST",
+            data: {
+                Id: Id,
+                Ten: TenGiayMoi,
+                Loai: LoaiGiayMoi,
+                Mau: Mau,
+                NgayMoi: NgayMoi,
+                NgaySuKien: NgayDienRa,
+                DiaDiem: DiaDiem,
+                NguoiGoi: NguoiGoi,
+                ThoiGian: ThoiGian,
+                MauId: MauGiayMoi,
+            },
+
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Cập nhật thông tin giấy mời thất bại", 0);
+                } else {
+                    showMessage("Cập nhật thông tin giấy mời thành công", 1);
+                    $("#createGiayMoiModal").modal('hide');
+                    refreshGiayMoiTable();
+                    clearGiayMoi();
+                }
+            },
+
+        });
+    }
+
+    //update khách mời
+    function UpdateKhachMoi(id) {
+        if (!CheckValidKhachMoi()) {
+            return;
+        }
+        var khachmoiID = $("#IdKhachMoi").val();
+        var HoTen = $("#HoTenKhachMoi").val();
+        var ChucDanh = $("#ChucDanh").val();
+        var DiaChi = $("#DiaChi").val();
+        var SoDienThoai = $("#SoDienThoai").val();
+        var Email = $("#Email").val();
+        var GhiChu = $("#GhiChuKhachMoi").val();
+        startLoading();
+        $.ajax({
+            url: "/GiayMoi/UpdateKhachMoi",
+            type: "POST",
+            data: {
+                id: khachmoiID, 
+                HoTen: HoTen,
+                ChucDanh: ChucDanh,
+                DiaChi: DiaChi,
+                SoDienThoai: SoDienThoai,
+                Email: Email,
+                GhiChu: GhiChu,
+                GiayMoiId: idGiayMoi
+            },
+
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Cập nhật khách mời thất bại", 0);
+                } else {
+                    showMessage("Cập nhật khách mời mời thành công", 1);
+                    $("#KhachMoiModal").modal('hide');
+                    $("#btnCloseGiayMoiModal").hide();
+                    $("#btnUpdateGiayMoiModal").hide();
+                    $("#btnHoanTatGiayMoiModal").show();
+                    $("#btnGiayMoiModal").hide();
+                    refreshKhachMoiTable();
+                    refreshGiayMoiTable();
+                    clearKhachMoi();
+                }
+            },
+
+        });
+    }
+
+    //load giay moi to edit
+    function LoadGiayMoiByGiayMoitId(id) {
+        idGiayMoi = id;
+        $.ajax({
+            url: "/GiayMoi/LoadGiayMoiById",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                var item = data.result;
+
+                $("#Id").val(id);
+                $("#TenGiayMoi").val(item.Ten);
+                $("#LoaiGiayMoi").val(item.Loai);
+                $("#NguoiGoi").val(item.NguoiGoi);
+                $("#NgayDienRa").val(item.NgaySuKien);
+                $("#ThoiGian").val(item.ThoiGian);
+                $("#DiaDiem").val(item.DiaDiem);
+
+                $("#NgayMoi").val(item.NgayMoi);
+                $("#MauGiayMoi").val(item.MauId);
+                $("#txtTemplate").html(item.Mau);
+
+                $("#GiayMoiModalTitle").html("Chỉnh sửa giấy mời");
+                $("#createGiayMoiModal").modal('show');
+                $("#btnUpdateGiayMoiModal").show();
+                $("#btnHoanTatGiayMoiModal").hide();
+                $("#btnCloseGiayMoiModal").show();
+                $("#btnGiayMoiModal").hide();
+                LoadKhachMoi(idGiayMoi);
+            },
+        });
+    }
+
+    //load khach moi to edit
+    function LoadKhachMoiByGiayMoitId(id) {
+        $("#Id").val(id);
+;        $.ajax({
+            url: "/GiayMoi/LoadKhachMoiById",
+            type: "POST",
+            data: {
+                id: id,
+            },
+
+            success: function (data) {
+                var item = data.result;
+                $("#IdKhachMoi").val(item.id);
+                $("#HoTenKhachMoi").val(item.HoTen);
+                $("#ChucDanh").val(item.ChucDanh);
+                $("#DiaChi").val(item.DiaChi);
+                $("#Email").val(item.Email);
+                $("#SoDienThoai").val(item.SoDienThoai);
+                $("#GhiChuKhachMoi").val(item.GhiChu);
+
+                $("#KhachMoiModalTitle").html("Chỉnh sửa khách mời");
+                $("#KhachMoiModal").modal('show');
+                $("#btnCreateKhachMoiModal").hide();
+                $("#btnUpdateKhachMoiModal").show();
+            },
+        });
+    }
+
+    function LoadKhachMoi(id) {
+        $.ajax({
+            url: "/GiayMoi/LoadKhachMoi",
+            type: "GET",
+            data: {
+                idGiayMoi: id,
+            },
+            success: function (data) {
+                $("#KhachMoiTable").dataTable().fnDestroy();
+                $("#KhachMoiTable > tbody").html(data);
+                InitMembersDatatables("KhachMoiTable");
+                $("#CreateGiayMoiMoiModal").modal('show');
+
+            },
+        });
+    }
+    function InitMembersDatatables(id) {
+
+        $("#" + id).dataTable({
+            "aaSorting": [],
+            "oLanguage": {
+                "sSearch": "Khách mời",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace sItem" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "5%"
+                },
+                {
+                    "aTargets": [2],
+                    "sWidth": "15%"
+                },
+
+                {
+
+                    "aTargets": [8],
+                    "sWidth": "20%",
+                    "bSortable": false
+                }
+
+            ],
+            "bAutoWidth": false,
+
+        });
+
+    }
+    //refesh giay moi modal
+    function refreshGiayMoiTable() {
+        $("#GiayMoiTable").dataTable()._fnAjaxUpdate();
+    }
+    //refesh khach moi modal
+    function refreshKhachMoiTable() {
+        //$("#KhachMoiTable").dataTable()._fnAjaxUpdate();
+        LoadKhachMoi(idGiayMoi);
+    }
+
+
+
+    //check valid giay moi
+    function CheckValidGiayMoi() {
+        var TenGiayMoi = $("#TenGiayMoi").val();
+        var LoaiGiayMoi = $("#LoaiGiayMoi").val();
+        var NguoiGoi = $("#NguoiGoi").val();
+        var MauID = $("#MauGiayMoi").val();
+        var isError = false;
+
+
+        if (!TenGiayMoi) {
+            $("#lbTenGiayMoiErrorMessage").html("Vui lòng nhập tên giấy mời");
+            $("#lbTenGiayMoiErrorMessage").show();
+            isError = true;
+        } else {
+            $("#lbTenGiayMoiErrorMessage").hide();
+            $("#lbTenGiayMoiErrorMessage").html("");
+        }
+
+
+        if (LoaiGiayMoi == 0) {
+            $("#lbLoaiGiayMoiErrorMessage").html("Vui lòng chọn loại giấy mời");
+            $("#lbLoaiGiayMoiErrorMessage").show();
+
+            isError = true;
+        } else {
+            $("#lbLoaiGiayMoiErrorMessage").hide();
+            $("#lbLoaiGiayMoiErrorMessage").html("");
+        }
+
+
+        if (NguoiGoi == 0) {
+            $("#lbNguoiGoiErrorMessage").html("Vui lòng chọn người gởi");
+            $("#lbNguoiGoiErrorMessage").show();
+
+            isError = true;
+        } else {
+            $("#lbNguoiGoiErrorMessage").hide();
+            $("#lbNguoiGoiErrorMessage").html("");
+        }
+
+        if (MauID == 0) {
+            $("#lbMauGiayMoiErrorMessage").html("Vui lòng chọn mẫu");
+            $("#lbMauGiayMoiErrorMessage").show();
+            isError = true;
+        } else {
+            $("#lbMauGiayMoiErrorMessage").hide();
+            $("#lbMauGiayMoiErrorMessage").html("");
+        }
+
+
+        if (isError) {
+            return false;
+        }
+        return true;
+
+    }
+
+    //check valid khach moi
+    function CheckValidKhachMoi() {
+        var HoTen = $("#HoTenKhachMoi").val();
+        var isError = false;
+
+        if (!HoTen) {
+            $("#lbErrorHoTenKhachMoi").html("Vui lòng nhập tên giấy mời");
+            $("#lbErrorHoTenKhachMoi").show();
+            isError = true;
+        } else {
+            $("#lbErrorHoTenKhachMoi").hide();
+            $("#lbErrorHoTenKhachMoi").html("");
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+
+</script>

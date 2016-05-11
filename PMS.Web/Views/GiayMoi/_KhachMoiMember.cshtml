@@ -1,0 +1,29 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Utilities
+@model List<PMS.DataAccess.ViewModels.KhachMoiViewModel>
+
+
+@foreach (var item in Model)
+{
+    <tr position="@item.id">
+        <td class="hidden">@item.id</td>
+        <td>@item.id</td>
+        <td>@item.HoTen</td>
+        <td>@item.ChucDanh</td>
+        <td>@item.DiaChi</td>
+        <td>@item.SoDienThoai</td>
+        <td>@item.Email</td>
+        <td>@item.GhiChu</td>
+        <td>
+            <button class="btn btn-minier btn-primary" title="Sửa" onclick="LoadKhachMoiByGiayMoitId(@item.id)">
+                <i class="ace-icon fa fa-edit"></i>
+                Sửa
+            </button>
+            <button class="btn btn-minier btn-danger" title="Xóa" onclick="DeleteKhachMoiConfirm(@item.id)">
+                <i class="ace-icon fa fa-trash-o"></i>
+                Xóa
+            </button>
+        </td>
+    </tr>
+}
+
