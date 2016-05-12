@@ -20,6 +20,12 @@ namespace PMS.DataAccess
             const string query = "SELECT Id, Code, CAST(Definition AS NVARCHAR(100)) Definition, Note, Category FROM ValueSet WHERE Category LIKE {0} ORDER BY Definition";
             return _db.ExecuteQuery<ValueSet>(query, category);
         }
+		//get all parishioner
+        public IEnumerable<ValueSet> GetAllValueSet()
+        {
+            string query = "select * from ValueSet where Category LIKE N'Giấy Mời'";
+            return _db.ExecuteQuery<ValueSet>(query, 0);
+        }
 
         public IEnumerable<ValueSet> getAllHDLMRole()
         {
