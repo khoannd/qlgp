@@ -71,7 +71,7 @@
                                             <i class="fa fa-thumb-tack bigger-110"></i>
                                         </span>
                                     </div>
-                                    <label id="lbTenGiayMoiErrorMessage" class="text-danger" hidden=""></label>
+                                    <labe l id="lbTenGiayMoiErrorMessage" class="text-danger" hidden=""></label>
                                 </div>
                             </div>
                         </div>
@@ -674,6 +674,8 @@
         $("#lbTenGiayMoiErrorMessage").val("");
         $("#lbTenGiayMoiErrorMessage").hide();
 
+        $("#Id").val("");
+        
         $("#LoaiGiayMoi").val('0');
         $("#lbLoaiGiayMoiErrorMessage").val("");
         $("#lbLoaiGiayMoiErrorMessage").hide();
@@ -809,7 +811,6 @@
             url: "/GiayMoi/AddGiayMoi",
             type: "POST",
             data: {
-                Id: idGiayMoi,
                 Ten: TenGiayMoi,
                 Loai: LoaiGiayMoi,
                 Mau: Mau,
@@ -828,7 +829,9 @@
 
                     showMessage("Thêm giấy mời thành công", 1);
                     $("#createGiayMoiModal").modal('hide');
+                    clearGiayMoi();
                     refreshGiayMoiTable();
+                    
                     //$("#btnGiayMoiModal").hide();
                     //$("#btnUpdateGiayMoiModal").show();
 
@@ -953,7 +956,7 @@
             url: "/GiayMoi/UpdateKhachMoi",
             type: "POST",
             data: {
-                id: khachmoiID, 
+                id: khachmoiID,
                 HoTen: HoTen,
                 ChucDanh: ChucDanh,
                 DiaChi: DiaChi,
@@ -1018,7 +1021,7 @@
     //load khach moi to edit
     function LoadKhachMoiByGiayMoitId(id) {
         $("#Id").val(id);
-;        $.ajax({
+        ; $.ajax({
             url: "/GiayMoi/LoadKhachMoiById",
             type: "POST",
             data: {
