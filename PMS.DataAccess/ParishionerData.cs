@@ -2778,6 +2778,12 @@ namespace PMS.DataAccess
 
         }
 
+		//get all parishioner
+        public IEnumerable<Parishioner> GetAllParishioner()
+        {
+            string query = "SELECT * FROM Parishioner ORDER BY Name";
+            return _db.ExecuteQuery<Parishioner>(query, 0);
+        }
         public List<ParishionerSacramentViewModel> PrintSacrament(int parishId, string[] ids, int type)
         {
             var result = new List<ParishionerSacramentViewModel>();
