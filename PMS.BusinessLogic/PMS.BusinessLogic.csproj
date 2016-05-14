@@ -56,6 +56,11 @@
     <Compile Include="DeaconRequisitionCommentBusiness.cs" />
     <Compile Include="DoctrineCourseBusiness.cs" />
     <Compile Include="FamilyBusiness.cs" />
+    <Compile Include="GiayMoiBusiness.cs" />
+    <Compile Include="HDLMMemberBusiness.cs" />
+    <Compile Include="HoiDongLinhMucBusiness.cs" />
+    <Compile Include="KhachMoiBusiness.cs" />
+    <Compile Include="LetterAndReportBusiness.cs" />
     <Compile Include="MatrimonyBusiness.cs" />
     <Compile Include="MessageBusiness.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
