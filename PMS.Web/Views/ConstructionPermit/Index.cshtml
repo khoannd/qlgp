@@ -252,7 +252,18 @@
                 { "data": "TypeName" },
                 { "data": "ParishName" },
                 { "data": "Description" },
-                { "data": "FilePath" },
+                {
+                    "data": "FilePath",
+                    "defaultContent": "",
+                    "render": function (data, type, full, meta) {
+                        var content;
+                        if (data != null) {
+                            var splitString = data.split("/");
+                            content = '<a href="../' + data + '" download="' + splitString[splitString.length - 1] + '">' + splitString[splitString.length - 1] + '</a>';
+                        }
+                        return content;
+                    },
+                },
                 {
                     "data": "StatusName",
                     "render": function (data, type, full, meta) {

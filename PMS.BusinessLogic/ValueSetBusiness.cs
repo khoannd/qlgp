@@ -25,5 +25,10 @@ namespace PMS.BusinessLogic
         {
            return _valueSetData.getAllHDLMRole();
         }
+
+        public List<ValueSet> GetAllValueSet()
+        {
+            return _valueSetData.GetAllValueSet().ToList();
+        }
     }
 }
