@@ -101,13 +101,9 @@
                                 <label class="col-sm-3 control-label no-padding-right">Người gởi&nbsp;(<span style="color: red">*</span>)</label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
-                                        <select class="form-control" id="NguoiGoi">
-                                            <option value="0">Chọn người gởi</option>
-                                            @foreach (var item in (List<Parishioner>)ViewBag.Parishioner)
-                                            {
-                                                <option value="@item.Id">@item.Name</option>
-                                            }
-                                        </select>
+                                        <input type="text" id="TenNguoiGoi" class="form-control nguoiGoi">
+                                        <input type="hidden" id="NguoiGoi" />
+                                        <label class="text-danger" id="lbNguoiGuiModal" hidden=""></label>
                                         <span class="input-group-addon">
                                             <i class="fa fa-user bigger-110"></i>
                                         </span>
@@ -675,7 +671,7 @@
         $("#lbTenGiayMoiErrorMessage").hide();
 
         $("#Id").val("");
-        
+
         $("#LoaiGiayMoi").val('0');
         $("#lbLoaiGiayMoiErrorMessage").val("");
         $("#lbLoaiGiayMoiErrorMessage").hide();
@@ -750,6 +746,7 @@
         //var Email = $("#Email").val();
         //var GhiChu = $("#GhiChuKhachMoi").val();
         //
+        var idGiayMoi = $("#Id").val();
         var TenGiayMoi = $("#TenGiayMoi").val();
         var LoaiGiayMoi = $("#LoaiGiayMoi").val();
         var NguoiGoi = $("#NguoiGoi").val();
@@ -776,10 +773,9 @@
                 MauId: MauGiayMoi,
             },
             success: function (data) {
-                if (data.id <= 0) {
+                if (data <= 0) {
                     showMessage("Thêm giấy mời thất bại", 0);
                 } else {
-                    idGiayMoi = data;
                     //updateTableContent("KhachMoiTable");
                     //showMessage("Thêm giấy mời thành công", 1);
                     //$("#createGiayMoiModal").modal('hide');
@@ -831,7 +827,7 @@
                     $("#createGiayMoiModal").modal('hide');
                     clearGiayMoi();
                     refreshGiayMoiTable();
-                    
+
                     //$("#btnGiayMoiModal").hide();
                     //$("#btnUpdateGiayMoiModal").show();
 
@@ -1200,6 +1196,32 @@
         return true;
     }
 
+    $(".nguoiGoi").autocomplete({
+        autoFocus: true,
+        source: function (request, response) {
+            $.ajax({
+                url: "/Parishioner/LoadParishionerName",
+                dataType: "json",
+                data: {
+                    name: request.term
+                },
+                success: function (data) {
+                    response($.map(data.result, function (v, k) {
+                        return {
+                            label: v.Name,
+                            Id: v.Id
+                        };
+                    }));
+                }
+            });
+        },
+        minLength: 0,
+        select: function (event, ui) {
+            $('#NguoiGoi').val(ui.item.Id);
+        }
+    }).focus(function () {
+        $(this).autocomplete("search");
+    });
 
 
 </script>
