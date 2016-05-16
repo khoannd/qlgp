@@ -11,6 +11,7 @@ using PMS.Web.Filters;
 using System.Data;
 using System.Data.OleDb;
 using System.Xml;
+using System.IO;
 
 namespace PMS.Web.Controllers
 {
@@ -21,12 +22,14 @@ namespace PMS.Web.Controllers
         private readonly PriestBusiness _priestBusiness;
         private readonly ParishionerBusiness _parishionerBusiness;
         private readonly VocationBusiness _vocationBusiness;
+        private readonly ConfigurationBusiness _configurationBusiness;
 
         public PriestController()
         {
             _priestBusiness = new PriestBusiness(DbConfig.GetConnectionString());
             _parishionerBusiness = new ParishionerBusiness(DbConfig.GetConnectionString());
             _vocationBusiness = new VocationBusiness(DbConfig.GetConnectionString());
+            _configurationBusiness = new ConfigurationBusiness(DbConfig.GetConnectionString());
         }
 
         [SessionExpireFilter]
@@ -76,26 +79,26 @@ namespace PMS.Web.Controllers
 
         public ActionResult LoadPriestById(int id)
         {
-            Priest priest = _priestBusiness.GetPriestByPriestId(id);
-            PriestViewModel model = new PriestViewModel();
+            PriestViewModel priest = _priestBusiness.GetPriestAndParishionerInfoByPriestId(id);
             var converter = new DateConverter();
-            model.Id = priest.Id;
-            model.ChristianName = priest.ChristianName;
-            model.Name = priest.Name;
-            model.BirthDate = converter.ConvertStringToDate(priest.BirthDate);
-            model.DioceseId = priest.DioceseId;
-            model.Phone = priest.Phone;
-            model.ParishionerId = priest.ParishionerId.GetValueOrDefault();
-            return Json(new { result = model }, JsonRequestBehavior.AllowGet);
+            priest.BirthDate = converter.ConvertStringToDate(priest.BirthDate);
+            return Json(new { result = priest }, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult AddPriest(Priest priest)
+        public ActionResult AddPriest(PriestViewModel priestViewModel)
         {
             int dioceseId = (int)Session["DioceseId"];
+
+            var priest = new Priest();
+            priest.ChristianName = priestViewModel.ChristianName;
+            priest.Name = priestViewModel.Name;
+            priest.BirthDate = priestViewModel.BirthDate;
+            priest.Phone = priestViewModel.Phone;
+            priest.ParishionerId = priestViewModel.ParishionerId;
             priest.DioceseId = dioceseId;
             var converter = new DateConverter();
             priest.BirthDate = converter.ConvertDateToString(priest.BirthDate);
             int result = 0;
-            if (priest.ParishionerId == null)
+            if (priestViewModel.ParishionerId == 0)
             {
                 Parishioner parishioner = new Parishioner();
                 var maxcode = _parishionerBusiness.getMaxCode("LM");
@@ -109,6 +112,7 @@ namespace PMS.Web.Controllers
                     var code = String.Format("{0:00000}", Int32.Parse(splitString[1]) + 1);
                     parishioner.Code = String.Concat("LM", code);
                 }
+                parishioner.ImageUrl = priestViewModel.ImageURL;
                 parishioner.ChristianName = priest.ChristianName;
                 parishioner.Name = priest.Name;
                 parishioner.Gender = 1;
@@ -155,20 +159,38 @@ namespace PMS.Web.Controllers
             return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult UpdatePriest(Priest priest)
+        public ActionResult UpdatePriest(PriestViewModel priestViewModel)
         {
             var converter = new DateConverter();
-            priest.BirthDate = converter.ConvertDateToString(priest.BirthDate);
-            int result = _priestBusiness.UpdatePriest(priest);
-            if (result > 0)
+
+            priestViewModel.BirthDate = converter.ConvertDateToString(priestViewModel.BirthDate);
+            Priest priest = new Priest();
+            priest.Id = priestViewModel.Id;
+            priest.ChristianName = priestViewModel.ChristianName;
+            priest.Name = priestViewModel.Name;
+            priest.BirthDate = priestViewModel.BirthDate;
+            priest.DioceseId = priestViewModel.DioceseId;
+            priest.Phone = priestViewModel.Phone;
+            priest.ParishionerId = priestViewModel.ParishionerId;
+            int priestId = _priestBusiness.UpdatePriest(priest);
+            int parishionerId = _parishionerBusiness.checkExistsCodeOrNot(priestViewModel.Code);
+
+            int result;
+            if (priestId > 0 && (parishionerId == 0 || parishionerId == priestViewModel.ParishionerId))
             {
                 Parishioner parishioner = new Parishioner();
-                parishioner = _parishionerBusiness.getParishionerById(priest.ParishionerId.GetValueOrDefault());
-                parishioner.ChristianName = priest.ChristianName;
-                parishioner.Name = priest.Name;
-                parishioner.BirthDate = priest.BirthDate;
-                parishioner.MobilePhone = priest.Phone;
-                _parishionerBusiness.UpdateParishioner(parishioner);
+                parishioner = _parishionerBusiness.getParishionerById(priestViewModel.ParishionerId);
+                parishioner.Code = priestViewModel.Code;
+                parishioner.ImageUrl = priestViewModel.ImageURL;
+                parishioner.ChristianName = priestViewModel.ChristianName;
+                parishioner.Name = priestViewModel.Name;
+                parishioner.BirthDate = priestViewModel.BirthDate;
+                parishioner.MobilePhone = priestViewModel.Phone;
+                result = _parishionerBusiness.UpdateParishioner(parishioner);
+            }
+            else
+            {
+                result = 0;
             }
             return Json(new { result = result }, JsonRequestBehavior.AllowGet);
 
@@ -295,6 +317,48 @@ namespace PMS.Web.Controllers
                 iTotalDisplayRecords = totalDisplayRecords,
                 aaData = result
             }, JsonRequestBehavior.AllowGet);
+        }
+
+        [SessionExpireFilter]
+        public ActionResult PrintPage()
+        {
+            return View();
+        }
+
+        public ActionResult PrintPriest(string[] ids)
+        {
+            int parishId = (int)Session["ParishId"];
+
+            List<ParishionerViewModel> result;
+            result = _parishionerBusiness.PrintPriest(parishId, ids);
+
+            StreamReader reader = new StreamReader(Server.MapPath("\\Views\\Priest\\_templatePriestCard.html"));
+            string readFile = reader.ReadToEnd();
+
+            string template = "";
+
+            template = readFile;
+
+            return Json(new
+            {
+                result = result,
+                template = template,
+                now = DateTime.Now.ToString("dd/MM/yyyy")
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public string UploadPriestImage(HttpPostedFileWrapper inputFile)
+        {
+            if (inputFile == null || inputFile.ContentLength == 0)
+            {
+                return "";
+            }
+            string s = inputFile.ContentType;
+            var fileName = String.Format("{0}.jpg", Guid.NewGuid().ToString());
+            var imagePath = Path.Combine(Server.MapPath(Url.Content("~/Images/Parishioners/")), fileName);
+            inputFile.SaveAs(imagePath);
+
+            return Url.Content(String.Format("~/Images/Parishioners/{0}", fileName));
         }
     }
 }

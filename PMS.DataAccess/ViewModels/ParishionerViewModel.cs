@@ -14,10 +14,13 @@ namespace PMS.DataAccess.ViewModels
         public string Name { get; set; }
         public int Gender { get; set; }
         public string BirthDate { get; set; }
+        public string Address { get; set; }
+        public string ImageURL { get; set; }
+        public string Phone { get; set; }
         public int CommunityId { get; set; }
         public string CommunityName { get; set; }
         public string SacramentDate { get; set; }
-
+        public string DioceseName { get; set; }
         public bool IsCatechumen { get; set; }
 
     }

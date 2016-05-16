@@ -15,6 +15,11 @@
                 <i class="ace-icon fa fa-plus"></i> Thêm linh mục
             </button>
             <!-- End Button Show Popup To Add New Priest -->
+            <!-- Button Print Priest -->
+            <button class="btn btn-info" onclick="printPriest()">
+                <i class="ace-icon fa fa-print"></i> In thẻ linh mục
+            </button>
+            <!-- End Button Print Priest -->
             <!-- Import Priest Infomation with EXCEL -->
             <div style="display: inline-block;">
                 @using (Html.BeginForm("ImportFromExcel", "Priest", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -38,6 +43,12 @@
         <thead>
             <tr>
                 <th></th>
+                <th>
+                    <label class="position-relative">
+                        <input type="checkbox" class="ace" />
+                        <span class="lbl"></span>
+                    </label>
+                </th>
                 <th>Tên thánh</th>
                 <th>Họ tên</th>
                 <th>Ngày sinh</th>
@@ -74,6 +85,15 @@
                                 <!-- Modal Priest Id Textbox -->
                                 <input type="hidden" id="txtIdModal" value="" class="form-control" />
                                 <!-- End Modal Priest Id Textbox -->
+                                <!-- Modal Priest Code Textbox -->
+                                <div class="form-group align-left" id="ParishionerCodeModal">
+                                    <label class="col-sm-3 control-label no-padding-right">Mã linh mục&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="txtParishionerCodeModal" value="" class="form-control christian">
+                                        <label class="text-danger" id="lbParishionerCodeErrorModal" hidden=""></label>
+                                    </div>
+                                </div>
+                                <!-- End Modal Priest Code Textbox -->
                                 <!-- Modal Christian Name Textbox -->
                                 <div class="form-group align-left" id="ChristianNameModal">
                                     <label class="col-sm-3 control-label no-padding-right">Tên thánh&nbsp;(<span style="color: red">*</span>)</label>
@@ -117,6 +137,55 @@
                                 <!-- Modal Parishioner Id Textbox -->
                                 <input type="hidden" id="txtParishionerId" value="" class="form-control" />
                                 <!-- End Modal Parishioner Id Textbox -->
+                                <!-- Modal Priest ImageURL -->
+                                <div class="form-group" id="priestImageModal">
+                                    <label class="col-sm-3 control-label no-padding-right">Ảnh hiện tại</label>
+                                    <div class="col-sm-6">
+                                        <div class="widget-box">
+                                            <div class="widget-body">
+                                                <div class="widget-main">
+                                                    <div class="form-group">
+                                                        <div class="space-10"></div>
+                                                        <div class="col-xs-12">
+                                                            <img class="img-responsive" id="imgPriestImage" src="" />
+                                                        </div>
+                                                    </div>
+                                                    <label>
+                                                        <span class="lbl"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Modal Priest ImageURL -->
+                                <!-- Modal Upload New ImageURL -->
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label no-padding-right">Ảnh mới</label>
+                                    <div class="col-sm-6">
+                                        <div class="widget-box">
+                                            <div class="widget-body">
+                                                <div class="widget-main">
+                                                    <div class="form-group">
+                                                        <div class="space-10"></div>
+                                                        <div class="col-sm-12" id="newPriestImageModal">
+                                                            @using (Html.BeginForm("UploadPriestImage", "Priest", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImgForm", name = "ImgForm", target = "UploadTarget" }))
+                                                            {
+                                                                <input multiple="" name="inputFile" type="file" id="inputFile" />
+                                                            }
+                                                            <iframe id="UploadTarget" name="UploadTarget" onload="UploadImage_Complete();" style="position: absolute; left: -999em; top: -999em;"></iframe>
+                                                            <label class="text-danger" id="priestImageValidate" hidden=""></label>
+                                                        </div>
+                                                    </div>
+                                                    <label>
+                                                        <span class="lbl"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Modal New Upload ImageURL -->
                                 <!-- Modal Footer -->
                                 <div class="row">
                                     <div class="col-xs-12">
@@ -127,11 +196,11 @@
                                                     <i class="ace-icon fa fa-refresh"></i> Thiết lập lại
                                                 </button>
                                                 <!-- Modal Button Add New Priest -->
-                                                <button id="btnCreatePriestModal" class="btn btn-primary" data-toggle="modal" onclick="addNewPriest()">
+                                                <button id="btnCreatePriestModal" class="btn btn-primary" data-toggle="modal" onclick="UploadImage()">
                                                     <i class="ace-icon fa fa-save"></i> Lưu
                                                 </button>
                                                 <!-- Modal Button Update Priest -->
-                                                <button id="btnUpdatePriestModal" class="btn btn-primary" data-toggle="modal" onclick="updatePriest()">
+                                                <button id="btnUpdatePriestModal" class="btn btn-primary" data-toggle="modal" onclick="UploadImage()">
                                                     <i class="ace-icon fa fa-save"></i> Cập Nhật
                                                 </button>
                                                 <!-- Modal Button Close Modal Priest -->
@@ -156,6 +225,62 @@
 <!-- End Popup Priest Modal -->
 
 <script>
+    //Upload Images
+    function UploadImage() {
+        if (!checkValidate()) {
+            return;
+        }
+        $("#ImgForm").submit();
+    }
+
+    function UploadImage_Complete() {
+        var url = $("#UploadTarget").contents().find('body').html();
+        if (url.substring(0, 4) == "<pre") {
+            url = "";
+        }
+        if ($("#btnUpdatePriestModal").css('display') == 'none') {
+            addNewPriest(url);
+        }
+        if ($("#btnCreatePriestModal").css('display') == 'none') {
+            updatePriest(url);
+        }
+    }
+    jQuery(function ($) {
+        $("#parishPhone").mask("9999 999 999?9");
+        $('#inputFile').ace_file_input({
+            style: 'well',
+            btn_choose: 'Thả hình vào đây hoặc click vào để chọn',
+            btn_change: null,
+            no_icon: 'ace-icon fa fa-picture-o',
+            droppable: true,
+            thumbnail: 'fit',
+            allowExt: ['jpg', 'jpeg', 'png'],
+            denyExt: 'exe|php|dll|txt',
+            preview_error: function (filename, error_code) {
+            },
+            before_change: function (files, dropped) {
+                var valid_files = [];
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    if (typeof file === 'string') {
+                        valid_files.push(file);
+                        $("#parishImageValidate").hide();
+                        break;
+                    } else if ('File' in window && file instanceof window.File) {
+                        valid_files.push(file);
+                        $("#parishImageValidate").hide();
+                        break;
+                    }
+                }
+                return valid_files;
+            }
+
+        }).on('file.error.ace', function (event, info) {
+            $("#parishImageValidate").html("Chỉ hỗ trợ với những ảnh có định dạng jpg, jpeg, png");
+            $("#parishImageValidate").show();
+        });
+    });
+
     InitDatatable();
 
     //Function LoadDataTable
@@ -184,6 +309,16 @@
                 "data": "Id",
                 "bVisible": false,
             },
+            {
+                "data": "ParishionerId",
+                "render": function (data, type, full, meta) {
+                    var content = '<label class="position-relative">' +
+                        '<input type="checkbox" class="ace pItem" value="' + data + '"/>' +
+                        '<span class="lbl"></span> </label>';
+                    return content;
+                },
+                "bSortable": false
+            },
             { "data": "ChristianName" },
             { "data": "Name" },
             { "data": "BirthDate" },
@@ -201,12 +336,13 @@
             ],
             "bAutoWidth": false,
         });
-
     }
 
     //Button Create Priest Event
     $("#btnCreatePriest").click(function () {
         $("#PriestModalTitle").html("Thêm mới linh mục");
+        $("#ParishionerCodeModal").hide();
+        $("#priestImageModal").hide();
         $("#PriestModal").modal('show');
         $("#btnCreatePriestModal").show();
         $("#btnResetPriestModal").show();
@@ -218,6 +354,24 @@
         $("#PriestModal").modal('hide');
         clearModalPriest();
     });
+
+    //Function Check validate input parishioner Code
+    function checkParishionerCode() {
+        var parishionerCode = $("#txtParishionerCodeModal").val();
+        var isError = false;
+        if (!parishionerCode) {
+            $("#lbParishionerCodeErrorModal").html("Vui lòng nhập mã của linh mục");
+            $("#lbParishionerCodeErrorModal").show();
+            isError = true;
+        } else {
+            $("#lbParishionerCodeErrorModal").hide();
+            $("#lbParishionerCodeErrorModal").html("");
+        }
+        if (isError) {
+            return false;
+        }
+        return true;
+    }
 
     //Function validate input
     function checkValidate() {
@@ -267,7 +421,6 @@
             url: "/Priest/CheckYearOld",
             type: "POST",
             data: { date: date },
-            async: false,
             success: function (data) {
                 if (data.result < 220000) {
                     $("#lbBirthDateErrorModal").html("Linh mục phải từ 22 tuổi trở lên");
@@ -344,11 +497,12 @@
     });
 
     //Function add New Priest
-    function addNewPriest() {
+    function addNewPriest(url) {
         if (!checkValidate()) {
             return;
         }
         startLoading();
+        var ImageURL = url;
         $.ajax({
             url: "/Priest/AddPriest",
             type: "POST",
@@ -357,8 +511,8 @@
                 Name: $("#txtFullNameModal").val(),
                 BirthDate: $("#txtBirthDateModal").val(),
                 Phone: $("#txtPhoneModal").val(),
-                ParishionerId: $("#txtParishionerId").val()
-
+                ParishionerId: $("#txtParishionerId").val(),
+                ImageURL: ImageURL
             },
             success: function (data) {
                 if (data.result <= 0) {
@@ -376,6 +530,7 @@
 
     //Fuction Load Priest By Id to Update
     function LoadPriestByPriestId(id) {
+        $("#ParishionerCodeModal").show();
         $.ajax({
             url: "/Priest/LoadPriestById",
             type: "POST",
@@ -383,27 +538,41 @@
             success: function (data) {
                 var item = data.result;
                 $("#txtIdModal").val(item.Id);
+                $("#txtParishionerCodeModal").val(item.Code);
                 $("#txtChristianNameModal").val(item.ChristianName);
                 $("#txtFullNameModal").val(item.Name);
                 $('#txtFullNameModal').autocomplete("option", "disabled", true);
                 $("#txtBirthDateModal").val(item.BirthDate);
                 $("#txtPhoneModal").val(item.Phone);
                 $("#txtParishionerId").val(item.ParishionerId);
-
+                if (item.ImageURL == null) {
+                    $("#priestImageModal").hide();
+                } else {
+                    $("#imgPriestImage").attr('src', item.ImageURL);
+                    $("#priestImageModal").show();
+                }
                 $("#PriestModalTitle").html("Chỉnh sửa linh mục");
                 $("#PriestModal").modal('show');
                 $("#btnUpdatePriestModal").show();
                 $("#btnCreatePriestModal").hide();
                 $("#btnResetPriestModal").hide();
-
             },
         });
     }
 
     //Update Priest
-    function updatePriest() {
+    function updatePriest(url) {
         if (!checkValidate()) {
             return;
+        }
+        if (!checkParishionerCode()) {
+            return;
+        }
+        var ImageURL;
+        if (url == "") {
+            ImageURL = $("#imgPriestImage").attr('src');
+        } else {
+            ImageURL = url;
         }
         $.ajax({
             url: "/Priest/UpdatePriest",
@@ -414,13 +583,21 @@
                 Name: $("#txtFullNameModal").val(),
                 BirthDate: $("#txtBirthDateModal").val(),
                 Phone: $("#txtPhoneModal").val(),
-                ParishionerId: $("#txtParishionerId").val()
+                ParishionerId: $("#txtParishionerId").val(),
+                Code: $("#txtParishionerCodeModal").val(),
+                ImageURL: ImageURL
             },
             success: function (data) {
-                if (data.result <= 0) {
+                if (data.result == 0) {
+                    showMessage("Cập nhật thông tin linh mục thất bại", 0);
+                    $("#lbParishionerCodeErrorModal").html("Mã linh mục đã tồn tại");
+                    $("#lbParishionerCodeErrorModal").show();
+                } else if (data.result < 0) {
                     showMessage("Cập nhật thông tin linh mục thất bại", 0);
                 } else {
                     showMessage("Cập nhật thông tin linh mục thành công", 1);
+                    $("#lbParishionerCodeErrorModal").html("");
+                    $("#lbParishionerCodeErrorModal").hide();
                     refeshTable();
                     $("#PriestModal").modal('hide');
                     clearModalPriest();
@@ -503,5 +680,32 @@
         $('#txtPhoneModal').prop('readonly', false);
 
         $('#txtParishionerId').val("");
+
+        $('#inputFile').ace_file_input('reset_input');
+
+        $("#priestImageValidate").html("");
+        $("#priestImageValidate").hide();
+    }
+
+    //Function Print Priest
+    function printPriest() {
+        var checks = new Array();
+        $(".pItem:checked").each(function () {
+            if ($(this).is(':checked')) {
+                checks.push($(this).val());
+            }
+        });
+        if (checks.length > 0) {
+            var ids = sessionStorage.getItem("ids");
+            if (ids == null) {
+                sessionStorage.setItem("ids", JSON.stringify(checks));
+            } else {
+                sessionStorage.setItem("ids", JSON.stringify(checks));
+            }
+            var url = "/Priest/PrintPage";
+            window.open(url, '_blank');
+        } else {
+            showMessage("Vui lòng chọn ít nhất một giáo dân để thực hiện in chứng nhận", -1);
+        }
     }
 </script>

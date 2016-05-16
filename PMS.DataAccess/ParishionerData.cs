@@ -2778,7 +2778,7 @@ namespace PMS.DataAccess
 
         }
 
-		//get all parishioner
+        //get all parishioner
         public IEnumerable<Parishioner> GetAllParishioner()
         {
             string query = "SELECT * FROM Parishioner ORDER BY Name";
@@ -3056,5 +3056,51 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<Parishioner>(query, id).SingleOrDefault();
         }
 
+        public int checkExistsCodeOrNot(string code)
+        {
+            const string query = "SELECT TOP 1 Id " +
+                "FROM Parishioner " +
+                "WHERE Code = {0}";
+            return _db.ExecuteQuery<int>(query, code).SingleOrDefault();
+        }
+        
+        public List<ParishionerViewModel> PrintPriest(int parishId, string[] ids)
+        {
+            var result = new List<ParishionerViewModel>();
+            var converter = new DateConverter();
+
+            var parish = _db.Parishes.FirstOrDefault(p => p.Id == parishId);
+
+            if(parish == null)
+            {
+                return null;
+            }
+
+            var vicariate = parish.Vicariate;
+            var diocese = vicariate.Diocese;
+            foreach (var i in ids)
+            {
+                int id = Int32.Parse(i);
+                var parishioner = _db.Parishioners.FirstOrDefault(p => p.Id == id);
+
+                if (parishioner == null)
+                {
+                    return null;
+                }
+
+                var priest = new ParishionerViewModel();
+                priest.DioceseName = diocese.Bishop;
+                priest.ChristianName = parishioner.ChristianName;
+                priest.ImageURL = parishioner.ImageUrl;
+                priest.Name = parishioner.Name;
+                priest.BirthDate =converter.ConvertStringToDate(parishioner.BirthDate);
+                priest.Code = parishioner.Code;
+                priest.Address = parishioner.Address;
+                priest.Phone = parishioner.Phone;
+
+                result.Add(priest);
+            }
+            return result;
+        }
     }
 }

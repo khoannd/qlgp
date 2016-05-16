@@ -680,5 +680,14 @@ namespace PMS.BusinessLogic
             return _parishionerData.getParishionerById(id);
         }
 
+        public int checkExistsCodeOrNot(string code)
+        {
+            return _parishionerData.checkExistsCodeOrNot(code);
+        }
+
+        public List<ParishionerViewModel> PrintPriest(int parishId, string[] ids)
+        {
+            return _parishionerData.PrintPriest(parishId, ids);
+        }
     }
 }

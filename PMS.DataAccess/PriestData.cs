@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PMS.DataAccess.Models;
 using PMS.DataAccess.ViewModels;
+using PMS.DataAccess.Utilities;
 
 namespace PMS.DataAccess
 {
@@ -128,5 +129,14 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<Priest>(query);
         }
 
+        public PriestViewModel GetPriestAndParishionerInfoByPriestId(int id)
+        {
+            const string query = "SELECT p.*, pa.Code, pa.ImageUrl " +
+                "FROM Priest p " +
+                "INNER JOIN Parishioner pa " +
+                "ON p.ParishionerId = pa.Id " +
+                "WHERE p.Id = {0}";
+            return _db.ExecuteQuery<PriestViewModel>(query, id).SingleOrDefault();
+        }
     }
 }

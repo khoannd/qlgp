@@ -224,5 +224,10 @@ namespace PMS.BusinessLogic
 
             return result;
         }
+
+        public PriestViewModel GetPriestAndParishionerInfoByPriestId(int id)
+        {
+            return _priestData.GetPriestAndParishionerInfoByPriestId(id);
+        }
     }
 }

@@ -1,0 +1,60 @@
+﻿@{
+    Layout = null;
+}
+<script src="/Content/jquery.min.js"></script>
+
+<style>
+    p {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+</style>
+
+<div id="txtPrintArea" style="width: 100%;">
+
+</div>
+
+<script>
+    var ids = sessionStorage.getItem("ids");
+
+    getPrint();
+    function getPrint() {
+        if (ids == null || ids.length == 0) {
+            return;
+        }
+        printSacrament();
+
+    }
+
+    function printSacrament() {
+        ids = JSON.parse(ids);
+        $.ajax({
+            url: "/Priest/PrintPriest",
+            type: "POST",
+            traditional: true,
+            data: {
+                'ids': ids
+            },
+            success: function (data) {
+                var template = data.template;
+                var result = data.result;
+                for (i in result) {
+                    var item = result[i];
+                    var temp = template;
+                    temp = temp.replace(/\[ImageURL]/g, item.ImageURL);
+                    temp = temp.replace(/\[ImageName]/g, "Avatar " + item.Name);
+                    temp = temp.replace(/\[PriestName]/g, item.ChristianName + " " + item.Name);
+                    temp = temp.replace(/\[BirthDate]/g, item.BirthDate);
+                    temp = temp.replace(/\[Code]/g, item.Code);
+                    temp = temp.replace(/\[Address]/g, item.Address);
+                    temp = temp.replace(/\[Phone]/g, item.Phone);
+                    temp = temp.replace(/\[DioceseName]/g, item.DioceseName);
+                    temp = temp.replace(/\[CurrentDate]/g, data.now);
+                    var s = "";
+                    s = '<div style="width: auto; height: auto; margin-left: 50px;">' + temp + '</div>';
+                    $("#txtPrintArea").append(s);
+                }
+            },
+        });
+    }
+</script>
