@@ -51,6 +51,7 @@
                 </th>
                 <th>Tên thánh</th>
                 <th>Họ tên</th>
+                <th>Hình ảnh</th>
                 <th>Ngày sinh</th>
                 <th>Số điện thoại</th>
                 <th>Thao tác</th>
@@ -141,27 +142,13 @@
                                 <div class="form-group" id="priestImageModal">
                                     <label class="col-sm-3 control-label no-padding-right">Ảnh hiện tại</label>
                                     <div class="col-sm-6">
-                                        <div class="widget-box">
-                                            <div class="widget-body">
-                                                <div class="widget-main">
-                                                    <div class="form-group">
-                                                        <div class="space-10"></div>
-                                                        <div class="col-xs-12">
-                                                            <img class="img-responsive" id="imgPriestImage" src="" />
-                                                        </div>
-                                                    </div>
-                                                    <label>
-                                                        <span class="lbl"></span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <img class="" id="imgPriestThumbnail" src="" />
                                     </div>
                                 </div>
                                 <!-- End Modal Priest ImageURL -->
                                 <!-- Modal Upload New ImageURL -->
                                 <div class="form-group">
-                                    <label class="col-sm-3 control-label no-padding-right">Ảnh mới</label>
+                                    <label class="col-sm-3 control-label no-padding-right">Hình đại diện</label>
                                     <div class="col-sm-6">
                                         <div class="widget-box">
                                             <div class="widget-body">
@@ -223,6 +210,11 @@
     </div>
 </div>
 <!-- End Popup Priest Modal -->
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="background-color: rgba(0,0,0,0.9);position: fixed;padding-top: 100px;">
+    <img id="imgPriestImage" src="" style="margin:auto; margin-left:40%;margin-right:40%">
+    <div id="ImageName" style="margin:auto; margin-left:40%;width:300px; text-align:center;color: #ccc; padding: 10px 0; height: 150px;">abc</div>
+</div><!-- /.modal -->
 
 <script>
     //Upload Images
@@ -246,7 +238,6 @@
         }
     }
     jQuery(function ($) {
-        $("#parishPhone").mask("9999 999 999?9");
         $('#inputFile').ace_file_input({
             style: 'well',
             btn_choose: 'Thả hình vào đây hoặc click vào để chọn',
@@ -264,11 +255,11 @@
                     var file = files[i];
                     if (typeof file === 'string') {
                         valid_files.push(file);
-                        $("#parishImageValidate").hide();
+                        $("#priestImageValidate").hide();
                         break;
                     } else if ('File' in window && file instanceof window.File) {
                         valid_files.push(file);
-                        $("#parishImageValidate").hide();
+                        $("#priestImageValidate").hide();
                         break;
                     }
                 }
@@ -276,8 +267,8 @@
             }
 
         }).on('file.error.ace', function (event, info) {
-            $("#parishImageValidate").html("Chỉ hỗ trợ với những ảnh có định dạng jpg, jpeg, png");
-            $("#parishImageValidate").show();
+            $("#priestImageValidate").html("Chỉ hỗ trợ với những ảnh có định dạng jpg, jpeg, png");
+            $("#priestImageValidate").show();
         });
     });
 
@@ -313,7 +304,7 @@
                 "data": "ParishionerId",
                 "render": function (data, type, full, meta) {
                     var content = '<label class="position-relative">' +
-                        '<input type="checkbox" class="ace pItem" value="' + data + '"/>' +
+                        '<input type="checkbox" class="ace pItem" value="' + data + '" stype=""/>' +
                         '<span class="lbl"></span> </label>';
                     return content;
                 },
@@ -321,6 +312,15 @@
             },
             { "data": "ChristianName" },
             { "data": "Name" },
+            {
+                "data": "ThumbnailURL",
+                "render": function (data, type, full, meta) {
+                    var content = '<img class="" src="' + data + '" style="height: 33px;width:45px" />';
+                    return content;
+                },
+                "bSortable": false,
+                "sWidth": "15%"
+            },
             { "data": "BirthDate" },
             { "data": "Phone" },
             {
@@ -541,14 +541,16 @@
                 $("#txtParishionerCodeModal").val(item.Code);
                 $("#txtChristianNameModal").val(item.ChristianName);
                 $("#txtFullNameModal").val(item.Name);
+                document.getElementById("ImageName").innerHTML = item.Name;
                 $('#txtFullNameModal').autocomplete("option", "disabled", true);
                 $("#txtBirthDateModal").val(item.BirthDate);
                 $("#txtPhoneModal").val(item.Phone);
                 $("#txtParishionerId").val(item.ParishionerId);
+                $("#imgPriestImage").attr('src', item.ImageURL);
                 if (item.ImageURL == null) {
                     $("#priestImageModal").hide();
                 } else {
-                    $("#imgPriestImage").attr('src', item.ImageURL);
+                    $("#imgPriestThumbnail").attr('src', item.ThumbnailURL);
                     $("#priestImageModal").show();
                 }
                 $("#PriestModalTitle").html("Chỉnh sửa linh mục");
@@ -570,7 +572,7 @@
         }
         var ImageURL;
         if (url == "") {
-            ImageURL = $("#imgPriestImage").attr('src');
+            ImageURL = $("#imgPriestThumbnail").attr('src');
         } else {
             ImageURL = url;
         }
@@ -598,8 +600,8 @@
                     showMessage("Cập nhật thông tin linh mục thành công", 1);
                     $("#lbParishionerCodeErrorModal").html("");
                     $("#lbParishionerCodeErrorModal").hide();
-                    refeshTable();
                     $("#PriestModal").modal('hide');
+                    refeshTable();
                     clearModalPriest();
                 }
             },
@@ -708,4 +710,8 @@
             showMessage("Vui lòng chọn ít nhất một giáo dân để thực hiện in chứng nhận", -1);
         }
     }
+
+    $('img').on('click', function () {
+        $('#imageModal').modal('show');
+    });
 </script>

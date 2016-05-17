@@ -12,6 +12,10 @@ using System.Data;
 using System.Data.OleDb;
 using System.Xml;
 using System.IO;
+using System.Configuration;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace PMS.Web.Controllers
 {
@@ -46,6 +50,13 @@ namespace PMS.Web.Controllers
             var result = _priestBusiness.GetOrderedPriestsByParamsAndPaging(dioceseId, param.sSearch,
                param.iSortCol_0, param.sSortDir_0, param.iDisplayStart, param.iDisplayLength, out totalRecords,
                out totalDisplayRecords);
+
+            var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
+            for (int i = 0; i < result.Count; i++)
+            {
+                result[i].ThumbnailURL = string.Concat(fileThumbPath, result[i].ImageURL);
+            }
+
             return Json(new
             {
                 sEcho = param.sEcho,
@@ -80,8 +91,18 @@ namespace PMS.Web.Controllers
         public ActionResult LoadPriestById(int id)
         {
             PriestViewModel priest = _priestBusiness.GetPriestAndParishionerInfoByPriestId(id);
+            Session["ParishionerId"] = priest.ParishionerId;
+
             var converter = new DateConverter();
             priest.BirthDate = converter.ConvertStringToDate(priest.BirthDate);
+
+            var imageName = priest.ImageURL;
+            var fileImagePath = ConfigurationManager.AppSettings["ParishionerImageUrl"];
+            priest.ImageURL = string.Concat(fileImagePath, imageName);
+
+            var fileThumbnailPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
+            priest.ThumbnailURL = string.Concat(fileThumbnailPath, imageName);
+
             return Json(new { result = priest }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult AddPriest(PriestViewModel priestViewModel)
@@ -349,16 +370,63 @@ namespace PMS.Web.Controllers
 
         public string UploadPriestImage(HttpPostedFileWrapper inputFile)
         {
+            var fileImagePath = ConfigurationManager.AppSettings["ParishionerImageUrl"];
+            int ParishionerId = (int)Session["ParishionerId"];
+
+            if (!Directory.Exists(Server.MapPath(fileImagePath)))
+            {
+                Directory.CreateDirectory(Server.MapPath(fileImagePath));
+            }
+
             if (inputFile == null || inputFile.ContentLength == 0)
             {
                 return "";
             }
             string s = inputFile.ContentType;
-            var fileName = String.Format("{0}.jpg", Guid.NewGuid().ToString());
-            var imagePath = Path.Combine(Server.MapPath(Url.Content("~/Images/Parishioners/")), fileName);
-            inputFile.SaveAs(imagePath);
+            var fileName = String.Format("{0}.jpg", ParishionerId);
+            var imagePath = Path.Combine(Server.MapPath(Url.Content(fileImagePath)), fileName);
+            //inputFile.SaveAs(imagePath);
 
-            return Url.Content(String.Format("~/Images/Parishioners/{0}", fileName));
+            Image imageUpload = Image.FromStream(inputFile.InputStream);
+            Image image = ResizeImage(imageUpload, 300, 400);
+            image.Save(imagePath, ImageFormat.Jpeg);
+
+            var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
+
+            if (!Directory.Exists(Server.MapPath(fileThumbPath)))
+            {
+                Directory.CreateDirectory(Server.MapPath(fileThumbPath));
+            }
+
+            var thumbPath = Path.Combine(Server.MapPath(Url.Content(fileThumbPath)), fileName);
+            Image thumb = imageUpload.GetThumbnailImage(135, 180, () => false, IntPtr.Zero);
+            thumb.Save(Path.ChangeExtension(thumbPath, "jpg"));
+
+            return Url.Content(String.Format(fileName));
+        }
+
+        public static Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+            return destImage;
         }
     }
 }

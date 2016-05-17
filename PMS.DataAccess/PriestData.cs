@@ -138,5 +138,15 @@ namespace PMS.DataAccess
                 "WHERE p.Id = {0}";
             return _db.ExecuteQuery<PriestViewModel>(query, id).SingleOrDefault();
         }
+        public IEnumerable<PriestViewModel> getParishionerByDioceseId(int dioceseId)
+        {
+            const string query = "SELECT p.*, pa.Code, pa.ImageUrl " +
+                "FROM Priest p " +
+                "INNER JOIN Parishioner pa " +
+                "ON p.ParishionerId = pa.Id " +
+                "WHERE DioceseId = {0} " +
+                "ORDER By Id DESC";
+            return _db.ExecuteQuery<PriestViewModel>(query, dioceseId);
+        }
     }
 }

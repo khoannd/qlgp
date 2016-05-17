@@ -43,7 +43,7 @@ namespace PMS.BusinessLogic
         {
             return _priestData.GetAllPriests();
         }
-        
+
         public int UpdatePriest(Priest priest)
         {
             return _priestData.UpdatePriest(priest);
@@ -59,7 +59,7 @@ namespace PMS.BusinessLogic
             //Load Data
             IEnumerable<PriestViewModel> priests;
 
-            priests = _priestData.GetPriestByDioceseId(dioceseId).ToList();
+            priests = _priestData.getParishionerByDioceseId(dioceseId).ToList();
 
             IEnumerable<PriestViewModel> filteredListItems;
             if (!string.IsNullOrEmpty(searchValue))
@@ -81,11 +81,11 @@ namespace PMS.BusinessLogic
             {
                 filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.Name) : filteredListItems.OrderByDescending(p => p.Name);
             }
-            else if (sortColumnIndex == 3)
+            else if (sortColumnIndex == 5)
             {
                 filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.BirthDate) : filteredListItems.OrderByDescending(p => p.BirthDate);
             }
-            else if (sortColumnIndex == 4)
+            else if (sortColumnIndex == 6)
             {
                 filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.Phone) : filteredListItems.OrderByDescending(p => p.Phone);
             }

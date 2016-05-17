@@ -17,5 +17,6 @@ namespace PMS.DataAccess.ViewModels
         public int ParishionerId { get; set; }
         public string Code { get; set; }
         public string ImageURL { get; set; }
+        public string ThumbnailURL { get; set; }
     }
 }
