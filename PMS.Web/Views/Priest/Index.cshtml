@@ -147,7 +147,7 @@
                                 </div>
                                 <!-- End Modal Priest ImageURL -->
                                 <!-- Modal Upload New ImageURL -->
-                                <div class="form-group">
+                                <div class="form-group" id="newImageModal">
                                     <label class="col-sm-3 control-label no-padding-right">Hình đại diện</label>
                                     <div class="col-sm-6">
                                         <div class="widget-box">
@@ -343,10 +343,11 @@
         $("#PriestModalTitle").html("Thêm mới linh mục");
         $("#ParishionerCodeModal").hide();
         $("#priestImageModal").hide();
-        $("#PriestModal").modal('show');
+        $("#newImageModal").hide();
         $("#btnCreatePriestModal").show();
         $("#btnResetPriestModal").show();
         $("#btnUpdatePriestModal").hide();
+        $("#PriestModal").modal('show');
     });
 
     //Button Close Modal Priest Event
@@ -531,6 +532,8 @@
     //Fuction Load Priest By Id to Update
     function LoadPriestByPriestId(id) {
         $("#ParishionerCodeModal").show();
+        $("#priestImageModal").show();
+        $("#newImageModal").show();
         $.ajax({
             url: "/Priest/LoadPriestById",
             type: "POST",
