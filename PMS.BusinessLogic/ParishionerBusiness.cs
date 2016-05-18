@@ -8,6 +8,7 @@ using PMS.DataAccess.Enumerations;
 using PMS.DataAccess.Models;
 using PMS.DataAccess.Utilities;
 using PMS.DataAccess.ViewModels;
+using System.Configuration;
 
 namespace PMS.BusinessLogic
 {
@@ -97,15 +98,15 @@ namespace PMS.BusinessLogic
             {
                 filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.Name) : filteredListItems.OrderByDescending(p => p.Name);
             }
-            else if (sortColumnIndex == 5)
+            else if (sortColumnIndex == 6)
             {
                 filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.Gender) : filteredListItems.OrderByDescending(p => p.Gender);
             }
-            else if (sortColumnIndex == 6)
+            else if (sortColumnIndex == 7)
             {
                 filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.BirthDate) : filteredListItems.OrderByDescending(p => p.BirthDate);
             }
-            else if (sortColumnIndex == 7)
+            else if (sortColumnIndex == 8)
             {
                 filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.Community.Name) : filteredListItems.OrderByDescending(p => p.Community.Name);
             }
@@ -131,6 +132,7 @@ namespace PMS.BusinessLogic
 
             var conveter = new DateConverter();
             IEnumerable<IConvertible[]> result;
+            var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
 
             if (status != (int)ParishionerStatusEnum.Saved)
             {
@@ -142,6 +144,7 @@ namespace PMS.BusinessLogic
                                c.Code,
                                c.ChristianName,
                                c.Name,
+                               c.ImageUrl = string.Concat(fileThumbPath, c.ImageUrl),
                                c.Gender == 0 ? "Nữ" : "Nam",
                                conveter.ConvertStringToDate(c.BirthDate),
                                (c.Community.ParentId != null) ? c.Community.Name : "",
@@ -164,6 +167,7 @@ namespace PMS.BusinessLogic
                                c.Code,
                                c.ChristianName,
                                c.Name,
+                               c.ImageUrl = string.Concat(fileThumbPath, c.ImageUrl),
                                c.Gender == 0 ? "Nữ" : "Nam",
                                conveter.ConvertStringToDate(c.BirthDate),
                                (request == null || approved == -1) ? ((c.Community.ParentId != null) ? c.Community.Name : "")
@@ -178,13 +182,13 @@ namespace PMS.BusinessLogic
             totalDisplayRecords = records;
             return result;
         }
-		
-		//get all parishioner
+
+        //get all parishioner
         public IEnumerable<Parishioner> GetAllParishioner()
         {
             return _parishionerData.GetAllParishioner();
         }
-		
+
 
         public int AddParishioner(Parishioner parishioner)
         {

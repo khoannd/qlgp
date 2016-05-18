@@ -16,6 +16,7 @@ namespace PMS.DataAccess.ViewModels
         public string BirthDate { get; set; }
         public string Address { get; set; }
         public string ImageURL { get; set; }
+        public string ThumbnailURL { get; set; }
         public string Phone { get; set; }
         public int CommunityId { get; set; }
         public string CommunityName { get; set; }

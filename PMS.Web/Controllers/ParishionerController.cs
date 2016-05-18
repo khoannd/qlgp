@@ -12,6 +12,10 @@ using PMS.DataAccess.Models;
 using PMS.DataAccess.Utilities;
 using PMS.DataAccess.ViewModels;
 using PMS.Web.Filters;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Configuration;
 
 namespace PMS.Web.Controllers
 {
@@ -260,7 +264,7 @@ namespace PMS.Web.Controllers
             int dioceseId = (int)Session["DioceseId"];
 
             // Code Generation       
-            Configuration config = _configurationBusiness.GetConfigurationByParishId(parishId);
+            DataAccess.Models.Configuration config = _configurationBusiness.GetConfigurationByParishId(parishId);
             if (config == null)
             {
                 return 0;
@@ -740,25 +744,48 @@ namespace PMS.Web.Controllers
 
         }
 
-        [HttpPost]
-        public string UploadParishionerImage(HttpPostedFileWrapper imageFile)
+        public string UploadParishionerImage(HttpPostedFileWrapper inputFile)
         {
-            if (imageFile == null || imageFile.ContentLength == 0)
+            var fileImagePath = ConfigurationManager.AppSettings["ParishionerImageUrl"];
+            int ParishionerId = (int)Session["ParishionerId"];
+
+            if (!Directory.Exists(Server.MapPath(fileImagePath)))
+            {
+                Directory.CreateDirectory(Server.MapPath(fileImagePath));
+            }
+
+            if (inputFile == null || inputFile.ContentLength == 0)
             {
                 return "";
             }
 
-            var fileName = String.Format("{0}.jpg", Guid.NewGuid().ToString());
-            var imagePath = Path.Combine(Server.MapPath(Url.Content("~/Images/Parishioners")), fileName);
-            imageFile.SaveAs(imagePath);
+            string s = inputFile.ContentType;
+            var fileName = String.Format("{0}.jpg", ParishionerId);
+            var imagePath = Path.Combine(Server.MapPath(Url.Content(fileImagePath)), fileName);
+            //inputFile.SaveAs(imagePath);
 
-            return Url.Content(String.Format("~/Images/Parishioners/{0}", fileName));
+            Image imageUpload = Image.FromStream(inputFile.InputStream);
+            Image image = ResizeImage(imageUpload, 300, 400);
+            image.Save(imagePath, ImageFormat.Jpeg);
+
+            var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
+
+            if (!Directory.Exists(Server.MapPath(fileThumbPath)))
+            {
+                Directory.CreateDirectory(Server.MapPath(fileThumbPath));
+            }
+
+            var thumbPath = Path.Combine(Server.MapPath(Url.Content(fileThumbPath)), fileName);
+            Image thumb = imageUpload.GetThumbnailImage(135, 180, () => false, IntPtr.Zero);
+            thumb.Save(Path.ChangeExtension(thumbPath, "jpg"));
+
+            return Url.Content(String.Format(fileName));
         }
 
         public int CheckParishionerCode()
         {
             int parishId = (int)Session["ParishId"];
-            Configuration config = _configurationBusiness.GetConfigurationByParishId(parishId);
+            DataAccess.Models.Configuration config = _configurationBusiness.GetConfigurationByParishId(parishId);
 
             if (config == null)
             {
@@ -1106,6 +1133,7 @@ namespace PMS.Web.Controllers
             {
                 return null;
             }
+            Session["ParishionerId"] = parishioner.Id;
             int communityIdTemp;
             //Get Sacrament Information
             var sacraments = _sacramentBusiness.GetSacramentsByParishionerId(id);
@@ -1128,6 +1156,13 @@ namespace PMS.Web.Controllers
             parishioner.Societies = null;
             parishioner.SocietyMembers = null;
             parishioner.Vocation = null;
+
+            var fileImagePath = ConfigurationManager.AppSettings["ParishionerImageUrl"];
+            var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
+
+            var parishionerViewModel = new ParishionerViewModel();
+            parishionerViewModel.ImageURL = string.Concat(fileImagePath, parishioner.ImageUrl);
+            parishionerViewModel.ThumbnailURL = string.Concat(fileThumbPath, parishioner.ImageUrl);
 
             int vocationIdTemp = 0;
             //Remove Vocation Reference
@@ -1164,6 +1199,7 @@ namespace PMS.Web.Controllers
             return Json(new
             {
                 parishioner = parishioner,
+                parishionerViewModel = parishionerViewModel,
                 communityId = communityIdTemp,
                 baptism = baptism,
                 holyCommunion = holyCommunion,
@@ -1516,6 +1552,30 @@ namespace PMS.Web.Controllers
             {
                 result = result
             }, JsonRequestBehavior.AllowGet);
+        }
+
+        public static Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+            return destImage;
         }
     }
 }

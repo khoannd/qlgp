@@ -14,6 +14,7 @@
                 <th>Mã giáo dân</th>
                 <th>Tên thánh</th>
                 <th>Họ tên</th>
+                <th>Hình ảnh</th>
                 <th>Giới tính</th>
                 <th>Ngày sinh</th>
                 <th>Giáo khu</th>
@@ -85,7 +86,15 @@
                     "bSortable": false
                 },
                 {
-                    "aTargets": [9],
+                    "aTargets": [5],
+                    "render": function (data, type, full, meta) {
+                        var content = '<img class="" src="' + data + '" style="height: 33px;width:45px" />';
+                        return content;
+                    },
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [10],
                     "render": function (data, type, full, meta) {
                         var content = "";
                         var saveStorage = $("#cbFilterSavedStatus").is(':checked');
@@ -128,6 +137,10 @@
     $("#btnCreateParishioner").click(function () {
         $("#homeLink").tab('show');
         $("#txtHiddenParishionerId").val(0);
+        $("#ParishionerThumbnail").hide();
+        $("#ParishionerNewImage").hide();
+        $("#left-create").show();
+        $("#right-update").hide();
         $("#parishionerInformationModal").modal('show');
 
         var parishDivision = $("#cbbParishDivision").val();

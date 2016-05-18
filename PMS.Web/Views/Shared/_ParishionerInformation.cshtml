@@ -86,6 +86,13 @@
 
                                                     <div class="col-xs-6">
 
+                                                        <div class="form-group" id="ParishionerThumbnail">
+                                                            <label class="col-sm-4 control-label no-padding-right"></label>
+
+                                                            <div class="col-sm-8 align-center">
+                                                                <img class="" id="imgParishionerThumbnail" src="" />
+                                                            </div>
+                                                        </div>
 
                                                         <div class="form-group" id="divParishionerCode">
 
@@ -97,7 +104,6 @@
                                                             </div>
 
                                                         </div>
-
 
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right">
@@ -144,16 +150,10 @@
 
                                                             </div>
                                                         </div>
-
                                                     </div>
+
                                                     <div class="col-xs-6">
-
-
-
                                                         <div class="form-group">
-
-
-
                                                             <label class="col-sm-4 control-label no-padding-right"> Giới tính (<span style="color:red">*</span>)  </label>
 
                                                             <div class="col-sm-8">
@@ -220,6 +220,35 @@
                                                                             <i class="ace-icon fa fa-search"></i>
                                                                         </button>
                                                                     </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group" id="ParishionerNewImage">
+                                                            <label class="col-sm-4 control-label no-padding-right">
+                                                                Hình đại diện
+                                                            </label>
+
+                                                            <div class="col-sm-8">
+                                                                <div class="widget-box">
+                                                                    <div class="widget-body">
+                                                                        <div class="widget-main">
+                                                                            <div class="form-group">
+                                                                                <div class="space-10"></div>
+                                                                                <div class="col-sm-12" id="newParishionerImageModal">
+                                                                                    @using (Html.BeginForm("UploadParishionerImage", "Parishioner", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImgForm", name = "ImgForm", target = "UploadTarget" }))
+                                                                                    {
+                                                                                        <input multiple="" name="inputFile" type="file" id="inputFile" />
+                                                                                    }
+                                                                                    <iframe id="UploadTarget" name="UploadTarget" onload="UploadImage_Complete();" style="position: absolute; left: -999em; top: -999em;"></iframe>
+                                                                                    <label class="text-danger" id="parishionerImageValidate" hidden=""></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <label>
+                                                                                <span class="lbl"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1222,9 +1251,66 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="background-color: rgba(0,0,0,0.9);position: fixed;padding-top: 100px;">
+    <img id="imgParishionerImage" src="" style="margin:auto; margin-left:40%;margin-right:40%">
+    <div id="ImageName" style="margin:auto; margin-left:40%;width:300px; text-align:center;color: #ccc; padding: 10px 0; height: 150px;">abc</div>
+</div><!-- /.modal -->
+
 @Html.Partial("_CreateParishionerModal")
 
 <script>
+
+    //Upload Images
+    function UploadImage() {
+        if (!checkValidParishionerInformation()) {
+            return;
+        }
+        $("#ImgForm").submit();
+    }
+
+    function UploadImage_Complete() {
+        var url = $("#UploadTarget").contents().find('body').html();
+        if (url.substring(0, 4) == "<pre") {
+            url = "";
+        }
+        updateParishionerInformation(url);
+    }
+    jQuery(function ($) {
+        $('#inputFile').ace_file_input({
+            style: 'well',
+            btn_choose: 'Thả hình vào đây hoặc click vào để chọn',
+            btn_change: null,
+            no_icon: 'ace-icon fa fa-picture-o',
+            droppable: true,
+            thumbnail: 'fit',
+            allowExt: ['jpg', 'jpeg', 'png'],
+            denyExt: 'exe|php|dll|txt',
+            preview_error: function (filename, error_code) {
+            },
+            before_change: function (files, dropped) {
+                var valid_files = [];
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    if (typeof file === 'string') {
+                        valid_files.push(file);
+                        $("#parishionerImageValidate").hide();
+                        break;
+                    } else if ('File' in window && file instanceof window.File) {
+                        valid_files.push(file);
+                        $("#parishionerImageValidate").hide();
+                        break;
+                    }
+                }
+                return valid_files;
+            }
+
+        }).on('file.error.ace', function (event, info) {
+            $("#parishionerImageValidate").html("Chỉ hỗ trợ với những ảnh có định dạng jpg, jpeg, png");
+            $("#parishionerImageValidate").show();
+        });
+    });
+
     //---------------------//
     $("#btnCloseParishionerInformation").click(function () {
         $("#parishionerInformationModal").modal('hide');
@@ -1799,6 +1885,8 @@
         $("#btnAddParishionerInformation").show();
         $("#btnUpdateParishionerInformation").hide();
         $("#parishionerInformationTitle").html("Thêm mới giáo dân");
+
+        $('#inputFile').ace_file_input('reset_input');
     }
 
     function checkParishionerCodeGeneration() {
@@ -1878,7 +1966,7 @@
                                     if ($("#cbbDomicileStatus").val() == 2) {
                                         checkTransferParish();
                                     } else {
-                                        updateParishionerInformation();
+                                        UploadImage();
                                     }
                                     setTimeout(function () {
                                         makeScrollForModal();
@@ -1914,7 +2002,7 @@
                     if ($("#cbbDomicileStatus").val() == 2) {
                         checkTransferParish();
                     } else {
-                        updateParishionerInformation();
+                        UploadImage();
                     }
 
                 }
@@ -1924,7 +2012,7 @@
                 if ($("#cbbDomicileStatus").val() == 2) {
                     checkTransferParish();
                 } else {
-                    updateParishionerInformation();
+                    UploadImage();
                 }
 
             }
@@ -1933,7 +2021,7 @@
             if ($("#cbbDomicileStatus").val() == 2) {
                 checkTransferParish();
             } else {
-                updateParishionerInformation();
+                UploadImage();
             }
         }
 
@@ -1958,7 +2046,7 @@
                         label: " Có",
                         className: "ace-icon fa fa-check btn-info",
                         callback: function () {
-                            updateParishionerInformation();
+                            UploadImage();
                             setTimeout(function () {
                                 makeScrollForModal();
                             }, 500);
@@ -2027,7 +2115,7 @@
 
     }
 
-    function updateParishionerInformation() {
+    function updateParishionerInformation(url) {
 
         if (!checkValidParishionerInformation()) {
             return;
@@ -2040,6 +2128,7 @@
                 Code: $("#txtParishionerCode").val(),
                 ChristianName: $("#txtChristianName").val(),
                 Name: $("#txtParishionerName").val(),
+                ImageUrl : url,
                 Gender: $("#cbGender").val(),
                 BirthDate: $("#txtBirthDate").val(),
                 BirthPlace: $("#txtBirthPlace").val(),
@@ -2922,6 +3011,10 @@
     }
 
     function loadFullParishionerInfo(id) {
+        $("#ParishionerThumbnail").show();
+        $("#ParishionerNewImage").show();
+        $("#left-create").hide();
+        $("#right-update").show();
         startLoading();
         $.ajax({
             url: "/Parishioner/LoadFullParishioner",
@@ -2929,10 +3022,20 @@
             data: { id: id },
             success: function (data) {
                 var parishioner = data.parishioner;
+                var parishionerViewModel = data.parishionerViewModel;
                 var baptism = data.baptism;
                 var holyCommunion = data.holyCommunion;
                 var confirmation = data.confirmation;
                 var vocation = data.vocation;
+
+                document.getElementById("ImageName").innerHTML = parishioner.Name;
+                $("#imgParishionerImage").attr('src', parishionerViewModel.ImageURL);
+                if (parishioner.ImageUrl == null) {
+                    $("#ParishionerThumbnail").hide();
+                } else {
+                    $("#imgParishionerThumbnail").attr('src', parishionerViewModel.ThumbnailURL);
+                    $("#ParishionerThumbnail").show();
+                }
 
                 $("#txtHiddenParishionerId").val(parishioner.Id);
                 $("#txtHiddenGender").val(parishioner.Gender);
@@ -3044,5 +3147,8 @@
         $("#parishionerInformationModalLoading").fadeOut();
     });
 
+    $('img').on('click', function () {
+        $('#imageModal').modal('show');
+    });
 
 </script>

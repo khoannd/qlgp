@@ -2286,6 +2286,7 @@ namespace PMS.DataAccess
                 //parishioner.Code = updatedParishioner.Code;
                 parishioner.ChristianName = updatedParishioner.ChristianName;
                 parishioner.Name = updatedParishioner.Name;
+                parishioner.ImageUrl = updatedParishioner.ImageUrl;
                 parishioner.Gender = updatedParishioner.Gender;
                 parishioner.BirthDate = updatedParishioner.BirthDate;
                 parishioner.BirthPlace = updatedParishioner.BirthPlace;
