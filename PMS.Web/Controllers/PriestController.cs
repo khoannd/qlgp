@@ -91,7 +91,7 @@ namespace PMS.Web.Controllers
         public ActionResult LoadPriestById(int id)
         {
             PriestViewModel priest = _priestBusiness.GetPriestAndParishionerInfoByPriestId(id);
-            Session["ParishionerId"] = priest.ParishionerId;
+            Session["ImageName"] = priest.ImageURL;
 
             var converter = new DateConverter();
             priest.BirthDate = converter.ConvertStringToDate(priest.BirthDate);
@@ -371,7 +371,6 @@ namespace PMS.Web.Controllers
         public string UploadPriestImage(HttpPostedFileWrapper inputFile)
         {
             var fileImagePath = ConfigurationManager.AppSettings["ParishionerImageUrl"];
-            int ParishionerId = (int)Session["ParishionerId"];
 
             if (!Directory.Exists(Server.MapPath(fileImagePath)))
             {
@@ -383,7 +382,16 @@ namespace PMS.Web.Controllers
                 return "";
             }
             string s = inputFile.ContentType;
-            var fileName = String.Format("{0}.jpg", ParishionerId);
+            var fileName = "";
+            if (Session["ImageName"] == null)
+            {
+                fileName = String.Format("{0}.jpg", DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
+            }
+            else
+            {
+                fileName = String.Format(Session["ImageName"].ToString());
+            }
+
             var imagePath = Path.Combine(Server.MapPath(Url.Content(fileImagePath)), fileName);
             //inputFile.SaveAs(imagePath);
 

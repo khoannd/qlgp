@@ -341,10 +341,11 @@
 
     //Button Create Priest Event
     $("#btnCreatePriest").click(function () {
+        '<%Session["ImageName"] = "";%>';
+
         $("#PriestModalTitle").html("Thêm mới linh mục");
         $("#ParishionerCodeModal").hide();
         $("#priestImageModal").hide();
-        $("#newImageModal").hide();
         $("#btnCreatePriestModal").show();
         $("#btnResetPriestModal").show();
         $("#btnUpdatePriestModal").hide();
@@ -605,8 +606,8 @@
                     $("#lbParishionerCodeErrorModal").html("");
                     $("#lbParishionerCodeErrorModal").hide();
                     $("#PriestModal").modal('hide');
-                    refeshTable();
                     clearModalPriest();
+                    refeshTable();
                 }
             },
 

@@ -747,7 +747,6 @@ namespace PMS.Web.Controllers
         public string UploadParishionerImage(HttpPostedFileWrapper inputFile)
         {
             var fileImagePath = ConfigurationManager.AppSettings["ParishionerImageUrl"];
-            int ParishionerId = (int)Session["ParishionerId"];
 
             if (!Directory.Exists(Server.MapPath(fileImagePath)))
             {
@@ -760,7 +759,17 @@ namespace PMS.Web.Controllers
             }
 
             string s = inputFile.ContentType;
-            var fileName = String.Format("{0}.jpg", ParishionerId);
+
+            var fileName = "";
+            if (Session["ImageName"] == null)
+            {
+                fileName = String.Format("{0}.jpg", DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
+            }
+            else
+            {
+                fileName = String.Format(Session["ImageName"].ToString());
+            }
+
             var imagePath = Path.Combine(Server.MapPath(Url.Content(fileImagePath)), fileName);
             //inputFile.SaveAs(imagePath);
 
@@ -1133,7 +1142,7 @@ namespace PMS.Web.Controllers
             {
                 return null;
             }
-            Session["ParishionerId"] = parishioner.Id;
+            Session["ImageName"] = parishioner.ImageUrl;
             int communityIdTemp;
             //Get Sacrament Information
             var sacraments = _sacramentBusiness.GetSacramentsByParishionerId(id);

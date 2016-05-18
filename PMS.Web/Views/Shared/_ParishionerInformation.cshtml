@@ -1274,7 +1274,13 @@
         if (url.substring(0, 4) == "<pre") {
             url = "";
         }
-        updateParishionerInformation(url);
+
+        if ($("#btnUpdateParishionerInformation").css('display') == 'none') {
+            addParishionerInformation(url);
+        }
+        if ($("#btnAddParishionerInformation").css('display') == 'none') {
+            updateParishionerInformation(url);
+        }
     }
     jQuery(function ($) {
         $('#inputFile').ace_file_input({
@@ -1632,7 +1638,7 @@
         return result;
     }
 
-    function addParishionerInformation() {
+    function addParishionerInformation(url) {
         //Validation
         if (!checkValidParishionerInformation()) {
             return -2;
@@ -1641,11 +1647,13 @@
         var id = 0;
         //Get Data From Input
         startLoading();
+        var ImageURL = url;
         $.ajax({
             url: "/Parishioner/AddParishioner",
             async: false,
             data: {
                 Code: $("#txtParishionerCode").val(),
+                ImageUrl: ImageURL,
                 ChristianName: $("#txtChristianName").val(),
                 Name: $("#txtParishionerName").val(),
                 Gender: $("#cbGender").val(),
@@ -2090,7 +2098,7 @@
                         label: " Có",
                         className: "ace-icon fa fa-check btn-info",
                         callback: function () {
-                            addParishionerInformation();
+                            UploadImage();
                             setTimeout(function () {
                                 makeScrollForModal();
                             }, 500);
@@ -2110,7 +2118,7 @@
             });
 
         } else {
-            addParishionerInformation();
+            UploadImage();
         }
 
     }
@@ -3013,8 +3021,6 @@
     function loadFullParishionerInfo(id) {
         $("#ParishionerThumbnail").show();
         $("#ParishionerNewImage").show();
-        $("#left-create").hide();
-        $("#right-update").show();
         startLoading();
         $.ajax({
             url: "/Parishioner/LoadFullParishioner",

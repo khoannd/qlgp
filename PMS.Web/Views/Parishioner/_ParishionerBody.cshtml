@@ -135,12 +135,11 @@
     }
 
     $("#btnCreateParishioner").click(function () {
+        '<%Session["ImageName"] = "";%>';
+
         $("#homeLink").tab('show');
         $("#txtHiddenParishionerId").val(0);
         $("#ParishionerThumbnail").hide();
-        $("#ParishionerNewImage").hide();
-        $("#left-create").show();
-        $("#right-update").hide();
         $("#parishionerInformationModal").modal('show');
 
         var parishDivision = $("#cbbParishDivision").val();
