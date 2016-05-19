@@ -46,8 +46,17 @@
                     temp = temp.replace(/\[PriestName]/g, item.ChristianName + " " + item.Name);
                     temp = temp.replace(/\[BirthDate]/g, item.BirthDate);
                     temp = temp.replace(/\[Code]/g, item.Code);
-                    temp = temp.replace(/\[Address]/g, item.Address);
-                    temp = temp.replace(/\[Phone]/g, item.Phone);
+                    if (item.Address == null) {
+                        temp = temp.replace(/\[Address]/g, "");
+                    } else {
+                        temp = temp.replace(/\[Address]/g, item.Address);
+                    }
+
+                    if (item.Phone == null) {
+                        temp = temp.replace(/\[Phone]/g, "");
+                    } else {
+                        temp = temp.replace(/\[Phone]/g, item.Phone);
+                    }
                     temp = temp.replace(/\[DioceseName]/g, item.DioceseName);
                     temp = temp.replace(/\[CurrentDate]/g, data.now);
                     var s = "";

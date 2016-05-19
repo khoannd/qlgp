@@ -360,6 +360,13 @@ namespace PMS.Web.Controllers
 
             template = readFile;
 
+            var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
+
+            for(int i = 0; i< result.Count; i++)
+            {
+                result[i].ImageURL = string.Concat(fileThumbPath, result[i].ImageURL);
+            }
+
             return Json(new
             {
                 result = result,

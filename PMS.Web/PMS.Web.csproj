@@ -332,6 +332,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\ui-bootstrap-tpls-1.3.1.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Priest\_templatePriestCard.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -444,6 +445,7 @@
     <Content Include="Views\GiayMoi\GiayMoi.cshtml" />
     <Content Include="Views\GiayMoi\_KhachMoiMember.cshtml" />
     <Content Include="Views\LetterAndReport\Index.cshtml" />
+    <Content Include="Views\Priest\PrintPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PMS.BusinessLogic\PMS.BusinessLogic.csproj">
