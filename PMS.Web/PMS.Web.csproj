@@ -161,6 +161,7 @@
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\ParishionerController.cs" />
     <Compile Include="Controllers\SocietyController.cs" />
+    <Compile Include="Controllers\ThuPhanUuControllers.cs" />
     <Compile Include="Controllers\ThuyenChuyenLinhMucController.cs" />
     <Compile Include="Controllers\VicariateController.cs" />
     <Compile Include="DbConfig.cs" />
@@ -446,6 +447,10 @@
     <Content Include="Views\GiayMoi\_KhachMoiMember.cshtml" />
     <Content Include="Views\LetterAndReport\Index.cshtml" />
     <Content Include="Views\Priest\PrintPage.cshtml" />
+    <Content Include="Views\Shared\_PrintLayout.cshtml" />
+    <Content Include="Views\ThuPhanUu\Index.cshtml" />
+    <Content Include="Views\ThuPhanUu\InThuPhanUu.cshtml" />
+    <Content Include="Views\ThuPhanUu\_DanhSachNguoiNhan.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PMS.BusinessLogic\PMS.BusinessLogic.csproj">

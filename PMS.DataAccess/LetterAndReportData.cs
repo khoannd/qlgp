@@ -24,7 +24,7 @@ namespace PMS.DataAccess
             string query = "select * from LetterAndReport";
             return _db.ExecuteQuery<LetterAndReport>(query);
         }
-		public string getTemplate(int id)
+        public string getTemplate(int id)
 		{
             string query = "select Mau from LetterAndReport where id={0}";
             return _db.ExecuteQuery<string>(query, id).SingleOrDefault();

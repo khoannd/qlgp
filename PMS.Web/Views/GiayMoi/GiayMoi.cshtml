@@ -83,7 +83,7 @@
                                     <div class="input-group">
                                         <select class="form-control" id="LoaiGiayMoi">
                                             <option value="0">Chọn loại giấy mời</option>
-                                            @foreach (var item in (List<ValueSet>)ViewBag.Valueset)
+                                            @foreach (var item in (IEnumerable<ValueSet>)ViewBag.Valueset)
                                             {
                                                 <option value="@item.Code">@item.Definition</option>
                                             }
@@ -283,7 +283,7 @@
                                             <th hidden=""></th>
                                             <th>
                                                 <label class="position-relative">
-                                                    <input type="checkbox" class="ace sItem" />
+                                                    <input type="checkbox" class="ace sItem" onclick="selectAll(this.checked)"/>
                                                     <span class="lbl"></span>
                                                 </label>
                                             </th>
@@ -1081,7 +1081,7 @@
                     "aTargets": [1],
                     "render": function (data, type, full, meta) {
                         var content = '<label class="position-relative">' +
-                            '<input type="checkbox" class="ace sItem" value="' + data + '"/>' +
+                            '<input type="checkbox" class="ace sItem item-detail" value="' + data + '"/>' +
                             '<span class="lbl"></span> </label>';
                         return content;
                     },
@@ -1217,11 +1217,37 @@
         },
         minLength: 0,
         select: function (event, ui) {
-            $('#NguoiGoi').val(ui.item.Id);
+            $('#NguoiGoi').val(ui.item.ChristianName + " " + ui.item.Name);
         }
     }).focus(function () {
         $(this).autocomplete("search");
     });
+    // Khoan add start
+    function printAppointmentAll() {
+        var members = "";
+        var checks = new Array();
+        $(".sItem.item-detail:checked").each(function () {
+            if ($(this).is(':checked')) {
+                if ($(this).val() == "on") {
+                } else {
+                    checks.push($(this).val());
+                }
 
-
+            }
+        });
+        if (checks.length > 0) {
+            members = checks.join(',');
+        } else {
+            members = "0";
+        }
+        
+        var url = "@Html.Raw(Url.Action("InGiayMoi", "GiayMoi", new { id = "param1", members = "param2" }))";
+        url = url.replace("param1", idGiayMoi);
+        url = url.replace("param2", members);
+        window.open(url, '_blank');
+    }
+    function selectAll(checked) {
+        $(".sItem.item-detail").attr('checked', checked);
+    }
+    // Khoan add end
 </script>

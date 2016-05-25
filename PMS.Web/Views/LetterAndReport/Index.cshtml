@@ -121,14 +121,12 @@
                             <div id="divMoTa" class="form-group">
                                 <div class="col-sm-1"></div>
                                 <label class="col-sm-1 control-label no-padding-right align-left">
-                                    Mô Tả&nbsp;(
-                                    <span style="color: red">*</span>)
+                                    Mô Tả
                                 </label>
 
                                 <div class="col-sm-9">
                                     <textarea id="textareaMoTa" rows="4" cols="10" style="width: 100%"></textarea>
                                     <label id="lbMoTaError" class="text-danger" hidden=""></label>
-
                                 </div>
 
                             </div>
@@ -357,7 +355,7 @@
         var id = $("#txtId").val();
         var ten = $("#txtTen").val();
         var loai = $("#cbbLoai").val();
-        var mota = $("#textareaMoTa").val(); textareaMoTa
+        var mota = $("#textareaMoTa").val();
         var mau = $("#txttextEditor").html();
         $.ajax({
             url: "/LetterAndReport/UpdateLetterAndReport",
@@ -457,7 +455,7 @@
         var isError = false;
 
         var ten = $("#txtTen").val();
-        var mota = $("#textareaMoTa").val();
+        //var mota = $("#textareaMoTa").val(); Khoan del
         var mau = $.trim($("#txttextEditor").html());
         var loai = $("#cbbLoai").val();
         if (!ten) {
@@ -478,6 +476,8 @@
             $("#lbLoaiError").html("");
         }
 
+        // Khoan del start
+        /*
         if (!mota) {
             $("#lbMoTaError").html("Vui lòng mô tả");
             $("#lbMoTaError").show();
@@ -486,6 +486,8 @@
             $("#lbMoTaError").hide();
             $("#lbMoTaError").html("");
         }
+        */
+        // Khoan del end
 
         if (!mau) {
             $("#lbMauError").html("Vui lòng nhập mẫu");

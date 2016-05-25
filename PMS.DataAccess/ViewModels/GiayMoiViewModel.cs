@@ -38,11 +38,11 @@ namespace PMS.DataAccess.ViewModels
         {
             get; set;
         }
-        public int? NguoiGoi
+        public string NguoiGoi
         {
             get; set;
         }
-       public string ThoiGian
+        public string ThoiGian
         {
             get; set;
         }

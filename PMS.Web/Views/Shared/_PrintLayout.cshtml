@@ -1,0 +1,157 @@
+﻿@{
+    // Author: Khoan
+    // Date: 2016/05/22
+    Layout = null;
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" moznomarginboxes mozdisallowselectionprint>
+<head>
+    <title>@Html.Encode(ViewBag.Title)</title>
+    <style>
+    body {
+        margin: 18pt 18pt 28pt 18pt;
+        font-family: Verdana,Arial,Helvetica,sans-serif;
+        font-size: 12px;
+    }
+    table.content-header-org {
+        margin-top: 5px;
+    }
+    table.content-header-org td, table.content-header-patient td {
+        padding: 3px 0px;
+        vertical-align: top;
+    }
+    div.content-item, div.care-team {
+        margin-top: 10px;
+        margin-bottom: 5px;
+        font-size: 12px;
+    }
+    div.care-team table td {
+        padding: 5px;
+    }
+    div.content-item table th {
+        color: #818181;
+    }
+    table th, table td {
+        font-size: 12px;
+    }
+    div.content-item table th, div.content-item table td {
+        border: 1px solid #818181;
+        padding: 5px;
+        text-align: left;
+    }
+    div.content-item table tr:not(:first-child) td {
+        border-top: none !important;
+    }
+    div.content-item table td:not(:last-child), div.content-item table th:not(:last-child) {
+        border-right: none !important;
+    }
+    table {
+        border-spacing: 0;
+    }
+    div.title {
+        font-weight: bold;
+        margin-bottom: 3px;
+        text-transform: uppercase;
+    }
+    div.content {
+        width: 670px;
+        min-height: 700px;
+        margin: auto;
+        z-index: 999;
+        background: #fff;
+    }
+    table.content-header .h1 {
+        vertical-align: top;
+        font-size:14px;
+        font-weight: bold;
+    }
+    div.patient-info {
+        margin-top: 10px;
+    }
+    span.provider-contact {
+        font-size: 11px;
+        font-style: italic;
+        padding-left: 5px;
+    }
+    div.data > div {
+        padding-left: 5px;
+    }
+    div.print-icon-bottom {
+        position: fixed;
+        right: 5px;
+        padding: 5px;
+        border: 1px solid #ddd;
+        z-index: 999;
+        bottom: 5px;
+        background: #fff;
+    }
+
+    div.trademark-bottom {
+        position: fixed;
+        right: 40%;
+        padding: 5px;
+        font-size: 11px;
+        font-style: italic;
+        text-decoration: underline;
+        bottom: -5px;
+        z-index: -1;
+    }
+    table.content-subitem td, table.content-subitem th {
+        border-right: none !important;
+        border-left: none !important;
+        border-top: none !important
+    }
+    table.content-subitem tr:last-child td {
+        border-bottom: none !important
+    }
+    .width100percent {
+        width: 100% !important;
+    }
+    .width50percent {
+        width: 50% !important;
+    }
+    img.logo {
+        max-width: 330px;
+        max-height: 115px;
+    }
+    .center {
+        text-align: center !important;
+    }
+    .left {
+        text-align: left !important;
+    }
+    .right {
+        text-align: right !important;
+    }
+    .content-item .data td, .content-item .data th {
+        font-size: 11px;
+    }
+    .break-page-line {
+        border-bottom: dashed 1px #ccc;
+        margin-bottom: 40px;
+    }
+    .page-break {
+        page-break-after: always;
+    }
+    @@media print {
+        div.print-icon-bottom {display:none;}
+        @@page
+        {
+            size: auto;   /* auto is the initial value */
+            margin: auto auto 5mm auto;  /* this affects the margin in the printer settings */
+        }
+        thead {display: table-header-group;}
+        .break-page-line {
+            display: none;
+        }
+    }
+
+    </style>
+</head>
+<body>
+    <div class="content">
+        @Html.Raw(@ViewBag.Body)
+    </div>
+    <div class="print-icon-bottom"><a style="cursor: pointer" onclick="window.print()" title="Print"><img style="border: none" src="data:image/jpg;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAC0ElEQVR42qWVTWgTQRTH3+y2TVujaUxMGgSbUFJDI9608dT2oFfBY0+9eRK/eqoXKfQiSsGbCBIRvHhRkAo96KEHQeghp5ovsTVNstmEmCambrLZ8c0mG7eh2tn2wTKPx7C/9//vvB0CB8TKyoonGAzOYEqAM3Z3dzfm5uZSvfUDX6AoyltcruNDTfuoaYWeOou0zWYLcgHq9fonXGZ4u+9EYXh42MsFqNVqOiCdTlOMQxUEAgEQRVG22+18gEqlogP29va4ANg5y2WHw8EHKJfLOqDVanF5g93rFjmdTj5AsVjUAfF4nEvBxMQECIIgu91uPkChUDA+spVTJHs8Hj5ALpfTAYlEAjoK/hs4M0xBwefz/RswPz9PUlUNimo/rD59+NHWJ1hSoFEq33ryYnT7WxIuOkWIRqNtbzc3N6+NjY09w/zsy1SDvEv9hNt+RQi7hwQrgIrSgrsbjdb0+Bm4Hx5kpUw2m71J8MzHmUpWaQMq9Kq9DDfOnyZACDfgS7ZGnn8X6PS4BwE2o54k1Wo1h8ko2xRNKbD6owG1kgQttXmo9/u8FkQ46fLClNcGCxcGjXKe4FAxgLcDIKuZZm/XvKdIzy+7+xjAqEsEh8qkoAEfdqx13huX3CIshE0KSqWSSUGDIOBYCjqAvwpkWe4CXqUV8j6jHgswhYB7ZoAkSV2L4uUGLMV+g0rEI9lDqAZ3Qv0QGTVZlM/nuwrYnmxVoQyEA2xZQeBUHw04h7BASZ3+oieIXSI4DPsAB7zUkkUsSTS/kjf11/SBY0kimUyma5EROBugqqpli0ZGRnA2238fDe0SiJAnW1tbO1j0GV0gkK6trR1JweTkJI1EIt06Ro7EYrFHeBMtMDI+BP+gdH19Xc+7l0EnN9fMdSP3+/10dnZWzzVNo+jEY13P8vLylYGBgXMsx7sAksnkkU6Ry+WCUCik581mc3txcfHzH9n6hDPklb6oAAAAAElFTkSuQmCC" alt="Print" width="24" /></a></div>
+</body>
+</html>

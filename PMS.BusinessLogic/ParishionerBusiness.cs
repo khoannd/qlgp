@@ -474,6 +474,22 @@ namespace PMS.BusinessLogic
             return parishioner;
         }
 
+        // Khoan add start
+        public List<ParishionerViewModel> LoadParishionerByName(string name)
+        {
+            var parishioners = _parishionerData.GetParishionerViewModelsByName(name).OrderBy(p => p.ChristianName).ThenBy(p => p.Name).ToList();
+
+            DateConverter converter = new DateConverter();
+
+            foreach (var item in parishioners)
+            {
+                item.BirthDate = converter.ConvertStringToDate(item.BirthDate);
+            }
+
+            return parishioners;
+        }
+        // Khoan add end
+
         public List<Parishioner> LoadInsideParishioners(int parishId, string name, int gender)
         {
             const bool isCounted = true;

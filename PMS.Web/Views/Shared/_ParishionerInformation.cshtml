@@ -86,14 +86,6 @@
 
                                                     <div class="col-xs-6">
 
-                                                        <div class="form-group" id="ParishionerThumbnail">
-                                                            <label class="col-sm-4 control-label no-padding-right"></label>
-
-                                                            <div class="col-sm-8 align-center">
-                                                                <img class="" id="imgParishionerThumbnail" src="" />
-                                                            </div>
-                                                        </div>
-
                                                         <div class="form-group" id="divParishionerCode">
 
                                                             <label class="col-sm-4 control-label no-padding-right"> Mã giáo dân (<span style="color:red">*</span>)</label>
@@ -235,6 +227,9 @@
                                                                         <div class="widget-main">
                                                                             <div class="form-group">
                                                                                 <div class="space-10"></div>
+                                                                                <div class="col-sm-8" id="divImgParishionerThumbnail">
+                                                                                    <img class="" id="imgParishionerThumbnail" src="" />
+                                                                                </div>
                                                                                 <div class="col-sm-12" id="newParishionerImageModal">
                                                                                     @using (Html.BeginForm("UploadParishionerImage", "Parishioner", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImgForm", name = "ImgForm", target = "UploadTarget" }))
                                                                                     {
@@ -1285,7 +1280,7 @@
     jQuery(function ($) {
         $('#inputFile').ace_file_input({
             style: 'well',
-            btn_choose: 'Thả hình vào đây hoặc click vào để chọn',
+            btn_choose: 'Click vào để chọn hình',
             btn_change: null,
             no_icon: 'ace-icon fa fa-picture-o',
             droppable: true,
@@ -1582,7 +1577,7 @@
             $("#lbParishionerNameError").html("");
         }
 
-        if (!code) {
+        if (!$("#txtParishionerCode").prop("readonly") && !code) {
             $("#lbCodeError").html("Mã giáo dân không được để trống");
             $("#lbCodeError").show();
 
@@ -1895,6 +1890,8 @@
         $("#parishionerInformationTitle").html("Thêm mới giáo dân");
 
         $('#inputFile').ace_file_input('reset_input');
+        $("#imgParishionerThumbnail").attr("src", "");
+        $("#imgParishionerThumbnail").hide();
     }
 
     function checkParishionerCodeGeneration() {
@@ -3019,8 +3016,8 @@
     }
 
     function loadFullParishionerInfo(id) {
-        $("#ParishionerThumbnail").show();
-        $("#ParishionerNewImage").show();
+        //$("#ParishionerThumbnail").show();
+        //$("#ParishionerNewImage").show();
         startLoading();
         $.ajax({
             url: "/Parishioner/LoadFullParishioner",
@@ -3037,10 +3034,12 @@
                 document.getElementById("ImageName").innerHTML = parishioner.Name;
                 $("#imgParishionerImage").attr('src', parishionerViewModel.ImageURL);
                 if (parishioner.ImageUrl == null) {
+                    //$("#ParishionerThumbnail").hide();
                     $("#ParishionerThumbnail").hide();
                 } else {
                     $("#imgParishionerThumbnail").attr('src', parishionerViewModel.ThumbnailURL);
-                    $("#ParishionerThumbnail").show();
+                    //$("#ParishionerThumbnail").show();
+                    $("#imgParishionerThumbnail").show();
                 }
 
                 $("#txtHiddenParishionerId").val(parishioner.Id);

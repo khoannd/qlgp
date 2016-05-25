@@ -774,7 +774,11 @@ namespace PMS.Web.Controllers
             //inputFile.SaveAs(imagePath);
 
             Image imageUpload = Image.FromStream(inputFile.InputStream);
-            Image image = ResizeImage(imageUpload, 300, 400);
+            // Khoan mod start
+            //Image image = ResizeImage(imageUpload, 300, 400);
+            int width = (int)((400f / (float)imageUpload.Height) * imageUpload.Width);
+            Image image = ResizeImage(imageUpload, width, 400);
+            // Khoan mod end
             image.Save(imagePath, ImageFormat.Jpeg);
 
             var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
@@ -785,7 +789,11 @@ namespace PMS.Web.Controllers
             }
 
             var thumbPath = Path.Combine(Server.MapPath(Url.Content(fileThumbPath)), fileName);
-            Image thumb = imageUpload.GetThumbnailImage(135, 180, () => false, IntPtr.Zero);
+            // Khoan mod start
+            //Image thumb = imageUpload.GetThumbnailImage(135, 180, () => false, IntPtr.Zero);
+            width = (int)((180f / (float)imageUpload.Height) * imageUpload.Width);
+            Image thumb = imageUpload.GetThumbnailImage(width, 180, () => false, IntPtr.Zero);
+            // Khoan mod end
             thumb.Save(Path.ChangeExtension(thumbPath, "jpg"));
 
             return Url.Content(String.Format(fileName));
@@ -841,25 +849,44 @@ namespace PMS.Web.Controllers
             {
                 parishes = _parishBusiness.GetParishesByVicariateId(vicariateId);
             }
-
+            List<ParishViewModel> listParish = new List<ParishViewModel>(); // Khoan add
             foreach (var item in parishes)
             {
-                item.Accounts = null;
-                item.Communities = null;
-                item.FamilyMigrationRequests = null;
-                item.ParishionerMigrationRequests = null;
-                item.SacramentGroups = null;
-                item.Societies = null;
-                item.Vicariates = null;
-                item.Vicariate = null;
-                item.Configuration = null;
-                item.ClassGroups = null;
-                item.Messages = null;
+                // Khoan add start
+                var p = new ParishViewModel();
+                p.Address = item.Address;
+                p.District = item.District;
+                p.Email = item.Email;
+                p.Id = item.Id;
+                p.Name = item.Name;
+                p.Phone = item.Phone;
+                p.Priest = item.Priest;
+                p.Province = item.Province;
+                p.VicariateId = item.VicariateId;
+                p.VicariateName = item.Vicariate.Name;
+                p.Ward = item.Ward;
+                p.Website = item.Website;
+                listParish.Add(p);
+                // Khoan add end
+
+                // Khoan del start
+                //item.Accounts = null;
+                //item.Communities = null;
+                //item.FamilyMigrationRequests = null;
+                //item.ParishionerMigrationRequests = null;
+                //item.SacramentGroups = null;
+                //item.Societies = null;
+                //item.Vicariates = null;
+                //item.Vicariate = null;
+                //item.Configuration = null;
+                //item.ClassGroups = null;
+                //item.Messages = null;
+                // Khoan del end
             }
 
             return Json(new
             {
-                result = parishes
+                result = listParish
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -1038,6 +1065,17 @@ namespace PMS.Web.Controllers
 
         }
 
+        // Khoan add start
+        public ActionResult LoadParishionerByName(string name)
+        {
+            var result = _parishionerBusiness.LoadParishionerByName(name);
+
+            return Json(new
+            {
+                result = result
+            }, JsonRequestBehavior.AllowGet);
+        }
+        // Khoan add end
 
         public int ChangeParishionerStatus(int id, int status, bool isForced)
         {

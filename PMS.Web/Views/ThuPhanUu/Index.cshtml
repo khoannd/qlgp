@@ -1,0 +1,652 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@using PMS.DataAccess.ViewModels;
+@model List<ThuPhanUuViewModel>
+
+<link rel="stylesheet" href="/Content/assets/css/chosen.css" />
+<input type="hidden" id="condolencesEmailId" />
+<div class="page-header">
+    <h1>Danh sách thư phân ưu</h1>
+</div>
+<div class="row">
+    <div class="space-4"></div>
+    <div class="col-xs-12">
+        <div class="col-sm-12">
+            <button id="btnCreateThuPhanUu" class="btn btn-success" data-toggle="modal">
+                <i class="ace-icon fa fa-plus"></i> Thêm thư
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-xs-12">
+    <div class="space-8"></div>    
+    <table id="TPUTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Người qua đời</th>
+                <th>Ngày qua đời</th>
+                <th>Danh sách cần gửi thư</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<div id="createThuPhanUuModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+
+                    <h4 class="widget-title lighter" id="thuPhanUuModalTitle">Thêm mới thư phân ưu</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseThuPhanUuModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+
+                </div>
+                <div class="widget-body">
+                    <div class="space-10"></div>
+                    <div class="col-xs-12">
+                        <div class="row col-md-12">
+                            <h5 class="page-header" style="color: #4383b4">Thông tin người qua đời</h5>
+                        </div>
+                    </div> 
+                    <div class="space-10"></div>
+                    <div class="col-sm-offset-1 col-sm-10">
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label no-padding-right"> Ông/Bà cố (<span style="color:red">*</span>)  </label>
+                            <div class="col-sm-5">
+                                <select class="form-control" id="cbbParentRole" name="parentRole">
+                                    <option value="-1">  -  </option>
+                                    <option value="Ông cố">Ông cố</option>
+                                    <option value="Bà cố">Bà cố</option>
+                                </select>
+                                <label id="lbParentRoleError" class="text-danger" hidden=""></label>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="form-group align-left">
+                                <label class="col-sm-3 control-label no-padding-right">Người qua đời&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="tenNguoiMat" class="form-control" name="tenNguoiMat" readonly="readonly">
+                                    <label class="text-danger" id="lbDeathManNameError" hidden=""></label>
+                                    <input type="hidden" id="txtThuPhanUuId" value="" name="thuPhanUuId">                                    
+                                </div>
+                                <div class="col-sm-4 text-left">
+                                    <button id="btnChooseDeathMan" class="btn btn-primary btn-sm">
+                                        <i class="ace-icon fa fa-search"></i>
+                                        Chọn người qua đời
+                                    </button>
+                                    <input type="text" id="txtDeathManId" value="" name="deathManId" style="width:40px;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Ngày qua đời&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-5">
+                                    <div class="input-group">
+                                        <input class="form-control fdate-picker" id="txtdeathDate" name="deathDate" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
+                                        <span class="input-group-addon">
+                                            <i class="fa fa-calendar bigger-110"></i>
+                                        </span>
+                                    </div>
+                                    <label id="lbDeathDateError" class="text-danger" hidden=""></label>
+                                </div>
+                                <div class="col-sm-8 col-sm-offset-4">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-10"></div>                                             
+
+                        <div id="div_SendTo">
+                            <div class="row col-xs-12">
+                                <div class="row col-md-12">
+                                    <h5 class="page-header" style="color: #4383b4">Danh sách người nhận thư</h5>
+                                </div>
+                            </div> 
+                            <div class="space-10"></div>
+                            <div class="row col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button id="btnAddNguoiNhan" class="btn btn-primary btn-sm" data-toggle="modal" onclick="AddNguoiNhan();">
+                                            <i class="ace-icon glyphicon glyphicon-search"></i> Thêm người nhận
+                                        </button>
+                                        <input type="text" id="nguoiNhanId" style="width:40px;" />
+                                        <button class="btn btn-purple btn-sm" data-toggle="modal" onclick="printThuPhanUuAll()">
+                                            <i class="ace-icon fa fa-print">
+                                            </i> In thư mời
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="space-10"></div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped" id="tlbNguoiNhan">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>
+                                                        <label class="position-relative">
+                                                            <input type="checkbox" class="ace sItem" />
+                                                            <span class="lbl"></span>
+                                                        </label>
+                                                    </th>
+                                                    <th style='width:70%'>Người nhận</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="align-right">
+                                    <div class="space-6"></div>
+                                    <button id="btncreateThuPhanUuModal" onclick="AddNewThuPhanUu();" class="btn btn-primary" data-toggle="modal">
+                                        <i class="ace-icon fa fa-times"></i>Lưu</button>        
+                                    <button id="btnUpdateThuPhanUu" class="btn btn-primary" data-toggle="modal" onclick="UpdateThuPhanUu();">
+                                        <i class="ace-icon fa fa-times"></i> Lưu
+                                    </button>
+                                    <button id="btnCloseThuPhanUuModal" class="btn btn-grey" data-toggle="modal">
+                                        <i class="ace-icon fa fa-times"></i> Đóng
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="space-6"></div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        InitDanhSachThuPhanUu();
+    });
+
+    function InitDanhSachThuPhanUu() {
+        var nguoimat, ngaymat;
+        $("#TPUTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "sAjaxSource": "/ThuPhanUu/GetOrderedThuPhanUuByParamsAndPaging",
+            //"bProcessing": true,
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "type", "value": 0 });
+            },
+            "oLanguage": {
+                "sSearch": "Mô tả",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        nguoimat = data;
+                        return data;
+                    }
+                },
+                {
+                    "aTargets": [2],
+                    "render": function (data, type, full, meta) {
+                        ngaymat = data;
+                        return data;
+                    }
+                },
+                {
+                    "aTargets": [4],
+                    "render": function (data, type, full, meta) {
+                        var param = data.split('-');
+                        var content = '<button class="btn btn-minier btn-primary" style="margin-right:2px;" onclick="LoadDataModal(' + param[0] + ',\'' + param[1] + '\',\'' + param[2] + '\',\'' + nguoimat + '\',\'' + ngaymat + '\')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                            '<button class="btn btn-minier btn-danger" onclick="DeleteThuPhanUuConfirm(' + param[0] + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                        return content;
+                    },
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+    }
+
+    $("#btnCreateThuPhanUu").click(function () {
+        
+        $("#thuPhanUuModalTitle").html("Thêm mới thư phân ưu");
+        $("#div_SendTo").hide();
+        $("#txtThuPhanUuId").val('');
+        $("#cbbParentRole").val('');
+        $("#txtDeathManId").val('');
+        $("#txtdeathDate").val('');
+        $("#tenNguoiMat").val('');
+        $("#createThuPhanUuModal").modal('show');
+        $("#btncreateThuPhanUuModal").show();
+        $("#btnUpdateThuPhanUu").hide();
+        hideError();
+    });
+
+    function LoadDataModal(id, idNguoimat, chucvu, tennguoimat, ngaymat) {
+        $("#condolencesEmailId").val(id);
+        $("#div_SendTo").show();
+        hideError();
+        $.ajax({
+            url: "/ThuPhanUu/GetThuPhanUuById",
+            type: "POST",
+            data: { Id: id },
+            success: function (data) {
+                var item = data.result;
+                $("#thuPhanUuModalTitle").html("Chỉnh sửa thư phân ưu");
+                $("#createThuPhanUuModal").modal('show');
+                tennguoimat = tennguoimat.replace('Ông cố ', '').replace('Bà cố ', '');
+                $("#cbbParentRole option[value='" + chucvu + "']").prop('selected', true);
+                $("#txtdeathDate").val(ngaymat);
+                $("#txtThuPhanUuId").val(id);
+                $("#txtDeathManId").val(idNguoimat);
+                $("#tenNguoiMat").val(tennguoimat);
+                $("#btnUpdateThuPhanUu").show();
+                $("#btncreateThuPhanUuModal").hide();
+                $("#tlbNguoiNhan").dataTable().fnDestroy();
+                InitDanhSachNguoiNhanThu(id);
+            },
+        });
+    }
+
+    function InitDanhSachNguoiNhanThu(thuPhanUuId)
+    {
+        $("#tlbNguoiNhan").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "bPaginate": false,
+            "bFilter": false,
+            "bInfo": false,
+            "sAjaxSource": "/ThuPhanUu/LoadDanhSachNguoiNhanThu",
+            //"bProcessing": true,
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "Id", "value": thuPhanUuId });
+            },
+            "oLanguage": {
+                "sZeroRecords": "Không có dữ liệu",
+                "sEmptyTable": "Không có dữ liệu",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": ""
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace sItem" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "sWidth": "5%",
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [2],
+                    "sWidth": "85%",
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [3],
+                    "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-danger" onclick="DeleteNguoiNhanThuConfirm(' + thuPhanUuId + ',' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                        return content;
+                    },
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+    }
+
+    function DeleteNguoiNhanThuConfirm(id, nguoiNhanThuId) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn xóa người nhận này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteNguoiNhanThu(id, nguoiNhanThuId);
+                        //refeshTable();
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    function DeleteNguoiNhanThu(id, nguoiNhanThuId) {
+        //startLoading();
+        $.ajax({
+            url: "/ThuPhanUu/DeleteThuPhanUu_NguoiNhan",
+            type: "POST",
+            data: {
+                id: id,
+                maGiaoDan : nguoiNhanThuId
+            },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Xóa thất bại.", 0);
+                } else {
+                    updateTableContent("tlbNguoiNhan");
+                }
+
+            },
+        });
+    }
+
+    function DeleteThuPhanUuConfirm(Id) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn xóa thư này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteThuPhanUu(Id);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    function DeleteThuPhanUu(id) {
+        //startLoading();
+        $.ajax({
+            url: "/ThuPhanUu/DeleteThuPhanUu",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Xóa thất bại.", 0);
+                } else {
+                    updateTableContent("TPUTable");
+                }
+
+            },
+        });
+    }
+
+    $("#btnCloseThuPhanUuModal").click(function () {
+        $("#createThuPhanUuModal").modal('hide');
+        updateTableContent("TPUTable");
+    });
+    $("#btnClosePrintCEModal").click(function () {
+        $("#printCEModal").modal('hide');
+        
+    });
+
+    $(function () {
+        $('#createTCLMModal').find('.modal-dialog.modal-lg').css('width', '95%');
+
+        $('.fdate-picker').datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            forceParse: false,
+        }).next().on(ace.click_event, function () {
+            $(this).prev().focus();
+        });
+    });
+
+    //Auto Complete Christian Name
+    $(".christian").autocomplete({
+        autoFocus: true,
+        source: function (request, response) {
+            $.ajax({
+                url: "/Parishioner/LoadChristianName",
+                dataType: "json",
+                data: {
+                    name: request.term
+                },
+                success: function (data) {
+                    response(data.result);
+                }
+            });
+        },
+        minLength: 0,
+        select: function (event, ui) {
+            $('#txtFullNameModal').autocomplete("option", "disabled", true);
+        }
+    }).focus(function () {
+        $(this).autocomplete("search");
+    });
+
+    function getFormattedDate(date) {
+        var year = date.getFullYear();
+        var month = (1 + date.getMonth()).toString();
+        month = month.length > 1 ? month : '0' + month;
+        var day = date.getDate().toString();
+        day = day.length > 1 ? day : '0' + day;
+        return day + '/' + month + '/' + year;
+    }
+
+    function AddNguoiNhan() {
+
+        var nguoiNhan = $("#nguoiNhanId").val();
+        var id = $("#txtThuPhanUuId").val();
+        if (nguoiNhan == '' || id == '') return;
+        //startLoading();
+        $.ajax({
+            url: "/ThuPhanUu/AddThuPhanUu_NguoiNhan",
+            type: "POST",
+            data: {
+                id: id,
+                nguoiNhan: nguoiNhan
+            },
+            success: function (data) {
+                $("#nguoiNhanId").val('');
+                updateTableContent("tlbNguoiNhan");
+            },
+
+        });
+    }
+    
+    function UpdateThuPhanUu() {
+        if (!checkValidate()) return;
+
+        var thuPhanUuId = $("#txtThuPhanUuId").val();
+        var parentRole = $("#cbbParentRole").val();
+        var deathManId = $("#txtDeathManId").val();
+        var deathDate = $("#txtdeathDate").val();
+        startLoading();
+
+        $.ajax({
+            url: "/ThuPhanUu/UpdateThuPhanUu",
+            type: "POST",
+            data: {
+                thuPhanUuId: thuPhanUuId,
+                parentRole: parentRole,
+                deathManId: deathManId,
+                deathDate: deathDate
+            },
+            success: function (data) {
+                if (data <= 0) {
+                    showMessage("Cập nhật thư thất bại", 0);
+                } else {
+                    $("#createThuPhanUuModal").modal('hide');
+                    updateTableContent("TPUTable");
+                }
+            },
+
+        });
+    }
+
+    function AddNewThuPhanUu() {
+        if (!checkValidate()) return;
+
+        var parentRole = $("#cbbParentRole").val();
+        var deathManId = $("#txtDeathManId").val();
+        var deathDate = $("#txtdeathDate").val();
+        $.ajax({
+            url: "/ThuPhanUu/AddThuPhanUu",
+            type: "POST",
+            data: {
+                parentRole: parentRole,
+                deathManId: deathManId,
+                deathDate: deathDate
+            },
+            success: function (data) {
+                var item = data.result;
+                if (item == null || item == undefined) {
+                    showMessage("Thêm thư thất bại", 0);
+                } else {
+                    showMessage("Thư phân ưu đã được thêm mới, hãy nhập người nhận thư", 1);
+                    $("#tenNguoiMat").val(item.NguoiMat);
+                    $("#txtThuPhanUuId").val(item.Id);
+                    $("#div_SendTo").show();
+                    $("#tlbNguoiNhan").dataTable().fnDestroy();
+                    InitDanhSachNguoiNhanThu(item.Id);
+
+                    $("#btnUpdateThuPhanUu").show();
+                    $("#btncreateThuPhanUuModal").hide();
+                }
+            },
+
+        });
+    }
+
+    function hideError() {
+        $("#lbDeathManNameError").hide();
+        $("#lbDeathDateError").hide();
+        $("#lbParentRoleError").hide();
+    }
+
+    function checkValidate() {
+        var isError = false;
+
+        var name = $("#txtDeathManId").val();
+        if (name == '') {
+            $("#lbDeathManNameError").html("Vui lòng chọn người qua đời!");
+            $("#lbDeathManNameError").show();
+            isError = true;
+        } else {
+            $("#lbDeathManNameError").html("");
+            $("#lbDeathManNameError").hide();
+        }
+
+        var deathDate = $("#txtdeathDate").val();
+        if (deathDate == '') {
+            $("#lbDeathDateError").html("Vui lòng nhập ngày qua đời!");
+            $("#lbDeathDateError").show();
+            isError = true;
+        } else {
+            $("#lbDeathDateError").html("");
+            $("#lbDeathDateError").hide();
+        }
+
+        var parentRole = $("#cbbParentRole").val();
+        if (parentRole == -1 || parentRole == null) {
+            $("#lbParentRoleError").html("Vui lòng chọn Ông cố/Bà cố !");
+            $("#lbParentRoleError").show();
+            isError = true;
+        } else {
+            $("#lbParentRoleError").html("");
+            $("#lbParentRoleError").hide();
+        }
+
+        if (isError) {
+            return false;
+        }
+        return true;
+    }
+
+    function printThuPhanUuAll() {
+        var checks = new Array();
+        $(".sItem:checked").each(function () {
+            if ($(this).is(':checked')) {
+                if ($(this).val() == "on") {
+                } else {
+                    checks.push($(this).val());
+                }
+
+            }
+        });
+        if (checks.length > 0) {
+            var ids = checks.join(',');
+            var idThuPhanUu = $("#txtThuPhanUuId").val();
+            PrintThuPhanUu(idThuPhanUu, ids);
+        } else {
+            showMessage("Vui lòng chọn ít nhất một người nhận để thực hiện in", -1);
+        }
+    }
+
+    function PrintThuPhanUu(idThuPhanUu, Ids) {
+        var url = "@Html.Raw(Url.Action("InThuPhanUu", "ThuPhanUu", new { idThuPhanUu = "param0", Ids = "param1" }))";
+        url = url.replace("param0", idThuPhanUu);
+        url = url.replace("param1", Ids);
+        window.open(url, '_blank');
+        //LoadTCLMById(idTCLM);
+    }
+
+    $(document).on('click', 'th input:checkbox', function () {
+        var that = this;
+        $(this).closest('table').find('tr > td:nth-child(2) input:checkbox')
+            .each(function () {
+                this.checked = that.checked;
+                $(this).closest('tr').toggleClass('selected');
+            });
+    });
+</script>

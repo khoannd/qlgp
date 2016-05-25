@@ -1,0 +1,210 @@
+﻿<input type="hidden" id="txtThuPhanUuId" value="0" />
+
+<div id="CEModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+                    <h4 id="familyTitle" class="widget-title lighter">Thêm mới thư phân ưu</h4>
+
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="closeCEModal();">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+
+                    <div class="col-sm-12  ui-sortable">
+                        <div class="col-xs-12">
+                            <div class="widget-box transparent ui-sortable-handle">
+
+                                <div class="widget-header">
+                                    <h4 class="widget-title lighter">Thông tin người qua đời</h4>
+                                </div>
+
+                                <div class="widget-body">
+
+                                    <div class="space-10"></div>
+                                    <div class="row form-horizontal">
+
+                                        <div class="col-xs-12">
+                                            <div id="divFamilyCode" class="form-group">
+                                                <label class="col-sm-3 control-label no-padding-right"> Ông cố/Bà cố (<span style="color:red">*</span>)  </label>
+                                                <div class="col-sm-3">
+                                                    <select class="form-control" id="cbbParentRole">
+                                                        <option value="-1">  -  </option>
+                                                        <option value="1">Ông cố</option>
+                                                        <option value="0">Bà cố</option>
+                                                    </select>
+                                                    <label id="lbParentRoleError" class="text-danger" hidden=""></label>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label no-padding-right"> Tên người qua đời (<span style="color:red">*</span>) </label>
+                                                <div class="col-sm-4">
+                                                    <input type="text" id="txtDeathMan" class="form-control">
+                                                    <input type="hidden" id="deathManId" />
+                                                    <label id="lbDeathManError" class="text-danger" hidden=""></label>                                                   
+                                                </div>
+                                                <div class="col-sm-5 text-left">
+                                                    <button id="btnChooseDeathMan" class="btn btn-primary btn-sm">
+                                                        <i class="ace-icon fa fa-search"></i>
+                                                        Chọn người qua đời
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label no-padding-right"> Ngày qua đời(<span style="color:red">*</span>)  </label>
+                                                <div class="col-sm-3">
+                                                    <div class="input-group">
+                                                        <input class="form-control fdate-picker" id="txtdeathDate" name="deathDate" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar bigger-110"></i>
+                                                        </span>
+                                                    </div>
+                                                    <label id="lbDeathDateError" class="text-danger" hidden=""></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+
+                    <div class="col-sm-12  ui-sortable">
+                        <div class="col-xs-12">
+                            <div class="widget-box transparent ui-sortable-handle">
+                                <div class="widget-header">
+                                    <h4 class="widget-title lighter">Danh sách người nhận thư</h4>
+                                </div>
+
+                                <div class="widget-body">
+                                    <div class="space-10"></div>
+                                    <div class="row form-horizontal">
+
+                                        <div class="col-xs-12">
+                                            <div>
+                                                <label id="lbFamilyMemberError" class="text-danger" hidden=""></label>
+                                            </div>
+                                            <div class="form-group">
+
+                                                <div class="col-sm-7">
+                                                    <button id="btnAddSendTo" class="btn btn-success btn-sm">
+                                                        <i class="ace-icon fa fa-plus"></i>
+                                                        Thêm người nhận
+                                                    </button>
+                                                    <button id="btnChooseSendTo" class="btn btn-primary btn-sm">
+                                                        <i class="ace-icon fa fa-search"></i>
+                                                        Chọn người nhận
+                                                    </button>
+                                                    <button class="btn btn-purple btn-sm" id="btnPrintCE">
+                                                        <i class="ace-icon fa fa-print"></i> 
+                                                        In thư phân ưu
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group no-margin-bottom">
+
+                                                <table id="tblCESendTo" class="table table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th hidden=""></th>
+                                                            <th>
+                                                                <label class="position-relative">
+                                                                    <input type="checkbox" class="ace sItem" />
+                                                                    <span class="lbl"></span>
+                                                                </label>
+                                                            </th>
+                                                            <th>Tên người nhận</th>
+                                                            <th>Đã In</th>
+                                                            <th>Thao tác</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-sm-12">
+                                <div class="align-right">
+
+                                    <button id="btnAddFamily" class="btn btn-primary" type="button" onclick="addFamily()">
+                                        <i class="ace-icon fa fa-save bigger-110"></i>
+                                        Lưu
+                                    </button>
+
+                                    <button style="display: none" id="btnUpdateFamily" class="btn btn-primary" type="button" onclick="checkTransferFamily()">
+                                        <i class="ace-icon fa fa-save bigger-110"></i>
+                                        Cập nhật
+                                    </button>
+
+                                    <button id="btnCloseFamily" class="btn btn-default">
+                                        <i class="ace-icon fa fa-times  bigger-110"></i>
+                                        Đóng
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-6"></div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function closeCEModal() {
+        $("#CEModal").modal('hide');
+    }
+
+    $("#btnAddFamilyMember").click(function () {        
+        openParishionerModal(7, -1);
+    });
+
+    $("#btnChooseDeathMan").click(function () {
+        var id = $("#txtThuPhanUuId").val();
+        openLookupModal(9, "", -1, 0, 0, 0, "", id);
+    });
+
+    function LoadCESendTo(id) {
+        $("#condolencesEmailId").val(id);
+        $.ajax({
+            url: "/CondolencesEmail/GetCondolencesEmailById",
+            type: "POST",
+            data: {
+                sacramentGroupId: id,
+            },
+            success: function (data) {
+                $("#tblCESendTo").dataTable().fnDestroy();
+                $("#tblCESendTo > tbody").html(data);
+                //initSacramentGroupDatatables("sacramentparishionerTable");
+                //checkInvalidParticipants();
+                //multiCheck();
+            },
+        });
+    }
+</script>

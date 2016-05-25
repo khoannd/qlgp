@@ -1,0 +1,91 @@
+﻿@using PMS.DataAccess.Enumerations
+@using PMS.DataAccess.Utilities
+@model List<PMS.DataAccess.ViewModels.ThuPhanUu_InViewModel>
+
+@{
+    ViewBag.Title = "In thư phân ưu";
+    Layout = null;
+    int iCount = 0;    
+}
+<script src="/Content/jquery.min.js"></script>
+
+<style>
+    p {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        font-size: 16px;
+        font-family: UTM Times;
+        line-height: 28px;
+    }
+</style>
+
+<div id="txtPrintArea" style="width: 100%;">
+    @foreach (var item in Model)
+    {
+        if (iCount > 0)
+        {
+            //sang trang
+            <div style="page-break-after: always; page-break-inside: avoid;"></div>
+        }
+        iCount++;
+        <div style="width: 702.2756px;margin-left: 50px;">
+            <div style="clear: both; display: flex;">
+                <div style="width: 100%;">
+                    <p style="text-align: right;">
+                        <span>
+                            <i>@Html.Raw(string.Format("Xuân Lộc, ngày {0} tháng {1} năm {2}", DateTime.Today.Day, DateTime.Today.Month, DateTime.Today.Year))</i>
+                        </span>
+                    </p>
+                    <br />
+                    <br />
+                    <p style="text-align: center;">
+                        <span>
+                            <b>THƯ PHÂN ƯU</b>
+                        </span>
+                    </p>
+
+                    <p style="text-align: center;">
+                        <span>
+                            ☩ ☩ ☩
+                        </span>
+                    </p>
+
+                    <br />
+                    <br />
+                    <br />
+                    <p style="text-align: center; font-size: 20px;">
+                        <span>
+                            <b>Kính gởi: Cha @item.NguoiNhanThu</b>
+                        </span>
+                    </p>
+                    <p style="text-align: left;">
+
+                        <span style="padding-left:25px;"><i>Cha thân mến,</i><br /></span>
+
+                        <span style="padding-left:25px;">
+                            Chúng tôi xin gởi đến Cha và Tang quyến những lời phân ưu chân thành nhất.
+                        </span><br />
+                        <span style="padding-left:25px;">
+                            Sự ra đi của <b>@item.NguoiMat</b> để lại nhiều thương nhớ cho mọi người, nhất là cho Cha và Tang quyến. Tuy nhiên, trong niềm tin vào Đức Kitô Khổ nạn và Phục sinh, chúng ta tin rằng Ông cố đang trên đường tiến về quê trời vinh phúc.
+                        </span><br />
+                        <span style="padding-left:25px;">
+                            Chúng tôi xin hiệp với Cha, với Tang quyến và cộng đoàn phụng vụ trong Thánh lễ an táng, cầu nguyện cho Ông cố được sớm về hưởng nhan thánh Chúa.
+                        </span><br />
+                        <span style="padding-left:25px;">
+                            Chúng ta tin rằng, một khi về bên Chúa, Ông cố sẽ bầu cử cho chúng ta một cách hiệu quả trước tòa Chúa.
+                        </span><br /><br />
+                    </p>
+                    <p style="text-align:right;">
+                        <span>
+                            <i>Thân ái chào Cha và chân thành phân ưu với Cha.</i>
+                        </span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    }
+</div>
+<script>
+    window.print();
+</script>

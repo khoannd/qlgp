@@ -1117,7 +1117,7 @@
             $("#lbParishionerNameErrorMessage").html("");
         }
 
-        if (!code) {
+        if ($("#hiddenParishionerIdModal").val() != "0" && $("#hiddenParishionerIdModal").val() != "" && !code) {
             $("#lbCodeErrorMessage").html("Mã giáo dân không được để trống");
             $("#lbCodeErrorMessage").show();
 
@@ -1449,6 +1449,10 @@
                         $("#createParishionerModal").modal('hide');
                         $("#ClassGroupManager").val(christianName ? (christianName + " " + name) : name);
                     }
+                    if (onSaveParishionerCallback) {
+                        onSaveParishionerCallback(data);
+                        onSaveParishionerCallback = null;
+                    }
                 }
                 else if (data == -2) {
                     $("#lbCodeErrorMessage").html("Mã giáo dân đã tồn tại");
@@ -1467,8 +1471,9 @@
     }
 
     //---------------------
-
-    function openParishionerModal(action, gender) {
+    var onSaveParishionerCallback = null;
+    function openParishionerModal(action, gender, callback) {
+        onSaveParishionerCallback = callback;
         $("#hiddenActionModal").val(action);
         $("#hiddenGenderModal").val(gender);       
         $("#createParishionerModal").modal('show');

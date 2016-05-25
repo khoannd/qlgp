@@ -70,7 +70,7 @@ namespace PMS.BusinessLogic
                            c.NgaySuKien,
                            c.ThoiGian,
                            c.DiaDiem,
-                           c.Parishioner.Name,
+                           c.NguoiGoi,
                            c.Id
                        };
             totalRecords = records;

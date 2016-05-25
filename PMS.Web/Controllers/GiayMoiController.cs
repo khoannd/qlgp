@@ -36,7 +36,8 @@ namespace PMS.Web.Controllers
 
             List<Parishioner> parishioner = _parishionerBusiness.GetAllParishioner().ToList();
             ViewBag.Parishioner = parishioner;
-            List<ValueSet> valueset = _valuesetBusiness.GetAllValueSet();
+            //List<ValueSet> valueset = _valuesetBusiness.GetAllValueSet();
+            IEnumerable<ValueSet> valueset = _valuesetBusiness.getValueByCategory("MBC");
             ViewBag.Valueset = valueset;
 
             List<LetterAndReport> letterAndReport = _letterAndReportBusiness.GetAllLetterAndReport();
@@ -44,15 +45,63 @@ namespace PMS.Web.Controllers
             return View();
 
         }
+        // Khoan add start
+        /// <summary>
+        /// In giay moi
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult InGiayMoi(int id, string members)
+        {
+            GiayMoi giayMoi = _giaymoiBusiness.GetGiayMoitByGiayMoitId(id);
+            List<KhachMoi> dsKhach = _khachmoiBusiness.getAllKhachMoibyGiayMoiId(id);
+
+            if(members != null && members != "0")
+            {
+                var ids = members.Split(',');
+                for(int i = dsKhach.Count - 1; i>=0; i--)
+                {
+                    if(!ids.Contains(dsKhach[i].id.ToString()))
+                    {
+                        dsKhach.RemoveAt(i);
+                    }
+                }
+                
+            }
+
+            string tenNguoiGoi = giayMoi.NguoiGoi;
+
+            List<string> reports = new List<string>();
+            giayMoi.Mau.Replace("[TenNguoiGoi]", tenNguoiGoi);
+            giayMoi.Mau = giayMoi.Mau.Replace("[NgayMoi]", giayMoi.NgayMoi);
+            giayMoi.Mau = giayMoi.Mau.Replace("[NgaySuKien]", giayMoi.NgaySuKien);
+            giayMoi.Mau = giayMoi.Mau.Replace("[ThoiGianSuKien]", giayMoi.ThoiGian);
+            giayMoi.Mau = giayMoi.Mau.Replace("[DiaDiem]", giayMoi.DiaDiem);
+            giayMoi.Mau = giayMoi.Mau.Replace("[NgayHienTai]", string.Format("ngày {0} tháng {1} năm {2}", System.DateTime.Now.Day, System.DateTime.Now.Month, System.DateTime.Now.Year));
+
+            foreach (KhachMoi khach in dsKhach)
+            {
+                string s = giayMoi.Mau;
+                s = s.Replace("[TenKhachMoi]", khach.HoTen);
+                s = s.Replace("[ChucDanh]", khach.ChucDanh);
+                s = s.Replace("[DiaChi]", khach.DiaChi);
+                s = s.Replace("[SoDienThoai]", khach.SoDienThoai);
+                s = s.Replace("[Email]", khach.Email);
+
+                reports.Add(s);
+            }
+
+            var html = string.Join("<div class=\"page-break break-page-line\"></div>", reports);
+            ViewBag.Body = html;
+
+            return PartialView("_PrintLayout");
+        }
+        // Khoan add end
 
         public string GetTemplateContent(int id)
         {
             return _letterAndReportBusiness.getTemplate(id);
 
         }
-        //get ValueSet
-
-
 
         public ActionResult LoadGiayMoiDatatable(jQueryDataTableParamModel param)
         {
@@ -144,8 +193,6 @@ namespace PMS.Web.Controllers
             {
                 _giaymoiviewmodel.MauId = null;
             }
-
-
 
             return Json(new { result = _giaymoiviewmodel }, JsonRequestBehavior.AllowGet);
         }

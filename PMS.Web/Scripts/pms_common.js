@@ -239,3 +239,58 @@ function convertStringForDateAndMonth(s) {
 
     return result;
 }
+// Khoan add start
+var term = '';
+function autocomplete(selector, url, selectedCallback, renderCallback) {
+    var cache = {}, lastXhr;
+    $(selector).autocomplete({
+        minLength: 2,
+        delay: 700,
+        source: function (request, response) {
+            term = $.trim(request.term);
+            if (term in cache) {
+                if (cache[term]) {
+                    response(cache[term]); $(selector).removeClass("ui-autocomplete-loading");
+                    return;
+                }
+            }
+            lastXhr = $.getJSON(url, { name: term }, function (data, status, xhr) {
+                $(selector).removeClass("ui-autocomplete-loading");
+                cache[term] = data.result;
+                if (xhr === lastXhr) { response(data.result); }
+            });
+        },
+        select: function (event, ui) {
+            if (selectedCallback) {
+                selectedCallback(ui.item);
+                return false;
+            }
+        },
+        change: function (event, ui) {
+            // processing when text change
+        },
+        create: function (event, ui) {
+            
+        },
+        open: function (event, ui) {
+
+        }
+    }).focus(function () {
+        if ($(selector).val() == term) {
+            $(selector).autocomplete("search");
+        }
+    }).autocomplete("instance")._renderItem = function (ul, item) {
+        if (renderCallback) {
+            return renderCallback(ul, item);
+        }
+        else {
+            // create html for each dropdown item
+            var dropdownItem = $("<li></li>")
+                    .data("item.autocomplete", item) // store data in the item
+                    .append("<a>" + item.ChristianName + " " + item.Name + (item.BirthDate ? ", NS: " + item.BirthDate : "") + "</a>") // can add more properties such as prarish name, gender,...
+                    .appendTo(ul);
+            return dropdownItem;
+        }
+    };
+}
+// Khoan add end

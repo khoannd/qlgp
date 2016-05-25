@@ -107,6 +107,12 @@ namespace PMS.Web.Controllers
         }
         public ActionResult AddPriest(PriestViewModel priestViewModel)
         {
+            var result = addPriest(priestViewModel);
+            return Json(new { result = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        private int addPriest(PriestViewModel priestViewModel)
+        {
             int dioceseId = (int)Session["DioceseId"];
 
             var priest = new Priest();
@@ -118,6 +124,7 @@ namespace PMS.Web.Controllers
             priest.DioceseId = dioceseId;
             var converter = new DateConverter();
             priest.BirthDate = converter.ConvertDateToString(priest.BirthDate);
+            if (priest.BirthDate.Length > 8) priest.BirthDate = priest.BirthDate.Substring(0, 8);
             int result = 0;
             if (priestViewModel.ParishionerId == 0)
             {
@@ -177,7 +184,7 @@ namespace PMS.Web.Controllers
                 }
                 else result = 0;
             }
-            return Json(new { result = result }, JsonRequestBehavior.AllowGet);
+            return result;
         }
 
         public ActionResult UpdatePriest(PriestViewModel priestViewModel)
@@ -311,12 +318,16 @@ namespace PMS.Web.Controllers
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
                     //insert to db
-                    Priest priest = new Priest();
+                    PriestViewModel priest = new PriestViewModel();
                     priest.ChristianName = ds.Tables[0].Rows[i]["ChristianName"].ToString();
                     priest.Name = ds.Tables[0].Rows[i]["Name"].ToString();
                     priest.BirthDate = ds.Tables[0].Rows[i]["BirthDate"].ToString();
                     priest.DioceseId = Convert.ToInt16(ds.Tables[0].Rows[i]["DioceseId"]);
-                    _priestBusiness.AddPriest(priest);
+                    //_priestBusiness.AddPriest(priest); Khoan del
+
+                    // Khoan add start
+                    addPriest(priest);
+                    // Khoan add end
                 }
 
             }
@@ -355,6 +366,7 @@ namespace PMS.Web.Controllers
 
             StreamReader reader = new StreamReader(Server.MapPath("\\Views\\Priest\\_templatePriestCard.html"));
             string readFile = reader.ReadToEnd();
+            reader.Close();
 
             string template = "";
 
@@ -403,7 +415,11 @@ namespace PMS.Web.Controllers
             //inputFile.SaveAs(imagePath);
 
             Image imageUpload = Image.FromStream(inputFile.InputStream);
-            Image image = ResizeImage(imageUpload, 300, 400);
+            // Khoan mod start
+            //Image image = ResizeImage(imageUpload, 300, 400);
+            int width = (int)((400f/(float)imageUpload.Height) * imageUpload.Width);
+            Image image = ResizeImage(imageUpload, width, 400);
+            // Khoan mod end
             image.Save(imagePath, ImageFormat.Jpeg);
 
             var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
@@ -414,7 +430,11 @@ namespace PMS.Web.Controllers
             }
 
             var thumbPath = Path.Combine(Server.MapPath(Url.Content(fileThumbPath)), fileName);
-            Image thumb = imageUpload.GetThumbnailImage(135, 180, () => false, IntPtr.Zero);
+            // Khoan mod start
+            //Image thumb = imageUpload.GetThumbnailImage(135, 180, () => false, IntPtr.Zero);
+            width = (int)((180f / (float)imageUpload.Height) * imageUpload.Width);
+            Image thumb = imageUpload.GetThumbnailImage(width, 180, () => false, IntPtr.Zero);
+            // Khoan mod end
             thumb.Save(Path.ChangeExtension(thumbPath, "jpg"));
 
             return Url.Content(String.Format(fileName));
