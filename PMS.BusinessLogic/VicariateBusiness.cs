@@ -115,5 +115,10 @@ namespace PMS.BusinessLogic
         {
             return _vicariateData.CheckUniqueParish(name, vicariateId, dioceseId);
         }
+
+        public IEnumerable<Vicariate> getAllVicariate()
+        {
+            return _vicariateData.getAllVicariate();
+        }
     }
 }

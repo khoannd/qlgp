@@ -137,5 +137,11 @@ namespace PMS.DataAccess
                 return -1;
             }
         }
+
+        public IEnumerable<Vicariate> getAllVicariate()
+        {
+            string query = "SELECT * FROM Vicariate ORDER BY Name";
+            return _db.ExecuteQuery<Vicariate>(query, 0);
+        }
     }
 }

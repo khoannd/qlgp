@@ -1,0 +1,854 @@
+﻿@using PMS.DataAccess.Models;
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+    .ui-autocomplete {
+        max-height: 200px;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    .ui-menu .ui-menu-item {
+        white-space: nowrap;
+    }
+</style>
+<input type="hidden" id="priestId" />
+<div class="page-header">
+    <h1>Quản lý quyên góp</h1>
+</div>
+
+<div class="page-header">
+    <div>
+        <div class="row">
+            <div class="col-xs-3">
+                Giáo họ
+                <select id="cbbCommunity" class="form-control">
+                    <option value="0">Tất cả</option>
+                    @foreach (var item in ((List<Community>)ViewBag.Communities))
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-xs-3">
+                Giáo xứ
+                <select id="cbbParish" class="form-control">
+                    <option value="0">Tất cả</option>
+                    @foreach (var item in ((List<Parish>)ViewBag.Parishes))
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+
+                </select>
+            </div>
+
+            <div class="col-xs-3">
+                Giáo hạt
+                <select id="cbbVicariate" class="form-control">
+                    <option value="0">Tất cả</option>
+                    @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="space-6" id="spaceforFilter" hidden=""></div>
+
+        <div class="row">
+            <div class="col-xs-3">
+                <div class="radio">
+                    <label class="no-padding-left">
+                        <input type="checkbox" class="ace" id="cbIsHasCertificate">
+                        <span class="lbl"> Chỉ xem người có vi bằng</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-header">
+    <div>
+        <button id="btnCreateDonation" class="btn btn-success" data-toggle="modal">
+            <i class="fa fa-plus"></i> Thêm mới
+        </button>
+    </div>
+</div>
+
+<div class="row">
+
+    <table id="donationTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                    <label class="position-relative">
+                        <input type="checkbox" class="ace" />
+                        <span class="lbl"></span>
+                    </label>
+                </th>
+                <th>Người đóng góp</th>
+                <th>Tổng số tiền đóng góp (VNĐ)</th>
+                <th>Hạng</th>
+                <th>Vi bằng</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody></tbody>
+    </table>
+</div>
+
+<style>
+    .datepicker {
+        z-index: 1151 !important;
+    }
+</style>
+
+<!-- Donation information -->
+<input type="hidden" id="idDonation" value="0" />
+<input type="hidden" id="idParishioner" value="0" />
+<div id="donationModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+                    <h4 id="donationTitle" class="widget-title">Hồ sơ quyên góp</h4>
+
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseDonationModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div class="col-xs-12 no-padding">
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a id="inforLink" data-toggle="tab" href="#donationInfor">
+                                        <i class="ace-icon fa fa-info-circle bigger-120"></i>
+                                        Thông tin chung
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a id="historyLink" data-toggle="tab" href="#Certificate">
+                                        <i class="ace-icon fa fa-certificate bigger-120"></i>
+                                        Vi bằng
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <!-- Tab infor-->
+                                <div id="donationInfor" class="tab-pane fade in active">
+                                    <!-- Thông tin cá nhân-->
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Thông tin cơ bản</h4>
+                                            </div>
+
+                                            <div class="widget-body">
+
+
+                                                <div class="form-horizontal">
+
+                                                    <div class="col-xs-6">
+
+                                                        <div class="form-group" id="">
+
+                                                            <label class="col-sm-4 control-label no-padding-right"> Tên (<span style="color:red">*</span>)</label>
+
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtParishionerName" class="form-control parishionerName">
+                                                                <label id="lbParishionerNameError" class="text-danger" hidden=""></label>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right">
+                                                                Tên thánh
+                                                            </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input readonly="" id="txtChristianName" type="text" class="form-control christian">
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right">
+                                                                Mã giáo dân
+                                                            </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input readonly="" type="text" id="txtParishionerCode" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Giáo họ </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input readonly="" type="text" id="txtParishionerCommunity" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Số điện thoại </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input readonly="" type="text" id="txtPhoneNumber" class="form-control">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-xs-6">
+
+
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Giới tính</label>
+
+                                                            <div class="col-sm-8">
+                                                                <input readonly="" type="text" id="txtGender" class="form-control">
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Ngày sinh</label>
+
+                                                            <div class="col-sm-8">
+                                                                <input readonly="" type="text" id="txtBirthDate" class="form-control">
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Nơi sinh </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input readonly="" id="txtBirthPlace" type="text" class="form-control place">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Tên cha </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input readonly="" type="text" id="txtFatherName" class="form-control maleParishioner">
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Tên mẹ </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input readonly="" type="text" id="txtMotherName" class="form-control femaleParishioner">
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <hr />
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Kết thúc thông tin cá nhân-->
+                                    <!--Lịch sử quyên góp-->
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Lịch sử quyên góp</h4>
+                                            </div>
+                                            <div class="page-header">
+                                                <div>
+                                                    <button id="btnAddDonation" class="btn btn-success" data-toggle="modal">
+                                                        <i class="fa fa-plus"></i> Thêm mới
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="widget-body">
+                                                <div class="row">
+
+                                                    <table id="donationHistoryTable" class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>
+                                                                    <label class="position-relative">
+                                                                        <input type="checkbox" class="ace" />
+                                                                        <span class="lbl"></span>
+                                                                    </label>
+                                                                </th>
+                                                                <th>Thời gian</th>
+                                                                <th>Số tiền VNĐ</th>
+                                                                <th>Số tiền USD</th>
+                                                                <th>Biên nhận</th>
+                                                                <th>Trạng thái</th>
+                                                                <th>Thao tác</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Kết thúc lịch sử quyên góp-->
+                                </div>
+
+                                <!--Tab certificate-->
+                                <div id="Certificate" class="tab-pane fade in ">
+                                    <!--Danh sách vi bằng-->
+                                    <div class="col-sm-12  ui-sortable">
+                                        <div class="widget-box transparent ui-sortable-handle">
+                                            <div class="widget-header">
+                                                <h4 class="widget-title lighter">Danh sách vi bằng đã nhận</h4>
+                                            </div>
+                                            <div class="page-header">
+                                                <div>
+                                                    <button id="btnCreateDonation" class="btn btn-success" data-toggle="modal">
+                                                        <i class="fa fa-plus"></i> Thêm mới
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="widget-body">
+                                                <div class="row">
+
+                                                    <table id="donationHistoryTable" class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>
+                                                                    <label class="position-relative">
+                                                                        <input type="checkbox" class="ace" />
+                                                                        <span class="lbl"></span>
+                                                                    </label>
+                                                                </th>
+                                                                <th>Tên vi bằng</th>
+                                                                <th>Thời gian tạo</th>
+                                                                <th>thao tác</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Danh sách vi bằng-->
+                                </div>
+                                <!-- Tab certificate-->
+
+                                <div class="col-xs-12">
+                                    <div class="col-sm-12">
+                                        <div class="align-right">
+                                            <button id="btnAddDonation" class="btn btn-primary" type="button">
+                                                <i class="ace-icon fa fa-save bigger-110"></i>
+                                                Lưu
+                                            </button>
+
+                                            <button id="btnUpdateDonation" class="btn btn-primary" type="button">
+                                                <i class="ace-icon fa fa-save bigger-110"></i>
+                                                Cập nhật
+                                            </button>
+
+                                            <button id="btnCloseDonationModal" class="btn btn-default">
+                                                <i class="ace-icon fa fa-times  bigger-110"></i>
+                                                Đóng
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="space-4"></div>
+
+                    <div>
+
+
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<!-- Donation information -->
+<!-- Session Modal-->
+<input type="hidden" id="idSession" value="0" />
+<input type="hidden" id="idParishioner" value="0" />
+<div id="sessionModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+                    <h4 id="sessionTitle" class="widget-title">Thêm mới quyên góp</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" onclick="$('#btnCloseSessionModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="widget-body">
+                    <div class="col-xs-12 no-padding">
+                        <div class="tabbable">
+                            <div class="col-sm-12  ui-sortable">
+                                <div class="widget-box transparent ui-sortable-handle">
+                                    <div class="widget-header">
+                                        <h4 class="widget-title lighter">Thông tin quyên góp</h4>
+                                    </div>
+
+                                    <div class="widget-body">
+
+
+                                        <div class="form-horizontal">
+
+                                            <div class="col-xs-6">
+
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right"> Số tiền (<span style="color:red">*</span>) </label>
+
+                                                    <div class="col-sm-5">
+                                                        <input id="txtValue" type="text" class="form-control education">
+                                                        <label id="lbValueError" class="text-danger" hidden=""></label>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <select id="cbbCurrency" class="form-control">
+                                                            <option value="0">--Loại tiền--</option>
+                                                            <option value="1">USD</option>
+                                                            <option value="2">VNĐ</option>
+                                                        </select>
+                                                        <label id="lbCurrency" class="text-danger" hidden=""></label>
+                                                    </div>
+                                                </div>
+
+                                                <div id="ExchangeRate" hidden="" class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right"> Tỉ giá (<span style="color:red">*</span>) </label>
+
+                                                    <div class="col-sm-5">
+
+                                                        <input id="txtRate" type="text" class="form-control career">
+                                                        <label id="lbRateError" class="text-danger" hidden=""></label>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right"> Ngày quyên góp (<span style="color:red">*</span>) </label>
+
+                                                    <div class="col-sm-8">
+
+                                                        <div class="input-group">
+                                                            <input class="form-control date-picker" id="txtDonationDate" type="text" data-date-format="dd/mm/yyyy" />
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                        </div>
+                                                        <label id="lbDonationDateError" class="text-danger" hidden=""></label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-4 control-label no-padding-right"> </label>
+
+                                                    <div class="col-sm-8">
+
+                                                        <label class="position-relative">
+                                                            <input type="checkbox" class="ace" id="cbIsReceipt" />
+                                                            <span class="lbl"> Đã in biên nhận</span>
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group" id="ReceiptDate" hidden="">
+
+                                                    <label class="col-sm-4 control-label no-padding-right"> Ngày in biên nhận (<span style="color:red">*</span>) </label>
+
+                                                    <div class="col-sm-8">
+
+                                                        <div class="input-group">
+                                                            <input class="form-control date-picker" id="txtReceiptDate" type="text" data-date-format="dd/mm/yyyy" />
+                                                            <span class="input-group-addon">
+                                                                <i class="fa fa-calendar bigger-110"></i>
+                                                            </span>
+                                                        </div>
+                                                        <label id="lbReceiptDateError" class="text-danger" hidden=""></label>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label no-padding-right"> Ghi chú</label>
+
+                                                    <div class="col-sm-10">
+
+                                                        <textarea id="txtNote" rows="5" style="resize: none" class="form-control"></textarea>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xs-12">
+                                                <div class="col-sm-12">
+                                                    <div class="align-right">
+                                                        <button id="btnAddSession" class="btn btn-primary" type="button">
+                                                            <i class="ace-icon fa fa-save bigger-110"></i>
+                                                            Lưu
+                                                        </button>
+
+                                                        <button id="btnUpdateSession" class="btn btn-primary" type="button">
+                                                            <i class="ace-icon fa fa-save bigger-110"></i>
+                                                            Cập nhật
+                                                        </button>
+
+                                                        <button id="btnCloseSessionModal" class="btn btn-default">
+                                                            <i class="ace-icon fa fa-times  bigger-110"></i>
+                                                            Đóng
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <hr />
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <div class="space-4"></div>
+
+                    <div>
+
+
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<!-- Session Modal-->
+
+
+<script>
+    InitDatatable();
+
+    //Set Config
+    $(function () {
+        $('#donationModal').find('.modal-dialog.modal-lg').css('width', '60%');
+        $('#sessionModal').find('.modal-dialog.modal-lg').css('width', '60%');
+    });
+
+    //Button event
+
+    $("#cbIsReceipt").change(function () {
+        if ($(this).is(":checked")) {
+            $("#ReceiptDate").attr('hidden', false);
+        } else {
+            $("#ReceiptDate").attr('hidden', true);
+            $("#txtReceiptDate").val("");
+        }
+    });
+
+
+    $("#cbbCurrency").change(function () {
+        if ((this.value) == 1) {
+            $("#ExchangeRate").attr('hidden', false);
+        } else {
+            $("#ExchangeRate").attr('hidden', true);
+            $("#txtRate").val("");
+        }
+    });
+
+    $("#btnCreateDonation").click(function () {
+        $("#donationModal").modal('show');
+        $("#btnUpdateDonation").hide();
+
+    });
+
+    $("#btnAddSession").click(function () {
+        AddSession();
+    });
+
+    $("#btnAddDonation").click(function () {
+        $("#sessionModal").modal('show');
+        $("#btnUpdateSession").hide();
+    });
+
+    $("#btnCloseDonationModal").click(function () {
+
+        $("#donationModal").modal('hide');
+        ClearDonationModal();
+        refeshTable("donationTable");
+    });
+
+    $("#btnCloseSessionModal").click(function () {
+
+        $("#sessionModal").modal('hide');
+        //ClearSessionModal();
+        refeshTable("donationTable");
+    });
+
+
+    //
+    function refeshTable(tableName) {
+        updateTableContent(tableName);
+    }
+
+    autocomplete("#txtParishionerName",
+        "/Parishioner/LoadParishionerByName",
+        function (item) {
+            $("#txtParishionerName").val(item.Name);
+            $("#idParishioner").val(item.Id);
+            $("#txtChristianName").val(item.ChristianName);
+            $("#txtParishionerCode").val(item.Code);
+            $("#txtParishionerCommunity").val(item.CommunityName);
+            $("#txtPhoneNumber").val(item.Phone);
+            $("#txtGender").val(item.Gender);
+            $("#txtBirthDate").val(item.BirthDate);
+            $("#txtBirthPlace").val(item.BirthPlace);
+            $("#txtFatherName").val(item.FatherName);
+            $("#txtMotherName").val(item.MotherName );
+    });
+
+    //Datatable handle
+    function ClearDonationModal() {
+        $("#txtParishionerName").val("");
+        $("#idParishioner").val(0);
+        $("#txtChristianName").val("");
+        $("#txtParishionerCode").val("");
+        $("#txtParishionerCommunity").val("");
+        $("#txtPhoneNumber").val("");
+        $("#txtGender").val("");
+        $("#txtBirthDate").val("");
+        $("#txtBirthPlace").val("");
+        $("#txtFatherName").val("");
+        $("#txtMotherName").val("");
+
+        //refresh datatable
+        //$("#donationTable").dataTable().fnDestroy();
+        //$("#donationTable tbody").html("");
+
+    }
+
+    function InitDatatable() {
+
+        $("#donationTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bSCrollCollapse": true,
+            "sAjaxSource": "/Donation/LoadAllDonation",
+            "oLanguage": {
+                "sSearch": "Tên giáo dân",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false,
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                                      '<input type="checkbox" class="ace" value="' + data + '"/>' +
+                                      '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "bVisible": false,
+                    "bSortable": false,
+                },
+                      {
+                          "aTargets": [6],
+                          "render": function (data, type, full, meta) {
+                              var content = '<button class="btn btn-minier btn-primary" onclick="LoadDonationByID(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                                    '<button class="btn btn-minier btn-danger" onclick="DeleteConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                              return content;
+                          },
+                          "bSortable": false,
+                          "sWidth": "15%"
+                      }
+            ],
+            "bAutoWidth": false,
+        });
+    }
+
+    //Data Handle
+    function prepareAddSession() {
+        var currency = $("#cbbCurrency").val();
+        var valueOfMoney = $("#txtValue").val();
+        var rate = $("#txtRate").val();
+        var donationDate = $("#txtDonationDate").val();
+        var isReceipt = $("#cbIsReceipt");
+        var dateReceipt = $("#txtReceiptDate");
+        var isError = false;
+        //USD
+        if (currency == 0) {
+            $("#lbCurrency").html("Chọn loại tiền");
+            $("#lbCurrency").show();
+            isError = true;
+        } else if (currency == 1) {
+            $("#lbCurrency").html("");
+            if (!rate) {
+                $("#lbRateError").html("Nhập tỉ giá");
+                $("#lbRateError").show();
+                isError = true;
+            } else {
+                $("#lbRateError").html("");
+                $("#lbRateError").hide();
+                isError = false;
+            }
+        } else {
+            $("#lbCurrency").html("");
+            $("#lbCurrency").hide();
+            isError = false;
+        }
+
+        if (!donationDate) {
+            $("#lbDonationDateError").html("Nhập ngày quyên góp");
+            $("#lbDonationDateError").show();
+            isError = true;
+        } else {
+            $("#lbDonationDateError").html("");
+            $("#lbDonationDateError").hide();
+            isError = false;
+        }
+
+        if (!valueOfMoney) {
+            $("#lbValueError").html("Nhập số tiền quyên góp");
+            $("#lbValueError").show();
+            isError = true;
+        } else {
+            $("#lbValueError").html("");
+            $("#lbValueError").hide();
+            isError = false;
+        }
+
+        if (isReceipt.is(":checked")) {
+            if (!dateReceipt) {
+                $("#lbReceiptDateError").html("Nhập ngày in giấy chứng nhận");
+                $("#lbReceiptDateError").show();
+                isError = true;
+            } else {
+                $("#lbReceiptDateError").html("");
+                $("#lbReceiptDateError").hide();
+                isError = false;
+            }
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function checkRate() {
+        var isError = false;
+        var rate = $("#txtRate").val();
+        if (!rate) {
+            isError = true;
+        }
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function AddSession() {
+        //Validation
+        //if (!prepareAddSession()) {
+        //    return;
+        //}
+        if (!checkRate()) {
+            $("#txtRate").val(1);
+        }
+        var id = 0;
+        //Get Data From Input
+        startLoading();
+        $.ajax({
+            url: "/Donation/AddDonation",
+            async: false,
+            data: {
+                //Session
+                DonationDate: $("#txtDonationDate").val(),
+                Note: $("#txtNote").val(),
+                DonationID: $("#idDonation").val(),
+                Type: $("#cbbCurrency").val(),
+                InputValue: $("#txtValue").val(),
+                ExchangeRate: $("#txtRate").val(),
+
+                //Donation
+                ParishionerID: $("#idParishioner").val(),
+
+            },
+            success: function (data) {
+                if (data <= 0) {
+                    if (data == -1) {
+                        showMessage("Thêm mới quyên góp thất bại", 0);
+                    }
+                } else {
+                    showMessage("Thêm mới thành công", 1);
+                }
+            },
+        });
+        return id;
+    }
+
+
+</script>

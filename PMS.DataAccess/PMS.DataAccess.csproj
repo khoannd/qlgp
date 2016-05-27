@@ -54,6 +54,8 @@
     <Compile Include="DioceseData.cs" />
     <Compile Include="CommunityData.cs" />
     <Compile Include="DoctrineCourseData.cs" />
+    <Compile Include="DonationData.cs" />
+    <Compile Include="DonationSessionData.cs" />
     <Compile Include="Enumerations\ActionEnum.cs" />
     <Compile Include="Enumerations\ErrorEnum.cs" />
     <Compile Include="Enumerations\SacramentEnum.cs" />
@@ -106,6 +108,7 @@
     <Compile Include="ViewModels\CheckingParishionerViewModel.cs" />
     <Compile Include="ViewModels\ClassGroupViewModel.cs" />
     <Compile Include="ViewModels\ConstructionPermitViewModel.cs" />
+    <Compile Include="ViewModels\DonationViewModel.cs" />
     <Compile Include="ViewModels\GiayMoiViewModel.cs" />
     <Compile Include="ViewModels\HDLMMemberViewModel.cs" />
     <Compile Include="ViewModels\HDLMViewModel.cs" />

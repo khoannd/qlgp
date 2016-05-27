@@ -1624,5 +1624,15 @@ namespace PMS.Web.Controllers
             }
             return destImage;
         }
+
+        public ActionResult LoadParishionerByName(string name)
+        {
+            var result = _parishionerBusiness.LoadParishionerByName(name);
+ 
+            return Json(new
+            {
+                result = result
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

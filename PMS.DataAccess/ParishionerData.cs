@@ -3116,5 +3116,16 @@ namespace PMS.DataAccess
             }
             return result;
         }
+
+        public IEnumerable<ParishionerViewModel> GetParishionerViewModelsByName(string name)
+        {
+            string query = "SELECT Pa.*, C.Name AS CommunityName " +
+                    "FROM Parishioner AS Pa INNER JOIN Community AS C ON Pa.CommunityId = C.Id " +
+                    "INNER JOIN Parish AS Pr " +
+                    "ON C.ParishId = Pr.Id " +
+                    "WHERE Pa.Name LIKE {0} AND Pa.IsCounted = 1 ";
+ 
+            return _db.ExecuteQuery<ParishionerViewModel>(query, "%" + name + "%");
+        }
     }
 }

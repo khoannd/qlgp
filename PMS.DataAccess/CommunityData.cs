@@ -218,6 +218,12 @@ namespace PMS.DataAccess
                 return -1;
             }
         }
+
+        public IEnumerable<Community> getAllCommunity()
+        {
+            string query = "SELECT * FROM Community ORDER BY Name";
+            return _db.ExecuteQuery<Community>(query, 0);
+        }
     }
 
 

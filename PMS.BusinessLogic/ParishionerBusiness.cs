@@ -709,5 +709,21 @@ namespace PMS.BusinessLogic
         {
             return _parishionerData.PrintPriest(parishId, ids);
         }
+
+        public List<ParishionerViewModel> LoadParishionerByName(string name)
+        {
+            var parishioners = _parishionerData.GetParishionerViewModelsByName(name).OrderBy(p => p.ChristianName).ThenBy(p => p.Name).ToList();
+ 
+            DateConverter converter = new DateConverter();
+ 
+            foreach (var item in parishioners)
+            {
+                item.BirthDate = converter.ConvertStringToDate(item.BirthDate);
+            }
+ 
+            return parishioners;
+ 
+ 
+        }
     }
 }

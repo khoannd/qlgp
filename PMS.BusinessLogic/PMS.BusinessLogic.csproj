@@ -56,6 +56,8 @@
     <Compile Include="ConstructionPermitBusiness.cs" />
     <Compile Include="DeaconRequisitionCommentBusiness.cs" />
     <Compile Include="DoctrineCourseBusiness.cs" />
+    <Compile Include="DonationBusiness.cs" />
+    <Compile Include="DonationSessionBusiness.cs" />
     <Compile Include="FamilyBusiness.cs" />
     <Compile Include="GiayMoiBusiness.cs" />
     <Compile Include="HDLMMemberBusiness.cs" />

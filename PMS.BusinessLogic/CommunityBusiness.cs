@@ -181,5 +181,10 @@ namespace PMS.BusinessLogic
         {
             return _communityData.CheckUniqueDivision(name, communityId, parentId);
         }
+        
+        public IEnumerable<Community> getAllCommunity()
+        {
+            return _communityData.getAllCommunity();
+        }
     }
 }
