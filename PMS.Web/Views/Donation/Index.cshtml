@@ -615,6 +615,9 @@
     });
 
     $("#btnAddDonation").click(function () {
+        if (!validateDonationForm()) {
+            return
+        }
         $("#sessionModal").modal('show');
         $("#btnUpdateSession").hide();
     });
@@ -635,6 +638,28 @@
 
 
     //
+
+    function validateDonationForm() {
+        var parishionerName = $("#txtParishionerName").val();
+
+        var isError = false;
+        if (!parishionerName) {
+            $("#lbParishionerNameError").html("Vui lòng nhập thông tin người quyên góp");
+            $("#lbParishionerNameError").show();
+            isError = true;
+        } else {
+            $("#lbParishionerNameError").html("");
+            $("#lbParishionerNameError").hide();
+            isError = false;
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
     function refeshTable(tableName) {
         updateTableContent(tableName);
     }
