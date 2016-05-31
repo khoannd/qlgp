@@ -133,7 +133,7 @@ namespace PMS.BusinessLogic
             var conveter = new DateConverter();
             IEnumerable<IConvertible[]> result;
             var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
-
+            
             if (status != (int)ParishionerStatusEnum.Saved)
             {
                 result = from c in displayedList
@@ -144,7 +144,7 @@ namespace PMS.BusinessLogic
                                c.Code,
                                c.ChristianName,
                                c.Name,
-                               c.ImageUrl = string.Concat(fileThumbPath, c.ImageUrl),
+                               c.ImageUrl = GetImageUrl(string.Concat(fileThumbPath, c.ImageUrl), c.Gender),
                                c.Gender == 0 ? "Nữ" : "Nam",
                                conveter.ConvertStringToDate(c.BirthDate),
                                (c.Community.ParentId != null) ? c.Community.Name : "",
@@ -167,7 +167,7 @@ namespace PMS.BusinessLogic
                                c.Code,
                                c.ChristianName,
                                c.Name,
-                               c.ImageUrl = string.Concat(fileThumbPath, c.ImageUrl),
+                               c.ImageUrl = GetImageUrl(string.Concat(fileThumbPath, c.ImageUrl), c.Gender),
                                c.Gender == 0 ? "Nữ" : "Nam",
                                conveter.ConvertStringToDate(c.BirthDate),
                                (request == null || approved == -1) ? ((c.Community.ParentId != null) ? c.Community.Name : "")
@@ -181,6 +181,22 @@ namespace PMS.BusinessLogic
             totalRecords = records;
             totalDisplayRecords = records;
             return result;
+        }
+
+        public string GetImageUrl(string imgPath, int gender)
+        {
+            if (!System.IO.File.Exists(System.Web.HttpContext.Current.Server.MapPath(imgPath)))
+            {
+                if (gender == 0)
+                {
+                    return "/Images/no-img-profile-female.gif";
+                }
+                else
+                {
+                    return "/Images/no-img-profile-male.jpg";
+                }
+            }
+            return imgPath;
         }
 
         //get all parishioner
@@ -708,22 +724,6 @@ namespace PMS.BusinessLogic
         public List<ParishionerViewModel> PrintPriest(int parishId, string[] ids)
         {
             return _parishionerData.PrintPriest(parishId, ids);
-        }
-
-        public List<ParishionerViewModel> LoadParishionerByName(string name)
-        {
-            var parishioners = _parishionerData.GetParishionerViewModelsByName(name).OrderBy(p => p.ChristianName).ThenBy(p => p.Name).ToList();
- 
-            DateConverter converter = new DateConverter();
- 
-            foreach (var item in parishioners)
-            {
-                item.BirthDate = converter.ConvertStringToDate(item.BirthDate);
-            }
- 
-            return parishioners;
- 
- 
         }
     }
 }

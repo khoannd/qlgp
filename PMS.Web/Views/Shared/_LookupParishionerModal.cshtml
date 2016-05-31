@@ -1,4 +1,4 @@
-﻿
+﻿@using PMS.DataAccess.Enumerations;
 <input type="hidden" id="hiddenParishionerIdLookupModal" value="0" />
 <input type="hidden" id="hiddenActionLookupModal" value="0" />
 <input type="hidden" id="hiddenTargetIdLookupModal" value="0" />
@@ -11,8 +11,14 @@
 <input type="hidden" id="hiddenLookupSocietyId" value="0" />
 <input type="hidden" id="hiddenLookupClassGroupId" value="0" />
 <input type="hidden" id="hiddenLookupClassId" value="0" />
-
-<input type="hidden" id="hiddenParishId" value="@Session["ParishId"]" />
+@{
+    int parishId = 0;
+    if (Session["RoleId"] != null && (int)Session["RoleId"] == (int)AccountEnum.Manager)
+    {
+        parishId = (int)Session["ParishId"];
+    }
+}
+<input type="hidden" id="hiddenParishId" value="@parishId" />
 
 <div id="chooseParishionerModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -160,35 +166,35 @@
 
 <script>
     $("#cbbVicariateLookupModal").change(function () {
-        loadParishes();
-    });
+            loadParishes();
+        });
 
     $("#cbbParishLookupModal").change(function () {
-        loadCommunities();
-    });
+            loadCommunities();
+        });
 
     $("#cbbCommunityLookupModal").change(function () {
-        loadParishDivisions();
-    });
+            loadParishDivisions();
+        });
 
     $("#btnCloseLookupParishioner").click(function () {
         $("#chooseParishionerModal").modal('hide');
-    });
+        });
 
     $("#btnParishionerLookupModal").click(function () {
-        var content = $("#txtParishionerNameLookupModal").val();
-        if (content.length < 2) {
-            return;
-        }
+            var content = $("#txtParishionerNameLookupModal").val();
+            if (content.length < 2) {
+                return;
+            }
 
-        startLoading();
-        updateTableContent("tblParishionerLookup");
-        //     $("#tblParishionerLookup").dataTable()._fnAjaxUpdate();
-    });
+            startLoading();
+            updateTableContent("tblParishionerLookup");
+            //     $("#tblParishionerLookup").dataTable()._fnAjaxUpdate();
+        });
 
     $("#chooseParishionerModal").on('show.bs.modal', function () {
         $("#lookupParishionerLoading").fadeIn();
-    });
+        });
 
     $("#chooseParishionerModal").on('hidden.bs.modal', function () {
         $("#lookupParishionerLoading").fadeOut();
@@ -205,42 +211,42 @@
         $("#txtParishionerNameLookupModal").val("");
 
         $("#divInParish").show();
-        //$("#lbVicariateLookupModal").show();
-        //$("#lbParishLookupModal").show();
-        //$("#divVicariateLookupModal").show();
-        //$("#divParishLookupModal").show();
+            //$("#lbVicariateLookupModal").show();
+            //$("#lbParishLookupModal").show();
+            //$("#divVicariateLookupModal").show();
+            //$("#divParishLookupModal").show();
 
-        makeScrollForModal();
-        updateTableContent("tblParishionerLookup");
-        //     $("#tblParishionerLookup").dataTable()._fnAjaxUpdate();       
-    });
+            makeScrollForModal();
+            updateTableContent("tblParishionerLookup");
+            //     $("#tblParishionerLookup").dataTable()._fnAjaxUpdate();       
+        });
 
     function initLookupDatatable() {
 
         $("#tblParishionerLookup").dataTable({
-            "bRetrieve": true,
+                "bRetrieve": true,
             "bServerSide": true,
             "bScrollCollapse": true,
             "bFilter": false,
             "sAjaxSource": "/Parishioner/LoadParishionerLookupDatatables",
             "bProcessing": false,
             "fnServerParams": function (aoData) {
-                aoData.push({ "name": "parishDivisionId", "value": $("#cbbParishDivisionLookupModal").val() });
-                aoData.push({ "name": "communityId", "value": $("#cbbCommunityLookupModal").val() });
-                aoData.push({ "name": "parishId", "value": $("#cbbParishLookupModal").val() });
-                aoData.push({ "name": "vicariateId", "value": $("#cbbVicariateLookupModal").val() });
-                aoData.push({ "name": "parishionerName", "value": $("#txtParishionerNameLookupModal").val() });
-                aoData.push({ "name": "gender", "value": $("#hiddenGenderLookupModal").val() });
-                aoData.push({ "name": "notSacramentType", "value": $("#hiddenNotSacramentType").val() });
-                aoData.push({ "name": "filterMatrimony", "value": $("#hiddenFilterMatrimony").val() });
-                aoData.push({ "name": "sacramentDate", "value": $("#hiddenLookupSacramentDate").val() });
-                aoData.push({ "name": "familyId", "value": $("#hiddenLookupFamilyId").val() });
-                aoData.push({ "name": "societyId", "value": $("#hiddenLookupSocietyId").val() });
-                aoData.push({ "name": "classGroupId", "value": $("#hiddenLookupClassGroupId").val() });
-                aoData.push({ "name": "classId", "value": $("#hiddenLookupClassId").val() });
-            },
+                    aoData.push({ "name": "parishDivisionId", "value": $("#cbbParishDivisionLookupModal").val() });
+                    aoData.push({ "name": "communityId", "value": $("#cbbCommunityLookupModal").val() });
+                    aoData.push({ "name": "parishId", "value": $("#cbbParishLookupModal").val() });
+                    aoData.push({ "name": "vicariateId", "value": $("#cbbVicariateLookupModal").val() });
+                    aoData.push({ "name": "parishionerName", "value": $("#txtParishionerNameLookupModal").val() });
+                    aoData.push({ "name": "gender", "value": $("#hiddenGenderLookupModal").val() });
+                    aoData.push({ "name": "notSacramentType", "value": $("#hiddenNotSacramentType").val() });
+                    aoData.push({ "name": "filterMatrimony", "value": $("#hiddenFilterMatrimony").val() });
+                    aoData.push({ "name": "sacramentDate", "value": $("#hiddenLookupSacramentDate").val() });
+                    aoData.push({ "name": "familyId", "value": $("#hiddenLookupFamilyId").val() });
+                    aoData.push({ "name": "societyId", "value": $("#hiddenLookupSocietyId").val() });
+                    aoData.push({ "name": "classGroupId", "value": $("#hiddenLookupClassGroupId").val() });
+                    aoData.push({ "name": "classId", "value": $("#hiddenLookupClassId").val() });
+                },
             "oLanguage": {
-                "sSearch": "Mã GD/ Tên thánh/ Họ tên:",
+                    "sSearch": "Mã GD/ Tên thánh/ Họ tên:",
                 "sZeroRecords": "Không có dữ liệu phù hợp",
                 "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
                 "sEmptyTable": "Không có dữ liệu",
@@ -249,10 +255,10 @@
                 "sProcessing": "Đang xử lý...",
                 "sInfoEmpty": "",
                 "oPaginate": {
-                    "sPrevious": "Trước",
+                        "sPrevious": "Trước",
                     "sNext": "Sau"
                 }
-            },
+                },
             "aoColumnDefs": [
                 {
                     "aTargets": [0],
@@ -261,10 +267,10 @@
                 {
                     "aTargets": [7],
                     "render": function (data, type, full, meta) {
-                        var content = '<button class="btn btn-minier btn-primary" onclick="selectParishionerRow(this, ' + data + ')">' +
-                            '<i class="ace-icon fa fa-check"></i>&nbsp;Chọn</button>';
-                        return content;
-                    },
+        var content = '<button class="btn btn-minier btn-primary" onclick="selectParishionerRow(this, ' + data + ')">' +
+            '<i class="ace-icon fa fa-check"></i>&nbsp;Chọn</button>';
+        return content;
+    },
                     "bSortable": false
                 }
             ],
@@ -277,243 +283,243 @@
     //-----------------------------------
     loadVicariates();
 
-    function loadVicariates() {
+function loadVicariates() {
         $.ajax({
-            url: "/Parishioner/LoadVicariates",
+        url: "/Parishioner/LoadVicariates",
             async: false,
             data: {},
             success: function (data) {
-                var element = $("#cbbVicariateLookupModal");
-                //append data
-                element.html("");
-                element.append("<option value='0'>Tất cả</option>");
-                var list = data.result;
+            var element = $("#cbbVicariateLookupModal");
+            //append data
+            element.html("");
+            element.append("<option value='0'>Tất cả</option>");
+            var list = data.result;
 
                 for (var i in list) {
-                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
-                }
-
-                loadParishes();
+                element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
             }
-        });
-    }
 
-    //-----------------------------------
-    function loadParishes() {
+            loadParishes();
+        }
+    });
+}
+
+//-----------------------------------
+function loadParishes() {
         $.ajax({
-            url: "/Parishioner/LoadParishies",
+        url: "/Parishioner/LoadParishies",
             async: false,
             data: {
-                vicariateId: $("#cbbVicariateLookupModal").val()
+            vicariateId: $("#cbbVicariateLookupModal").val()
             },
             success: function (data) {
-                var element = $("#cbbParishLookupModal");
-                //append data
-                element.html("");
-                element.append("<option value='0'>Tất cả</option>");
-                var list = data.result;
+            var element = $("#cbbParishLookupModal");
+            //append data
+            element.html("");
+            element.append("<option value='0'>Tất cả</option>");
+            var list = data.result;
 
                 for (var i in list) {
-                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
-                }
-
-                loadCommunities();
+                element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
             }
-        });
-    }
 
-    //-----------------------------------
-    function loadCommunities() {
+            loadCommunities();
+        }
+    });
+}
+
+//-----------------------------------
+function loadCommunities() {
         $.ajax({
-            url: "/Parishioner/LoadCommunitites",
+        url: "/Parishioner/LoadCommunitites",
             async: false,
             data: {
+            vicariateId: $("#cbbVicariateLookupModal").val(),
+                parishId: $("#cbbParishLookupModal").val()
+            },
+            success: function (data) {
+            var element = $("#cbbCommunityLookupModal");
+            //append data
+            element.html("");
+            element.append("<option value='0'>Tất cả</option>");
+            var list = data.result;
+
+                for (var i in list) {
+                element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
+            }
+
+            loadParishDivisions();
+        }
+    });
+}
+
+function loadParishDivisions() {
+        $.ajax({
+        url: "/Parishioner/LoadParishDivisions",
+            async: false,
+            data: {
+            communityId: $("#cbbCommunityLookupModal").val(),
                 vicariateId: $("#cbbVicariateLookupModal").val(),
                 parishId: $("#cbbParishLookupModal").val()
             },
             success: function (data) {
-                var element = $("#cbbCommunityLookupModal");
-                //append data
-                element.html("");
-                element.append("<option value='0'>Tất cả</option>");
-                var list = data.result;
+            var element = $("#cbbParishDivisionLookupModal");
+            //append data
+            element.html("");
+            element.append("<option value='0'>Tất cả</option>");
+            var list = data.result;
 
                 for (var i in list) {
-                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
-                }
-
-                loadParishDivisions();
+                element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
             }
-        });
-    }
 
-    function loadParishDivisions() {
-        $.ajax({
-            url: "/Parishioner/LoadParishDivisions",
-            async: false,
-            data: {
-                communityId: $("#cbbCommunityLookupModal").val(),
-                vicariateId: $("#cbbVicariateLookupModal").val(),
-                parishId: $("#cbbParishLookupModal").val()
-            },
-            success: function (data) {
-                var element = $("#cbbParishDivisionLookupModal");
-                //append data
-                element.html("");
-                element.append("<option value='0'>Tất cả</option>");
-                var list = data.result;
+            initLookupDatatable();
+        }
+    });
+}
 
-                for (var i in list) {
-                    element.append("<option value='" + list[i].Id + "'>" + list[i].Name + "</option>");
-                }
-
-                initLookupDatatable();
-            }
-        });
-    }
-
-    //-----------------------------------
-    //Add your function here
-    function openLookupModal(action, target, gender, multiple, notSacrament, filterMatrimony, sacramentDate, familyId, societyId, classGroupId, classId) {
-        loadVicariates();
+//-----------------------------------
+//Add your function here
+function openLookupModal(action, target, gender, multiple, notSacrament, filterMatrimony, sacramentDate, familyId, societyId, classGroupId, classId) {
+    loadVicariates();
         $("#hiddenActionLookupModal").val(action);
         $("#hiddenTargetIdLookupModal").val(target);
         $("#hiddenGenderLookupModal").val(gender);
 
-        if (notSacrament) {
+    if (notSacrament) {
             $("#hiddenNotSacramentType").val(notSacrament);
-        } else {
+    } else {
             $("#hiddenNotSacramentType").val(0);
-        }
-
-        if (filterMatrimony) {
-            $("#hiddenFilterMatrimony").val(filterMatrimony);
-        } else {
-            $("#hiddenFilterMatrimony").val(0);
-        }
-
-        if (sacramentDate) {
-            $("#hiddenLookupSacramentDate").val(sacramentDate);
-        } else {
-            $("#hiddenLookupSacramentDate").val("");
-        }
-
-        if (familyId) {
-            $("#hiddenLookupFamilyId").val(familyId);
-        } else {
-            $("#hiddenLookupFamilyId").val(0);
-        }
-
-        if (societyId) {
-            $("#hiddenLookupSocietyId").val(societyId);
-        } else {
-            $("#hiddenLookupSocietyId").val(0);
-        }
-
-        if (classGroupId) {
-            $("#hiddenLookupClassGroupId").val(classGroupId);
-        } else {
-            $("#hiddenLookupClassGroupId").val(0);
-        }
-
-        if (classId) {
-            $("#hiddenLookupClassId").val(classGroupId);
-        } else {
-            $("#hiddenLookupClassId").val(0);
-        }
-
-        if ((!multiple) || (multiple == 0)) {
-            setParishForLookup();
-        } else {
-            var parishId = $("#hiddenParishId").val();
-            $("#cbbParishLookupModal").val(parishId);
-            $("#cbbParishLookupModal").change();
-        }
-
-        $("#chooseParishionerModal").modal('show');
     }
 
+    if (filterMatrimony) {
+            $("#hiddenFilterMatrimony").val(filterMatrimony);
+    } else {
+            $("#hiddenFilterMatrimony").val(0);
+    }
 
-    function setParishForLookup() {
+    if (sacramentDate) {
+            $("#hiddenLookupSacramentDate").val(sacramentDate);
+    } else {
+            $("#hiddenLookupSacramentDate").val("");
+    }
+
+    if (familyId) {
+            $("#hiddenLookupFamilyId").val(familyId);
+    } else {
+            $("#hiddenLookupFamilyId").val(0);
+    }
+
+    if (societyId) {
+            $("#hiddenLookupSocietyId").val(societyId);
+    } else {
+            $("#hiddenLookupSocietyId").val(0);
+    }
+
+    if (classGroupId) {
+            $("#hiddenLookupClassGroupId").val(classGroupId);
+    } else {
+            $("#hiddenLookupClassGroupId").val(0);
+    }
+
+    if (classId) {
+            $("#hiddenLookupClassId").val(classGroupId);
+    } else {
+            $("#hiddenLookupClassId").val(0);
+    }
+
+    if ((!multiple) || (multiple == 0)) {
+        setParishForLookup();
+    } else {
         var parishId = $("#hiddenParishId").val();
-        console.log(parishId);
+            $("#cbbParishLookupModal").val(parishId);
+            $("#cbbParishLookupModal").change();
+    }
+
+        $("#chooseParishionerModal").modal('show');
+}
+
+
+function setParishForLookup() {
+    var parishId = $("#hiddenParishId").val();
+    console.log(parishId);
         $("#divInParish").hide();
 
         $("#cbbParishLookupModal").val(parishId);
         $("#cbbParishLookupModal").change();
-    }
+}
 
-    function closeLookupModal() {
+function closeLookupModal() {
         $("#chooseParishionerModal").modal('hide');
-    }
+}
 
-    function selectParishionerRow(button, id) {
-        //Ai vao viet them ham thi tang dum so action
-        var action = $("#hiddenActionLookupModal").val(); //Hanh dong se lam duoc phan chia ra khac nhau o moi view goi no
-        var target = $("#hiddenTargetIdLookupModal").val(); //Id cua doi tuong se duoc tuong tac khi nhan nut chon
-        var targetId = $("#hiddenIdLookupModal").val();
+function selectParishionerRow(button, id) {
+    //Ai vao viet them ham thi tang dum so action
+    var action = $("#hiddenActionLookupModal").val(); //Hanh dong se lam duoc phan chia ra khac nhau o moi view goi no
+    var target = $("#hiddenTargetIdLookupModal").val(); //Id cua doi tuong se duoc tuong tac khi nhan nut chon
+    var targetId = $("#hiddenIdLookupModal").val();
 
-        //----Nhung thong tin duoc lay ra tu bang du lieu
-        var element = $(button).closest('tr');
-        var rows = element.find('td');
+    //----Nhung thong tin duoc lay ra tu bang du lieu
+    var element = $(button).closest('tr');
+    var rows = element.find('td');
 
-        var code = rows[0].innerHTML;
-        var christianName = rows[1].innerHTML;
-        var name = rows[2].innerHTML;
-        var gender = rows[3].innerHTML;
-        var birthDate = rows[4].innerHTML;
-        var community = rows[5].innerHTML;
-        var parishionerId = id;
+    var code = rows[0].innerHTML;
+    var christianName = rows[1].innerHTML;
+    var name = rows[2].innerHTML;
+    var gender = rows[3].innerHTML;
+    var birthDate = rows[4].innerHTML;
+    var community = rows[5].innerHTML;
+    var parishionerId = id;
 
-        //var name = rows[0].innerHTML;
-        //var gender = rows[1].innerHTML;
-        //var birthDate = rows[2].innerHTML;
-        //var fatherName = rows[3].innerHTML;
-        //var motherName = rows[4].innerHTML;
-        //var community = rows[5].innerHTML;
-        //var parishionerId = id;
+    //var name = rows[0].innerHTML;
+    //var gender = rows[1].innerHTML;
+    //var birthDate = rows[2].innerHTML;
+    //var fatherName = rows[3].innerHTML;
+    //var motherName = rows[4].innerHTML;
+    //var community = rows[5].innerHTML;
+    //var parishionerId = id;
 
-        //Bat dau thuc hien action
-        if (action == 1) {
+    //Bat dau thuc hien action
+    if (action == 1) {
             $("#" + target).val(christianName ? (christianName + " " + name) : name);
-            closeLookupModal();
-        }
-        if (action == 2) {
+        closeLookupModal();
+    }
+    if (action == 2) {
             $("#" + target).val(parishionerId);
-            AddSacramentGroup();
-            closeLookupModal();
-        }
-        //Quân
-        if (action == 3) {
+        AddSacramentGroup();
+        closeLookupModal();
+    }
+    //Quân
+    if (action == 3) {
             $("#txtManagerNameModal").val(christianName ? (christianName + " " + name) : name);
             $("#managerId").val(id);
-            closeLookupModal();
-        }
-        if (action == 4) {
+        closeLookupModal();
+    }
+    if (action == 4) {
             $("#smParishionerId").val(id);
-            AddSociety();
-            //closeLookupModal();
-        }
-        if (action == 5) {
+        AddSociety();
+        //closeLookupModal();
+    }
+    if (action == 5) {
             $("#ClassGroupManager").val(christianName ? (christianName + " " + name) : name);
             $("#ClassGroupManagerId").val(id);
-            closeLookupModal();
-        }
-        if (action == 6) {
-            checkValidMatrimony(id, 1, christianName, name);
-        }
-        if (action == 7) {
-            checkValidMatrimony(id, 0, christianName, name);
-        }
-        //Quân
-        if (action == 8) {
-            $("#cmParishionerId").val(id);
-            AddClass();
-        }
-        if (action == 9) {
-            checkValidateFamilyMember(id, code, gender, christianName, name, birthDate);
-        }
-
+        closeLookupModal();
     }
+    if (action == 6) {
+        checkValidMatrimony(id, 1, christianName, name);
+    }
+    if (action == 7) {
+        checkValidMatrimony(id, 0, christianName, name);
+    }
+    //Quân
+    if (action == 8) {
+            $("#cmParishionerId").val(id);
+        AddClass();
+    }
+    if (action == 9) {
+        checkValidateFamilyMember(id, code, gender, christianName, name, birthDate);
+    }
+
+}
 
 </script>

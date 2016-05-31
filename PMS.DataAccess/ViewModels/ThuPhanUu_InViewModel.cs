@@ -11,5 +11,9 @@ namespace PMS.DataAccess.ViewModels
     {
         public string NguoiMat { get; set; }
         public string NguoiNhanThu { get; set; }
+        public int? Position { get; set; }
+        public int Gender { get; set; }
+        public string ChucDanhNguoiNhan { get; set; }
+        public string ChucDanhNguoiMat { get; set; }
     }
 }

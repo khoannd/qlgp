@@ -56,7 +56,7 @@ namespace PMS.Web.Controllers
                 item.Vicariates = null;
                 item.Accounts = null;
                 item.Communities = null;
-                item.Configuration = null;
+                //item.Configuration = null;
                 item.FamilyMigrationRequests = null;
                 item.SacramentGroups = null;
                 item.Societies = null;

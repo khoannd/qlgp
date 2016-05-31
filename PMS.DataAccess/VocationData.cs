@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PMS.DataAccess.Models;
+using PMS.DataAccess.Enumerations;
 
 namespace PMS.DataAccess
 {
@@ -105,6 +106,35 @@ namespace PMS.DataAccess
                 return -1;
             }
         }
-
+        public static string GetPositionText(int? position, int gender)
+        {
+            if(position == null)
+            {
+                return "";
+            }
+            switch((VocationEnum)position)
+            {
+                case VocationEnum.Cleric: //tu sĩ
+                    if (gender == (int)GenderEnum.Female)
+                        return "Sơ";
+                    else
+                        return "Thầy";
+                case VocationEnum.Seminarist: //chủng sinh
+                    if (gender == (int)GenderEnum.Female)
+                        return "Dì";
+                    else
+                        return "Thầy";
+                case VocationEnum.Deacon: // Phó tế
+                    return "";
+                case VocationEnum.Priest: //linh mục
+                    return "Cha";
+                case VocationEnum.Bishop: //Giám mục
+                    return "Đức Cha";
+                case VocationEnum.Fully:
+                    return "Sơ";
+                default:
+                    return "";
+            }
+        }
     }
 }

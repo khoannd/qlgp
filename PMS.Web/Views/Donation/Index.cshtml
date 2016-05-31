@@ -22,10 +22,10 @@
     <div>
         <div class="row">
             <div class="col-xs-3">
-                Giáo họ
-                <select id="cbbCommunity" class="form-control">
+                Giáo hạt
+                <select id="cbbVicariate" class="form-control">
                     <option value="0">Tất cả</option>
-                    @foreach (var item in ((List<Community>)ViewBag.Communities))
+                    @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
                     {
                         <option value="@item.Id">@item.Name</option>
                     }
@@ -42,12 +42,11 @@
 
                 </select>
             </div>
-
             <div class="col-xs-3">
-                Giáo hạt
-                <select id="cbbVicariate" class="form-control">
+                Giáo họ
+                <select id="cbbCommunity" class="form-control">
                     <option value="0">Tất cả</option>
-                    @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
+                    @foreach (var item in ((List<Community>)ViewBag.Communities))
                     {
                         <option value="@item.Id">@item.Name</option>
                     }
@@ -440,7 +439,7 @@
                                                     <label class="col-sm-4 control-label no-padding-right"> Số tiền (<span style="color:red">*</span>) </label>
 
                                                     <div class="col-sm-5">
-                                                        <input id="txtValue" type="text" class="form-control education">
+                                                        <input id="txtValue" type="text" class="form-control education text-right">
                                                         <label id="lbValueError" class="text-danger" hidden=""></label>
                                                     </div>
                                                     <div class="col-sm-3">
@@ -618,6 +617,9 @@
         if (!validateDonationForm()) {
             return
         }
+        var now = new Date();
+        $("#txtDonationDate").val(convertDateObjectToString(now));
+        $("#cbbCurrency").val(2);
         $("#sessionModal").modal('show');
         $("#btnUpdateSession").hide();
     });

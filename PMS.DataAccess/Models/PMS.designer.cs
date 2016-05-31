@@ -11,15209 +11,15846 @@
 
 namespace PMS.DataAccess.Models
 {
-    using System.Data.Linq;
-    using System.Data.Linq.Mapping;
-    using System.Data;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.ComponentModel;
-    using System;
-
-
-    [global::System.Data.Linq.Mapping.DatabaseAttribute(Name = "QLGP")]
-    public partial class PMSDataContext : System.Data.Linq.DataContext
-    {
-
-        private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
-
-        #region Extensibility Method Definitions
-        partial void OnCreated();
-        partial void InsertAccount(Account instance);
-        partial void UpdateAccount(Account instance);
-        partial void DeleteAccount(Account instance);
-        partial void InsertVocationSeminaryYear(VocationSeminaryYear instance);
-        partial void UpdateVocationSeminaryYear(VocationSeminaryYear instance);
-        partial void DeleteVocationSeminaryYear(VocationSeminaryYear instance);
-        partial void InsertChristianSuggestion(ChristianSuggestion instance);
-        partial void UpdateChristianSuggestion(ChristianSuggestion instance);
-        partial void DeleteChristianSuggestion(ChristianSuggestion instance);
-        partial void InsertClass(Class instance);
-        partial void UpdateClass(Class instance);
-        partial void DeleteClass(Class instance);
-        partial void InsertClassGroup(ClassGroup instance);
-        partial void UpdateClassGroup(ClassGroup instance);
-        partial void DeleteClassGroup(ClassGroup instance);
-        partial void InsertClassMember(ClassMember instance);
-        partial void UpdateClassMember(ClassMember instance);
-        partial void DeleteClassMember(ClassMember instance);
-        partial void InsertCommunity(Community instance);
-        partial void UpdateCommunity(Community instance);
-        partial void DeleteCommunity(Community instance);
-        partial void InsertConfiguration(Configuration instance);
-        partial void UpdateConfiguration(Configuration instance);
-        partial void DeleteConfiguration(Configuration instance);
-        partial void InsertConstructionPermit(ConstructionPermit instance);
-        partial void UpdateConstructionPermit(ConstructionPermit instance);
-        partial void DeleteConstructionPermit(ConstructionPermit instance);
-        partial void InsertDeaconRequisitionComment(DeaconRequisitionComment instance);
-        partial void UpdateDeaconRequisitionComment(DeaconRequisitionComment instance);
-        partial void DeleteDeaconRequisitionComment(DeaconRequisitionComment instance);
-        partial void InsertDeaconRequisitionSession(DeaconRequisitionSession instance);
-        partial void UpdateDeaconRequisitionSession(DeaconRequisitionSession instance);
-        partial void DeleteDeaconRequisitionSession(DeaconRequisitionSession instance);
-        partial void InsertDiocese(Diocese instance);
-        partial void UpdateDiocese(Diocese instance);
-        partial void DeleteDiocese(Diocese instance);
-        partial void InsertFamily(Family instance);
-        partial void UpdateFamily(Family instance);
-        partial void DeleteFamily(Family instance);
-        partial void InsertFamilyMember(FamilyMember instance);
-        partial void UpdateFamilyMember(FamilyMember instance);
-        partial void DeleteFamilyMember(FamilyMember instance);
-        partial void InsertFamilyMigrationRequest(FamilyMigrationRequest instance);
-        partial void UpdateFamilyMigrationRequest(FamilyMigrationRequest instance);
-        partial void DeleteFamilyMigrationRequest(FamilyMigrationRequest instance);
-        partial void InsertGeneralStatus(GeneralStatus instance);
-        partial void UpdateGeneralStatus(GeneralStatus instance);
-        partial void DeleteGeneralStatus(GeneralStatus instance);
-        partial void InsertGiayMoi(GiayMoi instance);
-        partial void UpdateGiayMoi(GiayMoi instance);
-        partial void DeleteGiayMoi(GiayMoi instance);
-        partial void InsertHDLMMember(HDLMMember instance);
-        partial void UpdateHDLMMember(HDLMMember instance);
-        partial void DeleteHDLMMember(HDLMMember instance);
-        partial void InsertHoiDongLinhMuc(HoiDongLinhMuc instance);
-        partial void UpdateHoiDongLinhMuc(HoiDongLinhMuc instance);
-        partial void DeleteHoiDongLinhMuc(HoiDongLinhMuc instance);
-        partial void InsertKhachMoi(KhachMoi instance);
-        partial void UpdateKhachMoi(KhachMoi instance);
-        partial void DeleteKhachMoi(KhachMoi instance);
-        partial void InsertLeaveVocationRequisition(LeaveVocationRequisition instance);
-        partial void UpdateLeaveVocationRequisition(LeaveVocationRequisition instance);
-        partial void DeleteLeaveVocationRequisition(LeaveVocationRequisition instance);
-        partial void InsertLetterAndReport(LetterAndReport instance);
-        partial void UpdateLetterAndReport(LetterAndReport instance);
-        partial void DeleteLetterAndReport(LetterAndReport instance);
-        partial void InsertMatrimony(Matrimony instance);
-        partial void UpdateMatrimony(Matrimony instance);
-        partial void DeleteMatrimony(Matrimony instance);
-        partial void InsertMessage(Message instance);
-        partial void UpdateMessage(Message instance);
-        partial void DeleteMessage(Message instance);
-        partial void InsertParish(Parish instance);
-        partial void UpdateParish(Parish instance);
-        partial void DeleteParish(Parish instance);
-        partial void InsertParishioner(Parishioner instance);
-        partial void UpdateParishioner(Parishioner instance);
-        partial void DeleteParishioner(Parishioner instance);
-        partial void InsertParishionerMigrationRequest(ParishionerMigrationRequest instance);
-        partial void UpdateParishionerMigrationRequest(ParishionerMigrationRequest instance);
-        partial void DeleteParishionerMigrationRequest(ParishionerMigrationRequest instance);
-        partial void InsertParishManager(ParishManager instance);
-        partial void UpdateParishManager(ParishManager instance);
-        partial void DeleteParishManager(ParishManager instance);
-        partial void InsertPlaceSuggestion(PlaceSuggestion instance);
-        partial void UpdatePlaceSuggestion(PlaceSuggestion instance);
-        partial void DeletePlaceSuggestion(PlaceSuggestion instance);
-        partial void InsertPriest(Priest instance);
-        partial void UpdatePriest(Priest instance);
-        partial void DeletePriest(Priest instance);
-        partial void InsertReligiousCommunity(ReligiousCommunity instance);
-        partial void UpdateReligiousCommunity(ReligiousCommunity instance);
-        partial void DeleteReligiousCommunity(ReligiousCommunity instance);
-        partial void InsertReligiousCommunityBase(ReligiousCommunityBase instance);
-        partial void UpdateReligiousCommunityBase(ReligiousCommunityBase instance);
-        partial void DeleteReligiousCommunityBase(ReligiousCommunityBase instance);
-        partial void InsertReligiousCommunityManagementTerm(ReligiousCommunityManagementTerm instance);
-        partial void UpdateReligiousCommunityManagementTerm(ReligiousCommunityManagementTerm instance);
-        partial void DeleteReligiousCommunityManagementTerm(ReligiousCommunityManagementTerm instance);
-        partial void InsertRole(Role instance);
-        partial void UpdateRole(Role instance);
-        partial void DeleteRole(Role instance);
-        partial void InsertSacrament(Sacrament instance);
-        partial void UpdateSacrament(Sacrament instance);
-        partial void DeleteSacrament(Sacrament instance);
-        partial void InsertSacramentGroup(SacramentGroup instance);
-        partial void UpdateSacramentGroup(SacramentGroup instance);
-        partial void DeleteSacramentGroup(SacramentGroup instance);
-        partial void InsertSeminaryYear(SeminaryYear instance);
-        partial void UpdateSeminaryYear(SeminaryYear instance);
-        partial void DeleteSeminaryYear(SeminaryYear instance);
-        partial void InsertSociety(Society instance);
-        partial void UpdateSociety(Society instance);
-        partial void DeleteSociety(Society instance);
-        partial void InsertSocietyMember(SocietyMember instance);
-        partial void UpdateSocietyMember(SocietyMember instance);
-        partial void DeleteSocietyMember(SocietyMember instance);
-        partial void InsertThuyenChuyenLinhMuc(ThuyenChuyenLinhMuc instance);
-        partial void UpdateThuyenChuyenLinhMuc(ThuyenChuyenLinhMuc instance);
-        partial void DeleteThuyenChuyenLinhMuc(ThuyenChuyenLinhMuc instance);
-        partial void InsertVaiTro(VaiTro instance);
-        partial void UpdateVaiTro(VaiTro instance);
-        partial void DeleteVaiTro(VaiTro instance);
-        partial void InsertValueSet(ValueSet instance);
-        partial void UpdateValueSet(ValueSet instance);
-        partial void DeleteValueSet(ValueSet instance);
-        partial void InsertVicariate(Vicariate instance);
-        partial void UpdateVicariate(Vicariate instance);
-        partial void DeleteVicariate(Vicariate instance);
-        partial void InsertVocation(Vocation instance);
-        partial void UpdateVocation(Vocation instance);
-        partial void DeleteVocation(Vocation instance);
-        partial void InsertVocationDeaconRequisitionSession(VocationDeaconRequisitionSession instance);
-        partial void UpdateVocationDeaconRequisitionSession(VocationDeaconRequisitionSession instance);
-        partial void DeleteVocationDeaconRequisitionSession(VocationDeaconRequisitionSession instance);
-        partial void InsertVocationExchangeReligiousCommunityBase(VocationExchangeReligiousCommunityBase instance);
-        partial void UpdateVocationExchangeReligiousCommunityBase(VocationExchangeReligiousCommunityBase instance);
-        partial void DeleteVocationExchangeReligiousCommunityBase(VocationExchangeReligiousCommunityBase instance);
-        #endregion
-
-        public PMSDataContext() :
-                base(global::PMS.DataAccess.Properties.Settings.Default.QLGPConnectionString, mappingSource)
-        {
-            OnCreated();
-        }
-
-        public PMSDataContext(string connection) :
-                base(connection, mappingSource)
-        {
-            OnCreated();
-        }
-
-        public PMSDataContext(System.Data.IDbConnection connection) :
-                base(connection, mappingSource)
-        {
-            OnCreated();
-        }
-
-        public PMSDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) :
-                base(connection, mappingSource)
-        {
-            OnCreated();
-        }
-
-        public PMSDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) :
-                base(connection, mappingSource)
-        {
-            OnCreated();
-        }
-
-        public System.Data.Linq.Table<Account> Accounts
-        {
-            get
-            {
-                return this.GetTable<Account>();
-            }
-        }
-
-        public System.Data.Linq.Table<VocationSeminaryYear> VocationSeminaryYears
-        {
-            get
-            {
-                return this.GetTable<VocationSeminaryYear>();
-            }
-        }
-
-        public System.Data.Linq.Table<ChristianSuggestion> ChristianSuggestions
-        {
-            get
-            {
-                return this.GetTable<ChristianSuggestion>();
-            }
-        }
-
-        public System.Data.Linq.Table<Class> Classes
-        {
-            get
-            {
-                return this.GetTable<Class>();
-            }
-        }
-
-        public System.Data.Linq.Table<ClassGroup> ClassGroups
-        {
-            get
-            {
-                return this.GetTable<ClassGroup>();
-            }
-        }
-
-        public System.Data.Linq.Table<ClassMember> ClassMembers
-        {
-            get
-            {
-                return this.GetTable<ClassMember>();
-            }
-        }
-
-        public System.Data.Linq.Table<Community> Communities
-        {
-            get
-            {
-                return this.GetTable<Community>();
-            }
-        }
-
-        public System.Data.Linq.Table<Configuration> Configurations
-        {
-            get
-            {
-                return this.GetTable<Configuration>();
-            }
-        }
-
-        public System.Data.Linq.Table<ConstructionPermit> ConstructionPermits
-        {
-            get
-            {
-                return this.GetTable<ConstructionPermit>();
-            }
-        }
-
-        public System.Data.Linq.Table<DeaconRequisitionComment> DeaconRequisitionComments
-        {
-            get
-            {
-                return this.GetTable<DeaconRequisitionComment>();
-            }
-        }
-
-        public System.Data.Linq.Table<DeaconRequisitionSession> DeaconRequisitionSessions
-        {
-            get
-            {
-                return this.GetTable<DeaconRequisitionSession>();
-            }
-        }
-
-        public System.Data.Linq.Table<Diocese> Dioceses
-        {
-            get
-            {
-                return this.GetTable<Diocese>();
-            }
-        }
-
-        public System.Data.Linq.Table<Family> Families
-        {
-            get
-            {
-                return this.GetTable<Family>();
-            }
-        }
-
-        public System.Data.Linq.Table<FamilyMember> FamilyMembers
-        {
-            get
-            {
-                return this.GetTable<FamilyMember>();
-            }
-        }
-
-        public System.Data.Linq.Table<FamilyMigrationRequest> FamilyMigrationRequests
-        {
-            get
-            {
-                return this.GetTable<FamilyMigrationRequest>();
-            }
-        }
-
-        public System.Data.Linq.Table<GeneralStatus> GeneralStatus
-        {
-            get
-            {
-                return this.GetTable<GeneralStatus>();
-            }
-        }
-
-        public System.Data.Linq.Table<GiayMoi> GiayMois
-        {
-            get
-            {
-                return this.GetTable<GiayMoi>();
-            }
-        }
-
-        public System.Data.Linq.Table<HDLMMember> HDLMMembers
-        {
-            get
-            {
-                return this.GetTable<HDLMMember>();
-            }
-        }
-
-        public System.Data.Linq.Table<HoiDongLinhMuc> HoiDongLinhMucs
-        {
-            get
-            {
-                return this.GetTable<HoiDongLinhMuc>();
-            }
-        }
-
-        public System.Data.Linq.Table<KhachMoi> KhachMois
-        {
-            get
-            {
-                return this.GetTable<KhachMoi>();
-            }
-        }
-
-        public System.Data.Linq.Table<LeaveVocationRequisition> LeaveVocationRequisitions
-        {
-            get
-            {
-                return this.GetTable<LeaveVocationRequisition>();
-            }
-        }
-
-        public System.Data.Linq.Table<LetterAndReport> LetterAndReports
-        {
-            get
-            {
-                return this.GetTable<LetterAndReport>();
-            }
-        }
-
-        public System.Data.Linq.Table<Matrimony> Matrimonies
-        {
-            get
-            {
-                return this.GetTable<Matrimony>();
-            }
-        }
-
-        public System.Data.Linq.Table<Message> Messages
-        {
-            get
-            {
-                return this.GetTable<Message>();
-            }
-        }
-
-        public System.Data.Linq.Table<Parish> Parishes
-        {
-            get
-            {
-                return this.GetTable<Parish>();
-            }
-        }
-
-        public System.Data.Linq.Table<Parishioner> Parishioners
-        {
-            get
-            {
-                return this.GetTable<Parishioner>();
-            }
-        }
-
-        public System.Data.Linq.Table<ParishionerMigrationRequest> ParishionerMigrationRequests
-        {
-            get
-            {
-                return this.GetTable<ParishionerMigrationRequest>();
-            }
-        }
-
-        public System.Data.Linq.Table<ParishManager> ParishManagers
-        {
-            get
-            {
-                return this.GetTable<ParishManager>();
-            }
-        }
-
-        public System.Data.Linq.Table<PlaceSuggestion> PlaceSuggestions
-        {
-            get
-            {
-                return this.GetTable<PlaceSuggestion>();
-            }
-        }
-
-        public System.Data.Linq.Table<Priest> Priests
-        {
-            get
-            {
-                return this.GetTable<Priest>();
-            }
-        }
-
-        public System.Data.Linq.Table<ReligiousCommunity> ReligiousCommunities
-        {
-            get
-            {
-                return this.GetTable<ReligiousCommunity>();
-            }
-        }
-
-        public System.Data.Linq.Table<ReligiousCommunityBase> ReligiousCommunityBases
-        {
-            get
-            {
-                return this.GetTable<ReligiousCommunityBase>();
-            }
-        }
-
-        public System.Data.Linq.Table<ReligiousCommunityManagementTerm> ReligiousCommunityManagementTerms
-        {
-            get
-            {
-                return this.GetTable<ReligiousCommunityManagementTerm>();
-            }
-        }
-
-        public System.Data.Linq.Table<Role> Roles
-        {
-            get
-            {
-                return this.GetTable<Role>();
-            }
-        }
-
-        public System.Data.Linq.Table<Sacrament> Sacraments
-        {
-            get
-            {
-                return this.GetTable<Sacrament>();
-            }
-        }
-
-        public System.Data.Linq.Table<SacramentGroup> SacramentGroups
-        {
-            get
-            {
-                return this.GetTable<SacramentGroup>();
-            }
-        }
-
-        public System.Data.Linq.Table<SeminaryYear> SeminaryYears
-        {
-            get
-            {
-                return this.GetTable<SeminaryYear>();
-            }
-        }
-
-        public System.Data.Linq.Table<Society> Societies
-        {
-            get
-            {
-                return this.GetTable<Society>();
-            }
-        }
-
-        public System.Data.Linq.Table<SocietyMember> SocietyMembers
-        {
-            get
-            {
-                return this.GetTable<SocietyMember>();
-            }
-        }
-
-        public System.Data.Linq.Table<ThuyenChuyenLinhMuc> ThuyenChuyenLinhMucs
-        {
-            get
-            {
-                return this.GetTable<ThuyenChuyenLinhMuc>();
-            }
-        }
-
-        public System.Data.Linq.Table<VaiTro> VaiTros
-        {
-            get
-            {
-                return this.GetTable<VaiTro>();
-            }
-        }
-
-        public System.Data.Linq.Table<ValueSet> ValueSets
-        {
-            get
-            {
-                return this.GetTable<ValueSet>();
-            }
-        }
-
-        public System.Data.Linq.Table<Vicariate> Vicariates
-        {
-            get
-            {
-                return this.GetTable<Vicariate>();
-            }
-        }
-
-        public System.Data.Linq.Table<Vocation> Vocations
-        {
-            get
-            {
-                return this.GetTable<Vocation>();
-            }
-        }
-
-        public System.Data.Linq.Table<VocationDeaconRequisitionSession> VocationDeaconRequisitionSessions
-        {
-            get
-            {
-                return this.GetTable<VocationDeaconRequisitionSession>();
-            }
-        }
-
-        public System.Data.Linq.Table<VocationExchangeReligiousCommunityBase> VocationExchangeReligiousCommunityBases
-        {
-            get
-            {
-                return this.GetTable<VocationExchangeReligiousCommunityBase>();
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Account")]
-    public partial class Account : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Username;
-
-        private string _Password;
-
-        private string _Name;
-
-        private System.DateTime _CreatedDate;
-
-        private int _Status;
-
-        private int _RoleId;
-
-        private int _DioceseId;
-
-        private System.Nullable<int> _ParishId;
-
-        private EntitySet<Message> _Messages;
-
-        private EntityRef<Diocese> _Diocese;
-
-        private EntityRef<Parish> _Parish;
-
-        private EntityRef<Role> _Role;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnUsernameChanging(string value);
-        partial void OnUsernameChanged();
-        partial void OnPasswordChanging(string value);
-        partial void OnPasswordChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnCreatedDateChanging(System.DateTime value);
-        partial void OnCreatedDateChanged();
-        partial void OnStatusChanging(int value);
-        partial void OnStatusChanged();
-        partial void OnRoleIdChanging(int value);
-        partial void OnRoleIdChanged();
-        partial void OnDioceseIdChanging(int value);
-        partial void OnDioceseIdChanged();
-        partial void OnParishIdChanging(System.Nullable<int> value);
-        partial void OnParishIdChanged();
-        #endregion
-
-        public Account()
-        {
-            this._Messages = new EntitySet<Message>(new Action<Message>(this.attach_Messages), new Action<Message>(this.detach_Messages));
-            this._Diocese = default(EntityRef<Diocese>);
-            this._Parish = default(EntityRef<Parish>);
-            this._Role = default(EntityRef<Role>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Username", DbType = "VarChar(100) NOT NULL", CanBeNull = false)]
-        public string Username
-        {
-            get
-            {
-                return this._Username;
-            }
-            set
-            {
-                if ((this._Username != value))
-                {
-                    this.OnUsernameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Username = value;
-                    this.SendPropertyChanged("Username");
-                    this.OnUsernameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Password", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Password
-        {
-            get
-            {
-                return this._Password;
-            }
-            set
-            {
-                if ((this._Password != value))
-                {
-                    this.OnPasswordChanging(value);
-                    this.SendPropertyChanging();
-                    this._Password = value;
-                    this.SendPropertyChanged("Password");
-                    this.OnPasswordChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CreatedDate", DbType = "DateTime NOT NULL")]
-        public System.DateTime CreatedDate
-        {
-            get
-            {
-                return this._CreatedDate;
-            }
-            set
-            {
-                if ((this._CreatedDate != value))
-                {
-                    this.OnCreatedDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._CreatedDate = value;
-                    this.SendPropertyChanged("CreatedDate");
-                    this.OnCreatedDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Status", DbType = "Int NOT NULL")]
-        public int Status
-        {
-            get
-            {
-                return this._Status;
-            }
-            set
-            {
-                if ((this._Status != value))
-                {
-                    this.OnStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._Status = value;
-                    this.SendPropertyChanged("Status");
-                    this.OnStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_RoleId", DbType = "Int NOT NULL")]
-        public int RoleId
-        {
-            get
-            {
-                return this._RoleId;
-            }
-            set
-            {
-                if ((this._RoleId != value))
-                {
-                    if (this._Role.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnRoleIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._RoleId = value;
-                    this.SendPropertyChanged("RoleId");
-                    this.OnRoleIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DioceseId", DbType = "Int NOT NULL")]
-        public int DioceseId
-        {
-            get
-            {
-                return this._DioceseId;
-            }
-            set
-            {
-                if ((this._DioceseId != value))
-                {
-                    if (this._Diocese.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnDioceseIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._DioceseId = value;
-                    this.SendPropertyChanged("DioceseId");
-                    this.OnDioceseIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishId", DbType = "Int")]
-        public System.Nullable<int> ParishId
-        {
-            get
-            {
-                return this._ParishId;
-            }
-            set
-            {
-                if ((this._ParishId != value))
-                {
-                    if (this._Parish.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishId = value;
-                    this.SendPropertyChanged("ParishId");
-                    this.OnParishIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Account_Message", Storage = "_Messages", ThisKey = "Id", OtherKey = "AccountId")]
-        public EntitySet<Message> Messages
-        {
-            get
-            {
-                return this._Messages;
-            }
-            set
-            {
-                this._Messages.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Diocese_Account", Storage = "_Diocese", ThisKey = "DioceseId", OtherKey = "Id", IsForeignKey = true)]
-        public Diocese Diocese
-        {
-            get
-            {
-                return this._Diocese.Entity;
-            }
-            set
-            {
-                Diocese previousValue = this._Diocese.Entity;
-                if (((previousValue != value)
-                            || (this._Diocese.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Diocese.Entity = null;
-                        previousValue.Accounts.Remove(this);
-                    }
-                    this._Diocese.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Accounts.Add(this);
-                        this._DioceseId = value.Id;
-                    }
-                    else
-                    {
-                        this._DioceseId = default(int);
-                    }
-                    this.SendPropertyChanged("Diocese");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_Account", Storage = "_Parish", ThisKey = "ParishId", OtherKey = "Id", IsForeignKey = true)]
-        public Parish Parish
-        {
-            get
-            {
-                return this._Parish.Entity;
-            }
-            set
-            {
-                Parish previousValue = this._Parish.Entity;
-                if (((previousValue != value)
-                            || (this._Parish.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parish.Entity = null;
-                        previousValue.Accounts.Remove(this);
-                    }
-                    this._Parish.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Accounts.Add(this);
-                        this._ParishId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Parish");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Role_Account", Storage = "_Role", ThisKey = "RoleId", OtherKey = "Id", IsForeignKey = true)]
-        public Role Role
-        {
-            get
-            {
-                return this._Role.Entity;
-            }
-            set
-            {
-                Role previousValue = this._Role.Entity;
-                if (((previousValue != value)
-                            || (this._Role.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Role.Entity = null;
-                        previousValue.Accounts.Remove(this);
-                    }
-                    this._Role.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Accounts.Add(this);
-                        this._RoleId = value.Id;
-                    }
-                    else
-                    {
-                        this._RoleId = default(int);
-                    }
-                    this.SendPropertyChanged("Role");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_Messages(Message entity)
-        {
-            this.SendPropertyChanging();
-            entity.Account = this;
-        }
-
-        private void detach_Messages(Message entity)
-        {
-            this.SendPropertyChanging();
-            entity.Account = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.VocationSeminaryYear")]
-    public partial class VocationSeminaryYear : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _VocationId;
-
-        private int _SeminaryYearId;
-
-        private System.DateTime _ActualStart;
-
-        private System.DateTime _ActualEnd;
-
-        private int _Status;
-
-        private EntityRef<SeminaryYear> _SeminaryYear;
-
-        private EntityRef<Vocation> _Vocation;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnVocationIdChanging(int value);
-        partial void OnVocationIdChanged();
-        partial void OnSeminaryYearIdChanging(int value);
-        partial void OnSeminaryYearIdChanged();
-        partial void OnActualStartChanging(System.DateTime value);
-        partial void OnActualStartChanged();
-        partial void OnActualEndChanging(System.DateTime value);
-        partial void OnActualEndChanged();
-        partial void OnStatusChanging(int value);
-        partial void OnStatusChanged();
-        #endregion
-
-        public VocationSeminaryYear()
-        {
-            this._SeminaryYear = default(EntityRef<SeminaryYear>);
-            this._Vocation = default(EntityRef<Vocation>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_VocationId", DbType = "Int NOT NULL")]
-        public int VocationId
-        {
-            get
-            {
-                return this._VocationId;
-            }
-            set
-            {
-                if ((this._VocationId != value))
-                {
-                    if (this._Vocation.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnVocationIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._VocationId = value;
-                    this.SendPropertyChanged("VocationId");
-                    this.OnVocationIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SeminaryYearId", DbType = "Int NOT NULL")]
-        public int SeminaryYearId
-        {
-            get
-            {
-                return this._SeminaryYearId;
-            }
-            set
-            {
-                if ((this._SeminaryYearId != value))
-                {
-                    if (this._SeminaryYear.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnSeminaryYearIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._SeminaryYearId = value;
-                    this.SendPropertyChanged("SeminaryYearId");
-                    this.OnSeminaryYearIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ActualStart", DbType = "DateTime NOT NULL")]
-        public System.DateTime ActualStart
-        {
-            get
-            {
-                return this._ActualStart;
-            }
-            set
-            {
-                if ((this._ActualStart != value))
-                {
-                    this.OnActualStartChanging(value);
-                    this.SendPropertyChanging();
-                    this._ActualStart = value;
-                    this.SendPropertyChanged("ActualStart");
-                    this.OnActualStartChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ActualEnd", DbType = "DateTime NOT NULL")]
-        public System.DateTime ActualEnd
-        {
-            get
-            {
-                return this._ActualEnd;
-            }
-            set
-            {
-                if ((this._ActualEnd != value))
-                {
-                    this.OnActualEndChanging(value);
-                    this.SendPropertyChanging();
-                    this._ActualEnd = value;
-                    this.SendPropertyChanged("ActualEnd");
-                    this.OnActualEndChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Status", DbType = "Int NOT NULL")]
-        public int Status
-        {
-            get
-            {
-                return this._Status;
-            }
-            set
-            {
-                if ((this._Status != value))
-                {
-                    this.OnStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._Status = value;
-                    this.SendPropertyChanged("Status");
-                    this.OnStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "SeminaryYear_VocationSeminaryYear", Storage = "_SeminaryYear", ThisKey = "SeminaryYearId", OtherKey = "Id", IsForeignKey = true)]
-        public SeminaryYear SeminaryYear
-        {
-            get
-            {
-                return this._SeminaryYear.Entity;
-            }
-            set
-            {
-                SeminaryYear previousValue = this._SeminaryYear.Entity;
-                if (((previousValue != value)
-                            || (this._SeminaryYear.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._SeminaryYear.Entity = null;
-                        previousValue.VocationSeminaryYears.Remove(this);
-                    }
-                    this._SeminaryYear.Entity = value;
-                    if ((value != null))
-                    {
-                        value.VocationSeminaryYears.Add(this);
-                        this._SeminaryYearId = value.Id;
-                    }
-                    else
-                    {
-                        this._SeminaryYearId = default(int);
-                    }
-                    this.SendPropertyChanged("SeminaryYear");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_VocationSeminaryYear", Storage = "_Vocation", ThisKey = "VocationId", OtherKey = "ParishionerId", IsForeignKey = true)]
-        public Vocation Vocation
-        {
-            get
-            {
-                return this._Vocation.Entity;
-            }
-            set
-            {
-                Vocation previousValue = this._Vocation.Entity;
-                if (((previousValue != value)
-                            || (this._Vocation.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Vocation.Entity = null;
-                        previousValue.VocationSeminaryYears.Remove(this);
-                    }
-                    this._Vocation.Entity = value;
-                    if ((value != null))
-                    {
-                        value.VocationSeminaryYears.Add(this);
-                        this._VocationId = value.ParishionerId;
-                    }
-                    else
-                    {
-                        this._VocationId = default(int);
-                    }
-                    this.SendPropertyChanged("Vocation");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ChristianSuggestion")]
-    public partial class ChristianSuggestion : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Name;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        #endregion
-
-        public ChristianSuggestion()
-        {
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Class")]
-    public partial class Class : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Name;
-
-        private string _RoomNo;
-
-        private int _Year;
-
-        private string _Note;
-
-        private int _ClassGroupId;
-
-        private EntitySet<ClassMember> _ClassMembers;
-
-        private EntityRef<ClassGroup> _ClassGroup;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnRoomNoChanging(string value);
-        partial void OnRoomNoChanged();
-        partial void OnYearChanging(int value);
-        partial void OnYearChanged();
-        partial void OnNoteChanging(string value);
-        partial void OnNoteChanged();
-        partial void OnClassGroupIdChanging(int value);
-        partial void OnClassGroupIdChanged();
-        #endregion
-
-        public Class()
-        {
-            this._ClassMembers = new EntitySet<ClassMember>(new Action<ClassMember>(this.attach_ClassMembers), new Action<ClassMember>(this.detach_ClassMembers));
-            this._ClassGroup = default(EntityRef<ClassGroup>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_RoomNo", DbType = "NVarChar(50)")]
-        public string RoomNo
-        {
-            get
-            {
-                return this._RoomNo;
-            }
-            set
-            {
-                if ((this._RoomNo != value))
-                {
-                    this.OnRoomNoChanging(value);
-                    this.SendPropertyChanging();
-                    this._RoomNo = value;
-                    this.SendPropertyChanged("RoomNo");
-                    this.OnRoomNoChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Year", DbType = "Int NOT NULL")]
-        public int Year
-        {
-            get
-            {
-                return this._Year;
-            }
-            set
-            {
-                if ((this._Year != value))
-                {
-                    this.OnYearChanging(value);
-                    this.SendPropertyChanging();
-                    this._Year = value;
-                    this.SendPropertyChanged("Year");
-                    this.OnYearChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Note", DbType = "NVarChar(200)")]
-        public string Note
-        {
-            get
-            {
-                return this._Note;
-            }
-            set
-            {
-                if ((this._Note != value))
-                {
-                    this.OnNoteChanging(value);
-                    this.SendPropertyChanging();
-                    this._Note = value;
-                    this.SendPropertyChanged("Note");
-                    this.OnNoteChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ClassGroupId", DbType = "Int NOT NULL")]
-        public int ClassGroupId
-        {
-            get
-            {
-                return this._ClassGroupId;
-            }
-            set
-            {
-                if ((this._ClassGroupId != value))
-                {
-                    if (this._ClassGroup.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnClassGroupIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ClassGroupId = value;
-                    this.SendPropertyChanged("ClassGroupId");
-                    this.OnClassGroupIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Class_ClassMember", Storage = "_ClassMembers", ThisKey = "Id", OtherKey = "ClassId")]
-        public EntitySet<ClassMember> ClassMembers
-        {
-            get
-            {
-                return this._ClassMembers;
-            }
-            set
-            {
-                this._ClassMembers.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ClassGroup_Class", Storage = "_ClassGroup", ThisKey = "ClassGroupId", OtherKey = "Id", IsForeignKey = true)]
-        public ClassGroup ClassGroup
-        {
-            get
-            {
-                return this._ClassGroup.Entity;
-            }
-            set
-            {
-                ClassGroup previousValue = this._ClassGroup.Entity;
-                if (((previousValue != value)
-                            || (this._ClassGroup.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._ClassGroup.Entity = null;
-                        previousValue.Classes.Remove(this);
-                    }
-                    this._ClassGroup.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Classes.Add(this);
-                        this._ClassGroupId = value.Id;
-                    }
-                    else
-                    {
-                        this._ClassGroupId = default(int);
-                    }
-                    this.SendPropertyChanged("ClassGroup");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_ClassMembers(ClassMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.Class = this;
-        }
-
-        private void detach_ClassMembers(ClassMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.Class = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ClassGroup")]
-    public partial class ClassGroup : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Name;
-
-        private int _Year;
-
-        private string _Note;
-
-        private System.Nullable<int> _ManagedBy;
-
-        private int _ParishId;
-
-        private EntitySet<Class> _Classes;
-
-        private EntityRef<Parish> _Parish;
-
-        private EntityRef<Parishioner> _Parishioner;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnYearChanging(int value);
-        partial void OnYearChanged();
-        partial void OnNoteChanging(string value);
-        partial void OnNoteChanged();
-        partial void OnManagedByChanging(System.Nullable<int> value);
-        partial void OnManagedByChanged();
-        partial void OnParishIdChanging(int value);
-        partial void OnParishIdChanged();
-        #endregion
-
-        public ClassGroup()
-        {
-            this._Classes = new EntitySet<Class>(new Action<Class>(this.attach_Classes), new Action<Class>(this.detach_Classes));
-            this._Parish = default(EntityRef<Parish>);
-            this._Parishioner = default(EntityRef<Parishioner>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Year", DbType = "Int NOT NULL")]
-        public int Year
-        {
-            get
-            {
-                return this._Year;
-            }
-            set
-            {
-                if ((this._Year != value))
-                {
-                    this.OnYearChanging(value);
-                    this.SendPropertyChanging();
-                    this._Year = value;
-                    this.SendPropertyChanged("Year");
-                    this.OnYearChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Note", DbType = "NVarChar(200)")]
-        public string Note
-        {
-            get
-            {
-                return this._Note;
-            }
-            set
-            {
-                if ((this._Note != value))
-                {
-                    this.OnNoteChanging(value);
-                    this.SendPropertyChanging();
-                    this._Note = value;
-                    this.SendPropertyChanged("Note");
-                    this.OnNoteChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ManagedBy", DbType = "Int")]
-        public System.Nullable<int> ManagedBy
-        {
-            get
-            {
-                return this._ManagedBy;
-            }
-            set
-            {
-                if ((this._ManagedBy != value))
-                {
-                    if (this._Parishioner.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnManagedByChanging(value);
-                    this.SendPropertyChanging();
-                    this._ManagedBy = value;
-                    this.SendPropertyChanged("ManagedBy");
-                    this.OnManagedByChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishId", DbType = "Int NOT NULL")]
-        public int ParishId
-        {
-            get
-            {
-                return this._ParishId;
-            }
-            set
-            {
-                if ((this._ParishId != value))
-                {
-                    if (this._Parish.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishId = value;
-                    this.SendPropertyChanged("ParishId");
-                    this.OnParishIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ClassGroup_Class", Storage = "_Classes", ThisKey = "Id", OtherKey = "ClassGroupId")]
-        public EntitySet<Class> Classes
-        {
-            get
-            {
-                return this._Classes;
-            }
-            set
-            {
-                this._Classes.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_ClassGroup", Storage = "_Parish", ThisKey = "ParishId", OtherKey = "Id", IsForeignKey = true)]
-        public Parish Parish
-        {
-            get
-            {
-                return this._Parish.Entity;
-            }
-            set
-            {
-                Parish previousValue = this._Parish.Entity;
-                if (((previousValue != value)
-                            || (this._Parish.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parish.Entity = null;
-                        previousValue.ClassGroups.Remove(this);
-                    }
-                    this._Parish.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ClassGroups.Add(this);
-                        this._ParishId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishId = default(int);
-                    }
-                    this.SendPropertyChanged("Parish");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_ClassGroup", Storage = "_Parishioner", ThisKey = "ManagedBy", OtherKey = "Id", IsForeignKey = true)]
-        public Parishioner Parishioner
-        {
-            get
-            {
-                return this._Parishioner.Entity;
-            }
-            set
-            {
-                Parishioner previousValue = this._Parishioner.Entity;
-                if (((previousValue != value)
-                            || (this._Parishioner.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parishioner.Entity = null;
-                        previousValue.ClassGroups.Remove(this);
-                    }
-                    this._Parishioner.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ClassGroups.Add(this);
-                        this._ManagedBy = value.Id;
-                    }
-                    else
-                    {
-                        this._ManagedBy = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Parishioner");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_Classes(Class entity)
-        {
-            this.SendPropertyChanging();
-            entity.ClassGroup = this;
-        }
-
-        private void detach_Classes(Class entity)
-        {
-            this.SendPropertyChanging();
-            entity.ClassGroup = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ClassMember")]
-    public partial class ClassMember : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _ParishionerId;
-
-        private int _ClassId;
-
-        private int _Position;
-
-        private bool _IsDone;
-
-        private string _Note;
-
-        private EntityRef<Class> _Class;
-
-        private EntityRef<Parishioner> _Parishioner;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnParishionerIdChanging(int value);
-        partial void OnParishionerIdChanged();
-        partial void OnClassIdChanging(int value);
-        partial void OnClassIdChanged();
-        partial void OnPositionChanging(int value);
-        partial void OnPositionChanged();
-        partial void OnIsDoneChanging(bool value);
-        partial void OnIsDoneChanged();
-        partial void OnNoteChanging(string value);
-        partial void OnNoteChanged();
-        #endregion
-
-        public ClassMember()
-        {
-            this._Class = default(EntityRef<Class>);
-            this._Parishioner = default(EntityRef<Parishioner>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishionerId", DbType = "Int NOT NULL")]
-        public int ParishionerId
-        {
-            get
-            {
-                return this._ParishionerId;
-            }
-            set
-            {
-                if ((this._ParishionerId != value))
-                {
-                    if (this._Parishioner.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishionerIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishionerId = value;
-                    this.SendPropertyChanged("ParishionerId");
-                    this.OnParishionerIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ClassId", DbType = "Int NOT NULL")]
-        public int ClassId
-        {
-            get
-            {
-                return this._ClassId;
-            }
-            set
-            {
-                if ((this._ClassId != value))
-                {
-                    if (this._Class.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnClassIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ClassId = value;
-                    this.SendPropertyChanged("ClassId");
-                    this.OnClassIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Position", DbType = "Int NOT NULL")]
-        public int Position
-        {
-            get
-            {
-                return this._Position;
-            }
-            set
-            {
-                if ((this._Position != value))
-                {
-                    this.OnPositionChanging(value);
-                    this.SendPropertyChanging();
-                    this._Position = value;
-                    this.SendPropertyChanged("Position");
-                    this.OnPositionChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDone", DbType = "Bit NOT NULL")]
-        public bool IsDone
-        {
-            get
-            {
-                return this._IsDone;
-            }
-            set
-            {
-                if ((this._IsDone != value))
-                {
-                    this.OnIsDoneChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsDone = value;
-                    this.SendPropertyChanged("IsDone");
-                    this.OnIsDoneChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Note", DbType = "NVarChar(200)")]
-        public string Note
-        {
-            get
-            {
-                return this._Note;
-            }
-            set
-            {
-                if ((this._Note != value))
-                {
-                    this.OnNoteChanging(value);
-                    this.SendPropertyChanging();
-                    this._Note = value;
-                    this.SendPropertyChanged("Note");
-                    this.OnNoteChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Class_ClassMember", Storage = "_Class", ThisKey = "ClassId", OtherKey = "Id", IsForeignKey = true)]
-        public Class Class
-        {
-            get
-            {
-                return this._Class.Entity;
-            }
-            set
-            {
-                Class previousValue = this._Class.Entity;
-                if (((previousValue != value)
-                            || (this._Class.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Class.Entity = null;
-                        previousValue.ClassMembers.Remove(this);
-                    }
-                    this._Class.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ClassMembers.Add(this);
-                        this._ClassId = value.Id;
-                    }
-                    else
-                    {
-                        this._ClassId = default(int);
-                    }
-                    this.SendPropertyChanged("Class");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_ClassMember", Storage = "_Parishioner", ThisKey = "ParishionerId", OtherKey = "Id", IsForeignKey = true)]
-        public Parishioner Parishioner
-        {
-            get
-            {
-                return this._Parishioner.Entity;
-            }
-            set
-            {
-                Parishioner previousValue = this._Parishioner.Entity;
-                if (((previousValue != value)
-                            || (this._Parishioner.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parishioner.Entity = null;
-                        previousValue.ClassMembers.Remove(this);
-                    }
-                    this._Parishioner.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ClassMembers.Add(this);
-                        this._ParishionerId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishionerId = default(int);
-                    }
-                    this.SendPropertyChanged("Parishioner");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Community")]
-    public partial class Community : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Name;
-
-        private bool _IsDefault;
-
-        private System.Nullable<int> _ParentId;
-
-        private int _ParishId;
-
-        private EntitySet<Community> _Communities;
-
-        private EntitySet<Family> _Families;
-
-        private EntitySet<FamilyMigrationRequest> _FamilyMigrationRequests;
-
-        private EntitySet<Parishioner> _Parishioners;
-
-        private EntitySet<ParishionerMigrationRequest> _ParishionerMigrationRequests;
-
-        private EntityRef<Community> _Community1;
-
-        private EntityRef<Parish> _Parish;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnIsDefaultChanging(bool value);
-        partial void OnIsDefaultChanged();
-        partial void OnParentIdChanging(System.Nullable<int> value);
-        partial void OnParentIdChanged();
-        partial void OnParishIdChanging(int value);
-        partial void OnParishIdChanged();
-        #endregion
-
-        public Community()
-        {
-            this._Communities = new EntitySet<Community>(new Action<Community>(this.attach_Communities), new Action<Community>(this.detach_Communities));
-            this._Families = new EntitySet<Family>(new Action<Family>(this.attach_Families), new Action<Family>(this.detach_Families));
-            this._FamilyMigrationRequests = new EntitySet<FamilyMigrationRequest>(new Action<FamilyMigrationRequest>(this.attach_FamilyMigrationRequests), new Action<FamilyMigrationRequest>(this.detach_FamilyMigrationRequests));
-            this._Parishioners = new EntitySet<Parishioner>(new Action<Parishioner>(this.attach_Parishioners), new Action<Parishioner>(this.detach_Parishioners));
-            this._ParishionerMigrationRequests = new EntitySet<ParishionerMigrationRequest>(new Action<ParishionerMigrationRequest>(this.attach_ParishionerMigrationRequests), new Action<ParishionerMigrationRequest>(this.detach_ParishionerMigrationRequests));
-            this._Community1 = default(EntityRef<Community>);
-            this._Parish = default(EntityRef<Parish>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDefault", DbType = "Bit NOT NULL")]
-        public bool IsDefault
-        {
-            get
-            {
-                return this._IsDefault;
-            }
-            set
-            {
-                if ((this._IsDefault != value))
-                {
-                    this.OnIsDefaultChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsDefault = value;
-                    this.SendPropertyChanged("IsDefault");
-                    this.OnIsDefaultChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParentId", DbType = "Int")]
-        public System.Nullable<int> ParentId
-        {
-            get
-            {
-                return this._ParentId;
-            }
-            set
-            {
-                if ((this._ParentId != value))
-                {
-                    if (this._Community1.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParentIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParentId = value;
-                    this.SendPropertyChanged("ParentId");
-                    this.OnParentIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishId", DbType = "Int NOT NULL")]
-        public int ParishId
-        {
-            get
-            {
-                return this._ParishId;
-            }
-            set
-            {
-                if ((this._ParishId != value))
-                {
-                    if (this._Parish.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishId = value;
-                    this.SendPropertyChanged("ParishId");
-                    this.OnParishIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Community_Community", Storage = "_Communities", ThisKey = "Id", OtherKey = "ParentId")]
-        public EntitySet<Community> Communities
-        {
-            get
-            {
-                return this._Communities;
-            }
-            set
-            {
-                this._Communities.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Community_Family", Storage = "_Families", ThisKey = "Id", OtherKey = "CommunityId")]
-        public EntitySet<Family> Families
-        {
-            get
-            {
-                return this._Families;
-            }
-            set
-            {
-                this._Families.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Community_FamilyMigrationRequest", Storage = "_FamilyMigrationRequests", ThisKey = "Id", OtherKey = "FromCommunityId")]
-        public EntitySet<FamilyMigrationRequest> FamilyMigrationRequests
-        {
-            get
-            {
-                return this._FamilyMigrationRequests;
-            }
-            set
-            {
-                this._FamilyMigrationRequests.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Community_Parishioner", Storage = "_Parishioners", ThisKey = "Id", OtherKey = "CommunityId")]
-        public EntitySet<Parishioner> Parishioners
-        {
-            get
-            {
-                return this._Parishioners;
-            }
-            set
-            {
-                this._Parishioners.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Community_ParishionerMigrationRequest", Storage = "_ParishionerMigrationRequests", ThisKey = "Id", OtherKey = "FromCommunityId")]
-        public EntitySet<ParishionerMigrationRequest> ParishionerMigrationRequests
-        {
-            get
-            {
-                return this._ParishionerMigrationRequests;
-            }
-            set
-            {
-                this._ParishionerMigrationRequests.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Community_Community", Storage = "_Community1", ThisKey = "ParentId", OtherKey = "Id", IsForeignKey = true)]
-        public Community Community1
-        {
-            get
-            {
-                return this._Community1.Entity;
-            }
-            set
-            {
-                Community previousValue = this._Community1.Entity;
-                if (((previousValue != value)
-                            || (this._Community1.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Community1.Entity = null;
-                        previousValue.Communities.Remove(this);
-                    }
-                    this._Community1.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Communities.Add(this);
-                        this._ParentId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParentId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Community1");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_Community", Storage = "_Parish", ThisKey = "ParishId", OtherKey = "Id", IsForeignKey = true)]
-        public Parish Parish
-        {
-            get
-            {
-                return this._Parish.Entity;
-            }
-            set
-            {
-                Parish previousValue = this._Parish.Entity;
-                if (((previousValue != value)
-                            || (this._Parish.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parish.Entity = null;
-                        previousValue.Communities.Remove(this);
-                    }
-                    this._Parish.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Communities.Add(this);
-                        this._ParishId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishId = default(int);
-                    }
-                    this.SendPropertyChanged("Parish");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_Communities(Community entity)
-        {
-            this.SendPropertyChanging();
-            entity.Community1 = this;
-        }
-
-        private void detach_Communities(Community entity)
-        {
-            this.SendPropertyChanging();
-            entity.Community1 = null;
-        }
-
-        private void attach_Families(Family entity)
-        {
-            this.SendPropertyChanging();
-            entity.Community = this;
-        }
-
-        private void detach_Families(Family entity)
-        {
-            this.SendPropertyChanging();
-            entity.Community = null;
-        }
-
-        private void attach_FamilyMigrationRequests(FamilyMigrationRequest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Community = this;
-        }
-
-        private void detach_FamilyMigrationRequests(FamilyMigrationRequest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Community = null;
-        }
-
-        private void attach_Parishioners(Parishioner entity)
-        {
-            this.SendPropertyChanging();
-            entity.Community = this;
-        }
-
-        private void detach_Parishioners(Parishioner entity)
-        {
-            this.SendPropertyChanging();
-            entity.Community = null;
-        }
-
-        private void attach_ParishionerMigrationRequests(ParishionerMigrationRequest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Community = this;
-        }
-
-        private void detach_ParishionerMigrationRequests(ParishionerMigrationRequest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Community = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Configuration")]
-    public partial class Configuration : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _ParishId;
-
-        private int _MultipleParishionerAdding;
-
-        private int _ParishionerCodeGeneration;
-
-        private string _ParishionerPrefix;
-
-        private int _ParishionerCharacterNumber;
-
-        private int _FamilyCodeGeneration;
-
-        private string _FamilyPrefix;
-
-        private int _FamilyCharacterNumber;
-
-        private string _BaptismTemplate;
-
-        private string _HolyCommunionTemplate;
-
-        private string _ConfirmationTemplate;
-
-        private string _MatrimonyTemplate;
-
-        private string _SacramentTemplate;
-
-        private EntityRef<Parish> _Parish;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnParishIdChanging(int value);
-        partial void OnParishIdChanged();
-        partial void OnMultipleParishionerAddingChanging(int value);
-        partial void OnMultipleParishionerAddingChanged();
-        partial void OnParishionerCodeGenerationChanging(int value);
-        partial void OnParishionerCodeGenerationChanged();
-        partial void OnParishionerPrefixChanging(string value);
-        partial void OnParishionerPrefixChanged();
-        partial void OnParishionerCharacterNumberChanging(int value);
-        partial void OnParishionerCharacterNumberChanged();
-        partial void OnFamilyCodeGenerationChanging(int value);
-        partial void OnFamilyCodeGenerationChanged();
-        partial void OnFamilyPrefixChanging(string value);
-        partial void OnFamilyPrefixChanged();
-        partial void OnFamilyCharacterNumberChanging(int value);
-        partial void OnFamilyCharacterNumberChanged();
-        partial void OnBaptismTemplateChanging(string value);
-        partial void OnBaptismTemplateChanged();
-        partial void OnHolyCommunionTemplateChanging(string value);
-        partial void OnHolyCommunionTemplateChanged();
-        partial void OnConfirmationTemplateChanging(string value);
-        partial void OnConfirmationTemplateChanged();
-        partial void OnMatrimonyTemplateChanging(string value);
-        partial void OnMatrimonyTemplateChanged();
-        partial void OnSacramentTemplateChanging(string value);
-        partial void OnSacramentTemplateChanged();
-        #endregion
-
-        public Configuration()
-        {
-            this._Parish = default(EntityRef<Parish>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishId", DbType = "Int NOT NULL", IsPrimaryKey = true)]
-        public int ParishId
-        {
-            get
-            {
-                return this._ParishId;
-            }
-            set
-            {
-                if ((this._ParishId != value))
-                {
-                    if (this._Parish.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishId = value;
-                    this.SendPropertyChanged("ParishId");
-                    this.OnParishIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MultipleParishionerAdding", DbType = "Int NOT NULL")]
-        public int MultipleParishionerAdding
-        {
-            get
-            {
-                return this._MultipleParishionerAdding;
-            }
-            set
-            {
-                if ((this._MultipleParishionerAdding != value))
-                {
-                    this.OnMultipleParishionerAddingChanging(value);
-                    this.SendPropertyChanging();
-                    this._MultipleParishionerAdding = value;
-                    this.SendPropertyChanged("MultipleParishionerAdding");
-                    this.OnMultipleParishionerAddingChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishionerCodeGeneration", DbType = "Int NOT NULL")]
-        public int ParishionerCodeGeneration
-        {
-            get
-            {
-                return this._ParishionerCodeGeneration;
-            }
-            set
-            {
-                if ((this._ParishionerCodeGeneration != value))
-                {
-                    this.OnParishionerCodeGenerationChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishionerCodeGeneration = value;
-                    this.SendPropertyChanged("ParishionerCodeGeneration");
-                    this.OnParishionerCodeGenerationChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishionerPrefix", DbType = "NVarChar(50)")]
-        public string ParishionerPrefix
-        {
-            get
-            {
-                return this._ParishionerPrefix;
-            }
-            set
-            {
-                if ((this._ParishionerPrefix != value))
-                {
-                    this.OnParishionerPrefixChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishionerPrefix = value;
-                    this.SendPropertyChanged("ParishionerPrefix");
-                    this.OnParishionerPrefixChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishionerCharacterNumber", DbType = "Int NOT NULL")]
-        public int ParishionerCharacterNumber
-        {
-            get
-            {
-                return this._ParishionerCharacterNumber;
-            }
-            set
-            {
-                if ((this._ParishionerCharacterNumber != value))
-                {
-                    this.OnParishionerCharacterNumberChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishionerCharacterNumber = value;
-                    this.SendPropertyChanged("ParishionerCharacterNumber");
-                    this.OnParishionerCharacterNumberChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_FamilyCodeGeneration", DbType = "Int NOT NULL")]
-        public int FamilyCodeGeneration
-        {
-            get
-            {
-                return this._FamilyCodeGeneration;
-            }
-            set
-            {
-                if ((this._FamilyCodeGeneration != value))
-                {
-                    this.OnFamilyCodeGenerationChanging(value);
-                    this.SendPropertyChanging();
-                    this._FamilyCodeGeneration = value;
-                    this.SendPropertyChanged("FamilyCodeGeneration");
-                    this.OnFamilyCodeGenerationChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_FamilyPrefix", DbType = "NVarChar(50)")]
-        public string FamilyPrefix
-        {
-            get
-            {
-                return this._FamilyPrefix;
-            }
-            set
-            {
-                if ((this._FamilyPrefix != value))
-                {
-                    this.OnFamilyPrefixChanging(value);
-                    this.SendPropertyChanging();
-                    this._FamilyPrefix = value;
-                    this.SendPropertyChanged("FamilyPrefix");
-                    this.OnFamilyPrefixChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_FamilyCharacterNumber", DbType = "Int NOT NULL")]
-        public int FamilyCharacterNumber
-        {
-            get
-            {
-                return this._FamilyCharacterNumber;
-            }
-            set
-            {
-                if ((this._FamilyCharacterNumber != value))
-                {
-                    this.OnFamilyCharacterNumberChanging(value);
-                    this.SendPropertyChanging();
-                    this._FamilyCharacterNumber = value;
-                    this.SendPropertyChanged("FamilyCharacterNumber");
-                    this.OnFamilyCharacterNumberChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_BaptismTemplate", DbType = "NVarChar(MAX)")]
-        public string BaptismTemplate
-        {
-            get
-            {
-                return this._BaptismTemplate;
-            }
-            set
-            {
-                if ((this._BaptismTemplate != value))
-                {
-                    this.OnBaptismTemplateChanging(value);
-                    this.SendPropertyChanging();
-                    this._BaptismTemplate = value;
-                    this.SendPropertyChanged("BaptismTemplate");
-                    this.OnBaptismTemplateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_HolyCommunionTemplate", DbType = "NVarChar(MAX)")]
-        public string HolyCommunionTemplate
-        {
-            get
-            {
-                return this._HolyCommunionTemplate;
-            }
-            set
-            {
-                if ((this._HolyCommunionTemplate != value))
-                {
-                    this.OnHolyCommunionTemplateChanging(value);
-                    this.SendPropertyChanging();
-                    this._HolyCommunionTemplate = value;
-                    this.SendPropertyChanged("HolyCommunionTemplate");
-                    this.OnHolyCommunionTemplateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ConfirmationTemplate", DbType = "NVarChar(MAX)")]
-        public string ConfirmationTemplate
-        {
-            get
-            {
-                return this._ConfirmationTemplate;
-            }
-            set
-            {
-                if ((this._ConfirmationTemplate != value))
-                {
-                    this.OnConfirmationTemplateChanging(value);
-                    this.SendPropertyChanging();
-                    this._ConfirmationTemplate = value;
-                    this.SendPropertyChanged("ConfirmationTemplate");
-                    this.OnConfirmationTemplateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MatrimonyTemplate", DbType = "NVarChar(MAX)")]
-        public string MatrimonyTemplate
-        {
-            get
-            {
-                return this._MatrimonyTemplate;
-            }
-            set
-            {
-                if ((this._MatrimonyTemplate != value))
-                {
-                    this.OnMatrimonyTemplateChanging(value);
-                    this.SendPropertyChanging();
-                    this._MatrimonyTemplate = value;
-                    this.SendPropertyChanged("MatrimonyTemplate");
-                    this.OnMatrimonyTemplateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SacramentTemplate", DbType = "NVarChar(MAX)")]
-        public string SacramentTemplate
-        {
-            get
-            {
-                return this._SacramentTemplate;
-            }
-            set
-            {
-                if ((this._SacramentTemplate != value))
-                {
-                    this.OnSacramentTemplateChanging(value);
-                    this.SendPropertyChanging();
-                    this._SacramentTemplate = value;
-                    this.SendPropertyChanged("SacramentTemplate");
-                    this.OnSacramentTemplateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_Configuration", Storage = "_Parish", ThisKey = "ParishId", OtherKey = "Id", IsForeignKey = true)]
-        public Parish Parish
-        {
-            get
-            {
-                return this._Parish.Entity;
-            }
-            set
-            {
-                Parish previousValue = this._Parish.Entity;
-                if (((previousValue != value)
-                            || (this._Parish.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parish.Entity = null;
-                        previousValue.Configuration = null;
-                    }
-                    this._Parish.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Configuration = this;
-                        this._ParishId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishId = default(int);
-                    }
-                    this.SendPropertyChanged("Parish");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ConstructionPermit")]
-    public partial class ConstructionPermit : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _PermitType;
-
-        private int _ParishId;
-
-        private string _Description;
-
-        private string _FilePath;
-
-        private int _PermitStatus;
-
-        private string _Note;
-
-        private EntityRef<Parish> _Parish;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnPermitTypeChanging(int value);
-        partial void OnPermitTypeChanged();
-        partial void OnParishIdChanging(int value);
-        partial void OnParishIdChanged();
-        partial void OnDescriptionChanging(string value);
-        partial void OnDescriptionChanged();
-        partial void OnFilePathChanging(string value);
-        partial void OnFilePathChanged();
-        partial void OnPermitStatusChanging(int value);
-        partial void OnPermitStatusChanged();
-        partial void OnNoteChanging(string value);
-        partial void OnNoteChanged();
-        #endregion
-
-        public ConstructionPermit()
-        {
-            this._Parish = default(EntityRef<Parish>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_PermitType", DbType = "Int NOT NULL")]
-        public int PermitType
-        {
-            get
-            {
-                return this._PermitType;
-            }
-            set
-            {
-                if ((this._PermitType != value))
-                {
-                    this.OnPermitTypeChanging(value);
-                    this.SendPropertyChanging();
-                    this._PermitType = value;
-                    this.SendPropertyChanged("PermitType");
-                    this.OnPermitTypeChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishId", DbType = "Int NOT NULL")]
-        public int ParishId
-        {
-            get
-            {
-                return this._ParishId;
-            }
-            set
-            {
-                if ((this._ParishId != value))
-                {
-                    if (this._Parish.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishId = value;
-                    this.SendPropertyChanged("ParishId");
-                    this.OnParishIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Description", DbType = "NVarChar(500)")]
-        public string Description
-        {
-            get
-            {
-                return this._Description;
-            }
-            set
-            {
-                if ((this._Description != value))
-                {
-                    this.OnDescriptionChanging(value);
-                    this.SendPropertyChanging();
-                    this._Description = value;
-                    this.SendPropertyChanged("Description");
-                    this.OnDescriptionChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_FilePath", DbType = "NVarChar(255)")]
-        public string FilePath
-        {
-            get
-            {
-                return this._FilePath;
-            }
-            set
-            {
-                if ((this._FilePath != value))
-                {
-                    this.OnFilePathChanging(value);
-                    this.SendPropertyChanging();
-                    this._FilePath = value;
-                    this.SendPropertyChanged("FilePath");
-                    this.OnFilePathChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_PermitStatus", DbType = "Int NOT NULL")]
-        public int PermitStatus
-        {
-            get
-            {
-                return this._PermitStatus;
-            }
-            set
-            {
-                if ((this._PermitStatus != value))
-                {
-                    this.OnPermitStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._PermitStatus = value;
-                    this.SendPropertyChanged("PermitStatus");
-                    this.OnPermitStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Note", DbType = "Text", UpdateCheck = UpdateCheck.Never)]
-        public string Note
-        {
-            get
-            {
-                return this._Note;
-            }
-            set
-            {
-                if ((this._Note != value))
-                {
-                    this.OnNoteChanging(value);
-                    this.SendPropertyChanging();
-                    this._Note = value;
-                    this.SendPropertyChanged("Note");
-                    this.OnNoteChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_ConstructionPermit", Storage = "_Parish", ThisKey = "ParishId", OtherKey = "Id", IsForeignKey = true)]
-        public Parish Parish
-        {
-            get
-            {
-                return this._Parish.Entity;
-            }
-            set
-            {
-                Parish previousValue = this._Parish.Entity;
-                if (((previousValue != value)
-                            || (this._Parish.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parish.Entity = null;
-                        previousValue.ConstructionPermits.Remove(this);
-                    }
-                    this._Parish.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ConstructionPermits.Add(this);
-                        this._ParishId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishId = default(int);
-                    }
-                    this.SendPropertyChanged("Parish");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.DeaconRequisitionComment")]
-    public partial class DeaconRequisitionComment : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Comment;
-
-        private System.DateTime _CreatedAt;
-
-        private System.Nullable<int> _PriestId;
-
-        private System.Nullable<int> _ParishionerId;
-
-        private int _ParishId;
-
-        private int _VocationDeaconRequisitionId;
-
-        private EntityRef<Parish> _Parish;
-
-        private EntityRef<Parishioner> _Parishioner;
-
-        private EntityRef<Priest> _Priest;
-
-        private EntityRef<VocationDeaconRequisitionSession> _VocationDeaconRequisitionSession;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnCommentChanging(string value);
-        partial void OnCommentChanged();
-        partial void OnCreatedAtChanging(System.DateTime value);
-        partial void OnCreatedAtChanged();
-        partial void OnPriestIdChanging(System.Nullable<int> value);
-        partial void OnPriestIdChanged();
-        partial void OnParishionerIdChanging(System.Nullable<int> value);
-        partial void OnParishionerIdChanged();
-        partial void OnParishIdChanging(int value);
-        partial void OnParishIdChanged();
-        partial void OnVocationDeaconRequisitionIdChanging(int value);
-        partial void OnVocationDeaconRequisitionIdChanged();
-        #endregion
-
-        public DeaconRequisitionComment()
-        {
-            this._Parish = default(EntityRef<Parish>);
-            this._Parishioner = default(EntityRef<Parishioner>);
-            this._Priest = default(EntityRef<Priest>);
-            this._VocationDeaconRequisitionSession = default(EntityRef<VocationDeaconRequisitionSession>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Comment", DbType = "NText NOT NULL", CanBeNull = false, UpdateCheck = UpdateCheck.Never)]
-        public string Comment
-        {
-            get
-            {
-                return this._Comment;
-            }
-            set
-            {
-                if ((this._Comment != value))
-                {
-                    this.OnCommentChanging(value);
-                    this.SendPropertyChanging();
-                    this._Comment = value;
-                    this.SendPropertyChanged("Comment");
-                    this.OnCommentChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CreatedAt", DbType = "DateTime NOT NULL")]
-        public System.DateTime CreatedAt
-        {
-            get
-            {
-                return this._CreatedAt;
-            }
-            set
-            {
-                if ((this._CreatedAt != value))
-                {
-                    this.OnCreatedAtChanging(value);
-                    this.SendPropertyChanging();
-                    this._CreatedAt = value;
-                    this.SendPropertyChanged("CreatedAt");
-                    this.OnCreatedAtChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_PriestId", DbType = "Int")]
-        public System.Nullable<int> PriestId
-        {
-            get
-            {
-                return this._PriestId;
-            }
-            set
-            {
-                if ((this._PriestId != value))
-                {
-                    if (this._Priest.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnPriestIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._PriestId = value;
-                    this.SendPropertyChanged("PriestId");
-                    this.OnPriestIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishionerId", DbType = "Int")]
-        public System.Nullable<int> ParishionerId
-        {
-            get
-            {
-                return this._ParishionerId;
-            }
-            set
-            {
-                if ((this._ParishionerId != value))
-                {
-                    if (this._Parishioner.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishionerIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishionerId = value;
-                    this.SendPropertyChanged("ParishionerId");
-                    this.OnParishionerIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishId", DbType = "Int NOT NULL")]
-        public int ParishId
-        {
-            get
-            {
-                return this._ParishId;
-            }
-            set
-            {
-                if ((this._ParishId != value))
-                {
-                    if (this._Parish.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishId = value;
-                    this.SendPropertyChanged("ParishId");
-                    this.OnParishIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_VocationDeaconRequisitionId", DbType = "Int NOT NULL")]
-        public int VocationDeaconRequisitionId
-        {
-            get
-            {
-                return this._VocationDeaconRequisitionId;
-            }
-            set
-            {
-                if ((this._VocationDeaconRequisitionId != value))
-                {
-                    if (this._VocationDeaconRequisitionSession.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnVocationDeaconRequisitionIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._VocationDeaconRequisitionId = value;
-                    this.SendPropertyChanged("VocationDeaconRequisitionId");
-                    this.OnVocationDeaconRequisitionIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_DeaconRequisitionComment", Storage = "_Parish", ThisKey = "ParishId", OtherKey = "Id", IsForeignKey = true)]
-        public Parish Parish
-        {
-            get
-            {
-                return this._Parish.Entity;
-            }
-            set
-            {
-                Parish previousValue = this._Parish.Entity;
-                if (((previousValue != value)
-                            || (this._Parish.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parish.Entity = null;
-                        previousValue.DeaconRequisitionComments.Remove(this);
-                    }
-                    this._Parish.Entity = value;
-                    if ((value != null))
-                    {
-                        value.DeaconRequisitionComments.Add(this);
-                        this._ParishId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishId = default(int);
-                    }
-                    this.SendPropertyChanged("Parish");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_DeaconRequisitionComment", Storage = "_Parishioner", ThisKey = "ParishionerId", OtherKey = "Id", IsForeignKey = true)]
-        public Parishioner Parishioner
-        {
-            get
-            {
-                return this._Parishioner.Entity;
-            }
-            set
-            {
-                Parishioner previousValue = this._Parishioner.Entity;
-                if (((previousValue != value)
-                            || (this._Parishioner.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parishioner.Entity = null;
-                        previousValue.DeaconRequisitionComments.Remove(this);
-                    }
-                    this._Parishioner.Entity = value;
-                    if ((value != null))
-                    {
-                        value.DeaconRequisitionComments.Add(this);
-                        this._ParishionerId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishionerId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Parishioner");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Priest_DeaconRequisitionComment", Storage = "_Priest", ThisKey = "PriestId", OtherKey = "Id", IsForeignKey = true)]
-        public Priest Priest
-        {
-            get
-            {
-                return this._Priest.Entity;
-            }
-            set
-            {
-                Priest previousValue = this._Priest.Entity;
-                if (((previousValue != value)
-                            || (this._Priest.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Priest.Entity = null;
-                        previousValue.DeaconRequisitionComments.Remove(this);
-                    }
-                    this._Priest.Entity = value;
-                    if ((value != null))
-                    {
-                        value.DeaconRequisitionComments.Add(this);
-                        this._PriestId = value.Id;
-                    }
-                    else
-                    {
-                        this._PriestId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Priest");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "VocationDeaconRequisitionSession_DeaconRequisitionComment", Storage = "_VocationDeaconRequisitionSession", ThisKey = "VocationDeaconRequisitionId", OtherKey = "Id", IsForeignKey = true)]
-        public VocationDeaconRequisitionSession VocationDeaconRequisitionSession
-        {
-            get
-            {
-                return this._VocationDeaconRequisitionSession.Entity;
-            }
-            set
-            {
-                VocationDeaconRequisitionSession previousValue = this._VocationDeaconRequisitionSession.Entity;
-                if (((previousValue != value)
-                            || (this._VocationDeaconRequisitionSession.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._VocationDeaconRequisitionSession.Entity = null;
-                        previousValue.DeaconRequisitionComments.Remove(this);
-                    }
-                    this._VocationDeaconRequisitionSession.Entity = value;
-                    if ((value != null))
-                    {
-                        value.DeaconRequisitionComments.Add(this);
-                        this._VocationDeaconRequisitionId = value.Id;
-                    }
-                    else
-                    {
-                        this._VocationDeaconRequisitionId = default(int);
-                    }
-                    this.SendPropertyChanged("VocationDeaconRequisitionSession");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.DeaconRequisitionSession")]
-    public partial class DeaconRequisitionSession : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _SessionName;
-
-        private string _SessionCode;
-
-        private System.DateTime _Year;
-
-        private System.DateTime _DeadlineForPriest;
-
-        private System.Nullable<System.DateTime> _DeadlineForParish;
-
-        private int _Status;
-
-        private System.DateTime _CreatedAt;
-
-        private string _DeaconOrdinationMassParish;
-
-        private System.Nullable<System.DateTime> _DeaconOrdinationMassTime;
-
-        private EntitySet<VocationDeaconRequisitionSession> _VocationDeaconRequisitionSessions;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnSessionNameChanging(string value);
-        partial void OnSessionNameChanged();
-        partial void OnSessionCodeChanging(string value);
-        partial void OnSessionCodeChanged();
-        partial void OnYearChanging(System.DateTime value);
-        partial void OnYearChanged();
-        partial void OnDeadlineForPriestChanging(System.DateTime value);
-        partial void OnDeadlineForPriestChanged();
-        partial void OnDeadlineForParishChanging(System.Nullable<System.DateTime> value);
-        partial void OnDeadlineForParishChanged();
-        partial void OnStatusChanging(int value);
-        partial void OnStatusChanged();
-        partial void OnCreatedAtChanging(System.DateTime value);
-        partial void OnCreatedAtChanged();
-        partial void OnDeaconOrdinationMassParishChanging(string value);
-        partial void OnDeaconOrdinationMassParishChanged();
-        partial void OnDeaconOrdinationMassTimeChanging(System.Nullable<System.DateTime> value);
-        partial void OnDeaconOrdinationMassTimeChanged();
-        #endregion
-
-        public DeaconRequisitionSession()
-        {
-            this._VocationDeaconRequisitionSessions = new EntitySet<VocationDeaconRequisitionSession>(new Action<VocationDeaconRequisitionSession>(this.attach_VocationDeaconRequisitionSessions), new Action<VocationDeaconRequisitionSession>(this.detach_VocationDeaconRequisitionSessions));
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SessionName", DbType = "NVarChar(15) NOT NULL", CanBeNull = false)]
-        public string SessionName
-        {
-            get
-            {
-                return this._SessionName;
-            }
-            set
-            {
-                if ((this._SessionName != value))
-                {
-                    this.OnSessionNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._SessionName = value;
-                    this.SendPropertyChanged("SessionName");
-                    this.OnSessionNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SessionCode", DbType = "NVarChar(15) NOT NULL", CanBeNull = false)]
-        public string SessionCode
-        {
-            get
-            {
-                return this._SessionCode;
-            }
-            set
-            {
-                if ((this._SessionCode != value))
-                {
-                    this.OnSessionCodeChanging(value);
-                    this.SendPropertyChanging();
-                    this._SessionCode = value;
-                    this.SendPropertyChanged("SessionCode");
-                    this.OnSessionCodeChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Year", DbType = "DateTime NOT NULL")]
-        public System.DateTime Year
-        {
-            get
-            {
-                return this._Year;
-            }
-            set
-            {
-                if ((this._Year != value))
-                {
-                    this.OnYearChanging(value);
-                    this.SendPropertyChanging();
-                    this._Year = value;
-                    this.SendPropertyChanged("Year");
-                    this.OnYearChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DeadlineForPriest", DbType = "DateTime NOT NULL")]
-        public System.DateTime DeadlineForPriest
-        {
-            get
-            {
-                return this._DeadlineForPriest;
-            }
-            set
-            {
-                if ((this._DeadlineForPriest != value))
-                {
-                    this.OnDeadlineForPriestChanging(value);
-                    this.SendPropertyChanging();
-                    this._DeadlineForPriest = value;
-                    this.SendPropertyChanged("DeadlineForPriest");
-                    this.OnDeadlineForPriestChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DeadlineForParish", DbType = "DateTime")]
-        public System.Nullable<System.DateTime> DeadlineForParish
-        {
-            get
-            {
-                return this._DeadlineForParish;
-            }
-            set
-            {
-                if ((this._DeadlineForParish != value))
-                {
-                    this.OnDeadlineForParishChanging(value);
-                    this.SendPropertyChanging();
-                    this._DeadlineForParish = value;
-                    this.SendPropertyChanged("DeadlineForParish");
-                    this.OnDeadlineForParishChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Status", DbType = "Int NOT NULL")]
-        public int Status
-        {
-            get
-            {
-                return this._Status;
-            }
-            set
-            {
-                if ((this._Status != value))
-                {
-                    this.OnStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._Status = value;
-                    this.SendPropertyChanged("Status");
-                    this.OnStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CreatedAt", DbType = "DateTime NOT NULL")]
-        public System.DateTime CreatedAt
-        {
-            get
-            {
-                return this._CreatedAt;
-            }
-            set
-            {
-                if ((this._CreatedAt != value))
-                {
-                    this.OnCreatedAtChanging(value);
-                    this.SendPropertyChanging();
-                    this._CreatedAt = value;
-                    this.SendPropertyChanged("CreatedAt");
-                    this.OnCreatedAtChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DeaconOrdinationMassParish", DbType = "NVarChar(255)")]
-        public string DeaconOrdinationMassParish
-        {
-            get
-            {
-                return this._DeaconOrdinationMassParish;
-            }
-            set
-            {
-                if ((this._DeaconOrdinationMassParish != value))
-                {
-                    this.OnDeaconOrdinationMassParishChanging(value);
-                    this.SendPropertyChanging();
-                    this._DeaconOrdinationMassParish = value;
-                    this.SendPropertyChanged("DeaconOrdinationMassParish");
-                    this.OnDeaconOrdinationMassParishChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DeaconOrdinationMassTime", DbType = "DateTime")]
-        public System.Nullable<System.DateTime> DeaconOrdinationMassTime
-        {
-            get
-            {
-                return this._DeaconOrdinationMassTime;
-            }
-            set
-            {
-                if ((this._DeaconOrdinationMassTime != value))
-                {
-                    this.OnDeaconOrdinationMassTimeChanging(value);
-                    this.SendPropertyChanging();
-                    this._DeaconOrdinationMassTime = value;
-                    this.SendPropertyChanged("DeaconOrdinationMassTime");
-                    this.OnDeaconOrdinationMassTimeChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "DeaconRequisitionSession_VocationDeaconRequisitionSession", Storage = "_VocationDeaconRequisitionSessions", ThisKey = "Id", OtherKey = "DeaconRequisitionSessionId")]
-        public EntitySet<VocationDeaconRequisitionSession> VocationDeaconRequisitionSessions
-        {
-            get
-            {
-                return this._VocationDeaconRequisitionSessions;
-            }
-            set
-            {
-                this._VocationDeaconRequisitionSessions.Assign(value);
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_VocationDeaconRequisitionSessions(VocationDeaconRequisitionSession entity)
-        {
-            this.SendPropertyChanging();
-            entity.DeaconRequisitionSession = this;
-        }
-
-        private void detach_VocationDeaconRequisitionSessions(VocationDeaconRequisitionSession entity)
-        {
-            this.SendPropertyChanging();
-            entity.DeaconRequisitionSession = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Diocese")]
-    public partial class Diocese : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _ImageUrl;
-
-        private string _Name;
-
-        private string _Address;
-
-        private string _Website;
-
-        private string _Phone;
-
-        private string _Email;
-
-        private string _Bishop;
-
-        private string _Church;
-
-        private EntitySet<Account> _Accounts;
-
-        private EntitySet<Priest> _Priests;
-
-        private EntitySet<Vicariate> _Vicariates;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnImageUrlChanging(string value);
-        partial void OnImageUrlChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnAddressChanging(string value);
-        partial void OnAddressChanged();
-        partial void OnWebsiteChanging(string value);
-        partial void OnWebsiteChanged();
-        partial void OnPhoneChanging(string value);
-        partial void OnPhoneChanged();
-        partial void OnEmailChanging(string value);
-        partial void OnEmailChanged();
-        partial void OnBishopChanging(string value);
-        partial void OnBishopChanged();
-        partial void OnChurchChanging(string value);
-        partial void OnChurchChanged();
-        #endregion
-
-        public Diocese()
-        {
-            this._Accounts = new EntitySet<Account>(new Action<Account>(this.attach_Accounts), new Action<Account>(this.detach_Accounts));
-            this._Priests = new EntitySet<Priest>(new Action<Priest>(this.attach_Priests), new Action<Priest>(this.detach_Priests));
-            this._Vicariates = new EntitySet<Vicariate>(new Action<Vicariate>(this.attach_Vicariates), new Action<Vicariate>(this.detach_Vicariates));
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ImageUrl", DbType = "NVarChar(200) NOT NULL", CanBeNull = false)]
-        public string ImageUrl
-        {
-            get
-            {
-                return this._ImageUrl;
-            }
-            set
-            {
-                if ((this._ImageUrl != value))
-                {
-                    this.OnImageUrlChanging(value);
-                    this.SendPropertyChanging();
-                    this._ImageUrl = value;
-                    this.SendPropertyChanged("ImageUrl");
-                    this.OnImageUrlChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Address", DbType = "NVarChar(100)")]
-        public string Address
-        {
-            get
-            {
-                return this._Address;
-            }
-            set
-            {
-                if ((this._Address != value))
-                {
-                    this.OnAddressChanging(value);
-                    this.SendPropertyChanging();
-                    this._Address = value;
-                    this.SendPropertyChanged("Address");
-                    this.OnAddressChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Website", DbType = "NVarChar(100)")]
-        public string Website
-        {
-            get
-            {
-                return this._Website;
-            }
-            set
-            {
-                if ((this._Website != value))
-                {
-                    this.OnWebsiteChanging(value);
-                    this.SendPropertyChanging();
-                    this._Website = value;
-                    this.SendPropertyChanged("Website");
-                    this.OnWebsiteChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Phone", DbType = "NVarChar(20)")]
-        public string Phone
-        {
-            get
-            {
-                return this._Phone;
-            }
-            set
-            {
-                if ((this._Phone != value))
-                {
-                    this.OnPhoneChanging(value);
-                    this.SendPropertyChanging();
-                    this._Phone = value;
-                    this.SendPropertyChanged("Phone");
-                    this.OnPhoneChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Email", DbType = "NVarChar(100)")]
-        public string Email
-        {
-            get
-            {
-                return this._Email;
-            }
-            set
-            {
-                if ((this._Email != value))
-                {
-                    this.OnEmailChanging(value);
-                    this.SendPropertyChanging();
-                    this._Email = value;
-                    this.SendPropertyChanged("Email");
-                    this.OnEmailChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Bishop", DbType = "NVarChar(100)")]
-        public string Bishop
-        {
-            get
-            {
-                return this._Bishop;
-            }
-            set
-            {
-                if ((this._Bishop != value))
-                {
-                    this.OnBishopChanging(value);
-                    this.SendPropertyChanging();
-                    this._Bishop = value;
-                    this.SendPropertyChanged("Bishop");
-                    this.OnBishopChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Church", DbType = "NVarChar(100)")]
-        public string Church
-        {
-            get
-            {
-                return this._Church;
-            }
-            set
-            {
-                if ((this._Church != value))
-                {
-                    this.OnChurchChanging(value);
-                    this.SendPropertyChanging();
-                    this._Church = value;
-                    this.SendPropertyChanged("Church");
-                    this.OnChurchChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Diocese_Account", Storage = "_Accounts", ThisKey = "Id", OtherKey = "DioceseId")]
-        public EntitySet<Account> Accounts
-        {
-            get
-            {
-                return this._Accounts;
-            }
-            set
-            {
-                this._Accounts.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Diocese_Priest", Storage = "_Priests", ThisKey = "Id", OtherKey = "DioceseId")]
-        public EntitySet<Priest> Priests
-        {
-            get
-            {
-                return this._Priests;
-            }
-            set
-            {
-                this._Priests.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Diocese_Vicariate", Storage = "_Vicariates", ThisKey = "Id", OtherKey = "DioceseId")]
-        public EntitySet<Vicariate> Vicariates
-        {
-            get
-            {
-                return this._Vicariates;
-            }
-            set
-            {
-                this._Vicariates.Assign(value);
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_Accounts(Account entity)
-        {
-            this.SendPropertyChanging();
-            entity.Diocese = this;
-        }
-
-        private void detach_Accounts(Account entity)
-        {
-            this.SendPropertyChanging();
-            entity.Diocese = null;
-        }
-
-        private void attach_Priests(Priest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Diocese = this;
-        }
-
-        private void detach_Priests(Priest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Diocese = null;
-        }
-
-        private void attach_Vicariates(Vicariate entity)
-        {
-            this.SendPropertyChanging();
-            entity.Diocese = this;
-        }
-
-        private void detach_Vicariates(Vicariate entity)
-        {
-            this.SendPropertyChanging();
-            entity.Diocese = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Family")]
-    public partial class Family : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Code;
-
-        private string _Name;
-
-        private string _Phone;
-
-        private string _Address;
-
-        private string _Note;
-
-        private int _DomicileStatus;
-
-        private string _DomicilePlace;
-
-        private bool _IsCounted;
-
-        private int _Status;
-
-        private int _CommunityId;
-
-        private EntitySet<FamilyMember> _FamilyMembers;
-
-        private EntitySet<FamilyMigrationRequest> _FamilyMigrationRequests;
-
-        private EntityRef<Community> _Community;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnCodeChanging(string value);
-        partial void OnCodeChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnPhoneChanging(string value);
-        partial void OnPhoneChanged();
-        partial void OnAddressChanging(string value);
-        partial void OnAddressChanged();
-        partial void OnNoteChanging(string value);
-        partial void OnNoteChanged();
-        partial void OnDomicileStatusChanging(int value);
-        partial void OnDomicileStatusChanged();
-        partial void OnDomicilePlaceChanging(string value);
-        partial void OnDomicilePlaceChanged();
-        partial void OnIsCountedChanging(bool value);
-        partial void OnIsCountedChanged();
-        partial void OnStatusChanging(int value);
-        partial void OnStatusChanged();
-        partial void OnCommunityIdChanging(int value);
-        partial void OnCommunityIdChanged();
-        #endregion
-
-        public Family()
-        {
-            this._FamilyMembers = new EntitySet<FamilyMember>(new Action<FamilyMember>(this.attach_FamilyMembers), new Action<FamilyMember>(this.detach_FamilyMembers));
-            this._FamilyMigrationRequests = new EntitySet<FamilyMigrationRequest>(new Action<FamilyMigrationRequest>(this.attach_FamilyMigrationRequests), new Action<FamilyMigrationRequest>(this.detach_FamilyMigrationRequests));
-            this._Community = default(EntityRef<Community>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Code", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Code
-        {
-            get
-            {
-                return this._Code;
-            }
-            set
-            {
-                if ((this._Code != value))
-                {
-                    this.OnCodeChanging(value);
-                    this.SendPropertyChanging();
-                    this._Code = value;
-                    this.SendPropertyChanged("Code");
-                    this.OnCodeChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Phone", DbType = "VarChar(20)")]
-        public string Phone
-        {
-            get
-            {
-                return this._Phone;
-            }
-            set
-            {
-                if ((this._Phone != value))
-                {
-                    this.OnPhoneChanging(value);
-                    this.SendPropertyChanging();
-                    this._Phone = value;
-                    this.SendPropertyChanged("Phone");
-                    this.OnPhoneChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Address", DbType = "NVarChar(100)")]
-        public string Address
-        {
-            get
-            {
-                return this._Address;
-            }
-            set
-            {
-                if ((this._Address != value))
-                {
-                    this.OnAddressChanging(value);
-                    this.SendPropertyChanging();
-                    this._Address = value;
-                    this.SendPropertyChanged("Address");
-                    this.OnAddressChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Note", DbType = "NVarChar(200)")]
-        public string Note
-        {
-            get
-            {
-                return this._Note;
-            }
-            set
-            {
-                if ((this._Note != value))
-                {
-                    this.OnNoteChanging(value);
-                    this.SendPropertyChanging();
-                    this._Note = value;
-                    this.SendPropertyChanged("Note");
-                    this.OnNoteChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DomicileStatus", DbType = "Int NOT NULL")]
-        public int DomicileStatus
-        {
-            get
-            {
-                return this._DomicileStatus;
-            }
-            set
-            {
-                if ((this._DomicileStatus != value))
-                {
-                    this.OnDomicileStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._DomicileStatus = value;
-                    this.SendPropertyChanged("DomicileStatus");
-                    this.OnDomicileStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DomicilePlace", DbType = "NVarChar(100)")]
-        public string DomicilePlace
-        {
-            get
-            {
-                return this._DomicilePlace;
-            }
-            set
-            {
-                if ((this._DomicilePlace != value))
-                {
-                    this.OnDomicilePlaceChanging(value);
-                    this.SendPropertyChanging();
-                    this._DomicilePlace = value;
-                    this.SendPropertyChanged("DomicilePlace");
-                    this.OnDomicilePlaceChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsCounted", DbType = "Bit NOT NULL")]
-        public bool IsCounted
-        {
-            get
-            {
-                return this._IsCounted;
-            }
-            set
-            {
-                if ((this._IsCounted != value))
-                {
-                    this.OnIsCountedChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsCounted = value;
-                    this.SendPropertyChanged("IsCounted");
-                    this.OnIsCountedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Status", DbType = "Int NOT NULL")]
-        public int Status
-        {
-            get
-            {
-                return this._Status;
-            }
-            set
-            {
-                if ((this._Status != value))
-                {
-                    this.OnStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._Status = value;
-                    this.SendPropertyChanged("Status");
-                    this.OnStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CommunityId", DbType = "Int NOT NULL")]
-        public int CommunityId
-        {
-            get
-            {
-                return this._CommunityId;
-            }
-            set
-            {
-                if ((this._CommunityId != value))
-                {
-                    if (this._Community.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnCommunityIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._CommunityId = value;
-                    this.SendPropertyChanged("CommunityId");
-                    this.OnCommunityIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Family_FamilyMember", Storage = "_FamilyMembers", ThisKey = "Id", OtherKey = "FamilyId")]
-        public EntitySet<FamilyMember> FamilyMembers
-        {
-            get
-            {
-                return this._FamilyMembers;
-            }
-            set
-            {
-                this._FamilyMembers.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Family_FamilyMigrationRequest", Storage = "_FamilyMigrationRequests", ThisKey = "Id", OtherKey = "FamilyId")]
-        public EntitySet<FamilyMigrationRequest> FamilyMigrationRequests
-        {
-            get
-            {
-                return this._FamilyMigrationRequests;
-            }
-            set
-            {
-                this._FamilyMigrationRequests.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Community_Family", Storage = "_Community", ThisKey = "CommunityId", OtherKey = "Id", IsForeignKey = true)]
-        public Community Community
-        {
-            get
-            {
-                return this._Community.Entity;
-            }
-            set
-            {
-                Community previousValue = this._Community.Entity;
-                if (((previousValue != value)
-                            || (this._Community.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Community.Entity = null;
-                        previousValue.Families.Remove(this);
-                    }
-                    this._Community.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Families.Add(this);
-                        this._CommunityId = value.Id;
-                    }
-                    else
-                    {
-                        this._CommunityId = default(int);
-                    }
-                    this.SendPropertyChanged("Community");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_FamilyMembers(FamilyMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.Family = this;
-        }
-
-        private void detach_FamilyMembers(FamilyMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.Family = null;
-        }
-
-        private void attach_FamilyMigrationRequests(FamilyMigrationRequest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Family = this;
-        }
-
-        private void detach_FamilyMigrationRequests(FamilyMigrationRequest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Family = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.FamilyMember")]
-    public partial class FamilyMember : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _FamilyId;
-
-        private int _ParishionerId;
-
-        private int _Position;
-
-        private int _Status;
-
-        private bool _IsHouseholder;
-
-        private EntityRef<Family> _Family;
-
-        private EntityRef<Parishioner> _Parishioner;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnFamilyIdChanging(int value);
-        partial void OnFamilyIdChanged();
-        partial void OnParishionerIdChanging(int value);
-        partial void OnParishionerIdChanged();
-        partial void OnPositionChanging(int value);
-        partial void OnPositionChanged();
-        partial void OnStatusChanging(int value);
-        partial void OnStatusChanged();
-        partial void OnIsHouseholderChanging(bool value);
-        partial void OnIsHouseholderChanged();
-        #endregion
-
-        public FamilyMember()
-        {
-            this._Family = default(EntityRef<Family>);
-            this._Parishioner = default(EntityRef<Parishioner>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_FamilyId", DbType = "Int NOT NULL")]
-        public int FamilyId
-        {
-            get
-            {
-                return this._FamilyId;
-            }
-            set
-            {
-                if ((this._FamilyId != value))
-                {
-                    if (this._Family.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnFamilyIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._FamilyId = value;
-                    this.SendPropertyChanged("FamilyId");
-                    this.OnFamilyIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishionerId", DbType = "Int NOT NULL")]
-        public int ParishionerId
-        {
-            get
-            {
-                return this._ParishionerId;
-            }
-            set
-            {
-                if ((this._ParishionerId != value))
-                {
-                    if (this._Parishioner.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishionerIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishionerId = value;
-                    this.SendPropertyChanged("ParishionerId");
-                    this.OnParishionerIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Position", DbType = "Int NOT NULL")]
-        public int Position
-        {
-            get
-            {
-                return this._Position;
-            }
-            set
-            {
-                if ((this._Position != value))
-                {
-                    this.OnPositionChanging(value);
-                    this.SendPropertyChanging();
-                    this._Position = value;
-                    this.SendPropertyChanged("Position");
-                    this.OnPositionChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Status", DbType = "Int NOT NULL")]
-        public int Status
-        {
-            get
-            {
-                return this._Status;
-            }
-            set
-            {
-                if ((this._Status != value))
-                {
-                    this.OnStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._Status = value;
-                    this.SendPropertyChanged("Status");
-                    this.OnStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsHouseholder", DbType = "Bit NOT NULL")]
-        public bool IsHouseholder
-        {
-            get
-            {
-                return this._IsHouseholder;
-            }
-            set
-            {
-                if ((this._IsHouseholder != value))
-                {
-                    this.OnIsHouseholderChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsHouseholder = value;
-                    this.SendPropertyChanged("IsHouseholder");
-                    this.OnIsHouseholderChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Family_FamilyMember", Storage = "_Family", ThisKey = "FamilyId", OtherKey = "Id", IsForeignKey = true)]
-        public Family Family
-        {
-            get
-            {
-                return this._Family.Entity;
-            }
-            set
-            {
-                Family previousValue = this._Family.Entity;
-                if (((previousValue != value)
-                            || (this._Family.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Family.Entity = null;
-                        previousValue.FamilyMembers.Remove(this);
-                    }
-                    this._Family.Entity = value;
-                    if ((value != null))
-                    {
-                        value.FamilyMembers.Add(this);
-                        this._FamilyId = value.Id;
-                    }
-                    else
-                    {
-                        this._FamilyId = default(int);
-                    }
-                    this.SendPropertyChanged("Family");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_FamilyMember", Storage = "_Parishioner", ThisKey = "ParishionerId", OtherKey = "Id", IsForeignKey = true)]
-        public Parishioner Parishioner
-        {
-            get
-            {
-                return this._Parishioner.Entity;
-            }
-            set
-            {
-                Parishioner previousValue = this._Parishioner.Entity;
-                if (((previousValue != value)
-                            || (this._Parishioner.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parishioner.Entity = null;
-                        previousValue.FamilyMembers.Remove(this);
-                    }
-                    this._Parishioner.Entity = value;
-                    if ((value != null))
-                    {
-                        value.FamilyMembers.Add(this);
-                        this._ParishionerId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishionerId = default(int);
-                    }
-                    this.SendPropertyChanged("Parishioner");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.FamilyMigrationRequest")]
-    public partial class FamilyMigrationRequest : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _FamilyId;
-
-        private System.Nullable<int> _ToParishId;
-
-        private System.DateTime _CreatedDate;
-
-        private int _FromCommunityId;
-
-        private int _Status;
-
-        private EntityRef<Community> _Community;
-
-        private EntityRef<Family> _Family;
-
-        private EntityRef<Parish> _Parish;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnFamilyIdChanging(int value);
-        partial void OnFamilyIdChanged();
-        partial void OnToParishIdChanging(System.Nullable<int> value);
-        partial void OnToParishIdChanged();
-        partial void OnCreatedDateChanging(System.DateTime value);
-        partial void OnCreatedDateChanged();
-        partial void OnFromCommunityIdChanging(int value);
-        partial void OnFromCommunityIdChanged();
-        partial void OnStatusChanging(int value);
-        partial void OnStatusChanged();
-        #endregion
-
-        public FamilyMigrationRequest()
-        {
-            this._Community = default(EntityRef<Community>);
-            this._Family = default(EntityRef<Family>);
-            this._Parish = default(EntityRef<Parish>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_FamilyId", DbType = "Int NOT NULL")]
-        public int FamilyId
-        {
-            get
-            {
-                return this._FamilyId;
-            }
-            set
-            {
-                if ((this._FamilyId != value))
-                {
-                    if (this._Family.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnFamilyIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._FamilyId = value;
-                    this.SendPropertyChanged("FamilyId");
-                    this.OnFamilyIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ToParishId", DbType = "Int")]
-        public System.Nullable<int> ToParishId
-        {
-            get
-            {
-                return this._ToParishId;
-            }
-            set
-            {
-                if ((this._ToParishId != value))
-                {
-                    if (this._Parish.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnToParishIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ToParishId = value;
-                    this.SendPropertyChanged("ToParishId");
-                    this.OnToParishIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CreatedDate", DbType = "DateTime NOT NULL")]
-        public System.DateTime CreatedDate
-        {
-            get
-            {
-                return this._CreatedDate;
-            }
-            set
-            {
-                if ((this._CreatedDate != value))
-                {
-                    this.OnCreatedDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._CreatedDate = value;
-                    this.SendPropertyChanged("CreatedDate");
-                    this.OnCreatedDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_FromCommunityId", DbType = "Int NOT NULL")]
-        public int FromCommunityId
-        {
-            get
-            {
-                return this._FromCommunityId;
-            }
-            set
-            {
-                if ((this._FromCommunityId != value))
-                {
-                    if (this._Community.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnFromCommunityIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._FromCommunityId = value;
-                    this.SendPropertyChanged("FromCommunityId");
-                    this.OnFromCommunityIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Status", DbType = "Int NOT NULL")]
-        public int Status
-        {
-            get
-            {
-                return this._Status;
-            }
-            set
-            {
-                if ((this._Status != value))
-                {
-                    this.OnStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._Status = value;
-                    this.SendPropertyChanged("Status");
-                    this.OnStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Community_FamilyMigrationRequest", Storage = "_Community", ThisKey = "FromCommunityId", OtherKey = "Id", IsForeignKey = true)]
-        public Community Community
-        {
-            get
-            {
-                return this._Community.Entity;
-            }
-            set
-            {
-                Community previousValue = this._Community.Entity;
-                if (((previousValue != value)
-                            || (this._Community.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Community.Entity = null;
-                        previousValue.FamilyMigrationRequests.Remove(this);
-                    }
-                    this._Community.Entity = value;
-                    if ((value != null))
-                    {
-                        value.FamilyMigrationRequests.Add(this);
-                        this._FromCommunityId = value.Id;
-                    }
-                    else
-                    {
-                        this._FromCommunityId = default(int);
-                    }
-                    this.SendPropertyChanged("Community");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Family_FamilyMigrationRequest", Storage = "_Family", ThisKey = "FamilyId", OtherKey = "Id", IsForeignKey = true)]
-        public Family Family
-        {
-            get
-            {
-                return this._Family.Entity;
-            }
-            set
-            {
-                Family previousValue = this._Family.Entity;
-                if (((previousValue != value)
-                            || (this._Family.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Family.Entity = null;
-                        previousValue.FamilyMigrationRequests.Remove(this);
-                    }
-                    this._Family.Entity = value;
-                    if ((value != null))
-                    {
-                        value.FamilyMigrationRequests.Add(this);
-                        this._FamilyId = value.Id;
-                    }
-                    else
-                    {
-                        this._FamilyId = default(int);
-                    }
-                    this.SendPropertyChanged("Family");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_FamilyMigrationRequest", Storage = "_Parish", ThisKey = "ToParishId", OtherKey = "Id", IsForeignKey = true)]
-        public Parish Parish
-        {
-            get
-            {
-                return this._Parish.Entity;
-            }
-            set
-            {
-                Parish previousValue = this._Parish.Entity;
-                if (((previousValue != value)
-                            || (this._Parish.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parish.Entity = null;
-                        previousValue.FamilyMigrationRequests.Remove(this);
-                    }
-                    this._Parish.Entity = value;
-                    if ((value != null))
-                    {
-                        value.FamilyMigrationRequests.Add(this);
-                        this._ToParishId = value.Id;
-                    }
-                    else
-                    {
-                        this._ToParishId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Parish");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.GeneralStatus")]
-    public partial class GeneralStatus : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Status;
-
-        private string _Key;
-
-        private EntitySet<ParishManager> _ParishManagers;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnStatusChanging(string value);
-        partial void OnStatusChanged();
-        partial void OnKeyChanging(string value);
-        partial void OnKeyChanged();
-        #endregion
-
-        public GeneralStatus()
-        {
-            this._ParishManagers = new EntitySet<ParishManager>(new Action<ParishManager>(this.attach_ParishManagers), new Action<ParishManager>(this.detach_ParishManagers));
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Status", DbType = "NVarChar(255) NOT NULL", CanBeNull = false)]
-        public string Status
-        {
-            get
-            {
-                return this._Status;
-            }
-            set
-            {
-                if ((this._Status != value))
-                {
-                    this.OnStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._Status = value;
-                    this.SendPropertyChanged("Status");
-                    this.OnStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Name = "[Key]", Storage = "_Key", DbType = "VarChar(10) NOT NULL", CanBeNull = false)]
-        public string Key
-        {
-            get
-            {
-                return this._Key;
-            }
-            set
-            {
-                if ((this._Key != value))
-                {
-                    this.OnKeyChanging(value);
-                    this.SendPropertyChanging();
-                    this._Key = value;
-                    this.SendPropertyChanged("Key");
-                    this.OnKeyChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "GeneralStatus_ParishManager", Storage = "_ParishManagers", ThisKey = "Id", OtherKey = "StatusId")]
-        public EntitySet<ParishManager> ParishManagers
-        {
-            get
-            {
-                return this._ParishManagers;
-            }
-            set
-            {
-                this._ParishManagers.Assign(value);
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_ParishManagers(ParishManager entity)
-        {
-            this.SendPropertyChanging();
-            entity.GeneralStatus = this;
-        }
-
-        private void detach_ParishManagers(ParishManager entity)
-        {
-            this.SendPropertyChanging();
-            entity.GeneralStatus = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.GiayMoi")]
-    public partial class GiayMoi : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Ten;
-
-        private int _Loai;
-
-        private string _Mau;
-
-        private string _NgayMoi;
-
-        private string _NgaySuKien;
-
-        private string _DiaDiem;
-
-        private System.Nullable<int> _NguoiGoi;
-
-        private string _ThoiGian;
-
-        private System.Nullable<int> _MauId;
-
-        private EntitySet<KhachMoi> _KhachMois;
-
-        private EntityRef<LetterAndReport> _LetterAndReport;
-
-        private EntityRef<Parishioner> _Parishioner;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnTenChanging(string value);
-        partial void OnTenChanged();
-        partial void OnLoaiChanging(int value);
-        partial void OnLoaiChanged();
-        partial void OnMauChanging(string value);
-        partial void OnMauChanged();
-        partial void OnNgayMoiChanging(string value);
-        partial void OnNgayMoiChanged();
-        partial void OnNgaySuKienChanging(string value);
-        partial void OnNgaySuKienChanged();
-        partial void OnDiaDiemChanging(string value);
-        partial void OnDiaDiemChanged();
-        partial void OnNguoiGoiChanging(System.Nullable<int> value);
-        partial void OnNguoiGoiChanged();
-        partial void OnThoiGianChanging(string value);
-        partial void OnThoiGianChanged();
-        partial void OnMauIdChanging(System.Nullable<int> value);
-        partial void OnMauIdChanged();
-        #endregion
-
-        public GiayMoi()
-        {
-            this._KhachMois = new EntitySet<KhachMoi>(new Action<KhachMoi>(this.attach_KhachMois), new Action<KhachMoi>(this.detach_KhachMois));
-            this._LetterAndReport = default(EntityRef<LetterAndReport>);
-            this._Parishioner = default(EntityRef<Parishioner>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Ten", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Ten
-        {
-            get
-            {
-                return this._Ten;
-            }
-            set
-            {
-                if ((this._Ten != value))
-                {
-                    this.OnTenChanging(value);
-                    this.SendPropertyChanging();
-                    this._Ten = value;
-                    this.SendPropertyChanged("Ten");
-                    this.OnTenChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Loai", DbType = "Int NOT NULL")]
-        public int Loai
-        {
-            get
-            {
-                return this._Loai;
-            }
-            set
-            {
-                if ((this._Loai != value))
-                {
-                    this.OnLoaiChanging(value);
-                    this.SendPropertyChanging();
-                    this._Loai = value;
-                    this.SendPropertyChanged("Loai");
-                    this.OnLoaiChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Mau", DbType = "NText", UpdateCheck = UpdateCheck.Never)]
-        public string Mau
-        {
-            get
-            {
-                return this._Mau;
-            }
-            set
-            {
-                if ((this._Mau != value))
-                {
-                    this.OnMauChanging(value);
-                    this.SendPropertyChanging();
-                    this._Mau = value;
-                    this.SendPropertyChanged("Mau");
-                    this.OnMauChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_NgayMoi", DbType = "Char(10)")]
-        public string NgayMoi
-        {
-            get
-            {
-                return this._NgayMoi;
-            }
-            set
-            {
-                if ((this._NgayMoi != value))
-                {
-                    this.OnNgayMoiChanging(value);
-                    this.SendPropertyChanging();
-                    this._NgayMoi = value;
-                    this.SendPropertyChanged("NgayMoi");
-                    this.OnNgayMoiChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_NgaySuKien", DbType = "Char(10)")]
-        public string NgaySuKien
-        {
-            get
-            {
-                return this._NgaySuKien;
-            }
-            set
-            {
-                if ((this._NgaySuKien != value))
-                {
-                    this.OnNgaySuKienChanging(value);
-                    this.SendPropertyChanging();
-                    this._NgaySuKien = value;
-                    this.SendPropertyChanged("NgaySuKien");
-                    this.OnNgaySuKienChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DiaDiem", DbType = "NVarChar(255)")]
-        public string DiaDiem
-        {
-            get
-            {
-                return this._DiaDiem;
-            }
-            set
-            {
-                if ((this._DiaDiem != value))
-                {
-                    this.OnDiaDiemChanging(value);
-                    this.SendPropertyChanging();
-                    this._DiaDiem = value;
-                    this.SendPropertyChanged("DiaDiem");
-                    this.OnDiaDiemChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_NguoiGoi", DbType = "Int")]
-        public System.Nullable<int> NguoiGoi
-        {
-            get
-            {
-                return this._NguoiGoi;
-            }
-            set
-            {
-                if ((this._NguoiGoi != value))
-                {
-                    if (this._Parishioner.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnNguoiGoiChanging(value);
-                    this.SendPropertyChanging();
-                    this._NguoiGoi = value;
-                    this.SendPropertyChanged("NguoiGoi");
-                    this.OnNguoiGoiChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ThoiGian", DbType = "Char(10)")]
-        public string ThoiGian
-        {
-            get
-            {
-                return this._ThoiGian;
-            }
-            set
-            {
-                if ((this._ThoiGian != value))
-                {
-                    this.OnThoiGianChanging(value);
-                    this.SendPropertyChanging();
-                    this._ThoiGian = value;
-                    this.SendPropertyChanged("ThoiGian");
-                    this.OnThoiGianChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MauId", DbType = "Int")]
-        public System.Nullable<int> MauId
-        {
-            get
-            {
-                return this._MauId;
-            }
-            set
-            {
-                if ((this._MauId != value))
-                {
-                    if (this._LetterAndReport.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnMauIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._MauId = value;
-                    this.SendPropertyChanged("MauId");
-                    this.OnMauIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "GiayMoi_KhachMoi", Storage = "_KhachMois", ThisKey = "Id", OtherKey = "GiayMoiId")]
-        public EntitySet<KhachMoi> KhachMois
-        {
-            get
-            {
-                return this._KhachMois;
-            }
-            set
-            {
-                this._KhachMois.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "LetterAndReport_GiayMoi", Storage = "_LetterAndReport", ThisKey = "MauId", OtherKey = "Id", IsForeignKey = true)]
-        public LetterAndReport LetterAndReport
-        {
-            get
-            {
-                return this._LetterAndReport.Entity;
-            }
-            set
-            {
-                LetterAndReport previousValue = this._LetterAndReport.Entity;
-                if (((previousValue != value)
-                            || (this._LetterAndReport.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._LetterAndReport.Entity = null;
-                        previousValue.GiayMois.Remove(this);
-                    }
-                    this._LetterAndReport.Entity = value;
-                    if ((value != null))
-                    {
-                        value.GiayMois.Add(this);
-                        this._MauId = value.Id;
-                    }
-                    else
-                    {
-                        this._MauId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("LetterAndReport");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_GiayMoi", Storage = "_Parishioner", ThisKey = "NguoiGoi", OtherKey = "Id", IsForeignKey = true)]
-        public Parishioner Parishioner
-        {
-            get
-            {
-                return this._Parishioner.Entity;
-            }
-            set
-            {
-                Parishioner previousValue = this._Parishioner.Entity;
-                if (((previousValue != value)
-                            || (this._Parishioner.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parishioner.Entity = null;
-                        previousValue.GiayMois.Remove(this);
-                    }
-                    this._Parishioner.Entity = value;
-                    if ((value != null))
-                    {
-                        value.GiayMois.Add(this);
-                        this._NguoiGoi = value.Id;
-                    }
-                    else
-                    {
-                        this._NguoiGoi = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Parishioner");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_KhachMois(KhachMoi entity)
-        {
-            this.SendPropertyChanging();
-            entity.GiayMoi = this;
-        }
-
-        private void detach_KhachMois(KhachMoi entity)
-        {
-            this.SendPropertyChanging();
-            entity.GiayMoi = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.HDLMMember")]
-    public partial class HDLMMember : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _PriestID;
-
-        private int _HdlmID;
-
-        private int _Role;
-
-        private EntityRef<HoiDongLinhMuc> _HoiDongLinhMuc;
-
-        private EntityRef<Priest> _Priest;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnPriestIDChanging(int value);
-        partial void OnPriestIDChanged();
-        partial void OnHdlmIDChanging(int value);
-        partial void OnHdlmIDChanged();
-        partial void OnRoleChanging(int value);
-        partial void OnRoleChanged();
-        #endregion
-
-        public HDLMMember()
-        {
-            this._HoiDongLinhMuc = default(EntityRef<HoiDongLinhMuc>);
-            this._Priest = default(EntityRef<Priest>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_PriestID", DbType = "Int NOT NULL", IsPrimaryKey = true)]
-        public int PriestID
-        {
-            get
-            {
-                return this._PriestID;
-            }
-            set
-            {
-                if ((this._PriestID != value))
-                {
-                    if (this._Priest.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnPriestIDChanging(value);
-                    this.SendPropertyChanging();
-                    this._PriestID = value;
-                    this.SendPropertyChanged("PriestID");
-                    this.OnPriestIDChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_HdlmID", DbType = "Int NOT NULL", IsPrimaryKey = true)]
-        public int HdlmID
-        {
-            get
-            {
-                return this._HdlmID;
-            }
-            set
-            {
-                if ((this._HdlmID != value))
-                {
-                    if (this._HoiDongLinhMuc.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnHdlmIDChanging(value);
-                    this.SendPropertyChanging();
-                    this._HdlmID = value;
-                    this.SendPropertyChanged("HdlmID");
-                    this.OnHdlmIDChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Role", DbType = "Int NOT NULL")]
-        public int Role
-        {
-            get
-            {
-                return this._Role;
-            }
-            set
-            {
-                if ((this._Role != value))
-                {
-                    this.OnRoleChanging(value);
-                    this.SendPropertyChanging();
-                    this._Role = value;
-                    this.SendPropertyChanged("Role");
-                    this.OnRoleChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "HoiDongLinhMuc_HDLMMember", Storage = "_HoiDongLinhMuc", ThisKey = "HdlmID", OtherKey = "Id", IsForeignKey = true)]
-        public HoiDongLinhMuc HoiDongLinhMuc
-        {
-            get
-            {
-                return this._HoiDongLinhMuc.Entity;
-            }
-            set
-            {
-                HoiDongLinhMuc previousValue = this._HoiDongLinhMuc.Entity;
-                if (((previousValue != value)
-                            || (this._HoiDongLinhMuc.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._HoiDongLinhMuc.Entity = null;
-                        previousValue.HDLMMembers.Remove(this);
-                    }
-                    this._HoiDongLinhMuc.Entity = value;
-                    if ((value != null))
-                    {
-                        value.HDLMMembers.Add(this);
-                        this._HdlmID = value.Id;
-                    }
-                    else
-                    {
-                        this._HdlmID = default(int);
-                    }
-                    this.SendPropertyChanged("HoiDongLinhMuc");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Priest_HDLMMember", Storage = "_Priest", ThisKey = "PriestID", OtherKey = "Id", IsForeignKey = true)]
-        public Priest Priest
-        {
-            get
-            {
-                return this._Priest.Entity;
-            }
-            set
-            {
-                Priest previousValue = this._Priest.Entity;
-                if (((previousValue != value)
-                            || (this._Priest.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Priest.Entity = null;
-                        previousValue.HDLMMembers.Remove(this);
-                    }
-                    this._Priest.Entity = value;
-                    if ((value != null))
-                    {
-                        value.HDLMMembers.Add(this);
-                        this._PriestID = value.Id;
-                    }
-                    else
-                    {
-                        this._PriestID = default(int);
-                    }
-                    this.SendPropertyChanged("Priest");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.HoiDongLinhMuc")]
-    public partial class HoiDongLinhMuc : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Name;
-
-        private string _Description;
-
-        private string _Note;
-
-        private EntitySet<HDLMMember> _HDLMMembers;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnDescriptionChanging(string value);
-        partial void OnDescriptionChanged();
-        partial void OnNoteChanging(string value);
-        partial void OnNoteChanged();
-        #endregion
-
-        public HoiDongLinhMuc()
-        {
-            this._HDLMMembers = new EntitySet<HDLMMember>(new Action<HDLMMember>(this.attach_HDLMMembers), new Action<HDLMMember>(this.detach_HDLMMembers));
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Description", DbType = "NVarChar(255)")]
-        public string Description
-        {
-            get
-            {
-                return this._Description;
-            }
-            set
-            {
-                if ((this._Description != value))
-                {
-                    this.OnDescriptionChanging(value);
-                    this.SendPropertyChanging();
-                    this._Description = value;
-                    this.SendPropertyChanged("Description");
-                    this.OnDescriptionChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Note", DbType = "NVarChar(500)")]
-        public string Note
-        {
-            get
-            {
-                return this._Note;
-            }
-            set
-            {
-                if ((this._Note != value))
-                {
-                    this.OnNoteChanging(value);
-                    this.SendPropertyChanging();
-                    this._Note = value;
-                    this.SendPropertyChanged("Note");
-                    this.OnNoteChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "HoiDongLinhMuc_HDLMMember", Storage = "_HDLMMembers", ThisKey = "Id", OtherKey = "HdlmID")]
-        public EntitySet<HDLMMember> HDLMMembers
-        {
-            get
-            {
-                return this._HDLMMembers;
-            }
-            set
-            {
-                this._HDLMMembers.Assign(value);
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_HDLMMembers(HDLMMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.HoiDongLinhMuc = this;
-        }
-
-        private void detach_HDLMMembers(HDLMMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.HoiDongLinhMuc = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.KhachMoi")]
-    public partial class KhachMoi : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _id;
-
-        private string _HoTen;
-
-        private string _ChucDanh;
-
-        private string _DiaChi;
-
-        private string _SoDienThoai;
-
-        private string _Email;
-
-        private string _GhiChu;
-
-        private int _GiayMoiId;
-
-        private EntityRef<GiayMoi> _GiayMoi;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnidChanging(int value);
-        partial void OnidChanged();
-        partial void OnHoTenChanging(string value);
-        partial void OnHoTenChanged();
-        partial void OnChucDanhChanging(string value);
-        partial void OnChucDanhChanged();
-        partial void OnDiaChiChanging(string value);
-        partial void OnDiaChiChanged();
-        partial void OnSoDienThoaiChanging(string value);
-        partial void OnSoDienThoaiChanged();
-        partial void OnEmailChanging(string value);
-        partial void OnEmailChanged();
-        partial void OnGhiChuChanging(string value);
-        partial void OnGhiChuChanged();
-        partial void OnGiayMoiIdChanging(int value);
-        partial void OnGiayMoiIdChanged();
-        #endregion
-
-        public KhachMoi()
-        {
-            this._GiayMoi = default(EntityRef<GiayMoi>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int id
-        {
-            get
-            {
-                return this._id;
-            }
-            set
-            {
-                if ((this._id != value))
-                {
-                    this.OnidChanging(value);
-                    this.SendPropertyChanging();
-                    this._id = value;
-                    this.SendPropertyChanged("id");
-                    this.OnidChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_HoTen", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string HoTen
-        {
-            get
-            {
-                return this._HoTen;
-            }
-            set
-            {
-                if ((this._HoTen != value))
-                {
-                    this.OnHoTenChanging(value);
-                    this.SendPropertyChanging();
-                    this._HoTen = value;
-                    this.SendPropertyChanged("HoTen");
-                    this.OnHoTenChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ChucDanh", DbType = "NVarChar(50)")]
-        public string ChucDanh
-        {
-            get
-            {
-                return this._ChucDanh;
-            }
-            set
-            {
-                if ((this._ChucDanh != value))
-                {
-                    this.OnChucDanhChanging(value);
-                    this.SendPropertyChanging();
-                    this._ChucDanh = value;
-                    this.SendPropertyChanged("ChucDanh");
-                    this.OnChucDanhChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DiaChi", DbType = "NVarChar(250)")]
-        public string DiaChi
-        {
-            get
-            {
-                return this._DiaChi;
-            }
-            set
-            {
-                if ((this._DiaChi != value))
-                {
-                    this.OnDiaChiChanging(value);
-                    this.SendPropertyChanging();
-                    this._DiaChi = value;
-                    this.SendPropertyChanged("DiaChi");
-                    this.OnDiaChiChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SoDienThoai", DbType = "VarChar(20)")]
-        public string SoDienThoai
-        {
-            get
-            {
-                return this._SoDienThoai;
-            }
-            set
-            {
-                if ((this._SoDienThoai != value))
-                {
-                    this.OnSoDienThoaiChanging(value);
-                    this.SendPropertyChanging();
-                    this._SoDienThoai = value;
-                    this.SendPropertyChanged("SoDienThoai");
-                    this.OnSoDienThoaiChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Email", DbType = "VarChar(50)")]
-        public string Email
-        {
-            get
-            {
-                return this._Email;
-            }
-            set
-            {
-                if ((this._Email != value))
-                {
-                    this.OnEmailChanging(value);
-                    this.SendPropertyChanging();
-                    this._Email = value;
-                    this.SendPropertyChanged("Email");
-                    this.OnEmailChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_GhiChu", DbType = "NVarChar(50)")]
-        public string GhiChu
-        {
-            get
-            {
-                return this._GhiChu;
-            }
-            set
-            {
-                if ((this._GhiChu != value))
-                {
-                    this.OnGhiChuChanging(value);
-                    this.SendPropertyChanging();
-                    this._GhiChu = value;
-                    this.SendPropertyChanged("GhiChu");
-                    this.OnGhiChuChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_GiayMoiId", DbType = "Int NOT NULL")]
-        public int GiayMoiId
-        {
-            get
-            {
-                return this._GiayMoiId;
-            }
-            set
-            {
-                if ((this._GiayMoiId != value))
-                {
-                    if (this._GiayMoi.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnGiayMoiIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._GiayMoiId = value;
-                    this.SendPropertyChanged("GiayMoiId");
-                    this.OnGiayMoiIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "GiayMoi_KhachMoi", Storage = "_GiayMoi", ThisKey = "GiayMoiId", OtherKey = "Id", IsForeignKey = true)]
-        public GiayMoi GiayMoi
-        {
-            get
-            {
-                return this._GiayMoi.Entity;
-            }
-            set
-            {
-                GiayMoi previousValue = this._GiayMoi.Entity;
-                if (((previousValue != value)
-                            || (this._GiayMoi.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._GiayMoi.Entity = null;
-                        previousValue.KhachMois.Remove(this);
-                    }
-                    this._GiayMoi.Entity = value;
-                    if ((value != null))
-                    {
-                        value.KhachMois.Add(this);
-                        this._GiayMoiId = value.Id;
-                    }
-                    else
-                    {
-                        this._GiayMoiId = default(int);
-                    }
-                    this.SendPropertyChanged("GiayMoi");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.LeaveVocationRequisition")]
-    public partial class LeaveVocationRequisition : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _VocationId;
-
-        private System.DateTime _ApplyDate;
-
-        private System.Nullable<System.DateTime> _EffectiveDate;
-
-        private int _Status;
-
-        private EntityRef<Vocation> _Vocation;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnVocationIdChanging(int value);
-        partial void OnVocationIdChanged();
-        partial void OnApplyDateChanging(System.DateTime value);
-        partial void OnApplyDateChanged();
-        partial void OnEffectiveDateChanging(System.Nullable<System.DateTime> value);
-        partial void OnEffectiveDateChanged();
-        partial void OnStatusChanging(int value);
-        partial void OnStatusChanged();
-        #endregion
-
-        public LeaveVocationRequisition()
-        {
-            this._Vocation = default(EntityRef<Vocation>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_VocationId", DbType = "Int NOT NULL")]
-        public int VocationId
-        {
-            get
-            {
-                return this._VocationId;
-            }
-            set
-            {
-                if ((this._VocationId != value))
-                {
-                    if (this._Vocation.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnVocationIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._VocationId = value;
-                    this.SendPropertyChanged("VocationId");
-                    this.OnVocationIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ApplyDate", DbType = "DateTime NOT NULL")]
-        public System.DateTime ApplyDate
-        {
-            get
-            {
-                return this._ApplyDate;
-            }
-            set
-            {
-                if ((this._ApplyDate != value))
-                {
-                    this.OnApplyDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._ApplyDate = value;
-                    this.SendPropertyChanged("ApplyDate");
-                    this.OnApplyDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_EffectiveDate", DbType = "DateTime")]
-        public System.Nullable<System.DateTime> EffectiveDate
-        {
-            get
-            {
-                return this._EffectiveDate;
-            }
-            set
-            {
-                if ((this._EffectiveDate != value))
-                {
-                    this.OnEffectiveDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._EffectiveDate = value;
-                    this.SendPropertyChanged("EffectiveDate");
-                    this.OnEffectiveDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Status", DbType = "Int NOT NULL")]
-        public int Status
-        {
-            get
-            {
-                return this._Status;
-            }
-            set
-            {
-                if ((this._Status != value))
-                {
-                    this.OnStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._Status = value;
-                    this.SendPropertyChanged("Status");
-                    this.OnStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_LeaveVocationRequisition", Storage = "_Vocation", ThisKey = "VocationId", OtherKey = "ParishionerId", IsForeignKey = true)]
-        public Vocation Vocation
-        {
-            get
-            {
-                return this._Vocation.Entity;
-            }
-            set
-            {
-                Vocation previousValue = this._Vocation.Entity;
-                if (((previousValue != value)
-                            || (this._Vocation.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Vocation.Entity = null;
-                        previousValue.LeaveVocationRequisitions.Remove(this);
-                    }
-                    this._Vocation.Entity = value;
-                    if ((value != null))
-                    {
-                        value.LeaveVocationRequisitions.Add(this);
-                        this._VocationId = value.ParishionerId;
-                    }
-                    else
-                    {
-                        this._VocationId = default(int);
-                    }
-                    this.SendPropertyChanged("Vocation");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.LetterAndReport")]
-    public partial class LetterAndReport : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Ten;
-
-        private int _Loai;
-
-        private string _MoTa;
-
-        private string _Mau;
-
-        private EntitySet<GiayMoi> _GiayMois;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnTenChanging(string value);
-        partial void OnTenChanged();
-        partial void OnLoaiChanging(int value);
-        partial void OnLoaiChanged();
-        partial void OnMoTaChanging(string value);
-        partial void OnMoTaChanged();
-        partial void OnMauChanging(string value);
-        partial void OnMauChanged();
-        #endregion
-
-        public LetterAndReport()
-        {
-            this._GiayMois = new EntitySet<GiayMoi>(new Action<GiayMoi>(this.attach_GiayMois), new Action<GiayMoi>(this.detach_GiayMois));
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Ten", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
-        public string Ten
-        {
-            get
-            {
-                return this._Ten;
-            }
-            set
-            {
-                if ((this._Ten != value))
-                {
-                    this.OnTenChanging(value);
-                    this.SendPropertyChanging();
-                    this._Ten = value;
-                    this.SendPropertyChanged("Ten");
-                    this.OnTenChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Loai", DbType = "Int NOT NULL")]
-        public int Loai
-        {
-            get
-            {
-                return this._Loai;
-            }
-            set
-            {
-                if ((this._Loai != value))
-                {
-                    this.OnLoaiChanging(value);
-                    this.SendPropertyChanging();
-                    this._Loai = value;
-                    this.SendPropertyChanged("Loai");
-                    this.OnLoaiChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MoTa", DbType = "NVarChar(500)")]
-        public string MoTa
-        {
-            get
-            {
-                return this._MoTa;
-            }
-            set
-            {
-                if ((this._MoTa != value))
-                {
-                    this.OnMoTaChanging(value);
-                    this.SendPropertyChanging();
-                    this._MoTa = value;
-                    this.SendPropertyChanged("MoTa");
-                    this.OnMoTaChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Mau", DbType = "NText", UpdateCheck = UpdateCheck.Never)]
-        public string Mau
-        {
-            get
-            {
-                return this._Mau;
-            }
-            set
-            {
-                if ((this._Mau != value))
-                {
-                    this.OnMauChanging(value);
-                    this.SendPropertyChanging();
-                    this._Mau = value;
-                    this.SendPropertyChanged("Mau");
-                    this.OnMauChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "LetterAndReport_GiayMoi", Storage = "_GiayMois", ThisKey = "Id", OtherKey = "MauId")]
-        public EntitySet<GiayMoi> GiayMois
-        {
-            get
-            {
-                return this._GiayMois;
-            }
-            set
-            {
-                this._GiayMois.Assign(value);
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_GiayMois(GiayMoi entity)
-        {
-            this.SendPropertyChanging();
-            entity.LetterAndReport = this;
-        }
-
-        private void detach_GiayMois(GiayMoi entity)
-        {
-            this.SendPropertyChanging();
-            entity.LetterAndReport = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Matrimony")]
-    public partial class Matrimony : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _HusbandId;
-
-        private int _WifeId;
-
-        private string _Name;
-
-        private string _Number;
-
-        private string _Date;
-
-        private string _Place;
-
-        private string _Priest;
-
-        private string _FirstWitness;
-
-        private string _SecondWitness;
-
-        private int _Status;
-
-        private string _Note;
-
-        private System.Nullable<int> _SacramentGroupId;
-
-        private EntityRef<Parishioner> _Parishioner;
-
-        private EntityRef<Parishioner> _Parishioner1;
-
-        private EntityRef<SacramentGroup> _SacramentGroup;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnHusbandIdChanging(int value);
-        partial void OnHusbandIdChanged();
-        partial void OnWifeIdChanging(int value);
-        partial void OnWifeIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnNumberChanging(string value);
-        partial void OnNumberChanged();
-        partial void OnDateChanging(string value);
-        partial void OnDateChanged();
-        partial void OnPlaceChanging(string value);
-        partial void OnPlaceChanged();
-        partial void OnPriestChanging(string value);
-        partial void OnPriestChanged();
-        partial void OnFirstWitnessChanging(string value);
-        partial void OnFirstWitnessChanged();
-        partial void OnSecondWitnessChanging(string value);
-        partial void OnSecondWitnessChanged();
-        partial void OnStatusChanging(int value);
-        partial void OnStatusChanged();
-        partial void OnNoteChanging(string value);
-        partial void OnNoteChanged();
-        partial void OnSacramentGroupIdChanging(System.Nullable<int> value);
-        partial void OnSacramentGroupIdChanged();
-        #endregion
-
-        public Matrimony()
-        {
-            this._Parishioner = default(EntityRef<Parishioner>);
-            this._Parishioner1 = default(EntityRef<Parishioner>);
-            this._SacramentGroup = default(EntityRef<SacramentGroup>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_HusbandId", DbType = "Int NOT NULL")]
-        public int HusbandId
-        {
-            get
-            {
-                return this._HusbandId;
-            }
-            set
-            {
-                if ((this._HusbandId != value))
-                {
-                    if (this._Parishioner.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnHusbandIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._HusbandId = value;
-                    this.SendPropertyChanged("HusbandId");
-                    this.OnHusbandIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_WifeId", DbType = "Int NOT NULL")]
-        public int WifeId
-        {
-            get
-            {
-                return this._WifeId;
-            }
-            set
-            {
-                if ((this._WifeId != value))
-                {
-                    if (this._Parishioner1.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnWifeIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._WifeId = value;
-                    this.SendPropertyChanged("WifeId");
-                    this.OnWifeIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Number", DbType = "NVarChar(100)")]
-        public string Number
-        {
-            get
-            {
-                return this._Number;
-            }
-            set
-            {
-                if ((this._Number != value))
-                {
-                    this.OnNumberChanging(value);
-                    this.SendPropertyChanging();
-                    this._Number = value;
-                    this.SendPropertyChanged("Number");
-                    this.OnNumberChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Date", DbType = "Char(8)")]
-        public string Date
-        {
-            get
-            {
-                return this._Date;
-            }
-            set
-            {
-                if ((this._Date != value))
-                {
-                    this.OnDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._Date = value;
-                    this.SendPropertyChanged("Date");
-                    this.OnDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Place", DbType = "NVarChar(100)")]
-        public string Place
-        {
-            get
-            {
-                return this._Place;
-            }
-            set
-            {
-                if ((this._Place != value))
-                {
-                    this.OnPlaceChanging(value);
-                    this.SendPropertyChanging();
-                    this._Place = value;
-                    this.SendPropertyChanged("Place");
-                    this.OnPlaceChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Priest", DbType = "NVarChar(100)")]
-        public string Priest
-        {
-            get
-            {
-                return this._Priest;
-            }
-            set
-            {
-                if ((this._Priest != value))
-                {
-                    this.OnPriestChanging(value);
-                    this.SendPropertyChanging();
-                    this._Priest = value;
-                    this.SendPropertyChanged("Priest");
-                    this.OnPriestChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_FirstWitness", DbType = "NVarChar(100)")]
-        public string FirstWitness
-        {
-            get
-            {
-                return this._FirstWitness;
-            }
-            set
-            {
-                if ((this._FirstWitness != value))
-                {
-                    this.OnFirstWitnessChanging(value);
-                    this.SendPropertyChanging();
-                    this._FirstWitness = value;
-                    this.SendPropertyChanged("FirstWitness");
-                    this.OnFirstWitnessChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SecondWitness", DbType = "NVarChar(100)")]
-        public string SecondWitness
-        {
-            get
-            {
-                return this._SecondWitness;
-            }
-            set
-            {
-                if ((this._SecondWitness != value))
-                {
-                    this.OnSecondWitnessChanging(value);
-                    this.SendPropertyChanging();
-                    this._SecondWitness = value;
-                    this.SendPropertyChanged("SecondWitness");
-                    this.OnSecondWitnessChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Status", DbType = "Int NOT NULL")]
-        public int Status
-        {
-            get
-            {
-                return this._Status;
-            }
-            set
-            {
-                if ((this._Status != value))
-                {
-                    this.OnStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._Status = value;
-                    this.SendPropertyChanged("Status");
-                    this.OnStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Note", DbType = "NVarChar(200)")]
-        public string Note
-        {
-            get
-            {
-                return this._Note;
-            }
-            set
-            {
-                if ((this._Note != value))
-                {
-                    this.OnNoteChanging(value);
-                    this.SendPropertyChanging();
-                    this._Note = value;
-                    this.SendPropertyChanged("Note");
-                    this.OnNoteChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SacramentGroupId", DbType = "Int")]
-        public System.Nullable<int> SacramentGroupId
-        {
-            get
-            {
-                return this._SacramentGroupId;
-            }
-            set
-            {
-                if ((this._SacramentGroupId != value))
-                {
-                    if (this._SacramentGroup.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnSacramentGroupIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._SacramentGroupId = value;
-                    this.SendPropertyChanged("SacramentGroupId");
-                    this.OnSacramentGroupIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_Matrimony", Storage = "_Parishioner", ThisKey = "HusbandId", OtherKey = "Id", IsForeignKey = true)]
-        public Parishioner Parishioner
-        {
-            get
-            {
-                return this._Parishioner.Entity;
-            }
-            set
-            {
-                Parishioner previousValue = this._Parishioner.Entity;
-                if (((previousValue != value)
-                            || (this._Parishioner.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parishioner.Entity = null;
-                        previousValue.Matrimonies.Remove(this);
-                    }
-                    this._Parishioner.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Matrimonies.Add(this);
-                        this._HusbandId = value.Id;
-                    }
-                    else
-                    {
-                        this._HusbandId = default(int);
-                    }
-                    this.SendPropertyChanged("Parishioner");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_Matrimony1", Storage = "_Parishioner1", ThisKey = "WifeId", OtherKey = "Id", IsForeignKey = true)]
-        public Parishioner Parishioner1
-        {
-            get
-            {
-                return this._Parishioner1.Entity;
-            }
-            set
-            {
-                Parishioner previousValue = this._Parishioner1.Entity;
-                if (((previousValue != value)
-                            || (this._Parishioner1.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parishioner1.Entity = null;
-                        previousValue.Matrimonies1.Remove(this);
-                    }
-                    this._Parishioner1.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Matrimonies1.Add(this);
-                        this._WifeId = value.Id;
-                    }
-                    else
-                    {
-                        this._WifeId = default(int);
-                    }
-                    this.SendPropertyChanged("Parishioner1");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "SacramentGroup_Matrimony", Storage = "_SacramentGroup", ThisKey = "SacramentGroupId", OtherKey = "Id", IsForeignKey = true)]
-        public SacramentGroup SacramentGroup
-        {
-            get
-            {
-                return this._SacramentGroup.Entity;
-            }
-            set
-            {
-                SacramentGroup previousValue = this._SacramentGroup.Entity;
-                if (((previousValue != value)
-                            || (this._SacramentGroup.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._SacramentGroup.Entity = null;
-                        previousValue.Matrimonies.Remove(this);
-                    }
-                    this._SacramentGroup.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Matrimonies.Add(this);
-                        this._SacramentGroupId = value.Id;
-                    }
-                    else
-                    {
-                        this._SacramentGroupId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("SacramentGroup");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Message")]
-    public partial class Message : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _AccountId;
-
-        private System.Nullable<int> _ParishId;
-
-        private System.DateTime _CreatedDate;
-
-        private string _Title;
-
-        private string _Content;
-
-        private EntityRef<Account> _Account;
-
-        private EntityRef<Parish> _Parish;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnAccountIdChanging(int value);
-        partial void OnAccountIdChanged();
-        partial void OnParishIdChanging(System.Nullable<int> value);
-        partial void OnParishIdChanged();
-        partial void OnCreatedDateChanging(System.DateTime value);
-        partial void OnCreatedDateChanged();
-        partial void OnTitleChanging(string value);
-        partial void OnTitleChanged();
-        partial void OnContentChanging(string value);
-        partial void OnContentChanged();
-        #endregion
-
-        public Message()
-        {
-            this._Account = default(EntityRef<Account>);
-            this._Parish = default(EntityRef<Parish>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_AccountId", DbType = "Int NOT NULL")]
-        public int AccountId
-        {
-            get
-            {
-                return this._AccountId;
-            }
-            set
-            {
-                if ((this._AccountId != value))
-                {
-                    if (this._Account.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnAccountIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._AccountId = value;
-                    this.SendPropertyChanged("AccountId");
-                    this.OnAccountIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishId", DbType = "Int")]
-        public System.Nullable<int> ParishId
-        {
-            get
-            {
-                return this._ParishId;
-            }
-            set
-            {
-                if ((this._ParishId != value))
-                {
-                    if (this._Parish.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishId = value;
-                    this.SendPropertyChanged("ParishId");
-                    this.OnParishIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CreatedDate", DbType = "DateTime NOT NULL")]
-        public System.DateTime CreatedDate
-        {
-            get
-            {
-                return this._CreatedDate;
-            }
-            set
-            {
-                if ((this._CreatedDate != value))
-                {
-                    this.OnCreatedDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._CreatedDate = value;
-                    this.SendPropertyChanged("CreatedDate");
-                    this.OnCreatedDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Title", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Title
-        {
-            get
-            {
-                return this._Title;
-            }
-            set
-            {
-                if ((this._Title != value))
-                {
-                    this.OnTitleChanging(value);
-                    this.SendPropertyChanging();
-                    this._Title = value;
-                    this.SendPropertyChanged("Title");
-                    this.OnTitleChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Content", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
-        public string Content
-        {
-            get
-            {
-                return this._Content;
-            }
-            set
-            {
-                if ((this._Content != value))
-                {
-                    this.OnContentChanging(value);
-                    this.SendPropertyChanging();
-                    this._Content = value;
-                    this.SendPropertyChanged("Content");
-                    this.OnContentChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Account_Message", Storage = "_Account", ThisKey = "AccountId", OtherKey = "Id", IsForeignKey = true)]
-        public Account Account
-        {
-            get
-            {
-                return this._Account.Entity;
-            }
-            set
-            {
-                Account previousValue = this._Account.Entity;
-                if (((previousValue != value)
-                            || (this._Account.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Account.Entity = null;
-                        previousValue.Messages.Remove(this);
-                    }
-                    this._Account.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Messages.Add(this);
-                        this._AccountId = value.Id;
-                    }
-                    else
-                    {
-                        this._AccountId = default(int);
-                    }
-                    this.SendPropertyChanged("Account");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_Message", Storage = "_Parish", ThisKey = "ParishId", OtherKey = "Id", IsForeignKey = true)]
-        public Parish Parish
-        {
-            get
-            {
-                return this._Parish.Entity;
-            }
-            set
-            {
-                Parish previousValue = this._Parish.Entity;
-                if (((previousValue != value)
-                            || (this._Parish.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parish.Entity = null;
-                        previousValue.Messages.Remove(this);
-                    }
-                    this._Parish.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Messages.Add(this);
-                        this._ParishId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Parish");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Parish")]
-    public partial class Parish : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Name;
-
-        private string _Address;
-
-        private string _Website;
-
-        private string _Phone;
-
-        private string _Email;
-
-        private string _ImageUrl;
-
-        private string _Priest;
-
-        private int _VicariateId;
-
-        private System.Nullable<int> _PriestId;
-
-        private string _Ward;
-
-        private string _District;
-
-        private string _Province;
-
-        private EntitySet<Account> _Accounts;
-
-        private EntitySet<ClassGroup> _ClassGroups;
-
-        private EntitySet<Community> _Communities;
-
-        private EntityRef<Configuration> _Configuration;
-
-        private EntitySet<ConstructionPermit> _ConstructionPermits;
-
-        private EntitySet<DeaconRequisitionComment> _DeaconRequisitionComments;
-
-        private EntitySet<FamilyMigrationRequest> _FamilyMigrationRequests;
-
-        private EntitySet<Message> _Messages;
-
-        private EntitySet<ParishionerMigrationRequest> _ParishionerMigrationRequests;
-
-        private EntitySet<ParishManager> _ParishManagers;
-
-        private EntitySet<ReligiousCommunityBase> _ReligiousCommunityBases;
-
-        private EntitySet<SacramentGroup> _SacramentGroups;
-
-        private EntitySet<Society> _Societies;
-
-        private EntitySet<Vicariate> _Vicariates;
-
-        private EntityRef<Priest> _Priest1;
-
-        private EntityRef<Vicariate> _Vicariate;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnAddressChanging(string value);
-        partial void OnAddressChanged();
-        partial void OnWebsiteChanging(string value);
-        partial void OnWebsiteChanged();
-        partial void OnPhoneChanging(string value);
-        partial void OnPhoneChanged();
-        partial void OnEmailChanging(string value);
-        partial void OnEmailChanged();
-        partial void OnImageUrlChanging(string value);
-        partial void OnImageUrlChanged();
-        partial void OnPriestChanging(string value);
-        partial void OnPriestChanged();
-        partial void OnVicariateIdChanging(int value);
-        partial void OnVicariateIdChanged();
-        partial void OnPriestIdChanging(System.Nullable<int> value);
-        partial void OnPriestIdChanged();
-        partial void OnWardChanging(string value);
-        partial void OnWardChanged();
-        partial void OnDistrictChanging(string value);
-        partial void OnDistrictChanged();
-        partial void OnProvinceChanging(string value);
-        partial void OnProvinceChanged();
-        #endregion
-
-        public Parish()
-        {
-            this._Accounts = new EntitySet<Account>(new Action<Account>(this.attach_Accounts), new Action<Account>(this.detach_Accounts));
-            this._ClassGroups = new EntitySet<ClassGroup>(new Action<ClassGroup>(this.attach_ClassGroups), new Action<ClassGroup>(this.detach_ClassGroups));
-            this._Communities = new EntitySet<Community>(new Action<Community>(this.attach_Communities), new Action<Community>(this.detach_Communities));
-            this._Configuration = default(EntityRef<Configuration>);
-            this._ConstructionPermits = new EntitySet<ConstructionPermit>(new Action<ConstructionPermit>(this.attach_ConstructionPermits), new Action<ConstructionPermit>(this.detach_ConstructionPermits));
-            this._DeaconRequisitionComments = new EntitySet<DeaconRequisitionComment>(new Action<DeaconRequisitionComment>(this.attach_DeaconRequisitionComments), new Action<DeaconRequisitionComment>(this.detach_DeaconRequisitionComments));
-            this._FamilyMigrationRequests = new EntitySet<FamilyMigrationRequest>(new Action<FamilyMigrationRequest>(this.attach_FamilyMigrationRequests), new Action<FamilyMigrationRequest>(this.detach_FamilyMigrationRequests));
-            this._Messages = new EntitySet<Message>(new Action<Message>(this.attach_Messages), new Action<Message>(this.detach_Messages));
-            this._ParishionerMigrationRequests = new EntitySet<ParishionerMigrationRequest>(new Action<ParishionerMigrationRequest>(this.attach_ParishionerMigrationRequests), new Action<ParishionerMigrationRequest>(this.detach_ParishionerMigrationRequests));
-            this._ParishManagers = new EntitySet<ParishManager>(new Action<ParishManager>(this.attach_ParishManagers), new Action<ParishManager>(this.detach_ParishManagers));
-            this._ReligiousCommunityBases = new EntitySet<ReligiousCommunityBase>(new Action<ReligiousCommunityBase>(this.attach_ReligiousCommunityBases), new Action<ReligiousCommunityBase>(this.detach_ReligiousCommunityBases));
-            this._SacramentGroups = new EntitySet<SacramentGroup>(new Action<SacramentGroup>(this.attach_SacramentGroups), new Action<SacramentGroup>(this.detach_SacramentGroups));
-            this._Societies = new EntitySet<Society>(new Action<Society>(this.attach_Societies), new Action<Society>(this.detach_Societies));
-            this._Vicariates = new EntitySet<Vicariate>(new Action<Vicariate>(this.attach_Vicariates), new Action<Vicariate>(this.detach_Vicariates));
-            this._Priest1 = default(EntityRef<Priest>);
-            this._Vicariate = default(EntityRef<Vicariate>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Address", DbType = "NVarChar(100)")]
-        public string Address
-        {
-            get
-            {
-                return this._Address;
-            }
-            set
-            {
-                if ((this._Address != value))
-                {
-                    this.OnAddressChanging(value);
-                    this.SendPropertyChanging();
-                    this._Address = value;
-                    this.SendPropertyChanged("Address");
-                    this.OnAddressChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Website", DbType = "NVarChar(100)")]
-        public string Website
-        {
-            get
-            {
-                return this._Website;
-            }
-            set
-            {
-                if ((this._Website != value))
-                {
-                    this.OnWebsiteChanging(value);
-                    this.SendPropertyChanging();
-                    this._Website = value;
-                    this.SendPropertyChanged("Website");
-                    this.OnWebsiteChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Phone", DbType = "VarChar(20)")]
-        public string Phone
-        {
-            get
-            {
-                return this._Phone;
-            }
-            set
-            {
-                if ((this._Phone != value))
-                {
-                    this.OnPhoneChanging(value);
-                    this.SendPropertyChanging();
-                    this._Phone = value;
-                    this.SendPropertyChanged("Phone");
-                    this.OnPhoneChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Email", DbType = "NVarChar(100)")]
-        public string Email
-        {
-            get
-            {
-                return this._Email;
-            }
-            set
-            {
-                if ((this._Email != value))
-                {
-                    this.OnEmailChanging(value);
-                    this.SendPropertyChanging();
-                    this._Email = value;
-                    this.SendPropertyChanged("Email");
-                    this.OnEmailChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ImageUrl", DbType = "NVarChar(200)")]
-        public string ImageUrl
-        {
-            get
-            {
-                return this._ImageUrl;
-            }
-            set
-            {
-                if ((this._ImageUrl != value))
-                {
-                    this.OnImageUrlChanging(value);
-                    this.SendPropertyChanging();
-                    this._ImageUrl = value;
-                    this.SendPropertyChanged("ImageUrl");
-                    this.OnImageUrlChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Priest", DbType = "NVarChar(100)")]
-        public string Priest
-        {
-            get
-            {
-                return this._Priest;
-            }
-            set
-            {
-                if ((this._Priest != value))
-                {
-                    this.OnPriestChanging(value);
-                    this.SendPropertyChanging();
-                    this._Priest = value;
-                    this.SendPropertyChanged("Priest");
-                    this.OnPriestChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_VicariateId", DbType = "Int NOT NULL")]
-        public int VicariateId
-        {
-            get
-            {
-                return this._VicariateId;
-            }
-            set
-            {
-                if ((this._VicariateId != value))
-                {
-                    if (this._Vicariate.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnVicariateIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._VicariateId = value;
-                    this.SendPropertyChanged("VicariateId");
-                    this.OnVicariateIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_PriestId", DbType = "Int")]
-        public System.Nullable<int> PriestId
-        {
-            get
-            {
-                return this._PriestId;
-            }
-            set
-            {
-                if ((this._PriestId != value))
-                {
-                    if (this._Priest1.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnPriestIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._PriestId = value;
-                    this.SendPropertyChanged("PriestId");
-                    this.OnPriestIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Ward", DbType = "NVarChar(100)")]
-        public string Ward
-        {
-            get
-            {
-                return this._Ward;
-            }
-            set
-            {
-                if ((this._Ward != value))
-                {
-                    this.OnWardChanging(value);
-                    this.SendPropertyChanging();
-                    this._Ward = value;
-                    this.SendPropertyChanged("Ward");
-                    this.OnWardChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_District", DbType = "NVarChar(100)")]
-        public string District
-        {
-            get
-            {
-                return this._District;
-            }
-            set
-            {
-                if ((this._District != value))
-                {
-                    this.OnDistrictChanging(value);
-                    this.SendPropertyChanging();
-                    this._District = value;
-                    this.SendPropertyChanged("District");
-                    this.OnDistrictChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Province", DbType = "NVarChar(100)")]
-        public string Province
-        {
-            get
-            {
-                return this._Province;
-            }
-            set
-            {
-                if ((this._Province != value))
-                {
-                    this.OnProvinceChanging(value);
-                    this.SendPropertyChanging();
-                    this._Province = value;
-                    this.SendPropertyChanged("Province");
-                    this.OnProvinceChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_Account", Storage = "_Accounts", ThisKey = "Id", OtherKey = "ParishId")]
-        public EntitySet<Account> Accounts
-        {
-            get
-            {
-                return this._Accounts;
-            }
-            set
-            {
-                this._Accounts.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_ClassGroup", Storage = "_ClassGroups", ThisKey = "Id", OtherKey = "ParishId")]
-        public EntitySet<ClassGroup> ClassGroups
-        {
-            get
-            {
-                return this._ClassGroups;
-            }
-            set
-            {
-                this._ClassGroups.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_Community", Storage = "_Communities", ThisKey = "Id", OtherKey = "ParishId")]
-        public EntitySet<Community> Communities
-        {
-            get
-            {
-                return this._Communities;
-            }
-            set
-            {
-                this._Communities.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_Configuration", Storage = "_Configuration", ThisKey = "Id", OtherKey = "ParishId", IsUnique = true, IsForeignKey = false)]
-        public Configuration Configuration
-        {
-            get
-            {
-                return this._Configuration.Entity;
-            }
-            set
-            {
-                Configuration previousValue = this._Configuration.Entity;
-                if (((previousValue != value)
-                            || (this._Configuration.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Configuration.Entity = null;
-                        previousValue.Parish = null;
-                    }
-                    this._Configuration.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Parish = this;
-                    }
-                    this.SendPropertyChanged("Configuration");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_ConstructionPermit", Storage = "_ConstructionPermits", ThisKey = "Id", OtherKey = "ParishId")]
-        public EntitySet<ConstructionPermit> ConstructionPermits
-        {
-            get
-            {
-                return this._ConstructionPermits;
-            }
-            set
-            {
-                this._ConstructionPermits.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_DeaconRequisitionComment", Storage = "_DeaconRequisitionComments", ThisKey = "Id", OtherKey = "ParishId")]
-        public EntitySet<DeaconRequisitionComment> DeaconRequisitionComments
-        {
-            get
-            {
-                return this._DeaconRequisitionComments;
-            }
-            set
-            {
-                this._DeaconRequisitionComments.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_FamilyMigrationRequest", Storage = "_FamilyMigrationRequests", ThisKey = "Id", OtherKey = "ToParishId")]
-        public EntitySet<FamilyMigrationRequest> FamilyMigrationRequests
-        {
-            get
-            {
-                return this._FamilyMigrationRequests;
-            }
-            set
-            {
-                this._FamilyMigrationRequests.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_Message", Storage = "_Messages", ThisKey = "Id", OtherKey = "ParishId")]
-        public EntitySet<Message> Messages
-        {
-            get
-            {
-                return this._Messages;
-            }
-            set
-            {
-                this._Messages.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_ParishionerMigrationRequest", Storage = "_ParishionerMigrationRequests", ThisKey = "Id", OtherKey = "ToParishId")]
-        public EntitySet<ParishionerMigrationRequest> ParishionerMigrationRequests
-        {
-            get
-            {
-                return this._ParishionerMigrationRequests;
-            }
-            set
-            {
-                this._ParishionerMigrationRequests.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_ParishManager", Storage = "_ParishManagers", ThisKey = "Id", OtherKey = "ParishId")]
-        public EntitySet<ParishManager> ParishManagers
-        {
-            get
-            {
-                return this._ParishManagers;
-            }
-            set
-            {
-                this._ParishManagers.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_ReligiousCommunityBase", Storage = "_ReligiousCommunityBases", ThisKey = "Id", OtherKey = "ParishId")]
-        public EntitySet<ReligiousCommunityBase> ReligiousCommunityBases
-        {
-            get
-            {
-                return this._ReligiousCommunityBases;
-            }
-            set
-            {
-                this._ReligiousCommunityBases.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_SacramentGroup", Storage = "_SacramentGroups", ThisKey = "Id", OtherKey = "ParishId")]
-        public EntitySet<SacramentGroup> SacramentGroups
-        {
-            get
-            {
-                return this._SacramentGroups;
-            }
-            set
-            {
-                this._SacramentGroups.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_Society", Storage = "_Societies", ThisKey = "Id", OtherKey = "ParishId")]
-        public EntitySet<Society> Societies
-        {
-            get
-            {
-                return this._Societies;
-            }
-            set
-            {
-                this._Societies.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_Vicariate", Storage = "_Vicariates", ThisKey = "Id", OtherKey = "ParishId")]
-        public EntitySet<Vicariate> Vicariates
-        {
-            get
-            {
-                return this._Vicariates;
-            }
-            set
-            {
-                this._Vicariates.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Priest_Parish", Storage = "_Priest1", ThisKey = "PriestId", OtherKey = "Id", IsForeignKey = true)]
-        public Priest Priest1
-        {
-            get
-            {
-                return this._Priest1.Entity;
-            }
-            set
-            {
-                Priest previousValue = this._Priest1.Entity;
-                if (((previousValue != value)
-                            || (this._Priest1.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Priest1.Entity = null;
-                        previousValue.Parishes.Remove(this);
-                    }
-                    this._Priest1.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Parishes.Add(this);
-                        this._PriestId = value.Id;
-                    }
-                    else
-                    {
-                        this._PriestId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Priest1");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vicariate_Parish", Storage = "_Vicariate", ThisKey = "VicariateId", OtherKey = "Id", IsForeignKey = true)]
-        public Vicariate Vicariate
-        {
-            get
-            {
-                return this._Vicariate.Entity;
-            }
-            set
-            {
-                Vicariate previousValue = this._Vicariate.Entity;
-                if (((previousValue != value)
-                            || (this._Vicariate.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Vicariate.Entity = null;
-                        previousValue.Parishes.Remove(this);
-                    }
-                    this._Vicariate.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Parishes.Add(this);
-                        this._VicariateId = value.Id;
-                    }
-                    else
-                    {
-                        this._VicariateId = default(int);
-                    }
-                    this.SendPropertyChanged("Vicariate");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_Accounts(Account entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = this;
-        }
-
-        private void detach_Accounts(Account entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = null;
-        }
-
-        private void attach_ClassGroups(ClassGroup entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = this;
-        }
-
-        private void detach_ClassGroups(ClassGroup entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = null;
-        }
-
-        private void attach_Communities(Community entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = this;
-        }
-
-        private void detach_Communities(Community entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = null;
-        }
-
-        private void attach_ConstructionPermits(ConstructionPermit entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = this;
-        }
-
-        private void detach_ConstructionPermits(ConstructionPermit entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = null;
-        }
-
-        private void attach_DeaconRequisitionComments(DeaconRequisitionComment entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = this;
-        }
-
-        private void detach_DeaconRequisitionComments(DeaconRequisitionComment entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = null;
-        }
-
-        private void attach_FamilyMigrationRequests(FamilyMigrationRequest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = this;
-        }
-
-        private void detach_FamilyMigrationRequests(FamilyMigrationRequest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = null;
-        }
-
-        private void attach_Messages(Message entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = this;
-        }
-
-        private void detach_Messages(Message entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = null;
-        }
-
-        private void attach_ParishionerMigrationRequests(ParishionerMigrationRequest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = this;
-        }
-
-        private void detach_ParishionerMigrationRequests(ParishionerMigrationRequest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = null;
-        }
-
-        private void attach_ParishManagers(ParishManager entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = this;
-        }
-
-        private void detach_ParishManagers(ParishManager entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = null;
-        }
-
-        private void attach_ReligiousCommunityBases(ReligiousCommunityBase entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = this;
-        }
-
-        private void detach_ReligiousCommunityBases(ReligiousCommunityBase entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = null;
-        }
-
-        private void attach_SacramentGroups(SacramentGroup entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = this;
-        }
-
-        private void detach_SacramentGroups(SacramentGroup entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = null;
-        }
-
-        private void attach_Societies(Society entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = this;
-        }
-
-        private void detach_Societies(Society entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = null;
-        }
-
-        private void attach_Vicariates(Vicariate entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = this;
-        }
-
-        private void detach_Vicariates(Vicariate entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parish = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Parishioner")]
-    public partial class Parishioner : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Code;
-
-        private string _ImageUrl;
-
-        private string _ChristianName;
-
-        private string _Name;
-
-        private int _Gender;
-
-        private string _BirthDate;
-
-        private string _BirthPlace;
-
-        private string _FatherName;
-
-        private string _MotherName;
-
-        private bool _IsCounted;
-
-        private int _Status;
-
-        private int _DomicileStatus;
-
-        private string _DomicilePlace;
-
-        private string _Education;
-
-        private bool _IsStudying;
-
-        private string _Career;
-
-        private string _Address;
-
-        private string _Phone;
-
-        private string _MobilePhone;
-
-        private string _Email;
-
-        private string _Note;
-
-        private bool _IsCatechumen;
-
-        private bool _IsDead;
-
-        private string _DeadDate;
-
-        private bool _IsMarried;
-
-        private bool _IsSingle;
-
-        private int _CommunityId;
-
-        private System.DateTime _CreatedDate;
-
-        private string _CreatedBy;
-
-        private string _LastUpdatedBy;
-
-        private EntitySet<ClassGroup> _ClassGroups;
-
-        private EntitySet<ClassMember> _ClassMembers;
-
-        private EntitySet<DeaconRequisitionComment> _DeaconRequisitionComments;
-
-        private EntitySet<FamilyMember> _FamilyMembers;
-
-        private EntitySet<GiayMoi> _GiayMois;
-
-        private EntitySet<Matrimony> _Matrimonies;
-
-        private EntitySet<Matrimony> _Matrimonies1;
-
-        private EntitySet<ParishionerMigrationRequest> _ParishionerMigrationRequests;
-
-        private EntitySet<Priest> _Priests;
-
-        private EntitySet<Sacrament> _Sacraments;
-
-        private EntitySet<Society> _Societies;
-
-        private EntitySet<SocietyMember> _SocietyMembers;
-
-        private EntityRef<Vocation> _Vocation;
-
-        private EntityRef<Community> _Community;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnCodeChanging(string value);
-        partial void OnCodeChanged();
-        partial void OnImageUrlChanging(string value);
-        partial void OnImageUrlChanged();
-        partial void OnChristianNameChanging(string value);
-        partial void OnChristianNameChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnGenderChanging(int value);
-        partial void OnGenderChanged();
-        partial void OnBirthDateChanging(string value);
-        partial void OnBirthDateChanged();
-        partial void OnBirthPlaceChanging(string value);
-        partial void OnBirthPlaceChanged();
-        partial void OnFatherNameChanging(string value);
-        partial void OnFatherNameChanged();
-        partial void OnMotherNameChanging(string value);
-        partial void OnMotherNameChanged();
-        partial void OnIsCountedChanging(bool value);
-        partial void OnIsCountedChanged();
-        partial void OnStatusChanging(int value);
-        partial void OnStatusChanged();
-        partial void OnDomicileStatusChanging(int value);
-        partial void OnDomicileStatusChanged();
-        partial void OnDomicilePlaceChanging(string value);
-        partial void OnDomicilePlaceChanged();
-        partial void OnEducationChanging(string value);
-        partial void OnEducationChanged();
-        partial void OnIsStudyingChanging(bool value);
-        partial void OnIsStudyingChanged();
-        partial void OnCareerChanging(string value);
-        partial void OnCareerChanged();
-        partial void OnAddressChanging(string value);
-        partial void OnAddressChanged();
-        partial void OnPhoneChanging(string value);
-        partial void OnPhoneChanged();
-        partial void OnMobilePhoneChanging(string value);
-        partial void OnMobilePhoneChanged();
-        partial void OnEmailChanging(string value);
-        partial void OnEmailChanged();
-        partial void OnNoteChanging(string value);
-        partial void OnNoteChanged();
-        partial void OnIsCatechumenChanging(bool value);
-        partial void OnIsCatechumenChanged();
-        partial void OnIsDeadChanging(bool value);
-        partial void OnIsDeadChanged();
-        partial void OnDeadDateChanging(string value);
-        partial void OnDeadDateChanged();
-        partial void OnIsMarriedChanging(bool value);
-        partial void OnIsMarriedChanged();
-        partial void OnIsSingleChanging(bool value);
-        partial void OnIsSingleChanged();
-        partial void OnCommunityIdChanging(int value);
-        partial void OnCommunityIdChanged();
-        partial void OnCreatedDateChanging(System.DateTime value);
-        partial void OnCreatedDateChanged();
-        partial void OnCreatedByChanging(string value);
-        partial void OnCreatedByChanged();
-        partial void OnLastUpdatedByChanging(string value);
-        partial void OnLastUpdatedByChanged();
-        #endregion
-
-        public Parishioner()
-        {
-            this._ClassGroups = new EntitySet<ClassGroup>(new Action<ClassGroup>(this.attach_ClassGroups), new Action<ClassGroup>(this.detach_ClassGroups));
-            this._ClassMembers = new EntitySet<ClassMember>(new Action<ClassMember>(this.attach_ClassMembers), new Action<ClassMember>(this.detach_ClassMembers));
-            this._DeaconRequisitionComments = new EntitySet<DeaconRequisitionComment>(new Action<DeaconRequisitionComment>(this.attach_DeaconRequisitionComments), new Action<DeaconRequisitionComment>(this.detach_DeaconRequisitionComments));
-            this._FamilyMembers = new EntitySet<FamilyMember>(new Action<FamilyMember>(this.attach_FamilyMembers), new Action<FamilyMember>(this.detach_FamilyMembers));
-            this._GiayMois = new EntitySet<GiayMoi>(new Action<GiayMoi>(this.attach_GiayMois), new Action<GiayMoi>(this.detach_GiayMois));
-            this._Matrimonies = new EntitySet<Matrimony>(new Action<Matrimony>(this.attach_Matrimonies), new Action<Matrimony>(this.detach_Matrimonies));
-            this._Matrimonies1 = new EntitySet<Matrimony>(new Action<Matrimony>(this.attach_Matrimonies1), new Action<Matrimony>(this.detach_Matrimonies1));
-            this._ParishionerMigrationRequests = new EntitySet<ParishionerMigrationRequest>(new Action<ParishionerMigrationRequest>(this.attach_ParishionerMigrationRequests), new Action<ParishionerMigrationRequest>(this.detach_ParishionerMigrationRequests));
-            this._Priests = new EntitySet<Priest>(new Action<Priest>(this.attach_Priests), new Action<Priest>(this.detach_Priests));
-            this._Sacraments = new EntitySet<Sacrament>(new Action<Sacrament>(this.attach_Sacraments), new Action<Sacrament>(this.detach_Sacraments));
-            this._Societies = new EntitySet<Society>(new Action<Society>(this.attach_Societies), new Action<Society>(this.detach_Societies));
-            this._SocietyMembers = new EntitySet<SocietyMember>(new Action<SocietyMember>(this.attach_SocietyMembers), new Action<SocietyMember>(this.detach_SocietyMembers));
-            this._Vocation = default(EntityRef<Vocation>);
-            this._Community = default(EntityRef<Community>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Code", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Code
-        {
-            get
-            {
-                return this._Code;
-            }
-            set
-            {
-                if ((this._Code != value))
-                {
-                    this.OnCodeChanging(value);
-                    this.SendPropertyChanging();
-                    this._Code = value;
-                    this.SendPropertyChanged("Code");
-                    this.OnCodeChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ImageUrl", DbType = "NVarChar(100)")]
-        public string ImageUrl
-        {
-            get
-            {
-                return this._ImageUrl;
-            }
-            set
-            {
-                if ((this._ImageUrl != value))
-                {
-                    this.OnImageUrlChanging(value);
-                    this.SendPropertyChanging();
-                    this._ImageUrl = value;
-                    this.SendPropertyChanged("ImageUrl");
-                    this.OnImageUrlChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ChristianName", DbType = "NVarChar(100)")]
-        public string ChristianName
-        {
-            get
-            {
-                return this._ChristianName;
-            }
-            set
-            {
-                if ((this._ChristianName != value))
-                {
-                    this.OnChristianNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._ChristianName = value;
-                    this.SendPropertyChanged("ChristianName");
-                    this.OnChristianNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Gender", DbType = "Int NOT NULL")]
-        public int Gender
-        {
-            get
-            {
-                return this._Gender;
-            }
-            set
-            {
-                if ((this._Gender != value))
-                {
-                    this.OnGenderChanging(value);
-                    this.SendPropertyChanging();
-                    this._Gender = value;
-                    this.SendPropertyChanged("Gender");
-                    this.OnGenderChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_BirthDate", DbType = "Char(8)")]
-        public string BirthDate
-        {
-            get
-            {
-                return this._BirthDate;
-            }
-            set
-            {
-                if ((this._BirthDate != value))
-                {
-                    this.OnBirthDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._BirthDate = value;
-                    this.SendPropertyChanged("BirthDate");
-                    this.OnBirthDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_BirthPlace", DbType = "NVarChar(100)")]
-        public string BirthPlace
-        {
-            get
-            {
-                return this._BirthPlace;
-            }
-            set
-            {
-                if ((this._BirthPlace != value))
-                {
-                    this.OnBirthPlaceChanging(value);
-                    this.SendPropertyChanging();
-                    this._BirthPlace = value;
-                    this.SendPropertyChanged("BirthPlace");
-                    this.OnBirthPlaceChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_FatherName", DbType = "NVarChar(100)")]
-        public string FatherName
-        {
-            get
-            {
-                return this._FatherName;
-            }
-            set
-            {
-                if ((this._FatherName != value))
-                {
-                    this.OnFatherNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._FatherName = value;
-                    this.SendPropertyChanged("FatherName");
-                    this.OnFatherNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MotherName", DbType = "NVarChar(100)")]
-        public string MotherName
-        {
-            get
-            {
-                return this._MotherName;
-            }
-            set
-            {
-                if ((this._MotherName != value))
-                {
-                    this.OnMotherNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._MotherName = value;
-                    this.SendPropertyChanged("MotherName");
-                    this.OnMotherNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsCounted", DbType = "Bit NOT NULL")]
-        public bool IsCounted
-        {
-            get
-            {
-                return this._IsCounted;
-            }
-            set
-            {
-                if ((this._IsCounted != value))
-                {
-                    this.OnIsCountedChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsCounted = value;
-                    this.SendPropertyChanged("IsCounted");
-                    this.OnIsCountedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Status", DbType = "Int NOT NULL")]
-        public int Status
-        {
-            get
-            {
-                return this._Status;
-            }
-            set
-            {
-                if ((this._Status != value))
-                {
-                    this.OnStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._Status = value;
-                    this.SendPropertyChanged("Status");
-                    this.OnStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DomicileStatus", DbType = "Int NOT NULL")]
-        public int DomicileStatus
-        {
-            get
-            {
-                return this._DomicileStatus;
-            }
-            set
-            {
-                if ((this._DomicileStatus != value))
-                {
-                    this.OnDomicileStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._DomicileStatus = value;
-                    this.SendPropertyChanged("DomicileStatus");
-                    this.OnDomicileStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DomicilePlace", DbType = "NVarChar(100)")]
-        public string DomicilePlace
-        {
-            get
-            {
-                return this._DomicilePlace;
-            }
-            set
-            {
-                if ((this._DomicilePlace != value))
-                {
-                    this.OnDomicilePlaceChanging(value);
-                    this.SendPropertyChanging();
-                    this._DomicilePlace = value;
-                    this.SendPropertyChanged("DomicilePlace");
-                    this.OnDomicilePlaceChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Education", DbType = "NVarChar(100)")]
-        public string Education
-        {
-            get
-            {
-                return this._Education;
-            }
-            set
-            {
-                if ((this._Education != value))
-                {
-                    this.OnEducationChanging(value);
-                    this.SendPropertyChanging();
-                    this._Education = value;
-                    this.SendPropertyChanged("Education");
-                    this.OnEducationChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsStudying", DbType = "Bit NOT NULL")]
-        public bool IsStudying
-        {
-            get
-            {
-                return this._IsStudying;
-            }
-            set
-            {
-                if ((this._IsStudying != value))
-                {
-                    this.OnIsStudyingChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsStudying = value;
-                    this.SendPropertyChanged("IsStudying");
-                    this.OnIsStudyingChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Career", DbType = "NVarChar(100)")]
-        public string Career
-        {
-            get
-            {
-                return this._Career;
-            }
-            set
-            {
-                if ((this._Career != value))
-                {
-                    this.OnCareerChanging(value);
-                    this.SendPropertyChanging();
-                    this._Career = value;
-                    this.SendPropertyChanged("Career");
-                    this.OnCareerChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Address", DbType = "NVarChar(100)")]
-        public string Address
-        {
-            get
-            {
-                return this._Address;
-            }
-            set
-            {
-                if ((this._Address != value))
-                {
-                    this.OnAddressChanging(value);
-                    this.SendPropertyChanging();
-                    this._Address = value;
-                    this.SendPropertyChanged("Address");
-                    this.OnAddressChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Phone", DbType = "VarChar(20)")]
-        public string Phone
-        {
-            get
-            {
-                return this._Phone;
-            }
-            set
-            {
-                if ((this._Phone != value))
-                {
-                    this.OnPhoneChanging(value);
-                    this.SendPropertyChanging();
-                    this._Phone = value;
-                    this.SendPropertyChanged("Phone");
-                    this.OnPhoneChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MobilePhone", DbType = "VarChar(20)")]
-        public string MobilePhone
-        {
-            get
-            {
-                return this._MobilePhone;
-            }
-            set
-            {
-                if ((this._MobilePhone != value))
-                {
-                    this.OnMobilePhoneChanging(value);
-                    this.SendPropertyChanging();
-                    this._MobilePhone = value;
-                    this.SendPropertyChanged("MobilePhone");
-                    this.OnMobilePhoneChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Email", DbType = "NVarChar(100)")]
-        public string Email
-        {
-            get
-            {
-                return this._Email;
-            }
-            set
-            {
-                if ((this._Email != value))
-                {
-                    this.OnEmailChanging(value);
-                    this.SendPropertyChanging();
-                    this._Email = value;
-                    this.SendPropertyChanged("Email");
-                    this.OnEmailChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Note", DbType = "NVarChar(200)")]
-        public string Note
-        {
-            get
-            {
-                return this._Note;
-            }
-            set
-            {
-                if ((this._Note != value))
-                {
-                    this.OnNoteChanging(value);
-                    this.SendPropertyChanging();
-                    this._Note = value;
-                    this.SendPropertyChanged("Note");
-                    this.OnNoteChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsCatechumen", DbType = "Bit NOT NULL")]
-        public bool IsCatechumen
-        {
-            get
-            {
-                return this._IsCatechumen;
-            }
-            set
-            {
-                if ((this._IsCatechumen != value))
-                {
-                    this.OnIsCatechumenChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsCatechumen = value;
-                    this.SendPropertyChanged("IsCatechumen");
-                    this.OnIsCatechumenChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDead", DbType = "Bit NOT NULL")]
-        public bool IsDead
-        {
-            get
-            {
-                return this._IsDead;
-            }
-            set
-            {
-                if ((this._IsDead != value))
-                {
-                    this.OnIsDeadChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsDead = value;
-                    this.SendPropertyChanged("IsDead");
-                    this.OnIsDeadChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DeadDate", DbType = "Char(8)")]
-        public string DeadDate
-        {
-            get
-            {
-                return this._DeadDate;
-            }
-            set
-            {
-                if ((this._DeadDate != value))
-                {
-                    this.OnDeadDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._DeadDate = value;
-                    this.SendPropertyChanged("DeadDate");
-                    this.OnDeadDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsMarried", DbType = "Bit NOT NULL")]
-        public bool IsMarried
-        {
-            get
-            {
-                return this._IsMarried;
-            }
-            set
-            {
-                if ((this._IsMarried != value))
-                {
-                    this.OnIsMarriedChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsMarried = value;
-                    this.SendPropertyChanged("IsMarried");
-                    this.OnIsMarriedChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsSingle", DbType = "Bit NOT NULL")]
-        public bool IsSingle
-        {
-            get
-            {
-                return this._IsSingle;
-            }
-            set
-            {
-                if ((this._IsSingle != value))
-                {
-                    this.OnIsSingleChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsSingle = value;
-                    this.SendPropertyChanged("IsSingle");
-                    this.OnIsSingleChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CommunityId", DbType = "Int NOT NULL")]
-        public int CommunityId
-        {
-            get
-            {
-                return this._CommunityId;
-            }
-            set
-            {
-                if ((this._CommunityId != value))
-                {
-                    if (this._Community.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnCommunityIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._CommunityId = value;
-                    this.SendPropertyChanged("CommunityId");
-                    this.OnCommunityIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CreatedDate", DbType = "DateTime NOT NULL")]
-        public System.DateTime CreatedDate
-        {
-            get
-            {
-                return this._CreatedDate;
-            }
-            set
-            {
-                if ((this._CreatedDate != value))
-                {
-                    this.OnCreatedDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._CreatedDate = value;
-                    this.SendPropertyChanged("CreatedDate");
-                    this.OnCreatedDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CreatedBy", DbType = "VarChar(100)")]
-        public string CreatedBy
-        {
-            get
-            {
-                return this._CreatedBy;
-            }
-            set
-            {
-                if ((this._CreatedBy != value))
-                {
-                    this.OnCreatedByChanging(value);
-                    this.SendPropertyChanging();
-                    this._CreatedBy = value;
-                    this.SendPropertyChanged("CreatedBy");
-                    this.OnCreatedByChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_LastUpdatedBy", DbType = "VarChar(100)")]
-        public string LastUpdatedBy
-        {
-            get
-            {
-                return this._LastUpdatedBy;
-            }
-            set
-            {
-                if ((this._LastUpdatedBy != value))
-                {
-                    this.OnLastUpdatedByChanging(value);
-                    this.SendPropertyChanging();
-                    this._LastUpdatedBy = value;
-                    this.SendPropertyChanged("LastUpdatedBy");
-                    this.OnLastUpdatedByChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_ClassGroup", Storage = "_ClassGroups", ThisKey = "Id", OtherKey = "ManagedBy")]
-        public EntitySet<ClassGroup> ClassGroups
-        {
-            get
-            {
-                return this._ClassGroups;
-            }
-            set
-            {
-                this._ClassGroups.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_ClassMember", Storage = "_ClassMembers", ThisKey = "Id", OtherKey = "ParishionerId")]
-        public EntitySet<ClassMember> ClassMembers
-        {
-            get
-            {
-                return this._ClassMembers;
-            }
-            set
-            {
-                this._ClassMembers.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_DeaconRequisitionComment", Storage = "_DeaconRequisitionComments", ThisKey = "Id", OtherKey = "ParishionerId")]
-        public EntitySet<DeaconRequisitionComment> DeaconRequisitionComments
-        {
-            get
-            {
-                return this._DeaconRequisitionComments;
-            }
-            set
-            {
-                this._DeaconRequisitionComments.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_FamilyMember", Storage = "_FamilyMembers", ThisKey = "Id", OtherKey = "ParishionerId")]
-        public EntitySet<FamilyMember> FamilyMembers
-        {
-            get
-            {
-                return this._FamilyMembers;
-            }
-            set
-            {
-                this._FamilyMembers.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_GiayMoi", Storage = "_GiayMois", ThisKey = "Id", OtherKey = "NguoiGoi")]
-        public EntitySet<GiayMoi> GiayMois
-        {
-            get
-            {
-                return this._GiayMois;
-            }
-            set
-            {
-                this._GiayMois.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_Matrimony", Storage = "_Matrimonies", ThisKey = "Id", OtherKey = "HusbandId")]
-        public EntitySet<Matrimony> Matrimonies
-        {
-            get
-            {
-                return this._Matrimonies;
-            }
-            set
-            {
-                this._Matrimonies.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_Matrimony1", Storage = "_Matrimonies1", ThisKey = "Id", OtherKey = "WifeId")]
-        public EntitySet<Matrimony> Matrimonies1
-        {
-            get
-            {
-                return this._Matrimonies1;
-            }
-            set
-            {
-                this._Matrimonies1.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_ParishionerMigrationRequest", Storage = "_ParishionerMigrationRequests", ThisKey = "Id", OtherKey = "ParishionerId")]
-        public EntitySet<ParishionerMigrationRequest> ParishionerMigrationRequests
-        {
-            get
-            {
-                return this._ParishionerMigrationRequests;
-            }
-            set
-            {
-                this._ParishionerMigrationRequests.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_Priest", Storage = "_Priests", ThisKey = "Id", OtherKey = "ParishionerId")]
-        public EntitySet<Priest> Priests
-        {
-            get
-            {
-                return this._Priests;
-            }
-            set
-            {
-                this._Priests.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_Sacrament", Storage = "_Sacraments", ThisKey = "Id", OtherKey = "ParishionerId")]
-        public EntitySet<Sacrament> Sacraments
-        {
-            get
-            {
-                return this._Sacraments;
-            }
-            set
-            {
-                this._Sacraments.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_Society", Storage = "_Societies", ThisKey = "Id", OtherKey = "ManagedBy")]
-        public EntitySet<Society> Societies
-        {
-            get
-            {
-                return this._Societies;
-            }
-            set
-            {
-                this._Societies.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_SocietyMember", Storage = "_SocietyMembers", ThisKey = "Id", OtherKey = "ParishionerId")]
-        public EntitySet<SocietyMember> SocietyMembers
-        {
-            get
-            {
-                return this._SocietyMembers;
-            }
-            set
-            {
-                this._SocietyMembers.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_Vocation", Storage = "_Vocation", ThisKey = "Id", OtherKey = "ParishionerId", IsUnique = true, IsForeignKey = false)]
-        public Vocation Vocation
-        {
-            get
-            {
-                return this._Vocation.Entity;
-            }
-            set
-            {
-                Vocation previousValue = this._Vocation.Entity;
-                if (((previousValue != value)
-                            || (this._Vocation.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Vocation.Entity = null;
-                        previousValue.Parishioner = null;
-                    }
-                    this._Vocation.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Parishioner = this;
-                    }
-                    this.SendPropertyChanged("Vocation");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Community_Parishioner", Storage = "_Community", ThisKey = "CommunityId", OtherKey = "Id", IsForeignKey = true)]
-        public Community Community
-        {
-            get
-            {
-                return this._Community.Entity;
-            }
-            set
-            {
-                Community previousValue = this._Community.Entity;
-                if (((previousValue != value)
-                            || (this._Community.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Community.Entity = null;
-                        previousValue.Parishioners.Remove(this);
-                    }
-                    this._Community.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Parishioners.Add(this);
-                        this._CommunityId = value.Id;
-                    }
-                    else
-                    {
-                        this._CommunityId = default(int);
-                    }
-                    this.SendPropertyChanged("Community");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_ClassGroups(ClassGroup entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = this;
-        }
-
-        private void detach_ClassGroups(ClassGroup entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = null;
-        }
-
-        private void attach_ClassMembers(ClassMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = this;
-        }
-
-        private void detach_ClassMembers(ClassMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = null;
-        }
-
-        private void attach_DeaconRequisitionComments(DeaconRequisitionComment entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = this;
-        }
-
-        private void detach_DeaconRequisitionComments(DeaconRequisitionComment entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = null;
-        }
-
-        private void attach_FamilyMembers(FamilyMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = this;
-        }
-
-        private void detach_FamilyMembers(FamilyMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = null;
-        }
-
-        private void attach_GiayMois(GiayMoi entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = this;
-        }
-
-        private void detach_GiayMois(GiayMoi entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = null;
-        }
-
-        private void attach_Matrimonies(Matrimony entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = this;
-        }
-
-        private void detach_Matrimonies(Matrimony entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = null;
-        }
-
-        private void attach_Matrimonies1(Matrimony entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner1 = this;
-        }
-
-        private void detach_Matrimonies1(Matrimony entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner1 = null;
-        }
-
-        private void attach_ParishionerMigrationRequests(ParishionerMigrationRequest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = this;
-        }
-
-        private void detach_ParishionerMigrationRequests(ParishionerMigrationRequest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = null;
-        }
-
-        private void attach_Priests(Priest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = this;
-        }
-
-        private void detach_Priests(Priest entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = null;
-        }
-
-        private void attach_Sacraments(Sacrament entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = this;
-        }
-
-        private void detach_Sacraments(Sacrament entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = null;
-        }
-
-        private void attach_Societies(Society entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = this;
-        }
-
-        private void detach_Societies(Society entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = null;
-        }
-
-        private void attach_SocietyMembers(SocietyMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = this;
-        }
-
-        private void detach_SocietyMembers(SocietyMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.Parishioner = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ParishionerMigrationRequest")]
-    public partial class ParishionerMigrationRequest : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _ParishionerId;
-
-        private System.Nullable<int> _ToParishId;
-
-        private System.DateTime _CreatedDate;
-
-        private int _FromCommunityId;
-
-        private int _Status;
-
-        private EntityRef<Community> _Community;
-
-        private EntityRef<Parish> _Parish;
-
-        private EntityRef<Parishioner> _Parishioner;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnParishionerIdChanging(int value);
-        partial void OnParishionerIdChanged();
-        partial void OnToParishIdChanging(System.Nullable<int> value);
-        partial void OnToParishIdChanged();
-        partial void OnCreatedDateChanging(System.DateTime value);
-        partial void OnCreatedDateChanged();
-        partial void OnFromCommunityIdChanging(int value);
-        partial void OnFromCommunityIdChanged();
-        partial void OnStatusChanging(int value);
-        partial void OnStatusChanged();
-        #endregion
-
-        public ParishionerMigrationRequest()
-        {
-            this._Community = default(EntityRef<Community>);
-            this._Parish = default(EntityRef<Parish>);
-            this._Parishioner = default(EntityRef<Parishioner>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishionerId", DbType = "Int NOT NULL")]
-        public int ParishionerId
-        {
-            get
-            {
-                return this._ParishionerId;
-            }
-            set
-            {
-                if ((this._ParishionerId != value))
-                {
-                    if (this._Parishioner.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishionerIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishionerId = value;
-                    this.SendPropertyChanged("ParishionerId");
-                    this.OnParishionerIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ToParishId", DbType = "Int")]
-        public System.Nullable<int> ToParishId
-        {
-            get
-            {
-                return this._ToParishId;
-            }
-            set
-            {
-                if ((this._ToParishId != value))
-                {
-                    if (this._Parish.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnToParishIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ToParishId = value;
-                    this.SendPropertyChanged("ToParishId");
-                    this.OnToParishIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CreatedDate", DbType = "DateTime NOT NULL")]
-        public System.DateTime CreatedDate
-        {
-            get
-            {
-                return this._CreatedDate;
-            }
-            set
-            {
-                if ((this._CreatedDate != value))
-                {
-                    this.OnCreatedDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._CreatedDate = value;
-                    this.SendPropertyChanged("CreatedDate");
-                    this.OnCreatedDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_FromCommunityId", DbType = "Int NOT NULL")]
-        public int FromCommunityId
-        {
-            get
-            {
-                return this._FromCommunityId;
-            }
-            set
-            {
-                if ((this._FromCommunityId != value))
-                {
-                    if (this._Community.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnFromCommunityIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._FromCommunityId = value;
-                    this.SendPropertyChanged("FromCommunityId");
-                    this.OnFromCommunityIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Status", DbType = "Int NOT NULL")]
-        public int Status
-        {
-            get
-            {
-                return this._Status;
-            }
-            set
-            {
-                if ((this._Status != value))
-                {
-                    this.OnStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._Status = value;
-                    this.SendPropertyChanged("Status");
-                    this.OnStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Community_ParishionerMigrationRequest", Storage = "_Community", ThisKey = "FromCommunityId", OtherKey = "Id", IsForeignKey = true)]
-        public Community Community
-        {
-            get
-            {
-                return this._Community.Entity;
-            }
-            set
-            {
-                Community previousValue = this._Community.Entity;
-                if (((previousValue != value)
-                            || (this._Community.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Community.Entity = null;
-                        previousValue.ParishionerMigrationRequests.Remove(this);
-                    }
-                    this._Community.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ParishionerMigrationRequests.Add(this);
-                        this._FromCommunityId = value.Id;
-                    }
-                    else
-                    {
-                        this._FromCommunityId = default(int);
-                    }
-                    this.SendPropertyChanged("Community");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_ParishionerMigrationRequest", Storage = "_Parish", ThisKey = "ToParishId", OtherKey = "Id", IsForeignKey = true)]
-        public Parish Parish
-        {
-            get
-            {
-                return this._Parish.Entity;
-            }
-            set
-            {
-                Parish previousValue = this._Parish.Entity;
-                if (((previousValue != value)
-                            || (this._Parish.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parish.Entity = null;
-                        previousValue.ParishionerMigrationRequests.Remove(this);
-                    }
-                    this._Parish.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ParishionerMigrationRequests.Add(this);
-                        this._ToParishId = value.Id;
-                    }
-                    else
-                    {
-                        this._ToParishId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Parish");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_ParishionerMigrationRequest", Storage = "_Parishioner", ThisKey = "ParishionerId", OtherKey = "Id", IsForeignKey = true)]
-        public Parishioner Parishioner
-        {
-            get
-            {
-                return this._Parishioner.Entity;
-            }
-            set
-            {
-                Parishioner previousValue = this._Parishioner.Entity;
-                if (((previousValue != value)
-                            || (this._Parishioner.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parishioner.Entity = null;
-                        previousValue.ParishionerMigrationRequests.Remove(this);
-                    }
-                    this._Parishioner.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ParishionerMigrationRequests.Add(this);
-                        this._ParishionerId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishionerId = default(int);
-                    }
-                    this.SendPropertyChanged("Parishioner");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ParishManager")]
-    public partial class ParishManager : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private System.Nullable<int> _ParishId;
-
-        private int _PriestId;
-
-        private string _StartDate;
-
-        private string _EndDate;
-
-        private System.Nullable<int> _Position;
-
-        private string _PositionName;
-
-        private System.Nullable<int> _IdThuyenChuyenLinhMuc;
-
-        private System.Nullable<System.DateTime> _TakenDate;
-
-        private System.Nullable<int> _StatusId;
-
-        private string _Code;
-
-        private EntityRef<GeneralStatus> _GeneralStatus;
-
-        private EntityRef<Parish> _Parish;
-
-        private EntityRef<Priest> _Priest;
-
-        private EntityRef<ThuyenChuyenLinhMuc> _ThuyenChuyenLinhMuc;
-
-        private EntityRef<VaiTro> _VaiTro;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnParishIdChanging(System.Nullable<int> value);
-        partial void OnParishIdChanged();
-        partial void OnPriestIdChanging(int value);
-        partial void OnPriestIdChanged();
-        partial void OnStartDateChanging(string value);
-        partial void OnStartDateChanged();
-        partial void OnEndDateChanging(string value);
-        partial void OnEndDateChanged();
-        partial void OnPositionChanging(System.Nullable<int> value);
-        partial void OnPositionChanged();
-        partial void OnPositionNameChanging(string value);
-        partial void OnPositionNameChanged();
-        partial void OnIdThuyenChuyenLinhMucChanging(System.Nullable<int> value);
-        partial void OnIdThuyenChuyenLinhMucChanged();
-        partial void OnTakenDateChanging(System.Nullable<System.DateTime> value);
-        partial void OnTakenDateChanged();
-        partial void OnStatusIdChanging(System.Nullable<int> value);
-        partial void OnStatusIdChanged();
-        partial void OnCodeChanging(string value);
-        partial void OnCodeChanged();
-        #endregion
-
-        public ParishManager()
-        {
-            this._GeneralStatus = default(EntityRef<GeneralStatus>);
-            this._Parish = default(EntityRef<Parish>);
-            this._Priest = default(EntityRef<Priest>);
-            this._ThuyenChuyenLinhMuc = default(EntityRef<ThuyenChuyenLinhMuc>);
-            this._VaiTro = default(EntityRef<VaiTro>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishId", DbType = "Int")]
-        public System.Nullable<int> ParishId
-        {
-            get
-            {
-                return this._ParishId;
-            }
-            set
-            {
-                if ((this._ParishId != value))
-                {
-                    if (this._Parish.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishId = value;
-                    this.SendPropertyChanged("ParishId");
-                    this.OnParishIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_PriestId", DbType = "Int NOT NULL")]
-        public int PriestId
-        {
-            get
-            {
-                return this._PriestId;
-            }
-            set
-            {
-                if ((this._PriestId != value))
-                {
-                    if (this._Priest.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnPriestIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._PriestId = value;
-                    this.SendPropertyChanged("PriestId");
-                    this.OnPriestIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_StartDate", DbType = "VarChar(8) NOT NULL", CanBeNull = false)]
-        public string StartDate
-        {
-            get
-            {
-                return this._StartDate;
-            }
-            set
-            {
-                if ((this._StartDate != value))
-                {
-                    this.OnStartDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._StartDate = value;
-                    this.SendPropertyChanged("StartDate");
-                    this.OnStartDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_EndDate", DbType = "VarChar(8)")]
-        public string EndDate
-        {
-            get
-            {
-                return this._EndDate;
-            }
-            set
-            {
-                if ((this._EndDate != value))
-                {
-                    this.OnEndDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._EndDate = value;
-                    this.SendPropertyChanged("EndDate");
-                    this.OnEndDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Position", DbType = "Int")]
-        public System.Nullable<int> Position
-        {
-            get
-            {
-                return this._Position;
-            }
-            set
-            {
-                if ((this._Position != value))
-                {
-                    if (this._VaiTro.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnPositionChanging(value);
-                    this.SendPropertyChanging();
-                    this._Position = value;
-                    this.SendPropertyChanged("Position");
-                    this.OnPositionChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_PositionName", DbType = "NVarChar(50)")]
-        public string PositionName
-        {
-            get
-            {
-                return this._PositionName;
-            }
-            set
-            {
-                if ((this._PositionName != value))
-                {
-                    this.OnPositionNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._PositionName = value;
-                    this.SendPropertyChanged("PositionName");
-                    this.OnPositionNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IdThuyenChuyenLinhMuc", DbType = "Int")]
-        public System.Nullable<int> IdThuyenChuyenLinhMuc
-        {
-            get
-            {
-                return this._IdThuyenChuyenLinhMuc;
-            }
-            set
-            {
-                if ((this._IdThuyenChuyenLinhMuc != value))
-                {
-                    if (this._ThuyenChuyenLinhMuc.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnIdThuyenChuyenLinhMucChanging(value);
-                    this.SendPropertyChanging();
-                    this._IdThuyenChuyenLinhMuc = value;
-                    this.SendPropertyChanged("IdThuyenChuyenLinhMuc");
-                    this.OnIdThuyenChuyenLinhMucChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TakenDate", DbType = "DateTime")]
-        public System.Nullable<System.DateTime> TakenDate
-        {
-            get
-            {
-                return this._TakenDate;
-            }
-            set
-            {
-                if ((this._TakenDate != value))
-                {
-                    this.OnTakenDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._TakenDate = value;
-                    this.SendPropertyChanged("TakenDate");
-                    this.OnTakenDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_StatusId", DbType = "Int")]
-        public System.Nullable<int> StatusId
-        {
-            get
-            {
-                return this._StatusId;
-            }
-            set
-            {
-                if ((this._StatusId != value))
-                {
-                    if (this._GeneralStatus.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnStatusIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._StatusId = value;
-                    this.SendPropertyChanged("StatusId");
-                    this.OnStatusIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Code", DbType = "VarChar(100)")]
-        public string Code
-        {
-            get
-            {
-                return this._Code;
-            }
-            set
-            {
-                if ((this._Code != value))
-                {
-                    this.OnCodeChanging(value);
-                    this.SendPropertyChanging();
-                    this._Code = value;
-                    this.SendPropertyChanged("Code");
-                    this.OnCodeChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "GeneralStatus_ParishManager", Storage = "_GeneralStatus", ThisKey = "StatusId", OtherKey = "Id", IsForeignKey = true)]
-        public GeneralStatus GeneralStatus
-        {
-            get
-            {
-                return this._GeneralStatus.Entity;
-            }
-            set
-            {
-                GeneralStatus previousValue = this._GeneralStatus.Entity;
-                if (((previousValue != value)
-                            || (this._GeneralStatus.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._GeneralStatus.Entity = null;
-                        previousValue.ParishManagers.Remove(this);
-                    }
-                    this._GeneralStatus.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ParishManagers.Add(this);
-                        this._StatusId = value.Id;
-                    }
-                    else
-                    {
-                        this._StatusId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("GeneralStatus");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_ParishManager", Storage = "_Parish", ThisKey = "ParishId", OtherKey = "Id", IsForeignKey = true)]
-        public Parish Parish
-        {
-            get
-            {
-                return this._Parish.Entity;
-            }
-            set
-            {
-                Parish previousValue = this._Parish.Entity;
-                if (((previousValue != value)
-                            || (this._Parish.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parish.Entity = null;
-                        previousValue.ParishManagers.Remove(this);
-                    }
-                    this._Parish.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ParishManagers.Add(this);
-                        this._ParishId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Parish");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Priest_ParishManager", Storage = "_Priest", ThisKey = "PriestId", OtherKey = "Id", IsForeignKey = true)]
-        public Priest Priest
-        {
-            get
-            {
-                return this._Priest.Entity;
-            }
-            set
-            {
-                Priest previousValue = this._Priest.Entity;
-                if (((previousValue != value)
-                            || (this._Priest.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Priest.Entity = null;
-                        previousValue.ParishManagers.Remove(this);
-                    }
-                    this._Priest.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ParishManagers.Add(this);
-                        this._PriestId = value.Id;
-                    }
-                    else
-                    {
-                        this._PriestId = default(int);
-                    }
-                    this.SendPropertyChanged("Priest");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ThuyenChuyenLinhMuc_ParishManager", Storage = "_ThuyenChuyenLinhMuc", ThisKey = "IdThuyenChuyenLinhMuc", OtherKey = "Id", IsForeignKey = true)]
-        public ThuyenChuyenLinhMuc ThuyenChuyenLinhMuc
-        {
-            get
-            {
-                return this._ThuyenChuyenLinhMuc.Entity;
-            }
-            set
-            {
-                ThuyenChuyenLinhMuc previousValue = this._ThuyenChuyenLinhMuc.Entity;
-                if (((previousValue != value)
-                            || (this._ThuyenChuyenLinhMuc.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._ThuyenChuyenLinhMuc.Entity = null;
-                        previousValue.ParishManagers.Remove(this);
-                    }
-                    this._ThuyenChuyenLinhMuc.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ParishManagers.Add(this);
-                        this._IdThuyenChuyenLinhMuc = value.Id;
-                    }
-                    else
-                    {
-                        this._IdThuyenChuyenLinhMuc = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("ThuyenChuyenLinhMuc");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "VaiTro_ParishManager", Storage = "_VaiTro", ThisKey = "Position", OtherKey = "Id", IsForeignKey = true)]
-        public VaiTro VaiTro
-        {
-            get
-            {
-                return this._VaiTro.Entity;
-            }
-            set
-            {
-                VaiTro previousValue = this._VaiTro.Entity;
-                if (((previousValue != value)
-                            || (this._VaiTro.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._VaiTro.Entity = null;
-                        previousValue.ParishManagers.Remove(this);
-                    }
-                    this._VaiTro.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ParishManagers.Add(this);
-                        this._Position = value.Id;
-                    }
-                    else
-                    {
-                        this._Position = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("VaiTro");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.PlaceSuggestion")]
-    public partial class PlaceSuggestion : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Name;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        #endregion
-
-        public PlaceSuggestion()
-        {
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Priest")]
-    public partial class Priest : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _ChristianName;
-
-        private string _Name;
-
-        private string _BirthDate;
-
-        private int _DioceseId;
-
-        private string _Phone;
-
-        private System.Nullable<int> _ParishionerId;
-
-        private EntitySet<DeaconRequisitionComment> _DeaconRequisitionComments;
-
-        private EntitySet<HDLMMember> _HDLMMembers;
-
-        private EntitySet<Parish> _Parishes;
-
-        private EntitySet<ParishManager> _ParishManagers;
-
-        private EntityRef<Diocese> _Diocese;
-
-        private EntityRef<Parishioner> _Parishioner;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnChristianNameChanging(string value);
-        partial void OnChristianNameChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnBirthDateChanging(string value);
-        partial void OnBirthDateChanged();
-        partial void OnDioceseIdChanging(int value);
-        partial void OnDioceseIdChanged();
-        partial void OnPhoneChanging(string value);
-        partial void OnPhoneChanged();
-        partial void OnParishionerIdChanging(System.Nullable<int> value);
-        partial void OnParishionerIdChanged();
-        #endregion
-
-        public Priest()
-        {
-            this._DeaconRequisitionComments = new EntitySet<DeaconRequisitionComment>(new Action<DeaconRequisitionComment>(this.attach_DeaconRequisitionComments), new Action<DeaconRequisitionComment>(this.detach_DeaconRequisitionComments));
-            this._HDLMMembers = new EntitySet<HDLMMember>(new Action<HDLMMember>(this.attach_HDLMMembers), new Action<HDLMMember>(this.detach_HDLMMembers));
-            this._Parishes = new EntitySet<Parish>(new Action<Parish>(this.attach_Parishes), new Action<Parish>(this.detach_Parishes));
-            this._ParishManagers = new EntitySet<ParishManager>(new Action<ParishManager>(this.attach_ParishManagers), new Action<ParishManager>(this.detach_ParishManagers));
-            this._Diocese = default(EntityRef<Diocese>);
-            this._Parishioner = default(EntityRef<Parishioner>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ChristianName", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string ChristianName
-        {
-            get
-            {
-                return this._ChristianName;
-            }
-            set
-            {
-                if ((this._ChristianName != value))
-                {
-                    this.OnChristianNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._ChristianName = value;
-                    this.SendPropertyChanged("ChristianName");
-                    this.OnChristianNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_BirthDate", DbType = "Char(10)")]
-        public string BirthDate
-        {
-            get
-            {
-                return this._BirthDate;
-            }
-            set
-            {
-                if ((this._BirthDate != value))
-                {
-                    this.OnBirthDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._BirthDate = value;
-                    this.SendPropertyChanged("BirthDate");
-                    this.OnBirthDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DioceseId", DbType = "Int NOT NULL")]
-        public int DioceseId
-        {
-            get
-            {
-                return this._DioceseId;
-            }
-            set
-            {
-                if ((this._DioceseId != value))
-                {
-                    if (this._Diocese.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnDioceseIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._DioceseId = value;
-                    this.SendPropertyChanged("DioceseId");
-                    this.OnDioceseIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Phone", DbType = "NVarChar(20)")]
-        public string Phone
-        {
-            get
-            {
-                return this._Phone;
-            }
-            set
-            {
-                if ((this._Phone != value))
-                {
-                    this.OnPhoneChanging(value);
-                    this.SendPropertyChanging();
-                    this._Phone = value;
-                    this.SendPropertyChanged("Phone");
-                    this.OnPhoneChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishionerId", DbType = "Int")]
-        public System.Nullable<int> ParishionerId
-        {
-            get
-            {
-                return this._ParishionerId;
-            }
-            set
-            {
-                if ((this._ParishionerId != value))
-                {
-                    if (this._Parishioner.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishionerIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishionerId = value;
-                    this.SendPropertyChanged("ParishionerId");
-                    this.OnParishionerIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Priest_DeaconRequisitionComment", Storage = "_DeaconRequisitionComments", ThisKey = "Id", OtherKey = "PriestId")]
-        public EntitySet<DeaconRequisitionComment> DeaconRequisitionComments
-        {
-            get
-            {
-                return this._DeaconRequisitionComments;
-            }
-            set
-            {
-                this._DeaconRequisitionComments.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Priest_HDLMMember", Storage = "_HDLMMembers", ThisKey = "Id", OtherKey = "PriestID")]
-        public EntitySet<HDLMMember> HDLMMembers
-        {
-            get
-            {
-                return this._HDLMMembers;
-            }
-            set
-            {
-                this._HDLMMembers.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Priest_Parish", Storage = "_Parishes", ThisKey = "Id", OtherKey = "PriestId")]
-        public EntitySet<Parish> Parishes
-        {
-            get
-            {
-                return this._Parishes;
-            }
-            set
-            {
-                this._Parishes.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Priest_ParishManager", Storage = "_ParishManagers", ThisKey = "Id", OtherKey = "PriestId")]
-        public EntitySet<ParishManager> ParishManagers
-        {
-            get
-            {
-                return this._ParishManagers;
-            }
-            set
-            {
-                this._ParishManagers.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Diocese_Priest", Storage = "_Diocese", ThisKey = "DioceseId", OtherKey = "Id", IsForeignKey = true)]
-        public Diocese Diocese
-        {
-            get
-            {
-                return this._Diocese.Entity;
-            }
-            set
-            {
-                Diocese previousValue = this._Diocese.Entity;
-                if (((previousValue != value)
-                            || (this._Diocese.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Diocese.Entity = null;
-                        previousValue.Priests.Remove(this);
-                    }
-                    this._Diocese.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Priests.Add(this);
-                        this._DioceseId = value.Id;
-                    }
-                    else
-                    {
-                        this._DioceseId = default(int);
-                    }
-                    this.SendPropertyChanged("Diocese");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_Priest", Storage = "_Parishioner", ThisKey = "ParishionerId", OtherKey = "Id", IsForeignKey = true)]
-        public Parishioner Parishioner
-        {
-            get
-            {
-                return this._Parishioner.Entity;
-            }
-            set
-            {
-                Parishioner previousValue = this._Parishioner.Entity;
-                if (((previousValue != value)
-                            || (this._Parishioner.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parishioner.Entity = null;
-                        previousValue.Priests.Remove(this);
-                    }
-                    this._Parishioner.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Priests.Add(this);
-                        this._ParishionerId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishionerId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Parishioner");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_DeaconRequisitionComments(DeaconRequisitionComment entity)
-        {
-            this.SendPropertyChanging();
-            entity.Priest = this;
-        }
-
-        private void detach_DeaconRequisitionComments(DeaconRequisitionComment entity)
-        {
-            this.SendPropertyChanging();
-            entity.Priest = null;
-        }
-
-        private void attach_HDLMMembers(HDLMMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.Priest = this;
-        }
-
-        private void detach_HDLMMembers(HDLMMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.Priest = null;
-        }
-
-        private void attach_Parishes(Parish entity)
-        {
-            this.SendPropertyChanging();
-            entity.Priest1 = this;
-        }
-
-        private void detach_Parishes(Parish entity)
-        {
-            this.SendPropertyChanging();
-            entity.Priest1 = null;
-        }
-
-        private void attach_ParishManagers(ParishManager entity)
-        {
-            this.SendPropertyChanging();
-            entity.Priest = this;
-        }
-
-        private void detach_ParishManagers(ParishManager entity)
-        {
-            this.SendPropertyChanging();
-            entity.Priest = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ReligiousCommunity")]
-    public partial class ReligiousCommunity : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Name;
-
-        private int _Type;
-
-        private System.Nullable<int> _DirectorId;
-
-        private System.Nullable<int> _ViceDirectorId;
-
-        private EntitySet<ReligiousCommunityBase> _ReligiousCommunityBases;
-
-        private EntitySet<ReligiousCommunityManagementTerm> _ReligiousCommunityManagementTerms;
-
-        private EntityRef<Vocation> _Vocation;
-
-        private EntityRef<Vocation> _Vocation1;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnTypeChanging(int value);
-        partial void OnTypeChanged();
-        partial void OnDirectorIdChanging(System.Nullable<int> value);
-        partial void OnDirectorIdChanged();
-        partial void OnViceDirectorIdChanging(System.Nullable<int> value);
-        partial void OnViceDirectorIdChanged();
-        #endregion
-
-        public ReligiousCommunity()
-        {
-            this._ReligiousCommunityBases = new EntitySet<ReligiousCommunityBase>(new Action<ReligiousCommunityBase>(this.attach_ReligiousCommunityBases), new Action<ReligiousCommunityBase>(this.detach_ReligiousCommunityBases));
-            this._ReligiousCommunityManagementTerms = new EntitySet<ReligiousCommunityManagementTerm>(new Action<ReligiousCommunityManagementTerm>(this.attach_ReligiousCommunityManagementTerms), new Action<ReligiousCommunityManagementTerm>(this.detach_ReligiousCommunityManagementTerms));
-            this._Vocation = default(EntityRef<Vocation>);
-            this._Vocation1 = default(EntityRef<Vocation>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(255) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Type", DbType = "Int NOT NULL")]
-        public int Type
-        {
-            get
-            {
-                return this._Type;
-            }
-            set
-            {
-                if ((this._Type != value))
-                {
-                    this.OnTypeChanging(value);
-                    this.SendPropertyChanging();
-                    this._Type = value;
-                    this.SendPropertyChanged("Type");
-                    this.OnTypeChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DirectorId", DbType = "Int")]
-        public System.Nullable<int> DirectorId
-        {
-            get
-            {
-                return this._DirectorId;
-            }
-            set
-            {
-                if ((this._DirectorId != value))
-                {
-                    if (this._Vocation.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnDirectorIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._DirectorId = value;
-                    this.SendPropertyChanged("DirectorId");
-                    this.OnDirectorIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ViceDirectorId", DbType = "Int")]
-        public System.Nullable<int> ViceDirectorId
-        {
-            get
-            {
-                return this._ViceDirectorId;
-            }
-            set
-            {
-                if ((this._ViceDirectorId != value))
-                {
-                    if (this._Vocation1.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnViceDirectorIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ViceDirectorId = value;
-                    this.SendPropertyChanged("ViceDirectorId");
-                    this.OnViceDirectorIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ReligiousCommunity_ReligiousCommunityBase", Storage = "_ReligiousCommunityBases", ThisKey = "Id", OtherKey = "ReligiousCommunityId")]
-        public EntitySet<ReligiousCommunityBase> ReligiousCommunityBases
-        {
-            get
-            {
-                return this._ReligiousCommunityBases;
-            }
-            set
-            {
-                this._ReligiousCommunityBases.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ReligiousCommunity_ReligiousCommunityManagementTerm", Storage = "_ReligiousCommunityManagementTerms", ThisKey = "Id", OtherKey = "ReligiousCommunityId")]
-        public EntitySet<ReligiousCommunityManagementTerm> ReligiousCommunityManagementTerms
-        {
-            get
-            {
-                return this._ReligiousCommunityManagementTerms;
-            }
-            set
-            {
-                this._ReligiousCommunityManagementTerms.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_ReligiousCommunity", Storage = "_Vocation", ThisKey = "DirectorId", OtherKey = "ParishionerId", IsForeignKey = true)]
-        public Vocation Vocation
-        {
-            get
-            {
-                return this._Vocation.Entity;
-            }
-            set
-            {
-                Vocation previousValue = this._Vocation.Entity;
-                if (((previousValue != value)
-                            || (this._Vocation.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Vocation.Entity = null;
-                        previousValue.ReligiousCommunities.Remove(this);
-                    }
-                    this._Vocation.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ReligiousCommunities.Add(this);
-                        this._DirectorId = value.ParishionerId;
-                    }
-                    else
-                    {
-                        this._DirectorId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Vocation");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_ReligiousCommunity1", Storage = "_Vocation1", ThisKey = "ViceDirectorId", OtherKey = "ParishionerId", IsForeignKey = true)]
-        public Vocation Vocation1
-        {
-            get
-            {
-                return this._Vocation1.Entity;
-            }
-            set
-            {
-                Vocation previousValue = this._Vocation1.Entity;
-                if (((previousValue != value)
-                            || (this._Vocation1.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Vocation1.Entity = null;
-                        previousValue.ReligiousCommunities1.Remove(this);
-                    }
-                    this._Vocation1.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ReligiousCommunities1.Add(this);
-                        this._ViceDirectorId = value.ParishionerId;
-                    }
-                    else
-                    {
-                        this._ViceDirectorId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Vocation1");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_ReligiousCommunityBases(ReligiousCommunityBase entity)
-        {
-            this.SendPropertyChanging();
-            entity.ReligiousCommunity = this;
-        }
-
-        private void detach_ReligiousCommunityBases(ReligiousCommunityBase entity)
-        {
-            this.SendPropertyChanging();
-            entity.ReligiousCommunity = null;
-        }
-
-        private void attach_ReligiousCommunityManagementTerms(ReligiousCommunityManagementTerm entity)
-        {
-            this.SendPropertyChanging();
-            entity.ReligiousCommunity = this;
-        }
-
-        private void detach_ReligiousCommunityManagementTerms(ReligiousCommunityManagementTerm entity)
-        {
-            this.SendPropertyChanging();
-            entity.ReligiousCommunity = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ReligiousCommunityBase")]
-    public partial class ReligiousCommunityBase : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _ReligiousCommunityId;
-
-        private string _Address;
-
-        private System.Nullable<int> _ParishId;
-
-        private string _IsHeadquarter;
-
-        private int _ManagerId;
-
-        private EntitySet<ReligiousCommunityManagementTerm> _ReligiousCommunityManagementTerms;
-
-        private EntitySet<VocationExchangeReligiousCommunityBase> _VocationExchangeReligiousCommunityBases;
-
-        private EntitySet<VocationExchangeReligiousCommunityBase> _VocationExchangeReligiousCommunityBases1;
-
-        private EntityRef<Parish> _Parish;
-
-        private EntityRef<ReligiousCommunity> _ReligiousCommunity;
-
-        private EntityRef<Vocation> _Vocation;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnReligiousCommunityIdChanging(int value);
-        partial void OnReligiousCommunityIdChanged();
-        partial void OnAddressChanging(string value);
-        partial void OnAddressChanged();
-        partial void OnParishIdChanging(System.Nullable<int> value);
-        partial void OnParishIdChanged();
-        partial void OnIsHeadquarterChanging(string value);
-        partial void OnIsHeadquarterChanged();
-        partial void OnManagerIdChanging(int value);
-        partial void OnManagerIdChanged();
-        #endregion
-
-        public ReligiousCommunityBase()
-        {
-            this._ReligiousCommunityManagementTerms = new EntitySet<ReligiousCommunityManagementTerm>(new Action<ReligiousCommunityManagementTerm>(this.attach_ReligiousCommunityManagementTerms), new Action<ReligiousCommunityManagementTerm>(this.detach_ReligiousCommunityManagementTerms));
-            this._VocationExchangeReligiousCommunityBases = new EntitySet<VocationExchangeReligiousCommunityBase>(new Action<VocationExchangeReligiousCommunityBase>(this.attach_VocationExchangeReligiousCommunityBases), new Action<VocationExchangeReligiousCommunityBase>(this.detach_VocationExchangeReligiousCommunityBases));
-            this._VocationExchangeReligiousCommunityBases1 = new EntitySet<VocationExchangeReligiousCommunityBase>(new Action<VocationExchangeReligiousCommunityBase>(this.attach_VocationExchangeReligiousCommunityBases1), new Action<VocationExchangeReligiousCommunityBase>(this.detach_VocationExchangeReligiousCommunityBases1));
-            this._Parish = default(EntityRef<Parish>);
-            this._ReligiousCommunity = default(EntityRef<ReligiousCommunity>);
-            this._Vocation = default(EntityRef<Vocation>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ReligiousCommunityId", DbType = "Int NOT NULL")]
-        public int ReligiousCommunityId
-        {
-            get
-            {
-                return this._ReligiousCommunityId;
-            }
-            set
-            {
-                if ((this._ReligiousCommunityId != value))
-                {
-                    if (this._ReligiousCommunity.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnReligiousCommunityIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ReligiousCommunityId = value;
-                    this.SendPropertyChanged("ReligiousCommunityId");
-                    this.OnReligiousCommunityIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Address", DbType = "NVarChar(255) NOT NULL", CanBeNull = false)]
-        public string Address
-        {
-            get
-            {
-                return this._Address;
-            }
-            set
-            {
-                if ((this._Address != value))
-                {
-                    this.OnAddressChanging(value);
-                    this.SendPropertyChanging();
-                    this._Address = value;
-                    this.SendPropertyChanged("Address");
-                    this.OnAddressChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishId", DbType = "Int")]
-        public System.Nullable<int> ParishId
-        {
-            get
-            {
-                return this._ParishId;
-            }
-            set
-            {
-                if ((this._ParishId != value))
-                {
-                    if (this._Parish.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishId = value;
-                    this.SendPropertyChanged("ParishId");
-                    this.OnParishIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsHeadquarter", DbType = "NChar(10)")]
-        public string IsHeadquarter
-        {
-            get
-            {
-                return this._IsHeadquarter;
-            }
-            set
-            {
-                if ((this._IsHeadquarter != value))
-                {
-                    this.OnIsHeadquarterChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsHeadquarter = value;
-                    this.SendPropertyChanged("IsHeadquarter");
-                    this.OnIsHeadquarterChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ManagerId", DbType = "Int NOT NULL")]
-        public int ManagerId
-        {
-            get
-            {
-                return this._ManagerId;
-            }
-            set
-            {
-                if ((this._ManagerId != value))
-                {
-                    if (this._Vocation.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnManagerIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ManagerId = value;
-                    this.SendPropertyChanged("ManagerId");
-                    this.OnManagerIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ReligiousCommunityBase_ReligiousCommunityManagementTerm", Storage = "_ReligiousCommunityManagementTerms", ThisKey = "Id", OtherKey = "ReligiousCommunityBaseId")]
-        public EntitySet<ReligiousCommunityManagementTerm> ReligiousCommunityManagementTerms
-        {
-            get
-            {
-                return this._ReligiousCommunityManagementTerms;
-            }
-            set
-            {
-                this._ReligiousCommunityManagementTerms.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ReligiousCommunityBase_VocationExchangeReligiousCommunityBase", Storage = "_VocationExchangeReligiousCommunityBases", ThisKey = "Id", OtherKey = "OldReligiousCommunityBaseId")]
-        public EntitySet<VocationExchangeReligiousCommunityBase> VocationExchangeReligiousCommunityBases
-        {
-            get
-            {
-                return this._VocationExchangeReligiousCommunityBases;
-            }
-            set
-            {
-                this._VocationExchangeReligiousCommunityBases.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ReligiousCommunityBase_VocationExchangeReligiousCommunityBase1", Storage = "_VocationExchangeReligiousCommunityBases1", ThisKey = "Id", OtherKey = "NewReligiousCommunityBaseId")]
-        public EntitySet<VocationExchangeReligiousCommunityBase> VocationExchangeReligiousCommunityBases1
-        {
-            get
-            {
-                return this._VocationExchangeReligiousCommunityBases1;
-            }
-            set
-            {
-                this._VocationExchangeReligiousCommunityBases1.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_ReligiousCommunityBase", Storage = "_Parish", ThisKey = "ParishId", OtherKey = "Id", IsForeignKey = true)]
-        public Parish Parish
-        {
-            get
-            {
-                return this._Parish.Entity;
-            }
-            set
-            {
-                Parish previousValue = this._Parish.Entity;
-                if (((previousValue != value)
-                            || (this._Parish.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parish.Entity = null;
-                        previousValue.ReligiousCommunityBases.Remove(this);
-                    }
-                    this._Parish.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ReligiousCommunityBases.Add(this);
-                        this._ParishId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Parish");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ReligiousCommunity_ReligiousCommunityBase", Storage = "_ReligiousCommunity", ThisKey = "ReligiousCommunityId", OtherKey = "Id", IsForeignKey = true)]
-        public ReligiousCommunity ReligiousCommunity
-        {
-            get
-            {
-                return this._ReligiousCommunity.Entity;
-            }
-            set
-            {
-                ReligiousCommunity previousValue = this._ReligiousCommunity.Entity;
-                if (((previousValue != value)
-                            || (this._ReligiousCommunity.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._ReligiousCommunity.Entity = null;
-                        previousValue.ReligiousCommunityBases.Remove(this);
-                    }
-                    this._ReligiousCommunity.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ReligiousCommunityBases.Add(this);
-                        this._ReligiousCommunityId = value.Id;
-                    }
-                    else
-                    {
-                        this._ReligiousCommunityId = default(int);
-                    }
-                    this.SendPropertyChanged("ReligiousCommunity");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_ReligiousCommunityBase", Storage = "_Vocation", ThisKey = "ManagerId", OtherKey = "ParishionerId", IsForeignKey = true)]
-        public Vocation Vocation
-        {
-            get
-            {
-                return this._Vocation.Entity;
-            }
-            set
-            {
-                Vocation previousValue = this._Vocation.Entity;
-                if (((previousValue != value)
-                            || (this._Vocation.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Vocation.Entity = null;
-                        previousValue.ReligiousCommunityBases.Remove(this);
-                    }
-                    this._Vocation.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ReligiousCommunityBases.Add(this);
-                        this._ManagerId = value.ParishionerId;
-                    }
-                    else
-                    {
-                        this._ManagerId = default(int);
-                    }
-                    this.SendPropertyChanged("Vocation");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_ReligiousCommunityManagementTerms(ReligiousCommunityManagementTerm entity)
-        {
-            this.SendPropertyChanging();
-            entity.ReligiousCommunityBase = this;
-        }
-
-        private void detach_ReligiousCommunityManagementTerms(ReligiousCommunityManagementTerm entity)
-        {
-            this.SendPropertyChanging();
-            entity.ReligiousCommunityBase = null;
-        }
-
-        private void attach_VocationExchangeReligiousCommunityBases(VocationExchangeReligiousCommunityBase entity)
-        {
-            this.SendPropertyChanging();
-            entity.ReligiousCommunityBase = this;
-        }
-
-        private void detach_VocationExchangeReligiousCommunityBases(VocationExchangeReligiousCommunityBase entity)
-        {
-            this.SendPropertyChanging();
-            entity.ReligiousCommunityBase = null;
-        }
-
-        private void attach_VocationExchangeReligiousCommunityBases1(VocationExchangeReligiousCommunityBase entity)
-        {
-            this.SendPropertyChanging();
-            entity.ReligiousCommunityBase1 = this;
-        }
-
-        private void detach_VocationExchangeReligiousCommunityBases1(VocationExchangeReligiousCommunityBase entity)
-        {
-            this.SendPropertyChanging();
-            entity.ReligiousCommunityBase1 = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ReligiousCommunityManagementTerm")]
-    public partial class ReligiousCommunityManagementTerm : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _VocationId;
-
-        private System.DateTime _StartTime;
-
-        private System.DateTime _EndTime;
-
-        private System.Nullable<bool> _IsDirector;
-
-        private System.Nullable<int> _ReligiousCommunityId;
-
-        private System.Nullable<int> _ReligiousCommunityBaseId;
-
-        private EntityRef<ReligiousCommunity> _ReligiousCommunity;
-
-        private EntityRef<ReligiousCommunityBase> _ReligiousCommunityBase;
-
-        private EntityRef<Vocation> _Vocation;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnVocationIdChanging(int value);
-        partial void OnVocationIdChanged();
-        partial void OnStartTimeChanging(System.DateTime value);
-        partial void OnStartTimeChanged();
-        partial void OnEndTimeChanging(System.DateTime value);
-        partial void OnEndTimeChanged();
-        partial void OnIsDirectorChanging(System.Nullable<bool> value);
-        partial void OnIsDirectorChanged();
-        partial void OnReligiousCommunityIdChanging(System.Nullable<int> value);
-        partial void OnReligiousCommunityIdChanged();
-        partial void OnReligiousCommunityBaseIdChanging(System.Nullable<int> value);
-        partial void OnReligiousCommunityBaseIdChanged();
-        #endregion
-
-        public ReligiousCommunityManagementTerm()
-        {
-            this._ReligiousCommunity = default(EntityRef<ReligiousCommunity>);
-            this._ReligiousCommunityBase = default(EntityRef<ReligiousCommunityBase>);
-            this._Vocation = default(EntityRef<Vocation>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_VocationId", DbType = "Int NOT NULL")]
-        public int VocationId
-        {
-            get
-            {
-                return this._VocationId;
-            }
-            set
-            {
-                if ((this._VocationId != value))
-                {
-                    if (this._Vocation.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnVocationIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._VocationId = value;
-                    this.SendPropertyChanged("VocationId");
-                    this.OnVocationIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_StartTime", DbType = "DateTime NOT NULL")]
-        public System.DateTime StartTime
-        {
-            get
-            {
-                return this._StartTime;
-            }
-            set
-            {
-                if ((this._StartTime != value))
-                {
-                    this.OnStartTimeChanging(value);
-                    this.SendPropertyChanging();
-                    this._StartTime = value;
-                    this.SendPropertyChanged("StartTime");
-                    this.OnStartTimeChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_EndTime", DbType = "DateTime NOT NULL")]
-        public System.DateTime EndTime
-        {
-            get
-            {
-                return this._EndTime;
-            }
-            set
-            {
-                if ((this._EndTime != value))
-                {
-                    this.OnEndTimeChanging(value);
-                    this.SendPropertyChanging();
-                    this._EndTime = value;
-                    this.SendPropertyChanged("EndTime");
-                    this.OnEndTimeChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsDirector", DbType = "Bit")]
-        public System.Nullable<bool> IsDirector
-        {
-            get
-            {
-                return this._IsDirector;
-            }
-            set
-            {
-                if ((this._IsDirector != value))
-                {
-                    this.OnIsDirectorChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsDirector = value;
-                    this.SendPropertyChanged("IsDirector");
-                    this.OnIsDirectorChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ReligiousCommunityId", DbType = "Int")]
-        public System.Nullable<int> ReligiousCommunityId
-        {
-            get
-            {
-                return this._ReligiousCommunityId;
-            }
-            set
-            {
-                if ((this._ReligiousCommunityId != value))
-                {
-                    if (this._ReligiousCommunity.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnReligiousCommunityIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ReligiousCommunityId = value;
-                    this.SendPropertyChanged("ReligiousCommunityId");
-                    this.OnReligiousCommunityIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ReligiousCommunityBaseId", DbType = "Int")]
-        public System.Nullable<int> ReligiousCommunityBaseId
-        {
-            get
-            {
-                return this._ReligiousCommunityBaseId;
-            }
-            set
-            {
-                if ((this._ReligiousCommunityBaseId != value))
-                {
-                    if (this._ReligiousCommunityBase.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnReligiousCommunityBaseIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ReligiousCommunityBaseId = value;
-                    this.SendPropertyChanged("ReligiousCommunityBaseId");
-                    this.OnReligiousCommunityBaseIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ReligiousCommunity_ReligiousCommunityManagementTerm", Storage = "_ReligiousCommunity", ThisKey = "ReligiousCommunityId", OtherKey = "Id", IsForeignKey = true)]
-        public ReligiousCommunity ReligiousCommunity
-        {
-            get
-            {
-                return this._ReligiousCommunity.Entity;
-            }
-            set
-            {
-                ReligiousCommunity previousValue = this._ReligiousCommunity.Entity;
-                if (((previousValue != value)
-                            || (this._ReligiousCommunity.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._ReligiousCommunity.Entity = null;
-                        previousValue.ReligiousCommunityManagementTerms.Remove(this);
-                    }
-                    this._ReligiousCommunity.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ReligiousCommunityManagementTerms.Add(this);
-                        this._ReligiousCommunityId = value.Id;
-                    }
-                    else
-                    {
-                        this._ReligiousCommunityId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("ReligiousCommunity");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ReligiousCommunityBase_ReligiousCommunityManagementTerm", Storage = "_ReligiousCommunityBase", ThisKey = "ReligiousCommunityBaseId", OtherKey = "Id", IsForeignKey = true)]
-        public ReligiousCommunityBase ReligiousCommunityBase
-        {
-            get
-            {
-                return this._ReligiousCommunityBase.Entity;
-            }
-            set
-            {
-                ReligiousCommunityBase previousValue = this._ReligiousCommunityBase.Entity;
-                if (((previousValue != value)
-                            || (this._ReligiousCommunityBase.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._ReligiousCommunityBase.Entity = null;
-                        previousValue.ReligiousCommunityManagementTerms.Remove(this);
-                    }
-                    this._ReligiousCommunityBase.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ReligiousCommunityManagementTerms.Add(this);
-                        this._ReligiousCommunityBaseId = value.Id;
-                    }
-                    else
-                    {
-                        this._ReligiousCommunityBaseId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("ReligiousCommunityBase");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_ReligiousCommunityManagementTerm", Storage = "_Vocation", ThisKey = "VocationId", OtherKey = "ParishionerId", IsForeignKey = true)]
-        public Vocation Vocation
-        {
-            get
-            {
-                return this._Vocation.Entity;
-            }
-            set
-            {
-                Vocation previousValue = this._Vocation.Entity;
-                if (((previousValue != value)
-                            || (this._Vocation.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Vocation.Entity = null;
-                        previousValue.ReligiousCommunityManagementTerms.Remove(this);
-                    }
-                    this._Vocation.Entity = value;
-                    if ((value != null))
-                    {
-                        value.ReligiousCommunityManagementTerms.Add(this);
-                        this._VocationId = value.ParishionerId;
-                    }
-                    else
-                    {
-                        this._VocationId = default(int);
-                    }
-                    this.SendPropertyChanged("Vocation");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Role")]
-    public partial class Role : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Name;
-
-        private EntitySet<Account> _Accounts;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        #endregion
-
-        public Role()
-        {
-            this._Accounts = new EntitySet<Account>(new Action<Account>(this.attach_Accounts), new Action<Account>(this.detach_Accounts));
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Role_Account", Storage = "_Accounts", ThisKey = "Id", OtherKey = "RoleId")]
-        public EntitySet<Account> Accounts
-        {
-            get
-            {
-                return this._Accounts;
-            }
-            set
-            {
-                this._Accounts.Assign(value);
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_Accounts(Account entity)
-        {
-            this.SendPropertyChanging();
-            entity.Role = this;
-        }
-
-        private void detach_Accounts(Account entity)
-        {
-            this.SendPropertyChanging();
-            entity.Role = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Sacrament")]
-    public partial class Sacrament : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private System.Nullable<int> _SacramentGroupId;
-
-        private int _ParishionerId;
-
-        private string _Number;
-
-        private int _Type;
-
-        private string _Patron;
-
-        private string _Note;
-
-        private string _Date;
-
-        private string _Giver;
-
-        private string _ReceivedPlace;
-
-        private EntityRef<Parishioner> _Parishioner;
-
-        private EntityRef<SacramentGroup> _SacramentGroup;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnSacramentGroupIdChanging(System.Nullable<int> value);
-        partial void OnSacramentGroupIdChanged();
-        partial void OnParishionerIdChanging(int value);
-        partial void OnParishionerIdChanged();
-        partial void OnNumberChanging(string value);
-        partial void OnNumberChanged();
-        partial void OnTypeChanging(int value);
-        partial void OnTypeChanged();
-        partial void OnPatronChanging(string value);
-        partial void OnPatronChanged();
-        partial void OnNoteChanging(string value);
-        partial void OnNoteChanged();
-        partial void OnDateChanging(string value);
-        partial void OnDateChanged();
-        partial void OnGiverChanging(string value);
-        partial void OnGiverChanged();
-        partial void OnReceivedPlaceChanging(string value);
-        partial void OnReceivedPlaceChanged();
-        #endregion
-
-        public Sacrament()
-        {
-            this._Parishioner = default(EntityRef<Parishioner>);
-            this._SacramentGroup = default(EntityRef<SacramentGroup>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SacramentGroupId", DbType = "Int")]
-        public System.Nullable<int> SacramentGroupId
-        {
-            get
-            {
-                return this._SacramentGroupId;
-            }
-            set
-            {
-                if ((this._SacramentGroupId != value))
-                {
-                    if (this._SacramentGroup.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnSacramentGroupIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._SacramentGroupId = value;
-                    this.SendPropertyChanged("SacramentGroupId");
-                    this.OnSacramentGroupIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishionerId", DbType = "Int NOT NULL")]
-        public int ParishionerId
-        {
-            get
-            {
-                return this._ParishionerId;
-            }
-            set
-            {
-                if ((this._ParishionerId != value))
-                {
-                    if (this._Parishioner.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishionerIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishionerId = value;
-                    this.SendPropertyChanged("ParishionerId");
-                    this.OnParishionerIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Number", DbType = "VarChar(50)")]
-        public string Number
-        {
-            get
-            {
-                return this._Number;
-            }
-            set
-            {
-                if ((this._Number != value))
-                {
-                    this.OnNumberChanging(value);
-                    this.SendPropertyChanging();
-                    this._Number = value;
-                    this.SendPropertyChanged("Number");
-                    this.OnNumberChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Type", DbType = "Int NOT NULL")]
-        public int Type
-        {
-            get
-            {
-                return this._Type;
-            }
-            set
-            {
-                if ((this._Type != value))
-                {
-                    this.OnTypeChanging(value);
-                    this.SendPropertyChanging();
-                    this._Type = value;
-                    this.SendPropertyChanged("Type");
-                    this.OnTypeChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Patron", DbType = "NVarChar(100)")]
-        public string Patron
-        {
-            get
-            {
-                return this._Patron;
-            }
-            set
-            {
-                if ((this._Patron != value))
-                {
-                    this.OnPatronChanging(value);
-                    this.SendPropertyChanging();
-                    this._Patron = value;
-                    this.SendPropertyChanged("Patron");
-                    this.OnPatronChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Note", DbType = "NVarChar(100)")]
-        public string Note
-        {
-            get
-            {
-                return this._Note;
-            }
-            set
-            {
-                if ((this._Note != value))
-                {
-                    this.OnNoteChanging(value);
-                    this.SendPropertyChanging();
-                    this._Note = value;
-                    this.SendPropertyChanged("Note");
-                    this.OnNoteChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Date", DbType = "Char(8)")]
-        public string Date
-        {
-            get
-            {
-                return this._Date;
-            }
-            set
-            {
-                if ((this._Date != value))
-                {
-                    this.OnDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._Date = value;
-                    this.SendPropertyChanged("Date");
-                    this.OnDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Giver", DbType = "NVarChar(100)")]
-        public string Giver
-        {
-            get
-            {
-                return this._Giver;
-            }
-            set
-            {
-                if ((this._Giver != value))
-                {
-                    this.OnGiverChanging(value);
-                    this.SendPropertyChanging();
-                    this._Giver = value;
-                    this.SendPropertyChanged("Giver");
-                    this.OnGiverChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ReceivedPlace", DbType = "NVarChar(100)")]
-        public string ReceivedPlace
-        {
-            get
-            {
-                return this._ReceivedPlace;
-            }
-            set
-            {
-                if ((this._ReceivedPlace != value))
-                {
-                    this.OnReceivedPlaceChanging(value);
-                    this.SendPropertyChanging();
-                    this._ReceivedPlace = value;
-                    this.SendPropertyChanged("ReceivedPlace");
-                    this.OnReceivedPlaceChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_Sacrament", Storage = "_Parishioner", ThisKey = "ParishionerId", OtherKey = "Id", IsForeignKey = true)]
-        public Parishioner Parishioner
-        {
-            get
-            {
-                return this._Parishioner.Entity;
-            }
-            set
-            {
-                Parishioner previousValue = this._Parishioner.Entity;
-                if (((previousValue != value)
-                            || (this._Parishioner.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parishioner.Entity = null;
-                        previousValue.Sacraments.Remove(this);
-                    }
-                    this._Parishioner.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Sacraments.Add(this);
-                        this._ParishionerId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishionerId = default(int);
-                    }
-                    this.SendPropertyChanged("Parishioner");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "SacramentGroup_Sacrament", Storage = "_SacramentGroup", ThisKey = "SacramentGroupId", OtherKey = "Id", IsForeignKey = true)]
-        public SacramentGroup SacramentGroup
-        {
-            get
-            {
-                return this._SacramentGroup.Entity;
-            }
-            set
-            {
-                SacramentGroup previousValue = this._SacramentGroup.Entity;
-                if (((previousValue != value)
-                            || (this._SacramentGroup.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._SacramentGroup.Entity = null;
-                        previousValue.Sacraments.Remove(this);
-                    }
-                    this._SacramentGroup.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Sacraments.Add(this);
-                        this._SacramentGroupId = value.Id;
-                    }
-                    else
-                    {
-                        this._SacramentGroupId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("SacramentGroup");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.SacramentGroup")]
-    public partial class SacramentGroup : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Date;
-
-        private int _Type;
-
-        private string _Description;
-
-        private string _Giver;
-
-        private string _ReceivedPlace;
-
-        private int _ParishId;
-
-        private EntitySet<Matrimony> _Matrimonies;
-
-        private EntitySet<Sacrament> _Sacraments;
-
-        private EntityRef<Parish> _Parish;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnDateChanging(string value);
-        partial void OnDateChanged();
-        partial void OnTypeChanging(int value);
-        partial void OnTypeChanged();
-        partial void OnDescriptionChanging(string value);
-        partial void OnDescriptionChanged();
-        partial void OnGiverChanging(string value);
-        partial void OnGiverChanged();
-        partial void OnReceivedPlaceChanging(string value);
-        partial void OnReceivedPlaceChanged();
-        partial void OnParishIdChanging(int value);
-        partial void OnParishIdChanged();
-        #endregion
-
-        public SacramentGroup()
-        {
-            this._Matrimonies = new EntitySet<Matrimony>(new Action<Matrimony>(this.attach_Matrimonies), new Action<Matrimony>(this.detach_Matrimonies));
-            this._Sacraments = new EntitySet<Sacrament>(new Action<Sacrament>(this.attach_Sacraments), new Action<Sacrament>(this.detach_Sacraments));
-            this._Parish = default(EntityRef<Parish>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Date", DbType = "Char(8)")]
-        public string Date
-        {
-            get
-            {
-                return this._Date;
-            }
-            set
-            {
-                if ((this._Date != value))
-                {
-                    this.OnDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._Date = value;
-                    this.SendPropertyChanged("Date");
-                    this.OnDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Type", DbType = "Int NOT NULL")]
-        public int Type
-        {
-            get
-            {
-                return this._Type;
-            }
-            set
-            {
-                if ((this._Type != value))
-                {
-                    this.OnTypeChanging(value);
-                    this.SendPropertyChanging();
-                    this._Type = value;
-                    this.SendPropertyChanged("Type");
-                    this.OnTypeChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Description", DbType = "NVarChar(200)")]
-        public string Description
-        {
-            get
-            {
-                return this._Description;
-            }
-            set
-            {
-                if ((this._Description != value))
-                {
-                    this.OnDescriptionChanging(value);
-                    this.SendPropertyChanging();
-                    this._Description = value;
-                    this.SendPropertyChanged("Description");
-                    this.OnDescriptionChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Giver", DbType = "NVarChar(100)")]
-        public string Giver
-        {
-            get
-            {
-                return this._Giver;
-            }
-            set
-            {
-                if ((this._Giver != value))
-                {
-                    this.OnGiverChanging(value);
-                    this.SendPropertyChanging();
-                    this._Giver = value;
-                    this.SendPropertyChanged("Giver");
-                    this.OnGiverChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ReceivedPlace", DbType = "NVarChar(100)")]
-        public string ReceivedPlace
-        {
-            get
-            {
-                return this._ReceivedPlace;
-            }
-            set
-            {
-                if ((this._ReceivedPlace != value))
-                {
-                    this.OnReceivedPlaceChanging(value);
-                    this.SendPropertyChanging();
-                    this._ReceivedPlace = value;
-                    this.SendPropertyChanged("ReceivedPlace");
-                    this.OnReceivedPlaceChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishId", DbType = "Int NOT NULL")]
-        public int ParishId
-        {
-            get
-            {
-                return this._ParishId;
-            }
-            set
-            {
-                if ((this._ParishId != value))
-                {
-                    if (this._Parish.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishId = value;
-                    this.SendPropertyChanged("ParishId");
-                    this.OnParishIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "SacramentGroup_Matrimony", Storage = "_Matrimonies", ThisKey = "Id", OtherKey = "SacramentGroupId")]
-        public EntitySet<Matrimony> Matrimonies
-        {
-            get
-            {
-                return this._Matrimonies;
-            }
-            set
-            {
-                this._Matrimonies.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "SacramentGroup_Sacrament", Storage = "_Sacraments", ThisKey = "Id", OtherKey = "SacramentGroupId")]
-        public EntitySet<Sacrament> Sacraments
-        {
-            get
-            {
-                return this._Sacraments;
-            }
-            set
-            {
-                this._Sacraments.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_SacramentGroup", Storage = "_Parish", ThisKey = "ParishId", OtherKey = "Id", IsForeignKey = true)]
-        public Parish Parish
-        {
-            get
-            {
-                return this._Parish.Entity;
-            }
-            set
-            {
-                Parish previousValue = this._Parish.Entity;
-                if (((previousValue != value)
-                            || (this._Parish.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parish.Entity = null;
-                        previousValue.SacramentGroups.Remove(this);
-                    }
-                    this._Parish.Entity = value;
-                    if ((value != null))
-                    {
-                        value.SacramentGroups.Add(this);
-                        this._ParishId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishId = default(int);
-                    }
-                    this.SendPropertyChanged("Parish");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_Matrimonies(Matrimony entity)
-        {
-            this.SendPropertyChanging();
-            entity.SacramentGroup = this;
-        }
-
-        private void detach_Matrimonies(Matrimony entity)
-        {
-            this.SendPropertyChanging();
-            entity.SacramentGroup = null;
-        }
-
-        private void attach_Sacraments(Sacrament entity)
-        {
-            this.SendPropertyChanging();
-            entity.SacramentGroup = this;
-        }
-
-        private void detach_Sacraments(Sacrament entity)
-        {
-            this.SendPropertyChanging();
-            entity.SacramentGroup = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.SeminaryYear")]
-    public partial class SeminaryYear : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private System.DateTime _StartAt;
-
-        private System.DateTime _EndAt;
-
-        private string _SeminaryName;
-
-        private string _SeminaryYearCode;
-
-        private EntitySet<VocationSeminaryYear> _VocationSeminaryYears;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnStartAtChanging(System.DateTime value);
-        partial void OnStartAtChanged();
-        partial void OnEndAtChanging(System.DateTime value);
-        partial void OnEndAtChanged();
-        partial void OnSeminaryNameChanging(string value);
-        partial void OnSeminaryNameChanged();
-        partial void OnSeminaryYearCodeChanging(string value);
-        partial void OnSeminaryYearCodeChanged();
-        #endregion
-
-        public SeminaryYear()
-        {
-            this._VocationSeminaryYears = new EntitySet<VocationSeminaryYear>(new Action<VocationSeminaryYear>(this.attach_VocationSeminaryYears), new Action<VocationSeminaryYear>(this.detach_VocationSeminaryYears));
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_StartAt", DbType = "DateTime NOT NULL")]
-        public System.DateTime StartAt
-        {
-            get
-            {
-                return this._StartAt;
-            }
-            set
-            {
-                if ((this._StartAt != value))
-                {
-                    this.OnStartAtChanging(value);
-                    this.SendPropertyChanging();
-                    this._StartAt = value;
-                    this.SendPropertyChanged("StartAt");
-                    this.OnStartAtChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_EndAt", DbType = "DateTime NOT NULL")]
-        public System.DateTime EndAt
-        {
-            get
-            {
-                return this._EndAt;
-            }
-            set
-            {
-                if ((this._EndAt != value))
-                {
-                    this.OnEndAtChanging(value);
-                    this.SendPropertyChanging();
-                    this._EndAt = value;
-                    this.SendPropertyChanged("EndAt");
-                    this.OnEndAtChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SeminaryName", DbType = "NVarChar(255) NOT NULL", CanBeNull = false)]
-        public string SeminaryName
-        {
-            get
-            {
-                return this._SeminaryName;
-            }
-            set
-            {
-                if ((this._SeminaryName != value))
-                {
-                    this.OnSeminaryNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._SeminaryName = value;
-                    this.SendPropertyChanged("SeminaryName");
-                    this.OnSeminaryNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SeminaryYearCode", DbType = "NVarChar(10) NOT NULL", CanBeNull = false)]
-        public string SeminaryYearCode
-        {
-            get
-            {
-                return this._SeminaryYearCode;
-            }
-            set
-            {
-                if ((this._SeminaryYearCode != value))
-                {
-                    this.OnSeminaryYearCodeChanging(value);
-                    this.SendPropertyChanging();
-                    this._SeminaryYearCode = value;
-                    this.SendPropertyChanged("SeminaryYearCode");
-                    this.OnSeminaryYearCodeChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "SeminaryYear_VocationSeminaryYear", Storage = "_VocationSeminaryYears", ThisKey = "Id", OtherKey = "SeminaryYearId")]
-        public EntitySet<VocationSeminaryYear> VocationSeminaryYears
-        {
-            get
-            {
-                return this._VocationSeminaryYears;
-            }
-            set
-            {
-                this._VocationSeminaryYears.Assign(value);
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_VocationSeminaryYears(VocationSeminaryYear entity)
-        {
-            this.SendPropertyChanging();
-            entity.SeminaryYear = this;
-        }
-
-        private void detach_VocationSeminaryYears(VocationSeminaryYear entity)
-        {
-            this.SendPropertyChanging();
-            entity.SeminaryYear = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Society")]
-    public partial class Society : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Name;
-
-        private string _EstablishedDate;
-
-        private System.Nullable<int> _ManagedBy;
-
-        private int _ParishId;
-
-        private EntitySet<SocietyMember> _SocietyMembers;
-
-        private EntityRef<Parish> _Parish;
-
-        private EntityRef<Parishioner> _Parishioner;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnEstablishedDateChanging(string value);
-        partial void OnEstablishedDateChanged();
-        partial void OnManagedByChanging(System.Nullable<int> value);
-        partial void OnManagedByChanged();
-        partial void OnParishIdChanging(int value);
-        partial void OnParishIdChanged();
-        #endregion
-
-        public Society()
-        {
-            this._SocietyMembers = new EntitySet<SocietyMember>(new Action<SocietyMember>(this.attach_SocietyMembers), new Action<SocietyMember>(this.detach_SocietyMembers));
-            this._Parish = default(EntityRef<Parish>);
-            this._Parishioner = default(EntityRef<Parishioner>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_EstablishedDate", DbType = "Char(8)")]
-        public string EstablishedDate
-        {
-            get
-            {
-                return this._EstablishedDate;
-            }
-            set
-            {
-                if ((this._EstablishedDate != value))
-                {
-                    this.OnEstablishedDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._EstablishedDate = value;
-                    this.SendPropertyChanged("EstablishedDate");
-                    this.OnEstablishedDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ManagedBy", DbType = "Int")]
-        public System.Nullable<int> ManagedBy
-        {
-            get
-            {
-                return this._ManagedBy;
-            }
-            set
-            {
-                if ((this._ManagedBy != value))
-                {
-                    if (this._Parishioner.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnManagedByChanging(value);
-                    this.SendPropertyChanging();
-                    this._ManagedBy = value;
-                    this.SendPropertyChanged("ManagedBy");
-                    this.OnManagedByChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishId", DbType = "Int NOT NULL")]
-        public int ParishId
-        {
-            get
-            {
-                return this._ParishId;
-            }
-            set
-            {
-                if ((this._ParishId != value))
-                {
-                    if (this._Parish.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishId = value;
-                    this.SendPropertyChanged("ParishId");
-                    this.OnParishIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Society_SocietyMember", Storage = "_SocietyMembers", ThisKey = "Id", OtherKey = "SocietyId")]
-        public EntitySet<SocietyMember> SocietyMembers
-        {
-            get
-            {
-                return this._SocietyMembers;
-            }
-            set
-            {
-                this._SocietyMembers.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_Society", Storage = "_Parish", ThisKey = "ParishId", OtherKey = "Id", IsForeignKey = true)]
-        public Parish Parish
-        {
-            get
-            {
-                return this._Parish.Entity;
-            }
-            set
-            {
-                Parish previousValue = this._Parish.Entity;
-                if (((previousValue != value)
-                            || (this._Parish.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parish.Entity = null;
-                        previousValue.Societies.Remove(this);
-                    }
-                    this._Parish.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Societies.Add(this);
-                        this._ParishId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishId = default(int);
-                    }
-                    this.SendPropertyChanged("Parish");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_Society", Storage = "_Parishioner", ThisKey = "ManagedBy", OtherKey = "Id", IsForeignKey = true)]
-        public Parishioner Parishioner
-        {
-            get
-            {
-                return this._Parishioner.Entity;
-            }
-            set
-            {
-                Parishioner previousValue = this._Parishioner.Entity;
-                if (((previousValue != value)
-                            || (this._Parishioner.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parishioner.Entity = null;
-                        previousValue.Societies.Remove(this);
-                    }
-                    this._Parishioner.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Societies.Add(this);
-                        this._ManagedBy = value.Id;
-                    }
-                    else
-                    {
-                        this._ManagedBy = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Parishioner");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_SocietyMembers(SocietyMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.Society = this;
-        }
-
-        private void detach_SocietyMembers(SocietyMember entity)
-        {
-            this.SendPropertyChanging();
-            entity.Society = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.SocietyMember")]
-    public partial class SocietyMember : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _SocietyId;
-
-        private int _ParishionerId;
-
-        private int _Position;
-
-        private string _Note;
-
-        private EntityRef<Parishioner> _Parishioner;
-
-        private EntityRef<Society> _Society;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnSocietyIdChanging(int value);
-        partial void OnSocietyIdChanged();
-        partial void OnParishionerIdChanging(int value);
-        partial void OnParishionerIdChanged();
-        partial void OnPositionChanging(int value);
-        partial void OnPositionChanged();
-        partial void OnNoteChanging(string value);
-        partial void OnNoteChanged();
-        #endregion
-
-        public SocietyMember()
-        {
-            this._Parishioner = default(EntityRef<Parishioner>);
-            this._Society = default(EntityRef<Society>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SocietyId", DbType = "Int NOT NULL")]
-        public int SocietyId
-        {
-            get
-            {
-                return this._SocietyId;
-            }
-            set
-            {
-                if ((this._SocietyId != value))
-                {
-                    if (this._Society.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnSocietyIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._SocietyId = value;
-                    this.SendPropertyChanged("SocietyId");
-                    this.OnSocietyIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishionerId", DbType = "Int NOT NULL")]
-        public int ParishionerId
-        {
-            get
-            {
-                return this._ParishionerId;
-            }
-            set
-            {
-                if ((this._ParishionerId != value))
-                {
-                    if (this._Parishioner.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishionerIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishionerId = value;
-                    this.SendPropertyChanged("ParishionerId");
-                    this.OnParishionerIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Position", DbType = "Int NOT NULL")]
-        public int Position
-        {
-            get
-            {
-                return this._Position;
-            }
-            set
-            {
-                if ((this._Position != value))
-                {
-                    this.OnPositionChanging(value);
-                    this.SendPropertyChanging();
-                    this._Position = value;
-                    this.SendPropertyChanged("Position");
-                    this.OnPositionChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Note", DbType = "NVarChar(200)")]
-        public string Note
-        {
-            get
-            {
-                return this._Note;
-            }
-            set
-            {
-                if ((this._Note != value))
-                {
-                    this.OnNoteChanging(value);
-                    this.SendPropertyChanging();
-                    this._Note = value;
-                    this.SendPropertyChanged("Note");
-                    this.OnNoteChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_SocietyMember", Storage = "_Parishioner", ThisKey = "ParishionerId", OtherKey = "Id", IsForeignKey = true)]
-        public Parishioner Parishioner
-        {
-            get
-            {
-                return this._Parishioner.Entity;
-            }
-            set
-            {
-                Parishioner previousValue = this._Parishioner.Entity;
-                if (((previousValue != value)
-                            || (this._Parishioner.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parishioner.Entity = null;
-                        previousValue.SocietyMembers.Remove(this);
-                    }
-                    this._Parishioner.Entity = value;
-                    if ((value != null))
-                    {
-                        value.SocietyMembers.Add(this);
-                        this._ParishionerId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishionerId = default(int);
-                    }
-                    this.SendPropertyChanged("Parishioner");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Society_SocietyMember", Storage = "_Society", ThisKey = "SocietyId", OtherKey = "Id", IsForeignKey = true)]
-        public Society Society
-        {
-            get
-            {
-                return this._Society.Entity;
-            }
-            set
-            {
-                Society previousValue = this._Society.Entity;
-                if (((previousValue != value)
-                            || (this._Society.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Society.Entity = null;
-                        previousValue.SocietyMembers.Remove(this);
-                    }
-                    this._Society.Entity = value;
-                    if ((value != null))
-                    {
-                        value.SocietyMembers.Add(this);
-                        this._SocietyId = value.Id;
-                    }
-                    else
-                    {
-                        this._SocietyId = default(int);
-                    }
-                    this.SendPropertyChanged("Society");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ThuyenChuyenLinhMuc")]
-    public partial class ThuyenChuyenLinhMuc : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _NgayQuyetDinh;
-
-        private string _NgayHieuLuc;
-
-        private string _NguoiQuyetDinh;
-
-        private string _MoTa;
-
-        private EntitySet<ParishManager> _ParishManagers;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNgayQuyetDinhChanging(string value);
-        partial void OnNgayQuyetDinhChanged();
-        partial void OnNgayHieuLucChanging(string value);
-        partial void OnNgayHieuLucChanged();
-        partial void OnNguoiQuyetDinhChanging(string value);
-        partial void OnNguoiQuyetDinhChanged();
-        partial void OnMoTaChanging(string value);
-        partial void OnMoTaChanged();
-        #endregion
-
-        public ThuyenChuyenLinhMuc()
-        {
-            this._ParishManagers = new EntitySet<ParishManager>(new Action<ParishManager>(this.attach_ParishManagers), new Action<ParishManager>(this.detach_ParishManagers));
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_NgayQuyetDinh", DbType = "VarChar(8) NOT NULL", CanBeNull = false)]
-        public string NgayQuyetDinh
-        {
-            get
-            {
-                return this._NgayQuyetDinh;
-            }
-            set
-            {
-                if ((this._NgayQuyetDinh != value))
-                {
-                    this.OnNgayQuyetDinhChanging(value);
-                    this.SendPropertyChanging();
-                    this._NgayQuyetDinh = value;
-                    this.SendPropertyChanged("NgayQuyetDinh");
-                    this.OnNgayQuyetDinhChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_NgayHieuLuc", DbType = "VarChar(8) NOT NULL", CanBeNull = false)]
-        public string NgayHieuLuc
-        {
-            get
-            {
-                return this._NgayHieuLuc;
-            }
-            set
-            {
-                if ((this._NgayHieuLuc != value))
-                {
-                    this.OnNgayHieuLucChanging(value);
-                    this.SendPropertyChanging();
-                    this._NgayHieuLuc = value;
-                    this.SendPropertyChanged("NgayHieuLuc");
-                    this.OnNgayHieuLucChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_NguoiQuyetDinh", DbType = "NVarChar(200)")]
-        public string NguoiQuyetDinh
-        {
-            get
-            {
-                return this._NguoiQuyetDinh;
-            }
-            set
-            {
-                if ((this._NguoiQuyetDinh != value))
-                {
-                    this.OnNguoiQuyetDinhChanging(value);
-                    this.SendPropertyChanging();
-                    this._NguoiQuyetDinh = value;
-                    this.SendPropertyChanged("NguoiQuyetDinh");
-                    this.OnNguoiQuyetDinhChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_MoTa", DbType = "NVarChar(500) NOT NULL", CanBeNull = false)]
-        public string MoTa
-        {
-            get
-            {
-                return this._MoTa;
-            }
-            set
-            {
-                if ((this._MoTa != value))
-                {
-                    this.OnMoTaChanging(value);
-                    this.SendPropertyChanging();
-                    this._MoTa = value;
-                    this.SendPropertyChanged("MoTa");
-                    this.OnMoTaChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ThuyenChuyenLinhMuc_ParishManager", Storage = "_ParishManagers", ThisKey = "Id", OtherKey = "IdThuyenChuyenLinhMuc")]
-        public EntitySet<ParishManager> ParishManagers
-        {
-            get
-            {
-                return this._ParishManagers;
-            }
-            set
-            {
-                this._ParishManagers.Assign(value);
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_ParishManagers(ParishManager entity)
-        {
-            this.SendPropertyChanging();
-            entity.ThuyenChuyenLinhMuc = this;
-        }
-
-        private void detach_ParishManagers(ParishManager entity)
-        {
-            this.SendPropertyChanging();
-            entity.ThuyenChuyenLinhMuc = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.VaiTro")]
-    public partial class VaiTro : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Name;
-
-        private EntitySet<ParishManager> _ParishManagers;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        #endregion
-
-        public VaiTro()
-        {
-            this._ParishManagers = new EntitySet<ParishManager>(new Action<ParishManager>(this.attach_ParishManagers), new Action<ParishManager>(this.detach_ParishManagers));
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "VaiTro_ParishManager", Storage = "_ParishManagers", ThisKey = "Id", OtherKey = "Position")]
-        public EntitySet<ParishManager> ParishManagers
-        {
-            get
-            {
-                return this._ParishManagers;
-            }
-            set
-            {
-                this._ParishManagers.Assign(value);
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_ParishManagers(ParishManager entity)
-        {
-            this.SendPropertyChanging();
-            entity.VaiTro = this;
-        }
-
-        private void detach_ParishManagers(ParishManager entity)
-        {
-            this.SendPropertyChanging();
-            entity.VaiTro = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.ValueSet")]
-    public partial class ValueSet : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Code;
-
-        private string _Definition;
-
-        private string _Note;
-
-        private string _Category;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnCodeChanging(string value);
-        partial void OnCodeChanged();
-        partial void OnDefinitionChanging(string value);
-        partial void OnDefinitionChanged();
-        partial void OnNoteChanging(string value);
-        partial void OnNoteChanged();
-        partial void OnCategoryChanging(string value);
-        partial void OnCategoryChanged();
-        #endregion
-
-        public ValueSet()
-        {
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Code", DbType = "VarChar(50) NOT NULL", CanBeNull = false)]
-        public string Code
-        {
-            get
-            {
-                return this._Code;
-            }
-            set
-            {
-                if ((this._Code != value))
-                {
-                    this.OnCodeChanging(value);
-                    this.SendPropertyChanging();
-                    this._Code = value;
-                    this.SendPropertyChanged("Code");
-                    this.OnCodeChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Definition", DbType = "NText NOT NULL", CanBeNull = false, UpdateCheck = UpdateCheck.Never)]
-        public string Definition
-        {
-            get
-            {
-                return this._Definition;
-            }
-            set
-            {
-                if ((this._Definition != value))
-                {
-                    this.OnDefinitionChanging(value);
-                    this.SendPropertyChanging();
-                    this._Definition = value;
-                    this.SendPropertyChanged("Definition");
-                    this.OnDefinitionChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Note", DbType = "NVarChar(200)")]
-        public string Note
-        {
-            get
-            {
-                return this._Note;
-            }
-            set
-            {
-                if ((this._Note != value))
-                {
-                    this.OnNoteChanging(value);
-                    this.SendPropertyChanging();
-                    this._Note = value;
-                    this.SendPropertyChanged("Note");
-                    this.OnNoteChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Category", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
-        public string Category
-        {
-            get
-            {
-                return this._Category;
-            }
-            set
-            {
-                if ((this._Category != value))
-                {
-                    this.OnCategoryChanging(value);
-                    this.SendPropertyChanging();
-                    this._Category = value;
-                    this.SendPropertyChanged("Category");
-                    this.OnCategoryChanged();
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Vicariate")]
-    public partial class Vicariate : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private string _Name;
-
-        private int _DioceseId;
-
-        private System.Nullable<int> _ParishId;
-
-        private EntitySet<Parish> _Parishes;
-
-        private EntityRef<Diocese> _Diocese;
-
-        private EntityRef<Parish> _Parish;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
-        partial void OnDioceseIdChanging(int value);
-        partial void OnDioceseIdChanged();
-        partial void OnParishIdChanging(System.Nullable<int> value);
-        partial void OnParishIdChanged();
-        #endregion
-
-        public Vicariate()
-        {
-            this._Parishes = new EntitySet<Parish>(new Action<Parish>(this.attach_Parishes), new Action<Parish>(this.detach_Parishes));
-            this._Diocese = default(EntityRef<Diocese>);
-            this._Parish = default(EntityRef<Parish>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Name", DbType = "NVarChar(100) NOT NULL", CanBeNull = false)]
-        public string Name
-        {
-            get
-            {
-                return this._Name;
-            }
-            set
-            {
-                if ((this._Name != value))
-                {
-                    this.OnNameChanging(value);
-                    this.SendPropertyChanging();
-                    this._Name = value;
-                    this.SendPropertyChanged("Name");
-                    this.OnNameChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DioceseId", DbType = "Int NOT NULL")]
-        public int DioceseId
-        {
-            get
-            {
-                return this._DioceseId;
-            }
-            set
-            {
-                if ((this._DioceseId != value))
-                {
-                    if (this._Diocese.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnDioceseIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._DioceseId = value;
-                    this.SendPropertyChanged("DioceseId");
-                    this.OnDioceseIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishId", DbType = "Int")]
-        public System.Nullable<int> ParishId
-        {
-            get
-            {
-                return this._ParishId;
-            }
-            set
-            {
-                if ((this._ParishId != value))
-                {
-                    if (this._Parish.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishId = value;
-                    this.SendPropertyChanged("ParishId");
-                    this.OnParishIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vicariate_Parish", Storage = "_Parishes", ThisKey = "Id", OtherKey = "VicariateId")]
-        public EntitySet<Parish> Parishes
-        {
-            get
-            {
-                return this._Parishes;
-            }
-            set
-            {
-                this._Parishes.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Diocese_Vicariate", Storage = "_Diocese", ThisKey = "DioceseId", OtherKey = "Id", IsForeignKey = true)]
-        public Diocese Diocese
-        {
-            get
-            {
-                return this._Diocese.Entity;
-            }
-            set
-            {
-                Diocese previousValue = this._Diocese.Entity;
-                if (((previousValue != value)
-                            || (this._Diocese.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Diocese.Entity = null;
-                        previousValue.Vicariates.Remove(this);
-                    }
-                    this._Diocese.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Vicariates.Add(this);
-                        this._DioceseId = value.Id;
-                    }
-                    else
-                    {
-                        this._DioceseId = default(int);
-                    }
-                    this.SendPropertyChanged("Diocese");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parish_Vicariate", Storage = "_Parish", ThisKey = "ParishId", OtherKey = "Id", IsForeignKey = true)]
-        public Parish Parish
-        {
-            get
-            {
-                return this._Parish.Entity;
-            }
-            set
-            {
-                Parish previousValue = this._Parish.Entity;
-                if (((previousValue != value)
-                            || (this._Parish.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parish.Entity = null;
-                        previousValue.Vicariates.Remove(this);
-                    }
-                    this._Parish.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Vicariates.Add(this);
-                        this._ParishId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishId = default(Nullable<int>);
-                    }
-                    this.SendPropertyChanged("Parish");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_Parishes(Parish entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vicariate = this;
-        }
-
-        private void detach_Parishes(Parish entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vicariate = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.Vocation")]
-    public partial class Vocation : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _ParishionerId;
-
-        private string _Date1;
-
-        private string _Date2;
-
-        private string _Date3;
-
-        private string _Date4;
-
-        private string _Date5;
-
-        private string _Date6;
-
-        private string _Date7;
-
-        private string _Date8;
-
-        private string _Date9;
-
-        private string _Seminary;
-
-        private string _SeminaryAddress;
-
-        private int _Position;
-
-        private string _ServedPlace;
-
-        private string _ServedAddress;
-
-        private string _Phone;
-
-        private string _Email;
-
-        private string _Note;
-
-        private bool _IsLeft;
-
-        private EntitySet<VocationSeminaryYear> _VocationSeminaryYears;
-
-        private EntitySet<LeaveVocationRequisition> _LeaveVocationRequisitions;
-
-        private EntitySet<ReligiousCommunity> _ReligiousCommunities;
-
-        private EntitySet<ReligiousCommunity> _ReligiousCommunities1;
-
-        private EntitySet<ReligiousCommunityBase> _ReligiousCommunityBases;
-
-        private EntitySet<ReligiousCommunityManagementTerm> _ReligiousCommunityManagementTerms;
-
-        private EntitySet<VocationDeaconRequisitionSession> _VocationDeaconRequisitionSessions;
-
-        private EntitySet<VocationExchangeReligiousCommunityBase> _VocationExchangeReligiousCommunityBases;
-
-        private EntityRef<Parishioner> _Parishioner;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnParishionerIdChanging(int value);
-        partial void OnParishionerIdChanged();
-        partial void OnDate1Changing(string value);
-        partial void OnDate1Changed();
-        partial void OnDate2Changing(string value);
-        partial void OnDate2Changed();
-        partial void OnDate3Changing(string value);
-        partial void OnDate3Changed();
-        partial void OnDate4Changing(string value);
-        partial void OnDate4Changed();
-        partial void OnDate5Changing(string value);
-        partial void OnDate5Changed();
-        partial void OnDate6Changing(string value);
-        partial void OnDate6Changed();
-        partial void OnDate7Changing(string value);
-        partial void OnDate7Changed();
-        partial void OnDate8Changing(string value);
-        partial void OnDate8Changed();
-        partial void OnDate9Changing(string value);
-        partial void OnDate9Changed();
-        partial void OnSeminaryChanging(string value);
-        partial void OnSeminaryChanged();
-        partial void OnSeminaryAddressChanging(string value);
-        partial void OnSeminaryAddressChanged();
-        partial void OnPositionChanging(int value);
-        partial void OnPositionChanged();
-        partial void OnServedPlaceChanging(string value);
-        partial void OnServedPlaceChanged();
-        partial void OnServedAddressChanging(string value);
-        partial void OnServedAddressChanged();
-        partial void OnPhoneChanging(string value);
-        partial void OnPhoneChanged();
-        partial void OnEmailChanging(string value);
-        partial void OnEmailChanged();
-        partial void OnNoteChanging(string value);
-        partial void OnNoteChanged();
-        partial void OnIsLeftChanging(bool value);
-        partial void OnIsLeftChanged();
-        #endregion
-
-        public Vocation()
-        {
-            this._VocationSeminaryYears = new EntitySet<VocationSeminaryYear>(new Action<VocationSeminaryYear>(this.attach_VocationSeminaryYears), new Action<VocationSeminaryYear>(this.detach_VocationSeminaryYears));
-            this._LeaveVocationRequisitions = new EntitySet<LeaveVocationRequisition>(new Action<LeaveVocationRequisition>(this.attach_LeaveVocationRequisitions), new Action<LeaveVocationRequisition>(this.detach_LeaveVocationRequisitions));
-            this._ReligiousCommunities = new EntitySet<ReligiousCommunity>(new Action<ReligiousCommunity>(this.attach_ReligiousCommunities), new Action<ReligiousCommunity>(this.detach_ReligiousCommunities));
-            this._ReligiousCommunities1 = new EntitySet<ReligiousCommunity>(new Action<ReligiousCommunity>(this.attach_ReligiousCommunities1), new Action<ReligiousCommunity>(this.detach_ReligiousCommunities1));
-            this._ReligiousCommunityBases = new EntitySet<ReligiousCommunityBase>(new Action<ReligiousCommunityBase>(this.attach_ReligiousCommunityBases), new Action<ReligiousCommunityBase>(this.detach_ReligiousCommunityBases));
-            this._ReligiousCommunityManagementTerms = new EntitySet<ReligiousCommunityManagementTerm>(new Action<ReligiousCommunityManagementTerm>(this.attach_ReligiousCommunityManagementTerms), new Action<ReligiousCommunityManagementTerm>(this.detach_ReligiousCommunityManagementTerms));
-            this._VocationDeaconRequisitionSessions = new EntitySet<VocationDeaconRequisitionSession>(new Action<VocationDeaconRequisitionSession>(this.attach_VocationDeaconRequisitionSessions), new Action<VocationDeaconRequisitionSession>(this.detach_VocationDeaconRequisitionSessions));
-            this._VocationExchangeReligiousCommunityBases = new EntitySet<VocationExchangeReligiousCommunityBase>(new Action<VocationExchangeReligiousCommunityBase>(this.attach_VocationExchangeReligiousCommunityBases), new Action<VocationExchangeReligiousCommunityBase>(this.detach_VocationExchangeReligiousCommunityBases));
-            this._Parishioner = default(EntityRef<Parishioner>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ParishionerId", DbType = "Int NOT NULL", IsPrimaryKey = true)]
-        public int ParishionerId
-        {
-            get
-            {
-                return this._ParishionerId;
-            }
-            set
-            {
-                if ((this._ParishionerId != value))
-                {
-                    if (this._Parishioner.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnParishionerIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._ParishionerId = value;
-                    this.SendPropertyChanged("ParishionerId");
-                    this.OnParishionerIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Date1", DbType = "Char(8)")]
-        public string Date1
-        {
-            get
-            {
-                return this._Date1;
-            }
-            set
-            {
-                if ((this._Date1 != value))
-                {
-                    this.OnDate1Changing(value);
-                    this.SendPropertyChanging();
-                    this._Date1 = value;
-                    this.SendPropertyChanged("Date1");
-                    this.OnDate1Changed();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Date2", DbType = "Char(8)")]
-        public string Date2
-        {
-            get
-            {
-                return this._Date2;
-            }
-            set
-            {
-                if ((this._Date2 != value))
-                {
-                    this.OnDate2Changing(value);
-                    this.SendPropertyChanging();
-                    this._Date2 = value;
-                    this.SendPropertyChanged("Date2");
-                    this.OnDate2Changed();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Date3", DbType = "Char(8)")]
-        public string Date3
-        {
-            get
-            {
-                return this._Date3;
-            }
-            set
-            {
-                if ((this._Date3 != value))
-                {
-                    this.OnDate3Changing(value);
-                    this.SendPropertyChanging();
-                    this._Date3 = value;
-                    this.SendPropertyChanged("Date3");
-                    this.OnDate3Changed();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Date4", DbType = "Char(8)")]
-        public string Date4
-        {
-            get
-            {
-                return this._Date4;
-            }
-            set
-            {
-                if ((this._Date4 != value))
-                {
-                    this.OnDate4Changing(value);
-                    this.SendPropertyChanging();
-                    this._Date4 = value;
-                    this.SendPropertyChanged("Date4");
-                    this.OnDate4Changed();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Date5", DbType = "Char(8)")]
-        public string Date5
-        {
-            get
-            {
-                return this._Date5;
-            }
-            set
-            {
-                if ((this._Date5 != value))
-                {
-                    this.OnDate5Changing(value);
-                    this.SendPropertyChanging();
-                    this._Date5 = value;
-                    this.SendPropertyChanged("Date5");
-                    this.OnDate5Changed();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Date6", DbType = "Char(8)")]
-        public string Date6
-        {
-            get
-            {
-                return this._Date6;
-            }
-            set
-            {
-                if ((this._Date6 != value))
-                {
-                    this.OnDate6Changing(value);
-                    this.SendPropertyChanging();
-                    this._Date6 = value;
-                    this.SendPropertyChanged("Date6");
-                    this.OnDate6Changed();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Date7", DbType = "Char(8)")]
-        public string Date7
-        {
-            get
-            {
-                return this._Date7;
-            }
-            set
-            {
-                if ((this._Date7 != value))
-                {
-                    this.OnDate7Changing(value);
-                    this.SendPropertyChanging();
-                    this._Date7 = value;
-                    this.SendPropertyChanged("Date7");
-                    this.OnDate7Changed();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Date8", DbType = "Char(8)")]
-        public string Date8
-        {
-            get
-            {
-                return this._Date8;
-            }
-            set
-            {
-                if ((this._Date8 != value))
-                {
-                    this.OnDate8Changing(value);
-                    this.SendPropertyChanging();
-                    this._Date8 = value;
-                    this.SendPropertyChanged("Date8");
-                    this.OnDate8Changed();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Date9", DbType = "Char(8)")]
-        public string Date9
-        {
-            get
-            {
-                return this._Date9;
-            }
-            set
-            {
-                if ((this._Date9 != value))
-                {
-                    this.OnDate9Changing(value);
-                    this.SendPropertyChanging();
-                    this._Date9 = value;
-                    this.SendPropertyChanged("Date9");
-                    this.OnDate9Changed();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Seminary", DbType = "NVarChar(100)")]
-        public string Seminary
-        {
-            get
-            {
-                return this._Seminary;
-            }
-            set
-            {
-                if ((this._Seminary != value))
-                {
-                    this.OnSeminaryChanging(value);
-                    this.SendPropertyChanging();
-                    this._Seminary = value;
-                    this.SendPropertyChanged("Seminary");
-                    this.OnSeminaryChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_SeminaryAddress", DbType = "NVarChar(100)")]
-        public string SeminaryAddress
-        {
-            get
-            {
-                return this._SeminaryAddress;
-            }
-            set
-            {
-                if ((this._SeminaryAddress != value))
-                {
-                    this.OnSeminaryAddressChanging(value);
-                    this.SendPropertyChanging();
-                    this._SeminaryAddress = value;
-                    this.SendPropertyChanged("SeminaryAddress");
-                    this.OnSeminaryAddressChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Position", DbType = "Int NOT NULL")]
-        public int Position
-        {
-            get
-            {
-                return this._Position;
-            }
-            set
-            {
-                if ((this._Position != value))
-                {
-                    this.OnPositionChanging(value);
-                    this.SendPropertyChanging();
-                    this._Position = value;
-                    this.SendPropertyChanged("Position");
-                    this.OnPositionChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ServedPlace", DbType = "NVarChar(100)")]
-        public string ServedPlace
-        {
-            get
-            {
-                return this._ServedPlace;
-            }
-            set
-            {
-                if ((this._ServedPlace != value))
-                {
-                    this.OnServedPlaceChanging(value);
-                    this.SendPropertyChanging();
-                    this._ServedPlace = value;
-                    this.SendPropertyChanged("ServedPlace");
-                    this.OnServedPlaceChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_ServedAddress", DbType = "NVarChar(100)")]
-        public string ServedAddress
-        {
-            get
-            {
-                return this._ServedAddress;
-            }
-            set
-            {
-                if ((this._ServedAddress != value))
-                {
-                    this.OnServedAddressChanging(value);
-                    this.SendPropertyChanging();
-                    this._ServedAddress = value;
-                    this.SendPropertyChanged("ServedAddress");
-                    this.OnServedAddressChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Phone", DbType = "VarChar(20)")]
-        public string Phone
-        {
-            get
-            {
-                return this._Phone;
-            }
-            set
-            {
-                if ((this._Phone != value))
-                {
-                    this.OnPhoneChanging(value);
-                    this.SendPropertyChanging();
-                    this._Phone = value;
-                    this.SendPropertyChanged("Phone");
-                    this.OnPhoneChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Email", DbType = "NVarChar(100)")]
-        public string Email
-        {
-            get
-            {
-                return this._Email;
-            }
-            set
-            {
-                if ((this._Email != value))
-                {
-                    this.OnEmailChanging(value);
-                    this.SendPropertyChanging();
-                    this._Email = value;
-                    this.SendPropertyChanged("Email");
-                    this.OnEmailChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Note", DbType = "NVarChar(200)")]
-        public string Note
-        {
-            get
-            {
-                return this._Note;
-            }
-            set
-            {
-                if ((this._Note != value))
-                {
-                    this.OnNoteChanging(value);
-                    this.SendPropertyChanging();
-                    this._Note = value;
-                    this.SendPropertyChanged("Note");
-                    this.OnNoteChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_IsLeft", DbType = "Bit NOT NULL")]
-        public bool IsLeft
-        {
-            get
-            {
-                return this._IsLeft;
-            }
-            set
-            {
-                if ((this._IsLeft != value))
-                {
-                    this.OnIsLeftChanging(value);
-                    this.SendPropertyChanging();
-                    this._IsLeft = value;
-                    this.SendPropertyChanged("IsLeft");
-                    this.OnIsLeftChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_VocationSeminaryYear", Storage = "_VocationSeminaryYears", ThisKey = "ParishionerId", OtherKey = "VocationId")]
-        public EntitySet<VocationSeminaryYear> VocationSeminaryYears
-        {
-            get
-            {
-                return this._VocationSeminaryYears;
-            }
-            set
-            {
-                this._VocationSeminaryYears.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_LeaveVocationRequisition", Storage = "_LeaveVocationRequisitions", ThisKey = "ParishionerId", OtherKey = "VocationId")]
-        public EntitySet<LeaveVocationRequisition> LeaveVocationRequisitions
-        {
-            get
-            {
-                return this._LeaveVocationRequisitions;
-            }
-            set
-            {
-                this._LeaveVocationRequisitions.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_ReligiousCommunity", Storage = "_ReligiousCommunities", ThisKey = "ParishionerId", OtherKey = "DirectorId")]
-        public EntitySet<ReligiousCommunity> ReligiousCommunities
-        {
-            get
-            {
-                return this._ReligiousCommunities;
-            }
-            set
-            {
-                this._ReligiousCommunities.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_ReligiousCommunity1", Storage = "_ReligiousCommunities1", ThisKey = "ParishionerId", OtherKey = "ViceDirectorId")]
-        public EntitySet<ReligiousCommunity> ReligiousCommunities1
-        {
-            get
-            {
-                return this._ReligiousCommunities1;
-            }
-            set
-            {
-                this._ReligiousCommunities1.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_ReligiousCommunityBase", Storage = "_ReligiousCommunityBases", ThisKey = "ParishionerId", OtherKey = "ManagerId")]
-        public EntitySet<ReligiousCommunityBase> ReligiousCommunityBases
-        {
-            get
-            {
-                return this._ReligiousCommunityBases;
-            }
-            set
-            {
-                this._ReligiousCommunityBases.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_ReligiousCommunityManagementTerm", Storage = "_ReligiousCommunityManagementTerms", ThisKey = "ParishionerId", OtherKey = "VocationId")]
-        public EntitySet<ReligiousCommunityManagementTerm> ReligiousCommunityManagementTerms
-        {
-            get
-            {
-                return this._ReligiousCommunityManagementTerms;
-            }
-            set
-            {
-                this._ReligiousCommunityManagementTerms.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_VocationDeaconRequisitionSession", Storage = "_VocationDeaconRequisitionSessions", ThisKey = "ParishionerId", OtherKey = "VocationId")]
-        public EntitySet<VocationDeaconRequisitionSession> VocationDeaconRequisitionSessions
-        {
-            get
-            {
-                return this._VocationDeaconRequisitionSessions;
-            }
-            set
-            {
-                this._VocationDeaconRequisitionSessions.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_VocationExchangeReligiousCommunityBase", Storage = "_VocationExchangeReligiousCommunityBases", ThisKey = "ParishionerId", OtherKey = "VocationId")]
-        public EntitySet<VocationExchangeReligiousCommunityBase> VocationExchangeReligiousCommunityBases
-        {
-            get
-            {
-                return this._VocationExchangeReligiousCommunityBases;
-            }
-            set
-            {
-                this._VocationExchangeReligiousCommunityBases.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Parishioner_Vocation", Storage = "_Parishioner", ThisKey = "ParishionerId", OtherKey = "Id", IsForeignKey = true)]
-        public Parishioner Parishioner
-        {
-            get
-            {
-                return this._Parishioner.Entity;
-            }
-            set
-            {
-                Parishioner previousValue = this._Parishioner.Entity;
-                if (((previousValue != value)
-                            || (this._Parishioner.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Parishioner.Entity = null;
-                        previousValue.Vocation = null;
-                    }
-                    this._Parishioner.Entity = value;
-                    if ((value != null))
-                    {
-                        value.Vocation = this;
-                        this._ParishionerId = value.Id;
-                    }
-                    else
-                    {
-                        this._ParishionerId = default(int);
-                    }
-                    this.SendPropertyChanged("Parishioner");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_VocationSeminaryYears(VocationSeminaryYear entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation = this;
-        }
-
-        private void detach_VocationSeminaryYears(VocationSeminaryYear entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation = null;
-        }
-
-        private void attach_LeaveVocationRequisitions(LeaveVocationRequisition entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation = this;
-        }
-
-        private void detach_LeaveVocationRequisitions(LeaveVocationRequisition entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation = null;
-        }
-
-        private void attach_ReligiousCommunities(ReligiousCommunity entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation = this;
-        }
-
-        private void detach_ReligiousCommunities(ReligiousCommunity entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation = null;
-        }
-
-        private void attach_ReligiousCommunities1(ReligiousCommunity entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation1 = this;
-        }
-
-        private void detach_ReligiousCommunities1(ReligiousCommunity entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation1 = null;
-        }
-
-        private void attach_ReligiousCommunityBases(ReligiousCommunityBase entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation = this;
-        }
-
-        private void detach_ReligiousCommunityBases(ReligiousCommunityBase entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation = null;
-        }
-
-        private void attach_ReligiousCommunityManagementTerms(ReligiousCommunityManagementTerm entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation = this;
-        }
-
-        private void detach_ReligiousCommunityManagementTerms(ReligiousCommunityManagementTerm entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation = null;
-        }
-
-        private void attach_VocationDeaconRequisitionSessions(VocationDeaconRequisitionSession entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation = this;
-        }
-
-        private void detach_VocationDeaconRequisitionSessions(VocationDeaconRequisitionSession entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation = null;
-        }
-
-        private void attach_VocationExchangeReligiousCommunityBases(VocationExchangeReligiousCommunityBase entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation = this;
-        }
-
-        private void detach_VocationExchangeReligiousCommunityBases(VocationExchangeReligiousCommunityBase entity)
-        {
-            this.SendPropertyChanging();
-            entity.Vocation = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.VocationDeaconRequisitionSession")]
-    public partial class VocationDeaconRequisitionSession : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _VocationId;
-
-        private int _DeaconRequisitionSessionId;
-
-        private int _Status;
-
-        private EntitySet<DeaconRequisitionComment> _DeaconRequisitionComments;
-
-        private EntityRef<DeaconRequisitionSession> _DeaconRequisitionSession;
-
-        private EntityRef<Vocation> _Vocation;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnVocationIdChanging(int value);
-        partial void OnVocationIdChanged();
-        partial void OnDeaconRequisitionSessionIdChanging(int value);
-        partial void OnDeaconRequisitionSessionIdChanged();
-        partial void OnStatusChanging(int value);
-        partial void OnStatusChanged();
-        #endregion
-
-        public VocationDeaconRequisitionSession()
-        {
-            this._DeaconRequisitionComments = new EntitySet<DeaconRequisitionComment>(new Action<DeaconRequisitionComment>(this.attach_DeaconRequisitionComments), new Action<DeaconRequisitionComment>(this.detach_DeaconRequisitionComments));
-            this._DeaconRequisitionSession = default(EntityRef<DeaconRequisitionSession>);
-            this._Vocation = default(EntityRef<Vocation>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_VocationId", DbType = "Int NOT NULL")]
-        public int VocationId
-        {
-            get
-            {
-                return this._VocationId;
-            }
-            set
-            {
-                if ((this._VocationId != value))
-                {
-                    if (this._Vocation.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnVocationIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._VocationId = value;
-                    this.SendPropertyChanged("VocationId");
-                    this.OnVocationIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DeaconRequisitionSessionId", DbType = "Int NOT NULL")]
-        public int DeaconRequisitionSessionId
-        {
-            get
-            {
-                return this._DeaconRequisitionSessionId;
-            }
-            set
-            {
-                if ((this._DeaconRequisitionSessionId != value))
-                {
-                    if (this._DeaconRequisitionSession.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnDeaconRequisitionSessionIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._DeaconRequisitionSessionId = value;
-                    this.SendPropertyChanged("DeaconRequisitionSessionId");
-                    this.OnDeaconRequisitionSessionIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Status", DbType = "Int NOT NULL")]
-        public int Status
-        {
-            get
-            {
-                return this._Status;
-            }
-            set
-            {
-                if ((this._Status != value))
-                {
-                    this.OnStatusChanging(value);
-                    this.SendPropertyChanging();
-                    this._Status = value;
-                    this.SendPropertyChanged("Status");
-                    this.OnStatusChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "VocationDeaconRequisitionSession_DeaconRequisitionComment", Storage = "_DeaconRequisitionComments", ThisKey = "Id", OtherKey = "VocationDeaconRequisitionId")]
-        public EntitySet<DeaconRequisitionComment> DeaconRequisitionComments
-        {
-            get
-            {
-                return this._DeaconRequisitionComments;
-            }
-            set
-            {
-                this._DeaconRequisitionComments.Assign(value);
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "DeaconRequisitionSession_VocationDeaconRequisitionSession", Storage = "_DeaconRequisitionSession", ThisKey = "DeaconRequisitionSessionId", OtherKey = "Id", IsForeignKey = true)]
-        public DeaconRequisitionSession DeaconRequisitionSession
-        {
-            get
-            {
-                return this._DeaconRequisitionSession.Entity;
-            }
-            set
-            {
-                DeaconRequisitionSession previousValue = this._DeaconRequisitionSession.Entity;
-                if (((previousValue != value)
-                            || (this._DeaconRequisitionSession.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._DeaconRequisitionSession.Entity = null;
-                        previousValue.VocationDeaconRequisitionSessions.Remove(this);
-                    }
-                    this._DeaconRequisitionSession.Entity = value;
-                    if ((value != null))
-                    {
-                        value.VocationDeaconRequisitionSessions.Add(this);
-                        this._DeaconRequisitionSessionId = value.Id;
-                    }
-                    else
-                    {
-                        this._DeaconRequisitionSessionId = default(int);
-                    }
-                    this.SendPropertyChanged("DeaconRequisitionSession");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_VocationDeaconRequisitionSession", Storage = "_Vocation", ThisKey = "VocationId", OtherKey = "ParishionerId", IsForeignKey = true)]
-        public Vocation Vocation
-        {
-            get
-            {
-                return this._Vocation.Entity;
-            }
-            set
-            {
-                Vocation previousValue = this._Vocation.Entity;
-                if (((previousValue != value)
-                            || (this._Vocation.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Vocation.Entity = null;
-                        previousValue.VocationDeaconRequisitionSessions.Remove(this);
-                    }
-                    this._Vocation.Entity = value;
-                    if ((value != null))
-                    {
-                        value.VocationDeaconRequisitionSessions.Add(this);
-                        this._VocationId = value.ParishionerId;
-                    }
-                    else
-                    {
-                        this._VocationId = default(int);
-                    }
-                    this.SendPropertyChanged("Vocation");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        private void attach_DeaconRequisitionComments(DeaconRequisitionComment entity)
-        {
-            this.SendPropertyChanging();
-            entity.VocationDeaconRequisitionSession = this;
-        }
-
-        private void detach_DeaconRequisitionComments(DeaconRequisitionComment entity)
-        {
-            this.SendPropertyChanging();
-            entity.VocationDeaconRequisitionSession = null;
-        }
-    }
-
-    [global::System.Data.Linq.Mapping.TableAttribute(Name = "dbo.VocationExchangeReligiousCommunityBase")]
-    public partial class VocationExchangeReligiousCommunityBase : INotifyPropertyChanging, INotifyPropertyChanged
-    {
-
-        private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-
-        private int _Id;
-
-        private int _OldReligiousCommunityBaseId;
-
-        private int _NewReligiousCommunityBaseId;
-
-        private int _VocationId;
-
-        private System.DateTime _DecisionDate;
-
-        private System.DateTime _EffectiveDate;
-
-        private EntityRef<ReligiousCommunityBase> _ReligiousCommunityBase;
-
-        private EntityRef<ReligiousCommunityBase> _ReligiousCommunityBase1;
-
-        private EntityRef<Vocation> _Vocation;
-
-        #region Extensibility Method Definitions
-        partial void OnLoaded();
-        partial void OnValidate(System.Data.Linq.ChangeAction action);
-        partial void OnCreated();
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
-        partial void OnOldReligiousCommunityBaseIdChanging(int value);
-        partial void OnOldReligiousCommunityBaseIdChanged();
-        partial void OnNewReligiousCommunityBaseIdChanging(int value);
-        partial void OnNewReligiousCommunityBaseIdChanged();
-        partial void OnVocationIdChanging(int value);
-        partial void OnVocationIdChanged();
-        partial void OnDecisionDateChanging(System.DateTime value);
-        partial void OnDecisionDateChanged();
-        partial void OnEffectiveDateChanging(System.DateTime value);
-        partial void OnEffectiveDateChanged();
-        #endregion
-
-        public VocationExchangeReligiousCommunityBase()
-        {
-            this._ReligiousCommunityBase = default(EntityRef<ReligiousCommunityBase>);
-            this._ReligiousCommunityBase1 = default(EntityRef<ReligiousCommunityBase>);
-            this._Vocation = default(EntityRef<Vocation>);
-            OnCreated();
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Id", AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true)]
-        public int Id
-        {
-            get
-            {
-                return this._Id;
-            }
-            set
-            {
-                if ((this._Id != value))
-                {
-                    this.OnIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._Id = value;
-                    this.SendPropertyChanged("Id");
-                    this.OnIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_OldReligiousCommunityBaseId", DbType = "Int NOT NULL")]
-        public int OldReligiousCommunityBaseId
-        {
-            get
-            {
-                return this._OldReligiousCommunityBaseId;
-            }
-            set
-            {
-                if ((this._OldReligiousCommunityBaseId != value))
-                {
-                    if (this._ReligiousCommunityBase.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnOldReligiousCommunityBaseIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._OldReligiousCommunityBaseId = value;
-                    this.SendPropertyChanged("OldReligiousCommunityBaseId");
-                    this.OnOldReligiousCommunityBaseIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_NewReligiousCommunityBaseId", DbType = "Int NOT NULL")]
-        public int NewReligiousCommunityBaseId
-        {
-            get
-            {
-                return this._NewReligiousCommunityBaseId;
-            }
-            set
-            {
-                if ((this._NewReligiousCommunityBaseId != value))
-                {
-                    if (this._ReligiousCommunityBase1.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnNewReligiousCommunityBaseIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._NewReligiousCommunityBaseId = value;
-                    this.SendPropertyChanged("NewReligiousCommunityBaseId");
-                    this.OnNewReligiousCommunityBaseIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_VocationId", DbType = "Int NOT NULL")]
-        public int VocationId
-        {
-            get
-            {
-                return this._VocationId;
-            }
-            set
-            {
-                if ((this._VocationId != value))
-                {
-                    if (this._Vocation.HasLoadedOrAssignedValue)
-                    {
-                        throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-                    }
-                    this.OnVocationIdChanging(value);
-                    this.SendPropertyChanging();
-                    this._VocationId = value;
-                    this.SendPropertyChanged("VocationId");
-                    this.OnVocationIdChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_DecisionDate", DbType = "DateTime NOT NULL")]
-        public System.DateTime DecisionDate
-        {
-            get
-            {
-                return this._DecisionDate;
-            }
-            set
-            {
-                if ((this._DecisionDate != value))
-                {
-                    this.OnDecisionDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._DecisionDate = value;
-                    this.SendPropertyChanged("DecisionDate");
-                    this.OnDecisionDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_EffectiveDate", DbType = "DateTime NOT NULL")]
-        public System.DateTime EffectiveDate
-        {
-            get
-            {
-                return this._EffectiveDate;
-            }
-            set
-            {
-                if ((this._EffectiveDate != value))
-                {
-                    this.OnEffectiveDateChanging(value);
-                    this.SendPropertyChanging();
-                    this._EffectiveDate = value;
-                    this.SendPropertyChanged("EffectiveDate");
-                    this.OnEffectiveDateChanged();
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ReligiousCommunityBase_VocationExchangeReligiousCommunityBase", Storage = "_ReligiousCommunityBase", ThisKey = "OldReligiousCommunityBaseId", OtherKey = "Id", IsForeignKey = true)]
-        public ReligiousCommunityBase ReligiousCommunityBase
-        {
-            get
-            {
-                return this._ReligiousCommunityBase.Entity;
-            }
-            set
-            {
-                ReligiousCommunityBase previousValue = this._ReligiousCommunityBase.Entity;
-                if (((previousValue != value)
-                            || (this._ReligiousCommunityBase.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._ReligiousCommunityBase.Entity = null;
-                        previousValue.VocationExchangeReligiousCommunityBases.Remove(this);
-                    }
-                    this._ReligiousCommunityBase.Entity = value;
-                    if ((value != null))
-                    {
-                        value.VocationExchangeReligiousCommunityBases.Add(this);
-                        this._OldReligiousCommunityBaseId = value.Id;
-                    }
-                    else
-                    {
-                        this._OldReligiousCommunityBaseId = default(int);
-                    }
-                    this.SendPropertyChanged("ReligiousCommunityBase");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "ReligiousCommunityBase_VocationExchangeReligiousCommunityBase1", Storage = "_ReligiousCommunityBase1", ThisKey = "NewReligiousCommunityBaseId", OtherKey = "Id", IsForeignKey = true)]
-        public ReligiousCommunityBase ReligiousCommunityBase1
-        {
-            get
-            {
-                return this._ReligiousCommunityBase1.Entity;
-            }
-            set
-            {
-                ReligiousCommunityBase previousValue = this._ReligiousCommunityBase1.Entity;
-                if (((previousValue != value)
-                            || (this._ReligiousCommunityBase1.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._ReligiousCommunityBase1.Entity = null;
-                        previousValue.VocationExchangeReligiousCommunityBases1.Remove(this);
-                    }
-                    this._ReligiousCommunityBase1.Entity = value;
-                    if ((value != null))
-                    {
-                        value.VocationExchangeReligiousCommunityBases1.Add(this);
-                        this._NewReligiousCommunityBaseId = value.Id;
-                    }
-                    else
-                    {
-                        this._NewReligiousCommunityBaseId = default(int);
-                    }
-                    this.SendPropertyChanged("ReligiousCommunityBase1");
-                }
-            }
-        }
-
-        [global::System.Data.Linq.Mapping.AssociationAttribute(Name = "Vocation_VocationExchangeReligiousCommunityBase", Storage = "_Vocation", ThisKey = "VocationId", OtherKey = "ParishionerId", IsForeignKey = true)]
-        public Vocation Vocation
-        {
-            get
-            {
-                return this._Vocation.Entity;
-            }
-            set
-            {
-                Vocation previousValue = this._Vocation.Entity;
-                if (((previousValue != value)
-                            || (this._Vocation.HasLoadedOrAssignedValue == false)))
-                {
-                    this.SendPropertyChanging();
-                    if ((previousValue != null))
-                    {
-                        this._Vocation.Entity = null;
-                        previousValue.VocationExchangeReligiousCommunityBases.Remove(this);
-                    }
-                    this._Vocation.Entity = value;
-                    if ((value != null))
-                    {
-                        value.VocationExchangeReligiousCommunityBases.Add(this);
-                        this._VocationId = value.ParishionerId;
-                    }
-                    else
-                    {
-                        this._VocationId = default(int);
-                    }
-                    this.SendPropertyChanged("Vocation");
-                }
-            }
-        }
-
-        public event PropertyChangingEventHandler PropertyChanging;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void SendPropertyChanging()
-        {
-            if ((this.PropertyChanging != null))
-            {
-                this.PropertyChanging(this, emptyChangingEventArgs);
-            }
-        }
-
-        protected virtual void SendPropertyChanged(String propertyName)
-        {
-            if ((this.PropertyChanged != null))
-            {
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
+	using System.Data.Linq;
+	using System.Data.Linq.Mapping;
+	using System.Data;
+	using System.Collections.Generic;
+	using System.Reflection;
+	using System.Linq;
+	using System.Linq.Expressions;
+	using System.ComponentModel;
+	using System;
+	
+	
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="QLGP_0529")]
+	public partial class PMSDataContext : System.Data.Linq.DataContext
+	{
+		
+		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
+		
+    #region Extensibility Method Definitions
+    partial void OnCreated();
+    partial void InsertAccount(Account instance);
+    partial void UpdateAccount(Account instance);
+    partial void DeleteAccount(Account instance);
+    partial void InsertVocationSeminaryYear(VocationSeminaryYear instance);
+    partial void UpdateVocationSeminaryYear(VocationSeminaryYear instance);
+    partial void DeleteVocationSeminaryYear(VocationSeminaryYear instance);
+    partial void InsertChristianSuggestion(ChristianSuggestion instance);
+    partial void UpdateChristianSuggestion(ChristianSuggestion instance);
+    partial void DeleteChristianSuggestion(ChristianSuggestion instance);
+    partial void InsertClass(Class instance);
+    partial void UpdateClass(Class instance);
+    partial void DeleteClass(Class instance);
+    partial void InsertClassGroup(ClassGroup instance);
+    partial void UpdateClassGroup(ClassGroup instance);
+    partial void DeleteClassGroup(ClassGroup instance);
+    partial void InsertClassMember(ClassMember instance);
+    partial void UpdateClassMember(ClassMember instance);
+    partial void DeleteClassMember(ClassMember instance);
+    partial void InsertCommunity(Community instance);
+    partial void UpdateCommunity(Community instance);
+    partial void DeleteCommunity(Community instance);
+    partial void InsertConfiguration(Configuration instance);
+    partial void UpdateConfiguration(Configuration instance);
+    partial void DeleteConfiguration(Configuration instance);
+    partial void InsertConstructionPermit(ConstructionPermit instance);
+    partial void UpdateConstructionPermit(ConstructionPermit instance);
+    partial void DeleteConstructionPermit(ConstructionPermit instance);
+    partial void InsertDeaconRequisitionComment(DeaconRequisitionComment instance);
+    partial void UpdateDeaconRequisitionComment(DeaconRequisitionComment instance);
+    partial void DeleteDeaconRequisitionComment(DeaconRequisitionComment instance);
+    partial void InsertDeaconRequisitionSession(DeaconRequisitionSession instance);
+    partial void UpdateDeaconRequisitionSession(DeaconRequisitionSession instance);
+    partial void DeleteDeaconRequisitionSession(DeaconRequisitionSession instance);
+    partial void InsertDiocese(Diocese instance);
+    partial void UpdateDiocese(Diocese instance);
+    partial void DeleteDiocese(Diocese instance);
+    partial void InsertDonation(Donation instance);
+    partial void UpdateDonation(Donation instance);
+    partial void DeleteDonation(Donation instance);
+    partial void InsertDonationRank(DonationRank instance);
+    partial void UpdateDonationRank(DonationRank instance);
+    partial void DeleteDonationRank(DonationRank instance);
+    partial void InsertDonationSession(DonationSession instance);
+    partial void UpdateDonationSession(DonationSession instance);
+    partial void DeleteDonationSession(DonationSession instance);
+    partial void InsertFamily(Family instance);
+    partial void UpdateFamily(Family instance);
+    partial void DeleteFamily(Family instance);
+    partial void InsertFamilyMember(FamilyMember instance);
+    partial void UpdateFamilyMember(FamilyMember instance);
+    partial void DeleteFamilyMember(FamilyMember instance);
+    partial void InsertFamilyMigrationRequest(FamilyMigrationRequest instance);
+    partial void UpdateFamilyMigrationRequest(FamilyMigrationRequest instance);
+    partial void DeleteFamilyMigrationRequest(FamilyMigrationRequest instance);
+    partial void InsertGeneralStatus(GeneralStatus instance);
+    partial void UpdateGeneralStatus(GeneralStatus instance);
+    partial void DeleteGeneralStatus(GeneralStatus instance);
+    partial void InsertGiayMoi(GiayMoi instance);
+    partial void UpdateGiayMoi(GiayMoi instance);
+    partial void DeleteGiayMoi(GiayMoi instance);
+    partial void InsertHDLMMember(HDLMMember instance);
+    partial void UpdateHDLMMember(HDLMMember instance);
+    partial void DeleteHDLMMember(HDLMMember instance);
+    partial void InsertHoiDongLinhMuc(HoiDongLinhMuc instance);
+    partial void UpdateHoiDongLinhMuc(HoiDongLinhMuc instance);
+    partial void DeleteHoiDongLinhMuc(HoiDongLinhMuc instance);
+    partial void InsertKhachMoi(KhachMoi instance);
+    partial void UpdateKhachMoi(KhachMoi instance);
+    partial void DeleteKhachMoi(KhachMoi instance);
+    partial void InsertLeaveVocationRequisition(LeaveVocationRequisition instance);
+    partial void UpdateLeaveVocationRequisition(LeaveVocationRequisition instance);
+    partial void DeleteLeaveVocationRequisition(LeaveVocationRequisition instance);
+    partial void InsertLetterAndReport(LetterAndReport instance);
+    partial void UpdateLetterAndReport(LetterAndReport instance);
+    partial void DeleteLetterAndReport(LetterAndReport instance);
+    partial void InsertMatrimony(Matrimony instance);
+    partial void UpdateMatrimony(Matrimony instance);
+    partial void DeleteMatrimony(Matrimony instance);
+    partial void InsertMessage(Message instance);
+    partial void UpdateMessage(Message instance);
+    partial void DeleteMessage(Message instance);
+    partial void InsertParish(Parish instance);
+    partial void UpdateParish(Parish instance);
+    partial void DeleteParish(Parish instance);
+    partial void InsertParishioner(Parishioner instance);
+    partial void UpdateParishioner(Parishioner instance);
+    partial void DeleteParishioner(Parishioner instance);
+    partial void InsertParishionerMigrationRequest(ParishionerMigrationRequest instance);
+    partial void UpdateParishionerMigrationRequest(ParishionerMigrationRequest instance);
+    partial void DeleteParishionerMigrationRequest(ParishionerMigrationRequest instance);
+    partial void InsertParishManager(ParishManager instance);
+    partial void UpdateParishManager(ParishManager instance);
+    partial void DeleteParishManager(ParishManager instance);
+    partial void InsertPlaceSuggestion(PlaceSuggestion instance);
+    partial void UpdatePlaceSuggestion(PlaceSuggestion instance);
+    partial void DeletePlaceSuggestion(PlaceSuggestion instance);
+    partial void InsertPriest(Priest instance);
+    partial void UpdatePriest(Priest instance);
+    partial void DeletePriest(Priest instance);
+    partial void InsertReligiousCommunity(ReligiousCommunity instance);
+    partial void UpdateReligiousCommunity(ReligiousCommunity instance);
+    partial void DeleteReligiousCommunity(ReligiousCommunity instance);
+    partial void InsertReligiousCommunityBase(ReligiousCommunityBase instance);
+    partial void UpdateReligiousCommunityBase(ReligiousCommunityBase instance);
+    partial void DeleteReligiousCommunityBase(ReligiousCommunityBase instance);
+    partial void InsertReligiousCommunityManagementTerm(ReligiousCommunityManagementTerm instance);
+    partial void UpdateReligiousCommunityManagementTerm(ReligiousCommunityManagementTerm instance);
+    partial void DeleteReligiousCommunityManagementTerm(ReligiousCommunityManagementTerm instance);
+    partial void InsertRole(Role instance);
+    partial void UpdateRole(Role instance);
+    partial void DeleteRole(Role instance);
+    partial void InsertSacrament(Sacrament instance);
+    partial void UpdateSacrament(Sacrament instance);
+    partial void DeleteSacrament(Sacrament instance);
+    partial void InsertSacramentGroup(SacramentGroup instance);
+    partial void UpdateSacramentGroup(SacramentGroup instance);
+    partial void DeleteSacramentGroup(SacramentGroup instance);
+    partial void InsertSeminaryYear(SeminaryYear instance);
+    partial void UpdateSeminaryYear(SeminaryYear instance);
+    partial void DeleteSeminaryYear(SeminaryYear instance);
+    partial void InsertSociety(Society instance);
+    partial void UpdateSociety(Society instance);
+    partial void DeleteSociety(Society instance);
+    partial void InsertSocietyMember(SocietyMember instance);
+    partial void UpdateSocietyMember(SocietyMember instance);
+    partial void DeleteSocietyMember(SocietyMember instance);
+    partial void InsertThuPhanUu(ThuPhanUu instance);
+    partial void UpdateThuPhanUu(ThuPhanUu instance);
+    partial void DeleteThuPhanUu(ThuPhanUu instance);
+    partial void InsertThuPhanUu_NguoiNhan(ThuPhanUu_NguoiNhan instance);
+    partial void UpdateThuPhanUu_NguoiNhan(ThuPhanUu_NguoiNhan instance);
+    partial void DeleteThuPhanUu_NguoiNhan(ThuPhanUu_NguoiNhan instance);
+    partial void InsertThuyenChuyenLinhMuc(ThuyenChuyenLinhMuc instance);
+    partial void UpdateThuyenChuyenLinhMuc(ThuyenChuyenLinhMuc instance);
+    partial void DeleteThuyenChuyenLinhMuc(ThuyenChuyenLinhMuc instance);
+    partial void InsertVaiTro(VaiTro instance);
+    partial void UpdateVaiTro(VaiTro instance);
+    partial void DeleteVaiTro(VaiTro instance);
+    partial void InsertValueSet(ValueSet instance);
+    partial void UpdateValueSet(ValueSet instance);
+    partial void DeleteValueSet(ValueSet instance);
+    partial void InsertVicariate(Vicariate instance);
+    partial void UpdateVicariate(Vicariate instance);
+    partial void DeleteVicariate(Vicariate instance);
+    partial void InsertVocation(Vocation instance);
+    partial void UpdateVocation(Vocation instance);
+    partial void DeleteVocation(Vocation instance);
+    partial void InsertVocationDeaconRequisitionSession(VocationDeaconRequisitionSession instance);
+    partial void UpdateVocationDeaconRequisitionSession(VocationDeaconRequisitionSession instance);
+    partial void DeleteVocationDeaconRequisitionSession(VocationDeaconRequisitionSession instance);
+    partial void InsertVocationExchangeReligiousCommunityBase(VocationExchangeReligiousCommunityBase instance);
+    partial void UpdateVocationExchangeReligiousCommunityBase(VocationExchangeReligiousCommunityBase instance);
+    partial void DeleteVocationExchangeReligiousCommunityBase(VocationExchangeReligiousCommunityBase instance);
+    #endregion
+		
+		public PMSDataContext() : 
+				base(global::PMS.DataAccess.Properties.Settings.Default.QLGP_0529ConnectionString, mappingSource)
+		{
+			OnCreated();
+		}
+		
+		public PMSDataContext(string connection) : 
+				base(connection, mappingSource)
+		{
+			OnCreated();
+		}
+		
+		public PMSDataContext(System.Data.IDbConnection connection) : 
+				base(connection, mappingSource)
+		{
+			OnCreated();
+		}
+		
+		public PMSDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+				base(connection, mappingSource)
+		{
+			OnCreated();
+		}
+		
+		public PMSDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+				base(connection, mappingSource)
+		{
+			OnCreated();
+		}
+		
+		public System.Data.Linq.Table<Account> Accounts
+		{
+			get
+			{
+				return this.GetTable<Account>();
+			}
+		}
+		
+		public System.Data.Linq.Table<VocationSeminaryYear> VocationSeminaryYears
+		{
+			get
+			{
+				return this.GetTable<VocationSeminaryYear>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ChristianSuggestion> ChristianSuggestions
+		{
+			get
+			{
+				return this.GetTable<ChristianSuggestion>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Class> Classes
+		{
+			get
+			{
+				return this.GetTable<Class>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ClassGroup> ClassGroups
+		{
+			get
+			{
+				return this.GetTable<ClassGroup>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ClassMember> ClassMembers
+		{
+			get
+			{
+				return this.GetTable<ClassMember>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Community> Communities
+		{
+			get
+			{
+				return this.GetTable<Community>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Configuration> Configurations
+		{
+			get
+			{
+				return this.GetTable<Configuration>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ConstructionPermit> ConstructionPermits
+		{
+			get
+			{
+				return this.GetTable<ConstructionPermit>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DeaconRequisitionComment> DeaconRequisitionComments
+		{
+			get
+			{
+				return this.GetTable<DeaconRequisitionComment>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DeaconRequisitionSession> DeaconRequisitionSessions
+		{
+			get
+			{
+				return this.GetTable<DeaconRequisitionSession>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Diocese> Dioceses
+		{
+			get
+			{
+				return this.GetTable<Diocese>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Donation> Donations
+		{
+			get
+			{
+				return this.GetTable<Donation>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DonationRank> DonationRanks
+		{
+			get
+			{
+				return this.GetTable<DonationRank>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DonationSession> DonationSessions
+		{
+			get
+			{
+				return this.GetTable<DonationSession>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Family> Families
+		{
+			get
+			{
+				return this.GetTable<Family>();
+			}
+		}
+		
+		public System.Data.Linq.Table<FamilyMember> FamilyMembers
+		{
+			get
+			{
+				return this.GetTable<FamilyMember>();
+			}
+		}
+		
+		public System.Data.Linq.Table<FamilyMigrationRequest> FamilyMigrationRequests
+		{
+			get
+			{
+				return this.GetTable<FamilyMigrationRequest>();
+			}
+		}
+		
+		public System.Data.Linq.Table<GeneralStatus> GeneralStatus
+		{
+			get
+			{
+				return this.GetTable<GeneralStatus>();
+			}
+		}
+		
+		public System.Data.Linq.Table<GiayMoi> GiayMois
+		{
+			get
+			{
+				return this.GetTable<GiayMoi>();
+			}
+		}
+		
+		public System.Data.Linq.Table<HDLMMember> HDLMMembers
+		{
+			get
+			{
+				return this.GetTable<HDLMMember>();
+			}
+		}
+		
+		public System.Data.Linq.Table<HoiDongLinhMuc> HoiDongLinhMucs
+		{
+			get
+			{
+				return this.GetTable<HoiDongLinhMuc>();
+			}
+		}
+		
+		public System.Data.Linq.Table<KhachMoi> KhachMois
+		{
+			get
+			{
+				return this.GetTable<KhachMoi>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LeaveVocationRequisition> LeaveVocationRequisitions
+		{
+			get
+			{
+				return this.GetTable<LeaveVocationRequisition>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LetterAndReport> LetterAndReports
+		{
+			get
+			{
+				return this.GetTable<LetterAndReport>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Matrimony> Matrimonies
+		{
+			get
+			{
+				return this.GetTable<Matrimony>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Message> Messages
+		{
+			get
+			{
+				return this.GetTable<Message>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Parish> Parishes
+		{
+			get
+			{
+				return this.GetTable<Parish>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Parishioner> Parishioners
+		{
+			get
+			{
+				return this.GetTable<Parishioner>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ParishionerMigrationRequest> ParishionerMigrationRequests
+		{
+			get
+			{
+				return this.GetTable<ParishionerMigrationRequest>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ParishManager> ParishManagers
+		{
+			get
+			{
+				return this.GetTable<ParishManager>();
+			}
+		}
+		
+		public System.Data.Linq.Table<PlaceSuggestion> PlaceSuggestions
+		{
+			get
+			{
+				return this.GetTable<PlaceSuggestion>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Priest> Priests
+		{
+			get
+			{
+				return this.GetTable<Priest>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ReligiousCommunity> ReligiousCommunities
+		{
+			get
+			{
+				return this.GetTable<ReligiousCommunity>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ReligiousCommunityBase> ReligiousCommunityBases
+		{
+			get
+			{
+				return this.GetTable<ReligiousCommunityBase>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ReligiousCommunityManagementTerm> ReligiousCommunityManagementTerms
+		{
+			get
+			{
+				return this.GetTable<ReligiousCommunityManagementTerm>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Role> Roles
+		{
+			get
+			{
+				return this.GetTable<Role>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Sacrament> Sacraments
+		{
+			get
+			{
+				return this.GetTable<Sacrament>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SacramentGroup> SacramentGroups
+		{
+			get
+			{
+				return this.GetTable<SacramentGroup>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SeminaryYear> SeminaryYears
+		{
+			get
+			{
+				return this.GetTable<SeminaryYear>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Society> Societies
+		{
+			get
+			{
+				return this.GetTable<Society>();
+			}
+		}
+		
+		public System.Data.Linq.Table<SocietyMember> SocietyMembers
+		{
+			get
+			{
+				return this.GetTable<SocietyMember>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ThuPhanUu> ThuPhanUus
+		{
+			get
+			{
+				return this.GetTable<ThuPhanUu>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ThuPhanUu_NguoiNhan> ThuPhanUu_NguoiNhans
+		{
+			get
+			{
+				return this.GetTable<ThuPhanUu_NguoiNhan>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ThuyenChuyenLinhMuc> ThuyenChuyenLinhMucs
+		{
+			get
+			{
+				return this.GetTable<ThuyenChuyenLinhMuc>();
+			}
+		}
+		
+		public System.Data.Linq.Table<VaiTro> VaiTros
+		{
+			get
+			{
+				return this.GetTable<VaiTro>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ValueSet> ValueSets
+		{
+			get
+			{
+				return this.GetTable<ValueSet>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Vicariate> Vicariates
+		{
+			get
+			{
+				return this.GetTable<Vicariate>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Vocation> Vocations
+		{
+			get
+			{
+				return this.GetTable<Vocation>();
+			}
+		}
+		
+		public System.Data.Linq.Table<VocationDeaconRequisitionSession> VocationDeaconRequisitionSessions
+		{
+			get
+			{
+				return this.GetTable<VocationDeaconRequisitionSession>();
+			}
+		}
+		
+		public System.Data.Linq.Table<VocationExchangeReligiousCommunityBase> VocationExchangeReligiousCommunityBases
+		{
+			get
+			{
+				return this.GetTable<VocationExchangeReligiousCommunityBase>();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Account")]
+	public partial class Account : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Username;
+		
+		private string _Password;
+		
+		private string _Name;
+		
+		private System.DateTime _CreatedDate;
+		
+		private int _Status;
+		
+		private int _RoleId;
+		
+		private int _DioceseId;
+		
+		private System.Nullable<int> _ParishId;
+		
+		private EntitySet<Message> _Messages;
+		
+		private EntityRef<Diocese> _Diocese;
+		
+		private EntityRef<Parish> _Parish;
+		
+		private EntityRef<Role> _Role;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnUsernameChanging(string value);
+    partial void OnUsernameChanged();
+    partial void OnPasswordChanging(string value);
+    partial void OnPasswordChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnCreatedDateChanging(System.DateTime value);
+    partial void OnCreatedDateChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    partial void OnRoleIdChanging(int value);
+    partial void OnRoleIdChanged();
+    partial void OnDioceseIdChanging(int value);
+    partial void OnDioceseIdChanged();
+    partial void OnParishIdChanging(System.Nullable<int> value);
+    partial void OnParishIdChanged();
+    #endregion
+		
+		public Account()
+		{
+			this._Messages = new EntitySet<Message>(new Action<Message>(this.attach_Messages), new Action<Message>(this.detach_Messages));
+			this._Diocese = default(EntityRef<Diocese>);
+			this._Parish = default(EntityRef<Parish>);
+			this._Role = default(EntityRef<Role>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Username", DbType="VarChar(100) NOT NULL", CanBeNull=false)]
+		public string Username
+		{
+			get
+			{
+				return this._Username;
+			}
+			set
+			{
+				if ((this._Username != value))
+				{
+					this.OnUsernameChanging(value);
+					this.SendPropertyChanging();
+					this._Username = value;
+					this.SendPropertyChanged("Username");
+					this.OnUsernameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Password
+		{
+			get
+			{
+				return this._Password;
+			}
+			set
+			{
+				if ((this._Password != value))
+				{
+					this.OnPasswordChanging(value);
+					this.SendPropertyChanging();
+					this._Password = value;
+					this.SendPropertyChanged("Password");
+					this.OnPasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedDate
+		{
+			get
+			{
+				return this._CreatedDate;
+			}
+			set
+			{
+				if ((this._CreatedDate != value))
+				{
+					this.OnCreatedDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedDate = value;
+					this.SendPropertyChanged("CreatedDate");
+					this.OnCreatedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="Int NOT NULL")]
+		public int RoleId
+		{
+			get
+			{
+				return this._RoleId;
+			}
+			set
+			{
+				if ((this._RoleId != value))
+				{
+					if (this._Role.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRoleIdChanging(value);
+					this.SendPropertyChanging();
+					this._RoleId = value;
+					this.SendPropertyChanged("RoleId");
+					this.OnRoleIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DioceseId", DbType="Int NOT NULL")]
+		public int DioceseId
+		{
+			get
+			{
+				return this._DioceseId;
+			}
+			set
+			{
+				if ((this._DioceseId != value))
+				{
+					if (this._Diocese.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDioceseIdChanging(value);
+					this.SendPropertyChanging();
+					this._DioceseId = value;
+					this.SendPropertyChanged("DioceseId");
+					this.OnDioceseIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int")]
+		public System.Nullable<int> ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					if (this._Parish.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Account_Message", Storage="_Messages", ThisKey="Id", OtherKey="AccountId")]
+		public EntitySet<Message> Messages
+		{
+			get
+			{
+				return this._Messages;
+			}
+			set
+			{
+				this._Messages.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Diocese_Account", Storage="_Diocese", ThisKey="DioceseId", OtherKey="Id", IsForeignKey=true)]
+		public Diocese Diocese
+		{
+			get
+			{
+				return this._Diocese.Entity;
+			}
+			set
+			{
+				Diocese previousValue = this._Diocese.Entity;
+				if (((previousValue != value) 
+							|| (this._Diocese.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Diocese.Entity = null;
+						previousValue.Accounts.Remove(this);
+					}
+					this._Diocese.Entity = value;
+					if ((value != null))
+					{
+						value.Accounts.Add(this);
+						this._DioceseId = value.Id;
+					}
+					else
+					{
+						this._DioceseId = default(int);
+					}
+					this.SendPropertyChanged("Diocese");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_Account", Storage="_Parish", ThisKey="ParishId", OtherKey="Id", IsForeignKey=true)]
+		public Parish Parish
+		{
+			get
+			{
+				return this._Parish.Entity;
+			}
+			set
+			{
+				Parish previousValue = this._Parish.Entity;
+				if (((previousValue != value) 
+							|| (this._Parish.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parish.Entity = null;
+						previousValue.Accounts.Remove(this);
+					}
+					this._Parish.Entity = value;
+					if ((value != null))
+					{
+						value.Accounts.Add(this);
+						this._ParishId = value.Id;
+					}
+					else
+					{
+						this._ParishId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Parish");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Role_Account", Storage="_Role", ThisKey="RoleId", OtherKey="Id", IsForeignKey=true)]
+		public Role Role
+		{
+			get
+			{
+				return this._Role.Entity;
+			}
+			set
+			{
+				Role previousValue = this._Role.Entity;
+				if (((previousValue != value) 
+							|| (this._Role.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Role.Entity = null;
+						previousValue.Accounts.Remove(this);
+					}
+					this._Role.Entity = value;
+					if ((value != null))
+					{
+						value.Accounts.Add(this);
+						this._RoleId = value.Id;
+					}
+					else
+					{
+						this._RoleId = default(int);
+					}
+					this.SendPropertyChanged("Role");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Messages(Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.Account = this;
+		}
+		
+		private void detach_Messages(Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.Account = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.VocationSeminaryYear")]
+	public partial class VocationSeminaryYear : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _VocationId;
+		
+		private int _SeminaryYearId;
+		
+		private System.DateTime _ActualStart;
+		
+		private System.DateTime _ActualEnd;
+		
+		private int _Status;
+		
+		private EntityRef<SeminaryYear> _SeminaryYear;
+		
+		private EntityRef<Vocation> _Vocation;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnVocationIdChanging(int value);
+    partial void OnVocationIdChanged();
+    partial void OnSeminaryYearIdChanging(int value);
+    partial void OnSeminaryYearIdChanged();
+    partial void OnActualStartChanging(System.DateTime value);
+    partial void OnActualStartChanged();
+    partial void OnActualEndChanging(System.DateTime value);
+    partial void OnActualEndChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    #endregion
+		
+		public VocationSeminaryYear()
+		{
+			this._SeminaryYear = default(EntityRef<SeminaryYear>);
+			this._Vocation = default(EntityRef<Vocation>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VocationId", DbType="Int NOT NULL")]
+		public int VocationId
+		{
+			get
+			{
+				return this._VocationId;
+			}
+			set
+			{
+				if ((this._VocationId != value))
+				{
+					if (this._Vocation.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnVocationIdChanging(value);
+					this.SendPropertyChanging();
+					this._VocationId = value;
+					this.SendPropertyChanged("VocationId");
+					this.OnVocationIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SeminaryYearId", DbType="Int NOT NULL")]
+		public int SeminaryYearId
+		{
+			get
+			{
+				return this._SeminaryYearId;
+			}
+			set
+			{
+				if ((this._SeminaryYearId != value))
+				{
+					if (this._SeminaryYear.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSeminaryYearIdChanging(value);
+					this.SendPropertyChanging();
+					this._SeminaryYearId = value;
+					this.SendPropertyChanged("SeminaryYearId");
+					this.OnSeminaryYearIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ActualStart", DbType="DateTime NOT NULL")]
+		public System.DateTime ActualStart
+		{
+			get
+			{
+				return this._ActualStart;
+			}
+			set
+			{
+				if ((this._ActualStart != value))
+				{
+					this.OnActualStartChanging(value);
+					this.SendPropertyChanging();
+					this._ActualStart = value;
+					this.SendPropertyChanged("ActualStart");
+					this.OnActualStartChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ActualEnd", DbType="DateTime NOT NULL")]
+		public System.DateTime ActualEnd
+		{
+			get
+			{
+				return this._ActualEnd;
+			}
+			set
+			{
+				if ((this._ActualEnd != value))
+				{
+					this.OnActualEndChanging(value);
+					this.SendPropertyChanging();
+					this._ActualEnd = value;
+					this.SendPropertyChanged("ActualEnd");
+					this.OnActualEndChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SeminaryYear_VocationSeminaryYear", Storage="_SeminaryYear", ThisKey="SeminaryYearId", OtherKey="Id", IsForeignKey=true)]
+		public SeminaryYear SeminaryYear
+		{
+			get
+			{
+				return this._SeminaryYear.Entity;
+			}
+			set
+			{
+				SeminaryYear previousValue = this._SeminaryYear.Entity;
+				if (((previousValue != value) 
+							|| (this._SeminaryYear.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._SeminaryYear.Entity = null;
+						previousValue.VocationSeminaryYears.Remove(this);
+					}
+					this._SeminaryYear.Entity = value;
+					if ((value != null))
+					{
+						value.VocationSeminaryYears.Add(this);
+						this._SeminaryYearId = value.Id;
+					}
+					else
+					{
+						this._SeminaryYearId = default(int);
+					}
+					this.SendPropertyChanged("SeminaryYear");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_VocationSeminaryYear", Storage="_Vocation", ThisKey="VocationId", OtherKey="ParishionerId", IsForeignKey=true)]
+		public Vocation Vocation
+		{
+			get
+			{
+				return this._Vocation.Entity;
+			}
+			set
+			{
+				Vocation previousValue = this._Vocation.Entity;
+				if (((previousValue != value) 
+							|| (this._Vocation.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Vocation.Entity = null;
+						previousValue.VocationSeminaryYears.Remove(this);
+					}
+					this._Vocation.Entity = value;
+					if ((value != null))
+					{
+						value.VocationSeminaryYears.Add(this);
+						this._VocationId = value.ParishionerId;
+					}
+					else
+					{
+						this._VocationId = default(int);
+					}
+					this.SendPropertyChanged("Vocation");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ChristianSuggestion")]
+	public partial class ChristianSuggestion : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public ChristianSuggestion()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Class")]
+	public partial class Class : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private string _RoomNo;
+		
+		private int _Year;
+		
+		private string _Note;
+		
+		private int _ClassGroupId;
+		
+		private EntitySet<ClassMember> _ClassMembers;
+		
+		private EntityRef<ClassGroup> _ClassGroup;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnRoomNoChanging(string value);
+    partial void OnRoomNoChanged();
+    partial void OnYearChanging(int value);
+    partial void OnYearChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    partial void OnClassGroupIdChanging(int value);
+    partial void OnClassGroupIdChanged();
+    #endregion
+		
+		public Class()
+		{
+			this._ClassMembers = new EntitySet<ClassMember>(new Action<ClassMember>(this.attach_ClassMembers), new Action<ClassMember>(this.detach_ClassMembers));
+			this._ClassGroup = default(EntityRef<ClassGroup>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoomNo", DbType="NVarChar(50)")]
+		public string RoomNo
+		{
+			get
+			{
+				return this._RoomNo;
+			}
+			set
+			{
+				if ((this._RoomNo != value))
+				{
+					this.OnRoomNoChanging(value);
+					this.SendPropertyChanging();
+					this._RoomNo = value;
+					this.SendPropertyChanged("RoomNo");
+					this.OnRoomNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Year", DbType="Int NOT NULL")]
+		public int Year
+		{
+			get
+			{
+				return this._Year;
+			}
+			set
+			{
+				if ((this._Year != value))
+				{
+					this.OnYearChanging(value);
+					this.SendPropertyChanging();
+					this._Year = value;
+					this.SendPropertyChanged("Year");
+					this.OnYearChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NVarChar(200)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ClassGroupId", DbType="Int NOT NULL")]
+		public int ClassGroupId
+		{
+			get
+			{
+				return this._ClassGroupId;
+			}
+			set
+			{
+				if ((this._ClassGroupId != value))
+				{
+					if (this._ClassGroup.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnClassGroupIdChanging(value);
+					this.SendPropertyChanging();
+					this._ClassGroupId = value;
+					this.SendPropertyChanged("ClassGroupId");
+					this.OnClassGroupIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_ClassMember", Storage="_ClassMembers", ThisKey="Id", OtherKey="ClassId")]
+		public EntitySet<ClassMember> ClassMembers
+		{
+			get
+			{
+				return this._ClassMembers;
+			}
+			set
+			{
+				this._ClassMembers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ClassGroup_Class", Storage="_ClassGroup", ThisKey="ClassGroupId", OtherKey="Id", IsForeignKey=true)]
+		public ClassGroup ClassGroup
+		{
+			get
+			{
+				return this._ClassGroup.Entity;
+			}
+			set
+			{
+				ClassGroup previousValue = this._ClassGroup.Entity;
+				if (((previousValue != value) 
+							|| (this._ClassGroup.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ClassGroup.Entity = null;
+						previousValue.Classes.Remove(this);
+					}
+					this._ClassGroup.Entity = value;
+					if ((value != null))
+					{
+						value.Classes.Add(this);
+						this._ClassGroupId = value.Id;
+					}
+					else
+					{
+						this._ClassGroupId = default(int);
+					}
+					this.SendPropertyChanged("ClassGroup");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ClassMembers(ClassMember entity)
+		{
+			this.SendPropertyChanging();
+			entity.Class = this;
+		}
+		
+		private void detach_ClassMembers(ClassMember entity)
+		{
+			this.SendPropertyChanging();
+			entity.Class = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ClassGroup")]
+	public partial class ClassGroup : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private int _Year;
+		
+		private string _Note;
+		
+		private System.Nullable<int> _ManagedBy;
+		
+		private int _ParishId;
+		
+		private EntitySet<Class> _Classes;
+		
+		private EntityRef<Parish> _Parish;
+		
+		private EntityRef<Parishioner> _Parishioner;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnYearChanging(int value);
+    partial void OnYearChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    partial void OnManagedByChanging(System.Nullable<int> value);
+    partial void OnManagedByChanged();
+    partial void OnParishIdChanging(int value);
+    partial void OnParishIdChanged();
+    #endregion
+		
+		public ClassGroup()
+		{
+			this._Classes = new EntitySet<Class>(new Action<Class>(this.attach_Classes), new Action<Class>(this.detach_Classes));
+			this._Parish = default(EntityRef<Parish>);
+			this._Parishioner = default(EntityRef<Parishioner>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Year", DbType="Int NOT NULL")]
+		public int Year
+		{
+			get
+			{
+				return this._Year;
+			}
+			set
+			{
+				if ((this._Year != value))
+				{
+					this.OnYearChanging(value);
+					this.SendPropertyChanging();
+					this._Year = value;
+					this.SendPropertyChanged("Year");
+					this.OnYearChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NVarChar(200)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ManagedBy", DbType="Int")]
+		public System.Nullable<int> ManagedBy
+		{
+			get
+			{
+				return this._ManagedBy;
+			}
+			set
+			{
+				if ((this._ManagedBy != value))
+				{
+					if (this._Parishioner.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnManagedByChanging(value);
+					this.SendPropertyChanging();
+					this._ManagedBy = value;
+					this.SendPropertyChanged("ManagedBy");
+					this.OnManagedByChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int NOT NULL")]
+		public int ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					if (this._Parish.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ClassGroup_Class", Storage="_Classes", ThisKey="Id", OtherKey="ClassGroupId")]
+		public EntitySet<Class> Classes
+		{
+			get
+			{
+				return this._Classes;
+			}
+			set
+			{
+				this._Classes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_ClassGroup", Storage="_Parish", ThisKey="ParishId", OtherKey="Id", IsForeignKey=true)]
+		public Parish Parish
+		{
+			get
+			{
+				return this._Parish.Entity;
+			}
+			set
+			{
+				Parish previousValue = this._Parish.Entity;
+				if (((previousValue != value) 
+							|| (this._Parish.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parish.Entity = null;
+						previousValue.ClassGroups.Remove(this);
+					}
+					this._Parish.Entity = value;
+					if ((value != null))
+					{
+						value.ClassGroups.Add(this);
+						this._ParishId = value.Id;
+					}
+					else
+					{
+						this._ParishId = default(int);
+					}
+					this.SendPropertyChanged("Parish");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_ClassGroup", Storage="_Parishioner", ThisKey="ManagedBy", OtherKey="Id", IsForeignKey=true)]
+		public Parishioner Parishioner
+		{
+			get
+			{
+				return this._Parishioner.Entity;
+			}
+			set
+			{
+				Parishioner previousValue = this._Parishioner.Entity;
+				if (((previousValue != value) 
+							|| (this._Parishioner.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parishioner.Entity = null;
+						previousValue.ClassGroups.Remove(this);
+					}
+					this._Parishioner.Entity = value;
+					if ((value != null))
+					{
+						value.ClassGroups.Add(this);
+						this._ManagedBy = value.Id;
+					}
+					else
+					{
+						this._ManagedBy = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Parishioner");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Classes(Class entity)
+		{
+			this.SendPropertyChanging();
+			entity.ClassGroup = this;
+		}
+		
+		private void detach_Classes(Class entity)
+		{
+			this.SendPropertyChanging();
+			entity.ClassGroup = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ClassMember")]
+	public partial class ClassMember : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _ParishionerId;
+		
+		private int _ClassId;
+		
+		private int _Position;
+		
+		private bool _IsDone;
+		
+		private string _Note;
+		
+		private EntityRef<Class> _Class;
+		
+		private EntityRef<Parishioner> _Parishioner;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnParishionerIdChanging(int value);
+    partial void OnParishionerIdChanged();
+    partial void OnClassIdChanging(int value);
+    partial void OnClassIdChanged();
+    partial void OnPositionChanging(int value);
+    partial void OnPositionChanged();
+    partial void OnIsDoneChanging(bool value);
+    partial void OnIsDoneChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    #endregion
+		
+		public ClassMember()
+		{
+			this._Class = default(EntityRef<Class>);
+			this._Parishioner = default(EntityRef<Parishioner>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishionerId", DbType="Int NOT NULL")]
+		public int ParishionerId
+		{
+			get
+			{
+				return this._ParishionerId;
+			}
+			set
+			{
+				if ((this._ParishionerId != value))
+				{
+					if (this._Parishioner.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishionerIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishionerId = value;
+					this.SendPropertyChanged("ParishionerId");
+					this.OnParishionerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ClassId", DbType="Int NOT NULL")]
+		public int ClassId
+		{
+			get
+			{
+				return this._ClassId;
+			}
+			set
+			{
+				if ((this._ClassId != value))
+				{
+					if (this._Class.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnClassIdChanging(value);
+					this.SendPropertyChanging();
+					this._ClassId = value;
+					this.SendPropertyChanged("ClassId");
+					this.OnClassIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Position", DbType="Int NOT NULL")]
+		public int Position
+		{
+			get
+			{
+				return this._Position;
+			}
+			set
+			{
+				if ((this._Position != value))
+				{
+					this.OnPositionChanging(value);
+					this.SendPropertyChanging();
+					this._Position = value;
+					this.SendPropertyChanged("Position");
+					this.OnPositionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDone", DbType="Bit NOT NULL")]
+		public bool IsDone
+		{
+			get
+			{
+				return this._IsDone;
+			}
+			set
+			{
+				if ((this._IsDone != value))
+				{
+					this.OnIsDoneChanging(value);
+					this.SendPropertyChanging();
+					this._IsDone = value;
+					this.SendPropertyChanged("IsDone");
+					this.OnIsDoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NVarChar(200)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Class_ClassMember", Storage="_Class", ThisKey="ClassId", OtherKey="Id", IsForeignKey=true)]
+		public Class Class
+		{
+			get
+			{
+				return this._Class.Entity;
+			}
+			set
+			{
+				Class previousValue = this._Class.Entity;
+				if (((previousValue != value) 
+							|| (this._Class.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Class.Entity = null;
+						previousValue.ClassMembers.Remove(this);
+					}
+					this._Class.Entity = value;
+					if ((value != null))
+					{
+						value.ClassMembers.Add(this);
+						this._ClassId = value.Id;
+					}
+					else
+					{
+						this._ClassId = default(int);
+					}
+					this.SendPropertyChanged("Class");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_ClassMember", Storage="_Parishioner", ThisKey="ParishionerId", OtherKey="Id", IsForeignKey=true)]
+		public Parishioner Parishioner
+		{
+			get
+			{
+				return this._Parishioner.Entity;
+			}
+			set
+			{
+				Parishioner previousValue = this._Parishioner.Entity;
+				if (((previousValue != value) 
+							|| (this._Parishioner.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parishioner.Entity = null;
+						previousValue.ClassMembers.Remove(this);
+					}
+					this._Parishioner.Entity = value;
+					if ((value != null))
+					{
+						value.ClassMembers.Add(this);
+						this._ParishionerId = value.Id;
+					}
+					else
+					{
+						this._ParishionerId = default(int);
+					}
+					this.SendPropertyChanged("Parishioner");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Community")]
+	public partial class Community : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private bool _IsDefault;
+		
+		private System.Nullable<int> _ParentId;
+		
+		private int _ParishId;
+		
+		private EntitySet<Community> _Communities;
+		
+		private EntitySet<Family> _Families;
+		
+		private EntitySet<FamilyMigrationRequest> _FamilyMigrationRequests;
+		
+		private EntitySet<Parishioner> _Parishioners;
+		
+		private EntitySet<ParishionerMigrationRequest> _ParishionerMigrationRequests;
+		
+		private EntityRef<Community> _Community1;
+		
+		private EntityRef<Parish> _Parish;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnIsDefaultChanging(bool value);
+    partial void OnIsDefaultChanged();
+    partial void OnParentIdChanging(System.Nullable<int> value);
+    partial void OnParentIdChanged();
+    partial void OnParishIdChanging(int value);
+    partial void OnParishIdChanged();
+    #endregion
+		
+		public Community()
+		{
+			this._Communities = new EntitySet<Community>(new Action<Community>(this.attach_Communities), new Action<Community>(this.detach_Communities));
+			this._Families = new EntitySet<Family>(new Action<Family>(this.attach_Families), new Action<Family>(this.detach_Families));
+			this._FamilyMigrationRequests = new EntitySet<FamilyMigrationRequest>(new Action<FamilyMigrationRequest>(this.attach_FamilyMigrationRequests), new Action<FamilyMigrationRequest>(this.detach_FamilyMigrationRequests));
+			this._Parishioners = new EntitySet<Parishioner>(new Action<Parishioner>(this.attach_Parishioners), new Action<Parishioner>(this.detach_Parishioners));
+			this._ParishionerMigrationRequests = new EntitySet<ParishionerMigrationRequest>(new Action<ParishionerMigrationRequest>(this.attach_ParishionerMigrationRequests), new Action<ParishionerMigrationRequest>(this.detach_ParishionerMigrationRequests));
+			this._Community1 = default(EntityRef<Community>);
+			this._Parish = default(EntityRef<Parish>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDefault", DbType="Bit NOT NULL")]
+		public bool IsDefault
+		{
+			get
+			{
+				return this._IsDefault;
+			}
+			set
+			{
+				if ((this._IsDefault != value))
+				{
+					this.OnIsDefaultChanging(value);
+					this.SendPropertyChanging();
+					this._IsDefault = value;
+					this.SendPropertyChanged("IsDefault");
+					this.OnIsDefaultChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentId", DbType="Int")]
+		public System.Nullable<int> ParentId
+		{
+			get
+			{
+				return this._ParentId;
+			}
+			set
+			{
+				if ((this._ParentId != value))
+				{
+					if (this._Community1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParentIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParentId = value;
+					this.SendPropertyChanged("ParentId");
+					this.OnParentIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int NOT NULL")]
+		public int ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					if (this._Parish.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Community_Community", Storage="_Communities", ThisKey="Id", OtherKey="ParentId")]
+		public EntitySet<Community> Communities
+		{
+			get
+			{
+				return this._Communities;
+			}
+			set
+			{
+				this._Communities.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Community_Family", Storage="_Families", ThisKey="Id", OtherKey="CommunityId")]
+		public EntitySet<Family> Families
+		{
+			get
+			{
+				return this._Families;
+			}
+			set
+			{
+				this._Families.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Community_FamilyMigrationRequest", Storage="_FamilyMigrationRequests", ThisKey="Id", OtherKey="FromCommunityId")]
+		public EntitySet<FamilyMigrationRequest> FamilyMigrationRequests
+		{
+			get
+			{
+				return this._FamilyMigrationRequests;
+			}
+			set
+			{
+				this._FamilyMigrationRequests.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Community_Parishioner", Storage="_Parishioners", ThisKey="Id", OtherKey="CommunityId")]
+		public EntitySet<Parishioner> Parishioners
+		{
+			get
+			{
+				return this._Parishioners;
+			}
+			set
+			{
+				this._Parishioners.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Community_ParishionerMigrationRequest", Storage="_ParishionerMigrationRequests", ThisKey="Id", OtherKey="FromCommunityId")]
+		public EntitySet<ParishionerMigrationRequest> ParishionerMigrationRequests
+		{
+			get
+			{
+				return this._ParishionerMigrationRequests;
+			}
+			set
+			{
+				this._ParishionerMigrationRequests.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Community_Community", Storage="_Community1", ThisKey="ParentId", OtherKey="Id", IsForeignKey=true)]
+		public Community Community1
+		{
+			get
+			{
+				return this._Community1.Entity;
+			}
+			set
+			{
+				Community previousValue = this._Community1.Entity;
+				if (((previousValue != value) 
+							|| (this._Community1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Community1.Entity = null;
+						previousValue.Communities.Remove(this);
+					}
+					this._Community1.Entity = value;
+					if ((value != null))
+					{
+						value.Communities.Add(this);
+						this._ParentId = value.Id;
+					}
+					else
+					{
+						this._ParentId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Community1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_Community", Storage="_Parish", ThisKey="ParishId", OtherKey="Id", IsForeignKey=true)]
+		public Parish Parish
+		{
+			get
+			{
+				return this._Parish.Entity;
+			}
+			set
+			{
+				Parish previousValue = this._Parish.Entity;
+				if (((previousValue != value) 
+							|| (this._Parish.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parish.Entity = null;
+						previousValue.Communities.Remove(this);
+					}
+					this._Parish.Entity = value;
+					if ((value != null))
+					{
+						value.Communities.Add(this);
+						this._ParishId = value.Id;
+					}
+					else
+					{
+						this._ParishId = default(int);
+					}
+					this.SendPropertyChanged("Parish");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Communities(Community entity)
+		{
+			this.SendPropertyChanging();
+			entity.Community1 = this;
+		}
+		
+		private void detach_Communities(Community entity)
+		{
+			this.SendPropertyChanging();
+			entity.Community1 = null;
+		}
+		
+		private void attach_Families(Family entity)
+		{
+			this.SendPropertyChanging();
+			entity.Community = this;
+		}
+		
+		private void detach_Families(Family entity)
+		{
+			this.SendPropertyChanging();
+			entity.Community = null;
+		}
+		
+		private void attach_FamilyMigrationRequests(FamilyMigrationRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Community = this;
+		}
+		
+		private void detach_FamilyMigrationRequests(FamilyMigrationRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Community = null;
+		}
+		
+		private void attach_Parishioners(Parishioner entity)
+		{
+			this.SendPropertyChanging();
+			entity.Community = this;
+		}
+		
+		private void detach_Parishioners(Parishioner entity)
+		{
+			this.SendPropertyChanging();
+			entity.Community = null;
+		}
+		
+		private void attach_ParishionerMigrationRequests(ParishionerMigrationRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Community = this;
+		}
+		
+		private void detach_ParishionerMigrationRequests(ParishionerMigrationRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Community = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Configuration")]
+	public partial class Configuration : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ParishId;
+		
+		private int _MultipleParishionerAdding;
+		
+		private int _ParishionerCodeGeneration;
+		
+		private string _ParishionerPrefix;
+		
+		private int _ParishionerCharacterNumber;
+		
+		private int _FamilyCodeGeneration;
+		
+		private string _FamilyPrefix;
+		
+		private int _FamilyCharacterNumber;
+		
+		private string _BaptismTemplate;
+		
+		private string _HolyCommunionTemplate;
+		
+		private string _ConfirmationTemplate;
+		
+		private string _MatrimonyTemplate;
+		
+		private string _SacramentTemplate;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnParishIdChanging(int value);
+    partial void OnParishIdChanged();
+    partial void OnMultipleParishionerAddingChanging(int value);
+    partial void OnMultipleParishionerAddingChanged();
+    partial void OnParishionerCodeGenerationChanging(int value);
+    partial void OnParishionerCodeGenerationChanged();
+    partial void OnParishionerPrefixChanging(string value);
+    partial void OnParishionerPrefixChanged();
+    partial void OnParishionerCharacterNumberChanging(int value);
+    partial void OnParishionerCharacterNumberChanged();
+    partial void OnFamilyCodeGenerationChanging(int value);
+    partial void OnFamilyCodeGenerationChanged();
+    partial void OnFamilyPrefixChanging(string value);
+    partial void OnFamilyPrefixChanged();
+    partial void OnFamilyCharacterNumberChanging(int value);
+    partial void OnFamilyCharacterNumberChanged();
+    partial void OnBaptismTemplateChanging(string value);
+    partial void OnBaptismTemplateChanged();
+    partial void OnHolyCommunionTemplateChanging(string value);
+    partial void OnHolyCommunionTemplateChanged();
+    partial void OnConfirmationTemplateChanging(string value);
+    partial void OnConfirmationTemplateChanged();
+    partial void OnMatrimonyTemplateChanging(string value);
+    partial void OnMatrimonyTemplateChanged();
+    partial void OnSacramentTemplateChanging(string value);
+    partial void OnSacramentTemplateChanged();
+    #endregion
+		
+		public Configuration()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MultipleParishionerAdding", DbType="Int NOT NULL")]
+		public int MultipleParishionerAdding
+		{
+			get
+			{
+				return this._MultipleParishionerAdding;
+			}
+			set
+			{
+				if ((this._MultipleParishionerAdding != value))
+				{
+					this.OnMultipleParishionerAddingChanging(value);
+					this.SendPropertyChanging();
+					this._MultipleParishionerAdding = value;
+					this.SendPropertyChanged("MultipleParishionerAdding");
+					this.OnMultipleParishionerAddingChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishionerCodeGeneration", DbType="Int NOT NULL")]
+		public int ParishionerCodeGeneration
+		{
+			get
+			{
+				return this._ParishionerCodeGeneration;
+			}
+			set
+			{
+				if ((this._ParishionerCodeGeneration != value))
+				{
+					this.OnParishionerCodeGenerationChanging(value);
+					this.SendPropertyChanging();
+					this._ParishionerCodeGeneration = value;
+					this.SendPropertyChanged("ParishionerCodeGeneration");
+					this.OnParishionerCodeGenerationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishionerPrefix", DbType="NVarChar(50)")]
+		public string ParishionerPrefix
+		{
+			get
+			{
+				return this._ParishionerPrefix;
+			}
+			set
+			{
+				if ((this._ParishionerPrefix != value))
+				{
+					this.OnParishionerPrefixChanging(value);
+					this.SendPropertyChanging();
+					this._ParishionerPrefix = value;
+					this.SendPropertyChanged("ParishionerPrefix");
+					this.OnParishionerPrefixChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishionerCharacterNumber", DbType="Int NOT NULL")]
+		public int ParishionerCharacterNumber
+		{
+			get
+			{
+				return this._ParishionerCharacterNumber;
+			}
+			set
+			{
+				if ((this._ParishionerCharacterNumber != value))
+				{
+					this.OnParishionerCharacterNumberChanging(value);
+					this.SendPropertyChanging();
+					this._ParishionerCharacterNumber = value;
+					this.SendPropertyChanged("ParishionerCharacterNumber");
+					this.OnParishionerCharacterNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FamilyCodeGeneration", DbType="Int NOT NULL")]
+		public int FamilyCodeGeneration
+		{
+			get
+			{
+				return this._FamilyCodeGeneration;
+			}
+			set
+			{
+				if ((this._FamilyCodeGeneration != value))
+				{
+					this.OnFamilyCodeGenerationChanging(value);
+					this.SendPropertyChanging();
+					this._FamilyCodeGeneration = value;
+					this.SendPropertyChanged("FamilyCodeGeneration");
+					this.OnFamilyCodeGenerationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FamilyPrefix", DbType="NVarChar(50)")]
+		public string FamilyPrefix
+		{
+			get
+			{
+				return this._FamilyPrefix;
+			}
+			set
+			{
+				if ((this._FamilyPrefix != value))
+				{
+					this.OnFamilyPrefixChanging(value);
+					this.SendPropertyChanging();
+					this._FamilyPrefix = value;
+					this.SendPropertyChanged("FamilyPrefix");
+					this.OnFamilyPrefixChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FamilyCharacterNumber", DbType="Int NOT NULL")]
+		public int FamilyCharacterNumber
+		{
+			get
+			{
+				return this._FamilyCharacterNumber;
+			}
+			set
+			{
+				if ((this._FamilyCharacterNumber != value))
+				{
+					this.OnFamilyCharacterNumberChanging(value);
+					this.SendPropertyChanging();
+					this._FamilyCharacterNumber = value;
+					this.SendPropertyChanged("FamilyCharacterNumber");
+					this.OnFamilyCharacterNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BaptismTemplate", DbType="NVarChar(MAX)")]
+		public string BaptismTemplate
+		{
+			get
+			{
+				return this._BaptismTemplate;
+			}
+			set
+			{
+				if ((this._BaptismTemplate != value))
+				{
+					this.OnBaptismTemplateChanging(value);
+					this.SendPropertyChanging();
+					this._BaptismTemplate = value;
+					this.SendPropertyChanged("BaptismTemplate");
+					this.OnBaptismTemplateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HolyCommunionTemplate", DbType="NVarChar(MAX)")]
+		public string HolyCommunionTemplate
+		{
+			get
+			{
+				return this._HolyCommunionTemplate;
+			}
+			set
+			{
+				if ((this._HolyCommunionTemplate != value))
+				{
+					this.OnHolyCommunionTemplateChanging(value);
+					this.SendPropertyChanging();
+					this._HolyCommunionTemplate = value;
+					this.SendPropertyChanged("HolyCommunionTemplate");
+					this.OnHolyCommunionTemplateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ConfirmationTemplate", DbType="NVarChar(MAX)")]
+		public string ConfirmationTemplate
+		{
+			get
+			{
+				return this._ConfirmationTemplate;
+			}
+			set
+			{
+				if ((this._ConfirmationTemplate != value))
+				{
+					this.OnConfirmationTemplateChanging(value);
+					this.SendPropertyChanging();
+					this._ConfirmationTemplate = value;
+					this.SendPropertyChanged("ConfirmationTemplate");
+					this.OnConfirmationTemplateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MatrimonyTemplate", DbType="NVarChar(MAX)")]
+		public string MatrimonyTemplate
+		{
+			get
+			{
+				return this._MatrimonyTemplate;
+			}
+			set
+			{
+				if ((this._MatrimonyTemplate != value))
+				{
+					this.OnMatrimonyTemplateChanging(value);
+					this.SendPropertyChanging();
+					this._MatrimonyTemplate = value;
+					this.SendPropertyChanged("MatrimonyTemplate");
+					this.OnMatrimonyTemplateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SacramentTemplate", DbType="NVarChar(MAX)")]
+		public string SacramentTemplate
+		{
+			get
+			{
+				return this._SacramentTemplate;
+			}
+			set
+			{
+				if ((this._SacramentTemplate != value))
+				{
+					this.OnSacramentTemplateChanging(value);
+					this.SendPropertyChanging();
+					this._SacramentTemplate = value;
+					this.SendPropertyChanged("SacramentTemplate");
+					this.OnSacramentTemplateChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ConstructionPermit")]
+	public partial class ConstructionPermit : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _PermitType;
+		
+		private int _ParishId;
+		
+		private string _Description;
+		
+		private string _FilePath;
+		
+		private int _PermitStatus;
+		
+		private string _Note;
+		
+		private EntityRef<Parish> _Parish;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnPermitTypeChanging(int value);
+    partial void OnPermitTypeChanged();
+    partial void OnParishIdChanging(int value);
+    partial void OnParishIdChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnFilePathChanging(string value);
+    partial void OnFilePathChanged();
+    partial void OnPermitStatusChanging(int value);
+    partial void OnPermitStatusChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    #endregion
+		
+		public ConstructionPermit()
+		{
+			this._Parish = default(EntityRef<Parish>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PermitType", DbType="Int NOT NULL")]
+		public int PermitType
+		{
+			get
+			{
+				return this._PermitType;
+			}
+			set
+			{
+				if ((this._PermitType != value))
+				{
+					this.OnPermitTypeChanging(value);
+					this.SendPropertyChanging();
+					this._PermitType = value;
+					this.SendPropertyChanged("PermitType");
+					this.OnPermitTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int NOT NULL")]
+		public int ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					if (this._Parish.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(500)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FilePath", DbType="NVarChar(255)")]
+		public string FilePath
+		{
+			get
+			{
+				return this._FilePath;
+			}
+			set
+			{
+				if ((this._FilePath != value))
+				{
+					this.OnFilePathChanging(value);
+					this.SendPropertyChanging();
+					this._FilePath = value;
+					this.SendPropertyChanged("FilePath");
+					this.OnFilePathChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PermitStatus", DbType="Int NOT NULL")]
+		public int PermitStatus
+		{
+			get
+			{
+				return this._PermitStatus;
+			}
+			set
+			{
+				if ((this._PermitStatus != value))
+				{
+					this.OnPermitStatusChanging(value);
+					this.SendPropertyChanging();
+					this._PermitStatus = value;
+					this.SendPropertyChanged("PermitStatus");
+					this.OnPermitStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="Text", UpdateCheck=UpdateCheck.Never)]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_ConstructionPermit", Storage="_Parish", ThisKey="ParishId", OtherKey="Id", IsForeignKey=true)]
+		public Parish Parish
+		{
+			get
+			{
+				return this._Parish.Entity;
+			}
+			set
+			{
+				Parish previousValue = this._Parish.Entity;
+				if (((previousValue != value) 
+							|| (this._Parish.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parish.Entity = null;
+						previousValue.ConstructionPermits.Remove(this);
+					}
+					this._Parish.Entity = value;
+					if ((value != null))
+					{
+						value.ConstructionPermits.Add(this);
+						this._ParishId = value.Id;
+					}
+					else
+					{
+						this._ParishId = default(int);
+					}
+					this.SendPropertyChanged("Parish");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DeaconRequisitionComment")]
+	public partial class DeaconRequisitionComment : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Comment;
+		
+		private System.DateTime _CreatedAt;
+		
+		private System.Nullable<int> _PriestId;
+		
+		private System.Nullable<int> _ParishionerId;
+		
+		private System.Nullable<int> _ParishId;
+		
+		private int _VocationDeaconRequisitionId;
+		
+		private EntityRef<Parish> _Parish;
+		
+		private EntityRef<Parishioner> _Parishioner;
+		
+		private EntityRef<Priest> _Priest;
+		
+		private EntityRef<VocationDeaconRequisitionSession> _VocationDeaconRequisitionSession;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnCommentChanging(string value);
+    partial void OnCommentChanged();
+    partial void OnCreatedAtChanging(System.DateTime value);
+    partial void OnCreatedAtChanged();
+    partial void OnPriestIdChanging(System.Nullable<int> value);
+    partial void OnPriestIdChanged();
+    partial void OnParishionerIdChanging(System.Nullable<int> value);
+    partial void OnParishionerIdChanged();
+    partial void OnParishIdChanging(System.Nullable<int> value);
+    partial void OnParishIdChanged();
+    partial void OnVocationDeaconRequisitionIdChanging(int value);
+    partial void OnVocationDeaconRequisitionIdChanged();
+    #endregion
+		
+		public DeaconRequisitionComment()
+		{
+			this._Parish = default(EntityRef<Parish>);
+			this._Parishioner = default(EntityRef<Parishioner>);
+			this._Priest = default(EntityRef<Priest>);
+			this._VocationDeaconRequisitionSession = default(EntityRef<VocationDeaconRequisitionSession>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment", DbType="NText NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string Comment
+		{
+			get
+			{
+				return this._Comment;
+			}
+			set
+			{
+				if ((this._Comment != value))
+				{
+					this.OnCommentChanging(value);
+					this.SendPropertyChanging();
+					this._Comment = value;
+					this.SendPropertyChanged("Comment");
+					this.OnCommentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedAt", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedAt
+		{
+			get
+			{
+				return this._CreatedAt;
+			}
+			set
+			{
+				if ((this._CreatedAt != value))
+				{
+					this.OnCreatedAtChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedAt = value;
+					this.SendPropertyChanged("CreatedAt");
+					this.OnCreatedAtChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PriestId", DbType="Int")]
+		public System.Nullable<int> PriestId
+		{
+			get
+			{
+				return this._PriestId;
+			}
+			set
+			{
+				if ((this._PriestId != value))
+				{
+					if (this._Priest.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPriestIdChanging(value);
+					this.SendPropertyChanging();
+					this._PriestId = value;
+					this.SendPropertyChanged("PriestId");
+					this.OnPriestIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishionerId", DbType="Int")]
+		public System.Nullable<int> ParishionerId
+		{
+			get
+			{
+				return this._ParishionerId;
+			}
+			set
+			{
+				if ((this._ParishionerId != value))
+				{
+					if (this._Parishioner.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishionerIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishionerId = value;
+					this.SendPropertyChanged("ParishionerId");
+					this.OnParishionerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int")]
+		public System.Nullable<int> ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					if (this._Parish.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VocationDeaconRequisitionId", DbType="Int NOT NULL")]
+		public int VocationDeaconRequisitionId
+		{
+			get
+			{
+				return this._VocationDeaconRequisitionId;
+			}
+			set
+			{
+				if ((this._VocationDeaconRequisitionId != value))
+				{
+					if (this._VocationDeaconRequisitionSession.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnVocationDeaconRequisitionIdChanging(value);
+					this.SendPropertyChanging();
+					this._VocationDeaconRequisitionId = value;
+					this.SendPropertyChanged("VocationDeaconRequisitionId");
+					this.OnVocationDeaconRequisitionIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_DeaconRequisitionComment", Storage="_Parish", ThisKey="ParishId", OtherKey="Id", IsForeignKey=true)]
+		public Parish Parish
+		{
+			get
+			{
+				return this._Parish.Entity;
+			}
+			set
+			{
+				Parish previousValue = this._Parish.Entity;
+				if (((previousValue != value) 
+							|| (this._Parish.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parish.Entity = null;
+						previousValue.DeaconRequisitionComments.Remove(this);
+					}
+					this._Parish.Entity = value;
+					if ((value != null))
+					{
+						value.DeaconRequisitionComments.Add(this);
+						this._ParishId = value.Id;
+					}
+					else
+					{
+						this._ParishId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Parish");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_DeaconRequisitionComment", Storage="_Parishioner", ThisKey="ParishionerId", OtherKey="Id", IsForeignKey=true)]
+		public Parishioner Parishioner
+		{
+			get
+			{
+				return this._Parishioner.Entity;
+			}
+			set
+			{
+				Parishioner previousValue = this._Parishioner.Entity;
+				if (((previousValue != value) 
+							|| (this._Parishioner.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parishioner.Entity = null;
+						previousValue.DeaconRequisitionComments.Remove(this);
+					}
+					this._Parishioner.Entity = value;
+					if ((value != null))
+					{
+						value.DeaconRequisitionComments.Add(this);
+						this._ParishionerId = value.Id;
+					}
+					else
+					{
+						this._ParishionerId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Parishioner");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Priest_DeaconRequisitionComment", Storage="_Priest", ThisKey="PriestId", OtherKey="Id", IsForeignKey=true)]
+		public Priest Priest
+		{
+			get
+			{
+				return this._Priest.Entity;
+			}
+			set
+			{
+				Priest previousValue = this._Priest.Entity;
+				if (((previousValue != value) 
+							|| (this._Priest.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Priest.Entity = null;
+						previousValue.DeaconRequisitionComments.Remove(this);
+					}
+					this._Priest.Entity = value;
+					if ((value != null))
+					{
+						value.DeaconRequisitionComments.Add(this);
+						this._PriestId = value.Id;
+					}
+					else
+					{
+						this._PriestId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Priest");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="VocationDeaconRequisitionSession_DeaconRequisitionComment", Storage="_VocationDeaconRequisitionSession", ThisKey="VocationDeaconRequisitionId", OtherKey="Id", IsForeignKey=true)]
+		public VocationDeaconRequisitionSession VocationDeaconRequisitionSession
+		{
+			get
+			{
+				return this._VocationDeaconRequisitionSession.Entity;
+			}
+			set
+			{
+				VocationDeaconRequisitionSession previousValue = this._VocationDeaconRequisitionSession.Entity;
+				if (((previousValue != value) 
+							|| (this._VocationDeaconRequisitionSession.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._VocationDeaconRequisitionSession.Entity = null;
+						previousValue.DeaconRequisitionComments.Remove(this);
+					}
+					this._VocationDeaconRequisitionSession.Entity = value;
+					if ((value != null))
+					{
+						value.DeaconRequisitionComments.Add(this);
+						this._VocationDeaconRequisitionId = value.Id;
+					}
+					else
+					{
+						this._VocationDeaconRequisitionId = default(int);
+					}
+					this.SendPropertyChanged("VocationDeaconRequisitionSession");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DeaconRequisitionSession")]
+	public partial class DeaconRequisitionSession : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _SessionName;
+		
+		private string _SessionCode;
+		
+		private System.DateTime _Year;
+		
+		private System.DateTime _DeadlineForPriest;
+		
+		private System.Nullable<System.DateTime> _DeadlineForParish;
+		
+		private int _Status;
+		
+		private System.DateTime _CreatedAt;
+		
+		private string _DeaconOrdinationMassParish;
+		
+		private System.Nullable<System.DateTime> _DeaconOrdinationMassTime;
+		
+		private EntitySet<VocationDeaconRequisitionSession> _VocationDeaconRequisitionSessions;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnSessionNameChanging(string value);
+    partial void OnSessionNameChanged();
+    partial void OnSessionCodeChanging(string value);
+    partial void OnSessionCodeChanged();
+    partial void OnYearChanging(System.DateTime value);
+    partial void OnYearChanged();
+    partial void OnDeadlineForPriestChanging(System.DateTime value);
+    partial void OnDeadlineForPriestChanged();
+    partial void OnDeadlineForParishChanging(System.Nullable<System.DateTime> value);
+    partial void OnDeadlineForParishChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    partial void OnCreatedAtChanging(System.DateTime value);
+    partial void OnCreatedAtChanged();
+    partial void OnDeaconOrdinationMassParishChanging(string value);
+    partial void OnDeaconOrdinationMassParishChanged();
+    partial void OnDeaconOrdinationMassTimeChanging(System.Nullable<System.DateTime> value);
+    partial void OnDeaconOrdinationMassTimeChanged();
+    #endregion
+		
+		public DeaconRequisitionSession()
+		{
+			this._VocationDeaconRequisitionSessions = new EntitySet<VocationDeaconRequisitionSession>(new Action<VocationDeaconRequisitionSession>(this.attach_VocationDeaconRequisitionSessions), new Action<VocationDeaconRequisitionSession>(this.detach_VocationDeaconRequisitionSessions));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionName", DbType="NVarChar(15) NOT NULL", CanBeNull=false)]
+		public string SessionName
+		{
+			get
+			{
+				return this._SessionName;
+			}
+			set
+			{
+				if ((this._SessionName != value))
+				{
+					this.OnSessionNameChanging(value);
+					this.SendPropertyChanging();
+					this._SessionName = value;
+					this.SendPropertyChanged("SessionName");
+					this.OnSessionNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SessionCode", DbType="NVarChar(15) NOT NULL", CanBeNull=false)]
+		public string SessionCode
+		{
+			get
+			{
+				return this._SessionCode;
+			}
+			set
+			{
+				if ((this._SessionCode != value))
+				{
+					this.OnSessionCodeChanging(value);
+					this.SendPropertyChanging();
+					this._SessionCode = value;
+					this.SendPropertyChanged("SessionCode");
+					this.OnSessionCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Year", DbType="DateTime NOT NULL")]
+		public System.DateTime Year
+		{
+			get
+			{
+				return this._Year;
+			}
+			set
+			{
+				if ((this._Year != value))
+				{
+					this.OnYearChanging(value);
+					this.SendPropertyChanging();
+					this._Year = value;
+					this.SendPropertyChanged("Year");
+					this.OnYearChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeadlineForPriest", DbType="DateTime NOT NULL")]
+		public System.DateTime DeadlineForPriest
+		{
+			get
+			{
+				return this._DeadlineForPriest;
+			}
+			set
+			{
+				if ((this._DeadlineForPriest != value))
+				{
+					this.OnDeadlineForPriestChanging(value);
+					this.SendPropertyChanging();
+					this._DeadlineForPriest = value;
+					this.SendPropertyChanged("DeadlineForPriest");
+					this.OnDeadlineForPriestChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeadlineForParish", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DeadlineForParish
+		{
+			get
+			{
+				return this._DeadlineForParish;
+			}
+			set
+			{
+				if ((this._DeadlineForParish != value))
+				{
+					this.OnDeadlineForParishChanging(value);
+					this.SendPropertyChanging();
+					this._DeadlineForParish = value;
+					this.SendPropertyChanged("DeadlineForParish");
+					this.OnDeadlineForParishChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedAt", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedAt
+		{
+			get
+			{
+				return this._CreatedAt;
+			}
+			set
+			{
+				if ((this._CreatedAt != value))
+				{
+					this.OnCreatedAtChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedAt = value;
+					this.SendPropertyChanged("CreatedAt");
+					this.OnCreatedAtChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeaconOrdinationMassParish", DbType="NVarChar(255)")]
+		public string DeaconOrdinationMassParish
+		{
+			get
+			{
+				return this._DeaconOrdinationMassParish;
+			}
+			set
+			{
+				if ((this._DeaconOrdinationMassParish != value))
+				{
+					this.OnDeaconOrdinationMassParishChanging(value);
+					this.SendPropertyChanging();
+					this._DeaconOrdinationMassParish = value;
+					this.SendPropertyChanged("DeaconOrdinationMassParish");
+					this.OnDeaconOrdinationMassParishChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeaconOrdinationMassTime", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DeaconOrdinationMassTime
+		{
+			get
+			{
+				return this._DeaconOrdinationMassTime;
+			}
+			set
+			{
+				if ((this._DeaconOrdinationMassTime != value))
+				{
+					this.OnDeaconOrdinationMassTimeChanging(value);
+					this.SendPropertyChanging();
+					this._DeaconOrdinationMassTime = value;
+					this.SendPropertyChanged("DeaconOrdinationMassTime");
+					this.OnDeaconOrdinationMassTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeaconRequisitionSession_VocationDeaconRequisitionSession", Storage="_VocationDeaconRequisitionSessions", ThisKey="Id", OtherKey="DeaconRequisitionSessionId")]
+		public EntitySet<VocationDeaconRequisitionSession> VocationDeaconRequisitionSessions
+		{
+			get
+			{
+				return this._VocationDeaconRequisitionSessions;
+			}
+			set
+			{
+				this._VocationDeaconRequisitionSessions.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_VocationDeaconRequisitionSessions(VocationDeaconRequisitionSession entity)
+		{
+			this.SendPropertyChanging();
+			entity.DeaconRequisitionSession = this;
+		}
+		
+		private void detach_VocationDeaconRequisitionSessions(VocationDeaconRequisitionSession entity)
+		{
+			this.SendPropertyChanging();
+			entity.DeaconRequisitionSession = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Diocese")]
+	public partial class Diocese : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _ImageUrl;
+		
+		private string _Name;
+		
+		private string _Address;
+		
+		private string _Website;
+		
+		private string _Phone;
+		
+		private string _Email;
+		
+		private string _Bishop;
+		
+		private string _Church;
+		
+		private EntitySet<Account> _Accounts;
+		
+		private EntitySet<Priest> _Priests;
+		
+		private EntitySet<Vicariate> _Vicariates;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnImageUrlChanging(string value);
+    partial void OnImageUrlChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnAddressChanging(string value);
+    partial void OnAddressChanged();
+    partial void OnWebsiteChanging(string value);
+    partial void OnWebsiteChanged();
+    partial void OnPhoneChanging(string value);
+    partial void OnPhoneChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnBishopChanging(string value);
+    partial void OnBishopChanged();
+    partial void OnChurchChanging(string value);
+    partial void OnChurchChanged();
+    #endregion
+		
+		public Diocese()
+		{
+			this._Accounts = new EntitySet<Account>(new Action<Account>(this.attach_Accounts), new Action<Account>(this.detach_Accounts));
+			this._Priests = new EntitySet<Priest>(new Action<Priest>(this.attach_Priests), new Action<Priest>(this.detach_Priests));
+			this._Vicariates = new EntitySet<Vicariate>(new Action<Vicariate>(this.attach_Vicariates), new Action<Vicariate>(this.detach_Vicariates));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ImageUrl", DbType="NVarChar(200) NOT NULL", CanBeNull=false)]
+		public string ImageUrl
+		{
+			get
+			{
+				return this._ImageUrl;
+			}
+			set
+			{
+				if ((this._ImageUrl != value))
+				{
+					this.OnImageUrlChanging(value);
+					this.SendPropertyChanging();
+					this._ImageUrl = value;
+					this.SendPropertyChanged("ImageUrl");
+					this.OnImageUrlChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(100)")]
+		public string Address
+		{
+			get
+			{
+				return this._Address;
+			}
+			set
+			{
+				if ((this._Address != value))
+				{
+					this.OnAddressChanging(value);
+					this.SendPropertyChanging();
+					this._Address = value;
+					this.SendPropertyChanged("Address");
+					this.OnAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Website", DbType="NVarChar(100)")]
+		public string Website
+		{
+			get
+			{
+				return this._Website;
+			}
+			set
+			{
+				if ((this._Website != value))
+				{
+					this.OnWebsiteChanging(value);
+					this.SendPropertyChanging();
+					this._Website = value;
+					this.SendPropertyChanged("Website");
+					this.OnWebsiteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="NVarChar(20)")]
+		public string Phone
+		{
+			get
+			{
+				return this._Phone;
+			}
+			set
+			{
+				if ((this._Phone != value))
+				{
+					this.OnPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._Phone = value;
+					this.SendPropertyChanged("Phone");
+					this.OnPhoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(100)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Bishop", DbType="NVarChar(100)")]
+		public string Bishop
+		{
+			get
+			{
+				return this._Bishop;
+			}
+			set
+			{
+				if ((this._Bishop != value))
+				{
+					this.OnBishopChanging(value);
+					this.SendPropertyChanging();
+					this._Bishop = value;
+					this.SendPropertyChanged("Bishop");
+					this.OnBishopChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Church", DbType="NVarChar(100)")]
+		public string Church
+		{
+			get
+			{
+				return this._Church;
+			}
+			set
+			{
+				if ((this._Church != value))
+				{
+					this.OnChurchChanging(value);
+					this.SendPropertyChanging();
+					this._Church = value;
+					this.SendPropertyChanged("Church");
+					this.OnChurchChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Diocese_Account", Storage="_Accounts", ThisKey="Id", OtherKey="DioceseId")]
+		public EntitySet<Account> Accounts
+		{
+			get
+			{
+				return this._Accounts;
+			}
+			set
+			{
+				this._Accounts.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Diocese_Priest", Storage="_Priests", ThisKey="Id", OtherKey="DioceseId")]
+		public EntitySet<Priest> Priests
+		{
+			get
+			{
+				return this._Priests;
+			}
+			set
+			{
+				this._Priests.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Diocese_Vicariate", Storage="_Vicariates", ThisKey="Id", OtherKey="DioceseId")]
+		public EntitySet<Vicariate> Vicariates
+		{
+			get
+			{
+				return this._Vicariates;
+			}
+			set
+			{
+				this._Vicariates.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Accounts(Account entity)
+		{
+			this.SendPropertyChanging();
+			entity.Diocese = this;
+		}
+		
+		private void detach_Accounts(Account entity)
+		{
+			this.SendPropertyChanging();
+			entity.Diocese = null;
+		}
+		
+		private void attach_Priests(Priest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Diocese = this;
+		}
+		
+		private void detach_Priests(Priest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Diocese = null;
+		}
+		
+		private void attach_Vicariates(Vicariate entity)
+		{
+			this.SendPropertyChanging();
+			entity.Diocese = this;
+		}
+		
+		private void detach_Vicariates(Vicariate entity)
+		{
+			this.SendPropertyChanging();
+			entity.Diocese = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Donation")]
+	public partial class Donation : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _ParishionerID;
+		
+		private string _DonationLevel;
+		
+		private System.Nullable<int> _CertificateID;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnParishionerIDChanging(int value);
+    partial void OnParishionerIDChanged();
+    partial void OnDonationLevelChanging(string value);
+    partial void OnDonationLevelChanged();
+    partial void OnCertificateIDChanging(System.Nullable<int> value);
+    partial void OnCertificateIDChanged();
+    #endregion
+		
+		public Donation()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishionerID", DbType="Int NOT NULL")]
+		public int ParishionerID
+		{
+			get
+			{
+				return this._ParishionerID;
+			}
+			set
+			{
+				if ((this._ParishionerID != value))
+				{
+					this.OnParishionerIDChanging(value);
+					this.SendPropertyChanging();
+					this._ParishionerID = value;
+					this.SendPropertyChanged("ParishionerID");
+					this.OnParishionerIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DonationLevel", DbType="NVarChar(50)")]
+		public string DonationLevel
+		{
+			get
+			{
+				return this._DonationLevel;
+			}
+			set
+			{
+				if ((this._DonationLevel != value))
+				{
+					this.OnDonationLevelChanging(value);
+					this.SendPropertyChanging();
+					this._DonationLevel = value;
+					this.SendPropertyChanged("DonationLevel");
+					this.OnDonationLevelChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CertificateID", DbType="Int")]
+		public System.Nullable<int> CertificateID
+		{
+			get
+			{
+				return this._CertificateID;
+			}
+			set
+			{
+				if ((this._CertificateID != value))
+				{
+					this.OnCertificateIDChanging(value);
+					this.SendPropertyChanging();
+					this._CertificateID = value;
+					this.SendPropertyChanged("CertificateID");
+					this.OnCertificateIDChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DonationRank")]
+	public partial class DonationRank : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private double _Value;
+		
+		private int _Level;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnValueChanging(double value);
+    partial void OnValueChanged();
+    partial void OnLevelChanging(int value);
+    partial void OnLevelChanged();
+    #endregion
+		
+		public DonationRank()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Value", DbType="Float NOT NULL")]
+		public double Value
+		{
+			get
+			{
+				return this._Value;
+			}
+			set
+			{
+				if ((this._Value != value))
+				{
+					this.OnValueChanging(value);
+					this.SendPropertyChanging();
+					this._Value = value;
+					this.SendPropertyChanged("Value");
+					this.OnValueChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Level]", Storage="_Level", DbType="Int NOT NULL")]
+		public int Level
+		{
+			get
+			{
+				return this._Level;
+			}
+			set
+			{
+				if ((this._Level != value))
+				{
+					this.OnLevelChanging(value);
+					this.SendPropertyChanging();
+					this._Level = value;
+					this.SendPropertyChanged("Level");
+					this.OnLevelChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DonationSession")]
+	public partial class DonationSession : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _DonationDate;
+		
+		private string _ReceiptID;
+		
+		private string _Note;
+		
+		private int _DonationID;
+		
+		private string _Currency;
+		
+		private double _InputValue;
+		
+		private double _FinalValue;
+		
+		private double _ExchangeRate;
+		
+		private string _ReceiptDate;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnDonationDateChanging(string value);
+    partial void OnDonationDateChanged();
+    partial void OnReceiptIDChanging(string value);
+    partial void OnReceiptIDChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    partial void OnDonationIDChanging(int value);
+    partial void OnDonationIDChanged();
+    partial void OnCurrencyChanging(string value);
+    partial void OnCurrencyChanged();
+    partial void OnInputValueChanging(double value);
+    partial void OnInputValueChanged();
+    partial void OnFinalValueChanging(double value);
+    partial void OnFinalValueChanged();
+    partial void OnExchangeRateChanging(double value);
+    partial void OnExchangeRateChanged();
+    partial void OnReceiptDateChanging(string value);
+    partial void OnReceiptDateChanged();
+    #endregion
+		
+		public DonationSession()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DonationDate", DbType="Char(8) NOT NULL", CanBeNull=false)]
+		public string DonationDate
+		{
+			get
+			{
+				return this._DonationDate;
+			}
+			set
+			{
+				if ((this._DonationDate != value))
+				{
+					this.OnDonationDateChanging(value);
+					this.SendPropertyChanging();
+					this._DonationDate = value;
+					this.SendPropertyChanged("DonationDate");
+					this.OnDonationDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReceiptID", DbType="NChar(10)")]
+		public string ReceiptID
+		{
+			get
+			{
+				return this._ReceiptID;
+			}
+			set
+			{
+				if ((this._ReceiptID != value))
+				{
+					this.OnReceiptIDChanging(value);
+					this.SendPropertyChanging();
+					this._ReceiptID = value;
+					this.SendPropertyChanged("ReceiptID");
+					this.OnReceiptIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DonationID", DbType="Int NOT NULL")]
+		public int DonationID
+		{
+			get
+			{
+				return this._DonationID;
+			}
+			set
+			{
+				if ((this._DonationID != value))
+				{
+					this.OnDonationIDChanging(value);
+					this.SendPropertyChanging();
+					this._DonationID = value;
+					this.SendPropertyChanged("DonationID");
+					this.OnDonationIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Currency", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string Currency
+		{
+			get
+			{
+				return this._Currency;
+			}
+			set
+			{
+				if ((this._Currency != value))
+				{
+					this.OnCurrencyChanging(value);
+					this.SendPropertyChanging();
+					this._Currency = value;
+					this.SendPropertyChanged("Currency");
+					this.OnCurrencyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_InputValue", DbType="Float NOT NULL")]
+		public double InputValue
+		{
+			get
+			{
+				return this._InputValue;
+			}
+			set
+			{
+				if ((this._InputValue != value))
+				{
+					this.OnInputValueChanging(value);
+					this.SendPropertyChanging();
+					this._InputValue = value;
+					this.SendPropertyChanged("InputValue");
+					this.OnInputValueChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FinalValue", DbType="Float NOT NULL")]
+		public double FinalValue
+		{
+			get
+			{
+				return this._FinalValue;
+			}
+			set
+			{
+				if ((this._FinalValue != value))
+				{
+					this.OnFinalValueChanging(value);
+					this.SendPropertyChanging();
+					this._FinalValue = value;
+					this.SendPropertyChanged("FinalValue");
+					this.OnFinalValueChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ExchangeRate", DbType="Float NOT NULL")]
+		public double ExchangeRate
+		{
+			get
+			{
+				return this._ExchangeRate;
+			}
+			set
+			{
+				if ((this._ExchangeRate != value))
+				{
+					this.OnExchangeRateChanging(value);
+					this.SendPropertyChanging();
+					this._ExchangeRate = value;
+					this.SendPropertyChanged("ExchangeRate");
+					this.OnExchangeRateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReceiptDate", DbType="Char(8)")]
+		public string ReceiptDate
+		{
+			get
+			{
+				return this._ReceiptDate;
+			}
+			set
+			{
+				if ((this._ReceiptDate != value))
+				{
+					this.OnReceiptDateChanging(value);
+					this.SendPropertyChanging();
+					this._ReceiptDate = value;
+					this.SendPropertyChanged("ReceiptDate");
+					this.OnReceiptDateChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Family")]
+	public partial class Family : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Code;
+		
+		private string _Name;
+		
+		private string _Phone;
+		
+		private string _Address;
+		
+		private string _Note;
+		
+		private int _DomicileStatus;
+		
+		private string _DomicilePlace;
+		
+		private bool _IsCounted;
+		
+		private int _Status;
+		
+		private int _CommunityId;
+		
+		private EntitySet<FamilyMember> _FamilyMembers;
+		
+		private EntitySet<FamilyMigrationRequest> _FamilyMigrationRequests;
+		
+		private EntityRef<Community> _Community;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnCodeChanging(string value);
+    partial void OnCodeChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnPhoneChanging(string value);
+    partial void OnPhoneChanged();
+    partial void OnAddressChanging(string value);
+    partial void OnAddressChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    partial void OnDomicileStatusChanging(int value);
+    partial void OnDomicileStatusChanged();
+    partial void OnDomicilePlaceChanging(string value);
+    partial void OnDomicilePlaceChanged();
+    partial void OnIsCountedChanging(bool value);
+    partial void OnIsCountedChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    partial void OnCommunityIdChanging(int value);
+    partial void OnCommunityIdChanged();
+    #endregion
+		
+		public Family()
+		{
+			this._FamilyMembers = new EntitySet<FamilyMember>(new Action<FamilyMember>(this.attach_FamilyMembers), new Action<FamilyMember>(this.detach_FamilyMembers));
+			this._FamilyMigrationRequests = new EntitySet<FamilyMigrationRequest>(new Action<FamilyMigrationRequest>(this.attach_FamilyMigrationRequests), new Action<FamilyMigrationRequest>(this.detach_FamilyMigrationRequests));
+			this._Community = default(EntityRef<Community>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Code
+		{
+			get
+			{
+				return this._Code;
+			}
+			set
+			{
+				if ((this._Code != value))
+				{
+					this.OnCodeChanging(value);
+					this.SendPropertyChanging();
+					this._Code = value;
+					this.SendPropertyChanged("Code");
+					this.OnCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="VarChar(20)")]
+		public string Phone
+		{
+			get
+			{
+				return this._Phone;
+			}
+			set
+			{
+				if ((this._Phone != value))
+				{
+					this.OnPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._Phone = value;
+					this.SendPropertyChanged("Phone");
+					this.OnPhoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(100)")]
+		public string Address
+		{
+			get
+			{
+				return this._Address;
+			}
+			set
+			{
+				if ((this._Address != value))
+				{
+					this.OnAddressChanging(value);
+					this.SendPropertyChanging();
+					this._Address = value;
+					this.SendPropertyChanged("Address");
+					this.OnAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NVarChar(200)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DomicileStatus", DbType="Int NOT NULL")]
+		public int DomicileStatus
+		{
+			get
+			{
+				return this._DomicileStatus;
+			}
+			set
+			{
+				if ((this._DomicileStatus != value))
+				{
+					this.OnDomicileStatusChanging(value);
+					this.SendPropertyChanging();
+					this._DomicileStatus = value;
+					this.SendPropertyChanged("DomicileStatus");
+					this.OnDomicileStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DomicilePlace", DbType="NVarChar(100)")]
+		public string DomicilePlace
+		{
+			get
+			{
+				return this._DomicilePlace;
+			}
+			set
+			{
+				if ((this._DomicilePlace != value))
+				{
+					this.OnDomicilePlaceChanging(value);
+					this.SendPropertyChanging();
+					this._DomicilePlace = value;
+					this.SendPropertyChanged("DomicilePlace");
+					this.OnDomicilePlaceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsCounted", DbType="Bit NOT NULL")]
+		public bool IsCounted
+		{
+			get
+			{
+				return this._IsCounted;
+			}
+			set
+			{
+				if ((this._IsCounted != value))
+				{
+					this.OnIsCountedChanging(value);
+					this.SendPropertyChanging();
+					this._IsCounted = value;
+					this.SendPropertyChanged("IsCounted");
+					this.OnIsCountedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityId", DbType="Int NOT NULL")]
+		public int CommunityId
+		{
+			get
+			{
+				return this._CommunityId;
+			}
+			set
+			{
+				if ((this._CommunityId != value))
+				{
+					if (this._Community.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCommunityIdChanging(value);
+					this.SendPropertyChanging();
+					this._CommunityId = value;
+					this.SendPropertyChanged("CommunityId");
+					this.OnCommunityIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Family_FamilyMember", Storage="_FamilyMembers", ThisKey="Id", OtherKey="FamilyId")]
+		public EntitySet<FamilyMember> FamilyMembers
+		{
+			get
+			{
+				return this._FamilyMembers;
+			}
+			set
+			{
+				this._FamilyMembers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Family_FamilyMigrationRequest", Storage="_FamilyMigrationRequests", ThisKey="Id", OtherKey="FamilyId")]
+		public EntitySet<FamilyMigrationRequest> FamilyMigrationRequests
+		{
+			get
+			{
+				return this._FamilyMigrationRequests;
+			}
+			set
+			{
+				this._FamilyMigrationRequests.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Community_Family", Storage="_Community", ThisKey="CommunityId", OtherKey="Id", IsForeignKey=true)]
+		public Community Community
+		{
+			get
+			{
+				return this._Community.Entity;
+			}
+			set
+			{
+				Community previousValue = this._Community.Entity;
+				if (((previousValue != value) 
+							|| (this._Community.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Community.Entity = null;
+						previousValue.Families.Remove(this);
+					}
+					this._Community.Entity = value;
+					if ((value != null))
+					{
+						value.Families.Add(this);
+						this._CommunityId = value.Id;
+					}
+					else
+					{
+						this._CommunityId = default(int);
+					}
+					this.SendPropertyChanged("Community");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_FamilyMembers(FamilyMember entity)
+		{
+			this.SendPropertyChanging();
+			entity.Family = this;
+		}
+		
+		private void detach_FamilyMembers(FamilyMember entity)
+		{
+			this.SendPropertyChanging();
+			entity.Family = null;
+		}
+		
+		private void attach_FamilyMigrationRequests(FamilyMigrationRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Family = this;
+		}
+		
+		private void detach_FamilyMigrationRequests(FamilyMigrationRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Family = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FamilyMember")]
+	public partial class FamilyMember : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _FamilyId;
+		
+		private int _ParishionerId;
+		
+		private int _Position;
+		
+		private int _Status;
+		
+		private bool _IsHouseholder;
+		
+		private EntityRef<Family> _Family;
+		
+		private EntityRef<Parishioner> _Parishioner;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnFamilyIdChanging(int value);
+    partial void OnFamilyIdChanged();
+    partial void OnParishionerIdChanging(int value);
+    partial void OnParishionerIdChanged();
+    partial void OnPositionChanging(int value);
+    partial void OnPositionChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    partial void OnIsHouseholderChanging(bool value);
+    partial void OnIsHouseholderChanged();
+    #endregion
+		
+		public FamilyMember()
+		{
+			this._Family = default(EntityRef<Family>);
+			this._Parishioner = default(EntityRef<Parishioner>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FamilyId", DbType="Int NOT NULL")]
+		public int FamilyId
+		{
+			get
+			{
+				return this._FamilyId;
+			}
+			set
+			{
+				if ((this._FamilyId != value))
+				{
+					if (this._Family.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnFamilyIdChanging(value);
+					this.SendPropertyChanging();
+					this._FamilyId = value;
+					this.SendPropertyChanged("FamilyId");
+					this.OnFamilyIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishionerId", DbType="Int NOT NULL")]
+		public int ParishionerId
+		{
+			get
+			{
+				return this._ParishionerId;
+			}
+			set
+			{
+				if ((this._ParishionerId != value))
+				{
+					if (this._Parishioner.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishionerIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishionerId = value;
+					this.SendPropertyChanged("ParishionerId");
+					this.OnParishionerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Position", DbType="Int NOT NULL")]
+		public int Position
+		{
+			get
+			{
+				return this._Position;
+			}
+			set
+			{
+				if ((this._Position != value))
+				{
+					this.OnPositionChanging(value);
+					this.SendPropertyChanging();
+					this._Position = value;
+					this.SendPropertyChanged("Position");
+					this.OnPositionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsHouseholder", DbType="Bit NOT NULL")]
+		public bool IsHouseholder
+		{
+			get
+			{
+				return this._IsHouseholder;
+			}
+			set
+			{
+				if ((this._IsHouseholder != value))
+				{
+					this.OnIsHouseholderChanging(value);
+					this.SendPropertyChanging();
+					this._IsHouseholder = value;
+					this.SendPropertyChanged("IsHouseholder");
+					this.OnIsHouseholderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Family_FamilyMember", Storage="_Family", ThisKey="FamilyId", OtherKey="Id", IsForeignKey=true)]
+		public Family Family
+		{
+			get
+			{
+				return this._Family.Entity;
+			}
+			set
+			{
+				Family previousValue = this._Family.Entity;
+				if (((previousValue != value) 
+							|| (this._Family.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Family.Entity = null;
+						previousValue.FamilyMembers.Remove(this);
+					}
+					this._Family.Entity = value;
+					if ((value != null))
+					{
+						value.FamilyMembers.Add(this);
+						this._FamilyId = value.Id;
+					}
+					else
+					{
+						this._FamilyId = default(int);
+					}
+					this.SendPropertyChanged("Family");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_FamilyMember", Storage="_Parishioner", ThisKey="ParishionerId", OtherKey="Id", IsForeignKey=true)]
+		public Parishioner Parishioner
+		{
+			get
+			{
+				return this._Parishioner.Entity;
+			}
+			set
+			{
+				Parishioner previousValue = this._Parishioner.Entity;
+				if (((previousValue != value) 
+							|| (this._Parishioner.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parishioner.Entity = null;
+						previousValue.FamilyMembers.Remove(this);
+					}
+					this._Parishioner.Entity = value;
+					if ((value != null))
+					{
+						value.FamilyMembers.Add(this);
+						this._ParishionerId = value.Id;
+					}
+					else
+					{
+						this._ParishionerId = default(int);
+					}
+					this.SendPropertyChanged("Parishioner");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FamilyMigrationRequest")]
+	public partial class FamilyMigrationRequest : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _FamilyId;
+		
+		private System.Nullable<int> _ToParishId;
+		
+		private System.DateTime _CreatedDate;
+		
+		private int _FromCommunityId;
+		
+		private int _Status;
+		
+		private EntityRef<Community> _Community;
+		
+		private EntityRef<Family> _Family;
+		
+		private EntityRef<Parish> _Parish;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnFamilyIdChanging(int value);
+    partial void OnFamilyIdChanged();
+    partial void OnToParishIdChanging(System.Nullable<int> value);
+    partial void OnToParishIdChanged();
+    partial void OnCreatedDateChanging(System.DateTime value);
+    partial void OnCreatedDateChanged();
+    partial void OnFromCommunityIdChanging(int value);
+    partial void OnFromCommunityIdChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    #endregion
+		
+		public FamilyMigrationRequest()
+		{
+			this._Community = default(EntityRef<Community>);
+			this._Family = default(EntityRef<Family>);
+			this._Parish = default(EntityRef<Parish>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FamilyId", DbType="Int NOT NULL")]
+		public int FamilyId
+		{
+			get
+			{
+				return this._FamilyId;
+			}
+			set
+			{
+				if ((this._FamilyId != value))
+				{
+					if (this._Family.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnFamilyIdChanging(value);
+					this.SendPropertyChanging();
+					this._FamilyId = value;
+					this.SendPropertyChanged("FamilyId");
+					this.OnFamilyIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ToParishId", DbType="Int")]
+		public System.Nullable<int> ToParishId
+		{
+			get
+			{
+				return this._ToParishId;
+			}
+			set
+			{
+				if ((this._ToParishId != value))
+				{
+					if (this._Parish.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnToParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ToParishId = value;
+					this.SendPropertyChanged("ToParishId");
+					this.OnToParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedDate
+		{
+			get
+			{
+				return this._CreatedDate;
+			}
+			set
+			{
+				if ((this._CreatedDate != value))
+				{
+					this.OnCreatedDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedDate = value;
+					this.SendPropertyChanged("CreatedDate");
+					this.OnCreatedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FromCommunityId", DbType="Int NOT NULL")]
+		public int FromCommunityId
+		{
+			get
+			{
+				return this._FromCommunityId;
+			}
+			set
+			{
+				if ((this._FromCommunityId != value))
+				{
+					if (this._Community.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnFromCommunityIdChanging(value);
+					this.SendPropertyChanging();
+					this._FromCommunityId = value;
+					this.SendPropertyChanged("FromCommunityId");
+					this.OnFromCommunityIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Community_FamilyMigrationRequest", Storage="_Community", ThisKey="FromCommunityId", OtherKey="Id", IsForeignKey=true)]
+		public Community Community
+		{
+			get
+			{
+				return this._Community.Entity;
+			}
+			set
+			{
+				Community previousValue = this._Community.Entity;
+				if (((previousValue != value) 
+							|| (this._Community.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Community.Entity = null;
+						previousValue.FamilyMigrationRequests.Remove(this);
+					}
+					this._Community.Entity = value;
+					if ((value != null))
+					{
+						value.FamilyMigrationRequests.Add(this);
+						this._FromCommunityId = value.Id;
+					}
+					else
+					{
+						this._FromCommunityId = default(int);
+					}
+					this.SendPropertyChanged("Community");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Family_FamilyMigrationRequest", Storage="_Family", ThisKey="FamilyId", OtherKey="Id", IsForeignKey=true)]
+		public Family Family
+		{
+			get
+			{
+				return this._Family.Entity;
+			}
+			set
+			{
+				Family previousValue = this._Family.Entity;
+				if (((previousValue != value) 
+							|| (this._Family.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Family.Entity = null;
+						previousValue.FamilyMigrationRequests.Remove(this);
+					}
+					this._Family.Entity = value;
+					if ((value != null))
+					{
+						value.FamilyMigrationRequests.Add(this);
+						this._FamilyId = value.Id;
+					}
+					else
+					{
+						this._FamilyId = default(int);
+					}
+					this.SendPropertyChanged("Family");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_FamilyMigrationRequest", Storage="_Parish", ThisKey="ToParishId", OtherKey="Id", IsForeignKey=true)]
+		public Parish Parish
+		{
+			get
+			{
+				return this._Parish.Entity;
+			}
+			set
+			{
+				Parish previousValue = this._Parish.Entity;
+				if (((previousValue != value) 
+							|| (this._Parish.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parish.Entity = null;
+						previousValue.FamilyMigrationRequests.Remove(this);
+					}
+					this._Parish.Entity = value;
+					if ((value != null))
+					{
+						value.FamilyMigrationRequests.Add(this);
+						this._ToParishId = value.Id;
+					}
+					else
+					{
+						this._ToParishId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Parish");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GeneralStatus")]
+	public partial class GeneralStatus : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Status;
+		
+		private string _Key;
+		
+		private EntitySet<ParishManager> _ParishManagers;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnStatusChanging(string value);
+    partial void OnStatusChanged();
+    partial void OnKeyChanging(string value);
+    partial void OnKeyChanged();
+    #endregion
+		
+		public GeneralStatus()
+		{
+			this._ParishManagers = new EntitySet<ParishManager>(new Action<ParishManager>(this.attach_ParishManagers), new Action<ParishManager>(this.detach_ParishManagers));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Key]", Storage="_Key", DbType="VarChar(10) NOT NULL", CanBeNull=false)]
+		public string Key
+		{
+			get
+			{
+				return this._Key;
+			}
+			set
+			{
+				if ((this._Key != value))
+				{
+					this.OnKeyChanging(value);
+					this.SendPropertyChanging();
+					this._Key = value;
+					this.SendPropertyChanged("Key");
+					this.OnKeyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GeneralStatus_ParishManager", Storage="_ParishManagers", ThisKey="Id", OtherKey="StatusId")]
+		public EntitySet<ParishManager> ParishManagers
+		{
+			get
+			{
+				return this._ParishManagers;
+			}
+			set
+			{
+				this._ParishManagers.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ParishManagers(ParishManager entity)
+		{
+			this.SendPropertyChanging();
+			entity.GeneralStatus = this;
+		}
+		
+		private void detach_ParishManagers(ParishManager entity)
+		{
+			this.SendPropertyChanging();
+			entity.GeneralStatus = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.GiayMoi")]
+	public partial class GiayMoi : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Ten;
+		
+		private int _Loai;
+		
+		private string _Mau;
+		
+		private string _NgayMoi;
+		
+		private string _NgaySuKien;
+		
+		private string _DiaDiem;
+		
+		private string _NguoiGoi;
+		
+		private string _ThoiGian;
+		
+		private System.Nullable<int> _MauId;
+		
+		private EntitySet<KhachMoi> _KhachMois;
+		
+		private EntityRef<LetterAndReport> _LetterAndReport;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnTenChanging(string value);
+    partial void OnTenChanged();
+    partial void OnLoaiChanging(int value);
+    partial void OnLoaiChanged();
+    partial void OnMauChanging(string value);
+    partial void OnMauChanged();
+    partial void OnNgayMoiChanging(string value);
+    partial void OnNgayMoiChanged();
+    partial void OnNgaySuKienChanging(string value);
+    partial void OnNgaySuKienChanged();
+    partial void OnDiaDiemChanging(string value);
+    partial void OnDiaDiemChanged();
+    partial void OnNguoiGoiChanging(string value);
+    partial void OnNguoiGoiChanged();
+    partial void OnThoiGianChanging(string value);
+    partial void OnThoiGianChanged();
+    partial void OnMauIdChanging(System.Nullable<int> value);
+    partial void OnMauIdChanged();
+    #endregion
+		
+		public GiayMoi()
+		{
+			this._KhachMois = new EntitySet<KhachMoi>(new Action<KhachMoi>(this.attach_KhachMois), new Action<KhachMoi>(this.detach_KhachMois));
+			this._LetterAndReport = default(EntityRef<LetterAndReport>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Ten", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Ten
+		{
+			get
+			{
+				return this._Ten;
+			}
+			set
+			{
+				if ((this._Ten != value))
+				{
+					this.OnTenChanging(value);
+					this.SendPropertyChanging();
+					this._Ten = value;
+					this.SendPropertyChanged("Ten");
+					this.OnTenChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Loai", DbType="Int NOT NULL")]
+		public int Loai
+		{
+			get
+			{
+				return this._Loai;
+			}
+			set
+			{
+				if ((this._Loai != value))
+				{
+					this.OnLoaiChanging(value);
+					this.SendPropertyChanging();
+					this._Loai = value;
+					this.SendPropertyChanged("Loai");
+					this.OnLoaiChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Mau", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string Mau
+		{
+			get
+			{
+				return this._Mau;
+			}
+			set
+			{
+				if ((this._Mau != value))
+				{
+					this.OnMauChanging(value);
+					this.SendPropertyChanging();
+					this._Mau = value;
+					this.SendPropertyChanged("Mau");
+					this.OnMauChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayMoi", DbType="Char(10)")]
+		public string NgayMoi
+		{
+			get
+			{
+				return this._NgayMoi;
+			}
+			set
+			{
+				if ((this._NgayMoi != value))
+				{
+					this.OnNgayMoiChanging(value);
+					this.SendPropertyChanging();
+					this._NgayMoi = value;
+					this.SendPropertyChanged("NgayMoi");
+					this.OnNgayMoiChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgaySuKien", DbType="Char(10)")]
+		public string NgaySuKien
+		{
+			get
+			{
+				return this._NgaySuKien;
+			}
+			set
+			{
+				if ((this._NgaySuKien != value))
+				{
+					this.OnNgaySuKienChanging(value);
+					this.SendPropertyChanging();
+					this._NgaySuKien = value;
+					this.SendPropertyChanged("NgaySuKien");
+					this.OnNgaySuKienChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiaDiem", DbType="NVarChar(255)")]
+		public string DiaDiem
+		{
+			get
+			{
+				return this._DiaDiem;
+			}
+			set
+			{
+				if ((this._DiaDiem != value))
+				{
+					this.OnDiaDiemChanging(value);
+					this.SendPropertyChanging();
+					this._DiaDiem = value;
+					this.SendPropertyChanged("DiaDiem");
+					this.OnDiaDiemChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NguoiGoi", DbType="NVarChar(100)")]
+		public string NguoiGoi
+		{
+			get
+			{
+				return this._NguoiGoi;
+			}
+			set
+			{
+				if ((this._NguoiGoi != value))
+				{
+					this.OnNguoiGoiChanging(value);
+					this.SendPropertyChanging();
+					this._NguoiGoi = value;
+					this.SendPropertyChanged("NguoiGoi");
+					this.OnNguoiGoiChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThoiGian", DbType="Char(10)")]
+		public string ThoiGian
+		{
+			get
+			{
+				return this._ThoiGian;
+			}
+			set
+			{
+				if ((this._ThoiGian != value))
+				{
+					this.OnThoiGianChanging(value);
+					this.SendPropertyChanging();
+					this._ThoiGian = value;
+					this.SendPropertyChanged("ThoiGian");
+					this.OnThoiGianChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MauId", DbType="Int")]
+		public System.Nullable<int> MauId
+		{
+			get
+			{
+				return this._MauId;
+			}
+			set
+			{
+				if ((this._MauId != value))
+				{
+					if (this._LetterAndReport.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMauIdChanging(value);
+					this.SendPropertyChanging();
+					this._MauId = value;
+					this.SendPropertyChanged("MauId");
+					this.OnMauIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GiayMoi_KhachMoi", Storage="_KhachMois", ThisKey="Id", OtherKey="GiayMoiId")]
+		public EntitySet<KhachMoi> KhachMois
+		{
+			get
+			{
+				return this._KhachMois;
+			}
+			set
+			{
+				this._KhachMois.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LetterAndReport_GiayMoi", Storage="_LetterAndReport", ThisKey="MauId", OtherKey="Id", IsForeignKey=true)]
+		public LetterAndReport LetterAndReport
+		{
+			get
+			{
+				return this._LetterAndReport.Entity;
+			}
+			set
+			{
+				LetterAndReport previousValue = this._LetterAndReport.Entity;
+				if (((previousValue != value) 
+							|| (this._LetterAndReport.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._LetterAndReport.Entity = null;
+						previousValue.GiayMois.Remove(this);
+					}
+					this._LetterAndReport.Entity = value;
+					if ((value != null))
+					{
+						value.GiayMois.Add(this);
+						this._MauId = value.Id;
+					}
+					else
+					{
+						this._MauId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("LetterAndReport");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_KhachMois(KhachMoi entity)
+		{
+			this.SendPropertyChanging();
+			entity.GiayMoi = this;
+		}
+		
+		private void detach_KhachMois(KhachMoi entity)
+		{
+			this.SendPropertyChanging();
+			entity.GiayMoi = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.HDLMMember")]
+	public partial class HDLMMember : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _PriestID;
+		
+		private int _HdlmID;
+		
+		private int _Role;
+		
+		private EntityRef<Priest> _Priest;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnPriestIDChanging(int value);
+    partial void OnPriestIDChanged();
+    partial void OnHdlmIDChanging(int value);
+    partial void OnHdlmIDChanged();
+    partial void OnRoleChanging(int value);
+    partial void OnRoleChanged();
+    #endregion
+		
+		public HDLMMember()
+		{
+			this._Priest = default(EntityRef<Priest>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PriestID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int PriestID
+		{
+			get
+			{
+				return this._PriestID;
+			}
+			set
+			{
+				if ((this._PriestID != value))
+				{
+					if (this._Priest.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPriestIDChanging(value);
+					this.SendPropertyChanging();
+					this._PriestID = value;
+					this.SendPropertyChanged("PriestID");
+					this.OnPriestIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HdlmID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int HdlmID
+		{
+			get
+			{
+				return this._HdlmID;
+			}
+			set
+			{
+				if ((this._HdlmID != value))
+				{
+					this.OnHdlmIDChanging(value);
+					this.SendPropertyChanging();
+					this._HdlmID = value;
+					this.SendPropertyChanged("HdlmID");
+					this.OnHdlmIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Role", DbType="Int NOT NULL")]
+		public int Role
+		{
+			get
+			{
+				return this._Role;
+			}
+			set
+			{
+				if ((this._Role != value))
+				{
+					this.OnRoleChanging(value);
+					this.SendPropertyChanging();
+					this._Role = value;
+					this.SendPropertyChanged("Role");
+					this.OnRoleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Priest_HDLMMember", Storage="_Priest", ThisKey="PriestID", OtherKey="Id", IsForeignKey=true)]
+		public Priest Priest
+		{
+			get
+			{
+				return this._Priest.Entity;
+			}
+			set
+			{
+				Priest previousValue = this._Priest.Entity;
+				if (((previousValue != value) 
+							|| (this._Priest.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Priest.Entity = null;
+						previousValue.HDLMMembers.Remove(this);
+					}
+					this._Priest.Entity = value;
+					if ((value != null))
+					{
+						value.HDLMMembers.Add(this);
+						this._PriestID = value.Id;
+					}
+					else
+					{
+						this._PriestID = default(int);
+					}
+					this.SendPropertyChanged("Priest");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.HoiDongLinhMuc")]
+	public partial class HoiDongLinhMuc : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private string _Description;
+		
+		private string _Note;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    #endregion
+		
+		public HoiDongLinhMuc()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(255)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NVarChar(500)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.KhachMoi")]
+	public partial class KhachMoi : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private string _HoTen;
+		
+		private string _ChucDanh;
+		
+		private string _DiaChi;
+		
+		private string _SoDienThoai;
+		
+		private string _Email;
+		
+		private string _GhiChu;
+		
+		private int _GiayMoiId;
+		
+		private EntityRef<GiayMoi> _GiayMoi;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void OnHoTenChanging(string value);
+    partial void OnHoTenChanged();
+    partial void OnChucDanhChanging(string value);
+    partial void OnChucDanhChanged();
+    partial void OnDiaChiChanging(string value);
+    partial void OnDiaChiChanged();
+    partial void OnSoDienThoaiChanging(string value);
+    partial void OnSoDienThoaiChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnGhiChuChanging(string value);
+    partial void OnGhiChuChanged();
+    partial void OnGiayMoiIdChanging(int value);
+    partial void OnGiayMoiIdChanged();
+    #endregion
+		
+		public KhachMoi()
+		{
+			this._GiayMoi = default(EntityRef<GiayMoi>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HoTen", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string HoTen
+		{
+			get
+			{
+				return this._HoTen;
+			}
+			set
+			{
+				if ((this._HoTen != value))
+				{
+					this.OnHoTenChanging(value);
+					this.SendPropertyChanging();
+					this._HoTen = value;
+					this.SendPropertyChanged("HoTen");
+					this.OnHoTenChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChucDanh", DbType="NVarChar(50)")]
+		public string ChucDanh
+		{
+			get
+			{
+				return this._ChucDanh;
+			}
+			set
+			{
+				if ((this._ChucDanh != value))
+				{
+					this.OnChucDanhChanging(value);
+					this.SendPropertyChanging();
+					this._ChucDanh = value;
+					this.SendPropertyChanged("ChucDanh");
+					this.OnChucDanhChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DiaChi", DbType="NVarChar(250)")]
+		public string DiaChi
+		{
+			get
+			{
+				return this._DiaChi;
+			}
+			set
+			{
+				if ((this._DiaChi != value))
+				{
+					this.OnDiaChiChanging(value);
+					this.SendPropertyChanging();
+					this._DiaChi = value;
+					this.SendPropertyChanged("DiaChi");
+					this.OnDiaChiChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SoDienThoai", DbType="VarChar(20)")]
+		public string SoDienThoai
+		{
+			get
+			{
+				return this._SoDienThoai;
+			}
+			set
+			{
+				if ((this._SoDienThoai != value))
+				{
+					this.OnSoDienThoaiChanging(value);
+					this.SendPropertyChanging();
+					this._SoDienThoai = value;
+					this.SendPropertyChanged("SoDienThoai");
+					this.OnSoDienThoaiChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="VarChar(50)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GhiChu", DbType="NVarChar(50)")]
+		public string GhiChu
+		{
+			get
+			{
+				return this._GhiChu;
+			}
+			set
+			{
+				if ((this._GhiChu != value))
+				{
+					this.OnGhiChuChanging(value);
+					this.SendPropertyChanging();
+					this._GhiChu = value;
+					this.SendPropertyChanged("GhiChu");
+					this.OnGhiChuChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GiayMoiId", DbType="Int NOT NULL")]
+		public int GiayMoiId
+		{
+			get
+			{
+				return this._GiayMoiId;
+			}
+			set
+			{
+				if ((this._GiayMoiId != value))
+				{
+					if (this._GiayMoi.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnGiayMoiIdChanging(value);
+					this.SendPropertyChanging();
+					this._GiayMoiId = value;
+					this.SendPropertyChanged("GiayMoiId");
+					this.OnGiayMoiIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GiayMoi_KhachMoi", Storage="_GiayMoi", ThisKey="GiayMoiId", OtherKey="Id", IsForeignKey=true)]
+		public GiayMoi GiayMoi
+		{
+			get
+			{
+				return this._GiayMoi.Entity;
+			}
+			set
+			{
+				GiayMoi previousValue = this._GiayMoi.Entity;
+				if (((previousValue != value) 
+							|| (this._GiayMoi.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._GiayMoi.Entity = null;
+						previousValue.KhachMois.Remove(this);
+					}
+					this._GiayMoi.Entity = value;
+					if ((value != null))
+					{
+						value.KhachMois.Add(this);
+						this._GiayMoiId = value.Id;
+					}
+					else
+					{
+						this._GiayMoiId = default(int);
+					}
+					this.SendPropertyChanged("GiayMoi");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LeaveVocationRequisition")]
+	public partial class LeaveVocationRequisition : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _VocationId;
+		
+		private System.DateTime _ApplyDate;
+		
+		private System.Nullable<System.DateTime> _EffectiveDate;
+		
+		private int _Status;
+		
+		private EntityRef<Vocation> _Vocation;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnVocationIdChanging(int value);
+    partial void OnVocationIdChanged();
+    partial void OnApplyDateChanging(System.DateTime value);
+    partial void OnApplyDateChanged();
+    partial void OnEffectiveDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnEffectiveDateChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    #endregion
+		
+		public LeaveVocationRequisition()
+		{
+			this._Vocation = default(EntityRef<Vocation>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VocationId", DbType="Int NOT NULL")]
+		public int VocationId
+		{
+			get
+			{
+				return this._VocationId;
+			}
+			set
+			{
+				if ((this._VocationId != value))
+				{
+					if (this._Vocation.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnVocationIdChanging(value);
+					this.SendPropertyChanging();
+					this._VocationId = value;
+					this.SendPropertyChanged("VocationId");
+					this.OnVocationIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplyDate", DbType="DateTime NOT NULL")]
+		public System.DateTime ApplyDate
+		{
+			get
+			{
+				return this._ApplyDate;
+			}
+			set
+			{
+				if ((this._ApplyDate != value))
+				{
+					this.OnApplyDateChanging(value);
+					this.SendPropertyChanging();
+					this._ApplyDate = value;
+					this.SendPropertyChanged("ApplyDate");
+					this.OnApplyDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EffectiveDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> EffectiveDate
+		{
+			get
+			{
+				return this._EffectiveDate;
+			}
+			set
+			{
+				if ((this._EffectiveDate != value))
+				{
+					this.OnEffectiveDateChanging(value);
+					this.SendPropertyChanging();
+					this._EffectiveDate = value;
+					this.SendPropertyChanged("EffectiveDate");
+					this.OnEffectiveDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_LeaveVocationRequisition", Storage="_Vocation", ThisKey="VocationId", OtherKey="ParishionerId", IsForeignKey=true)]
+		public Vocation Vocation
+		{
+			get
+			{
+				return this._Vocation.Entity;
+			}
+			set
+			{
+				Vocation previousValue = this._Vocation.Entity;
+				if (((previousValue != value) 
+							|| (this._Vocation.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Vocation.Entity = null;
+						previousValue.LeaveVocationRequisitions.Remove(this);
+					}
+					this._Vocation.Entity = value;
+					if ((value != null))
+					{
+						value.LeaveVocationRequisitions.Add(this);
+						this._VocationId = value.ParishionerId;
+					}
+					else
+					{
+						this._VocationId = default(int);
+					}
+					this.SendPropertyChanged("Vocation");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LetterAndReport")]
+	public partial class LetterAndReport : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Ten;
+		
+		private int _Loai;
+		
+		private string _MoTa;
+		
+		private string _Mau;
+		
+		private EntitySet<GiayMoi> _GiayMois;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnTenChanging(string value);
+    partial void OnTenChanged();
+    partial void OnLoaiChanging(int value);
+    partial void OnLoaiChanged();
+    partial void OnMoTaChanging(string value);
+    partial void OnMoTaChanged();
+    partial void OnMauChanging(string value);
+    partial void OnMauChanged();
+    #endregion
+		
+		public LetterAndReport()
+		{
+			this._GiayMois = new EntitySet<GiayMoi>(new Action<GiayMoi>(this.attach_GiayMois), new Action<GiayMoi>(this.detach_GiayMois));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Ten", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Ten
+		{
+			get
+			{
+				return this._Ten;
+			}
+			set
+			{
+				if ((this._Ten != value))
+				{
+					this.OnTenChanging(value);
+					this.SendPropertyChanging();
+					this._Ten = value;
+					this.SendPropertyChanged("Ten");
+					this.OnTenChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Loai", DbType="Int NOT NULL")]
+		public int Loai
+		{
+			get
+			{
+				return this._Loai;
+			}
+			set
+			{
+				if ((this._Loai != value))
+				{
+					this.OnLoaiChanging(value);
+					this.SendPropertyChanging();
+					this._Loai = value;
+					this.SendPropertyChanged("Loai");
+					this.OnLoaiChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MoTa", DbType="NVarChar(500)")]
+		public string MoTa
+		{
+			get
+			{
+				return this._MoTa;
+			}
+			set
+			{
+				if ((this._MoTa != value))
+				{
+					this.OnMoTaChanging(value);
+					this.SendPropertyChanging();
+					this._MoTa = value;
+					this.SendPropertyChanged("MoTa");
+					this.OnMoTaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Mau", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string Mau
+		{
+			get
+			{
+				return this._Mau;
+			}
+			set
+			{
+				if ((this._Mau != value))
+				{
+					this.OnMauChanging(value);
+					this.SendPropertyChanging();
+					this._Mau = value;
+					this.SendPropertyChanged("Mau");
+					this.OnMauChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="LetterAndReport_GiayMoi", Storage="_GiayMois", ThisKey="Id", OtherKey="MauId")]
+		public EntitySet<GiayMoi> GiayMois
+		{
+			get
+			{
+				return this._GiayMois;
+			}
+			set
+			{
+				this._GiayMois.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_GiayMois(GiayMoi entity)
+		{
+			this.SendPropertyChanging();
+			entity.LetterAndReport = this;
+		}
+		
+		private void detach_GiayMois(GiayMoi entity)
+		{
+			this.SendPropertyChanging();
+			entity.LetterAndReport = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Matrimony")]
+	public partial class Matrimony : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _HusbandId;
+		
+		private int _WifeId;
+		
+		private string _Name;
+		
+		private string _Number;
+		
+		private string _Date;
+		
+		private string _Place;
+		
+		private string _Priest;
+		
+		private string _FirstWitness;
+		
+		private string _SecondWitness;
+		
+		private int _Status;
+		
+		private string _Note;
+		
+		private System.Nullable<int> _SacramentGroupId;
+		
+		private EntityRef<Parishioner> _Parishioner;
+		
+		private EntityRef<Parishioner> _Parishioner1;
+		
+		private EntityRef<SacramentGroup> _SacramentGroup;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnHusbandIdChanging(int value);
+    partial void OnHusbandIdChanged();
+    partial void OnWifeIdChanging(int value);
+    partial void OnWifeIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnNumberChanging(string value);
+    partial void OnNumberChanged();
+    partial void OnDateChanging(string value);
+    partial void OnDateChanged();
+    partial void OnPlaceChanging(string value);
+    partial void OnPlaceChanged();
+    partial void OnPriestChanging(string value);
+    partial void OnPriestChanged();
+    partial void OnFirstWitnessChanging(string value);
+    partial void OnFirstWitnessChanged();
+    partial void OnSecondWitnessChanging(string value);
+    partial void OnSecondWitnessChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    partial void OnSacramentGroupIdChanging(System.Nullable<int> value);
+    partial void OnSacramentGroupIdChanged();
+    #endregion
+		
+		public Matrimony()
+		{
+			this._Parishioner = default(EntityRef<Parishioner>);
+			this._Parishioner1 = default(EntityRef<Parishioner>);
+			this._SacramentGroup = default(EntityRef<SacramentGroup>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HusbandId", DbType="Int NOT NULL")]
+		public int HusbandId
+		{
+			get
+			{
+				return this._HusbandId;
+			}
+			set
+			{
+				if ((this._HusbandId != value))
+				{
+					if (this._Parishioner.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnHusbandIdChanging(value);
+					this.SendPropertyChanging();
+					this._HusbandId = value;
+					this.SendPropertyChanged("HusbandId");
+					this.OnHusbandIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WifeId", DbType="Int NOT NULL")]
+		public int WifeId
+		{
+			get
+			{
+				return this._WifeId;
+			}
+			set
+			{
+				if ((this._WifeId != value))
+				{
+					if (this._Parishioner1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnWifeIdChanging(value);
+					this.SendPropertyChanging();
+					this._WifeId = value;
+					this.SendPropertyChanged("WifeId");
+					this.OnWifeIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="NVarChar(100)")]
+		public string Number
+		{
+			get
+			{
+				return this._Number;
+			}
+			set
+			{
+				if ((this._Number != value))
+				{
+					this.OnNumberChanging(value);
+					this.SendPropertyChanging();
+					this._Number = value;
+					this.SendPropertyChanged("Number");
+					this.OnNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="Char(8)")]
+		public string Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Place", DbType="NVarChar(100)")]
+		public string Place
+		{
+			get
+			{
+				return this._Place;
+			}
+			set
+			{
+				if ((this._Place != value))
+				{
+					this.OnPlaceChanging(value);
+					this.SendPropertyChanging();
+					this._Place = value;
+					this.SendPropertyChanged("Place");
+					this.OnPlaceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Priest", DbType="NVarChar(100)")]
+		public string Priest
+		{
+			get
+			{
+				return this._Priest;
+			}
+			set
+			{
+				if ((this._Priest != value))
+				{
+					this.OnPriestChanging(value);
+					this.SendPropertyChanging();
+					this._Priest = value;
+					this.SendPropertyChanged("Priest");
+					this.OnPriestChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstWitness", DbType="NVarChar(100)")]
+		public string FirstWitness
+		{
+			get
+			{
+				return this._FirstWitness;
+			}
+			set
+			{
+				if ((this._FirstWitness != value))
+				{
+					this.OnFirstWitnessChanging(value);
+					this.SendPropertyChanging();
+					this._FirstWitness = value;
+					this.SendPropertyChanged("FirstWitness");
+					this.OnFirstWitnessChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SecondWitness", DbType="NVarChar(100)")]
+		public string SecondWitness
+		{
+			get
+			{
+				return this._SecondWitness;
+			}
+			set
+			{
+				if ((this._SecondWitness != value))
+				{
+					this.OnSecondWitnessChanging(value);
+					this.SendPropertyChanging();
+					this._SecondWitness = value;
+					this.SendPropertyChanged("SecondWitness");
+					this.OnSecondWitnessChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NVarChar(200)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SacramentGroupId", DbType="Int")]
+		public System.Nullable<int> SacramentGroupId
+		{
+			get
+			{
+				return this._SacramentGroupId;
+			}
+			set
+			{
+				if ((this._SacramentGroupId != value))
+				{
+					if (this._SacramentGroup.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSacramentGroupIdChanging(value);
+					this.SendPropertyChanging();
+					this._SacramentGroupId = value;
+					this.SendPropertyChanged("SacramentGroupId");
+					this.OnSacramentGroupIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_Matrimony", Storage="_Parishioner", ThisKey="HusbandId", OtherKey="Id", IsForeignKey=true)]
+		public Parishioner Parishioner
+		{
+			get
+			{
+				return this._Parishioner.Entity;
+			}
+			set
+			{
+				Parishioner previousValue = this._Parishioner.Entity;
+				if (((previousValue != value) 
+							|| (this._Parishioner.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parishioner.Entity = null;
+						previousValue.Matrimonies.Remove(this);
+					}
+					this._Parishioner.Entity = value;
+					if ((value != null))
+					{
+						value.Matrimonies.Add(this);
+						this._HusbandId = value.Id;
+					}
+					else
+					{
+						this._HusbandId = default(int);
+					}
+					this.SendPropertyChanged("Parishioner");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_Matrimony1", Storage="_Parishioner1", ThisKey="WifeId", OtherKey="Id", IsForeignKey=true)]
+		public Parishioner Parishioner1
+		{
+			get
+			{
+				return this._Parishioner1.Entity;
+			}
+			set
+			{
+				Parishioner previousValue = this._Parishioner1.Entity;
+				if (((previousValue != value) 
+							|| (this._Parishioner1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parishioner1.Entity = null;
+						previousValue.Matrimonies1.Remove(this);
+					}
+					this._Parishioner1.Entity = value;
+					if ((value != null))
+					{
+						value.Matrimonies1.Add(this);
+						this._WifeId = value.Id;
+					}
+					else
+					{
+						this._WifeId = default(int);
+					}
+					this.SendPropertyChanged("Parishioner1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SacramentGroup_Matrimony", Storage="_SacramentGroup", ThisKey="SacramentGroupId", OtherKey="Id", IsForeignKey=true)]
+		public SacramentGroup SacramentGroup
+		{
+			get
+			{
+				return this._SacramentGroup.Entity;
+			}
+			set
+			{
+				SacramentGroup previousValue = this._SacramentGroup.Entity;
+				if (((previousValue != value) 
+							|| (this._SacramentGroup.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._SacramentGroup.Entity = null;
+						previousValue.Matrimonies.Remove(this);
+					}
+					this._SacramentGroup.Entity = value;
+					if ((value != null))
+					{
+						value.Matrimonies.Add(this);
+						this._SacramentGroupId = value.Id;
+					}
+					else
+					{
+						this._SacramentGroupId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("SacramentGroup");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Message")]
+	public partial class Message : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _AccountId;
+		
+		private System.Nullable<int> _ParishId;
+		
+		private System.DateTime _CreatedDate;
+		
+		private string _Title;
+		
+		private string _Content;
+		
+		private EntityRef<Account> _Account;
+		
+		private EntityRef<Parish> _Parish;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnAccountIdChanging(int value);
+    partial void OnAccountIdChanged();
+    partial void OnParishIdChanging(System.Nullable<int> value);
+    partial void OnParishIdChanged();
+    partial void OnCreatedDateChanging(System.DateTime value);
+    partial void OnCreatedDateChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnContentChanging(string value);
+    partial void OnContentChanged();
+    #endregion
+		
+		public Message()
+		{
+			this._Account = default(EntityRef<Account>);
+			this._Parish = default(EntityRef<Parish>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AccountId", DbType="Int NOT NULL")]
+		public int AccountId
+		{
+			get
+			{
+				return this._AccountId;
+			}
+			set
+			{
+				if ((this._AccountId != value))
+				{
+					if (this._Account.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAccountIdChanging(value);
+					this.SendPropertyChanging();
+					this._AccountId = value;
+					this.SendPropertyChanged("AccountId");
+					this.OnAccountIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int")]
+		public System.Nullable<int> ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					if (this._Parish.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedDate
+		{
+			get
+			{
+				return this._CreatedDate;
+			}
+			set
+			{
+				if ((this._CreatedDate != value))
+				{
+					this.OnCreatedDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedDate = value;
+					this.SendPropertyChanged("CreatedDate");
+					this.OnCreatedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Content", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Content
+		{
+			get
+			{
+				return this._Content;
+			}
+			set
+			{
+				if ((this._Content != value))
+				{
+					this.OnContentChanging(value);
+					this.SendPropertyChanging();
+					this._Content = value;
+					this.SendPropertyChanged("Content");
+					this.OnContentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Account_Message", Storage="_Account", ThisKey="AccountId", OtherKey="Id", IsForeignKey=true)]
+		public Account Account
+		{
+			get
+			{
+				return this._Account.Entity;
+			}
+			set
+			{
+				Account previousValue = this._Account.Entity;
+				if (((previousValue != value) 
+							|| (this._Account.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Account.Entity = null;
+						previousValue.Messages.Remove(this);
+					}
+					this._Account.Entity = value;
+					if ((value != null))
+					{
+						value.Messages.Add(this);
+						this._AccountId = value.Id;
+					}
+					else
+					{
+						this._AccountId = default(int);
+					}
+					this.SendPropertyChanged("Account");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_Message", Storage="_Parish", ThisKey="ParishId", OtherKey="Id", IsForeignKey=true)]
+		public Parish Parish
+		{
+			get
+			{
+				return this._Parish.Entity;
+			}
+			set
+			{
+				Parish previousValue = this._Parish.Entity;
+				if (((previousValue != value) 
+							|| (this._Parish.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parish.Entity = null;
+						previousValue.Messages.Remove(this);
+					}
+					this._Parish.Entity = value;
+					if ((value != null))
+					{
+						value.Messages.Add(this);
+						this._ParishId = value.Id;
+					}
+					else
+					{
+						this._ParishId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Parish");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Parish")]
+	public partial class Parish : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private string _Address;
+		
+		private string _Website;
+		
+		private string _Phone;
+		
+		private string _Email;
+		
+		private string _ImageUrl;
+		
+		private string _Priest;
+		
+		private int _VicariateId;
+		
+		private System.Nullable<int> _PriestId;
+		
+		private string _Ward;
+		
+		private string _District;
+		
+		private string _Province;
+		
+		private string _Patron;
+		
+		private string _PatronDate;
+		
+		private string _ChauLuot;
+		
+		private EntitySet<Account> _Accounts;
+		
+		private EntitySet<ClassGroup> _ClassGroups;
+		
+		private EntitySet<Community> _Communities;
+		
+		private EntitySet<ConstructionPermit> _ConstructionPermits;
+		
+		private EntitySet<DeaconRequisitionComment> _DeaconRequisitionComments;
+		
+		private EntitySet<FamilyMigrationRequest> _FamilyMigrationRequests;
+		
+		private EntitySet<Message> _Messages;
+		
+		private EntitySet<ParishionerMigrationRequest> _ParishionerMigrationRequests;
+		
+		private EntitySet<ParishManager> _ParishManagers;
+		
+		private EntitySet<ReligiousCommunityBase> _ReligiousCommunityBases;
+		
+		private EntitySet<SacramentGroup> _SacramentGroups;
+		
+		private EntitySet<Society> _Societies;
+		
+		private EntitySet<Vicariate> _Vicariates;
+		
+		private EntityRef<Priest> _Priest1;
+		
+		private EntityRef<Vicariate> _Vicariate;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnAddressChanging(string value);
+    partial void OnAddressChanged();
+    partial void OnWebsiteChanging(string value);
+    partial void OnWebsiteChanged();
+    partial void OnPhoneChanging(string value);
+    partial void OnPhoneChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnImageUrlChanging(string value);
+    partial void OnImageUrlChanged();
+    partial void OnPriestChanging(string value);
+    partial void OnPriestChanged();
+    partial void OnVicariateIdChanging(int value);
+    partial void OnVicariateIdChanged();
+    partial void OnPriestIdChanging(System.Nullable<int> value);
+    partial void OnPriestIdChanged();
+    partial void OnWardChanging(string value);
+    partial void OnWardChanged();
+    partial void OnDistrictChanging(string value);
+    partial void OnDistrictChanged();
+    partial void OnProvinceChanging(string value);
+    partial void OnProvinceChanged();
+    partial void OnPatronChanging(string value);
+    partial void OnPatronChanged();
+    partial void OnPatronDateChanging(string value);
+    partial void OnPatronDateChanged();
+    partial void OnChauLuotChanging(string value);
+    partial void OnChauLuotChanged();
+    #endregion
+		
+		public Parish()
+		{
+			this._Accounts = new EntitySet<Account>(new Action<Account>(this.attach_Accounts), new Action<Account>(this.detach_Accounts));
+			this._ClassGroups = new EntitySet<ClassGroup>(new Action<ClassGroup>(this.attach_ClassGroups), new Action<ClassGroup>(this.detach_ClassGroups));
+			this._Communities = new EntitySet<Community>(new Action<Community>(this.attach_Communities), new Action<Community>(this.detach_Communities));
+			this._ConstructionPermits = new EntitySet<ConstructionPermit>(new Action<ConstructionPermit>(this.attach_ConstructionPermits), new Action<ConstructionPermit>(this.detach_ConstructionPermits));
+			this._DeaconRequisitionComments = new EntitySet<DeaconRequisitionComment>(new Action<DeaconRequisitionComment>(this.attach_DeaconRequisitionComments), new Action<DeaconRequisitionComment>(this.detach_DeaconRequisitionComments));
+			this._FamilyMigrationRequests = new EntitySet<FamilyMigrationRequest>(new Action<FamilyMigrationRequest>(this.attach_FamilyMigrationRequests), new Action<FamilyMigrationRequest>(this.detach_FamilyMigrationRequests));
+			this._Messages = new EntitySet<Message>(new Action<Message>(this.attach_Messages), new Action<Message>(this.detach_Messages));
+			this._ParishionerMigrationRequests = new EntitySet<ParishionerMigrationRequest>(new Action<ParishionerMigrationRequest>(this.attach_ParishionerMigrationRequests), new Action<ParishionerMigrationRequest>(this.detach_ParishionerMigrationRequests));
+			this._ParishManagers = new EntitySet<ParishManager>(new Action<ParishManager>(this.attach_ParishManagers), new Action<ParishManager>(this.detach_ParishManagers));
+			this._ReligiousCommunityBases = new EntitySet<ReligiousCommunityBase>(new Action<ReligiousCommunityBase>(this.attach_ReligiousCommunityBases), new Action<ReligiousCommunityBase>(this.detach_ReligiousCommunityBases));
+			this._SacramentGroups = new EntitySet<SacramentGroup>(new Action<SacramentGroup>(this.attach_SacramentGroups), new Action<SacramentGroup>(this.detach_SacramentGroups));
+			this._Societies = new EntitySet<Society>(new Action<Society>(this.attach_Societies), new Action<Society>(this.detach_Societies));
+			this._Vicariates = new EntitySet<Vicariate>(new Action<Vicariate>(this.attach_Vicariates), new Action<Vicariate>(this.detach_Vicariates));
+			this._Priest1 = default(EntityRef<Priest>);
+			this._Vicariate = default(EntityRef<Vicariate>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(100)")]
+		public string Address
+		{
+			get
+			{
+				return this._Address;
+			}
+			set
+			{
+				if ((this._Address != value))
+				{
+					this.OnAddressChanging(value);
+					this.SendPropertyChanging();
+					this._Address = value;
+					this.SendPropertyChanged("Address");
+					this.OnAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Website", DbType="NVarChar(100)")]
+		public string Website
+		{
+			get
+			{
+				return this._Website;
+			}
+			set
+			{
+				if ((this._Website != value))
+				{
+					this.OnWebsiteChanging(value);
+					this.SendPropertyChanging();
+					this._Website = value;
+					this.SendPropertyChanged("Website");
+					this.OnWebsiteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="VarChar(20)")]
+		public string Phone
+		{
+			get
+			{
+				return this._Phone;
+			}
+			set
+			{
+				if ((this._Phone != value))
+				{
+					this.OnPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._Phone = value;
+					this.SendPropertyChanged("Phone");
+					this.OnPhoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(100)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ImageUrl", DbType="NVarChar(200)")]
+		public string ImageUrl
+		{
+			get
+			{
+				return this._ImageUrl;
+			}
+			set
+			{
+				if ((this._ImageUrl != value))
+				{
+					this.OnImageUrlChanging(value);
+					this.SendPropertyChanging();
+					this._ImageUrl = value;
+					this.SendPropertyChanged("ImageUrl");
+					this.OnImageUrlChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Priest", DbType="NVarChar(100)")]
+		public string Priest
+		{
+			get
+			{
+				return this._Priest;
+			}
+			set
+			{
+				if ((this._Priest != value))
+				{
+					this.OnPriestChanging(value);
+					this.SendPropertyChanging();
+					this._Priest = value;
+					this.SendPropertyChanged("Priest");
+					this.OnPriestChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VicariateId", DbType="Int NOT NULL")]
+		public int VicariateId
+		{
+			get
+			{
+				return this._VicariateId;
+			}
+			set
+			{
+				if ((this._VicariateId != value))
+				{
+					if (this._Vicariate.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnVicariateIdChanging(value);
+					this.SendPropertyChanging();
+					this._VicariateId = value;
+					this.SendPropertyChanged("VicariateId");
+					this.OnVicariateIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PriestId", DbType="Int")]
+		public System.Nullable<int> PriestId
+		{
+			get
+			{
+				return this._PriestId;
+			}
+			set
+			{
+				if ((this._PriestId != value))
+				{
+					if (this._Priest1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPriestIdChanging(value);
+					this.SendPropertyChanging();
+					this._PriestId = value;
+					this.SendPropertyChanged("PriestId");
+					this.OnPriestIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Ward", DbType="NVarChar(100)")]
+		public string Ward
+		{
+			get
+			{
+				return this._Ward;
+			}
+			set
+			{
+				if ((this._Ward != value))
+				{
+					this.OnWardChanging(value);
+					this.SendPropertyChanging();
+					this._Ward = value;
+					this.SendPropertyChanged("Ward");
+					this.OnWardChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_District", DbType="NVarChar(100)")]
+		public string District
+		{
+			get
+			{
+				return this._District;
+			}
+			set
+			{
+				if ((this._District != value))
+				{
+					this.OnDistrictChanging(value);
+					this.SendPropertyChanging();
+					this._District = value;
+					this.SendPropertyChanged("District");
+					this.OnDistrictChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Province", DbType="NVarChar(100)")]
+		public string Province
+		{
+			get
+			{
+				return this._Province;
+			}
+			set
+			{
+				if ((this._Province != value))
+				{
+					this.OnProvinceChanging(value);
+					this.SendPropertyChanging();
+					this._Province = value;
+					this.SendPropertyChanged("Province");
+					this.OnProvinceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Patron", DbType="NVarChar(255)")]
+		public string Patron
+		{
+			get
+			{
+				return this._Patron;
+			}
+			set
+			{
+				if ((this._Patron != value))
+				{
+					this.OnPatronChanging(value);
+					this.SendPropertyChanging();
+					this._Patron = value;
+					this.SendPropertyChanged("Patron");
+					this.OnPatronChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PatronDate", DbType="NVarChar(50)")]
+		public string PatronDate
+		{
+			get
+			{
+				return this._PatronDate;
+			}
+			set
+			{
+				if ((this._PatronDate != value))
+				{
+					this.OnPatronDateChanging(value);
+					this.SendPropertyChanging();
+					this._PatronDate = value;
+					this.SendPropertyChanged("PatronDate");
+					this.OnPatronDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChauLuot", DbType="NVarChar(100)")]
+		public string ChauLuot
+		{
+			get
+			{
+				return this._ChauLuot;
+			}
+			set
+			{
+				if ((this._ChauLuot != value))
+				{
+					this.OnChauLuotChanging(value);
+					this.SendPropertyChanging();
+					this._ChauLuot = value;
+					this.SendPropertyChanged("ChauLuot");
+					this.OnChauLuotChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_Account", Storage="_Accounts", ThisKey="Id", OtherKey="ParishId")]
+		public EntitySet<Account> Accounts
+		{
+			get
+			{
+				return this._Accounts;
+			}
+			set
+			{
+				this._Accounts.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_ClassGroup", Storage="_ClassGroups", ThisKey="Id", OtherKey="ParishId")]
+		public EntitySet<ClassGroup> ClassGroups
+		{
+			get
+			{
+				return this._ClassGroups;
+			}
+			set
+			{
+				this._ClassGroups.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_Community", Storage="_Communities", ThisKey="Id", OtherKey="ParishId")]
+		public EntitySet<Community> Communities
+		{
+			get
+			{
+				return this._Communities;
+			}
+			set
+			{
+				this._Communities.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_ConstructionPermit", Storage="_ConstructionPermits", ThisKey="Id", OtherKey="ParishId")]
+		public EntitySet<ConstructionPermit> ConstructionPermits
+		{
+			get
+			{
+				return this._ConstructionPermits;
+			}
+			set
+			{
+				this._ConstructionPermits.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_DeaconRequisitionComment", Storage="_DeaconRequisitionComments", ThisKey="Id", OtherKey="ParishId")]
+		public EntitySet<DeaconRequisitionComment> DeaconRequisitionComments
+		{
+			get
+			{
+				return this._DeaconRequisitionComments;
+			}
+			set
+			{
+				this._DeaconRequisitionComments.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_FamilyMigrationRequest", Storage="_FamilyMigrationRequests", ThisKey="Id", OtherKey="ToParishId")]
+		public EntitySet<FamilyMigrationRequest> FamilyMigrationRequests
+		{
+			get
+			{
+				return this._FamilyMigrationRequests;
+			}
+			set
+			{
+				this._FamilyMigrationRequests.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_Message", Storage="_Messages", ThisKey="Id", OtherKey="ParishId")]
+		public EntitySet<Message> Messages
+		{
+			get
+			{
+				return this._Messages;
+			}
+			set
+			{
+				this._Messages.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_ParishionerMigrationRequest", Storage="_ParishionerMigrationRequests", ThisKey="Id", OtherKey="ToParishId")]
+		public EntitySet<ParishionerMigrationRequest> ParishionerMigrationRequests
+		{
+			get
+			{
+				return this._ParishionerMigrationRequests;
+			}
+			set
+			{
+				this._ParishionerMigrationRequests.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_ParishManager", Storage="_ParishManagers", ThisKey="Id", OtherKey="ParishId")]
+		public EntitySet<ParishManager> ParishManagers
+		{
+			get
+			{
+				return this._ParishManagers;
+			}
+			set
+			{
+				this._ParishManagers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_ReligiousCommunityBase", Storage="_ReligiousCommunityBases", ThisKey="Id", OtherKey="ParishId")]
+		public EntitySet<ReligiousCommunityBase> ReligiousCommunityBases
+		{
+			get
+			{
+				return this._ReligiousCommunityBases;
+			}
+			set
+			{
+				this._ReligiousCommunityBases.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_SacramentGroup", Storage="_SacramentGroups", ThisKey="Id", OtherKey="ParishId")]
+		public EntitySet<SacramentGroup> SacramentGroups
+		{
+			get
+			{
+				return this._SacramentGroups;
+			}
+			set
+			{
+				this._SacramentGroups.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_Society", Storage="_Societies", ThisKey="Id", OtherKey="ParishId")]
+		public EntitySet<Society> Societies
+		{
+			get
+			{
+				return this._Societies;
+			}
+			set
+			{
+				this._Societies.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_Vicariate", Storage="_Vicariates", ThisKey="Id", OtherKey="ParishId")]
+		public EntitySet<Vicariate> Vicariates
+		{
+			get
+			{
+				return this._Vicariates;
+			}
+			set
+			{
+				this._Vicariates.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Priest_Parish", Storage="_Priest1", ThisKey="PriestId", OtherKey="Id", IsForeignKey=true)]
+		public Priest Priest1
+		{
+			get
+			{
+				return this._Priest1.Entity;
+			}
+			set
+			{
+				Priest previousValue = this._Priest1.Entity;
+				if (((previousValue != value) 
+							|| (this._Priest1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Priest1.Entity = null;
+						previousValue.Parishes.Remove(this);
+					}
+					this._Priest1.Entity = value;
+					if ((value != null))
+					{
+						value.Parishes.Add(this);
+						this._PriestId = value.Id;
+					}
+					else
+					{
+						this._PriestId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Priest1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vicariate_Parish", Storage="_Vicariate", ThisKey="VicariateId", OtherKey="Id", IsForeignKey=true)]
+		public Vicariate Vicariate
+		{
+			get
+			{
+				return this._Vicariate.Entity;
+			}
+			set
+			{
+				Vicariate previousValue = this._Vicariate.Entity;
+				if (((previousValue != value) 
+							|| (this._Vicariate.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Vicariate.Entity = null;
+						previousValue.Parishes.Remove(this);
+					}
+					this._Vicariate.Entity = value;
+					if ((value != null))
+					{
+						value.Parishes.Add(this);
+						this._VicariateId = value.Id;
+					}
+					else
+					{
+						this._VicariateId = default(int);
+					}
+					this.SendPropertyChanged("Vicariate");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Accounts(Account entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = this;
+		}
+		
+		private void detach_Accounts(Account entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = null;
+		}
+		
+		private void attach_ClassGroups(ClassGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = this;
+		}
+		
+		private void detach_ClassGroups(ClassGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = null;
+		}
+		
+		private void attach_Communities(Community entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = this;
+		}
+		
+		private void detach_Communities(Community entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = null;
+		}
+		
+		private void attach_ConstructionPermits(ConstructionPermit entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = this;
+		}
+		
+		private void detach_ConstructionPermits(ConstructionPermit entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = null;
+		}
+		
+		private void attach_DeaconRequisitionComments(DeaconRequisitionComment entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = this;
+		}
+		
+		private void detach_DeaconRequisitionComments(DeaconRequisitionComment entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = null;
+		}
+		
+		private void attach_FamilyMigrationRequests(FamilyMigrationRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = this;
+		}
+		
+		private void detach_FamilyMigrationRequests(FamilyMigrationRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = null;
+		}
+		
+		private void attach_Messages(Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = this;
+		}
+		
+		private void detach_Messages(Message entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = null;
+		}
+		
+		private void attach_ParishionerMigrationRequests(ParishionerMigrationRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = this;
+		}
+		
+		private void detach_ParishionerMigrationRequests(ParishionerMigrationRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = null;
+		}
+		
+		private void attach_ParishManagers(ParishManager entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = this;
+		}
+		
+		private void detach_ParishManagers(ParishManager entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = null;
+		}
+		
+		private void attach_ReligiousCommunityBases(ReligiousCommunityBase entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = this;
+		}
+		
+		private void detach_ReligiousCommunityBases(ReligiousCommunityBase entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = null;
+		}
+		
+		private void attach_SacramentGroups(SacramentGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = this;
+		}
+		
+		private void detach_SacramentGroups(SacramentGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = null;
+		}
+		
+		private void attach_Societies(Society entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = this;
+		}
+		
+		private void detach_Societies(Society entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = null;
+		}
+		
+		private void attach_Vicariates(Vicariate entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = this;
+		}
+		
+		private void detach_Vicariates(Vicariate entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parish = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Parishioner")]
+	public partial class Parishioner : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Code;
+		
+		private string _ImageUrl;
+		
+		private string _ChristianName;
+		
+		private string _Name;
+		
+		private int _Gender;
+		
+		private string _BirthDate;
+		
+		private string _BirthPlace;
+		
+		private string _FatherName;
+		
+		private string _MotherName;
+		
+		private bool _IsCounted;
+		
+		private int _Status;
+		
+		private int _DomicileStatus;
+		
+		private string _DomicilePlace;
+		
+		private string _Education;
+		
+		private bool _IsStudying;
+		
+		private string _Career;
+		
+		private string _Address;
+		
+		private string _Phone;
+		
+		private string _MobilePhone;
+		
+		private string _Email;
+		
+		private string _Note;
+		
+		private bool _IsCatechumen;
+		
+		private bool _IsDead;
+		
+		private string _DeadDate;
+		
+		private bool _IsMarried;
+		
+		private bool _IsSingle;
+		
+		private int _CommunityId;
+		
+		private System.DateTime _CreatedDate;
+		
+		private string _CreatedBy;
+		
+		private string _LastUpdatedBy;
+		
+		private EntitySet<ClassGroup> _ClassGroups;
+		
+		private EntitySet<ClassMember> _ClassMembers;
+		
+		private EntitySet<DeaconRequisitionComment> _DeaconRequisitionComments;
+		
+		private EntitySet<FamilyMember> _FamilyMembers;
+		
+		private EntitySet<Matrimony> _Matrimonies;
+		
+		private EntitySet<Matrimony> _Matrimonies1;
+		
+		private EntitySet<ParishionerMigrationRequest> _ParishionerMigrationRequests;
+		
+		private EntitySet<Sacrament> _Sacraments;
+		
+		private EntitySet<Society> _Societies;
+		
+		private EntitySet<SocietyMember> _SocietyMembers;
+		
+		private EntityRef<Vocation> _Vocation;
+		
+		private EntityRef<Community> _Community;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnCodeChanging(string value);
+    partial void OnCodeChanged();
+    partial void OnImageUrlChanging(string value);
+    partial void OnImageUrlChanged();
+    partial void OnChristianNameChanging(string value);
+    partial void OnChristianNameChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnGenderChanging(int value);
+    partial void OnGenderChanged();
+    partial void OnBirthDateChanging(string value);
+    partial void OnBirthDateChanged();
+    partial void OnBirthPlaceChanging(string value);
+    partial void OnBirthPlaceChanged();
+    partial void OnFatherNameChanging(string value);
+    partial void OnFatherNameChanged();
+    partial void OnMotherNameChanging(string value);
+    partial void OnMotherNameChanged();
+    partial void OnIsCountedChanging(bool value);
+    partial void OnIsCountedChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    partial void OnDomicileStatusChanging(int value);
+    partial void OnDomicileStatusChanged();
+    partial void OnDomicilePlaceChanging(string value);
+    partial void OnDomicilePlaceChanged();
+    partial void OnEducationChanging(string value);
+    partial void OnEducationChanged();
+    partial void OnIsStudyingChanging(bool value);
+    partial void OnIsStudyingChanged();
+    partial void OnCareerChanging(string value);
+    partial void OnCareerChanged();
+    partial void OnAddressChanging(string value);
+    partial void OnAddressChanged();
+    partial void OnPhoneChanging(string value);
+    partial void OnPhoneChanged();
+    partial void OnMobilePhoneChanging(string value);
+    partial void OnMobilePhoneChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    partial void OnIsCatechumenChanging(bool value);
+    partial void OnIsCatechumenChanged();
+    partial void OnIsDeadChanging(bool value);
+    partial void OnIsDeadChanged();
+    partial void OnDeadDateChanging(string value);
+    partial void OnDeadDateChanged();
+    partial void OnIsMarriedChanging(bool value);
+    partial void OnIsMarriedChanged();
+    partial void OnIsSingleChanging(bool value);
+    partial void OnIsSingleChanged();
+    partial void OnCommunityIdChanging(int value);
+    partial void OnCommunityIdChanged();
+    partial void OnCreatedDateChanging(System.DateTime value);
+    partial void OnCreatedDateChanged();
+    partial void OnCreatedByChanging(string value);
+    partial void OnCreatedByChanged();
+    partial void OnLastUpdatedByChanging(string value);
+    partial void OnLastUpdatedByChanged();
+    #endregion
+		
+		public Parishioner()
+		{
+			this._ClassGroups = new EntitySet<ClassGroup>(new Action<ClassGroup>(this.attach_ClassGroups), new Action<ClassGroup>(this.detach_ClassGroups));
+			this._ClassMembers = new EntitySet<ClassMember>(new Action<ClassMember>(this.attach_ClassMembers), new Action<ClassMember>(this.detach_ClassMembers));
+			this._DeaconRequisitionComments = new EntitySet<DeaconRequisitionComment>(new Action<DeaconRequisitionComment>(this.attach_DeaconRequisitionComments), new Action<DeaconRequisitionComment>(this.detach_DeaconRequisitionComments));
+			this._FamilyMembers = new EntitySet<FamilyMember>(new Action<FamilyMember>(this.attach_FamilyMembers), new Action<FamilyMember>(this.detach_FamilyMembers));
+			this._Matrimonies = new EntitySet<Matrimony>(new Action<Matrimony>(this.attach_Matrimonies), new Action<Matrimony>(this.detach_Matrimonies));
+			this._Matrimonies1 = new EntitySet<Matrimony>(new Action<Matrimony>(this.attach_Matrimonies1), new Action<Matrimony>(this.detach_Matrimonies1));
+			this._ParishionerMigrationRequests = new EntitySet<ParishionerMigrationRequest>(new Action<ParishionerMigrationRequest>(this.attach_ParishionerMigrationRequests), new Action<ParishionerMigrationRequest>(this.detach_ParishionerMigrationRequests));
+			this._Sacraments = new EntitySet<Sacrament>(new Action<Sacrament>(this.attach_Sacraments), new Action<Sacrament>(this.detach_Sacraments));
+			this._Societies = new EntitySet<Society>(new Action<Society>(this.attach_Societies), new Action<Society>(this.detach_Societies));
+			this._SocietyMembers = new EntitySet<SocietyMember>(new Action<SocietyMember>(this.attach_SocietyMembers), new Action<SocietyMember>(this.detach_SocietyMembers));
+			this._Vocation = default(EntityRef<Vocation>);
+			this._Community = default(EntityRef<Community>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Code
+		{
+			get
+			{
+				return this._Code;
+			}
+			set
+			{
+				if ((this._Code != value))
+				{
+					this.OnCodeChanging(value);
+					this.SendPropertyChanging();
+					this._Code = value;
+					this.SendPropertyChanged("Code");
+					this.OnCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ImageUrl", DbType="NVarChar(100)")]
+		public string ImageUrl
+		{
+			get
+			{
+				return this._ImageUrl;
+			}
+			set
+			{
+				if ((this._ImageUrl != value))
+				{
+					this.OnImageUrlChanging(value);
+					this.SendPropertyChanging();
+					this._ImageUrl = value;
+					this.SendPropertyChanged("ImageUrl");
+					this.OnImageUrlChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChristianName", DbType="NVarChar(100)")]
+		public string ChristianName
+		{
+			get
+			{
+				return this._ChristianName;
+			}
+			set
+			{
+				if ((this._ChristianName != value))
+				{
+					this.OnChristianNameChanging(value);
+					this.SendPropertyChanging();
+					this._ChristianName = value;
+					this.SendPropertyChanged("ChristianName");
+					this.OnChristianNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Gender", DbType="Int NOT NULL")]
+		public int Gender
+		{
+			get
+			{
+				return this._Gender;
+			}
+			set
+			{
+				if ((this._Gender != value))
+				{
+					this.OnGenderChanging(value);
+					this.SendPropertyChanging();
+					this._Gender = value;
+					this.SendPropertyChanged("Gender");
+					this.OnGenderChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BirthDate", DbType="Char(8)")]
+		public string BirthDate
+		{
+			get
+			{
+				return this._BirthDate;
+			}
+			set
+			{
+				if ((this._BirthDate != value))
+				{
+					this.OnBirthDateChanging(value);
+					this.SendPropertyChanging();
+					this._BirthDate = value;
+					this.SendPropertyChanged("BirthDate");
+					this.OnBirthDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BirthPlace", DbType="NVarChar(100)")]
+		public string BirthPlace
+		{
+			get
+			{
+				return this._BirthPlace;
+			}
+			set
+			{
+				if ((this._BirthPlace != value))
+				{
+					this.OnBirthPlaceChanging(value);
+					this.SendPropertyChanging();
+					this._BirthPlace = value;
+					this.SendPropertyChanged("BirthPlace");
+					this.OnBirthPlaceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FatherName", DbType="NVarChar(100)")]
+		public string FatherName
+		{
+			get
+			{
+				return this._FatherName;
+			}
+			set
+			{
+				if ((this._FatherName != value))
+				{
+					this.OnFatherNameChanging(value);
+					this.SendPropertyChanging();
+					this._FatherName = value;
+					this.SendPropertyChanged("FatherName");
+					this.OnFatherNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MotherName", DbType="NVarChar(100)")]
+		public string MotherName
+		{
+			get
+			{
+				return this._MotherName;
+			}
+			set
+			{
+				if ((this._MotherName != value))
+				{
+					this.OnMotherNameChanging(value);
+					this.SendPropertyChanging();
+					this._MotherName = value;
+					this.SendPropertyChanged("MotherName");
+					this.OnMotherNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsCounted", DbType="Bit NOT NULL")]
+		public bool IsCounted
+		{
+			get
+			{
+				return this._IsCounted;
+			}
+			set
+			{
+				if ((this._IsCounted != value))
+				{
+					this.OnIsCountedChanging(value);
+					this.SendPropertyChanging();
+					this._IsCounted = value;
+					this.SendPropertyChanged("IsCounted");
+					this.OnIsCountedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DomicileStatus", DbType="Int NOT NULL")]
+		public int DomicileStatus
+		{
+			get
+			{
+				return this._DomicileStatus;
+			}
+			set
+			{
+				if ((this._DomicileStatus != value))
+				{
+					this.OnDomicileStatusChanging(value);
+					this.SendPropertyChanging();
+					this._DomicileStatus = value;
+					this.SendPropertyChanged("DomicileStatus");
+					this.OnDomicileStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DomicilePlace", DbType="NVarChar(100)")]
+		public string DomicilePlace
+		{
+			get
+			{
+				return this._DomicilePlace;
+			}
+			set
+			{
+				if ((this._DomicilePlace != value))
+				{
+					this.OnDomicilePlaceChanging(value);
+					this.SendPropertyChanging();
+					this._DomicilePlace = value;
+					this.SendPropertyChanged("DomicilePlace");
+					this.OnDomicilePlaceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Education", DbType="NVarChar(100)")]
+		public string Education
+		{
+			get
+			{
+				return this._Education;
+			}
+			set
+			{
+				if ((this._Education != value))
+				{
+					this.OnEducationChanging(value);
+					this.SendPropertyChanging();
+					this._Education = value;
+					this.SendPropertyChanged("Education");
+					this.OnEducationChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsStudying", DbType="Bit NOT NULL")]
+		public bool IsStudying
+		{
+			get
+			{
+				return this._IsStudying;
+			}
+			set
+			{
+				if ((this._IsStudying != value))
+				{
+					this.OnIsStudyingChanging(value);
+					this.SendPropertyChanging();
+					this._IsStudying = value;
+					this.SendPropertyChanged("IsStudying");
+					this.OnIsStudyingChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Career", DbType="NVarChar(100)")]
+		public string Career
+		{
+			get
+			{
+				return this._Career;
+			}
+			set
+			{
+				if ((this._Career != value))
+				{
+					this.OnCareerChanging(value);
+					this.SendPropertyChanging();
+					this._Career = value;
+					this.SendPropertyChanged("Career");
+					this.OnCareerChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(100)")]
+		public string Address
+		{
+			get
+			{
+				return this._Address;
+			}
+			set
+			{
+				if ((this._Address != value))
+				{
+					this.OnAddressChanging(value);
+					this.SendPropertyChanging();
+					this._Address = value;
+					this.SendPropertyChanged("Address");
+					this.OnAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="VarChar(20)")]
+		public string Phone
+		{
+			get
+			{
+				return this._Phone;
+			}
+			set
+			{
+				if ((this._Phone != value))
+				{
+					this.OnPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._Phone = value;
+					this.SendPropertyChanged("Phone");
+					this.OnPhoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MobilePhone", DbType="VarChar(20)")]
+		public string MobilePhone
+		{
+			get
+			{
+				return this._MobilePhone;
+			}
+			set
+			{
+				if ((this._MobilePhone != value))
+				{
+					this.OnMobilePhoneChanging(value);
+					this.SendPropertyChanging();
+					this._MobilePhone = value;
+					this.SendPropertyChanged("MobilePhone");
+					this.OnMobilePhoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(100)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NVarChar(200)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsCatechumen", DbType="Bit NOT NULL")]
+		public bool IsCatechumen
+		{
+			get
+			{
+				return this._IsCatechumen;
+			}
+			set
+			{
+				if ((this._IsCatechumen != value))
+				{
+					this.OnIsCatechumenChanging(value);
+					this.SendPropertyChanging();
+					this._IsCatechumen = value;
+					this.SendPropertyChanged("IsCatechumen");
+					this.OnIsCatechumenChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDead", DbType="Bit NOT NULL")]
+		public bool IsDead
+		{
+			get
+			{
+				return this._IsDead;
+			}
+			set
+			{
+				if ((this._IsDead != value))
+				{
+					this.OnIsDeadChanging(value);
+					this.SendPropertyChanging();
+					this._IsDead = value;
+					this.SendPropertyChanged("IsDead");
+					this.OnIsDeadChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeadDate", DbType="Char(8)")]
+		public string DeadDate
+		{
+			get
+			{
+				return this._DeadDate;
+			}
+			set
+			{
+				if ((this._DeadDate != value))
+				{
+					this.OnDeadDateChanging(value);
+					this.SendPropertyChanging();
+					this._DeadDate = value;
+					this.SendPropertyChanged("DeadDate");
+					this.OnDeadDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsMarried", DbType="Bit NOT NULL")]
+		public bool IsMarried
+		{
+			get
+			{
+				return this._IsMarried;
+			}
+			set
+			{
+				if ((this._IsMarried != value))
+				{
+					this.OnIsMarriedChanging(value);
+					this.SendPropertyChanging();
+					this._IsMarried = value;
+					this.SendPropertyChanged("IsMarried");
+					this.OnIsMarriedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsSingle", DbType="Bit NOT NULL")]
+		public bool IsSingle
+		{
+			get
+			{
+				return this._IsSingle;
+			}
+			set
+			{
+				if ((this._IsSingle != value))
+				{
+					this.OnIsSingleChanging(value);
+					this.SendPropertyChanging();
+					this._IsSingle = value;
+					this.SendPropertyChanged("IsSingle");
+					this.OnIsSingleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityId", DbType="Int NOT NULL")]
+		public int CommunityId
+		{
+			get
+			{
+				return this._CommunityId;
+			}
+			set
+			{
+				if ((this._CommunityId != value))
+				{
+					if (this._Community.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCommunityIdChanging(value);
+					this.SendPropertyChanging();
+					this._CommunityId = value;
+					this.SendPropertyChanged("CommunityId");
+					this.OnCommunityIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedDate
+		{
+			get
+			{
+				return this._CreatedDate;
+			}
+			set
+			{
+				if ((this._CreatedDate != value))
+				{
+					this.OnCreatedDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedDate = value;
+					this.SendPropertyChanged("CreatedDate");
+					this.OnCreatedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedBy", DbType="VarChar(100)")]
+		public string CreatedBy
+		{
+			get
+			{
+				return this._CreatedBy;
+			}
+			set
+			{
+				if ((this._CreatedBy != value))
+				{
+					this.OnCreatedByChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedBy = value;
+					this.SendPropertyChanged("CreatedBy");
+					this.OnCreatedByChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastUpdatedBy", DbType="VarChar(100)")]
+		public string LastUpdatedBy
+		{
+			get
+			{
+				return this._LastUpdatedBy;
+			}
+			set
+			{
+				if ((this._LastUpdatedBy != value))
+				{
+					this.OnLastUpdatedByChanging(value);
+					this.SendPropertyChanging();
+					this._LastUpdatedBy = value;
+					this.SendPropertyChanged("LastUpdatedBy");
+					this.OnLastUpdatedByChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_ClassGroup", Storage="_ClassGroups", ThisKey="Id", OtherKey="ManagedBy")]
+		public EntitySet<ClassGroup> ClassGroups
+		{
+			get
+			{
+				return this._ClassGroups;
+			}
+			set
+			{
+				this._ClassGroups.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_ClassMember", Storage="_ClassMembers", ThisKey="Id", OtherKey="ParishionerId")]
+		public EntitySet<ClassMember> ClassMembers
+		{
+			get
+			{
+				return this._ClassMembers;
+			}
+			set
+			{
+				this._ClassMembers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_DeaconRequisitionComment", Storage="_DeaconRequisitionComments", ThisKey="Id", OtherKey="ParishionerId")]
+		public EntitySet<DeaconRequisitionComment> DeaconRequisitionComments
+		{
+			get
+			{
+				return this._DeaconRequisitionComments;
+			}
+			set
+			{
+				this._DeaconRequisitionComments.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_FamilyMember", Storage="_FamilyMembers", ThisKey="Id", OtherKey="ParishionerId")]
+		public EntitySet<FamilyMember> FamilyMembers
+		{
+			get
+			{
+				return this._FamilyMembers;
+			}
+			set
+			{
+				this._FamilyMembers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_Matrimony", Storage="_Matrimonies", ThisKey="Id", OtherKey="HusbandId")]
+		public EntitySet<Matrimony> Matrimonies
+		{
+			get
+			{
+				return this._Matrimonies;
+			}
+			set
+			{
+				this._Matrimonies.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_Matrimony1", Storage="_Matrimonies1", ThisKey="Id", OtherKey="WifeId")]
+		public EntitySet<Matrimony> Matrimonies1
+		{
+			get
+			{
+				return this._Matrimonies1;
+			}
+			set
+			{
+				this._Matrimonies1.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_ParishionerMigrationRequest", Storage="_ParishionerMigrationRequests", ThisKey="Id", OtherKey="ParishionerId")]
+		public EntitySet<ParishionerMigrationRequest> ParishionerMigrationRequests
+		{
+			get
+			{
+				return this._ParishionerMigrationRequests;
+			}
+			set
+			{
+				this._ParishionerMigrationRequests.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_Sacrament", Storage="_Sacraments", ThisKey="Id", OtherKey="ParishionerId")]
+		public EntitySet<Sacrament> Sacraments
+		{
+			get
+			{
+				return this._Sacraments;
+			}
+			set
+			{
+				this._Sacraments.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_Society", Storage="_Societies", ThisKey="Id", OtherKey="ManagedBy")]
+		public EntitySet<Society> Societies
+		{
+			get
+			{
+				return this._Societies;
+			}
+			set
+			{
+				this._Societies.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_SocietyMember", Storage="_SocietyMembers", ThisKey="Id", OtherKey="ParishionerId")]
+		public EntitySet<SocietyMember> SocietyMembers
+		{
+			get
+			{
+				return this._SocietyMembers;
+			}
+			set
+			{
+				this._SocietyMembers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_Vocation", Storage="_Vocation", ThisKey="Id", OtherKey="ParishionerId", IsUnique=true, IsForeignKey=false)]
+		public Vocation Vocation
+		{
+			get
+			{
+				return this._Vocation.Entity;
+			}
+			set
+			{
+				Vocation previousValue = this._Vocation.Entity;
+				if (((previousValue != value) 
+							|| (this._Vocation.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Vocation.Entity = null;
+						previousValue.Parishioner = null;
+					}
+					this._Vocation.Entity = value;
+					if ((value != null))
+					{
+						value.Parishioner = this;
+					}
+					this.SendPropertyChanged("Vocation");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Community_Parishioner", Storage="_Community", ThisKey="CommunityId", OtherKey="Id", IsForeignKey=true)]
+		public Community Community
+		{
+			get
+			{
+				return this._Community.Entity;
+			}
+			set
+			{
+				Community previousValue = this._Community.Entity;
+				if (((previousValue != value) 
+							|| (this._Community.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Community.Entity = null;
+						previousValue.Parishioners.Remove(this);
+					}
+					this._Community.Entity = value;
+					if ((value != null))
+					{
+						value.Parishioners.Add(this);
+						this._CommunityId = value.Id;
+					}
+					else
+					{
+						this._CommunityId = default(int);
+					}
+					this.SendPropertyChanged("Community");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ClassGroups(ClassGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = this;
+		}
+		
+		private void detach_ClassGroups(ClassGroup entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = null;
+		}
+		
+		private void attach_ClassMembers(ClassMember entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = this;
+		}
+		
+		private void detach_ClassMembers(ClassMember entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = null;
+		}
+		
+		private void attach_DeaconRequisitionComments(DeaconRequisitionComment entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = this;
+		}
+		
+		private void detach_DeaconRequisitionComments(DeaconRequisitionComment entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = null;
+		}
+		
+		private void attach_FamilyMembers(FamilyMember entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = this;
+		}
+		
+		private void detach_FamilyMembers(FamilyMember entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = null;
+		}
+		
+		private void attach_Matrimonies(Matrimony entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = this;
+		}
+		
+		private void detach_Matrimonies(Matrimony entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = null;
+		}
+		
+		private void attach_Matrimonies1(Matrimony entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner1 = this;
+		}
+		
+		private void detach_Matrimonies1(Matrimony entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner1 = null;
+		}
+		
+		private void attach_ParishionerMigrationRequests(ParishionerMigrationRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = this;
+		}
+		
+		private void detach_ParishionerMigrationRequests(ParishionerMigrationRequest entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = null;
+		}
+		
+		private void attach_Sacraments(Sacrament entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = this;
+		}
+		
+		private void detach_Sacraments(Sacrament entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = null;
+		}
+		
+		private void attach_Societies(Society entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = this;
+		}
+		
+		private void detach_Societies(Society entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = null;
+		}
+		
+		private void attach_SocietyMembers(SocietyMember entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = this;
+		}
+		
+		private void detach_SocietyMembers(SocietyMember entity)
+		{
+			this.SendPropertyChanging();
+			entity.Parishioner = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ParishionerMigrationRequest")]
+	public partial class ParishionerMigrationRequest : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _ParishionerId;
+		
+		private System.Nullable<int> _ToParishId;
+		
+		private System.DateTime _CreatedDate;
+		
+		private int _FromCommunityId;
+		
+		private int _Status;
+		
+		private EntityRef<Community> _Community;
+		
+		private EntityRef<Parish> _Parish;
+		
+		private EntityRef<Parishioner> _Parishioner;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnParishionerIdChanging(int value);
+    partial void OnParishionerIdChanged();
+    partial void OnToParishIdChanging(System.Nullable<int> value);
+    partial void OnToParishIdChanged();
+    partial void OnCreatedDateChanging(System.DateTime value);
+    partial void OnCreatedDateChanged();
+    partial void OnFromCommunityIdChanging(int value);
+    partial void OnFromCommunityIdChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    #endregion
+		
+		public ParishionerMigrationRequest()
+		{
+			this._Community = default(EntityRef<Community>);
+			this._Parish = default(EntityRef<Parish>);
+			this._Parishioner = default(EntityRef<Parishioner>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishionerId", DbType="Int NOT NULL")]
+		public int ParishionerId
+		{
+			get
+			{
+				return this._ParishionerId;
+			}
+			set
+			{
+				if ((this._ParishionerId != value))
+				{
+					if (this._Parishioner.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishionerIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishionerId = value;
+					this.SendPropertyChanged("ParishionerId");
+					this.OnParishionerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ToParishId", DbType="Int")]
+		public System.Nullable<int> ToParishId
+		{
+			get
+			{
+				return this._ToParishId;
+			}
+			set
+			{
+				if ((this._ToParishId != value))
+				{
+					if (this._Parish.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnToParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ToParishId = value;
+					this.SendPropertyChanged("ToParishId");
+					this.OnToParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedDate", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedDate
+		{
+			get
+			{
+				return this._CreatedDate;
+			}
+			set
+			{
+				if ((this._CreatedDate != value))
+				{
+					this.OnCreatedDateChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedDate = value;
+					this.SendPropertyChanged("CreatedDate");
+					this.OnCreatedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FromCommunityId", DbType="Int NOT NULL")]
+		public int FromCommunityId
+		{
+			get
+			{
+				return this._FromCommunityId;
+			}
+			set
+			{
+				if ((this._FromCommunityId != value))
+				{
+					if (this._Community.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnFromCommunityIdChanging(value);
+					this.SendPropertyChanging();
+					this._FromCommunityId = value;
+					this.SendPropertyChanged("FromCommunityId");
+					this.OnFromCommunityIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Community_ParishionerMigrationRequest", Storage="_Community", ThisKey="FromCommunityId", OtherKey="Id", IsForeignKey=true)]
+		public Community Community
+		{
+			get
+			{
+				return this._Community.Entity;
+			}
+			set
+			{
+				Community previousValue = this._Community.Entity;
+				if (((previousValue != value) 
+							|| (this._Community.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Community.Entity = null;
+						previousValue.ParishionerMigrationRequests.Remove(this);
+					}
+					this._Community.Entity = value;
+					if ((value != null))
+					{
+						value.ParishionerMigrationRequests.Add(this);
+						this._FromCommunityId = value.Id;
+					}
+					else
+					{
+						this._FromCommunityId = default(int);
+					}
+					this.SendPropertyChanged("Community");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_ParishionerMigrationRequest", Storage="_Parish", ThisKey="ToParishId", OtherKey="Id", IsForeignKey=true)]
+		public Parish Parish
+		{
+			get
+			{
+				return this._Parish.Entity;
+			}
+			set
+			{
+				Parish previousValue = this._Parish.Entity;
+				if (((previousValue != value) 
+							|| (this._Parish.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parish.Entity = null;
+						previousValue.ParishionerMigrationRequests.Remove(this);
+					}
+					this._Parish.Entity = value;
+					if ((value != null))
+					{
+						value.ParishionerMigrationRequests.Add(this);
+						this._ToParishId = value.Id;
+					}
+					else
+					{
+						this._ToParishId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Parish");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_ParishionerMigrationRequest", Storage="_Parishioner", ThisKey="ParishionerId", OtherKey="Id", IsForeignKey=true)]
+		public Parishioner Parishioner
+		{
+			get
+			{
+				return this._Parishioner.Entity;
+			}
+			set
+			{
+				Parishioner previousValue = this._Parishioner.Entity;
+				if (((previousValue != value) 
+							|| (this._Parishioner.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parishioner.Entity = null;
+						previousValue.ParishionerMigrationRequests.Remove(this);
+					}
+					this._Parishioner.Entity = value;
+					if ((value != null))
+					{
+						value.ParishionerMigrationRequests.Add(this);
+						this._ParishionerId = value.Id;
+					}
+					else
+					{
+						this._ParishionerId = default(int);
+					}
+					this.SendPropertyChanged("Parishioner");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ParishManager")]
+	public partial class ParishManager : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private System.Nullable<int> _ParishId;
+		
+		private int _PriestId;
+		
+		private string _StartDate;
+		
+		private string _EndDate;
+		
+		private System.Nullable<int> _Position;
+		
+		private string _PositionName;
+		
+		private System.Nullable<int> _IdThuyenChuyenLinhMuc;
+		
+		private System.Nullable<System.DateTime> _TakenDate;
+		
+		private System.Nullable<int> _StatusId;
+		
+		private string _Code;
+		
+		private EntityRef<GeneralStatus> _GeneralStatus;
+		
+		private EntityRef<Parish> _Parish;
+		
+		private EntityRef<Priest> _Priest;
+		
+		private EntityRef<ThuyenChuyenLinhMuc> _ThuyenChuyenLinhMuc;
+		
+		private EntityRef<VaiTro> _VaiTro;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnParishIdChanging(System.Nullable<int> value);
+    partial void OnParishIdChanged();
+    partial void OnPriestIdChanging(int value);
+    partial void OnPriestIdChanged();
+    partial void OnStartDateChanging(string value);
+    partial void OnStartDateChanged();
+    partial void OnEndDateChanging(string value);
+    partial void OnEndDateChanged();
+    partial void OnPositionChanging(System.Nullable<int> value);
+    partial void OnPositionChanged();
+    partial void OnPositionNameChanging(string value);
+    partial void OnPositionNameChanged();
+    partial void OnIdThuyenChuyenLinhMucChanging(System.Nullable<int> value);
+    partial void OnIdThuyenChuyenLinhMucChanged();
+    partial void OnTakenDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnTakenDateChanged();
+    partial void OnStatusIdChanging(System.Nullable<int> value);
+    partial void OnStatusIdChanged();
+    partial void OnCodeChanging(string value);
+    partial void OnCodeChanged();
+    #endregion
+		
+		public ParishManager()
+		{
+			this._GeneralStatus = default(EntityRef<GeneralStatus>);
+			this._Parish = default(EntityRef<Parish>);
+			this._Priest = default(EntityRef<Priest>);
+			this._ThuyenChuyenLinhMuc = default(EntityRef<ThuyenChuyenLinhMuc>);
+			this._VaiTro = default(EntityRef<VaiTro>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int")]
+		public System.Nullable<int> ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					if (this._Parish.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PriestId", DbType="Int NOT NULL")]
+		public int PriestId
+		{
+			get
+			{
+				return this._PriestId;
+			}
+			set
+			{
+				if ((this._PriestId != value))
+				{
+					if (this._Priest.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPriestIdChanging(value);
+					this.SendPropertyChanging();
+					this._PriestId = value;
+					this.SendPropertyChanged("PriestId");
+					this.OnPriestIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartDate", DbType="VarChar(8) NOT NULL", CanBeNull=false)]
+		public string StartDate
+		{
+			get
+			{
+				return this._StartDate;
+			}
+			set
+			{
+				if ((this._StartDate != value))
+				{
+					this.OnStartDateChanging(value);
+					this.SendPropertyChanging();
+					this._StartDate = value;
+					this.SendPropertyChanged("StartDate");
+					this.OnStartDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndDate", DbType="VarChar(8)")]
+		public string EndDate
+		{
+			get
+			{
+				return this._EndDate;
+			}
+			set
+			{
+				if ((this._EndDate != value))
+				{
+					this.OnEndDateChanging(value);
+					this.SendPropertyChanging();
+					this._EndDate = value;
+					this.SendPropertyChanged("EndDate");
+					this.OnEndDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Position", DbType="Int")]
+		public System.Nullable<int> Position
+		{
+			get
+			{
+				return this._Position;
+			}
+			set
+			{
+				if ((this._Position != value))
+				{
+					if (this._VaiTro.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPositionChanging(value);
+					this.SendPropertyChanging();
+					this._Position = value;
+					this.SendPropertyChanged("Position");
+					this.OnPositionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PositionName", DbType="NVarChar(50)")]
+		public string PositionName
+		{
+			get
+			{
+				return this._PositionName;
+			}
+			set
+			{
+				if ((this._PositionName != value))
+				{
+					this.OnPositionNameChanging(value);
+					this.SendPropertyChanging();
+					this._PositionName = value;
+					this.SendPropertyChanged("PositionName");
+					this.OnPositionNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdThuyenChuyenLinhMuc", DbType="Int")]
+		public System.Nullable<int> IdThuyenChuyenLinhMuc
+		{
+			get
+			{
+				return this._IdThuyenChuyenLinhMuc;
+			}
+			set
+			{
+				if ((this._IdThuyenChuyenLinhMuc != value))
+				{
+					if (this._ThuyenChuyenLinhMuc.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdThuyenChuyenLinhMucChanging(value);
+					this.SendPropertyChanging();
+					this._IdThuyenChuyenLinhMuc = value;
+					this.SendPropertyChanged("IdThuyenChuyenLinhMuc");
+					this.OnIdThuyenChuyenLinhMucChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TakenDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> TakenDate
+		{
+			get
+			{
+				return this._TakenDate;
+			}
+			set
+			{
+				if ((this._TakenDate != value))
+				{
+					this.OnTakenDateChanging(value);
+					this.SendPropertyChanging();
+					this._TakenDate = value;
+					this.SendPropertyChanged("TakenDate");
+					this.OnTakenDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StatusId", DbType="Int")]
+		public System.Nullable<int> StatusId
+		{
+			get
+			{
+				return this._StatusId;
+			}
+			set
+			{
+				if ((this._StatusId != value))
+				{
+					if (this._GeneralStatus.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnStatusIdChanging(value);
+					this.SendPropertyChanging();
+					this._StatusId = value;
+					this.SendPropertyChanged("StatusId");
+					this.OnStatusIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="VarChar(100)")]
+		public string Code
+		{
+			get
+			{
+				return this._Code;
+			}
+			set
+			{
+				if ((this._Code != value))
+				{
+					this.OnCodeChanging(value);
+					this.SendPropertyChanging();
+					this._Code = value;
+					this.SendPropertyChanged("Code");
+					this.OnCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="GeneralStatus_ParishManager", Storage="_GeneralStatus", ThisKey="StatusId", OtherKey="Id", IsForeignKey=true)]
+		public GeneralStatus GeneralStatus
+		{
+			get
+			{
+				return this._GeneralStatus.Entity;
+			}
+			set
+			{
+				GeneralStatus previousValue = this._GeneralStatus.Entity;
+				if (((previousValue != value) 
+							|| (this._GeneralStatus.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._GeneralStatus.Entity = null;
+						previousValue.ParishManagers.Remove(this);
+					}
+					this._GeneralStatus.Entity = value;
+					if ((value != null))
+					{
+						value.ParishManagers.Add(this);
+						this._StatusId = value.Id;
+					}
+					else
+					{
+						this._StatusId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("GeneralStatus");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_ParishManager", Storage="_Parish", ThisKey="ParishId", OtherKey="Id", IsForeignKey=true)]
+		public Parish Parish
+		{
+			get
+			{
+				return this._Parish.Entity;
+			}
+			set
+			{
+				Parish previousValue = this._Parish.Entity;
+				if (((previousValue != value) 
+							|| (this._Parish.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parish.Entity = null;
+						previousValue.ParishManagers.Remove(this);
+					}
+					this._Parish.Entity = value;
+					if ((value != null))
+					{
+						value.ParishManagers.Add(this);
+						this._ParishId = value.Id;
+					}
+					else
+					{
+						this._ParishId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Parish");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Priest_ParishManager", Storage="_Priest", ThisKey="PriestId", OtherKey="Id", IsForeignKey=true)]
+		public Priest Priest
+		{
+			get
+			{
+				return this._Priest.Entity;
+			}
+			set
+			{
+				Priest previousValue = this._Priest.Entity;
+				if (((previousValue != value) 
+							|| (this._Priest.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Priest.Entity = null;
+						previousValue.ParishManagers.Remove(this);
+					}
+					this._Priest.Entity = value;
+					if ((value != null))
+					{
+						value.ParishManagers.Add(this);
+						this._PriestId = value.Id;
+					}
+					else
+					{
+						this._PriestId = default(int);
+					}
+					this.SendPropertyChanged("Priest");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ThuyenChuyenLinhMuc_ParishManager", Storage="_ThuyenChuyenLinhMuc", ThisKey="IdThuyenChuyenLinhMuc", OtherKey="Id", IsForeignKey=true)]
+		public ThuyenChuyenLinhMuc ThuyenChuyenLinhMuc
+		{
+			get
+			{
+				return this._ThuyenChuyenLinhMuc.Entity;
+			}
+			set
+			{
+				ThuyenChuyenLinhMuc previousValue = this._ThuyenChuyenLinhMuc.Entity;
+				if (((previousValue != value) 
+							|| (this._ThuyenChuyenLinhMuc.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ThuyenChuyenLinhMuc.Entity = null;
+						previousValue.ParishManagers.Remove(this);
+					}
+					this._ThuyenChuyenLinhMuc.Entity = value;
+					if ((value != null))
+					{
+						value.ParishManagers.Add(this);
+						this._IdThuyenChuyenLinhMuc = value.Id;
+					}
+					else
+					{
+						this._IdThuyenChuyenLinhMuc = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("ThuyenChuyenLinhMuc");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="VaiTro_ParishManager", Storage="_VaiTro", ThisKey="Position", OtherKey="Id", IsForeignKey=true)]
+		public VaiTro VaiTro
+		{
+			get
+			{
+				return this._VaiTro.Entity;
+			}
+			set
+			{
+				VaiTro previousValue = this._VaiTro.Entity;
+				if (((previousValue != value) 
+							|| (this._VaiTro.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._VaiTro.Entity = null;
+						previousValue.ParishManagers.Remove(this);
+					}
+					this._VaiTro.Entity = value;
+					if ((value != null))
+					{
+						value.ParishManagers.Add(this);
+						this._Position = value.Id;
+					}
+					else
+					{
+						this._Position = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("VaiTro");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PlaceSuggestion")]
+	public partial class PlaceSuggestion : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public PlaceSuggestion()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Priest")]
+	public partial class Priest : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _ChristianName;
+		
+		private string _Name;
+		
+		private string _BirthDate;
+		
+		private int _DioceseId;
+		
+		private string _Phone;
+		
+		private System.Nullable<int> _ParishionerId;
+		
+		private EntitySet<DeaconRequisitionComment> _DeaconRequisitionComments;
+		
+		private EntitySet<HDLMMember> _HDLMMembers;
+		
+		private EntitySet<Parish> _Parishes;
+		
+		private EntitySet<ParishManager> _ParishManagers;
+		
+		private EntityRef<Diocese> _Diocese;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnChristianNameChanging(string value);
+    partial void OnChristianNameChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnBirthDateChanging(string value);
+    partial void OnBirthDateChanged();
+    partial void OnDioceseIdChanging(int value);
+    partial void OnDioceseIdChanged();
+    partial void OnPhoneChanging(string value);
+    partial void OnPhoneChanged();
+    partial void OnParishionerIdChanging(System.Nullable<int> value);
+    partial void OnParishionerIdChanged();
+    #endregion
+		
+		public Priest()
+		{
+			this._DeaconRequisitionComments = new EntitySet<DeaconRequisitionComment>(new Action<DeaconRequisitionComment>(this.attach_DeaconRequisitionComments), new Action<DeaconRequisitionComment>(this.detach_DeaconRequisitionComments));
+			this._HDLMMembers = new EntitySet<HDLMMember>(new Action<HDLMMember>(this.attach_HDLMMembers), new Action<HDLMMember>(this.detach_HDLMMembers));
+			this._Parishes = new EntitySet<Parish>(new Action<Parish>(this.attach_Parishes), new Action<Parish>(this.detach_Parishes));
+			this._ParishManagers = new EntitySet<ParishManager>(new Action<ParishManager>(this.attach_ParishManagers), new Action<ParishManager>(this.detach_ParishManagers));
+			this._Diocese = default(EntityRef<Diocese>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChristianName", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string ChristianName
+		{
+			get
+			{
+				return this._ChristianName;
+			}
+			set
+			{
+				if ((this._ChristianName != value))
+				{
+					this.OnChristianNameChanging(value);
+					this.SendPropertyChanging();
+					this._ChristianName = value;
+					this.SendPropertyChanged("ChristianName");
+					this.OnChristianNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BirthDate", DbType="Char(10)")]
+		public string BirthDate
+		{
+			get
+			{
+				return this._BirthDate;
+			}
+			set
+			{
+				if ((this._BirthDate != value))
+				{
+					this.OnBirthDateChanging(value);
+					this.SendPropertyChanging();
+					this._BirthDate = value;
+					this.SendPropertyChanged("BirthDate");
+					this.OnBirthDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DioceseId", DbType="Int NOT NULL")]
+		public int DioceseId
+		{
+			get
+			{
+				return this._DioceseId;
+			}
+			set
+			{
+				if ((this._DioceseId != value))
+				{
+					if (this._Diocese.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDioceseIdChanging(value);
+					this.SendPropertyChanging();
+					this._DioceseId = value;
+					this.SendPropertyChanged("DioceseId");
+					this.OnDioceseIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="NVarChar(20)")]
+		public string Phone
+		{
+			get
+			{
+				return this._Phone;
+			}
+			set
+			{
+				if ((this._Phone != value))
+				{
+					this.OnPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._Phone = value;
+					this.SendPropertyChanged("Phone");
+					this.OnPhoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishionerId", DbType="Int")]
+		public System.Nullable<int> ParishionerId
+		{
+			get
+			{
+				return this._ParishionerId;
+			}
+			set
+			{
+				if ((this._ParishionerId != value))
+				{
+					this.OnParishionerIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishionerId = value;
+					this.SendPropertyChanged("ParishionerId");
+					this.OnParishionerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Priest_DeaconRequisitionComment", Storage="_DeaconRequisitionComments", ThisKey="Id", OtherKey="PriestId")]
+		public EntitySet<DeaconRequisitionComment> DeaconRequisitionComments
+		{
+			get
+			{
+				return this._DeaconRequisitionComments;
+			}
+			set
+			{
+				this._DeaconRequisitionComments.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Priest_HDLMMember", Storage="_HDLMMembers", ThisKey="Id", OtherKey="PriestID")]
+		public EntitySet<HDLMMember> HDLMMembers
+		{
+			get
+			{
+				return this._HDLMMembers;
+			}
+			set
+			{
+				this._HDLMMembers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Priest_Parish", Storage="_Parishes", ThisKey="Id", OtherKey="PriestId")]
+		public EntitySet<Parish> Parishes
+		{
+			get
+			{
+				return this._Parishes;
+			}
+			set
+			{
+				this._Parishes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Priest_ParishManager", Storage="_ParishManagers", ThisKey="Id", OtherKey="PriestId")]
+		public EntitySet<ParishManager> ParishManagers
+		{
+			get
+			{
+				return this._ParishManagers;
+			}
+			set
+			{
+				this._ParishManagers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Diocese_Priest", Storage="_Diocese", ThisKey="DioceseId", OtherKey="Id", IsForeignKey=true)]
+		public Diocese Diocese
+		{
+			get
+			{
+				return this._Diocese.Entity;
+			}
+			set
+			{
+				Diocese previousValue = this._Diocese.Entity;
+				if (((previousValue != value) 
+							|| (this._Diocese.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Diocese.Entity = null;
+						previousValue.Priests.Remove(this);
+					}
+					this._Diocese.Entity = value;
+					if ((value != null))
+					{
+						value.Priests.Add(this);
+						this._DioceseId = value.Id;
+					}
+					else
+					{
+						this._DioceseId = default(int);
+					}
+					this.SendPropertyChanged("Diocese");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_DeaconRequisitionComments(DeaconRequisitionComment entity)
+		{
+			this.SendPropertyChanging();
+			entity.Priest = this;
+		}
+		
+		private void detach_DeaconRequisitionComments(DeaconRequisitionComment entity)
+		{
+			this.SendPropertyChanging();
+			entity.Priest = null;
+		}
+		
+		private void attach_HDLMMembers(HDLMMember entity)
+		{
+			this.SendPropertyChanging();
+			entity.Priest = this;
+		}
+		
+		private void detach_HDLMMembers(HDLMMember entity)
+		{
+			this.SendPropertyChanging();
+			entity.Priest = null;
+		}
+		
+		private void attach_Parishes(Parish entity)
+		{
+			this.SendPropertyChanging();
+			entity.Priest1 = this;
+		}
+		
+		private void detach_Parishes(Parish entity)
+		{
+			this.SendPropertyChanging();
+			entity.Priest1 = null;
+		}
+		
+		private void attach_ParishManagers(ParishManager entity)
+		{
+			this.SendPropertyChanging();
+			entity.Priest = this;
+		}
+		
+		private void detach_ParishManagers(ParishManager entity)
+		{
+			this.SendPropertyChanging();
+			entity.Priest = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ReligiousCommunity")]
+	public partial class ReligiousCommunity : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private int _Type;
+		
+		private System.Nullable<int> _DirectorId;
+		
+		private System.Nullable<int> _ViceDirectorId;
+		
+		private EntitySet<ReligiousCommunityBase> _ReligiousCommunityBases;
+		
+		private EntitySet<ReligiousCommunityManagementTerm> _ReligiousCommunityManagementTerms;
+		
+		private EntityRef<Vocation> _Vocation;
+		
+		private EntityRef<Vocation> _Vocation1;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnTypeChanging(int value);
+    partial void OnTypeChanged();
+    partial void OnDirectorIdChanging(System.Nullable<int> value);
+    partial void OnDirectorIdChanged();
+    partial void OnViceDirectorIdChanging(System.Nullable<int> value);
+    partial void OnViceDirectorIdChanged();
+    #endregion
+		
+		public ReligiousCommunity()
+		{
+			this._ReligiousCommunityBases = new EntitySet<ReligiousCommunityBase>(new Action<ReligiousCommunityBase>(this.attach_ReligiousCommunityBases), new Action<ReligiousCommunityBase>(this.detach_ReligiousCommunityBases));
+			this._ReligiousCommunityManagementTerms = new EntitySet<ReligiousCommunityManagementTerm>(new Action<ReligiousCommunityManagementTerm>(this.attach_ReligiousCommunityManagementTerms), new Action<ReligiousCommunityManagementTerm>(this.detach_ReligiousCommunityManagementTerms));
+			this._Vocation = default(EntityRef<Vocation>);
+			this._Vocation1 = default(EntityRef<Vocation>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
+		public int Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DirectorId", DbType="Int")]
+		public System.Nullable<int> DirectorId
+		{
+			get
+			{
+				return this._DirectorId;
+			}
+			set
+			{
+				if ((this._DirectorId != value))
+				{
+					if (this._Vocation.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDirectorIdChanging(value);
+					this.SendPropertyChanging();
+					this._DirectorId = value;
+					this.SendPropertyChanged("DirectorId");
+					this.OnDirectorIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ViceDirectorId", DbType="Int")]
+		public System.Nullable<int> ViceDirectorId
+		{
+			get
+			{
+				return this._ViceDirectorId;
+			}
+			set
+			{
+				if ((this._ViceDirectorId != value))
+				{
+					if (this._Vocation1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnViceDirectorIdChanging(value);
+					this.SendPropertyChanging();
+					this._ViceDirectorId = value;
+					this.SendPropertyChanged("ViceDirectorId");
+					this.OnViceDirectorIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ReligiousCommunity_ReligiousCommunityBase", Storage="_ReligiousCommunityBases", ThisKey="Id", OtherKey="ReligiousCommunityId")]
+		public EntitySet<ReligiousCommunityBase> ReligiousCommunityBases
+		{
+			get
+			{
+				return this._ReligiousCommunityBases;
+			}
+			set
+			{
+				this._ReligiousCommunityBases.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ReligiousCommunity_ReligiousCommunityManagementTerm", Storage="_ReligiousCommunityManagementTerms", ThisKey="Id", OtherKey="ReligiousCommunityId")]
+		public EntitySet<ReligiousCommunityManagementTerm> ReligiousCommunityManagementTerms
+		{
+			get
+			{
+				return this._ReligiousCommunityManagementTerms;
+			}
+			set
+			{
+				this._ReligiousCommunityManagementTerms.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_ReligiousCommunity", Storage="_Vocation", ThisKey="DirectorId", OtherKey="ParishionerId", IsForeignKey=true)]
+		public Vocation Vocation
+		{
+			get
+			{
+				return this._Vocation.Entity;
+			}
+			set
+			{
+				Vocation previousValue = this._Vocation.Entity;
+				if (((previousValue != value) 
+							|| (this._Vocation.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Vocation.Entity = null;
+						previousValue.ReligiousCommunities.Remove(this);
+					}
+					this._Vocation.Entity = value;
+					if ((value != null))
+					{
+						value.ReligiousCommunities.Add(this);
+						this._DirectorId = value.ParishionerId;
+					}
+					else
+					{
+						this._DirectorId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Vocation");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_ReligiousCommunity1", Storage="_Vocation1", ThisKey="ViceDirectorId", OtherKey="ParishionerId", IsForeignKey=true)]
+		public Vocation Vocation1
+		{
+			get
+			{
+				return this._Vocation1.Entity;
+			}
+			set
+			{
+				Vocation previousValue = this._Vocation1.Entity;
+				if (((previousValue != value) 
+							|| (this._Vocation1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Vocation1.Entity = null;
+						previousValue.ReligiousCommunities1.Remove(this);
+					}
+					this._Vocation1.Entity = value;
+					if ((value != null))
+					{
+						value.ReligiousCommunities1.Add(this);
+						this._ViceDirectorId = value.ParishionerId;
+					}
+					else
+					{
+						this._ViceDirectorId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Vocation1");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ReligiousCommunityBases(ReligiousCommunityBase entity)
+		{
+			this.SendPropertyChanging();
+			entity.ReligiousCommunity = this;
+		}
+		
+		private void detach_ReligiousCommunityBases(ReligiousCommunityBase entity)
+		{
+			this.SendPropertyChanging();
+			entity.ReligiousCommunity = null;
+		}
+		
+		private void attach_ReligiousCommunityManagementTerms(ReligiousCommunityManagementTerm entity)
+		{
+			this.SendPropertyChanging();
+			entity.ReligiousCommunity = this;
+		}
+		
+		private void detach_ReligiousCommunityManagementTerms(ReligiousCommunityManagementTerm entity)
+		{
+			this.SendPropertyChanging();
+			entity.ReligiousCommunity = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ReligiousCommunityBase")]
+	public partial class ReligiousCommunityBase : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _ReligiousCommunityId;
+		
+		private string _Address;
+		
+		private System.Nullable<int> _ParishId;
+		
+		private string _IsHeadquarter;
+		
+		private int _ManagerId;
+		
+		private EntitySet<ReligiousCommunityManagementTerm> _ReligiousCommunityManagementTerms;
+		
+		private EntitySet<VocationExchangeReligiousCommunityBase> _VocationExchangeReligiousCommunityBases;
+		
+		private EntitySet<VocationExchangeReligiousCommunityBase> _VocationExchangeReligiousCommunityBases1;
+		
+		private EntityRef<Parish> _Parish;
+		
+		private EntityRef<ReligiousCommunity> _ReligiousCommunity;
+		
+		private EntityRef<Vocation> _Vocation;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnReligiousCommunityIdChanging(int value);
+    partial void OnReligiousCommunityIdChanged();
+    partial void OnAddressChanging(string value);
+    partial void OnAddressChanged();
+    partial void OnParishIdChanging(System.Nullable<int> value);
+    partial void OnParishIdChanged();
+    partial void OnIsHeadquarterChanging(string value);
+    partial void OnIsHeadquarterChanged();
+    partial void OnManagerIdChanging(int value);
+    partial void OnManagerIdChanged();
+    #endregion
+		
+		public ReligiousCommunityBase()
+		{
+			this._ReligiousCommunityManagementTerms = new EntitySet<ReligiousCommunityManagementTerm>(new Action<ReligiousCommunityManagementTerm>(this.attach_ReligiousCommunityManagementTerms), new Action<ReligiousCommunityManagementTerm>(this.detach_ReligiousCommunityManagementTerms));
+			this._VocationExchangeReligiousCommunityBases = new EntitySet<VocationExchangeReligiousCommunityBase>(new Action<VocationExchangeReligiousCommunityBase>(this.attach_VocationExchangeReligiousCommunityBases), new Action<VocationExchangeReligiousCommunityBase>(this.detach_VocationExchangeReligiousCommunityBases));
+			this._VocationExchangeReligiousCommunityBases1 = new EntitySet<VocationExchangeReligiousCommunityBase>(new Action<VocationExchangeReligiousCommunityBase>(this.attach_VocationExchangeReligiousCommunityBases1), new Action<VocationExchangeReligiousCommunityBase>(this.detach_VocationExchangeReligiousCommunityBases1));
+			this._Parish = default(EntityRef<Parish>);
+			this._ReligiousCommunity = default(EntityRef<ReligiousCommunity>);
+			this._Vocation = default(EntityRef<Vocation>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReligiousCommunityId", DbType="Int NOT NULL")]
+		public int ReligiousCommunityId
+		{
+			get
+			{
+				return this._ReligiousCommunityId;
+			}
+			set
+			{
+				if ((this._ReligiousCommunityId != value))
+				{
+					if (this._ReligiousCommunity.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnReligiousCommunityIdChanging(value);
+					this.SendPropertyChanging();
+					this._ReligiousCommunityId = value;
+					this.SendPropertyChanged("ReligiousCommunityId");
+					this.OnReligiousCommunityIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string Address
+		{
+			get
+			{
+				return this._Address;
+			}
+			set
+			{
+				if ((this._Address != value))
+				{
+					this.OnAddressChanging(value);
+					this.SendPropertyChanging();
+					this._Address = value;
+					this.SendPropertyChanged("Address");
+					this.OnAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int")]
+		public System.Nullable<int> ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					if (this._Parish.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsHeadquarter", DbType="NChar(10)")]
+		public string IsHeadquarter
+		{
+			get
+			{
+				return this._IsHeadquarter;
+			}
+			set
+			{
+				if ((this._IsHeadquarter != value))
+				{
+					this.OnIsHeadquarterChanging(value);
+					this.SendPropertyChanging();
+					this._IsHeadquarter = value;
+					this.SendPropertyChanged("IsHeadquarter");
+					this.OnIsHeadquarterChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ManagerId", DbType="Int NOT NULL")]
+		public int ManagerId
+		{
+			get
+			{
+				return this._ManagerId;
+			}
+			set
+			{
+				if ((this._ManagerId != value))
+				{
+					if (this._Vocation.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnManagerIdChanging(value);
+					this.SendPropertyChanging();
+					this._ManagerId = value;
+					this.SendPropertyChanged("ManagerId");
+					this.OnManagerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ReligiousCommunityBase_ReligiousCommunityManagementTerm", Storage="_ReligiousCommunityManagementTerms", ThisKey="Id", OtherKey="ReligiousCommunityBaseId")]
+		public EntitySet<ReligiousCommunityManagementTerm> ReligiousCommunityManagementTerms
+		{
+			get
+			{
+				return this._ReligiousCommunityManagementTerms;
+			}
+			set
+			{
+				this._ReligiousCommunityManagementTerms.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ReligiousCommunityBase_VocationExchangeReligiousCommunityBase", Storage="_VocationExchangeReligiousCommunityBases", ThisKey="Id", OtherKey="OldReligiousCommunityBaseId")]
+		public EntitySet<VocationExchangeReligiousCommunityBase> VocationExchangeReligiousCommunityBases
+		{
+			get
+			{
+				return this._VocationExchangeReligiousCommunityBases;
+			}
+			set
+			{
+				this._VocationExchangeReligiousCommunityBases.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ReligiousCommunityBase_VocationExchangeReligiousCommunityBase1", Storage="_VocationExchangeReligiousCommunityBases1", ThisKey="Id", OtherKey="NewReligiousCommunityBaseId")]
+		public EntitySet<VocationExchangeReligiousCommunityBase> VocationExchangeReligiousCommunityBases1
+		{
+			get
+			{
+				return this._VocationExchangeReligiousCommunityBases1;
+			}
+			set
+			{
+				this._VocationExchangeReligiousCommunityBases1.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_ReligiousCommunityBase", Storage="_Parish", ThisKey="ParishId", OtherKey="Id", IsForeignKey=true)]
+		public Parish Parish
+		{
+			get
+			{
+				return this._Parish.Entity;
+			}
+			set
+			{
+				Parish previousValue = this._Parish.Entity;
+				if (((previousValue != value) 
+							|| (this._Parish.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parish.Entity = null;
+						previousValue.ReligiousCommunityBases.Remove(this);
+					}
+					this._Parish.Entity = value;
+					if ((value != null))
+					{
+						value.ReligiousCommunityBases.Add(this);
+						this._ParishId = value.Id;
+					}
+					else
+					{
+						this._ParishId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Parish");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ReligiousCommunity_ReligiousCommunityBase", Storage="_ReligiousCommunity", ThisKey="ReligiousCommunityId", OtherKey="Id", IsForeignKey=true)]
+		public ReligiousCommunity ReligiousCommunity
+		{
+			get
+			{
+				return this._ReligiousCommunity.Entity;
+			}
+			set
+			{
+				ReligiousCommunity previousValue = this._ReligiousCommunity.Entity;
+				if (((previousValue != value) 
+							|| (this._ReligiousCommunity.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ReligiousCommunity.Entity = null;
+						previousValue.ReligiousCommunityBases.Remove(this);
+					}
+					this._ReligiousCommunity.Entity = value;
+					if ((value != null))
+					{
+						value.ReligiousCommunityBases.Add(this);
+						this._ReligiousCommunityId = value.Id;
+					}
+					else
+					{
+						this._ReligiousCommunityId = default(int);
+					}
+					this.SendPropertyChanged("ReligiousCommunity");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_ReligiousCommunityBase", Storage="_Vocation", ThisKey="ManagerId", OtherKey="ParishionerId", IsForeignKey=true)]
+		public Vocation Vocation
+		{
+			get
+			{
+				return this._Vocation.Entity;
+			}
+			set
+			{
+				Vocation previousValue = this._Vocation.Entity;
+				if (((previousValue != value) 
+							|| (this._Vocation.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Vocation.Entity = null;
+						previousValue.ReligiousCommunityBases.Remove(this);
+					}
+					this._Vocation.Entity = value;
+					if ((value != null))
+					{
+						value.ReligiousCommunityBases.Add(this);
+						this._ManagerId = value.ParishionerId;
+					}
+					else
+					{
+						this._ManagerId = default(int);
+					}
+					this.SendPropertyChanged("Vocation");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ReligiousCommunityManagementTerms(ReligiousCommunityManagementTerm entity)
+		{
+			this.SendPropertyChanging();
+			entity.ReligiousCommunityBase = this;
+		}
+		
+		private void detach_ReligiousCommunityManagementTerms(ReligiousCommunityManagementTerm entity)
+		{
+			this.SendPropertyChanging();
+			entity.ReligiousCommunityBase = null;
+		}
+		
+		private void attach_VocationExchangeReligiousCommunityBases(VocationExchangeReligiousCommunityBase entity)
+		{
+			this.SendPropertyChanging();
+			entity.ReligiousCommunityBase = this;
+		}
+		
+		private void detach_VocationExchangeReligiousCommunityBases(VocationExchangeReligiousCommunityBase entity)
+		{
+			this.SendPropertyChanging();
+			entity.ReligiousCommunityBase = null;
+		}
+		
+		private void attach_VocationExchangeReligiousCommunityBases1(VocationExchangeReligiousCommunityBase entity)
+		{
+			this.SendPropertyChanging();
+			entity.ReligiousCommunityBase1 = this;
+		}
+		
+		private void detach_VocationExchangeReligiousCommunityBases1(VocationExchangeReligiousCommunityBase entity)
+		{
+			this.SendPropertyChanging();
+			entity.ReligiousCommunityBase1 = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ReligiousCommunityManagementTerm")]
+	public partial class ReligiousCommunityManagementTerm : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _VocationId;
+		
+		private System.DateTime _StartTime;
+		
+		private System.DateTime _EndTime;
+		
+		private System.Nullable<bool> _IsDirector;
+		
+		private System.Nullable<int> _ReligiousCommunityId;
+		
+		private System.Nullable<int> _ReligiousCommunityBaseId;
+		
+		private EntityRef<ReligiousCommunity> _ReligiousCommunity;
+		
+		private EntityRef<ReligiousCommunityBase> _ReligiousCommunityBase;
+		
+		private EntityRef<Vocation> _Vocation;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnVocationIdChanging(int value);
+    partial void OnVocationIdChanged();
+    partial void OnStartTimeChanging(System.DateTime value);
+    partial void OnStartTimeChanged();
+    partial void OnEndTimeChanging(System.DateTime value);
+    partial void OnEndTimeChanged();
+    partial void OnIsDirectorChanging(System.Nullable<bool> value);
+    partial void OnIsDirectorChanged();
+    partial void OnReligiousCommunityIdChanging(System.Nullable<int> value);
+    partial void OnReligiousCommunityIdChanged();
+    partial void OnReligiousCommunityBaseIdChanging(System.Nullable<int> value);
+    partial void OnReligiousCommunityBaseIdChanged();
+    #endregion
+		
+		public ReligiousCommunityManagementTerm()
+		{
+			this._ReligiousCommunity = default(EntityRef<ReligiousCommunity>);
+			this._ReligiousCommunityBase = default(EntityRef<ReligiousCommunityBase>);
+			this._Vocation = default(EntityRef<Vocation>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VocationId", DbType="Int NOT NULL")]
+		public int VocationId
+		{
+			get
+			{
+				return this._VocationId;
+			}
+			set
+			{
+				if ((this._VocationId != value))
+				{
+					if (this._Vocation.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnVocationIdChanging(value);
+					this.SendPropertyChanging();
+					this._VocationId = value;
+					this.SendPropertyChanged("VocationId");
+					this.OnVocationIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartTime", DbType="DateTime NOT NULL")]
+		public System.DateTime StartTime
+		{
+			get
+			{
+				return this._StartTime;
+			}
+			set
+			{
+				if ((this._StartTime != value))
+				{
+					this.OnStartTimeChanging(value);
+					this.SendPropertyChanging();
+					this._StartTime = value;
+					this.SendPropertyChanged("StartTime");
+					this.OnStartTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndTime", DbType="DateTime NOT NULL")]
+		public System.DateTime EndTime
+		{
+			get
+			{
+				return this._EndTime;
+			}
+			set
+			{
+				if ((this._EndTime != value))
+				{
+					this.OnEndTimeChanging(value);
+					this.SendPropertyChanging();
+					this._EndTime = value;
+					this.SendPropertyChanged("EndTime");
+					this.OnEndTimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDirector", DbType="Bit")]
+		public System.Nullable<bool> IsDirector
+		{
+			get
+			{
+				return this._IsDirector;
+			}
+			set
+			{
+				if ((this._IsDirector != value))
+				{
+					this.OnIsDirectorChanging(value);
+					this.SendPropertyChanging();
+					this._IsDirector = value;
+					this.SendPropertyChanged("IsDirector");
+					this.OnIsDirectorChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReligiousCommunityId", DbType="Int")]
+		public System.Nullable<int> ReligiousCommunityId
+		{
+			get
+			{
+				return this._ReligiousCommunityId;
+			}
+			set
+			{
+				if ((this._ReligiousCommunityId != value))
+				{
+					if (this._ReligiousCommunity.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnReligiousCommunityIdChanging(value);
+					this.SendPropertyChanging();
+					this._ReligiousCommunityId = value;
+					this.SendPropertyChanged("ReligiousCommunityId");
+					this.OnReligiousCommunityIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReligiousCommunityBaseId", DbType="Int")]
+		public System.Nullable<int> ReligiousCommunityBaseId
+		{
+			get
+			{
+				return this._ReligiousCommunityBaseId;
+			}
+			set
+			{
+				if ((this._ReligiousCommunityBaseId != value))
+				{
+					if (this._ReligiousCommunityBase.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnReligiousCommunityBaseIdChanging(value);
+					this.SendPropertyChanging();
+					this._ReligiousCommunityBaseId = value;
+					this.SendPropertyChanged("ReligiousCommunityBaseId");
+					this.OnReligiousCommunityBaseIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ReligiousCommunity_ReligiousCommunityManagementTerm", Storage="_ReligiousCommunity", ThisKey="ReligiousCommunityId", OtherKey="Id", IsForeignKey=true)]
+		public ReligiousCommunity ReligiousCommunity
+		{
+			get
+			{
+				return this._ReligiousCommunity.Entity;
+			}
+			set
+			{
+				ReligiousCommunity previousValue = this._ReligiousCommunity.Entity;
+				if (((previousValue != value) 
+							|| (this._ReligiousCommunity.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ReligiousCommunity.Entity = null;
+						previousValue.ReligiousCommunityManagementTerms.Remove(this);
+					}
+					this._ReligiousCommunity.Entity = value;
+					if ((value != null))
+					{
+						value.ReligiousCommunityManagementTerms.Add(this);
+						this._ReligiousCommunityId = value.Id;
+					}
+					else
+					{
+						this._ReligiousCommunityId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("ReligiousCommunity");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ReligiousCommunityBase_ReligiousCommunityManagementTerm", Storage="_ReligiousCommunityBase", ThisKey="ReligiousCommunityBaseId", OtherKey="Id", IsForeignKey=true)]
+		public ReligiousCommunityBase ReligiousCommunityBase
+		{
+			get
+			{
+				return this._ReligiousCommunityBase.Entity;
+			}
+			set
+			{
+				ReligiousCommunityBase previousValue = this._ReligiousCommunityBase.Entity;
+				if (((previousValue != value) 
+							|| (this._ReligiousCommunityBase.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ReligiousCommunityBase.Entity = null;
+						previousValue.ReligiousCommunityManagementTerms.Remove(this);
+					}
+					this._ReligiousCommunityBase.Entity = value;
+					if ((value != null))
+					{
+						value.ReligiousCommunityManagementTerms.Add(this);
+						this._ReligiousCommunityBaseId = value.Id;
+					}
+					else
+					{
+						this._ReligiousCommunityBaseId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("ReligiousCommunityBase");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_ReligiousCommunityManagementTerm", Storage="_Vocation", ThisKey="VocationId", OtherKey="ParishionerId", IsForeignKey=true)]
+		public Vocation Vocation
+		{
+			get
+			{
+				return this._Vocation.Entity;
+			}
+			set
+			{
+				Vocation previousValue = this._Vocation.Entity;
+				if (((previousValue != value) 
+							|| (this._Vocation.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Vocation.Entity = null;
+						previousValue.ReligiousCommunityManagementTerms.Remove(this);
+					}
+					this._Vocation.Entity = value;
+					if ((value != null))
+					{
+						value.ReligiousCommunityManagementTerms.Add(this);
+						this._VocationId = value.ParishionerId;
+					}
+					else
+					{
+						this._VocationId = default(int);
+					}
+					this.SendPropertyChanged("Vocation");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Role")]
+	public partial class Role : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private EntitySet<Account> _Accounts;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public Role()
+		{
+			this._Accounts = new EntitySet<Account>(new Action<Account>(this.attach_Accounts), new Action<Account>(this.detach_Accounts));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Role_Account", Storage="_Accounts", ThisKey="Id", OtherKey="RoleId")]
+		public EntitySet<Account> Accounts
+		{
+			get
+			{
+				return this._Accounts;
+			}
+			set
+			{
+				this._Accounts.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Accounts(Account entity)
+		{
+			this.SendPropertyChanging();
+			entity.Role = this;
+		}
+		
+		private void detach_Accounts(Account entity)
+		{
+			this.SendPropertyChanging();
+			entity.Role = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Sacrament")]
+	public partial class Sacrament : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private System.Nullable<int> _SacramentGroupId;
+		
+		private int _ParishionerId;
+		
+		private string _Number;
+		
+		private int _Type;
+		
+		private string _Patron;
+		
+		private string _Note;
+		
+		private string _Date;
+		
+		private string _Giver;
+		
+		private string _ReceivedPlace;
+		
+		private EntityRef<Parishioner> _Parishioner;
+		
+		private EntityRef<SacramentGroup> _SacramentGroup;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnSacramentGroupIdChanging(System.Nullable<int> value);
+    partial void OnSacramentGroupIdChanged();
+    partial void OnParishionerIdChanging(int value);
+    partial void OnParishionerIdChanged();
+    partial void OnNumberChanging(string value);
+    partial void OnNumberChanged();
+    partial void OnTypeChanging(int value);
+    partial void OnTypeChanged();
+    partial void OnPatronChanging(string value);
+    partial void OnPatronChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    partial void OnDateChanging(string value);
+    partial void OnDateChanged();
+    partial void OnGiverChanging(string value);
+    partial void OnGiverChanged();
+    partial void OnReceivedPlaceChanging(string value);
+    partial void OnReceivedPlaceChanged();
+    #endregion
+		
+		public Sacrament()
+		{
+			this._Parishioner = default(EntityRef<Parishioner>);
+			this._SacramentGroup = default(EntityRef<SacramentGroup>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SacramentGroupId", DbType="Int")]
+		public System.Nullable<int> SacramentGroupId
+		{
+			get
+			{
+				return this._SacramentGroupId;
+			}
+			set
+			{
+				if ((this._SacramentGroupId != value))
+				{
+					if (this._SacramentGroup.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSacramentGroupIdChanging(value);
+					this.SendPropertyChanging();
+					this._SacramentGroupId = value;
+					this.SendPropertyChanged("SacramentGroupId");
+					this.OnSacramentGroupIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishionerId", DbType="Int NOT NULL")]
+		public int ParishionerId
+		{
+			get
+			{
+				return this._ParishionerId;
+			}
+			set
+			{
+				if ((this._ParishionerId != value))
+				{
+					if (this._Parishioner.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishionerIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishionerId = value;
+					this.SendPropertyChanged("ParishionerId");
+					this.OnParishionerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Number", DbType="VarChar(50)")]
+		public string Number
+		{
+			get
+			{
+				return this._Number;
+			}
+			set
+			{
+				if ((this._Number != value))
+				{
+					this.OnNumberChanging(value);
+					this.SendPropertyChanging();
+					this._Number = value;
+					this.SendPropertyChanged("Number");
+					this.OnNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
+		public int Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Patron", DbType="NVarChar(100)")]
+		public string Patron
+		{
+			get
+			{
+				return this._Patron;
+			}
+			set
+			{
+				if ((this._Patron != value))
+				{
+					this.OnPatronChanging(value);
+					this.SendPropertyChanging();
+					this._Patron = value;
+					this.SendPropertyChanged("Patron");
+					this.OnPatronChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NVarChar(100)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="Char(8)")]
+		public string Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Giver", DbType="NVarChar(100)")]
+		public string Giver
+		{
+			get
+			{
+				return this._Giver;
+			}
+			set
+			{
+				if ((this._Giver != value))
+				{
+					this.OnGiverChanging(value);
+					this.SendPropertyChanging();
+					this._Giver = value;
+					this.SendPropertyChanged("Giver");
+					this.OnGiverChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReceivedPlace", DbType="NVarChar(100)")]
+		public string ReceivedPlace
+		{
+			get
+			{
+				return this._ReceivedPlace;
+			}
+			set
+			{
+				if ((this._ReceivedPlace != value))
+				{
+					this.OnReceivedPlaceChanging(value);
+					this.SendPropertyChanging();
+					this._ReceivedPlace = value;
+					this.SendPropertyChanged("ReceivedPlace");
+					this.OnReceivedPlaceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_Sacrament", Storage="_Parishioner", ThisKey="ParishionerId", OtherKey="Id", IsForeignKey=true)]
+		public Parishioner Parishioner
+		{
+			get
+			{
+				return this._Parishioner.Entity;
+			}
+			set
+			{
+				Parishioner previousValue = this._Parishioner.Entity;
+				if (((previousValue != value) 
+							|| (this._Parishioner.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parishioner.Entity = null;
+						previousValue.Sacraments.Remove(this);
+					}
+					this._Parishioner.Entity = value;
+					if ((value != null))
+					{
+						value.Sacraments.Add(this);
+						this._ParishionerId = value.Id;
+					}
+					else
+					{
+						this._ParishionerId = default(int);
+					}
+					this.SendPropertyChanged("Parishioner");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SacramentGroup_Sacrament", Storage="_SacramentGroup", ThisKey="SacramentGroupId", OtherKey="Id", IsForeignKey=true)]
+		public SacramentGroup SacramentGroup
+		{
+			get
+			{
+				return this._SacramentGroup.Entity;
+			}
+			set
+			{
+				SacramentGroup previousValue = this._SacramentGroup.Entity;
+				if (((previousValue != value) 
+							|| (this._SacramentGroup.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._SacramentGroup.Entity = null;
+						previousValue.Sacraments.Remove(this);
+					}
+					this._SacramentGroup.Entity = value;
+					if ((value != null))
+					{
+						value.Sacraments.Add(this);
+						this._SacramentGroupId = value.Id;
+					}
+					else
+					{
+						this._SacramentGroupId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("SacramentGroup");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.SacramentGroup")]
+	public partial class SacramentGroup : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Date;
+		
+		private int _Type;
+		
+		private string _Description;
+		
+		private string _Giver;
+		
+		private string _ReceivedPlace;
+		
+		private int _ParishId;
+		
+		private EntitySet<Matrimony> _Matrimonies;
+		
+		private EntitySet<Sacrament> _Sacraments;
+		
+		private EntityRef<Parish> _Parish;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnDateChanging(string value);
+    partial void OnDateChanged();
+    partial void OnTypeChanging(int value);
+    partial void OnTypeChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnGiverChanging(string value);
+    partial void OnGiverChanged();
+    partial void OnReceivedPlaceChanging(string value);
+    partial void OnReceivedPlaceChanged();
+    partial void OnParishIdChanging(int value);
+    partial void OnParishIdChanged();
+    #endregion
+		
+		public SacramentGroup()
+		{
+			this._Matrimonies = new EntitySet<Matrimony>(new Action<Matrimony>(this.attach_Matrimonies), new Action<Matrimony>(this.detach_Matrimonies));
+			this._Sacraments = new EntitySet<Sacrament>(new Action<Sacrament>(this.attach_Sacraments), new Action<Sacrament>(this.detach_Sacraments));
+			this._Parish = default(EntityRef<Parish>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date", DbType="Char(8)")]
+		public string Date
+		{
+			get
+			{
+				return this._Date;
+			}
+			set
+			{
+				if ((this._Date != value))
+				{
+					this.OnDateChanging(value);
+					this.SendPropertyChanging();
+					this._Date = value;
+					this.SendPropertyChanged("Date");
+					this.OnDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Type", DbType="Int NOT NULL")]
+		public int Type
+		{
+			get
+			{
+				return this._Type;
+			}
+			set
+			{
+				if ((this._Type != value))
+				{
+					this.OnTypeChanging(value);
+					this.SendPropertyChanging();
+					this._Type = value;
+					this.SendPropertyChanged("Type");
+					this.OnTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(200)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Giver", DbType="NVarChar(100)")]
+		public string Giver
+		{
+			get
+			{
+				return this._Giver;
+			}
+			set
+			{
+				if ((this._Giver != value))
+				{
+					this.OnGiverChanging(value);
+					this.SendPropertyChanging();
+					this._Giver = value;
+					this.SendPropertyChanged("Giver");
+					this.OnGiverChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReceivedPlace", DbType="NVarChar(100)")]
+		public string ReceivedPlace
+		{
+			get
+			{
+				return this._ReceivedPlace;
+			}
+			set
+			{
+				if ((this._ReceivedPlace != value))
+				{
+					this.OnReceivedPlaceChanging(value);
+					this.SendPropertyChanging();
+					this._ReceivedPlace = value;
+					this.SendPropertyChanged("ReceivedPlace");
+					this.OnReceivedPlaceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int NOT NULL")]
+		public int ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					if (this._Parish.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SacramentGroup_Matrimony", Storage="_Matrimonies", ThisKey="Id", OtherKey="SacramentGroupId")]
+		public EntitySet<Matrimony> Matrimonies
+		{
+			get
+			{
+				return this._Matrimonies;
+			}
+			set
+			{
+				this._Matrimonies.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SacramentGroup_Sacrament", Storage="_Sacraments", ThisKey="Id", OtherKey="SacramentGroupId")]
+		public EntitySet<Sacrament> Sacraments
+		{
+			get
+			{
+				return this._Sacraments;
+			}
+			set
+			{
+				this._Sacraments.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_SacramentGroup", Storage="_Parish", ThisKey="ParishId", OtherKey="Id", IsForeignKey=true)]
+		public Parish Parish
+		{
+			get
+			{
+				return this._Parish.Entity;
+			}
+			set
+			{
+				Parish previousValue = this._Parish.Entity;
+				if (((previousValue != value) 
+							|| (this._Parish.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parish.Entity = null;
+						previousValue.SacramentGroups.Remove(this);
+					}
+					this._Parish.Entity = value;
+					if ((value != null))
+					{
+						value.SacramentGroups.Add(this);
+						this._ParishId = value.Id;
+					}
+					else
+					{
+						this._ParishId = default(int);
+					}
+					this.SendPropertyChanged("Parish");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Matrimonies(Matrimony entity)
+		{
+			this.SendPropertyChanging();
+			entity.SacramentGroup = this;
+		}
+		
+		private void detach_Matrimonies(Matrimony entity)
+		{
+			this.SendPropertyChanging();
+			entity.SacramentGroup = null;
+		}
+		
+		private void attach_Sacraments(Sacrament entity)
+		{
+			this.SendPropertyChanging();
+			entity.SacramentGroup = this;
+		}
+		
+		private void detach_Sacraments(Sacrament entity)
+		{
+			this.SendPropertyChanging();
+			entity.SacramentGroup = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.SeminaryYear")]
+	public partial class SeminaryYear : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private System.DateTime _StartAt;
+		
+		private System.DateTime _EndAt;
+		
+		private string _SeminaryName;
+		
+		private string _SeminaryYearCode;
+		
+		private EntitySet<VocationSeminaryYear> _VocationSeminaryYears;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnStartAtChanging(System.DateTime value);
+    partial void OnStartAtChanged();
+    partial void OnEndAtChanging(System.DateTime value);
+    partial void OnEndAtChanged();
+    partial void OnSeminaryNameChanging(string value);
+    partial void OnSeminaryNameChanged();
+    partial void OnSeminaryYearCodeChanging(string value);
+    partial void OnSeminaryYearCodeChanged();
+    #endregion
+		
+		public SeminaryYear()
+		{
+			this._VocationSeminaryYears = new EntitySet<VocationSeminaryYear>(new Action<VocationSeminaryYear>(this.attach_VocationSeminaryYears), new Action<VocationSeminaryYear>(this.detach_VocationSeminaryYears));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StartAt", DbType="DateTime NOT NULL")]
+		public System.DateTime StartAt
+		{
+			get
+			{
+				return this._StartAt;
+			}
+			set
+			{
+				if ((this._StartAt != value))
+				{
+					this.OnStartAtChanging(value);
+					this.SendPropertyChanging();
+					this._StartAt = value;
+					this.SendPropertyChanged("StartAt");
+					this.OnStartAtChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EndAt", DbType="DateTime NOT NULL")]
+		public System.DateTime EndAt
+		{
+			get
+			{
+				return this._EndAt;
+			}
+			set
+			{
+				if ((this._EndAt != value))
+				{
+					this.OnEndAtChanging(value);
+					this.SendPropertyChanging();
+					this._EndAt = value;
+					this.SendPropertyChanged("EndAt");
+					this.OnEndAtChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SeminaryName", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string SeminaryName
+		{
+			get
+			{
+				return this._SeminaryName;
+			}
+			set
+			{
+				if ((this._SeminaryName != value))
+				{
+					this.OnSeminaryNameChanging(value);
+					this.SendPropertyChanging();
+					this._SeminaryName = value;
+					this.SendPropertyChanged("SeminaryName");
+					this.OnSeminaryNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SeminaryYearCode", DbType="NVarChar(10) NOT NULL", CanBeNull=false)]
+		public string SeminaryYearCode
+		{
+			get
+			{
+				return this._SeminaryYearCode;
+			}
+			set
+			{
+				if ((this._SeminaryYearCode != value))
+				{
+					this.OnSeminaryYearCodeChanging(value);
+					this.SendPropertyChanging();
+					this._SeminaryYearCode = value;
+					this.SendPropertyChanged("SeminaryYearCode");
+					this.OnSeminaryYearCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="SeminaryYear_VocationSeminaryYear", Storage="_VocationSeminaryYears", ThisKey="Id", OtherKey="SeminaryYearId")]
+		public EntitySet<VocationSeminaryYear> VocationSeminaryYears
+		{
+			get
+			{
+				return this._VocationSeminaryYears;
+			}
+			set
+			{
+				this._VocationSeminaryYears.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_VocationSeminaryYears(VocationSeminaryYear entity)
+		{
+			this.SendPropertyChanging();
+			entity.SeminaryYear = this;
+		}
+		
+		private void detach_VocationSeminaryYears(VocationSeminaryYear entity)
+		{
+			this.SendPropertyChanging();
+			entity.SeminaryYear = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Society")]
+	public partial class Society : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private string _EstablishedDate;
+		
+		private System.Nullable<int> _ManagedBy;
+		
+		private int _ParishId;
+		
+		private EntitySet<SocietyMember> _SocietyMembers;
+		
+		private EntityRef<Parish> _Parish;
+		
+		private EntityRef<Parishioner> _Parishioner;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnEstablishedDateChanging(string value);
+    partial void OnEstablishedDateChanged();
+    partial void OnManagedByChanging(System.Nullable<int> value);
+    partial void OnManagedByChanged();
+    partial void OnParishIdChanging(int value);
+    partial void OnParishIdChanged();
+    #endregion
+		
+		public Society()
+		{
+			this._SocietyMembers = new EntitySet<SocietyMember>(new Action<SocietyMember>(this.attach_SocietyMembers), new Action<SocietyMember>(this.detach_SocietyMembers));
+			this._Parish = default(EntityRef<Parish>);
+			this._Parishioner = default(EntityRef<Parishioner>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EstablishedDate", DbType="Char(8)")]
+		public string EstablishedDate
+		{
+			get
+			{
+				return this._EstablishedDate;
+			}
+			set
+			{
+				if ((this._EstablishedDate != value))
+				{
+					this.OnEstablishedDateChanging(value);
+					this.SendPropertyChanging();
+					this._EstablishedDate = value;
+					this.SendPropertyChanged("EstablishedDate");
+					this.OnEstablishedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ManagedBy", DbType="Int")]
+		public System.Nullable<int> ManagedBy
+		{
+			get
+			{
+				return this._ManagedBy;
+			}
+			set
+			{
+				if ((this._ManagedBy != value))
+				{
+					if (this._Parishioner.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnManagedByChanging(value);
+					this.SendPropertyChanging();
+					this._ManagedBy = value;
+					this.SendPropertyChanged("ManagedBy");
+					this.OnManagedByChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int NOT NULL")]
+		public int ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					if (this._Parish.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Society_SocietyMember", Storage="_SocietyMembers", ThisKey="Id", OtherKey="SocietyId")]
+		public EntitySet<SocietyMember> SocietyMembers
+		{
+			get
+			{
+				return this._SocietyMembers;
+			}
+			set
+			{
+				this._SocietyMembers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_Society", Storage="_Parish", ThisKey="ParishId", OtherKey="Id", IsForeignKey=true)]
+		public Parish Parish
+		{
+			get
+			{
+				return this._Parish.Entity;
+			}
+			set
+			{
+				Parish previousValue = this._Parish.Entity;
+				if (((previousValue != value) 
+							|| (this._Parish.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parish.Entity = null;
+						previousValue.Societies.Remove(this);
+					}
+					this._Parish.Entity = value;
+					if ((value != null))
+					{
+						value.Societies.Add(this);
+						this._ParishId = value.Id;
+					}
+					else
+					{
+						this._ParishId = default(int);
+					}
+					this.SendPropertyChanged("Parish");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_Society", Storage="_Parishioner", ThisKey="ManagedBy", OtherKey="Id", IsForeignKey=true)]
+		public Parishioner Parishioner
+		{
+			get
+			{
+				return this._Parishioner.Entity;
+			}
+			set
+			{
+				Parishioner previousValue = this._Parishioner.Entity;
+				if (((previousValue != value) 
+							|| (this._Parishioner.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parishioner.Entity = null;
+						previousValue.Societies.Remove(this);
+					}
+					this._Parishioner.Entity = value;
+					if ((value != null))
+					{
+						value.Societies.Add(this);
+						this._ManagedBy = value.Id;
+					}
+					else
+					{
+						this._ManagedBy = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Parishioner");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_SocietyMembers(SocietyMember entity)
+		{
+			this.SendPropertyChanging();
+			entity.Society = this;
+		}
+		
+		private void detach_SocietyMembers(SocietyMember entity)
+		{
+			this.SendPropertyChanging();
+			entity.Society = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.SocietyMember")]
+	public partial class SocietyMember : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _SocietyId;
+		
+		private int _ParishionerId;
+		
+		private int _Position;
+		
+		private string _Note;
+		
+		private EntityRef<Parishioner> _Parishioner;
+		
+		private EntityRef<Society> _Society;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnSocietyIdChanging(int value);
+    partial void OnSocietyIdChanged();
+    partial void OnParishionerIdChanging(int value);
+    partial void OnParishionerIdChanged();
+    partial void OnPositionChanging(int value);
+    partial void OnPositionChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    #endregion
+		
+		public SocietyMember()
+		{
+			this._Parishioner = default(EntityRef<Parishioner>);
+			this._Society = default(EntityRef<Society>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SocietyId", DbType="Int NOT NULL")]
+		public int SocietyId
+		{
+			get
+			{
+				return this._SocietyId;
+			}
+			set
+			{
+				if ((this._SocietyId != value))
+				{
+					if (this._Society.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnSocietyIdChanging(value);
+					this.SendPropertyChanging();
+					this._SocietyId = value;
+					this.SendPropertyChanged("SocietyId");
+					this.OnSocietyIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishionerId", DbType="Int NOT NULL")]
+		public int ParishionerId
+		{
+			get
+			{
+				return this._ParishionerId;
+			}
+			set
+			{
+				if ((this._ParishionerId != value))
+				{
+					if (this._Parishioner.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishionerIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishionerId = value;
+					this.SendPropertyChanged("ParishionerId");
+					this.OnParishionerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Position", DbType="Int NOT NULL")]
+		public int Position
+		{
+			get
+			{
+				return this._Position;
+			}
+			set
+			{
+				if ((this._Position != value))
+				{
+					this.OnPositionChanging(value);
+					this.SendPropertyChanging();
+					this._Position = value;
+					this.SendPropertyChanged("Position");
+					this.OnPositionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NVarChar(200)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_SocietyMember", Storage="_Parishioner", ThisKey="ParishionerId", OtherKey="Id", IsForeignKey=true)]
+		public Parishioner Parishioner
+		{
+			get
+			{
+				return this._Parishioner.Entity;
+			}
+			set
+			{
+				Parishioner previousValue = this._Parishioner.Entity;
+				if (((previousValue != value) 
+							|| (this._Parishioner.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parishioner.Entity = null;
+						previousValue.SocietyMembers.Remove(this);
+					}
+					this._Parishioner.Entity = value;
+					if ((value != null))
+					{
+						value.SocietyMembers.Add(this);
+						this._ParishionerId = value.Id;
+					}
+					else
+					{
+						this._ParishionerId = default(int);
+					}
+					this.SendPropertyChanged("Parishioner");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Society_SocietyMember", Storage="_Society", ThisKey="SocietyId", OtherKey="Id", IsForeignKey=true)]
+		public Society Society
+		{
+			get
+			{
+				return this._Society.Entity;
+			}
+			set
+			{
+				Society previousValue = this._Society.Entity;
+				if (((previousValue != value) 
+							|| (this._Society.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Society.Entity = null;
+						previousValue.SocietyMembers.Remove(this);
+					}
+					this._Society.Entity = value;
+					if ((value != null))
+					{
+						value.SocietyMembers.Add(this);
+						this._SocietyId = value.Id;
+					}
+					else
+					{
+						this._SocietyId = default(int);
+					}
+					this.SendPropertyChanged("Society");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ThuPhanUu")]
+	public partial class ThuPhanUu : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _MaGiaoDan;
+		
+		private System.DateTime _NgayMat;
+		
+		private string _ChucVu;
+		
+		private System.Nullable<int> _MauThu;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnMaGiaoDanChanging(int value);
+    partial void OnMaGiaoDanChanged();
+    partial void OnNgayMatChanging(System.DateTime value);
+    partial void OnNgayMatChanged();
+    partial void OnChucVuChanging(string value);
+    partial void OnChucVuChanged();
+    partial void OnMauThuChanging(System.Nullable<int> value);
+    partial void OnMauThuChanged();
+    #endregion
+		
+		public ThuPhanUu()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaGiaoDan", DbType="Int NOT NULL")]
+		public int MaGiaoDan
+		{
+			get
+			{
+				return this._MaGiaoDan;
+			}
+			set
+			{
+				if ((this._MaGiaoDan != value))
+				{
+					this.OnMaGiaoDanChanging(value);
+					this.SendPropertyChanging();
+					this._MaGiaoDan = value;
+					this.SendPropertyChanged("MaGiaoDan");
+					this.OnMaGiaoDanChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayMat", DbType="Date NOT NULL")]
+		public System.DateTime NgayMat
+		{
+			get
+			{
+				return this._NgayMat;
+			}
+			set
+			{
+				if ((this._NgayMat != value))
+				{
+					this.OnNgayMatChanging(value);
+					this.SendPropertyChanging();
+					this._NgayMat = value;
+					this.SendPropertyChanged("NgayMat");
+					this.OnNgayMatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ChucVu", DbType="NVarChar(25) NOT NULL", CanBeNull=false)]
+		public string ChucVu
+		{
+			get
+			{
+				return this._ChucVu;
+			}
+			set
+			{
+				if ((this._ChucVu != value))
+				{
+					this.OnChucVuChanging(value);
+					this.SendPropertyChanging();
+					this._ChucVu = value;
+					this.SendPropertyChanged("ChucVu");
+					this.OnChucVuChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MauThu", DbType="Int")]
+		public System.Nullable<int> MauThu
+		{
+			get
+			{
+				return this._MauThu;
+			}
+			set
+			{
+				if ((this._MauThu != value))
+				{
+					this.OnMauThuChanging(value);
+					this.SendPropertyChanging();
+					this._MauThu = value;
+					this.SendPropertyChanged("MauThu");
+					this.OnMauThuChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ThuPhanUu_NguoiNhan")]
+	public partial class ThuPhanUu_NguoiNhan : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ThuPhanUuId;
+		
+		private int _NguoiNhanId;
+		
+		private System.Nullable<bool> _DaIn;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnThuPhanUuIdChanging(int value);
+    partial void OnThuPhanUuIdChanged();
+    partial void OnNguoiNhanIdChanging(int value);
+    partial void OnNguoiNhanIdChanged();
+    partial void OnDaInChanging(System.Nullable<bool> value);
+    partial void OnDaInChanged();
+    #endregion
+		
+		public ThuPhanUu_NguoiNhan()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ThuPhanUuId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ThuPhanUuId
+		{
+			get
+			{
+				return this._ThuPhanUuId;
+			}
+			set
+			{
+				if ((this._ThuPhanUuId != value))
+				{
+					this.OnThuPhanUuIdChanging(value);
+					this.SendPropertyChanging();
+					this._ThuPhanUuId = value;
+					this.SendPropertyChanged("ThuPhanUuId");
+					this.OnThuPhanUuIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NguoiNhanId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int NguoiNhanId
+		{
+			get
+			{
+				return this._NguoiNhanId;
+			}
+			set
+			{
+				if ((this._NguoiNhanId != value))
+				{
+					this.OnNguoiNhanIdChanging(value);
+					this.SendPropertyChanging();
+					this._NguoiNhanId = value;
+					this.SendPropertyChanged("NguoiNhanId");
+					this.OnNguoiNhanIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DaIn", DbType="Bit")]
+		public System.Nullable<bool> DaIn
+		{
+			get
+			{
+				return this._DaIn;
+			}
+			set
+			{
+				if ((this._DaIn != value))
+				{
+					this.OnDaInChanging(value);
+					this.SendPropertyChanging();
+					this._DaIn = value;
+					this.SendPropertyChanged("DaIn");
+					this.OnDaInChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ThuyenChuyenLinhMuc")]
+	public partial class ThuyenChuyenLinhMuc : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _NgayQuyetDinh;
+		
+		private string _NgayHieuLuc;
+		
+		private string _NguoiQuyetDinh;
+		
+		private string _MoTa;
+		
+		private EntitySet<ParishManager> _ParishManagers;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNgayQuyetDinhChanging(string value);
+    partial void OnNgayQuyetDinhChanged();
+    partial void OnNgayHieuLucChanging(string value);
+    partial void OnNgayHieuLucChanged();
+    partial void OnNguoiQuyetDinhChanging(string value);
+    partial void OnNguoiQuyetDinhChanged();
+    partial void OnMoTaChanging(string value);
+    partial void OnMoTaChanged();
+    #endregion
+		
+		public ThuyenChuyenLinhMuc()
+		{
+			this._ParishManagers = new EntitySet<ParishManager>(new Action<ParishManager>(this.attach_ParishManagers), new Action<ParishManager>(this.detach_ParishManagers));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayQuyetDinh", DbType="VarChar(8) NOT NULL", CanBeNull=false)]
+		public string NgayQuyetDinh
+		{
+			get
+			{
+				return this._NgayQuyetDinh;
+			}
+			set
+			{
+				if ((this._NgayQuyetDinh != value))
+				{
+					this.OnNgayQuyetDinhChanging(value);
+					this.SendPropertyChanging();
+					this._NgayQuyetDinh = value;
+					this.SendPropertyChanged("NgayQuyetDinh");
+					this.OnNgayQuyetDinhChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayHieuLuc", DbType="VarChar(8) NOT NULL", CanBeNull=false)]
+		public string NgayHieuLuc
+		{
+			get
+			{
+				return this._NgayHieuLuc;
+			}
+			set
+			{
+				if ((this._NgayHieuLuc != value))
+				{
+					this.OnNgayHieuLucChanging(value);
+					this.SendPropertyChanging();
+					this._NgayHieuLuc = value;
+					this.SendPropertyChanged("NgayHieuLuc");
+					this.OnNgayHieuLucChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NguoiQuyetDinh", DbType="NVarChar(200)")]
+		public string NguoiQuyetDinh
+		{
+			get
+			{
+				return this._NguoiQuyetDinh;
+			}
+			set
+			{
+				if ((this._NguoiQuyetDinh != value))
+				{
+					this.OnNguoiQuyetDinhChanging(value);
+					this.SendPropertyChanging();
+					this._NguoiQuyetDinh = value;
+					this.SendPropertyChanged("NguoiQuyetDinh");
+					this.OnNguoiQuyetDinhChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MoTa", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
+		public string MoTa
+		{
+			get
+			{
+				return this._MoTa;
+			}
+			set
+			{
+				if ((this._MoTa != value))
+				{
+					this.OnMoTaChanging(value);
+					this.SendPropertyChanging();
+					this._MoTa = value;
+					this.SendPropertyChanged("MoTa");
+					this.OnMoTaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ThuyenChuyenLinhMuc_ParishManager", Storage="_ParishManagers", ThisKey="Id", OtherKey="IdThuyenChuyenLinhMuc")]
+		public EntitySet<ParishManager> ParishManagers
+		{
+			get
+			{
+				return this._ParishManagers;
+			}
+			set
+			{
+				this._ParishManagers.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ParishManagers(ParishManager entity)
+		{
+			this.SendPropertyChanging();
+			entity.ThuyenChuyenLinhMuc = this;
+		}
+		
+		private void detach_ParishManagers(ParishManager entity)
+		{
+			this.SendPropertyChanging();
+			entity.ThuyenChuyenLinhMuc = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.VaiTro")]
+	public partial class VaiTro : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private EntitySet<ParishManager> _ParishManagers;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public VaiTro()
+		{
+			this._ParishManagers = new EntitySet<ParishManager>(new Action<ParishManager>(this.attach_ParishManagers), new Action<ParishManager>(this.detach_ParishManagers));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="VaiTro_ParishManager", Storage="_ParishManagers", ThisKey="Id", OtherKey="Position")]
+		public EntitySet<ParishManager> ParishManagers
+		{
+			get
+			{
+				return this._ParishManagers;
+			}
+			set
+			{
+				this._ParishManagers.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_ParishManagers(ParishManager entity)
+		{
+			this.SendPropertyChanging();
+			entity.VaiTro = this;
+		}
+		
+		private void detach_ParishManagers(ParishManager entity)
+		{
+			this.SendPropertyChanging();
+			entity.VaiTro = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ValueSet")]
+	public partial class ValueSet : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Code;
+		
+		private string _Definition;
+		
+		private string _Note;
+		
+		private string _Category;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnCodeChanging(string value);
+    partial void OnCodeChanged();
+    partial void OnDefinitionChanging(string value);
+    partial void OnDefinitionChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    partial void OnCategoryChanging(string value);
+    partial void OnCategoryChanged();
+    #endregion
+		
+		public ValueSet()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Code
+		{
+			get
+			{
+				return this._Code;
+			}
+			set
+			{
+				if ((this._Code != value))
+				{
+					this.OnCodeChanging(value);
+					this.SendPropertyChanging();
+					this._Code = value;
+					this.SendPropertyChanged("Code");
+					this.OnCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Definition", DbType="NText NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string Definition
+		{
+			get
+			{
+				return this._Definition;
+			}
+			set
+			{
+				if ((this._Definition != value))
+				{
+					this.OnDefinitionChanging(value);
+					this.SendPropertyChanging();
+					this._Definition = value;
+					this.SendPropertyChanged("Definition");
+					this.OnDefinitionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NVarChar(200)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Category", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Category
+		{
+			get
+			{
+				return this._Category;
+			}
+			set
+			{
+				if ((this._Category != value))
+				{
+					this.OnCategoryChanging(value);
+					this.SendPropertyChanging();
+					this._Category = value;
+					this.SendPropertyChanged("Category");
+					this.OnCategoryChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Vicariate")]
+	public partial class Vicariate : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private int _DioceseId;
+		
+		private System.Nullable<int> _ParishId;
+		
+		private EntitySet<Parish> _Parishes;
+		
+		private EntityRef<Diocese> _Diocese;
+		
+		private EntityRef<Parish> _Parish;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDioceseIdChanging(int value);
+    partial void OnDioceseIdChanged();
+    partial void OnParishIdChanging(System.Nullable<int> value);
+    partial void OnParishIdChanged();
+    #endregion
+		
+		public Vicariate()
+		{
+			this._Parishes = new EntitySet<Parish>(new Action<Parish>(this.attach_Parishes), new Action<Parish>(this.detach_Parishes));
+			this._Diocese = default(EntityRef<Diocese>);
+			this._Parish = default(EntityRef<Parish>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DioceseId", DbType="Int NOT NULL")]
+		public int DioceseId
+		{
+			get
+			{
+				return this._DioceseId;
+			}
+			set
+			{
+				if ((this._DioceseId != value))
+				{
+					if (this._Diocese.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDioceseIdChanging(value);
+					this.SendPropertyChanging();
+					this._DioceseId = value;
+					this.SendPropertyChanged("DioceseId");
+					this.OnDioceseIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int")]
+		public System.Nullable<int> ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					if (this._Parish.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vicariate_Parish", Storage="_Parishes", ThisKey="Id", OtherKey="VicariateId")]
+		public EntitySet<Parish> Parishes
+		{
+			get
+			{
+				return this._Parishes;
+			}
+			set
+			{
+				this._Parishes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Diocese_Vicariate", Storage="_Diocese", ThisKey="DioceseId", OtherKey="Id", IsForeignKey=true)]
+		public Diocese Diocese
+		{
+			get
+			{
+				return this._Diocese.Entity;
+			}
+			set
+			{
+				Diocese previousValue = this._Diocese.Entity;
+				if (((previousValue != value) 
+							|| (this._Diocese.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Diocese.Entity = null;
+						previousValue.Vicariates.Remove(this);
+					}
+					this._Diocese.Entity = value;
+					if ((value != null))
+					{
+						value.Vicariates.Add(this);
+						this._DioceseId = value.Id;
+					}
+					else
+					{
+						this._DioceseId = default(int);
+					}
+					this.SendPropertyChanged("Diocese");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parish_Vicariate", Storage="_Parish", ThisKey="ParishId", OtherKey="Id", IsForeignKey=true)]
+		public Parish Parish
+		{
+			get
+			{
+				return this._Parish.Entity;
+			}
+			set
+			{
+				Parish previousValue = this._Parish.Entity;
+				if (((previousValue != value) 
+							|| (this._Parish.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parish.Entity = null;
+						previousValue.Vicariates.Remove(this);
+					}
+					this._Parish.Entity = value;
+					if ((value != null))
+					{
+						value.Vicariates.Add(this);
+						this._ParishId = value.Id;
+					}
+					else
+					{
+						this._ParishId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Parish");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Parishes(Parish entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vicariate = this;
+		}
+		
+		private void detach_Parishes(Parish entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vicariate = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Vocation")]
+	public partial class Vocation : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ParishionerId;
+		
+		private string _Date1;
+		
+		private string _Date2;
+		
+		private string _Date3;
+		
+		private string _Date4;
+		
+		private string _Date5;
+		
+		private string _Date6;
+		
+		private string _Date7;
+		
+		private string _Date8;
+		
+		private string _Date9;
+		
+		private string _Seminary;
+		
+		private string _SeminaryAddress;
+		
+		private int _Position;
+		
+		private string _ServedPlace;
+		
+		private string _ServedAddress;
+		
+		private string _Phone;
+		
+		private string _Email;
+		
+		private string _Note;
+		
+		private bool _IsLeft;
+		
+		private EntitySet<VocationSeminaryYear> _VocationSeminaryYears;
+		
+		private EntitySet<LeaveVocationRequisition> _LeaveVocationRequisitions;
+		
+		private EntitySet<ReligiousCommunity> _ReligiousCommunities;
+		
+		private EntitySet<ReligiousCommunity> _ReligiousCommunities1;
+		
+		private EntitySet<ReligiousCommunityBase> _ReligiousCommunityBases;
+		
+		private EntitySet<ReligiousCommunityManagementTerm> _ReligiousCommunityManagementTerms;
+		
+		private EntitySet<VocationDeaconRequisitionSession> _VocationDeaconRequisitionSessions;
+		
+		private EntitySet<VocationExchangeReligiousCommunityBase> _VocationExchangeReligiousCommunityBases;
+		
+		private EntityRef<Parishioner> _Parishioner;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnParishionerIdChanging(int value);
+    partial void OnParishionerIdChanged();
+    partial void OnDate1Changing(string value);
+    partial void OnDate1Changed();
+    partial void OnDate2Changing(string value);
+    partial void OnDate2Changed();
+    partial void OnDate3Changing(string value);
+    partial void OnDate3Changed();
+    partial void OnDate4Changing(string value);
+    partial void OnDate4Changed();
+    partial void OnDate5Changing(string value);
+    partial void OnDate5Changed();
+    partial void OnDate6Changing(string value);
+    partial void OnDate6Changed();
+    partial void OnDate7Changing(string value);
+    partial void OnDate7Changed();
+    partial void OnDate8Changing(string value);
+    partial void OnDate8Changed();
+    partial void OnDate9Changing(string value);
+    partial void OnDate9Changed();
+    partial void OnSeminaryChanging(string value);
+    partial void OnSeminaryChanged();
+    partial void OnSeminaryAddressChanging(string value);
+    partial void OnSeminaryAddressChanged();
+    partial void OnPositionChanging(int value);
+    partial void OnPositionChanged();
+    partial void OnServedPlaceChanging(string value);
+    partial void OnServedPlaceChanged();
+    partial void OnServedAddressChanging(string value);
+    partial void OnServedAddressChanged();
+    partial void OnPhoneChanging(string value);
+    partial void OnPhoneChanged();
+    partial void OnEmailChanging(string value);
+    partial void OnEmailChanged();
+    partial void OnNoteChanging(string value);
+    partial void OnNoteChanged();
+    partial void OnIsLeftChanging(bool value);
+    partial void OnIsLeftChanged();
+    #endregion
+		
+		public Vocation()
+		{
+			this._VocationSeminaryYears = new EntitySet<VocationSeminaryYear>(new Action<VocationSeminaryYear>(this.attach_VocationSeminaryYears), new Action<VocationSeminaryYear>(this.detach_VocationSeminaryYears));
+			this._LeaveVocationRequisitions = new EntitySet<LeaveVocationRequisition>(new Action<LeaveVocationRequisition>(this.attach_LeaveVocationRequisitions), new Action<LeaveVocationRequisition>(this.detach_LeaveVocationRequisitions));
+			this._ReligiousCommunities = new EntitySet<ReligiousCommunity>(new Action<ReligiousCommunity>(this.attach_ReligiousCommunities), new Action<ReligiousCommunity>(this.detach_ReligiousCommunities));
+			this._ReligiousCommunities1 = new EntitySet<ReligiousCommunity>(new Action<ReligiousCommunity>(this.attach_ReligiousCommunities1), new Action<ReligiousCommunity>(this.detach_ReligiousCommunities1));
+			this._ReligiousCommunityBases = new EntitySet<ReligiousCommunityBase>(new Action<ReligiousCommunityBase>(this.attach_ReligiousCommunityBases), new Action<ReligiousCommunityBase>(this.detach_ReligiousCommunityBases));
+			this._ReligiousCommunityManagementTerms = new EntitySet<ReligiousCommunityManagementTerm>(new Action<ReligiousCommunityManagementTerm>(this.attach_ReligiousCommunityManagementTerms), new Action<ReligiousCommunityManagementTerm>(this.detach_ReligiousCommunityManagementTerms));
+			this._VocationDeaconRequisitionSessions = new EntitySet<VocationDeaconRequisitionSession>(new Action<VocationDeaconRequisitionSession>(this.attach_VocationDeaconRequisitionSessions), new Action<VocationDeaconRequisitionSession>(this.detach_VocationDeaconRequisitionSessions));
+			this._VocationExchangeReligiousCommunityBases = new EntitySet<VocationExchangeReligiousCommunityBase>(new Action<VocationExchangeReligiousCommunityBase>(this.attach_VocationExchangeReligiousCommunityBases), new Action<VocationExchangeReligiousCommunityBase>(this.detach_VocationExchangeReligiousCommunityBases));
+			this._Parishioner = default(EntityRef<Parishioner>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishionerId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ParishionerId
+		{
+			get
+			{
+				return this._ParishionerId;
+			}
+			set
+			{
+				if ((this._ParishionerId != value))
+				{
+					if (this._Parishioner.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnParishionerIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishionerId = value;
+					this.SendPropertyChanged("ParishionerId");
+					this.OnParishionerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date1", DbType="Char(8)")]
+		public string Date1
+		{
+			get
+			{
+				return this._Date1;
+			}
+			set
+			{
+				if ((this._Date1 != value))
+				{
+					this.OnDate1Changing(value);
+					this.SendPropertyChanging();
+					this._Date1 = value;
+					this.SendPropertyChanged("Date1");
+					this.OnDate1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date2", DbType="Char(8)")]
+		public string Date2
+		{
+			get
+			{
+				return this._Date2;
+			}
+			set
+			{
+				if ((this._Date2 != value))
+				{
+					this.OnDate2Changing(value);
+					this.SendPropertyChanging();
+					this._Date2 = value;
+					this.SendPropertyChanged("Date2");
+					this.OnDate2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date3", DbType="Char(8)")]
+		public string Date3
+		{
+			get
+			{
+				return this._Date3;
+			}
+			set
+			{
+				if ((this._Date3 != value))
+				{
+					this.OnDate3Changing(value);
+					this.SendPropertyChanging();
+					this._Date3 = value;
+					this.SendPropertyChanged("Date3");
+					this.OnDate3Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date4", DbType="Char(8)")]
+		public string Date4
+		{
+			get
+			{
+				return this._Date4;
+			}
+			set
+			{
+				if ((this._Date4 != value))
+				{
+					this.OnDate4Changing(value);
+					this.SendPropertyChanging();
+					this._Date4 = value;
+					this.SendPropertyChanged("Date4");
+					this.OnDate4Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date5", DbType="Char(8)")]
+		public string Date5
+		{
+			get
+			{
+				return this._Date5;
+			}
+			set
+			{
+				if ((this._Date5 != value))
+				{
+					this.OnDate5Changing(value);
+					this.SendPropertyChanging();
+					this._Date5 = value;
+					this.SendPropertyChanged("Date5");
+					this.OnDate5Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date6", DbType="Char(8)")]
+		public string Date6
+		{
+			get
+			{
+				return this._Date6;
+			}
+			set
+			{
+				if ((this._Date6 != value))
+				{
+					this.OnDate6Changing(value);
+					this.SendPropertyChanging();
+					this._Date6 = value;
+					this.SendPropertyChanged("Date6");
+					this.OnDate6Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date7", DbType="Char(8)")]
+		public string Date7
+		{
+			get
+			{
+				return this._Date7;
+			}
+			set
+			{
+				if ((this._Date7 != value))
+				{
+					this.OnDate7Changing(value);
+					this.SendPropertyChanging();
+					this._Date7 = value;
+					this.SendPropertyChanged("Date7");
+					this.OnDate7Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date8", DbType="Char(8)")]
+		public string Date8
+		{
+			get
+			{
+				return this._Date8;
+			}
+			set
+			{
+				if ((this._Date8 != value))
+				{
+					this.OnDate8Changing(value);
+					this.SendPropertyChanging();
+					this._Date8 = value;
+					this.SendPropertyChanged("Date8");
+					this.OnDate8Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Date9", DbType="Char(8)")]
+		public string Date9
+		{
+			get
+			{
+				return this._Date9;
+			}
+			set
+			{
+				if ((this._Date9 != value))
+				{
+					this.OnDate9Changing(value);
+					this.SendPropertyChanging();
+					this._Date9 = value;
+					this.SendPropertyChanged("Date9");
+					this.OnDate9Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Seminary", DbType="NVarChar(100)")]
+		public string Seminary
+		{
+			get
+			{
+				return this._Seminary;
+			}
+			set
+			{
+				if ((this._Seminary != value))
+				{
+					this.OnSeminaryChanging(value);
+					this.SendPropertyChanging();
+					this._Seminary = value;
+					this.SendPropertyChanged("Seminary");
+					this.OnSeminaryChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SeminaryAddress", DbType="NVarChar(100)")]
+		public string SeminaryAddress
+		{
+			get
+			{
+				return this._SeminaryAddress;
+			}
+			set
+			{
+				if ((this._SeminaryAddress != value))
+				{
+					this.OnSeminaryAddressChanging(value);
+					this.SendPropertyChanging();
+					this._SeminaryAddress = value;
+					this.SendPropertyChanged("SeminaryAddress");
+					this.OnSeminaryAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Position", DbType="Int NOT NULL")]
+		public int Position
+		{
+			get
+			{
+				return this._Position;
+			}
+			set
+			{
+				if ((this._Position != value))
+				{
+					this.OnPositionChanging(value);
+					this.SendPropertyChanging();
+					this._Position = value;
+					this.SendPropertyChanged("Position");
+					this.OnPositionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ServedPlace", DbType="NVarChar(100)")]
+		public string ServedPlace
+		{
+			get
+			{
+				return this._ServedPlace;
+			}
+			set
+			{
+				if ((this._ServedPlace != value))
+				{
+					this.OnServedPlaceChanging(value);
+					this.SendPropertyChanging();
+					this._ServedPlace = value;
+					this.SendPropertyChanged("ServedPlace");
+					this.OnServedPlaceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ServedAddress", DbType="NVarChar(100)")]
+		public string ServedAddress
+		{
+			get
+			{
+				return this._ServedAddress;
+			}
+			set
+			{
+				if ((this._ServedAddress != value))
+				{
+					this.OnServedAddressChanging(value);
+					this.SendPropertyChanging();
+					this._ServedAddress = value;
+					this.SendPropertyChanged("ServedAddress");
+					this.OnServedAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Phone", DbType="VarChar(20)")]
+		public string Phone
+		{
+			get
+			{
+				return this._Phone;
+			}
+			set
+			{
+				if ((this._Phone != value))
+				{
+					this.OnPhoneChanging(value);
+					this.SendPropertyChanging();
+					this._Phone = value;
+					this.SendPropertyChanged("Phone");
+					this.OnPhoneChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email", DbType="NVarChar(100)")]
+		public string Email
+		{
+			get
+			{
+				return this._Email;
+			}
+			set
+			{
+				if ((this._Email != value))
+				{
+					this.OnEmailChanging(value);
+					this.SendPropertyChanging();
+					this._Email = value;
+					this.SendPropertyChanged("Email");
+					this.OnEmailChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Note", DbType="NVarChar(200)")]
+		public string Note
+		{
+			get
+			{
+				return this._Note;
+			}
+			set
+			{
+				if ((this._Note != value))
+				{
+					this.OnNoteChanging(value);
+					this.SendPropertyChanging();
+					this._Note = value;
+					this.SendPropertyChanged("Note");
+					this.OnNoteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsLeft", DbType="Bit NOT NULL")]
+		public bool IsLeft
+		{
+			get
+			{
+				return this._IsLeft;
+			}
+			set
+			{
+				if ((this._IsLeft != value))
+				{
+					this.OnIsLeftChanging(value);
+					this.SendPropertyChanging();
+					this._IsLeft = value;
+					this.SendPropertyChanged("IsLeft");
+					this.OnIsLeftChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_VocationSeminaryYear", Storage="_VocationSeminaryYears", ThisKey="ParishionerId", OtherKey="VocationId")]
+		public EntitySet<VocationSeminaryYear> VocationSeminaryYears
+		{
+			get
+			{
+				return this._VocationSeminaryYears;
+			}
+			set
+			{
+				this._VocationSeminaryYears.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_LeaveVocationRequisition", Storage="_LeaveVocationRequisitions", ThisKey="ParishionerId", OtherKey="VocationId")]
+		public EntitySet<LeaveVocationRequisition> LeaveVocationRequisitions
+		{
+			get
+			{
+				return this._LeaveVocationRequisitions;
+			}
+			set
+			{
+				this._LeaveVocationRequisitions.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_ReligiousCommunity", Storage="_ReligiousCommunities", ThisKey="ParishionerId", OtherKey="DirectorId")]
+		public EntitySet<ReligiousCommunity> ReligiousCommunities
+		{
+			get
+			{
+				return this._ReligiousCommunities;
+			}
+			set
+			{
+				this._ReligiousCommunities.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_ReligiousCommunity1", Storage="_ReligiousCommunities1", ThisKey="ParishionerId", OtherKey="ViceDirectorId")]
+		public EntitySet<ReligiousCommunity> ReligiousCommunities1
+		{
+			get
+			{
+				return this._ReligiousCommunities1;
+			}
+			set
+			{
+				this._ReligiousCommunities1.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_ReligiousCommunityBase", Storage="_ReligiousCommunityBases", ThisKey="ParishionerId", OtherKey="ManagerId")]
+		public EntitySet<ReligiousCommunityBase> ReligiousCommunityBases
+		{
+			get
+			{
+				return this._ReligiousCommunityBases;
+			}
+			set
+			{
+				this._ReligiousCommunityBases.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_ReligiousCommunityManagementTerm", Storage="_ReligiousCommunityManagementTerms", ThisKey="ParishionerId", OtherKey="VocationId")]
+		public EntitySet<ReligiousCommunityManagementTerm> ReligiousCommunityManagementTerms
+		{
+			get
+			{
+				return this._ReligiousCommunityManagementTerms;
+			}
+			set
+			{
+				this._ReligiousCommunityManagementTerms.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_VocationDeaconRequisitionSession", Storage="_VocationDeaconRequisitionSessions", ThisKey="ParishionerId", OtherKey="VocationId")]
+		public EntitySet<VocationDeaconRequisitionSession> VocationDeaconRequisitionSessions
+		{
+			get
+			{
+				return this._VocationDeaconRequisitionSessions;
+			}
+			set
+			{
+				this._VocationDeaconRequisitionSessions.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_VocationExchangeReligiousCommunityBase", Storage="_VocationExchangeReligiousCommunityBases", ThisKey="ParishionerId", OtherKey="VocationId")]
+		public EntitySet<VocationExchangeReligiousCommunityBase> VocationExchangeReligiousCommunityBases
+		{
+			get
+			{
+				return this._VocationExchangeReligiousCommunityBases;
+			}
+			set
+			{
+				this._VocationExchangeReligiousCommunityBases.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Parishioner_Vocation", Storage="_Parishioner", ThisKey="ParishionerId", OtherKey="Id", IsForeignKey=true)]
+		public Parishioner Parishioner
+		{
+			get
+			{
+				return this._Parishioner.Entity;
+			}
+			set
+			{
+				Parishioner previousValue = this._Parishioner.Entity;
+				if (((previousValue != value) 
+							|| (this._Parishioner.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Parishioner.Entity = null;
+						previousValue.Vocation = null;
+					}
+					this._Parishioner.Entity = value;
+					if ((value != null))
+					{
+						value.Vocation = this;
+						this._ParishionerId = value.Id;
+					}
+					else
+					{
+						this._ParishionerId = default(int);
+					}
+					this.SendPropertyChanged("Parishioner");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_VocationSeminaryYears(VocationSeminaryYear entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation = this;
+		}
+		
+		private void detach_VocationSeminaryYears(VocationSeminaryYear entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation = null;
+		}
+		
+		private void attach_LeaveVocationRequisitions(LeaveVocationRequisition entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation = this;
+		}
+		
+		private void detach_LeaveVocationRequisitions(LeaveVocationRequisition entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation = null;
+		}
+		
+		private void attach_ReligiousCommunities(ReligiousCommunity entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation = this;
+		}
+		
+		private void detach_ReligiousCommunities(ReligiousCommunity entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation = null;
+		}
+		
+		private void attach_ReligiousCommunities1(ReligiousCommunity entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation1 = this;
+		}
+		
+		private void detach_ReligiousCommunities1(ReligiousCommunity entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation1 = null;
+		}
+		
+		private void attach_ReligiousCommunityBases(ReligiousCommunityBase entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation = this;
+		}
+		
+		private void detach_ReligiousCommunityBases(ReligiousCommunityBase entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation = null;
+		}
+		
+		private void attach_ReligiousCommunityManagementTerms(ReligiousCommunityManagementTerm entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation = this;
+		}
+		
+		private void detach_ReligiousCommunityManagementTerms(ReligiousCommunityManagementTerm entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation = null;
+		}
+		
+		private void attach_VocationDeaconRequisitionSessions(VocationDeaconRequisitionSession entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation = this;
+		}
+		
+		private void detach_VocationDeaconRequisitionSessions(VocationDeaconRequisitionSession entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation = null;
+		}
+		
+		private void attach_VocationExchangeReligiousCommunityBases(VocationExchangeReligiousCommunityBase entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation = this;
+		}
+		
+		private void detach_VocationExchangeReligiousCommunityBases(VocationExchangeReligiousCommunityBase entity)
+		{
+			this.SendPropertyChanging();
+			entity.Vocation = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.VocationDeaconRequisitionSession")]
+	public partial class VocationDeaconRequisitionSession : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _VocationId;
+		
+		private int _DeaconRequisitionSessionId;
+		
+		private int _Status;
+		
+		private EntitySet<DeaconRequisitionComment> _DeaconRequisitionComments;
+		
+		private EntityRef<DeaconRequisitionSession> _DeaconRequisitionSession;
+		
+		private EntityRef<Vocation> _Vocation;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnVocationIdChanging(int value);
+    partial void OnVocationIdChanged();
+    partial void OnDeaconRequisitionSessionIdChanging(int value);
+    partial void OnDeaconRequisitionSessionIdChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    #endregion
+		
+		public VocationDeaconRequisitionSession()
+		{
+			this._DeaconRequisitionComments = new EntitySet<DeaconRequisitionComment>(new Action<DeaconRequisitionComment>(this.attach_DeaconRequisitionComments), new Action<DeaconRequisitionComment>(this.detach_DeaconRequisitionComments));
+			this._DeaconRequisitionSession = default(EntityRef<DeaconRequisitionSession>);
+			this._Vocation = default(EntityRef<Vocation>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VocationId", DbType="Int NOT NULL")]
+		public int VocationId
+		{
+			get
+			{
+				return this._VocationId;
+			}
+			set
+			{
+				if ((this._VocationId != value))
+				{
+					if (this._Vocation.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnVocationIdChanging(value);
+					this.SendPropertyChanging();
+					this._VocationId = value;
+					this.SendPropertyChanged("VocationId");
+					this.OnVocationIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeaconRequisitionSessionId", DbType="Int NOT NULL")]
+		public int DeaconRequisitionSessionId
+		{
+			get
+			{
+				return this._DeaconRequisitionSessionId;
+			}
+			set
+			{
+				if ((this._DeaconRequisitionSessionId != value))
+				{
+					if (this._DeaconRequisitionSession.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDeaconRequisitionSessionIdChanging(value);
+					this.SendPropertyChanging();
+					this._DeaconRequisitionSessionId = value;
+					this.SendPropertyChanged("DeaconRequisitionSessionId");
+					this.OnDeaconRequisitionSessionIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="VocationDeaconRequisitionSession_DeaconRequisitionComment", Storage="_DeaconRequisitionComments", ThisKey="Id", OtherKey="VocationDeaconRequisitionId")]
+		public EntitySet<DeaconRequisitionComment> DeaconRequisitionComments
+		{
+			get
+			{
+				return this._DeaconRequisitionComments;
+			}
+			set
+			{
+				this._DeaconRequisitionComments.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeaconRequisitionSession_VocationDeaconRequisitionSession", Storage="_DeaconRequisitionSession", ThisKey="DeaconRequisitionSessionId", OtherKey="Id", IsForeignKey=true)]
+		public DeaconRequisitionSession DeaconRequisitionSession
+		{
+			get
+			{
+				return this._DeaconRequisitionSession.Entity;
+			}
+			set
+			{
+				DeaconRequisitionSession previousValue = this._DeaconRequisitionSession.Entity;
+				if (((previousValue != value) 
+							|| (this._DeaconRequisitionSession.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._DeaconRequisitionSession.Entity = null;
+						previousValue.VocationDeaconRequisitionSessions.Remove(this);
+					}
+					this._DeaconRequisitionSession.Entity = value;
+					if ((value != null))
+					{
+						value.VocationDeaconRequisitionSessions.Add(this);
+						this._DeaconRequisitionSessionId = value.Id;
+					}
+					else
+					{
+						this._DeaconRequisitionSessionId = default(int);
+					}
+					this.SendPropertyChanged("DeaconRequisitionSession");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_VocationDeaconRequisitionSession", Storage="_Vocation", ThisKey="VocationId", OtherKey="ParishionerId", IsForeignKey=true)]
+		public Vocation Vocation
+		{
+			get
+			{
+				return this._Vocation.Entity;
+			}
+			set
+			{
+				Vocation previousValue = this._Vocation.Entity;
+				if (((previousValue != value) 
+							|| (this._Vocation.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Vocation.Entity = null;
+						previousValue.VocationDeaconRequisitionSessions.Remove(this);
+					}
+					this._Vocation.Entity = value;
+					if ((value != null))
+					{
+						value.VocationDeaconRequisitionSessions.Add(this);
+						this._VocationId = value.ParishionerId;
+					}
+					else
+					{
+						this._VocationId = default(int);
+					}
+					this.SendPropertyChanged("Vocation");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_DeaconRequisitionComments(DeaconRequisitionComment entity)
+		{
+			this.SendPropertyChanging();
+			entity.VocationDeaconRequisitionSession = this;
+		}
+		
+		private void detach_DeaconRequisitionComments(DeaconRequisitionComment entity)
+		{
+			this.SendPropertyChanging();
+			entity.VocationDeaconRequisitionSession = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.VocationExchangeReligiousCommunityBase")]
+	public partial class VocationExchangeReligiousCommunityBase : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _OldReligiousCommunityBaseId;
+		
+		private int _NewReligiousCommunityBaseId;
+		
+		private int _VocationId;
+		
+		private System.DateTime _DecisionDate;
+		
+		private System.DateTime _EffectiveDate;
+		
+		private EntityRef<ReligiousCommunityBase> _ReligiousCommunityBase;
+		
+		private EntityRef<ReligiousCommunityBase> _ReligiousCommunityBase1;
+		
+		private EntityRef<Vocation> _Vocation;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnOldReligiousCommunityBaseIdChanging(int value);
+    partial void OnOldReligiousCommunityBaseIdChanged();
+    partial void OnNewReligiousCommunityBaseIdChanging(int value);
+    partial void OnNewReligiousCommunityBaseIdChanged();
+    partial void OnVocationIdChanging(int value);
+    partial void OnVocationIdChanged();
+    partial void OnDecisionDateChanging(System.DateTime value);
+    partial void OnDecisionDateChanged();
+    partial void OnEffectiveDateChanging(System.DateTime value);
+    partial void OnEffectiveDateChanged();
+    #endregion
+		
+		public VocationExchangeReligiousCommunityBase()
+		{
+			this._ReligiousCommunityBase = default(EntityRef<ReligiousCommunityBase>);
+			this._ReligiousCommunityBase1 = default(EntityRef<ReligiousCommunityBase>);
+			this._Vocation = default(EntityRef<Vocation>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OldReligiousCommunityBaseId", DbType="Int NOT NULL")]
+		public int OldReligiousCommunityBaseId
+		{
+			get
+			{
+				return this._OldReligiousCommunityBaseId;
+			}
+			set
+			{
+				if ((this._OldReligiousCommunityBaseId != value))
+				{
+					if (this._ReligiousCommunityBase.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnOldReligiousCommunityBaseIdChanging(value);
+					this.SendPropertyChanging();
+					this._OldReligiousCommunityBaseId = value;
+					this.SendPropertyChanged("OldReligiousCommunityBaseId");
+					this.OnOldReligiousCommunityBaseIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NewReligiousCommunityBaseId", DbType="Int NOT NULL")]
+		public int NewReligiousCommunityBaseId
+		{
+			get
+			{
+				return this._NewReligiousCommunityBaseId;
+			}
+			set
+			{
+				if ((this._NewReligiousCommunityBaseId != value))
+				{
+					if (this._ReligiousCommunityBase1.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnNewReligiousCommunityBaseIdChanging(value);
+					this.SendPropertyChanging();
+					this._NewReligiousCommunityBaseId = value;
+					this.SendPropertyChanged("NewReligiousCommunityBaseId");
+					this.OnNewReligiousCommunityBaseIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_VocationId", DbType="Int NOT NULL")]
+		public int VocationId
+		{
+			get
+			{
+				return this._VocationId;
+			}
+			set
+			{
+				if ((this._VocationId != value))
+				{
+					if (this._Vocation.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnVocationIdChanging(value);
+					this.SendPropertyChanging();
+					this._VocationId = value;
+					this.SendPropertyChanged("VocationId");
+					this.OnVocationIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DecisionDate", DbType="DateTime NOT NULL")]
+		public System.DateTime DecisionDate
+		{
+			get
+			{
+				return this._DecisionDate;
+			}
+			set
+			{
+				if ((this._DecisionDate != value))
+				{
+					this.OnDecisionDateChanging(value);
+					this.SendPropertyChanging();
+					this._DecisionDate = value;
+					this.SendPropertyChanged("DecisionDate");
+					this.OnDecisionDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EffectiveDate", DbType="DateTime NOT NULL")]
+		public System.DateTime EffectiveDate
+		{
+			get
+			{
+				return this._EffectiveDate;
+			}
+			set
+			{
+				if ((this._EffectiveDate != value))
+				{
+					this.OnEffectiveDateChanging(value);
+					this.SendPropertyChanging();
+					this._EffectiveDate = value;
+					this.SendPropertyChanged("EffectiveDate");
+					this.OnEffectiveDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ReligiousCommunityBase_VocationExchangeReligiousCommunityBase", Storage="_ReligiousCommunityBase", ThisKey="OldReligiousCommunityBaseId", OtherKey="Id", IsForeignKey=true)]
+		public ReligiousCommunityBase ReligiousCommunityBase
+		{
+			get
+			{
+				return this._ReligiousCommunityBase.Entity;
+			}
+			set
+			{
+				ReligiousCommunityBase previousValue = this._ReligiousCommunityBase.Entity;
+				if (((previousValue != value) 
+							|| (this._ReligiousCommunityBase.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ReligiousCommunityBase.Entity = null;
+						previousValue.VocationExchangeReligiousCommunityBases.Remove(this);
+					}
+					this._ReligiousCommunityBase.Entity = value;
+					if ((value != null))
+					{
+						value.VocationExchangeReligiousCommunityBases.Add(this);
+						this._OldReligiousCommunityBaseId = value.Id;
+					}
+					else
+					{
+						this._OldReligiousCommunityBaseId = default(int);
+					}
+					this.SendPropertyChanged("ReligiousCommunityBase");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ReligiousCommunityBase_VocationExchangeReligiousCommunityBase1", Storage="_ReligiousCommunityBase1", ThisKey="NewReligiousCommunityBaseId", OtherKey="Id", IsForeignKey=true)]
+		public ReligiousCommunityBase ReligiousCommunityBase1
+		{
+			get
+			{
+				return this._ReligiousCommunityBase1.Entity;
+			}
+			set
+			{
+				ReligiousCommunityBase previousValue = this._ReligiousCommunityBase1.Entity;
+				if (((previousValue != value) 
+							|| (this._ReligiousCommunityBase1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ReligiousCommunityBase1.Entity = null;
+						previousValue.VocationExchangeReligiousCommunityBases1.Remove(this);
+					}
+					this._ReligiousCommunityBase1.Entity = value;
+					if ((value != null))
+					{
+						value.VocationExchangeReligiousCommunityBases1.Add(this);
+						this._NewReligiousCommunityBaseId = value.Id;
+					}
+					else
+					{
+						this._NewReligiousCommunityBaseId = default(int);
+					}
+					this.SendPropertyChanged("ReligiousCommunityBase1");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Vocation_VocationExchangeReligiousCommunityBase", Storage="_Vocation", ThisKey="VocationId", OtherKey="ParishionerId", IsForeignKey=true)]
+		public Vocation Vocation
+		{
+			get
+			{
+				return this._Vocation.Entity;
+			}
+			set
+			{
+				Vocation previousValue = this._Vocation.Entity;
+				if (((previousValue != value) 
+							|| (this._Vocation.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Vocation.Entity = null;
+						previousValue.VocationExchangeReligiousCommunityBases.Remove(this);
+					}
+					this._Vocation.Entity = value;
+					if ((value != null))
+					{
+						value.VocationExchangeReligiousCommunityBases.Add(this);
+						this._VocationId = value.ParishionerId;
+					}
+					else
+					{
+						this._VocationId = default(int);
+					}
+					this.SendPropertyChanged("Vocation");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
 }
 #pragma warning restore 1591

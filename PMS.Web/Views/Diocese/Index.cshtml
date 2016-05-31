@@ -49,7 +49,149 @@
     </div>
 </div>
 
+<script>
+    function validateUnique() {
+        var id = $("#dioceseId").val();
+        var name = $("#dioceseName").val();
+        var result = true;
 
+        $.ajax({
+            url: "/Diocese/CheckUniqueDiocese",
+            type: "POST",
+            data: {
+                id: id,
+                name: name
+            },
+            async: false,
+            success: function (data) {
+                if (data.result <= 0) {
+                    $("#dioceseNameValidate").html("Tên giáo phận đã tồn tại. Vui lòng nhập tên khác!");
+                    $("#dioceseNameValidate").show();
+                    result = false;
+                } else {
+                    $("#dioceseNameValidate").html("");
+                    $("#dioceseNameValidate").hide();
+                    result = true;
+                }
+
+            },
+        });
+
+        return result;
+    }
+    function SaveDiocese(url) {
+        if (!checkValidate()) {
+            return;
+        }
+        var id = $("#dioceseId").val();
+        var name = $("#dioceseName").val();
+        var church = $("#dioceseChurch").val();
+        var address = $("#dioceseAddress").val();
+        var bishop = $("#dioceseBishop").val();
+        var website = $("#dioceseWebsite").val();
+        var phone = $("#diocesePhone").val();
+        var email = $("#dioceseEmail").val();
+        var imageUrl = url;
+        startLoading();
+        $.ajax({
+            url: "/Diocese/Update",
+            type: "POST",
+            data: {
+                Id: id,
+                Name: name,
+                Church: church,
+                Address: address,
+                Bishop: bishop,
+                Website: website,
+                Phone: phone,
+                Email: email,
+                ImageUrl: imageUrl
+            },
+            success: function (data) {
+
+                if (data.abc <= 0) {
+                    showMessage("Cập nhật thất bại. Xin vui lòng thử lại sau!", 0);
+                } else {
+                    refeshDioceseInformation();
+                    showMessage("Cập nhật thông tin giáo phận thành công", 1);
+                    $("#editDioceseModal").modal('hide');
+                    ClearDiocese();
+                }
+            },
+        });
+    }
+
+    function refeshDioceseInformation() {
+        var id = $("#dioceseId").val();
+        $.ajax({
+            url: "/Diocese/LoadDioceseInformation",
+            type: "POST",
+            data: {
+                Id: id
+            },
+            success: function (data) {
+                $("#diocesePartial").html(data);
+
+            },
+        });
+    }
+
+    function checkValidate() {
+        var isError = false;
+
+        var name = $("#dioceseName").val();
+
+        if (!name) {
+            $("#dioceseNameValidate").html("Tên giáo phận không thể để trống. Vui lòng nhập tên giáo phận!");
+            $("#dioceseNameValidate").show();
+            isError = true;
+        }
+
+        if (!validateUnique()) {
+            isError = true;
+        }
+
+        var website = $("#dioceseWebsite").val();
+        if (website) {
+            if (!validateUrl(website)) {
+                $("#dioceseUrlValidate").html("Website không đúng định dạng (Ví dụ: www.pms.com)");
+                $("#dioceseUrlValidate").show();
+                isError = true;
+            }
+        }
+
+        var email = $("#dioceseEmail").val();
+        if (!validateEmail(email)) {
+            $("#dioceseEmailValidate").html("Email không đúng định dạng (Ví dụ: pms@@gmail.com)");
+            $("#dioceseEmailValidate").show();
+            isError = true;
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    //Upload Images
+    function UploadImage() {
+        if (!checkValidate()) {
+            return false;
+        }
+        $("#ImgForm").submit();
+
+    }
+
+    function UploadImage_Complete() {
+        var url = $("#UploadTarget").contents().find('body').html();
+        if (url.substring(0, 4) == "<pre") {
+            url = "";
+        }
+        SaveDiocese(url);
+    }
+</script>
 <div class="clearfix"></div>
 <!--Modal-->
 <div id="editDioceseModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -255,22 +397,6 @@
         $("#editDioceseModal").modal('hide');
         ClearDiocese();
     });
-    //Upload Images
-    function UploadImage() {
-        if (!checkValidate()) {
-            return false;
-        }
-        $("#ImgForm").submit();
-
-    }
-
-    function UploadImage_Complete() {
-        var url = $("#UploadTarget").contents().find('body').html();
-        if (url.substring(0, 4) == "<pre") {
-            url = "";
-        }
-        SaveDiocese(url);
-    }
 
     jQuery(function ($) {
         $("#diocesePhone").mask("9999 999 999?9");
@@ -425,102 +551,6 @@
         });
     }
 
-    function SaveDiocese(url) {
-        if (!checkValidate()) {
-            return;
-        }
-        var id = $("#dioceseId").val();
-        var name = $("#dioceseName").val();
-        var church = $("#dioceseChurch").val();
-        var address = $("#dioceseAddress").val();
-        var bishop = $("#dioceseBishop").val();
-        var website = $("#dioceseWebsite").val();
-        var phone = $("#diocesePhone").val();
-        var email = $("#dioceseEmail").val();
-        var imageUrl = url;
-        startLoading();
-        $.ajax({
-            url: "/Diocese/Update",
-            type: "POST",
-            data: {
-                Id: id,
-                Name: name,
-                Church: church,
-                Address: address,
-                Bishop: bishop,
-                Website: website,
-                Phone: phone,
-                Email: email,
-                ImageUrl: imageUrl
-            },
-            success: function (data) {
-
-                if (data.abc <= 0) {
-                    showMessage("Cập nhật thất bại. Xin vui lòng thử lại sau!", 0);
-                } else {
-                    refeshDioceseInformation();
-                    showMessage("Cập nhật thông tin giáo phận thành công", 1);
-                    $("#editDioceseModal").modal('hide');
-                    ClearDiocese();
-                }
-            },
-        });
-    }
-
-    function refeshDioceseInformation() {
-        var id = $("#dioceseId").val();
-        $.ajax({
-            url: "/Diocese/LoadDioceseInformation",
-            type: "POST",
-            data: {
-                Id: id
-            },
-            success: function (data) {
-                $("#diocesePartial").html(data);
-
-            },
-        });
-    }
-
-    function checkValidate() {
-        var isError = false;
-
-        var name = $("#dioceseName").val();
-
-        if (!name) {
-            $("#dioceseNameValidate").html("Tên giáo phận không thể để trống. Vui lòng nhập tên giáo phận!");
-            $("#dioceseNameValidate").show();
-            isError = true;
-        }
-
-        if (!validateUnique()) {
-            isError = true;
-        }
-
-        var website = $("#dioceseWebsite").val();
-        if (website) {
-            if (!validateUrl(website)) {
-                $("#dioceseUrlValidate").html("Website không đúng định dạng (Ví dụ: www.pms.com)");
-                $("#dioceseUrlValidate").show();
-                isError = true;
-            }
-        }
-
-        var email = $("#dioceseEmail").val();
-        if (!validateEmail(email)) {
-            $("#dioceseEmailValidate").html("Email không đúng định dạng (Ví dụ: pms@@gmail.com)");
-            $("#dioceseEmailValidate").show();
-            isError = true;
-        }
-
-        if (isError) {
-            return false;
-        }
-
-        return true;
-
-    }
-
     $("#dioceseName").change(function () {
         var name = $(this).val();
 
@@ -557,36 +587,6 @@
             $("#dioceseEmailValidate").hide();
         }
     });
-
-    function validateUnique() {
-        var id = $("#dioceseId").val();
-        var name = $("#dioceseName").val();
-        var result = true;
-
-        $.ajax({
-            url: "/Diocese/CheckUniqueDiocese",
-            type: "POST",
-            data: {
-                id: id,
-                name: name
-            },
-            async: false,
-            success: function (data) {
-                if (data.result <= 0) {
-                    $("#dioceseNameValidate").html("Tên giáo phận đã tồn tại. Vui lòng nhập tên khác!");
-                    $("#dioceseNameValidate").show();
-                    result = false;
-                } else {
-                    $("#dioceseNameValidate").html("");
-                    $("#dioceseNameValidate").hide();
-                    result = true;
-                }
-
-            },
-        });
-
-        return result;
-    }
 
     function ClearDiocese() {
         $("#dioceseName").val("");

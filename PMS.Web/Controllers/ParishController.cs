@@ -168,6 +168,10 @@ namespace PMS.Web.Controllers
             model.Email = parish.Email;
             model.VicariateId = parish.VicariateId;
             model.ImageUrl = parish.ImageUrl;
+            model.Patron = parish.Patron;
+            model.PatronDate = parish.PatronDate;
+            model.ChauLuot = parish.ChauLuot;
+
             return Json(new { result = model }, JsonRequestBehavior.AllowGet);
         }
 

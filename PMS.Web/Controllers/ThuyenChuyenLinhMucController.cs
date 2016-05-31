@@ -293,7 +293,11 @@ namespace PMS.Web.Controllers
                 //ViewBag.ListVaiTro = _vaiTroBusiness.GetAllVaiTro();
                 //ViewBag.ListParish = _parishBusiness.GetAllParish();
             }
-            return PartialView(lstModel);
+
+            string html = Utilities.PMSCommon.RenderViewToString(this.ControllerContext, "InQuyetDinh", lstModel);
+            ViewBag.Body = html;
+            ViewBag.Title = "In In Quyet Dinh Thuyen Chuyen Linh Muc";
+            return PartialView("_PrintLayout");
         }
         public ActionResult InGiayMoi(string Ids)
         {
@@ -368,7 +372,10 @@ namespace PMS.Web.Controllers
                 //ViewBag.ListVaiTro = _vaiTroBusiness.GetAllVaiTro();
                 //ViewBag.ListParish = _parishBusiness.GetAllParish();
             }
-            return PartialView(lstModel);
+            string html = Utilities.PMSCommon.RenderViewToString(this.ControllerContext, "InGiayMoi", lstModel);
+            ViewBag.Body = html;
+            ViewBag.Title = "In In Giay Moi Linh Muc";
+            return PartialView("_PrintLayout");
         }
         public ActionResult UpdateEditableCode(ParishManager parishManager)
         {

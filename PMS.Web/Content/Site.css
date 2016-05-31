@@ -9,7 +9,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 800px;
 }
 
 /* styles for validation helpers */
@@ -40,17 +40,48 @@ input[type="checkbox"].input-validation-error {
     overflow: auto !important;
 }
 .ace-file-multiple .ace-file-container {
-    height: 100px;
+    height: 118px;
 }
 #divImgParishionerThumbnail {
     position: absolute;
     z-index: 99;
     margin-top: -30px;
-    margin-left: --10px;
+    margin-left: -10px;
 }
 #newParishionerImageModal {
     float: right;
 width: 50%;
 position: relative;
-top: -27px !important;
+top: -30px !important;
+}
+
+#imgParishionerThumbnail {
+    max-width: 120px;
+}
+input.form-control, select.form-control {
+    padding: 0 2px !important;
+    height: 28px !important;
+}
+.form-group {
+    margin-bottom: 5px !important;
+}
+.btn-sm {
+    font-size: 13px;
+    padding: 1px 9px !important;
+    line-height: 1.39;
+}
+.input-group-addon {
+    padding: 5px 12px !important;
+}
+.btn {
+    height: 28px !important;
+    padding: 0px 9px !important;
+}
+.page-header .btn.btn-primary, .page-header .btn.btn-success, .page-header .btn.btn-info {
+    height: 30px !important;
+    padding-top: 0px !important;
+}
+.btn.btn-info input[type='file'] {
+    position: relative;
+    top: -4px;
 }

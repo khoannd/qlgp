@@ -22,5 +22,8 @@ namespace PMS.DataAccess.ViewModels
 
         public string VicariateName { get; set; }
         public string Priest { get; set; }
+        public string Patron { get; set; }
+        public string PatronDate { get; set; }
+        public string ChauLuot { get; set; }
     }
 }

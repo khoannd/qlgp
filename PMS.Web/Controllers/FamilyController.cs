@@ -19,13 +19,14 @@ namespace PMS.Web.Controllers
         private readonly FamilyBusiness _familyBusiness;
         private readonly ConfigurationBusiness _configurationBusiness;
         private readonly ChangeParishBusiness _changeParishBusiness;
+        private readonly ParishBusiness _parishBusiness;
 
         public FamilyController()
         {
             _communityBusiness = new CommunityBusiness(DbConfig.GetConnectionString());
             _familyBusiness = new FamilyBusiness(DbConfig.GetConnectionString());
             _configurationBusiness = new ConfigurationBusiness(DbConfig.GetConnectionString());
-            _changeParishBusiness = new ChangeParishBusiness(DbConfig.GetConnectionString());
+            _parishBusiness = new ParishBusiness(DbConfig.GetConnectionString());
         }
         //
         // GET: /Family/
@@ -33,12 +34,14 @@ namespace PMS.Web.Controllers
         public ActionResult Index()
         {
             int parishId = (int)Session["ParishId"];
+            var parish = _parishBusiness.GetAllParish().ToList();
 
             List<Community> communities = _communityBusiness.GetCommunitiesByParishId(parishId);
             List<Community> parishDivisions = _communityBusiness.GetParishDivisionsByParishId(parishId);
 
             ViewBag.Communities = communities;
             ViewBag.ParishDivisions = parishDivisions;
+            ViewBag.Parishes = parish;
 
             return View();
         }

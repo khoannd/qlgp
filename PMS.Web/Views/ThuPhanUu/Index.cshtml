@@ -80,12 +80,12 @@
                                     <label class="text-danger" id="lbDeathManNameError" hidden=""></label>
                                     <input type="hidden" id="txtThuPhanUuId" value="" name="thuPhanUuId">                                    
                                 </div>
-                                <div class="col-sm-4 text-left">
-                                    <button id="btnChooseDeathMan" class="btn btn-primary btn-sm">
+                                <div class="row col-sm-4 text-left">
+                                    <button id="btnChooseDeathMan" class="btn btn-primary btn-sm" onclick="SelectDeathMan();">
                                         <i class="ace-icon fa fa-search"></i>
-                                        Chọn người qua đời
+                                        Tìm
                                     </button>
-                                    <input type="text" id="txtDeathManId" value="" name="deathManId" style="width:40px;">
+                                    <input type="hidden" id="txtDeathManId">
                                 </div>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                         <div class="row">
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Ngày qua đời&nbsp;(<span style="color: red">*</span>)</label>
-                                <div class="col-sm-5">
+                                <div class="col-sm-4">
                                     <div class="input-group">
                                         <input class="form-control fdate-picker" id="txtdeathDate" name="deathDate" type="text" data-date-format="dd/mm/yyyy" placeholder="" />
                                         <span class="input-group-addon">
@@ -102,8 +102,7 @@
                                     </div>
                                     <label id="lbDeathDateError" class="text-danger" hidden=""></label>
                                 </div>
-                                <div class="col-sm-8 col-sm-offset-4">
-
+                                <div class="col-sm-4">
                                 </div>
                             </div>
                         </div>
@@ -120,10 +119,10 @@
                             <div class="row col-xs-12">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <button id="btnAddNguoiNhan" class="btn btn-primary btn-sm" data-toggle="modal" onclick="AddNguoiNhan();">
+                                        <button id="btnAddNguoiNhan" class="btn btn-primary btn-sm" data-toggle="modal" onclick="SelectSendTo();">
                                             <i class="ace-icon glyphicon glyphicon-search"></i> Thêm người nhận
                                         </button>
-                                        <input type="text" id="nguoiNhanId" style="width:40px;" />
+                                        <input type="hidden" id="nguoiNhanId" />
                                         <button class="btn btn-purple btn-sm" data-toggle="modal" onclick="printThuPhanUuAll()">
                                             <i class="ace-icon fa fa-print">
                                             </i> In thư mời
@@ -183,9 +182,10 @@
     </div>
 </div>
 
-
+@Html.Partial("_LookupParishionerModal")
+@Html.Partial("_ParishionerInformation")
 <script type="text/javascript">
-
+    var selectType = 0; //1 : select death man, 2 : select receiver letter
     $(document).ready(function () {
         InitDanhSachThuPhanUu();
     });
@@ -263,6 +263,32 @@
         $("#btnUpdateThuPhanUu").hide();
         hideError();
     });
+
+    function SelectDeathMan()
+    {
+        selectType = 1;
+        openLookupModal(9, "", -1, 0, 0, 0, "");
+    }
+
+    function SelectSendTo() {
+        selectType = 2;
+        openLookupModal(9, "", -1, 0, 0, 0, "");
+    }
+
+    function checkValidateFamilyMember(id, code, gender, christianName, name, birthDate) {
+        //No need check valid Family Member
+        if (selectType == 1) {
+            $("#txtDeathManId").val(id);
+            $("#tenNguoiMat").val(christianName + ' ' + name);
+            $("#lbDeathManNameError").hide();
+        }
+        else if (selectType == 2)
+        {
+            $("#nguoiNhanId").val(id);
+            AddNguoiNhan();
+        }
+        closeLookupModal();
+    }
 
     function LoadDataModal(id, idNguoimat, chucvu, tennguoimat, ngaymat) {
         $("#condolencesEmailId").val(id);
@@ -472,6 +498,14 @@
         }
     }).focus(function () {
         $(this).autocomplete("search");
+    });
+
+    $("#cbbParentRole").change(function () {
+        $("#lbParentRoleError").hide();
+    });
+
+    $("#txtdeathDate").change(function () {
+        $("#lbDeathDateError").hide();
     });
 
     function getFormattedDate(date) {

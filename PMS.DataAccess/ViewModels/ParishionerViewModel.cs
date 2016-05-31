@@ -27,6 +27,8 @@ namespace PMS.DataAccess.ViewModels
         public string BirthPlace { get; set; }
         public string FatherName { get; set; }
         public string MotherName { get; set; }
+        public int ParishId { get; set; }
+        public string ParishName { get; set; }
 
     }
 }

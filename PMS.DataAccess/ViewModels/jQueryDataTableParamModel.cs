@@ -47,5 +47,6 @@ namespace PMS.DataAccess.ViewModels
         public int iSortCol_0 { get; set; }
 
         public string sSortDir_0 { get; set; }
+        public string parishId { get; set; }
     }
 }

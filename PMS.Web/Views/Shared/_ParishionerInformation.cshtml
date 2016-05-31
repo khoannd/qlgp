@@ -1,9 +1,11 @@
-﻿@using Microsoft.Ajax.Utilities
+﻿@using Microsoft.Ajax.Utilities;
+@using PMS.DataAccess.Enumerations;
+@using PMS.DataAccess.Models;
 <style>
     .ui-autocomplete {
-        max-height: 200px;
+        max-height: 500px;
         overflow-y: auto;
-        overflow-x: hidden;
+        overflow-x: auto;
     }
 </style>
 
@@ -18,7 +20,37 @@
 <input type="hidden" id="isLoadedParishionerInformationModal" value="0" />
 <input type="hidden" id="txtHiddenChangeEdit" value="0" />
 <input type="hidden" id="txtHiddenMakeScrollInfo" value="0" />
+@{
+    int roleId = 0;
 
+    if (Session["RoleId"] != null)
+    {
+        roleId = (int)Session["RoleId"];
+    }
+}
+<script>
+    //Upload Images
+    function UploadImage() {
+        if (!checkValidParishionerInformation()) {
+            return;
+        }
+        $("#ImgForm").submit();
+    }
+
+    function UploadImage_Complete() {
+        var url = $("#UploadTarget").contents().find('body').html();
+        if (url.substring(0, 4) == "<pre") {
+            url = "";
+        }
+
+        if ($("#btnUpdateParishionerInformation").css('display') == 'none') {
+            addParishionerInformation(url);
+        }
+        if ($("#btnAddParishionerInformation").css('display') == 'none') {
+            updateParishionerInformation(url);
+        }
+    }
+</script>
 <div id="parishionerInformationModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -64,8 +96,6 @@
                                         <span class="bigger-120 bolder">†</span> Ơn gọi tận hiến
                                     </a>
                                 </li>
-
-
                             </ul>
 
                             <div class="tab-content">
@@ -78,14 +108,35 @@
                                                 <h4 class="widget-title lighter">Thông tin cơ bản</h4>
 
                                             </div>
-
                                             <div class="widget-body">
-
-
                                                 <div class="form-horizontal">
-
                                                     <div class="col-xs-6">
+                                                        
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Giáo xứ  (<span style="color:red">*</span>) </label>
 
+                                                            <div class="col-sm-8">
+                                                                <select id="cbbParishionerParish" class="form-control">
+                                                                    <option value="0">Tất cả</option>
+                                                                    @foreach (var item in ((List<Parish>)ViewBag.Parishes))
+                                                                    {
+                                                                        <option value="@item.Id">@item.Name</option>
+                                                                    }
+
+                                                                </select>
+                                                                <label id="lbParishError" class="text-danger" hidden=""></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Giáo họ/khu  (<span style="color:red">*</span>) </label>
+
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control" id="cbbParishionerCommunity">
+                                                                    <option value=""></option>
+                                                                </select>
+                                                                <label id="lbCommunityError" class="text-danger" hidden=""></label>
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group" id="divParishionerCode">
 
                                                             <label class="col-sm-4 control-label no-padding-right"> Mã giáo dân (<span style="color:red">*</span>)</label>
@@ -94,9 +145,7 @@
                                                                 <input readonly="" type="text" id="txtParishionerCode" class="form-control">
                                                                 <label id="lbCodeError" class="text-danger" hidden=""></label>
                                                             </div>
-
                                                         </div>
-
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right">
                                                                 Tên thánh
@@ -107,7 +156,6 @@
                                                             </div>
                                                         </div>
 
-
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right">
                                                                 Họ tên  (<span style="color:red">*</span>)
@@ -116,17 +164,6 @@
                                                             <div class="col-sm-8">
                                                                 <input type="text" id="txtParishionerName" class="form-control">
                                                                 <label id="lbParishionerNameError" class="text-danger" hidden=""></label>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Giáo họ/khu  (<span style="color:red">*</span>) </label>
-
-                                                            <div class="col-sm-8">
-                                                                <select class="form-control" id="cbbParishionerCommunity">
-                                                                    <option value=""></option>
-                                                                </select>
-                                                                <label id="lbCommunityError" class="text-danger" hidden=""></label>
                                                             </div>
                                                         </div>
 
@@ -247,15 +284,9 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                     </div>
-
                                                     <hr />
-
                                                 </div>
-
-
-
                                             </div>
                                         </div>
                                     </div>
@@ -269,17 +300,11 @@
                                             </div>
 
                                             <div class="widget-body">
-
-
                                                 <div class="form-horizontal">
 
                                                     <div class="col-xs-6">
-
-
                                                         <div class="form-group">
-
                                                             <label class="col-sm-4 control-label no-padding-right"> Thông tin hiện tại  </label>
-
                                                             <div class="col-sm-8">
                                                                 <select class="form-control" id="cbbDomicileStatus">
                                                                     <option value="0">Ở tại xứ</option>
@@ -289,14 +314,8 @@
                                                             </div>
 
                                                         </div>
-
-
-
                                                     </div>
                                                     <div class="col-xs-6">
-
-
-
                                                         <div hidden="" id="divDomicile" class="form-group">
 
                                                             <label class="col-sm-4 control-label no-padding-right"> Giáo xứ </label>
@@ -307,16 +326,9 @@
 
                                                         </div>
 
-
-
                                                     </div>
-
                                                     <hr />
-
                                                 </div>
-
-
-
                                             </div>
                                         </div>
                                     </div>
@@ -498,10 +510,6 @@
                                                             </div>
 
                                                         </div>
-
-
-
-
                                                     </div>
                                                     <div class="col-xs-12">
                                                         <div class="form-group">
@@ -509,30 +517,17 @@
 
                                                             <div class="col-sm-10">
 
-                                                                <textarea id="txtNote" rows="4" style="resize: none" class="form-control"></textarea>
+                                                                <textarea id="txtNote" rows="4" style="width: 680px;height:100px" class="form-control"></textarea>
 
                                                             </div>
                                                         </div>
                                                     </div>
-
-
                                                     <hr />
-
                                                 </div>
-
-
-
-
-
-
                                             </div>
                                         </div>
                                     </div>
                                     <!-- Kết thúc thông tin khác-->
-
-
-
-
                                 </div>
 
                                 <div id="sacramentTab" class="tab-pane fade in ">
@@ -542,23 +537,13 @@
                                         <div class="widget-box transparent ui-sortable-handle">
                                             <div class="widget-header">
                                                 <h4 class="widget-title lighter">Thông tin rửa tội</h4>
-
                                             </div>
-
                                             <div class="widget-body">
-
-
                                                 <div class="form-horizontal">
-
                                                     <div class="col-xs-6">
-
-
                                                         <div class="form-group">
-
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày rửa tội  </label>
-
                                                             <div class="col-sm-8">
-
                                                                 <div class="input-group">
                                                                     <input class="form-control date-picker" id="txtBaptismDate" type="text" data-date-format="dd/mm/yyyy" />
                                                                     <span class="input-group-addon">
@@ -583,41 +568,23 @@
                                                                 <input type="text" id="txtBaptismPlace" class="form-control">
                                                             </div>
                                                         </div>
-
-
                                                     </div>
                                                     <div class="col-xs-6">
-
-
-
                                                         <div class="form-group">
-
                                                             <label class="col-sm-4 control-label no-padding-right"> Người đỡ đầu </label>
-
                                                             <div class="col-sm-8">
                                                                 <input type="text" id="txtBaptismPatron" class="form-control priest">
                                                             </div>
-
                                                         </div>
-
                                                         <div class="form-group">
-
                                                             <label class="col-sm-4 control-label no-padding-right"> Người ban bí tích  </label>
-
                                                             <div class="col-sm-8">
                                                                 <input type="text" id="txtBaptismGiver" class="form-control priest">
                                                             </div>
-
                                                         </div>
-
                                                     </div>
-
                                                     <hr />
-
                                                 </div>
-
-
-
                                             </div>
                                         </div>
                                     </div>
@@ -627,23 +594,13 @@
                                         <div class="widget-box transparent ui-sortable-handle">
                                             <div class="widget-header">
                                                 <h4 class="widget-title lighter">Thông tin xưng tội rước lễ lần đầu</h4>
-
                                             </div>
-
                                             <div class="widget-body">
-
-
                                                 <div class="form-horizontal">
-
                                                     <div class="col-xs-6">
-
-
                                                         <div class="form-group">
-
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày xưng tội rước lễ  </label>
-
                                                             <div class="col-sm-8">
-
                                                                 <div class="input-group">
                                                                     <input class="form-control date-picker" id="txtHolyCommunionDate" type="text" data-date-format="dd/mm/yyyy" />
                                                                     <span class="input-group-addon">
@@ -652,7 +609,6 @@
                                                                 </div>
                                                                 <label id="lbHolyCommunionDateError" class="text-danger" hidden=""></label>
                                                             </div>
-
                                                         </div>
 
                                                         <div class="form-group">
@@ -669,29 +625,17 @@
                                                                 <input type="text" id="txtHolyCommunionPlace" class="form-control">
                                                             </div>
                                                         </div>
-
-
                                                     </div>
                                                     <div class="col-xs-6">
-
                                                         <div class="form-group">
-
                                                             <label class="col-sm-4 control-label no-padding-right"> Người ban bí tích  </label>
-
                                                             <div class="col-sm-8">
                                                                 <input type="text" id="txtHolyCommunionGiver" class="form-control priest">
                                                             </div>
-
                                                         </div>
-
                                                     </div>
-
                                                     <hr />
-
                                                 </div>
-
-
-
                                             </div>
                                         </div>
                                     </div>
@@ -701,24 +645,13 @@
                                         <div class="widget-box transparent ui-sortable-handle">
                                             <div class="widget-header">
                                                 <h4 class="widget-title lighter">Thông tin thêm sức</h4>
-
-
                                             </div>
-
                                             <div class="widget-body">
-
-
                                                 <div class="form-horizontal">
-
                                                     <div class="col-xs-6">
-
-
                                                         <div class="form-group">
-
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày thêm sức  </label>
-
                                                             <div class="col-sm-8">
-
                                                                 <div class="input-group">
                                                                     <input class="form-control date-picker" id="txtConfirmationDate" type="text" data-date-format="dd/mm/yyyy" />
                                                                     <span class="input-group-addon">
@@ -742,44 +675,27 @@
                                                                 <input type="text" id="txtConfirmationPlace" class="form-control">
                                                             </div>
                                                         </div>
-
-
                                                     </div>
                                                     <div class="col-xs-6">
-
                                                         <div class="form-group">
-
                                                             <label class="col-sm-4 control-label no-padding-right"> Người đỡ đầu </label>
-
                                                             <div class="col-sm-8">
                                                                 <input type="text" id="txtConfirmationPatron" class="form-control priest">
                                                             </div>
-
                                                         </div>
-
                                                         <div class="form-group">
-
                                                             <label class="col-sm-4 control-label no-padding-right"> Người ban bí tích  </label>
-
                                                             <div class="col-sm-8">
                                                                 <input type="text" id="txtConfirmationGiver" class="form-control priest">
                                                             </div>
-
                                                         </div>
-
                                                     </div>
-
                                                     <hr />
-
                                                 </div>
-
-
-
                                             </div>
                                         </div>
                                     </div>
                                     <!-- Kết thúc thêm sức-->
-
 
                                 </div>
 
@@ -789,12 +705,8 @@
                                         <div class="widget-box transparent ui-sortable-handle">
                                             <div class="widget-header">
                                                 <h4 class="widget-title lighter">Thông tin đôi hôn phối</h4>
-
                                             </div>
-
                                             <div class="widget-body">
-
-
                                                 <div class="form-horizontal">
 
                                                     @Html.Partial("_MatrimonyInformation")
@@ -828,7 +740,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <hr />
                                                 </div>
 
@@ -842,15 +753,11 @@
                                                 <div class="widget-header">
                                                     <h4 class="widget-title lighter">Danh sách đôi hôn phối</h4>
                                                 </div>
-
                                                 <div class="widget-body">
                                                     <div class="space-10"></div>
                                                     <div class="row form-horizontal">
-
                                                         <div class="col-xs-12">
-
                                                             <div class="form-group no-margin-bottom">
-
                                                                 <table id="tblMatrimonyInformation" class="table table-hover">
                                                                     <thead>
                                                                         <tr style="background: #FFF">
@@ -865,24 +772,18 @@
                                                                     </thead>
                                                                     <tbody></tbody>
                                                                 </table>
-
                                                             </div>
                                                             <div class="form-group">
 
                                                                 @Html.Partial("_ParishionerStatusLabel")
 
                                                             </div>
-
                                                         </div>
-
                                                     </div>
-
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
-
                                 </div>
 
                                 <div id="vocationTab" class="tab-pane fade in ">
@@ -893,79 +794,60 @@
                                                 <h4 class="widget-title lighter">Thông tin ơn gọi</h4>
 
                                             </div>
-
                                             <div class="widget-body">
-
-
                                                 <div class="form-horizontal">
-
                                                     <div class="col-xs-6">
-
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày nhập dòng  </label>
-
                                                             <div class="col-sm-8">
-
                                                                 <div class="input-group">
                                                                     <input id="txtDate1" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-calendar bigger-110"></i>
                                                                     </span>
                                                                 </div>
-
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày vào nhà thử  </label>
-
                                                             <div class="col-sm-8">
-
                                                                 <div class="input-group">
                                                                     <input id="txtDate3" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-calendar bigger-110"></i>
                                                                     </span>
                                                                 </div>
-
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày khấn lần đầu  </label>
-
                                                             <div class="col-sm-8">
-
                                                                 <div class="input-group">
                                                                     <input id="txtDate5" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-calendar bigger-110"></i>
                                                                     </span>
                                                                 </div>
-
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày lãnh chức phó tế  </label>
-
                                                             <div class="col-sm-8">
-
                                                                 <div class="input-group">
                                                                     <input id="txtDate7" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-calendar bigger-110"></i>
                                                                     </span>
                                                                 </div>
-
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày mừng bổn mạng  </label>
-
                                                             <div class="col-sm-8">
-
                                                                 <div class="input-group">
                                                                     <input id="txtDate9" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
                                                                     <span class="input-group-addon">
@@ -982,24 +864,19 @@
                                                                 <input type="text" id="txtSeminary" class="form-control">
                                                             </div>
                                                         </div>
-
-
                                                     </div>
 
                                                     <div class="col-xs-6">
 
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày vào ĐCV  </label>
-
                                                             <div class="col-sm-8">
-
                                                                 <div class="input-group">
                                                                     <input id="txtDate2" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-calendar bigger-110"></i>
                                                                     </span>
                                                                 </div>
-
                                                             </div>
                                                         </div>
 
@@ -1007,7 +884,6 @@
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày vào nhà tập  </label>
 
                                                             <div class="col-sm-8">
-
                                                                 <div class="input-group">
                                                                     <input id="txtDate4" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
                                                                     <span class="input-group-addon">
@@ -1022,14 +898,12 @@
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày khấn vĩnh viễn  </label>
 
                                                             <div class="col-sm-8">
-
                                                                 <div class="input-group">
                                                                     <input id="txtDate6" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-calendar bigger-110"></i>
                                                                     </span>
                                                                 </div>
-
                                                             </div>
                                                         </div>
 
@@ -1037,7 +911,6 @@
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày thụ phong LM  </label>
 
                                                             <div class="col-sm-8">
-
                                                                 <div class="input-group">
                                                                     <input id="txtDate8" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
                                                                     <span class="input-group-addon">
@@ -1051,9 +924,7 @@
                                                         <div class="form-group">
 
                                                             <label class="col-sm-4 control-label no-padding-right"> Chức vụ </label>
-
                                                             <div class="col-sm-8">
-
                                                                 <select class="form-control" id="cbbSeminaryPosition">
                                                                     <option value="0"></option>
                                                                     <option value="1">Tu sĩ</option>
@@ -1064,7 +935,6 @@
                                                                     <option value="6">Khấn trọn</option>
                                                                     <option value="7">Khác</option>
                                                                 </select>
-
                                                             </div>
 
                                                         </div>
@@ -1075,35 +945,21 @@
                                                                 <input type="text" id="txtSeminaryAddress" class="form-control">
                                                             </div>
                                                         </div>
-
-
-
                                                     </div>
 
-
                                                     <hr />
-
                                                 </div>
-
-
-
                                             </div>
                                         </div>
                                     </div>
-
 
                                     <div class="col-sm-12  ui-sortable">
                                         <div class="widget-box transparent ui-sortable-handle">
                                             <div class="widget-header">
                                                 <h4 class="widget-title lighter">Thông tin nơi phục vụ</h4>
-
                                             </div>
-
                                             <div class="widget-body">
-
-
                                                 <div class="form-horizontal">
-
                                                     <div class="col-xs-6">
 
                                                         <div class="form-group">
@@ -1149,7 +1005,6 @@
                                                                     <input type="text" id="txtServedEmail" class="form-control email">
                                                                 </div>
                                                             </div>
-
                                                         </div>
 
                                                     </div>
@@ -1180,24 +1035,13 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
-
-
-
                                                     <hr />
-
                                                 </div>
-
-
-
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
                                 <div class="clearfix"></div>
-
 
                                 <div class="col-xs-12">
                                     <div class="col-sm-12">
@@ -1220,21 +1064,15 @@
                                     </div>
                                 </div>
 
-
                                 <div class="clearfix"></div>
                             </div>
-
-
                         </div>
-
                     </div>
 
                     <div class="clearfix"></div>
                     <div class="space-4"></div>
 
                     <div>
-
-
                     </div>
 
                 </div>
@@ -1256,33 +1094,12 @@
 
 <script>
 
-    //Upload Images
-    function UploadImage() {
-        if (!checkValidParishionerInformation()) {
-            return;
-        }
-        $("#ImgForm").submit();
-    }
-
-    function UploadImage_Complete() {
-        var url = $("#UploadTarget").contents().find('body').html();
-        if (url.substring(0, 4) == "<pre") {
-            url = "";
-        }
-
-        if ($("#btnUpdateParishionerInformation").css('display') == 'none') {
-            addParishionerInformation(url);
-        }
-        if ($("#btnAddParishionerInformation").css('display') == 'none') {
-            updateParishionerInformation(url);
-        }
-    }
     jQuery(function ($) {
         $('#inputFile').ace_file_input({
             style: 'well',
             btn_choose: 'Click vào để chọn hình',
             btn_change: null,
-            no_icon: 'ace-icon fa fa-picture-o',
+            no_icon: 'none',
             droppable: true,
             thumbnail: 'fit',
             allowExt: ['jpg', 'jpeg', 'png'],
@@ -1357,16 +1174,30 @@
 
     //-----------------
     $("#btnUpdateParishionerInformation").hide();
-    loadParishionerCommunity();
-
-    function loadParishionerCommunity() {
+    @if (roleId == (int)AccountEnum.Manager)
+    {
+        @:loadParishionerCommunity();
+        }
+    else {
+        @:loadParishionerParish();
+    }
+    var currentCommunityId = '';
+    function loadParishionerCommunity(parishId) {
         $.ajax({
             url: "/Parishioner/LoadCommunityAndParishDivisionTreeView",
-            data: {},
+            data: { ParishId: parishId },
             success: function (data) {
                 var element = $("#cbbParishionerCommunity");
                 //append data
                 element.html(data);
+                element.val(currentCommunityId);
+            }
+        });
+    }
+    function loadParishionerParish() {
+        $("#cbbParishionerParish").change(function () {
+            if ($("#cbbParishionerParish option:selected").val() != "0") {
+                loadParishionerCommunity($("#cbbParishionerParish option:selected").val());
             }
         });
     }
@@ -1562,6 +1393,24 @@
         } else {
             $("#lbCommunityError").hide();
             $("#lbCommunityError").html("");
+        }
+
+        @if (roleId == (int)AccountEnum.Admin)
+        {
+        <text>
+        if ($("#cbbParishionerParish").val() == "0") {
+            $("#lbParishError").html("Hãy chọn giáo xứ");
+            $("#lbParishError").show();
+
+            document.getElementById("cbbParishionerParish").scrollIntoView();
+            $("#cbbParishionerParish").focus();
+
+            isError = true;
+        } else {
+            $("#lbParishError").hide();
+            $("#lbParishError").html("");
+        }
+        </text>
         }
 
         if (!name) {
@@ -1802,6 +1651,8 @@
 
         $("#cbbParishionerCommunity").val(0);
         $("#cbbParishionerCommunity").change();
+        currentCommunityId = '';
+        $("#cbbParishionerParish").val(0);
 
         $("#cbIsCounted").prop("checked", false);
         $("#txtFatherName").val("");
@@ -1875,6 +1726,8 @@
         $("#lbParishionerNameError").hide();
         $("#lbCommunityError").text("");
         $("#lbCommunityError").hide();
+        $("#lbParishError").text("");
+        $("#lbParishError").hide();
         $("#lbGenderError").text("");
         $("#lbGenderError").hide();
         $("#lbConfirmationDateError").hide();
@@ -2133,7 +1986,7 @@
                 Code: $("#txtParishionerCode").val(),
                 ChristianName: $("#txtChristianName").val(),
                 Name: $("#txtParishionerName").val(),
-                ImageUrl : url,
+                ImageUrl: url,
                 Gender: $("#cbGender").val(),
                 BirthDate: $("#txtBirthDate").val(),
                 BirthPlace: $("#txtBirthPlace").val(),
@@ -3033,7 +2886,7 @@
 
                 document.getElementById("ImageName").innerHTML = parishioner.Name;
                 $("#imgParishionerImage").attr('src', parishionerViewModel.ImageURL);
-                if (parishioner.ImageUrl == null) {
+                if (parishionerViewModel.ImageURL == null) {
                     //$("#ParishionerThumbnail").hide();
                     $("#ParishionerThumbnail").hide();
                 } else {
@@ -3057,6 +2910,15 @@
                 $("#txtBirthDate").val(parishioner.BirthDate);
                 $("#txtBirthPlace").val(parishioner.BirthPlace);
 
+                $("#cbbParishionerParish").val(data.parishionerViewModel.ParishId);
+                $("#cbbParishionerParish").change();
+                @if (roleId == (int)AccountEnum.Manager)
+                {
+                    <text>
+                $("#cbbParishionerParish").prop('disabled', true);
+                </text>
+                }
+                currentCommunityId = data.communityId;
                 $("#cbbParishionerCommunity").val(data.communityId);
                 $("#cbbParishionerCommunity").change();
                 $("#cbIsCounted").prop("checked", !parishioner.IsCounted);

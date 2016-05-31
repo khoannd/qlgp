@@ -92,7 +92,7 @@ namespace PMS.Web.Controllers
 
             var html = string.Join("<div class=\"page-break break-page-line\"></div>", reports);
             ViewBag.Body = html;
-
+            ViewBag.Title = "In Giay Moi";
             return PartialView("_PrintLayout");
         }
         // Khoan add end

@@ -218,6 +218,33 @@
 
                         </div>
                         <div class="space-10"></div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Bổn mạng</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="parishPatronModal" value="" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Ngày kính Bổn mạng</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="parishPatronDateModal" value="" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Ngày chầu lượt</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="parishChauLuotModal" value="" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
                         <div class="row" id="parishModalImage1">
 
                             <div class="form-group">
@@ -597,6 +624,9 @@
         $("#parishEmailModal").val("");
         $("#parishPhoneModal").val("");
         $("#parishImageModal").val("");
+        $("#parishPatronModal").val("");
+        $("#parishPatronDateModal").val("");
+        $("#parishChauLuotModal").val("");
         $("#parishNameValidate").html("");
         $("#parishNameValidate").hide();
         $("#parishWebsiteValidate").html("");
@@ -623,6 +653,9 @@
         var phone = $("#parishPhoneModal").val();
         var email = $("#parishEmailModal").val();
         var vicariateId = $("#modalVicariate").val();
+        var patron = $("#parishPatronModal").val();
+        var patronDate = $("#parishPatronDateModal").val();
+        var chauLuot = $("#parishChauLuotModal").val();
         var imageUrl = url;
         startLoading();
         $.ajax({
@@ -639,7 +672,9 @@
                 Phone: phone,
                 Email: email,
                 VicariateId: vicariateId,
-                ImageUrl: imageUrl
+                Patron: patron,
+                PatronDate: patronDate,
+                ChauLuot: chauLuot
             },
             success: function (data) {
                 if (data <= 0) {
@@ -669,6 +704,9 @@
         var phone = $("#parishPhoneModal").val();
         var email = $("#parishEmailModal").val();
         var vicariateId = $("#modalVicariate").val();
+        var patron = $("#parishPatronModal").val();
+        var patronDate = $("#parishPatronDateModal").val();
+        var chauLuot = $("#parishChauLuotModal").val();
         var imageUrl = url;
         startLoading();
         $.ajax({
@@ -687,7 +725,10 @@
                 Phone: phone,
                 Email: email,
                 VicariateId: vicariateId,
-                ImageUrl: imageUrl
+                ImageUrl: imageUrl,
+                Patron: patron,
+                PatronDate: patronDate,
+                ChauLuot: chauLuot
             },
             success: function (data) {
 
@@ -722,6 +763,9 @@
                 $("#parishWebsiteModal").val(item.Website);
                 $("#parishPhoneModal").val(item.Phone);
                 $("#parishEmailModal").val(item.Email);
+                $("#parishPatronModal").val(item.Patron);
+                $("#parishPatronDateModal").val(item.PatronDate);
+                $("#parishChauLuotModal").val(item.ChauLuot);
                 $("#modalVicariate").val(item.VicariateId);
                 $("#parishImageModal").attr('src', item.ImageUrl);;
 

@@ -98,6 +98,9 @@ namespace PMS.DataAccess
                 item.Phone = parish.Phone;
                 item.Email = parish.Email;
                 item.VicariateId = parish.VicariateId;
+                item.Patron = parish.Patron;
+                item.PatronDate = parish.PatronDate;
+                item.ChauLuot = parish.ChauLuot;
                 if (!string.IsNullOrEmpty(parish.ImageUrl))
                 {
                     item.ImageUrl = parish.ImageUrl;
@@ -155,19 +158,19 @@ namespace PMS.DataAccess
                 {
                     return 0;
                 }
-                Configuration configuration = _db.Configurations.SingleOrDefault(c => c.ParishId == id);
+                //Configuration configuration = _db.Configurations.SingleOrDefault(c => c.ParishId == id);
                 Community community = _db.Communities.SingleOrDefault(co => co.ParishId == id && co.IsDefault);
 
                 
-                if (configuration == null)
-                {
-                    return 0;
-                }
+                //if (configuration == null)
+                //{
+                //    return 0;
+                //}
                 if (community == null)
                 {
                     return 0;
                 }
-                _db.Configurations.DeleteOnSubmit(configuration);
+                //_db.Configurations.DeleteOnSubmit(configuration);
                 _db.Communities.DeleteOnSubmit(community);
 
                 _db.Parishes.DeleteOnSubmit(parish);

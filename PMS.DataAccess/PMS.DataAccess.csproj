@@ -51,6 +51,8 @@
     <Compile Include="ChristianNameData.cs" />
     <Compile Include="ConfigurationData.cs" />
     <Compile Include="ConstructionPermitData.cs" />
+    <Compile Include="DeaconRequisitionCommentData.cs" />
+    <Compile Include="DeaconRequisitionSessionData.cs" />
     <Compile Include="DioceseData.cs" />
     <Compile Include="CommunityData.cs" />
     <Compile Include="DoctrineCourseData.cs" />
@@ -78,10 +80,9 @@
     <Compile Include="PlaceData.cs" />
     <Compile Include="ParishManagerData.cs" />
     <Compile Include="GeneralStatusData.cs" />
-    <Compile Include="DeaconRequisitionSessionData.cs" />
-    <Compile Include="DeaconRequisitionCommentData.cs" />
     <Compile Include="SeminarianData.cs" />
     <Compile Include="SeminaryYearData.cs" />
+    <Compile Include="ThuPhanUuData.cs" />
     <Compile Include="VaiTroData.cs" />
     <Compile Include="ThuyenChuyenLinhMucData.cs" />
     <Compile Include="PriestData.cs" />
@@ -116,6 +117,9 @@
     <Compile Include="ViewModels\LetterAndReportViewModel.cs" />
     <Compile Include="ViewModels\PriestViewModel.cs" />
     <Compile Include="ViewModels\PrintParishManagerViewModel.cs" />
+    <Compile Include="ViewModels\ThuPhanUuViewModel.cs" />
+    <Compile Include="ViewModels\ThuPhanUu_InViewModel.cs" />
+    <Compile Include="ViewModels\ThuPhanUu_NguoiNhanViewModel.cs" />
     <Compile Include="ViewModels\ThuyenChuyenLinhMucViewModel.cs" />
     <Compile Include="ViewModels\ClassViewModel.cs" />
     <Compile Include="ViewModels\CommunityTreeViewModel.cs" />

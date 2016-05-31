@@ -155,14 +155,24 @@ namespace PMS.DataAccess
         {
             try
             {
-                string query = @"select concat(TPU.ChucVu, ' ', P.ChristianName,' ',P.Name) as NguoiMat , concat(PP.ChristianName,' ',PP.Name) as NguoiNhanThu
+                string query = @"select TPU.ChucVu AS ChucDanhNguoiMat, concat(TPU.ChucVu, ' ', P.ChristianName,' ',P.Name) as NguoiMat , 
+                                concat(PP.ChristianName,' ',PP.Name) as NguoiNhanThu, PP.Gender, V.Position
                                 from ThuPhanUu TPU
                                 left join Parishioner P on TPU.MaGiaoDan = P.Id
                                 left join ThuPhanUu_NguoiNhan NN on TPU.Id = NN.ThuPhanUuId
                                 left join Parishioner PP on NN.NguoiNhanId = PP.Id
+                                left join Vocation V ON PP.Id = V.ParishionerId
                                 where NN.NguoiNhanId in ({0}) and TPU.Id = {1}";
                 query = string.Format(query, Ids, idThuPhanUu);
-                return _db.ExecuteQuery<ThuPhanUu_InViewModel>(query).ToList();
+                var result = _db.ExecuteQuery<ThuPhanUu_InViewModel>(query).ToList();
+                for(var i=0; i<result.Count;i++)
+                {
+                    if(result[i].Position != null)
+                    {
+                        result[i].ChucDanhNguoiNhan = VocationData.GetPositionText(result[i].Position, result[i].Gender);
+                    }
+                }
+                return result;
             }
             catch
             {

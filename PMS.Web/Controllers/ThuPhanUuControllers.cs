@@ -13,15 +13,19 @@ namespace PMS.Web.Controllers
     public class ThuPhanUuController : Controller
     {
         private readonly ThuPhanUuBusiness _thuPhanUuBusiness;
+        private readonly ParishBusiness _parishBusiness;
 
         public ThuPhanUuController()
         {
             _thuPhanUuBusiness = new ThuPhanUuBusiness(DbConfig.GetConnectionString());
+            _parishBusiness = new ParishBusiness(DbConfig.GetConnectionString());
         }
         
         public ActionResult Index()
         {
-            List<ThuPhanUuViewModel> lstEmail = _thuPhanUuBusiness.GetAllThuPhanUu();            
+            List<ThuPhanUuViewModel> lstEmail = _thuPhanUuBusiness.GetAllThuPhanUu();
+            var parish = _parishBusiness.GetAllParish().ToList();
+            ViewBag.Parishes = parish;
             return View(lstEmail);
         }
 
@@ -124,7 +128,13 @@ namespace PMS.Web.Controllers
         public ActionResult InThuPhanUu(int idThuPhanUu, string Ids)
         {
             var lstThuPhanUu = _thuPhanUuBusiness.PrintThuPhanUuByIds(idThuPhanUu, Ids);
-            return PartialView(lstThuPhanUu);
+            // Khoan mod start
+            //return PartialView(lstThuPhanUu);
+            string html = Utilities.PMSCommon.RenderViewToString(this.ControllerContext, "InThuPhanUu", lstThuPhanUu);
+            ViewBag.Body = html;
+            ViewBag.Title = "In Thu Phan Uu";
+            return PartialView("_PrintLayout");
+            // Khoan mod end
         }
     }
 }

@@ -29,7 +29,7 @@
             <div style="page-break-after: always; page-break-inside: avoid;"></div>
         }
         iCount++;
-        <div style="width: 702.2756px;margin-left: 50px;">
+        <div>
             <div style="clear: both; display: flex;">
                 <div style="float: left; width: 40%;">
                     <p style="text-align: center;">
@@ -40,7 +40,7 @@
 
                     <p style="text-align: center;">
                         <span>
-                            Y 70 Hùng Vương – Xuân Bình
+                            210 Hùng Vương – Xuân Bình
                         </span>
                     </p>
 
@@ -86,7 +86,7 @@
             <p style="text-align: left; margin-left: 60px;">
                 <span>
                     @Html.Raw(string.Format("Sau khi suy nghĩ, cầu nguyện và bàn hỏi, nay tôi muốn thuyên chuyển Cha đi làm {0} giáo xứ {1}, giáo hạt {2} trong thời gian này.", 
-                                            item.PositionName, item.ParishCurrent, item.VicariateName))
+                                            item.PositionName, item.Parish, item.VicariateName))
                 </span>
             </p>
             <p style="text-align: left; margin-left: 60px;">
@@ -120,7 +120,3 @@
         </div>
     }
 </div>
-
-<script>
-    window.print();
-</script>

@@ -12,6 +12,11 @@ namespace PMS.DataAccess.Enumerations
         Active = 1
     }
 
+    public enum GenderEnum
+    {
+        Female = 0,
+        Male = 1
+    }
     public enum ParishionerStatusEnum
     {
         AvailableAndSaved = -3,

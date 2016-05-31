@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLGP" Class="PMSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=ToanPBSE61011;Initial Catalog=QLGP;Integrated Security=True;MultipleActiveResultSets=True" SettingsObjectName="PMS.DataAccess.Properties.Settings" SettingsPropertyName="QLGPConnectionString1" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLGP_0529" Class="PMSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLExpress;Initial Catalog=QLGP_0529;Integrated Security=True;MultipleActiveResultSets=True" SettingsObjectName="PMS.DataAccess.Properties.Settings" SettingsPropertyName="QLGP_0529ConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Account" Member="Accounts">
     <Type Name="Account">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -103,7 +103,6 @@
       <Column Name="ConfirmationTemplate" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="MatrimonyTemplate" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="SacramentTemplate" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="Parish_Configuration" Member="Parish" ThisKey="ParishId" OtherKey="Id" Type="Parish" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ConstructionPermit" Member="ConstructionPermits">
@@ -125,7 +124,7 @@
       <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="PriestId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="ParishionerId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="ParishId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ParishId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="VocationDeaconRequisitionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Parish_DeaconRequisitionComment" Member="Parish" ThisKey="ParishId" OtherKey="Id" Type="Parish" IsForeignKey="true" />
       <Association Name="Parishioner_DeaconRequisitionComment" Member="Parishioner" ThisKey="ParishionerId" OtherKey="Id" Type="Parishioner" IsForeignKey="true" />
@@ -162,6 +161,35 @@
       <Association Name="Diocese_Account" Member="Accounts" ThisKey="Id" OtherKey="DioceseId" Type="Account" />
       <Association Name="Diocese_Priest" Member="Priests" ThisKey="Id" OtherKey="DioceseId" Type="Priest" />
       <Association Name="Diocese_Vicariate" Member="Vicariates" ThisKey="Id" OtherKey="DioceseId" Type="Vicariate" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Donation" Member="Donations">
+    <Type Name="Donation">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ParishionerID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DonationLevel" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CertificateID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DonationRank" Member="DonationRanks">
+    <Type Name="DonationRank">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Value" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="[Level]" Member="Level" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DonationSession" Member="DonationSessions">
+    <Type Name="DonationSession">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DonationDate" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="ReceiptID" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="Note" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="DonationID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Currency" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="InputValue" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="FinalValue" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="ExchangeRate" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="ReceiptDate" Type="System.String" DbType="Char(8)" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Family" Member="Families">
@@ -224,12 +252,11 @@
       <Column Name="NgayMoi" Type="System.String" DbType="Char(10)" CanBeNull="true" />
       <Column Name="NgaySuKien" Type="System.String" DbType="Char(10)" CanBeNull="true" />
       <Column Name="DiaDiem" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="NguoiGoi" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NguoiGoi" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="ThoiGian" Type="System.String" DbType="Char(10)" CanBeNull="true" />
       <Column Name="MauId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="GiayMoi_KhachMoi" Member="KhachMois" ThisKey="Id" OtherKey="GiayMoiId" Type="KhachMoi" />
       <Association Name="LetterAndReport_GiayMoi" Member="LetterAndReport" ThisKey="MauId" OtherKey="Id" Type="LetterAndReport" IsForeignKey="true" />
-      <Association Name="Parishioner_GiayMoi" Member="Parishioner" ThisKey="NguoiGoi" OtherKey="Id" Type="Parishioner" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.HDLMMember" Member="HDLMMembers">
@@ -237,7 +264,6 @@
       <Column Name="PriestID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="HdlmID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Role" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="HoiDongLinhMuc_HDLMMember" Member="HoiDongLinhMuc" ThisKey="HdlmID" OtherKey="Id" Type="HoiDongLinhMuc" IsForeignKey="true" />
       <Association Name="Priest_HDLMMember" Member="Priest" ThisKey="PriestID" OtherKey="Id" Type="Priest" IsForeignKey="true" />
     </Type>
   </Table>
@@ -247,7 +273,6 @@
       <Column Name="Name" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="Description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="Note" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Association Name="HoiDongLinhMuc_HDLMMember" Member="HDLMMembers" ThisKey="Id" OtherKey="HdlmID" Type="HDLMMember" />
     </Type>
   </Table>
   <Table Name="dbo.KhachMoi" Member="KhachMois">
@@ -330,10 +355,12 @@
       <Column Name="Ward" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="District" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="Province" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Patron" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="PatronDate" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ChauLuot" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Association Name="Parish_Account" Member="Accounts" ThisKey="Id" OtherKey="ParishId" Type="Account" />
       <Association Name="Parish_ClassGroup" Member="ClassGroups" ThisKey="Id" OtherKey="ParishId" Type="ClassGroup" />
       <Association Name="Parish_Community" Member="Communities" ThisKey="Id" OtherKey="ParishId" Type="Community" />
-      <Association Name="Parish_Configuration" Member="Configuration" ThisKey="Id" OtherKey="ParishId" Type="Configuration" Cardinality="One" />
       <Association Name="Parish_ConstructionPermit" Member="ConstructionPermits" ThisKey="Id" OtherKey="ParishId" Type="ConstructionPermit" />
       <Association Name="Parish_DeaconRequisitionComment" Member="DeaconRequisitionComments" ThisKey="Id" OtherKey="ParishId" Type="DeaconRequisitionComment" />
       <Association Name="Parish_FamilyMigrationRequest" Member="FamilyMigrationRequests" ThisKey="Id" OtherKey="ToParishId" Type="FamilyMigrationRequest" />
@@ -385,11 +412,9 @@
       <Association Name="Parishioner_ClassMember" Member="ClassMembers" ThisKey="Id" OtherKey="ParishionerId" Type="ClassMember" />
       <Association Name="Parishioner_DeaconRequisitionComment" Member="DeaconRequisitionComments" ThisKey="Id" OtherKey="ParishionerId" Type="DeaconRequisitionComment" />
       <Association Name="Parishioner_FamilyMember" Member="FamilyMembers" ThisKey="Id" OtherKey="ParishionerId" Type="FamilyMember" />
-      <Association Name="Parishioner_GiayMoi" Member="GiayMois" ThisKey="Id" OtherKey="NguoiGoi" Type="GiayMoi" />
       <Association Name="Parishioner_Matrimony" Member="Matrimonies" ThisKey="Id" OtherKey="HusbandId" Type="Matrimony" />
       <Association Name="Parishioner_Matrimony1" Member="Matrimonies1" ThisKey="Id" OtherKey="WifeId" Type="Matrimony" />
       <Association Name="Parishioner_ParishionerMigrationRequest" Member="ParishionerMigrationRequests" ThisKey="Id" OtherKey="ParishionerId" Type="ParishionerMigrationRequest" />
-      <Association Name="Parishioner_Priest" Member="Priests" ThisKey="Id" OtherKey="ParishionerId" Type="Priest" />
       <Association Name="Parishioner_Sacrament" Member="Sacraments" ThisKey="Id" OtherKey="ParishionerId" Type="Sacrament" />
       <Association Name="Parishioner_Society" Member="Societies" ThisKey="Id" OtherKey="ManagedBy" Type="Society" />
       <Association Name="Parishioner_SocietyMember" Member="SocietyMembers" ThisKey="Id" OtherKey="ParishionerId" Type="SocietyMember" />
@@ -450,7 +475,6 @@
       <Association Name="Priest_Parish" Member="Parishes" ThisKey="Id" OtherKey="PriestId" Type="Parish" />
       <Association Name="Priest_ParishManager" Member="ParishManagers" ThisKey="Id" OtherKey="PriestId" Type="ParishManager" />
       <Association Name="Diocese_Priest" Member="Diocese" ThisKey="DioceseId" OtherKey="Id" Type="Diocese" IsForeignKey="true" />
-      <Association Name="Parishioner_Priest" Member="Parishioner" ThisKey="ParishionerId" OtherKey="Id" Type="Parishioner" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ReligiousCommunity" Member="ReligiousCommunities">
@@ -566,6 +590,22 @@
       <Association Name="Society_SocietyMember" Member="Society" ThisKey="SocietyId" OtherKey="Id" Type="Society" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.ThuPhanUu" Member="ThuPhanUus">
+    <Type Name="ThuPhanUu">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MaGiaoDan" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NgayMat" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="ChucVu" Type="System.String" DbType="NVarChar(25) NOT NULL" CanBeNull="false" />
+      <Column Name="MauThu" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ThuPhanUu_NguoiNhan" Member="ThuPhanUu_NguoiNhans">
+    <Type Name="ThuPhanUu_NguoiNhan">
+      <Column Name="ThuPhanUuId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NguoiNhanId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DaIn" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.ThuyenChuyenLinhMuc" Member="ThuyenChuyenLinhMucs">
     <Type Name="ThuyenChuyenLinhMuc">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -589,7 +629,7 @@
       <Column Name="Code" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Definition" Type="System.String" DbType="NText NOT NULL" CanBeNull="false" UpdateCheck="Never" />
       <Column Name="Note" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="Category" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Category" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.Vicariate" Member="Vicariates">

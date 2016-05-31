@@ -62,10 +62,14 @@ namespace PMS.Web.Controllers
             var configuration = _configurationBusiness.GetConfigurationByParishId(parishId);
             List<Community> communities = _communityBusiness.GetCommunitiesByParishId(parishId);
             List<Community> parishDivisions = _communityBusiness.GetParishDivisionsByParishId(parishId);
+            IEnumerable<Vicariate> vicariates = _vicariateBusiness.getAllVicariate();
+            var parish = _parishBusiness.GetParishesByVicariateId((int)Session["VicariateId"]);
 
             ViewBag.Configuration = configuration.MultipleParishionerAdding;
             ViewBag.Communities = communities;
             ViewBag.ParishDivisions = parishDivisions;
+            ViewBag.Parishes = parish;
+            ViewBag.Vicariates = vicariates;
 
             return View();
         }
@@ -146,9 +150,24 @@ namespace PMS.Web.Controllers
                                                                                int sacramentType, bool isCounted, int status,
                                                                                int deadParishioner = 0, int changeParishParishioner = 0)
         {
-            int parishId = (int)Session["ParishId"];
+            int parishId = (param.parishId != null && param.parishId != "" && param.parishId != "0") ? int.Parse(param.parishId) : (int)Session["ParishId"];
             int totalRecords = 0;
             int totalDisplayRecords = 0;
+
+            if(communityId == 0 && parishDivisionId == 0 && sacramentType == 0 
+                && deadParishioner == 0 && changeParishParishioner == 0
+                && (param.sSearch == null || param.sSearch == "")
+                && (param.parishId == null || param.parishId == "" || param.parishId == "0"))
+            {
+                return Json(new
+                {
+                    sEcho = param.sEcho,
+                    iTotalRecords = totalRecords,
+                    iTotalDisplayRecords = totalDisplayRecords,
+                    aaData = new List<Parishioner>()
+                }, JsonRequestBehavior.AllowGet);
+            }
+
             var result = _parishionerBusiness.GetOrderedParishionersByParamsAndPaging(parishId, communityId, parishDivisionId, sacramentType, isCounted, status,
                                                                          param.sSearch, deadParishioner, changeParishParishioner, param.iSortCol_0, param.sSortDir_0, param.iDisplayStart,
                                                                          param.iDisplayLength, out totalRecords, out totalDisplayRecords);
@@ -193,9 +212,9 @@ namespace PMS.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult LoadCommunityAndParishDivisionTreeView()
+        public ActionResult LoadCommunityAndParishDivisionTreeView(string ParishId)
         {
-            int parishId = (int)Session["ParishId"];
+            int parishId = ParishId != null ? int.Parse(ParishId) : (int)Session["ParishId"];
             var communities = _communityBusiness.GetCommunitiesByParishId(parishId);
             var parishDivisions = _communityBusiness.GetParishDivisionsByParishId(parishId);
             var result = new List<CommunityTreeViewModel>();
@@ -914,7 +933,6 @@ namespace PMS.Web.Controllers
                 item.Societies = null;
                 item.Vicariates = null;
                 item.Vicariate = null;
-                item.Configuration = null;
                 item.ClassGroups = null;
                 item.Messages = null;
             }
@@ -1189,6 +1207,7 @@ namespace PMS.Web.Controllers
 
             string communityName = (parishioner.Community.ParentId != null) ? parishioner.Community.Community1.Name : parishioner.Community.Name;
             string parishName = parishioner.Community.Parish.Name;
+            int parishId = parishioner.Community.Parish.Id;
 
             communityIdTemp = parishioner.CommunityId;
             //Remove Parishioner Reference
@@ -1206,10 +1225,12 @@ namespace PMS.Web.Controllers
 
             var fileImagePath = ConfigurationManager.AppSettings["ParishionerImageUrl"];
             var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
-
             var parishionerViewModel = new ParishionerViewModel();
-            parishionerViewModel.ImageURL = string.Concat(fileImagePath, parishioner.ImageUrl);
-            parishionerViewModel.ThumbnailURL = string.Concat(fileThumbPath, parishioner.ImageUrl);
+            parishionerViewModel.ImageURL = _parishionerBusiness.GetImageUrl(string.Concat(fileImagePath, parishioner.ImageUrl), parishioner.Gender);
+            parishionerViewModel.ThumbnailURL = _parishionerBusiness.GetImageUrl(string.Concat(fileThumbPath, parishioner.ImageUrl), parishioner.Gender);
+
+            parishionerViewModel.ParishId = parishId;
+            parishionerViewModel.ParishName = parishName;
 
             int vocationIdTemp = 0;
             //Remove Vocation Reference
@@ -1623,16 +1644,6 @@ namespace PMS.Web.Controllers
                 }
             }
             return destImage;
-        }
-
-        public ActionResult LoadParishionerByName(string name)
-        {
-            var result = _parishionerBusiness.LoadParishionerByName(name);
- 
-            return Json(new
-            {
-                result = result
-            }, JsonRequestBehavior.AllowGet);
         }
     }
 }

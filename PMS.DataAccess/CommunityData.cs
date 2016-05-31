@@ -77,8 +77,8 @@ namespace PMS.DataAccess
 
         public IEnumerable<Community> GetNotDefaultCommunitiesByParishId(int parishId)
         {
-            const string query = "SELECT * FROM Community WHERE ParishId = {0} AND IsDefault = {1} AND ParentId IS NULL";
-            return _db.ExecuteQuery<Community>(query, parishId, false);
+            const string query = "SELECT * FROM Community WHERE ParishId = {0} AND ParentId IS NULL";
+            return _db.ExecuteQuery<Community>(query, parishId);
         }
 
         public IEnumerable<Community> GetNotDefaultCommunitiesByVicariateId(int vicariateId)

@@ -110,5 +110,16 @@ namespace PMS.DataAccess.Properties {
                 return ((string)(this["QLGPConnectionString1"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLExpress;Initial Catalog=QLGP_0529;Integrated Security=True;Multi" +
+            "pleActiveResultSets=True")]
+        public string QLGP_0529ConnectionString {
+            get {
+                return ((string)(this["QLGP_0529ConnectionString"]));
+            }
+        }
     }
 }

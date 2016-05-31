@@ -37,7 +37,7 @@ namespace PMS.Web.Controllers
             Parish result = _parishBusiness.GetParishesByParishId(id);
             result.Accounts = null;
             result.Communities = null;
-            result.Configuration = null;
+            //result.Configuration = null;
             result.FamilyMigrationRequests = null;
             result.ParishionerMigrationRequests = null;
             result.SacramentGroups = null;

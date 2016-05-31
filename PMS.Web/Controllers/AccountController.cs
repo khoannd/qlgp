@@ -19,6 +19,7 @@ namespace PMS.Web.Controllers
         private readonly AccountBusiness _accountBusiness;
         private readonly ParishBusiness _parishBusiness;
         private readonly CommunityBusiness _communityBusiness;
+        private readonly VicariateBusiness _vicariateBusiness;
 
         public AccountController()
         {
@@ -87,6 +88,8 @@ namespace PMS.Web.Controllers
                         defaultCommunity = _communityBusiness.GetDefaultCommunityIdByParishId((int) account.ParishId);
                     }                 
                 }
+                Parish parish = _parishBusiness.GetParishesByParishId((int)account.ParishId);
+                Session["VicariateId"] = parish.VicariateId;
 
                 Session["DefaultCommunity"] = defaultCommunity;
 
@@ -123,6 +126,7 @@ namespace PMS.Web.Controllers
             Session["ParishId"] = null;
             Session["Name"] = null;
             Session["DefaultCommunity"] = null;
+            Session["VicariateId"] = null;
 
             return RedirectToAction("Login");
         }

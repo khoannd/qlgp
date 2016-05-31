@@ -19,6 +19,8 @@ namespace PMS.Web
         {
             _urlForAdmin = @"/Account/AccountManagement, /Account/ChangePassword, /Diocese/Index, /Priest/Index, /Vicariate/Index, /Parish/Index,
                             /Search/Parishioner, /SearchFamily/Family, /Statistic/Index, /Chart/Index, /Message/CreateMessage,
+                            /ParishHome/Index, /Community/Index, /Society/Index,
+                            /Parishioner/Index, /Family/Index, /Parishioner/SaveStorage, /Parishioner/PrintPage, /Family/SaveStorage,
                             /ThuyenChuyenLinhMuc/Index, /ConstructionPermit/Index, /Seminary/Index, /Seminarian/Index, /DeaconRequisition/Index, /Priest/PrintPage, /Parishioner/Index";
 
             _urlWithIdForAdmin = @"/DeaconRequisitionComment/Index/{Id}";

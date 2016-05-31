@@ -146,7 +146,7 @@ namespace PMS.Web.Controllers
                 parishioner.Gender = 1;
                 parishioner.BirthDate = priest.BirthDate;
                 parishioner.IsCounted = false;
-                parishioner.Status = 0;
+                parishioner.Status = 1;
                 parishioner.DomicileStatus = 0;
                 parishioner.IsStudying = false;
                 parishioner.MobilePhone = priest.Phone;

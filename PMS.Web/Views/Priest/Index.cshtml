@@ -22,15 +22,24 @@
             <!-- End Button Print Priest -->
             <!-- Import Priest Infomation with EXCEL -->
             <div style="display: inline-block;">
-                @using (Html.BeginForm("ImportFromExcel", "Priest", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("ImportFromExcel", "Priest", FormMethod.Post, new { enctype = "multipart/form-data", id = "frm_import_priest" }))
                 {
                     <div class="btn btn-info">
-                        <input type="file" name="file" />
+                        <input type="file" name="file" id="selectExcelFile" accept=".xls,.xlsx" />
                     </div>
-                    <button id="btnImportPriest" type="submit" class="btn btn-info">
+                    @*<button id="btnImportPriest" type="submit" class="btn btn-info">
                         <i class="ace-icon fa fa-plus"></i> Bắt đầu Import
-                    </button>
+                    </button>*@
                 }
+                <script>
+                    $("#selectExcelFile").change(function () {
+                        if (confirm("Bạn có chắc đã chọn đúng file và muốn thực hiện việc nhập này?")) {
+                            $("#frm_import_priest").submit();
+                            return true;
+                        }
+                        return false;
+                    });
+                </script>
             </div>
             <!-- End Import Priest Infomation with EXCEL -->
         </div>

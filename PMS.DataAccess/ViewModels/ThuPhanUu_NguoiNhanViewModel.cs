@@ -12,6 +12,6 @@ namespace PMS.DataAccess.ViewModels
         public int ThuPhanUuId { get; set; }
         public int NguoiNhanId { get; set; }
         public string NguoiNhan { get; set; }
-
+        
     }
 }
