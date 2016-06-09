@@ -137,6 +137,19 @@
 
     $("#btnCreateParishioner").click(function () {
         '<%Session["ImageName"] = "";%>';
+        @if(Session["RoleId"].ToString() == ((int)PMS.DataAccess.Enumerations.AccountEnum.Admin).ToString())
+        {
+        <text>
+        $("#cbbParishionerDiocese").val($("#cbbDiocese").val());
+        $("#cbbParishionerVicariate").val($("#cbbVicariate").val());
+        $("#cbbParishionerParish").val($("#cbbParish").val());
+        </text>
+        }
+        else
+        {
+            @:$("#cbbParishionerParish").prop("disabled", true);
+            @:$("#cbbParishionerCommunity").val($("#cbbCommunity").val());
+        }
 
         $("#homeLink").tab('show');
         $("#txtHiddenParishionerId").val(0);
@@ -194,27 +207,27 @@
         loadParishDivisionsByCommunityId();
 
         updateTableContent("parishionerTable");
-      //  $("#parishionerTable").dataTable()._fnAjaxUpdate();
+        //  $("#parishionerTable").dataTable()._fnAjaxUpdate();
     });
 
     $("#cbbSacramentType").change(function () {
         updateTableContent("parishionerTable");
-      //  $("#parishionerTable").dataTable()._fnAjaxUpdate();
+        //  $("#parishionerTable").dataTable()._fnAjaxUpdate();
     });
 
     $("#cbFilterIsCounted").change(function () {
         updateTableContent("parishionerTable");
-    //    $("#parishionerTable").dataTable()._fnAjaxUpdate();
+        //    $("#parishionerTable").dataTable()._fnAjaxUpdate();
     });
 
     $("#cbFilterSavedStatus").change(function () {
         updateTableContent("parishionerTable");
-   //     $("#parishionerTable").dataTable()._fnAjaxUpdate();
+        //     $("#parishionerTable").dataTable()._fnAjaxUpdate();
     });
 
     $("#cbbParishDivision").change(function () {
         updateTableContent("parishionerTable");
-   //     $("#parishionerTable").dataTable()._fnAjaxUpdate();
+        //     $("#parishionerTable").dataTable()._fnAjaxUpdate();
     });
 
     // Dac biet luu y
@@ -329,19 +342,18 @@
                     }
 
                     updateTableContent("parishionerTable");
-                  //  $("#parishionerTable").dataTable()._fnAjaxUpdate();
+                    //  $("#parishionerTable").dataTable()._fnAjaxUpdate();
                 } else {
 
                     if (status == 0) {
                         showMessage("Đưa giáo dân vào hồ sơ lưu trữ thất bại, vui lòng thử lại sau", 0);
                     }
-                    else if (data == -3)
-                    {
+                    else if (data == -3) {
                         ////Cho nay xem coi phai manager ko thi confirm lan nua con ko thi thoi
                         //if (currentRoleId == currentManagerId) {
                         //    confirmAgainToSureDelete(id);
                         //} else {
-                            showMessage("Không thể xóa giáo dân đang được sử dụng ở những thông tin khác (hội đoàn, gia đình, giáo lý, hôn phối)", -1, 6000);
+                        showMessage("Không thể xóa giáo dân đang được sử dụng ở những thông tin khác (hội đoàn, gia đình, giáo lý, hôn phối)", -1, 6000);
                         //}
 
                     }

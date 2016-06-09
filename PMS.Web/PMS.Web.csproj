@@ -190,7 +190,7 @@
     <Content Include="Content\assets\css\ace-rtl.min.css" />
     <Content Include="Content\assets\css\ace-skins.min.css" />
     <Content Include="Content\assets\css\ace.min.css" />
-    <Content Include="Content\assets\css\bootstrap-datetimepicker.css" />
+    <Content Include="Content\assets\css\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\assets\css\bootstrap-editable.css" />
     <Content Include="Content\assets\css\bootstrap-timepicker.css" />
     <Content Include="Content\assets\css\bootstrap.min.css" />

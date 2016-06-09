@@ -20,6 +20,16 @@ namespace PMS.DataAccess
             const string query = "SELECT * FROM Diocese WHERE Id = {0}";
             return _db.ExecuteQuery<Diocese>(query, dioceseId).SingleOrDefault();
         }
+        public Diocese GetDefaultDiocese()
+        {
+            const string query = "SELECT * FROM Diocese WHERE IsDefault = 1";
+            return _db.ExecuteQuery<Diocese>(query).SingleOrDefault();
+        }
+        public List<Diocese> GetAllDioceses()
+        {
+            const string query = "SELECT * FROM Diocese ";
+            return _db.ExecuteQuery<Diocese>(query).ToList();
+        }
 
         public string GetImageUrlByDioceseId(int dioceseId)
         {

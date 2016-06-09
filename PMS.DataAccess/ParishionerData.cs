@@ -3059,7 +3059,7 @@ namespace PMS.DataAccess
             const string query = "SELECT Max(Code) " +
                 "FROM Parishioner " +
                 "WHERE Code LIKE {0}";
-            return _db.ExecuteQuery<string>(query, "%" + code + "%");
+            return _db.ExecuteQuery<string>(query, code + "%");
         }
 
         public Parishioner getParishionerById(int id)

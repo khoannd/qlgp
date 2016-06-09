@@ -38,6 +38,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,6 +56,7 @@
     <Compile Include="ConfigurationBusiness.cs" />
     <Compile Include="ConstructionPermitBusiness.cs" />
     <Compile Include="DeaconRequisitionCommentBusiness.cs" />
+    <Compile Include="DeaconRequisitionSessionBusiness.cs" />
     <Compile Include="DoctrineCourseBusiness.cs" />
     <Compile Include="DonationBusiness.cs" />
     <Compile Include="DonationSessionBusiness.cs" />
@@ -76,8 +78,8 @@
     <Compile Include="ParishManagerBusiness.cs" />
     <Compile Include="GeneralStatusBusiness.cs" />
     <Compile Include="SeminarianBusiness.cs" />
-    <Compile Include="DeaconRequisitionSessionBusiness.cs" />
     <Compile Include="SeminaryYearBusiness.cs" />
+    <Compile Include="ThuPhanUuBusiness.cs" />
     <Compile Include="VaiTroBusiness.cs" />
     <Compile Include="ThuyenChuyenLinhMucBusiness.cs" />
     <Compile Include="PriestBusiness.cs" />

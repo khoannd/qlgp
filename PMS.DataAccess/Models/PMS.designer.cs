@@ -3863,6 +3863,10 @@ namespace PMS.DataAccess.Models
 		
 		private string _Church;
 		
+		private bool _IsDefault;
+		
+		private string _Code;
+		
 		private EntitySet<Account> _Accounts;
 		
 		private EntitySet<Priest> _Priests;
@@ -3891,6 +3895,10 @@ namespace PMS.DataAccess.Models
     partial void OnBishopChanged();
     partial void OnChurchChanging(string value);
     partial void OnChurchChanged();
+    partial void OnIsDefaultChanging(bool value);
+    partial void OnIsDefaultChanged();
+    partial void OnCodeChanging(string value);
+    partial void OnCodeChanged();
     #endregion
 		
 		public Diocese()
@@ -4077,6 +4085,46 @@ namespace PMS.DataAccess.Models
 					this._Church = value;
 					this.SendPropertyChanged("Church");
 					this.OnChurchChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsDefault", DbType="Bit NOT NULL")]
+		public bool IsDefault
+		{
+			get
+			{
+				return this._IsDefault;
+			}
+			set
+			{
+				if ((this._IsDefault != value))
+				{
+					this.OnIsDefaultChanging(value);
+					this.SendPropertyChanging();
+					this._IsDefault = value;
+					this.SendPropertyChanged("IsDefault");
+					this.OnIsDefaultChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="NChar(10)")]
+		public string Code
+		{
+			get
+			{
+				return this._Code;
+			}
+			set
+			{
+				if ((this._Code != value))
+				{
+					this.OnCodeChanging(value);
+					this.SendPropertyChanging();
+					this._Code = value;
+					this.SendPropertyChanged("Code");
+					this.OnCodeChanged();
 				}
 			}
 		}

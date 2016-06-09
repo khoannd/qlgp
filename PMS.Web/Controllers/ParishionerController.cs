@@ -36,6 +36,7 @@ namespace PMS.Web.Controllers
         private readonly MatrimonyBusiness _matrimonyBusiness;
         private readonly ChangeParishBusiness _changeParishBusiness;
         private readonly MessageBusiness _messageBusiness;
+        private readonly DioceseBusiness _dioceseBusiness;
 
         public ParishionerController()
         {
@@ -52,6 +53,7 @@ namespace PMS.Web.Controllers
             _matrimonyBusiness = new MatrimonyBusiness(DbConfig.GetConnectionString());
             _changeParishBusiness = new ChangeParishBusiness(DbConfig.GetConnectionString());
             _messageBusiness = new MessageBusiness(DbConfig.GetConnectionString());
+            _dioceseBusiness = new DioceseBusiness(DbConfig.GetConnectionString());
         }
 
         [SessionExpireFilter]
@@ -62,14 +64,16 @@ namespace PMS.Web.Controllers
             var configuration = _configurationBusiness.GetConfigurationByParishId(parishId);
             List<Community> communities = _communityBusiness.GetCommunitiesByParishId(parishId);
             List<Community> parishDivisions = _communityBusiness.GetParishDivisionsByParishId(parishId);
-            IEnumerable<Vicariate> vicariates = _vicariateBusiness.getAllVicariate();
-            var parish = _parishBusiness.GetParishesByVicariateId((int)Session["VicariateId"]);
+            List<Vicariate> vicariates = _vicariateBusiness.getAllVicariate().ToList();
+            List<Parish> parishs = _parishBusiness.GetAllParish().ToList();
+            List<Diocese> dioceses = _dioceseBusiness.GetAllDioceses();
 
             ViewBag.Configuration = configuration.MultipleParishionerAdding;
             ViewBag.Communities = communities;
             ViewBag.ParishDivisions = parishDivisions;
-            ViewBag.Parishes = parish;
+            ViewBag.Parishes = parishs;
             ViewBag.Vicariates = vicariates;
+            ViewBag.Dioceses = dioceses;
 
             return View();
         }
@@ -1210,18 +1214,6 @@ namespace PMS.Web.Controllers
             int parishId = parishioner.Community.Parish.Id;
 
             communityIdTemp = parishioner.CommunityId;
-            //Remove Parishioner Reference
-            parishioner.ClassGroups = null;
-            parishioner.ClassMembers = null;
-            parishioner.Community = null;
-            parishioner.FamilyMembers = null;
-            parishioner.Matrimonies = null;
-            parishioner.Matrimonies1 = null;
-            parishioner.ParishionerMigrationRequests = null;
-            parishioner.Sacraments = null;
-            parishioner.Societies = null;
-            parishioner.SocietyMembers = null;
-            parishioner.Vocation = null;
 
             var fileImagePath = ConfigurationManager.AppSettings["ParishionerImageUrl"];
             var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
@@ -1231,6 +1223,8 @@ namespace PMS.Web.Controllers
 
             parishionerViewModel.ParishId = parishId;
             parishionerViewModel.ParishName = parishName;
+            parishionerViewModel.VicariateId = parishioner.Community.Parish.VicariateId;
+            parishionerViewModel.DioceseId = parishioner.Community.Parish.Vicariate.DioceseId;
 
             int vocationIdTemp = 0;
             //Remove Vocation Reference
@@ -1263,6 +1257,19 @@ namespace PMS.Web.Controllers
                     confirmation = item;
                 }
             }
+
+            //Remove Parishioner Reference
+            parishioner.ClassGroups = null;
+            parishioner.ClassMembers = null;
+            parishioner.Community = null;
+            parishioner.FamilyMembers = null;
+            parishioner.Matrimonies = null;
+            parishioner.Matrimonies1 = null;
+            parishioner.ParishionerMigrationRequests = null;
+            parishioner.Sacraments = null;
+            parishioner.Societies = null;
+            parishioner.SocietyMembers = null;
+            parishioner.Vocation = null;
 
             return Json(new
             {

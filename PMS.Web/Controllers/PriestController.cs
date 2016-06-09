@@ -54,7 +54,8 @@ namespace PMS.Web.Controllers
             var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
             for (int i = 0; i < result.Count; i++)
             {
-                result[i].ThumbnailURL = string.Concat(fileThumbPath, result[i].ImageURL);
+                //result[i].ThumbnailURL = string.Concat(fileThumbPath, result[i].ImageURL);
+                result[i].ThumbnailURL = _parishionerBusiness.GetImageUrl(string.Concat(fileThumbPath, result[i].ImageURL), (int)PMS.DataAccess.Enumerations.GenderEnum.Male);
             }
 
             return Json(new
@@ -186,7 +187,7 @@ namespace PMS.Web.Controllers
             }
             return result;
         }
-
+        [ValidateInput(false)]
         public ActionResult UpdatePriest(PriestViewModel priestViewModel)
         {
             var converter = new DateConverter();
@@ -209,7 +210,15 @@ namespace PMS.Web.Controllers
                 Parishioner parishioner = new Parishioner();
                 parishioner = _parishionerBusiness.getParishionerById(priestViewModel.ParishionerId);
                 parishioner.Code = priestViewModel.Code;
-                parishioner.ImageUrl = priestViewModel.ImageURL;
+                if(priestViewModel.ImageURL != null && priestViewModel.ImageURL != "")
+                {
+                    parishioner.ImageUrl = System.IO.Path.GetFileName(priestViewModel.ImageURL);
+                }
+                else
+                {
+                    parishioner.ImageUrl = priestViewModel.ImageURL;
+                }
+                
                 parishioner.ChristianName = priestViewModel.ChristianName;
                 parishioner.Name = priestViewModel.Name;
                 parishioner.BirthDate = priestViewModel.BirthDate;
@@ -226,6 +235,15 @@ namespace PMS.Web.Controllers
 
         public ActionResult DeletePriest(int id)
         {
+            Priest priest = _priestBusiness.GetPriestByPriestId(id);
+            if(priest.ParishionerId != null && priest.ParishionerId != 0)
+            {
+                Parishioner parishioner = _parishionerBusiness.getParishionerById((int)priest.ParishionerId);
+                parishioner.Status = (int)PMS.DataAccess.Enumerations.ParishionerStatusEnum.Deleted;
+                parishioner.IsCounted = false;
+                _parishionerBusiness.UpdateParishioner(parishioner);
+            }
+            
             int result = _priestBusiness.DeletePriest(id);
             return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }
@@ -402,14 +420,15 @@ namespace PMS.Web.Controllers
             }
             string s = inputFile.ContentType;
             var fileName = "";
-            if (Session["ImageName"] == null)
-            {
-                fileName = String.Format("{0}.jpg", DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
-            }
-            else
-            {
-                fileName = String.Format(Session["ImageName"].ToString());
-            }
+            //if (Session["ImageName"] == null)
+            //{
+            //    fileName = String.Format("{0}.jpg", DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
+            //}
+            //else
+            //{
+            //    fileName = String.Format(Session["ImageName"].ToString());
+            //}
+            fileName = String.Format("{0}.jpg", DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond);
 
             var imagePath = Path.Combine(Server.MapPath(Url.Content(fileImagePath)), fileName);
             //inputFile.SaveAs(imagePath);

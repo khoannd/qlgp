@@ -17,7 +17,7 @@ namespace PMS.Web.Controllers
         private readonly ValueSetBusiness _valuesetBusiness;
         private readonly LetterAndReportBusiness _letterAndReportBusiness;
         private readonly KhachMoiBusiness _khachmoiBusiness;
-
+        private readonly DioceseBusiness _dioceseBusiness;
 
         public GiayMoiController()
         {
@@ -26,6 +26,7 @@ namespace PMS.Web.Controllers
             _valuesetBusiness = new ValueSetBusiness(DbConfig.GetConnectionString());
             _letterAndReportBusiness = new LetterAndReportBusiness(DbConfig.GetConnectionString());
             _khachmoiBusiness = new KhachMoiBusiness(DbConfig.GetConnectionString());
+            _dioceseBusiness = new DioceseBusiness(DbConfig.GetConnectionString());
 
         }
         // GET: GiayMoi
@@ -42,6 +43,9 @@ namespace PMS.Web.Controllers
 
             List<LetterAndReport> letterAndReport = _letterAndReportBusiness.GetAllLetterAndReport();
             ViewBag.LetterAndReport = letterAndReport;
+
+            Diocese diocese = _dioceseBusiness.GetDefaultDiocese();
+            ViewBag.BishopName = diocese.Bishop;
             return View();
 
         }
@@ -54,8 +58,8 @@ namespace PMS.Web.Controllers
         {
             GiayMoi giayMoi = _giaymoiBusiness.GetGiayMoitByGiayMoitId(id);
             List<KhachMoi> dsKhach = _khachmoiBusiness.getAllKhachMoibyGiayMoiId(id);
-
-            if(members != null && members != "0")
+            
+            if (members != null && members != "0")
             {
                 var ids = members.Split(',');
                 for(int i = dsKhach.Count - 1; i>=0; i--)
@@ -69,9 +73,12 @@ namespace PMS.Web.Controllers
             }
 
             string tenNguoiGoi = giayMoi.NguoiGoi;
+            Diocese diocese = _dioceseBusiness.GetDefaultDiocese();
+            string tenDGM = diocese.Bishop;
 
             List<string> reports = new List<string>();
-            giayMoi.Mau.Replace("[TenNguoiGoi]", tenNguoiGoi);
+            giayMoi.Mau = giayMoi.Mau.Replace("[TenDucGiamMuc]", tenDGM);
+            giayMoi.Mau = giayMoi.Mau.Replace("[TenNguoiGoi]", tenNguoiGoi);
             giayMoi.Mau = giayMoi.Mau.Replace("[NgayMoi]", giayMoi.NgayMoi);
             giayMoi.Mau = giayMoi.Mau.Replace("[NgaySuKien]", giayMoi.NgaySuKien);
             giayMoi.Mau = giayMoi.Mau.Replace("[ThoiGianSuKien]", giayMoi.ThoiGian);

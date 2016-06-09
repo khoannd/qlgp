@@ -22,7 +22,17 @@ namespace PMS.BusinessLogic
              return _dioceseData.GetDiocesesByDioceseId(dioceseId);
          }
 
-         public int UpdateDiocese(Diocese diocese)
+        public Diocese GetDefaultDiocese()
+        {
+            return _dioceseData.GetDefaultDiocese();
+        }
+
+        public List<Diocese> GetAllDioceses()
+        {
+            return _dioceseData.GetAllDioceses();
+        }
+
+        public int UpdateDiocese(Diocese diocese)
          {
              return _dioceseData.UpdateDiocese(diocese);
          }

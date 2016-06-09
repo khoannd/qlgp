@@ -69,9 +69,37 @@ namespace PMS.Web.Controllers
             
             return Json(new {result = parishes}, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult LoadVicariateById(int vicariateId)
+        public ActionResult LoadVicariateByDiocese(int dioceseId)
         {
            // Parish parish = _parishBusiness.GetParishesByParishId(id);
+            List<Vicariate> vicariates = _vicariateBusiness.GetVicariatesByDioceseId(dioceseId);
+            List<VicariateViewModel> result = new List<VicariateViewModel>();
+            foreach (Vicariate vicariate in vicariates)
+            {
+                VicariateViewModel model = new VicariateViewModel();
+
+                if (vicariate.ParishId != null)
+                {
+                    model.ParishId = vicariate.ParishId;
+                    model.ParishName = vicariate.Parish.Name;
+                }
+                else
+                {
+                    model.ParishId = 0;
+                    model.ParishName = " ";
+                }
+                model.Id = vicariate.Id;
+                model.Name = vicariate.Name;
+                model.DioceseId = vicariate.DioceseId;
+                result.Add(model);
+            }
+
+            return Json(new {result = result }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult LoadVicariateById(int vicariateId)
+        {
+            // Parish parish = _parishBusiness.GetParishesByParishId(id);
             Vicariate vicariate = _vicariateBusiness.GetVicariateByVicariateId(vicariateId);
 
             VicariateViewModel model = new VicariateViewModel();
@@ -90,7 +118,7 @@ namespace PMS.Web.Controllers
             model.Name = vicariate.Name;
             model.DioceseId = vicariate.DioceseId;
 
-            return Json(new {result = model}, JsonRequestBehavior.AllowGet);
+            return Json(new { result = model }, JsonRequestBehavior.AllowGet);
         }
 
         //Thêm xóa sửa giáo hạt

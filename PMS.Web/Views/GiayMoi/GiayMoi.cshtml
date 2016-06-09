@@ -7,7 +7,7 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-
+<input type="hidden" id="bishopName" value="@ViewBag.BishopName"/>
 
 <div class="page-header">
     <h1>Giấy Mời</h1>
@@ -82,7 +82,7 @@
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <select class="form-control" id="LoaiGiayMoi">
-                                            <option value="0">Chọn loại giấy mời</option>
+                                            <option value="0">Chọn loại giấy mời / thông báo</option>
                                             @foreach (var item in (IEnumerable<ValueSet>)ViewBag.Valueset)
                                             {
                                                 <option value="@item.Code">@item.Definition</option>
@@ -101,8 +101,7 @@
                                 <label class="col-sm-3 control-label no-padding-right">Người gởi&nbsp;(<span style="color: red">*</span>)</label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
-                                        <input type="text" id="TenNguoiGoi" class="form-control nguoiGoi">
-                                        <input type="hidden" id="NguoiGoi" />
+                                        <input type="text" id="NguoiGoi" class="form-control nguoiGoi">
                                         <label class="text-danger" id="lbNguoiGuiModal" hidden=""></label>
                                         <span class="input-group-addon">
                                             <i class="fa fa-user bigger-110"></i>
@@ -239,6 +238,7 @@
                                     <div class="col-sm-12">
                                         <div style="width: 702.2756px; max-height: 841.8898px !important; height: 841.8898px !important;" class="wysiwyg-editor center-block template" id="txtTemplate">
                                         </div>
+                                        <div style="font-style:italic;text-align:center">Có thể dùng các mục thay thế sau: [TenDucGiamMuc], [TenNguoiGoi], [NgayMoi], [NgaySuKien], [ThoiGianSuKien], [DiaDiem], [NgayHienTai]</div>
                                     </div>
                                 </div>
                             </div>
@@ -691,7 +691,7 @@
         $("#lbDiaDiemErrorMessage").hide();
         $("#DiaDiem").val("");
 
-        $("#NguoiGoi").val('0');
+        $("#NguoiGoi").val($("#bishopName").val());
         $("#lbNguoiGoiErrorMessage").val("");
         $("#lbNguoiGoiErrorMessage").hide();
 
@@ -781,6 +781,8 @@
                     //$("#createGiayMoiModal").modal('hide');
                     //refreshKhachMoiTable();
                     //clearKhachMoi();
+                    $("#Id").val(data);
+                    idGiayMoi = data;
                     AddKhachMoi(idGiayMoi);
 
                 }
@@ -821,6 +823,7 @@
                 if (data.result <= 0) {
                     showMessage("Thêm giấy mời thất bại", 0);
                 } else {
+                    $("#Id").val(data);
                     idGiayMoi = data;
 
                     showMessage("Thêm giấy mời thành công", 1);
@@ -1138,7 +1141,7 @@
 
 
         if (LoaiGiayMoi == 0) {
-            $("#lbLoaiGiayMoiErrorMessage").html("Vui lòng chọn loại giấy mời");
+            $("#lbLoaiGiayMoiErrorMessage").html("Vui lòng chọn loại giấy mời/thông báo");
             $("#lbLoaiGiayMoiErrorMessage").show();
 
             isError = true;
@@ -1217,7 +1220,7 @@
         },
         minLength: 0,
         select: function (event, ui) {
-            $('#NguoiGoi').val(ui.item.ChristianName + " " + ui.item.Name);
+            //$('#NguoiGoi').val(ui.item.ChristianName + " " + ui.item.Name);
         }
     }).focus(function () {
         $(this).autocomplete("search");

@@ -111,14 +111,13 @@
                                             <div class="widget-body">
                                                 <div class="form-horizontal">
                                                     <div class="col-xs-6">
-                                                        
+                                                        @if(ViewBag.Dioceses != null && roleId == (int)AccountEnum.Admin) {
                                                         <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Giáo xứ  (<span style="color:red">*</span>) </label>
-
+                                                            <label class="col-sm-4 control-label no-padding-right"> Giáo phận  (<span style="color:red">*</span>) </label>
                                                             <div class="col-sm-8">
-                                                                <select id="cbbParishionerParish" class="form-control">
+                                                                <select id="cbbParishionerDiocese" class="form-control">
                                                                     <option value="0">Tất cả</option>
-                                                                    @foreach (var item in ((List<Parish>)ViewBag.Parishes))
+                                                                    @foreach (var item in ((List<Diocese>)ViewBag.Dioceses))
                                                                     {
                                                                         <option value="@item.Id">@item.Name</option>
                                                                     }
@@ -127,9 +126,38 @@
                                                                 <label id="lbParishError" class="text-danger" hidden=""></label>
                                                             </div>
                                                         </div>
+                                                        
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Giáo hạt  (<span style="color:red">*</span>) </label>
+                                                            <div class="col-sm-8">
+                                                                <select id="cbbParishionerVicariate" class="form-control">
+                                                                    <option value="0">Tất cả</option>
+                                                                    @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
+                                                                    {
+                                                                        <option value="@item.Id" dioceseId="@item.DioceseId">@item.Name</option>
+                                                                    }
+
+                                                                </select>
+                                                                <label id="lbParishError" class="text-danger" hidden=""></label>
+                                                            </div>
+                                                        </div>
+                                                        }
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Giáo xứ  (<span style="color:red">*</span>) </label>
+                                                            <div class="col-sm-8">
+                                                                <select id="cbbParishionerParish" class="form-control">
+                                                                    <option value="0">Tất cả</option>
+                                                                    @foreach (var item in ((List<Parish>)ViewBag.Parishes))
+                                                                    {
+                                                                        <option value="@item.Id" vicariateId="@item.VicariateId" @if (item.Id.ToString() == Session["ParishId"].ToString()) { @Html.Raw("selected") }>@item.Name</option>
+                                                                    }
+
+                                                                </select>
+                                                                <label id="lbParishError" class="text-danger" hidden=""></label>
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Giáo họ/khu  (<span style="color:red">*</span>) </label>
-
                                                             <div class="col-sm-8">
                                                                 <select class="form-control" id="cbbParishionerCommunity">
                                                                     <option value=""></option>
@@ -1174,13 +1202,20 @@
 
     //-----------------
     $("#btnUpdateParishionerInformation").hide();
-    @if (roleId == (int)AccountEnum.Manager)
+    @if (roleId != (int)AccountEnum.Admin)
     {
+        @:$("#cbbParishionerParish").val(@Html.Raw(Session["ParishId"].ToString()));
         @:loadParishionerCommunity();
-        }
-    else {
-        @:loadParishionerParish();
     }
+    else
+    {
+        if(ViewBag.Dioceses != null)
+        {
+        @:loadParishionerDiocese();
+            @:loadParishionerVicariate();
+            }
+        @:loadParishionerParish();
+        }
     var currentCommunityId = '';
     function loadParishionerCommunity(parishId) {
         $.ajax({
@@ -1194,10 +1229,44 @@
             }
         });
     }
+    function loadParishionerDiocese() {
+        $("#cbbParishionerDiocese").change(function () {
+            if ($("#cbbParishionerDiocese option:selected").val() != "0") {
+                $("#cbbParishionerVicariate option[dioceseId!='" + $("#cbbParishionerDiocese option:selected").val() + "']").hide();
+                $("#cbbParishionerVicariate option[dioceseId='" + $("#cbbParishionerDiocese option:selected").val() + "']").show();
+                $("#cbbParishionerVicariate option[value='0']").show();
+                if ($("#cbbParishionerDiocese").val() != $("#cbbParishionerVicariate option:selected").attr('dioceseId')) {
+                    $("#cbbParishionerVicariate").val(0);
+                    $("#cbbParishionerParish").val(0);
+                }
+            }
+        });
+    }
+    function loadParishionerVicariate() {
+        $("#cbbParishionerVicariate").change(function () {
+            if ($("#cbbParishionerVicariate option:selected").val() != "0") {
+                $("#cbbParishionerParish option[vicariateId!='" + $("#cbbParishionerVicariate option:selected").val() + "']").hide();
+                $("#cbbParishionerParish option[vicariateId='" + $("#cbbParishionerVicariate option:selected").val() + "']").show();
+                $("#cbbParishionerParish option[value='0']").show();
+                if ($("#cbbParishionerDiocese").val() != $("#cbbParishionerVicariate option:selected").attr('dioceseId')) {
+                    $("#cbbParishionerDiocese").val($("#cbbParishionerVicariate option:selected").attr('dioceseId'));
+                    $("#cbbParishionerDiocese").change();
+                }
+                if ($("#cbbParishionerVicariate").val() != $("#cbbParishionerParish option:selected").attr('vicariateId')) {
+                    $("#cbbParishionerParish").val(0);
+                }
+            }
+        });
+    }
     function loadParishionerParish() {
         $("#cbbParishionerParish").change(function () {
             if ($("#cbbParishionerParish option:selected").val() != "0") {
                 loadParishionerCommunity($("#cbbParishionerParish option:selected").val());
+                if ($("#cbbParishionerVicariate").val() != $("#cbbParishionerParish option:selected").attr('vicariateId')) {
+                    $("#cbbParishionerVicariate option").show();
+                    $("#cbbParishionerVicariate").val($("#cbbParishionerParish option:selected").attr('vicariateId'));
+                    $("#cbbParishionerVicariate").change();
+                }
             }
         });
     }
@@ -1649,10 +1718,26 @@
         $("#txtBirthDate").val("");
         $("#txtBirthPlace").val("");
 
-        $("#cbbParishionerCommunity").val(0);
+        $("#cbbParishionerCommunity").val($("#cbbCommunity").val());
         $("#cbbParishionerCommunity").change();
-        currentCommunityId = '';
-        $("#cbbParishionerParish").val(0);
+
+        @if(roleId == (int)AccountEnum.Admin)
+        {
+        <text>
+        $("#cbbParishionerVicariate option").show();
+        $("#cbbParishionerParish option").show();
+        currentCommunityId = $("#cbbCommunity").val();
+        $("#cbbParishionerDiocese").val($("#cbbDiocese").val());
+        $("#cbbParishionerVicariate").val($("#cbbVicariate").val());
+        $("#cbbParishionerParish").val($("#cbbParish").val());
+        </text>
+        }
+        else
+        {
+        <text>
+        currentCommunityId = "";
+        </text>
+        }
 
         $("#cbIsCounted").prop("checked", false);
         $("#txtFatherName").val("");
@@ -2910,11 +2995,17 @@
                 $("#txtBirthDate").val(parishioner.BirthDate);
                 $("#txtBirthPlace").val(parishioner.BirthPlace);
 
+                $("#cbbParishionerDiocese").val(data.parishionerViewModel.DioceseId);
+                $("#cbbParishionerDiocese").change();
+                $("#cbbParishionerVicariate").val(data.parishionerViewModel.VicariateId);
+                $("#cbbParishionerVicariate").change();
                 $("#cbbParishionerParish").val(data.parishionerViewModel.ParishId);
                 $("#cbbParishionerParish").change();
                 @if (roleId == (int)AccountEnum.Manager)
                 {
-                    <text>
+                <text>
+                $("#cbbParishionerDiocese").prop('disabled', true);
+                $("#cbbParishionerVicariate").prop('disabled', true);
                 $("#cbbParishionerParish").prop('disabled', true);
                 </text>
                 }

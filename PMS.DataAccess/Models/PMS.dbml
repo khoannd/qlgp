@@ -158,6 +158,8 @@
       <Column Name="Email" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="Bishop" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="Church" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="IsDefault" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
       <Association Name="Diocese_Account" Member="Accounts" ThisKey="Id" OtherKey="DioceseId" Type="Account" />
       <Association Name="Diocese_Priest" Member="Priests" ThisKey="Id" OtherKey="DioceseId" Type="Priest" />
       <Association Name="Diocese_Vicariate" Member="Vicariates" ThisKey="Id" OtherKey="DioceseId" Type="Vicariate" />

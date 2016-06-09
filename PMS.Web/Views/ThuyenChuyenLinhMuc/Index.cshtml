@@ -15,6 +15,7 @@
 <script src="/Content/assets/js/x-editable/ace-editable.min.js"></script>
 
 <input id="priestId" type="hidden" value="" />
+<input id="bishopName" type="hidden" value="@ViewBag.BishopName" />
 <div class="page-header">
     <h1>Thuyên chuyển Linh mục</h1>
 </div>
@@ -468,6 +469,7 @@
     $("#btnTaoThuyenChuyen").click(function () {                      
         idTCLM = 0;
         $("#titleModal").html("Thêm mới đợt thuyên chuyển Linh Mục");
+        $("#nguoiQuyetDinh").val($("#bishopName").val());
         $("#createTCLMModal").modal('show');
         $("#btnCreateTCLMModal").show();
         $("#btnUpdateTCLMModal").hide();        

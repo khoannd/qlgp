@@ -61,10 +61,20 @@
             else
             {
                 <div class="col-xs-3">
+                    Giáo phận
+                    <select id="cbbDiocese" class="form-control">
+                        <option value="0">Tất cả</option>
+                        @foreach (var item in ((List<Diocese>)ViewBag.Dioceses))
+                        {
+                            <option value="@item.Id" @if (item.Id.ToString() == Session["DioceseId"].ToString()) { @Html.Raw("selected")  }>@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-xs-3">
                     Giáo hạt
                     <select id="cbbVicariate" class="form-control">
                         <option value="0">Tất cả</option>
-                        @foreach (var item in ((IEnumerable<Vicariate>)ViewBag.Vicariates))
+                        @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
                         {
                             <option value="@item.Id" @if (item.Id.ToString() == Session["VicariateId"].ToString()) { @Html.Raw("selected") }>@item.Name</option>
                         }
@@ -74,7 +84,7 @@
                     Giáo xứ
                     <select id="cbbParish" class="form-control">
                         <option value="0">Tất cả</option>
-                        @foreach (var item in ((IEnumerable<Parish>)ViewBag.Parishes))
+                        @foreach (var item in ((List<Parish>)ViewBag.Parishes))
                         {
                             <option value="@item.Id" @if (item.Id.ToString() == Session["ParishId"].ToString()) { @Html.Raw("selected") }> @item.Name</option>
                         }
@@ -84,6 +94,10 @@
                     Giáo họ
                     <select id="cbbCommunity" class="form-control">
                         <option value="0">Tất cả</option>
+                        @foreach (var item in ((List<Community>)ViewBag.Communities))
+                        {
+                            <option value="@item.Id"> @item.Name</option>
+                        }
                     </select>
                 </div>
                 <input type="hidden" id="cbbParishDivision" value="0" />
@@ -142,6 +156,25 @@
     @if (roleId == (int)AccountEnum.Admin)
     {
     <text>
+    $("#cbbDiocese").change(function () {
+        $.getJSON(
+            "/Vicariate/LoadVicariateByDiocese",
+            {
+                dioceseId: $("#cbbDiocese option:selected").val()
+            },
+            function (data) {
+                var options = '<option value="0">Tất cả</option>';
+                $(data.result).each(function (k, v) {
+                    options += '<option value="'+v.Id+'">'+v.Name+'</option>';
+                });
+                $("#cbbVicariate").html(options);
+                $("#cbbVicariate").val("0");
+                $("#cbbParish").val("0");
+                $("#cbbCommunity").val("0");
+                updateTableContent("parishionerTable");
+            }
+        );
+    });
     $("#cbbVicariate").change(function () {
         $.getJSON(
             "/Parishioner/LoadParishies",
@@ -151,10 +184,11 @@
             function (data) {
                 var options = '<option value="0">Tất cả</option>';
                 $(data.result).each(function (k, v) {
-                    options += '<option value="'+v.Id+'">'+v.Name+'</option>';
+                    options += '<option value="' + v.Id + '">' + v.Name + '</option>';
                 });
                 $("#cbbParish").html(options);
                 $("#cbbParish").val("0");
+                $("#cbbCommunity").val("0");
                 updateTableContent("parishionerTable");
             }
         );

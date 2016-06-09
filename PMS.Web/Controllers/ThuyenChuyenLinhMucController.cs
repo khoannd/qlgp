@@ -21,6 +21,7 @@ namespace PMS.Web.Controllers
         private readonly VaiTroBusiness _vaiTroBusiness;
         private readonly ParishBusiness _parishBusiness;
         private readonly GeneralStatusBusiness _generalStatusBusiness;
+        private readonly DioceseBusiness _dioceseBusiness;
         public ThuyenChuyenLinhMucController()
         {
             _thuyenChuyenLinhMucBusiness = new ThuyenChuyenLinhMucBusiness(DbConfig.GetConnectionString());
@@ -29,11 +30,14 @@ namespace PMS.Web.Controllers
             _vaiTroBusiness = new VaiTroBusiness(DbConfig.GetConnectionString());
             _parishBusiness = new ParishBusiness(DbConfig.GetConnectionString());
             _generalStatusBusiness = new GeneralStatusBusiness(DbConfig.GetConnectionString());
+            _dioceseBusiness = new DioceseBusiness(DbConfig.GetConnectionString());
         }
 
         [SessionExpireFilter]
         public ActionResult Index()
         {
+            Diocese diocese = _dioceseBusiness.GetDefaultDiocese();
+            ViewBag.BishopName = diocese.Bishop;
             return View();
         }
         public ActionResult LoadDataThuyenChuyenLinhMuc(jQueryDataTableParamModel param, int type)

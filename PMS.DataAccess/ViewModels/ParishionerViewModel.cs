@@ -28,6 +28,8 @@ namespace PMS.DataAccess.ViewModels
         public string FatherName { get; set; }
         public string MotherName { get; set; }
         public int ParishId { get; set; }
+        public int DioceseId { get; set; }
+        public int VicariateId { get; set; }
         public string ParishName { get; set; }
 
     }
