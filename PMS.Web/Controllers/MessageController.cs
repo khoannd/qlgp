@@ -18,11 +18,13 @@ namespace PMS.Web.Controllers
         // GET: /Message/
         private readonly MessageBusiness _messageBusiness;
         private readonly ParishBusiness _parishBusiness;
+        private readonly AccountBusiness _accountBusiness;
 
         public MessageController()
         {
             _messageBusiness = new MessageBusiness(DbConfig.GetConnectionString());
             _parishBusiness = new ParishBusiness(DbConfig.GetConnectionString());
+            _accountBusiness = new AccountBusiness(DbConfig.GetConnectionString());
         }
         [SessionExpireFilter]
         public ActionResult CreateMessage()
@@ -30,7 +32,7 @@ namespace PMS.Web.Controllers
             List<Parish> parishes;
             int dioceseId = (int)Session["DioceseId"];
             int role = (int)Session["RoleId"];
-            if (role == (int)AccountEnum.Manager)
+            if (!_accountBusiness.IsDioceseRole(role))
             {
                 int parishId = (int)Session["ParishId"];
                 parishes = _parishBusiness.GetParishesByDioceseIdNotMine(dioceseId, parishId);
@@ -48,7 +50,7 @@ namespace PMS.Web.Controllers
         {
             int parishId = 0;
             int role = (int) Session["RoleId"];
-            if (role == (int) AccountEnum.Manager)
+            if (!_accountBusiness.IsDioceseRole(role))
             {
                 parishId = (int)Session["ParishId"];
             }
@@ -101,7 +103,7 @@ namespace PMS.Web.Controllers
             var sender = message.Account;
             var sendPlace = "";
             int sendId = 0;
-            if (sender.RoleId == (int)AccountEnum.Admin)
+            if (_accountBusiness.IsDioceseRole(sender.RoleId))
             {
                 sendPlace = string.Format("{0} {1}", "Được gửi từ giáo phận", sender.Diocese.Name);
                 sendId = -1;

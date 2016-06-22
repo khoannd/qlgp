@@ -137,9 +137,10 @@
                                             <div class="col-sm-8">
                                                 <select class="form-control" id="cbbRole">
                                                     <option value="0"></option>
-                                                    <option value="2">Quản lý</option>
-                                                    <option value="3">Nhập liệu</option>
-                                                    <option value="4">Giáo lý viên</option>
+                                                    @foreach (var item in ((IEnumerable<Role>)ViewBag.Roles))
+                                                    {
+                                                        <option value="@item.Id">@item.Name</option>
+                                                    }
                                                 </select>
                                                 <label id="lbRoleError" class="text-danger" hidden=""></label>
                                             </div>

@@ -1,0 +1,3 @@
+1. Don't add more Foreign Key to existed tables to avoid circle reference and can be generate error for existed functions
+2. To add new Menu on screen, add record to Menu table (for display menu) and ScreenAction table (to let user can assign permission for each role)
+3. To allow display a screen or function to a role (not admin role), go to "Phân quyền"

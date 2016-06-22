@@ -435,8 +435,10 @@ function openLookupModal(action, target, gender, multiple, notSacrament, filterM
             $("#cbbParishLookupModal").val(parishId);
             $("#cbbParishLookupModal").change();
     }
-
-        $("#chooseParishionerModal").modal('show');
+    $("#chooseParishionerModal").on('shown.bs.modal', function () {
+        $("#txtParishionerNameLookupModal").focus();
+    });
+    $("#chooseParishionerModal").modal('show');
 }
 
 

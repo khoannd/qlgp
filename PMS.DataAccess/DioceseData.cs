@@ -37,6 +37,20 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<string>(query, dioceseId).SingleOrDefault();
         }
 
+        public int AddDiocese(Diocese diocese)
+        {
+            try
+            {
+                _db.Dioceses.InsertOnSubmit(diocese);
+                _db.SubmitChanges();
+                return diocese.Id;
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
+
         public int UpdateDiocese(Diocese diocese)
         {
             try
@@ -46,6 +60,7 @@ namespace PMS.DataAccess
                 {
                     return 0;
                 }
+                item.Code = diocese.Code;
                 item.Name = diocese.Name;
                 item.Church = diocese.Church;
                 item.Address = diocese.Address;
@@ -68,13 +83,12 @@ namespace PMS.DataAccess
             }
         }
 
-        public int CheckUniqueDiocese(string name, int id)
+        public int CheckUniqueDiocese(string name, string code, int id)
         {
             try
             {
-                name = name.Trim().ToLower();
-                const string query = "SELECT Name FROM Diocese WHERE LOWER(RTRIM(LTRIM((Name)))) = {0} AND Id != {1}";
-                string unique = _db.ExecuteQuery<string>(query, name, id).SingleOrDefault();
+                const string query = "SELECT Name FROM Diocese WHERE ([Name] = {0} OR [Code] = {1}) AND Id != {2}";
+                string unique = _db.ExecuteQuery<string>(query, name, code, id).SingleOrDefault();
                 if (string.IsNullOrEmpty(unique))
                 {
                     return 1;
@@ -87,5 +101,6 @@ namespace PMS.DataAccess
                 return  -1;
             }
         }
+
     }
 }

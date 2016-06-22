@@ -14,30 +14,34 @@ namespace PMS.BusinessLogic
     public class ChartBusiness
     {
         private readonly ChartData _chartData;
+        private string connectionString = "";
+        private AccountBusiness account = null;
 
         public ChartBusiness(string connection)
         {
+            connectionString = connection;
             _chartData = new ChartData(connection);
+            account = new AccountBusiness(connectionString);
         }
 
         public int[] GetsumOfParishionerByYear(int roleId, int dioceseId, int vicariateId, int parishId, string[] years)
         {
             
             int[] result = new int[years.Length];
-
-            if (vicariateId == 0 && parishId == 0 && roleId == (int)AccountEnum.Admin)
+            
+            if (vicariateId == 0 && parishId == 0 && account.IsDioceseRole(roleId))
             {
                 result = _chartData.GetsumOfParishionerInDioceseByYear(dioceseId, years);
             }
             else
             {
-                if (vicariateId == 0 && parishId > 0 && roleId == (int)AccountEnum.Admin)
+                if (vicariateId == 0 && parishId > 0 && account.IsDioceseRole(roleId))
                 {
                     result = _chartData.GetsumOfParishionerInParishByYear(parishId, years);
                 }
                 else
                 {
-                    if (vicariateId > 0 && parishId == 0 && roleId == (int)AccountEnum.Admin)
+                    if (vicariateId > 0 && parishId == 0 && account.IsDioceseRole(roleId))
                     {
                         result = _chartData.GetsumOfParishionerInVicariateByYear(vicariateId, years);
                     }
@@ -55,19 +59,19 @@ namespace PMS.BusinessLogic
 
             int[] result = new int[years.Length];
 
-            if (vicariateId == 0 && parishId == 0 && roleId == 1)
+            if (vicariateId == 0 && parishId == 0 && account.IsDioceseRole(roleId))
             {
                 result = _chartData.GetSumOfMatrimonyInDioceseByYear(dioceseId, years);
             }
             else
             {
-                if (vicariateId == 0 && parishId > 0 && roleId == 1)
+                if (vicariateId == 0 && parishId > 0 && account.IsDioceseRole(roleId))
                 {
                     result = _chartData.GetSumOfMatrimonyInParishByYear(parishId, years);
                 }
                 else
                 {
-                    if (vicariateId > 0 && parishId == 0 && roleId == 1)
+                    if (vicariateId > 0 && parishId == 0 && account.IsDioceseRole(roleId))
                     {
                         result = _chartData.GetSumOfMatrimonyInVicariateByYear(vicariateId, years);
                     }
@@ -86,19 +90,19 @@ namespace PMS.BusinessLogic
             baptismResult = new int[years.Length];
             holyCommunionResult = new int[years.Length];
             confirmationResult = new int[years.Length];
-            if (vicariateId == 0 && parishId == 0 && roleId == 1)
+            if (vicariateId == 0 && parishId == 0 && account.IsDioceseRole(roleId))
             {
                 return _chartData.GetSumOfSacramentInDioceseByYear(dioceseId, years, out baptismResult, out holyCommunionResult, out confirmationResult);
             }
             else
             {
-                if (vicariateId == 0 && parishId > 0 && roleId == 1)
+                if (vicariateId == 0 && parishId > 0 && account.IsDioceseRole(roleId))
                 {
                     return  _chartData.GetSumOfSacramentInParishByYear(parishId, years, out baptismResult, out holyCommunionResult, out confirmationResult);
                 }
                 else
                 {
-                    if (vicariateId > 0 && parishId == 0 && roleId == 1)
+                    if (vicariateId > 0 && parishId == 0 && account.IsDioceseRole(roleId))
                     {
                         return  _chartData.GetSumOfSacramentInVicariateByYear(vicariateId, years, out baptismResult, out holyCommunionResult, out confirmationResult);
                     }
@@ -121,19 +125,19 @@ namespace PMS.BusinessLogic
         {
             int[] result = new int[7];
 
-            if (vicariateId == 0 && parishId == 0 && roleId == 1)
+            if (vicariateId == 0 && parishId == 0 && account.IsDioceseRole(roleId))
             {
                 result = _chartData.GetSumOfParishionerByAgeInDiocese(dioceseId);
             }
             else
             {
-                if (vicariateId == 0 && parishId > 0 && roleId == 1)
+                if (vicariateId == 0 && parishId > 0 && account.IsDioceseRole(roleId))
                 {
                     result = _chartData.GetSumOfParishionerByAgeInParish(parishId);
                 }
                 else
                 {
-                    if (vicariateId > 0 && parishId == 0 && roleId == 1)
+                    if (vicariateId > 0 && parishId == 0 && account.IsDioceseRole(roleId))
                     {
                         result = _chartData.GetSumOfParishionerByAgeInVicariate(vicariateId);
                     }
@@ -151,19 +155,19 @@ namespace PMS.BusinessLogic
         {
             int[] result = new int[years.Length];
 
-            if (vicariateId == 0 && parishId == 0 && roleId == 1)
+            if (vicariateId == 0 && parishId == 0 && account.IsDioceseRole(roleId))
             {
                 result = _chartData.GetSumOfParishionersWereBornInDioceseByYear(dioceseId, years);
             }
             else
             {
-                if (vicariateId == 0 && parishId > 0 && roleId == 1)
+                if (vicariateId == 0 && parishId > 0 && account.IsDioceseRole(roleId))
                 {
                     result = _chartData.GetSumOfParishionersWereBornInParishByYear(parishId, years);
                 }
                 else
                 {
-                    if (vicariateId > 0 && parishId == 0 && roleId == 1)
+                    if (vicariateId > 0 && parishId == 0 && account.IsDioceseRole(roleId))
                     {
                         result = _chartData.GetSumOfParishionersWereBornInVicariateByYear(vicariateId, years);
                     }

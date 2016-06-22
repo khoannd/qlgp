@@ -1,5 +1,7 @@
 ﻿@{
     ViewBag.Title = "Index";
+    var roleId = (int)Session["RoleId"];
+    var account = new PMS.BusinessLogic.AccountBusiness(DbConfig.GetConnectionString());
 }
 @using PMS.DataAccess.Models;
 <link rel="stylesheet" href="/Content/assets/css/chosen.css" />
@@ -10,32 +12,39 @@
 </div>
 <div class="page-header">
     <div class="row">
-        <div class="col-xs-6">
-            <div class="form-group">
-                <label for="selectVicariate" class="col-sm-3 control-label no-padding-right">Giáo hạt</label>
-                <div class="col-sm-9">
-                    <select class="form-control" id="selectVicariate">
-                        <option value="0">Tất cả</option>
-                        @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
-                        {
-                            <option value="@item.Id">@item.Name</option>
-                        }
-                    </select>
-                </div>
-            </div>
+        <div class="col-xs-3" @if (!account.IsDioceseRole(roleId)) { Html.Raw(" hidden='hidden'"); }>
+            Giáo phận
+            <select id="cbbDiocese" class="form-control" style="width: 250px;">
+                <option value="0">Tất cả</option>
+                @foreach (var item in ((List<Diocese>)ViewBag.Dioceses))
+                {
+                    <option value="@item.Id" @if (item.Id.ToString() == Session["DioceseId"].ToString()) { @Html.Raw("selected");}>@item.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col-xs-3">
+            Giáo hạt
+            <select class="form-control" id="cbbVicariate" style="width: 250px;">
+                <option value="0">Tất cả</option>
+                @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
+                {
+                    <option value="@item.Id" dioceseId="@Html.Raw(item.DioceseId)" @if ((int)Session["DioceseId"] != item.DioceseId) { @Html.Raw(" style='display:none;'"); }>@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="space-4"></div>
+    <div class="col-xs-12">
+        <div class="col-sm-12">
+            <button id="btnCreateParish" class="btn btn-success" data-toggle="modal">
+                <i class="ace-icon fa fa-plus"></i> Thêm giáo xứ
+            </button>
         </div>
     </div>
 </div>
-    <div class="row">
-        <div class="space-4"></div>
-        <div class="col-xs-12">
-            <div class="col-sm-12">
-                <button id="btnCreateParish" class="btn btn-success" data-toggle="modal">
-                    <i class="ace-icon fa fa-plus"></i> Thêm giáo xứ
-                </button>
-            </div>
-        </div>
-    </div>
 
 
 <div class="col-xs-12">
@@ -81,6 +90,21 @@
                 <div class="widget-body">
                     <div class="space-10"></div>
                     <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <div class="row" @if (!account.IsDioceseRole(roleId)) { Html.Raw(" hidden='hidden'"); }>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="cbbDioceseModal">Giáo phận&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <select id="cbbDioceseModal" class="form-control" style="width: 250px;">
+                                        <option value="0">Tất cả</option>
+                                        @foreach (var item in ((List<Diocese>)ViewBag.Dioceses))
+                                        {
+                                            <option value="@item.Id" @if (item.Id.ToString() == Session["DioceseId"].ToString()) { @Html.Raw("selected") ; }>@item.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
                         <div class="row">
 
                             <div class="form-group">
@@ -90,7 +114,7 @@
                                         <option value="0"></option>
                                         @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
                                         {
-                                        <option value="@item.Id">@item.Name</option>
+                                            <option value="@item.Id" dioceseId="@Html.Raw(item.DioceseId)" @if ((int)Session["DioceseId"] != item.DioceseId) { @Html.Raw(" style='display:none;'") ; }>@item.Name</option>
                                         }
                                     </select>
                                     <label class="text-danger" id="lbVicariateErrorModal" hidden=""></label>
@@ -222,7 +246,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Bổn mạng</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="parishPatronModal" value="" class="form-control"/>
+                                    <input type="text" id="parishPatronModal" value="" class="form-control" />
                                 </div>
                             </div>
                         </div>
@@ -231,7 +255,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Ngày kính Bổn mạng</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="parishPatronDateModal" value="" class="form-control"/>
+                                    <input type="text" id="parishPatronDateModal" value="" class="form-control" />
                                 </div>
                             </div>
                         </div>
@@ -240,7 +264,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Ngày chầu lượt</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="parishChauLuotModal" value="" class="form-control"/>
+                                    <input type="text" id="parishChauLuotModal" value="" class="form-control" />
                                 </div>
                             </div>
                         </div>
@@ -281,15 +305,15 @@
                                                     <div class="space-10"></div>
                                                     <div class="col-xs-12">
                                                         @using (Html.BeginForm("UploadParishImage", "Parish", FormMethod.Post,
-                                                        new
+new
+{
+    enctype = "multipart/form-data",
+    id = "ImgForm",
+    name = "ImgForm",
+    target = "UploadTarget"
+}))
                                                         {
-                                                        enctype = "multipart/form-data",
-                                                        id = "ImgForm",
-                                                        name = "ImgForm",
-                                                        target = "UploadTarget"
-                                                        }))
-                                                        {
-                                                        <input multiple="" name="inputFile" type="file" id="inputFile" />
+                                                            <input multiple="" name="inputFile" type="file" id="inputFile" />
                                                         }
                                                         <iframe id="UploadTarget" name="UploadTarget" onload="UploadImage_Complete();" style="position: absolute; left: -999em; top: -999em;"></iframe>
                                                         <label class="text-danger" id="parishImageValidate" hidden=""></label>
@@ -306,30 +330,32 @@
 
                         </div>
                     </div>
-                    <!--end row-->
-                    
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="col-xs-12 col-sm-12">
-                                <div class="align-right">
-                                    <div class="space-6"></div>
-                                    <button id="btnCreateParishModal" class="btn btn-primary" data-toggle="modal" onclick="UploadImage()">
-                                        <i class="ace-icon fa fa-save"></i> Lưu
-                                    </button>
-                                    <button id="btnUpdateParishModal" class="btn btn-primary" data-toggle="modal" onclick="UploadImage()">
-                                        <i class="ace-icon fa fa-save"></i> Cập Nhật
-                                    </button>
-                                    <button id="btnCloseParishModal" class="btn btn-grey" data-toggle="modal">
-                                        <i class="ace-icon fa fa-times"></i> Đóng
-                                    </button>
+
+                            <!--end row-->
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="col-xs-12 col-sm-12">
+                                        <div class="align-right">
+                                            <div class="space-6"></div>
+                                            <button id="btnCreateParishModal" class="btn btn-primary" data-toggle="modal" onclick="UploadImage()">
+                                                <i class="ace-icon fa fa-save"></i> Lưu
+                                            </button>
+                                            <button id="btnUpdateParishModal" class="btn btn-primary" data-toggle="modal" onclick="UploadImage()">
+                                                <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                            </button>
+                                            <button id="btnCloseParishModal" class="btn btn-grey" data-toggle="modal">
+                                                <i class="ace-icon fa fa-times"></i> Đóng
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="space-6"></div>
                         </div>
-                    </div>
-                    <div class="space-6"></div>
-                </div>
 
-            </div>
+                    </div>
+
         </div>
     </div>
 </div>
@@ -365,7 +391,7 @@
             "sAjaxSource": "/Parish/LoadParishDatatables",
             //"bProcessing": true,
             "fnServerParams": function (aoData) {
-                aoData.push({ "name": "vicariateId", "value": $("#selectVicariate").val() });
+                aoData.push({ "name": "vicariateId", "value": $("#cbbVicariate").val() });
             },
             "oLanguage": {
                 "sSearch": "Tên giáo xứ",
@@ -483,6 +509,10 @@
     });
 
     $("#btnCreateParish").click(function () {
+        $("#createParishModal").on('show.bs.modal', function () {
+            $("#cbbDioceseModal").val($("#cbbDiocese").val());
+            $("#modalVicariate").val($("#cbbVicariate").val());
+        });
         $("#createParishModal").modal('show');
         $("#btnCreateParishModal").show();
         $("#btnUpdateParishModal").hide();
@@ -507,10 +537,23 @@
         $("#btnCreateParishModal").hide();
     }
 
-    $("#selectVicariate").change(function () {
+    $("#cbbDiocese").change(function () {
+        $("#cbbVicariate option[value!='0']").hide();
+        $("#cbbVicariate option[dioceseId='" + $("#cbbDiocese option:selected").val() + "']").show();
+
+        $("#cbbVicariate").val("0");
+    });
+    $("#cbbDioceseModal").change(function () {
+        $("#modalVicariate option[value!='0']").hide();
+        $("#modalVicariate option[dioceseId='" + $("#cbbDioceseModal option:selected").val() + "']").show();
+
+        $("#modalVicariate").val("0");
+    });
+
+    $("#cbbVicariate").change(function () {
         updateTableContent("parishTable");
         //$("#parishTable").dataTable()._fnAjaxUpdate();
-        $("#modalVicariate").val($("#selectVicariate").val());
+        $("#modalVicariate").val($("#cbbVicariate").val());
     });
 
     function refeshTable() {

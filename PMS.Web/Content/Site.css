@@ -85,3 +85,6 @@ input.form-control, select.form-control {
     position: relative;
     top: -4px;
 }
+#tblPriestLookup_filter input[type='search'] {
+    width: 300px;
+}

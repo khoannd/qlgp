@@ -9,6 +9,7 @@ namespace PMS.DataAccess.ViewModels
     public class DioceseViewModel
     {
         public int Id { get; set; }
+        public string Code { get; set; }
         public string Name { get; set; }
         public string Church { get; set; }
         public string Address { get; set; }

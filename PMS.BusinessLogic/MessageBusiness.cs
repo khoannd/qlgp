@@ -13,10 +13,12 @@ namespace PMS.BusinessLogic
     public class MessageBusiness
     {
         private readonly MessageData _messageData;
+        private AccountBusiness account = null;
 
         public MessageBusiness(string connection)
         {
             _messageData = new MessageData(connection);
+            account = new AccountBusiness(connection);
         }
 
         public IEnumerable<IConvertible[]> GetOrderedInboxByParamsAndPaging(int dioceseId, int parishId, int role, string searchValue, int sortColumnIndex, string sortDirection,
@@ -24,7 +26,7 @@ namespace PMS.BusinessLogic
         {
             IEnumerable<Message> messages;
             //Load Data
-            if (role == (int)AccountEnum.Manager)
+            if (!account.IsDioceseRole(role))
             {
                 messages = _messageData.GetInboxByParishId(parishId);
             }

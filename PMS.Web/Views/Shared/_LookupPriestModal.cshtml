@@ -198,6 +198,9 @@
     function openLookupModal() {
         initLookupDatatable();
         updateTableContent("tblPriestLookup");
+        $("#choosePriestModal").on('shown.bs.modal', function () {
+            $("#tblPriestLookup_filter input[type='search']").focus();
+        });
         $("#choosePriestModal").modal('show');
         //$("#tblPriestLookup_filter input[type='search']").focus();
     }

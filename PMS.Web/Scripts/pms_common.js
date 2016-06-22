@@ -290,7 +290,7 @@ function autocomplete(selector, url, selectedCallback, renderCallback) {
             // create html for each dropdown item
             var dropdownItem = $("<li></li>")
                     .data("item.autocomplete", item) // store data in the item
-                    .append("<a>" + item.ChristianName + " " + item.Name + (item.BirthDate ? ", NS: " + item.BirthDate : "") + "</a>") // can add more properties such as prarish name, gender,...
+                    .append("<a>" + (item.ChristianName ? item.ChristianName + " " : "") + item.Name + (item.BirthDate ? ", NS: " + item.BirthDate : "") + "</a>") // can add more properties such as prarish name, gender,...
                     .appendTo(ul);
             return dropdownItem;
         }

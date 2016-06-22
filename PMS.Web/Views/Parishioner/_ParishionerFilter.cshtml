@@ -1,6 +1,8 @@
 ﻿@using PMS.DataAccess.Enumerations
 @using PMS.DataAccess.Models;
-
+@{
+    var account = new PMS.BusinessLogic.AccountBusiness(DbConfig.GetConnectionString());
+}
 
 <input type="hidden" id="defaultCommunity" value="@((int)Session["DefaultCommunity"])" />
 <input type="hidden" id="txtHiddenRoleId" value="@((int) Session["RoleId"])" />
@@ -21,7 +23,7 @@
 <div class="page-header">
     <div>
         <div class="row">
-            @if (roleId == (int)AccountEnum.Manager)
+            @if (!account.IsDioceseRole(roleId))
             {
             <div class="col-xs-3">
                 Giáo họ
@@ -76,7 +78,7 @@
                         <option value="0">Tất cả</option>
                         @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
                         {
-                            <option value="@item.Id" @if (item.Id.ToString() == Session["VicariateId"].ToString()) { @Html.Raw("selected") }>@item.Name</option>
+                            <option value="@item.Id" dioceseId="@Html.Raw(item.DioceseId)" @if ((int)Session["DioceseId"] != item.DioceseId) { @Html.Raw(" style='display:none;'")  ; }>@item.Name</option>
                         }
                     </select>
                 </div>
@@ -86,7 +88,7 @@
                         <option value="0">Tất cả</option>
                         @foreach (var item in ((List<Parish>)ViewBag.Parishes))
                         {
-                            <option value="@item.Id" @if (item.Id.ToString() == Session["ParishId"].ToString()) { @Html.Raw("selected") }> @item.Name</option>
+                            <option value="@item.Id" vicariateId="@Html.Raw(item.VicariateId)" @if (item.Id.ToString() == Session["ParishId"].ToString()) { @Html.Raw("selected") }> @item.Name</option>
                         }
                     </select>
                 </div>
@@ -153,28 +155,21 @@
     $("#cbChangeParishParishioner").change(function () {
         updateTableContent("parishionerTable");
     });
-    @if (roleId == (int)AccountEnum.Admin)
+    @if (account.IsDioceseRole(roleId))
     {
     <text>
+
     $("#cbbDiocese").change(function () {
-        $.getJSON(
-            "/Vicariate/LoadVicariateByDiocese",
-            {
-                dioceseId: $("#cbbDiocese option:selected").val()
-            },
-            function (data) {
-                var options = '<option value="0">Tất cả</option>';
-                $(data.result).each(function (k, v) {
-                    options += '<option value="'+v.Id+'">'+v.Name+'</option>';
-                });
-                $("#cbbVicariate").html(options);
-                $("#cbbVicariate").val("0");
-                $("#cbbParish").val("0");
-                $("#cbbCommunity").val("0");
-                updateTableContent("parishionerTable");
-            }
-        );
+        $("#cbbVicariate option[value!='0']").hide();
+        $("#cbbVicariate option[dioceseId='" + $("#cbbDiocese option:selected").val() + "']").show();
+
+        $("#cbbVicariate").val("0");
+        $("#cbbParish").val("0");
+        $("#cbbCommunity").val("0");
+        $("#cbbVicariate").change();
+        updateTableContent("parishionerTable");
     });
+   
     $("#cbbVicariate").change(function () {
         $.getJSON(
             "/Parishioner/LoadParishies",
@@ -184,7 +179,7 @@
             function (data) {
                 var options = '<option value="0">Tất cả</option>';
                 $(data.result).each(function (k, v) {
-                    options += '<option value="' + v.Id + '">' + v.Name + '</option>';
+                    options += '<option value="' + v.Id + '" vicariateId="' + v.VicariateId + '">' + v.Name + '</option>';
                 });
                 $("#cbbParish").html(options);
                 $("#cbbParish").val("0");
@@ -194,6 +189,13 @@
         );
     });
     $("#cbbParish").change(function () {
+        $("#cbbVicariate option[value!='0']").hide();
+        var vicariateId = $("#cbbParish option:selected").attr('vicariateId');
+        $("#cbbVicariate option[dioceseId='" + $("#cbbVicariate option[value='" + vicariateId + "']").attr('dioceseId') + "']").show();
+        $("#cbbVicariate").val(vicariateId);
+        $("#cbbParish option[vicariateId!='" + vicariateId + "']").hide();
+        $("#cbbDiocese").val($("#cbbVicariate option:selected").attr('dioceseId'));
+
         $.getJSON(
             "/Parishioner/LoadCommunitites",
             {

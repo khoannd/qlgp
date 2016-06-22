@@ -19,13 +19,14 @@ namespace PMS.Web.Controllers
         private readonly AccountBusiness _accountBusiness;
         private readonly ParishBusiness _parishBusiness;
         private readonly CommunityBusiness _communityBusiness;
-        private readonly VicariateBusiness _vicariateBusiness;
+        private readonly RoleBusiness _roleBusiness;
 
         public AccountController()
         {
             _accountBusiness = new AccountBusiness(DbConfig.GetConnectionString());
             _parishBusiness = new ParishBusiness(DbConfig.GetConnectionString());
             _communityBusiness = new CommunityBusiness(DbConfig.GetConnectionString());
+            _roleBusiness = new RoleBusiness(DbConfig.GetConnectionString());
         }
 
         // GET: /Account/
@@ -37,7 +38,7 @@ namespace PMS.Web.Controllers
             {
                 int roleId = (int) Session["RoleId"];
 
-                if (roleId == (int)AccountEnum.Admin)
+                if (_accountBusiness.IsDioceseRole(roleId))
                 {
                     url = "/Diocese/Index";
                 }
@@ -81,7 +82,7 @@ namespace PMS.Web.Controllers
                 Session["Name"] = account.Name;
 
                 int defaultCommunity = 0;
-                if (roleId != (int) AccountEnum.Admin)
+                if (!_accountBusiness.IsDioceseRole(roleId))
                 {
                     if (account.ParishId != null)
                     {
@@ -93,7 +94,7 @@ namespace PMS.Web.Controllers
 
                 Session["DefaultCommunity"] = defaultCommunity;
 
-                if (roleId == (int) AccountEnum.Admin)
+                if (_accountBusiness.IsDioceseRole(roleId))
                 {
                     url = "/Diocese/Index";
                 }
@@ -154,7 +155,7 @@ namespace PMS.Web.Controllers
             int dioceseId = (int) Session["DioceseId"];
             var parishes = _parishBusiness.GetParishesByDioceseId(dioceseId);
             ViewBag.Parishes = parishes;
-
+            ViewBag.Roles = _roleBusiness.GetAllRoles();
             return View();
         }
 
@@ -201,7 +202,7 @@ namespace PMS.Web.Controllers
 
             int parishId = 0;
             int roleId = account.RoleId;
-            if (account.RoleId != (int) AccountEnum.Admin)
+            if (!_accountBusiness.IsDioceseRole(roleId))
             {
                 if (account.ParishId != null)
                 {

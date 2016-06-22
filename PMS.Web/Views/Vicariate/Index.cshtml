@@ -5,21 +5,41 @@
 }
 
 <input type="hidden" id="vicariateId"/>
-<input type="hidden" id="dioceseId" value="@((int)Session["DioceseId"])" />
-
 
 <div class="page-header">
     <h1>Quản lý giáo hạt</h1>
 </div>
 
 <div class="page-header">
-    <button id="btnCreateVicariate" class="btn btn-success" data-toggle="modal">
-        <i class="fa fa-plus"></i> Thêm giáo hạt
-    </button>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <label for="cbbDiocese" class="col-sm-3 control-label no-padding-right">Giáo phận</label>
+                <div class="col-sm-9">
+                    <select id="cbbDiocese" class="form-control">
+                        <option value="0">Tất cả</option>
+                        @foreach (var item in ((List<Diocese>)ViewBag.Dioceses))
+                        {
+                            <option value="@item.Id" @if (item.Id.ToString() == Session["DioceseId"].ToString()) { @Html.Raw("selected")    }>@item.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="col-sm-12">
+            <button id="btnCreateVicariate" class="btn btn-success" data-toggle="modal">
+                <i class="fa fa-plus"></i> Thêm giáo hạt
+            </button>
+        </div>
+    </div>
 </div>
 
 <div class="row">
-
+    <div class="space-8"></div>
     <table id="vicariateTable" class="table table-hover">
         <thead>
             <tr>
@@ -62,7 +82,18 @@
                         <div class="widget-box transparent ui-sortable-handle">
                             <div class="form-horizontal">
                                 <div class="form-group align-left">
-                                    <label class="col-sm-3 control-label no-padding-right align-left" for="form-field-1"> Tên giáo hạt &nbsp;(<span style="color: red">*</span>) </label>
+                                    <label class="col-sm-3 control-label no-padding-right align-left" for="cbbDioceseModal"> Tên giáo phận &nbsp;(<span style="color: red">*</span>) </label>
+                                    <div class="col-sm-9">
+                                        <select id="cbbDioceseModal" class="form-control">
+                                            @foreach (var item in ((List<Diocese>)ViewBag.Dioceses))
+                                            {
+                                                <option value="@item.Id" @if (item.Id.ToString() == Session["DioceseId"].ToString()) { @Html.Raw("selected")    }>@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group align-left">
+                                    <label class="col-sm-3 control-label no-padding-right align-left" for="vicariateNameModal"> Tên giáo hạt &nbsp;(<span style="color: red">*</span>) </label>
                                     <div class="col-sm-9">
                                         <input id="vicariateNameModal" type="text" class="form-control">
                                         <label class="text-danger" id="vicariateNameValidate" hidden=""></label>
@@ -117,7 +148,9 @@
             "bServerSide": true,
             "bSCrollCollapse": true,
             "sAjaxSource": "/Vicariate/LoadVicariateDataTables",
-
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "dioceseId", "value": $("#cbbDiocese").val() });
+            },
             "oLanguage": {
                 "sSearch": "Tên giáo hạt",
                 "sZeroRecords": "Không có dữ liệu phù hợp",
@@ -170,7 +203,7 @@
             return false;
         }
         var name = $("#vicariateNameModal").val();
-        var dioceseId = $("#dioceseId").val();
+        var dioceseId = $("#cbbDioceseModal").val();
 
         $.ajax({
             url: "/Vicariate/AddVicariate",
@@ -206,7 +239,7 @@
                 var item = data.result;
                 $("#selectParish").val(item.ParishId);
                 $("#vicariateNameModal").val(item.Name);
-                $("#dioceseIdModal").val(item.DioceseId);
+                $("#cbbDioceseModal").val(item.DioceseId);
                 $("#vicariateNameValidate").html("");
                 $("#vicariateNameValidate").hide();
 
@@ -227,13 +260,15 @@
         var id = $("#vicariateId").val();
         var name = $("#vicariateNameModal").val();
         var parishId = $("#selectParish").val();
+        var dioceseId = $("#cbbDioceseModal").val();
         $.ajax({
             url: "/Vicariate/UpdateVicariate",
             type: "POST",
             data: {
                 Id: id,
                 Name: name,
-                ParishId: parishId
+                ParishId: parishId,
+                DioceseId: dioceseId
             },
             success: function (data) {
 
@@ -291,6 +326,10 @@
         });
     }
 
+    $("#cbbDiocese").change(function () {
+        updateTableContent("vicariateTable");
+        $("#cbbDioceseModal").val($("#cbbDiocese").val());
+    });
 
     function refeshTable() {
         $("#vicariateTable").dataTable()._fnAjaxUpdate();
@@ -307,6 +346,9 @@
     $("#btnCreateVicariate").click(function () {
         $("#fgParish").hide();
         $("#vicariateModalTitle").html('Thêm mới giáo hạt');
+        $("#createVicariateModal").on('show.bs.modal', function () {
+            $("#cbbDioceseModal").val($("#cbbDiocese").val());
+        });
         $("#createVicariateModal").modal('show');
         $("#hiddenCreateVicariateModal").val('1');
         $("#vicariateId").val('0');
@@ -403,6 +445,7 @@
 
 
         var vicariateId = $("#vicariateId").val();
+        var dioceseId = $("#cbbDioceseModal").val();
         var name = $("#vicariateNameModal").val();
         var result = true;
 
@@ -410,6 +453,7 @@
             url: "/Vicariate/CheckUniqueVicariate",
             type: "POST",
             data: {
+                dioceseId: dioceseId,
                 vicariateId: vicariateId,
                 name: name
             },

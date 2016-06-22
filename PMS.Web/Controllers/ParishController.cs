@@ -20,6 +20,7 @@ namespace PMS.Web.Controllers
         private readonly VicariateBusiness _vicariateBusiness;
         private readonly CommunityBusiness _communityBusiness;
         private readonly ConfigurationBusiness _configurationBusiness;
+        private readonly DioceseBusiness _dioceseBusiness;
 
         public ParishController()
         {
@@ -27,13 +28,15 @@ namespace PMS.Web.Controllers
             _vicariateBusiness = new VicariateBusiness(DbConfig.GetConnectionString());
             _communityBusiness = new CommunityBusiness(DbConfig.GetConnectionString());
             _configurationBusiness = new ConfigurationBusiness(DbConfig.GetConnectionString());
+            _dioceseBusiness = new DioceseBusiness(DbConfig.GetConnectionString());
         }
         [SessionExpireFilter]
         public ActionResult Index()
         {
-            int dioceseId = (int)Session["DioceseId"];
-            List<Vicariate> vicariates = _vicariateBusiness.GetVicariatesByDioceseId(dioceseId);
+            //int dioceseId = (int)Session["DioceseId"];
+            List<Vicariate> vicariates = _vicariateBusiness.getAllVicariate().ToList();
             ViewBag.Vicariates = vicariates;
+            ViewBag.Dioceses = _dioceseBusiness.GetAllDioceses();
             return View();
         }
 

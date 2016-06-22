@@ -1,4 +1,6 @@
-﻿
+﻿@{ 
+    var account = new PMS.BusinessLogic.AccountBusiness(DbConfig.GetConnectionString());
+}
 <div class="widget-body">
 
     <table id="parishionerTable" class="table table-hover">
@@ -137,7 +139,7 @@
 
     $("#btnCreateParishioner").click(function () {
         '<%Session["ImageName"] = "";%>';
-        @if(Session["RoleId"].ToString() == ((int)PMS.DataAccess.Enumerations.AccountEnum.Admin).ToString())
+        @if(account.IsDioceseRole((int)Session["RoleId"]))
         {
         <text>
         $("#cbbParishionerDiocese").val($("#cbbDiocese").val());

@@ -532,7 +532,7 @@
     // Khoan del end
 
     // Khoan add start
-    autocomplete("#txtFullNameModal", "/Parishioner/LoadParishionerByName", function (item) {
+    autocomplete("#txtFullNameModal", "/Parishioner/LoadParishionerByNameForPriest", function (item) {
         $("#txtFullNameModal").val(item.Name);
         $('#txtChristianNameModal').val(item.ChristianName);
         $('#txtBirthDateModal').val(item.Birthdate);

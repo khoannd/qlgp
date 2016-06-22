@@ -16,24 +16,27 @@ namespace PMS.Web.Controllers
         // GET: /Vicariate/
         private readonly VicariateBusiness _vicariateBusiness;
         private readonly ParishBusiness _parishBusiness;
+        private readonly DioceseBusiness _dioceseBusiness;
 
         public VicariateController()
         {
             _vicariateBusiness = new VicariateBusiness(DbConfig.GetConnectionString());
             _parishBusiness = new ParishBusiness(DbConfig.GetConnectionString());
+            _dioceseBusiness = new DioceseBusiness(DbConfig.GetConnectionString());
         }
         [SessionExpireFilter]
         public ActionResult Index()
         {
+            ViewBag.Dioceses = _dioceseBusiness.GetAllDioceses();
             return View();
         }
 
-        public ActionResult LoadVicariateDataTables(jQueryDataTableParamModel param)
+        public ActionResult LoadVicariateDataTables(jQueryDataTableParamModel param, int? dioceseId)
         {
-            int dioceseId = (int) Session["DioceseId"];
+            dioceseId = dioceseId != null ? dioceseId : (int) Session["DioceseId"];
             int totalRecords = 0;
             int totalDisplayRecords = 0;
-            var result = _vicariateBusiness.GetOrderedVicariatesByParamsAndPaging(dioceseId, param.sSearch,
+            var result = _vicariateBusiness.GetOrderedVicariatesByParamsAndPaging((int)dioceseId, param.sSearch,
                 param.iSortCol_0, param.sSortDir_0, param.iDisplayStart,
                 param.iDisplayLength, out totalRecords, out totalDisplayRecords);
             return Json(new
@@ -65,6 +68,12 @@ namespace PMS.Web.Controllers
                 item.Priest = null;
                 item.Messages = null;
                 item.ClassGroups = null;
+
+                item.ConstructionPermits = null;
+                item.DeaconRequisitionComments = null;
+                item.ParishManagers = null;
+                item.ReligiousCommunityBases = null;
+                item.SacramentGroups = null;
             }
             
             return Json(new {result = parishes}, JsonRequestBehavior.AllowGet);
@@ -152,9 +161,8 @@ namespace PMS.Web.Controllers
 
         //Validate giáo hạt
 
-        public ActionResult CheckUniqueVicariate(string name, int vicariateId)
+        public ActionResult CheckUniqueVicariate(string name, int vicariateId, int dioceseId)
         {
-            int dioceseId = (int)Session["DioceseId"];
             int result = _vicariateBusiness.CheckUniquevicariate(name, vicariateId, dioceseId);
             return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }

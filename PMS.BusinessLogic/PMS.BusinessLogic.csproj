@@ -52,6 +52,9 @@
     <Compile Include="ChangeParishBusiness.cs" />
     <Compile Include="ChartBusiness.cs" />
     <Compile Include="ChristianNameBusiness.cs" />
+    <Compile Include="RoleBusiness.cs" />
+    <Compile Include="RolePermissionBusiness.cs" />
+    <Compile Include="MenuBusiness.cs" />
     <Compile Include="CommunityBusiness.cs" />
     <Compile Include="ConfigurationBusiness.cs" />
     <Compile Include="ConstructionPermitBusiness.cs" />

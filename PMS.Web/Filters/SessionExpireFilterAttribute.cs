@@ -25,7 +25,7 @@ namespace PMS.Web.Filters
                         new RouteValueDictionary
                         {
                             {"Controller", "Account"},
-                            {"Action", "TimeoutRedirect"}
+                            {"Action", "Login"}
                         });
                 }
             }

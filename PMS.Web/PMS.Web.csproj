@@ -159,6 +159,7 @@
     <Compile Include="Controllers\SearchFamilyController.cs" />
     <Compile Include="Controllers\SeminarianController.cs" />
     <Compile Include="Controllers\SeminaryController.cs" />
+    <Compile Include="Controllers\RolePermissionController.cs" />
     <Compile Include="Controllers\StatisticController.cs" />
     <Compile Include="Controllers\ParishionerController.cs" />
     <Compile Include="Controllers\SocietyController.cs" />
@@ -454,6 +455,8 @@
     <Content Include="Views\ThuPhanUu\InThuPhanUu.cshtml" />
     <Content Include="Views\ThuPhanUu\_DanhSachNguoiNhan.cshtml" />
     <Content Include="Views\Donation\Index.cshtml" />
+    <Content Include="Views\Diocese\List.cshtml" />
+    <Content Include="Views\RolePermission\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PMS.BusinessLogic\PMS.BusinessLogic.csproj">

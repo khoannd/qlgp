@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using PMS.DataAccess.Enumerations;
 using PMS.DataAccess.Models;
+using PMS.BusinessLogic;
 
 namespace PMS.Web
 {
@@ -14,14 +15,17 @@ namespace PMS.Web
         private readonly string _urlForManager;
         private readonly string _urlForStaff;
         private readonly string _urlForTeacher;
+        private readonly RolePermissionBusiness _rolePermissionBusiness;
 
         public AuthorizationChecking()
         {
+            _rolePermissionBusiness = new RolePermissionBusiness(DbConfig.GetConnectionString());
+
             _urlForAdmin = @"/Account/AccountManagement, /Account/ChangePassword, /Diocese/Index, /Priest/Index, /Vicariate/Index, /Parish/Index,
                             /Search/Parishioner, /SearchFamily/Family, /Statistic/Index, /Chart/Index, /Message/CreateMessage,
                             /ParishHome/Index, /Community/Index, /Society/Index,
                             /Parishioner/Index, /Family/Index, /Parishioner/SaveStorage, /Parishioner/PrintPage, /Family/SaveStorage,
-                            /ThuyenChuyenLinhMuc/Index, /ConstructionPermit/Index, /Seminary/Index, /Seminarian/Index, /DeaconRequisition/Index, /Priest/PrintPage, /Parishioner/Index";
+                            /ThuyenChuyenLinhMuc/Index, /ConstructionPermit/Index, /Seminary/Index, /Seminarian/Index, /DeaconRequisition/Index, /Priest/PrintPage";
 
             _urlWithIdForAdmin = @"/DeaconRequisitionComment/Index/{Id}";
 
@@ -44,28 +48,34 @@ namespace PMS.Web
 
         public bool CheckValidUrl(string url, int roleId)
         {
-            if (roleId == (int)AccountEnum.Admin)
-            {
-                var fragments = url.Split('/');
-                var urlWithId = string.Join("/", fragments.Take(fragments.Length - 1)) + "/{Id}";
-                return _urlForAdmin.Contains(url) || _urlWithIdForAdmin.Contains(urlWithId);
-            }
+            //if (roleId == (int)AccountEnum.Admin)
+            //{
+            //    var fragments = url.Split('/');
+            //    var urlWithId = string.Join("/", fragments.Take(fragments.Length - 1)) + "/{Id}";
+            //    return _urlForAdmin.Contains(url) || _urlWithIdForAdmin.Contains(urlWithId);
+            //}
 
-            if (roleId == (int)AccountEnum.Manager)
-            {
-                return _urlForManager.Contains(url);
-            }
+            //if (roleId == (int)AccountEnum.Manager)
+            //{
+            //    return _urlForManager.Contains(url);
+            //}
 
-            if (roleId == (int)AccountEnum.Staff)
+            //if (roleId == (int)AccountEnum.Staff)
+            //{
+            //    return _urlForStaff.Contains(url);
+            //}
+            //else
+            //{
+            //    return _urlForTeacher.Contains(url);
+            //}
+            if(roleId == 1)
             {
-                return _urlForStaff.Contains(url);
+                return true;
             }
-            else
-            {
-                return _urlForTeacher.Contains(url);
-            }
+            if (url.Contains("?")) url = url.Substring(0, url.IndexOf('?'));
+            RolePermission rolePermission = _rolePermissionBusiness.GetScreenPermissionByRoleScreen(roleId, url);
+            return rolePermission != null;
         }
-
 
     }
 }

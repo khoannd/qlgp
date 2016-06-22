@@ -32,27 +32,39 @@ namespace PMS.Web.Controllers
 
         }
 
-        public ActionResult Update(Diocese diocese)
+        [SessionExpireFilter]
+        public ActionResult List()
         {
             int dioceseId = (int)Session["DioceseId"];
-            string url = _dioceseBusiness.GetImageUrlByDioceseId(dioceseId);
-            int result = _dioceseBusiness.UpdateDiocese(diocese);
+            List<Diocese> vicariates = _dioceseBusiness.GetAllDioceses();
+            ViewBag.Vicariates = vicariates;
+            return View();
+        }
 
-            if (!string.IsNullOrEmpty(diocese.ImageUrl))
+        public ActionResult LoadDioceseDatatables(jQueryDataTableParamModel param)
+        {
+            int totalRecords = 0;
+            int totalDisplayRecords = 0;
+            var result = _dioceseBusiness.GetOrderedDioceseByParamsAndPaging(param.sSearch,
+                param.iSortCol_0, param.sSortDir_0, param.iDisplayStart, param.iDisplayLength, out totalRecords,
+                out totalDisplayRecords);
+            return Json(new
             {
-                if (!string.IsNullOrEmpty(url))
-                {
-                    string path = Server.MapPath(Url.Content(url));
-                    if (result > 0)
-                    {
-                        if (System.IO.File.Exists(path))
-                        {
-                            System.IO.File.Delete(path);
-                        }
-                    }
-                }
-            }
+                sEcho = param.sEcho,
+                iTotalRecords = totalRecords,
+                iTotalDisplayRecords = totalDisplayRecords,
+                aaData = result
+            }, JsonRequestBehavior.AllowGet);
+        }
 
+        public int Add(Diocese diocese)
+        {
+            return _dioceseBusiness.AddDiocese(diocese);
+        }
+
+        public ActionResult Update(Diocese diocese)
+        {
+            int result = _dioceseBusiness.UpdateDiocese(diocese);
 
             return Json(new { abc = result }, JsonRequestBehavior.AllowGet);
         }
@@ -64,6 +76,7 @@ namespace PMS.Web.Controllers
             DioceseViewModel model = new DioceseViewModel();
 
             model.Id = diocese.Id;
+            model.Code = diocese.Code;
             model.Name = diocese.Name;
             model.Church = diocese.Church;
             model.Address = diocese.Address;
@@ -82,9 +95,9 @@ namespace PMS.Web.Controllers
             return PartialView("_DioceseInformation", diocese);
         }
 
-        public ActionResult CheckUniqueDiocese(string name, int id)
+        public ActionResult CheckUniqueDiocese(string name, string code, int id)
         {
-            int result = _dioceseBusiness.CheckUniqueDiocese(name, id);
+            int result = _dioceseBusiness.CheckUniqueDiocese(name, code, id);
             return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }
 

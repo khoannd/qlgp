@@ -1,0 +1,73 @@
+﻿@using PMS.DataAccess.ViewModels;
+@using PMS.DataAccess.Models;
+@{
+    ViewBag.Title = "Phân quyền";
+}
+<div class="page-header">
+    <h1>Danh sách giáo họ</h1>
+</div>
+
+<div class="col-xs-12">
+    <div>Nhóm người dùng
+        <select id="cbbRole">
+            <option value="">Chọn nhóm người dùng</option>
+            @foreach (var item in (List<Role>)ViewBag.Roles)
+            {
+                if (item.Id == 1) { continue; }
+                <option value="@item.Id">@item.Name</option>
+            }
+        </select>
+    </div>
+    <div class="space-6"></div>
+    <table id="permissionTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th>Mã chức năng</th>
+                <th>Tên chức năng</th>
+                <th>
+                    <label class="position-relative">
+                        <input type="checkbox" class="ace" id="selectAll"/>
+                        <span class="lbl">Cho phép sử dụng</span>
+                    </label>
+                </th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+</div>
+<div class="clearfix"></div>
+
+<script>
+    $("#cbbRole").change(function () {
+        $.getJSON('/RolePermission/LoadPermission',
+            { roleId: $("#cbbRole").val() },
+            function (res) {
+                if (res && res.result && res.result.length !== 0) {
+                    var html = '';
+                    $(res.result).each(function (k, v) {
+                        html += '<tr><td>' + v.ScreenId + '</td><td>' + (v.ScreenId.indexOf("/") >= 0 ? "" : "Menu ") + v.ScreenName
+                            + '</td><td><input type="checkbox" class="permission" value="1" '
+                            + (v.Permission != null ? 'checked' : '') + ' screen="'+v.ScreenId+'"/></td></tr>';
+                    });
+                    $("#permissionTable >tbody").html(html);
+                    $("#permissionTable tbody input.permission").click(function () {
+                        $.post("/RolePermission/Update",
+                            { RoleId: $("#cbbRole").val(), ScreenId: $(this).attr('screen'), Permission: ($(this).is(":checked") ? 1 : 0) },
+                            function (res) {
+                                if (res.result == 1) {
+                                    showMessage("Cập nhật phân quyền thành công", 1);
+                                }
+                                else {
+                                    showMessage("Cập nhật phân quyền thất bại", 0);
+                                }
+                            });
+                    });
+                }
+            });
+    });
+    $("#selectAll").click(function () {
+        $("#permissionTable tbody input.permission").attr('checked', $("#selectAll").is(":checked"));
+    });
+    
+</script>

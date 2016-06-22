@@ -1752,6 +1752,16 @@ namespace PMS.DataAccess
 
             return _db.ExecuteQuery<ParishionerViewModel>(query, "%" + name + "%");
         }
+        public IEnumerable<ParishionerViewModel> GetParishionerViewModelsByNameForPriest(string name)
+        {
+            string query = "SELECT Pa.*, C.Name AS CommunityName " +
+                    "FROM Parishioner AS Pa INNER JOIN Community AS C ON Pa.CommunityId = C.Id " +
+                    "INNER JOIN Parish AS Pr " +
+                    "ON C.ParishId = Pr.Id " +
+                    "WHERE Pa.Gender=1 AND (Pa.ChristianName IS NOT NULL AND Pa.ChristianName<>'') AND Pa.Id NOT IN (SELECT ParishionerId FROM Priest) AND Pa.Name LIKE {0} AND Pa.Status <> " + ((int)ParishionerStatusEnum.Deleted).ToString();
+
+            return _db.ExecuteQuery<ParishionerViewModel>(query, "%" + name + "%");
+        }
         // Khoan add end
 
         public IEnumerable<ParishionerViewModel> GetParishionerViewModelsBySacramentTypeAndCommunityId(int communityId,

@@ -158,8 +158,8 @@ namespace PMS.Web.Controllers
             int totalRecords = 0;
             int totalDisplayRecords = 0;
 
-            if(communityId == 0 && parishDivisionId == 0 && sacramentType == 0 
-                && deadParishioner == 0 && changeParishParishioner == 0
+            if(//communityId == 0 && parishDivisionId == 0 && sacramentType == 0 &&
+                deadParishioner == 0 && changeParishParishioner == 0
                 && (param.sSearch == null || param.sSearch == "")
                 && (param.parishId == null || param.parishId == "" || param.parishId == "0"))
             {
@@ -1091,6 +1091,15 @@ namespace PMS.Web.Controllers
         public ActionResult LoadParishionerByName(string name)
         {
             var result = _parishionerBusiness.LoadParishionerByName(name);
+
+            return Json(new
+            {
+                result = result
+            }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult LoadParishionerByNameForPriest(string name)
+        {
+            var result = _parishionerBusiness.LoadParishionerByNameForPriest(name);
 
             return Json(new
             {

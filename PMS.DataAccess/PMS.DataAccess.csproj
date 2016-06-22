@@ -69,6 +69,9 @@
     <Compile Include="KhachMoiData.cs" />
     <Compile Include="LetterAndReportData.cs" />
     <Compile Include="MatrimonyData.cs" />
+    <Compile Include="RoleData.cs" />
+    <Compile Include="RolePermissionData.cs" />
+    <Compile Include="MenuData.cs" />
     <Compile Include="MessageData.cs" />
     <Compile Include="Models\PMS.designer.cs">
       <AutoGen>True</AutoGen>
@@ -117,6 +120,7 @@
     <Compile Include="ViewModels\LetterAndReportViewModel.cs" />
     <Compile Include="ViewModels\PriestViewModel.cs" />
     <Compile Include="ViewModels\PrintParishManagerViewModel.cs" />
+    <Compile Include="ViewModels\RolePermissionViewModel.cs" />
     <Compile Include="ViewModels\ThuPhanUuViewModel.cs" />
     <Compile Include="ViewModels\ThuPhanUu_InViewModel.cs" />
     <Compile Include="ViewModels\ThuPhanUu_NguoiNhanViewModel.cs" />

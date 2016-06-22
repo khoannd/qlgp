@@ -12,10 +12,14 @@ namespace PMS.BusinessLogic
     public class AccountBusiness
     {
         private readonly AccountData _accountData;
+        private readonly RoleData _roleData;
+        private readonly RolePermissionData _rolePermissionData;
 
         public AccountBusiness(string connection)
         {
             _accountData = new AccountData(connection);
+            _roleData = new RoleData(connection);
+            _rolePermissionData = new RolePermissionData(connection);
         }
 
         public Account CheckLogin(string username, string password, out int code)
@@ -161,25 +165,31 @@ namespace PMS.BusinessLogic
 
         public string ConvertRole(int roleId)
         {
-            if (roleId == (int) AccountEnum.Admin)
-            {
-                return "Quản trị viên";
-            }
+            //if (roleId == (int) AccountEnum.Admin)
+            //{
+            //    return "Quản trị viên";
+            //}
 
-            if (roleId == (int) AccountEnum.Manager)
-            {
-                return "Quản lý";
-            }
+            //if (roleId == (int) AccountEnum.Manager)
+            //{
+            //    return "Quản lý";
+            //}
 
-            if (roleId == (int) AccountEnum.Staff)
-            {
-                return "Nhập liệu";
-            }
-            else
-            {
-                return "Giáo lý viên";
-            }
+            //if (roleId == (int) AccountEnum.Staff)
+            //{
+            //    return "Nhập liệu";
+            //}
+            //else
+            //{
+            //    return "Giáo lý viên";
+            //}
+            var role = _roleData.GetRoleById(roleId);
+            return role != null ? role.Name : "";
         }
-
+        public bool IsDioceseRole(int roleId)
+        {
+            var role = _roleData.GetRoleById(roleId);
+            return role != null ? role.ForDiocese : false;
+        }
     }
 }

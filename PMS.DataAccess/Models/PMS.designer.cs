@@ -22,7 +22,7 @@ namespace PMS.DataAccess.Models
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="QLGP_0529")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="QLGP_Test")]
 	public partial class PMSDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -141,12 +141,18 @@ namespace PMS.DataAccess.Models
     partial void InsertRole(Role instance);
     partial void UpdateRole(Role instance);
     partial void DeleteRole(Role instance);
+    partial void InsertRolePermission(RolePermission instance);
+    partial void UpdateRolePermission(RolePermission instance);
+    partial void DeleteRolePermission(RolePermission instance);
     partial void InsertSacrament(Sacrament instance);
     partial void UpdateSacrament(Sacrament instance);
     partial void DeleteSacrament(Sacrament instance);
     partial void InsertSacramentGroup(SacramentGroup instance);
     partial void UpdateSacramentGroup(SacramentGroup instance);
     partial void DeleteSacramentGroup(SacramentGroup instance);
+    partial void InsertScreenAction(ScreenAction instance);
+    partial void UpdateScreenAction(ScreenAction instance);
+    partial void DeleteScreenAction(ScreenAction instance);
     partial void InsertSeminaryYear(SeminaryYear instance);
     partial void UpdateSeminaryYear(SeminaryYear instance);
     partial void DeleteSeminaryYear(SeminaryYear instance);
@@ -186,7 +192,7 @@ namespace PMS.DataAccess.Models
     #endregion
 		
 		public PMSDataContext() : 
-				base(global::PMS.DataAccess.Properties.Settings.Default.QLGP_0529ConnectionString, mappingSource)
+				base(global::PMS.DataAccess.Properties.Settings.Default.QLGP_TestConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -423,6 +429,14 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
+		public System.Data.Linq.Table<Menu> Menus
+		{
+			get
+			{
+				return this.GetTable<Menu>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Message> Messages
 		{
 			get
@@ -511,6 +525,14 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
+		public System.Data.Linq.Table<RolePermission> RolePermissions
+		{
+			get
+			{
+				return this.GetTable<RolePermission>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Sacrament> Sacraments
 		{
 			get
@@ -524,6 +546,14 @@ namespace PMS.DataAccess.Models
 			get
 			{
 				return this.GetTable<SacramentGroup>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ScreenAction> ScreenActions
+		{
+			get
+			{
+				return this.GetTable<ScreenAction>();
 			}
 		}
 		
@@ -4109,7 +4139,7 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="NChar(10)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="NVarChar(10) NOT NULL", CanBeNull=false)]
 		public string Code
 		{
 			get
@@ -7610,6 +7640,195 @@ namespace PMS.DataAccess.Models
 			if ((this.PropertyChanged != null))
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Menu")]
+	public partial class Menu
+	{
+		
+		private int _Id;
+		
+		private string _ScreenId;
+		
+		private string _Text;
+		
+		private bool _NewWindow;
+		
+		private string _IconClass;
+		
+		private int _ParentId;
+		
+		private int _Position;
+		
+		private bool _Visible;
+		
+		private System.Nullable<int> _MenuType;
+		
+		private string _Link;
+		
+		public Menu()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL")]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this._Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScreenId", DbType="VarChar(255)")]
+		public string ScreenId
+		{
+			get
+			{
+				return this._ScreenId;
+			}
+			set
+			{
+				if ((this._ScreenId != value))
+				{
+					this._ScreenId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Text", DbType="NVarChar(255)")]
+		public string Text
+		{
+			get
+			{
+				return this._Text;
+			}
+			set
+			{
+				if ((this._Text != value))
+				{
+					this._Text = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NewWindow", DbType="Bit NOT NULL")]
+		public bool NewWindow
+		{
+			get
+			{
+				return this._NewWindow;
+			}
+			set
+			{
+				if ((this._NewWindow != value))
+				{
+					this._NewWindow = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IconClass", DbType="VarChar(100)")]
+		public string IconClass
+		{
+			get
+			{
+				return this._IconClass;
+			}
+			set
+			{
+				if ((this._IconClass != value))
+				{
+					this._IconClass = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParentId", DbType="Int NOT NULL")]
+		public int ParentId
+		{
+			get
+			{
+				return this._ParentId;
+			}
+			set
+			{
+				if ((this._ParentId != value))
+				{
+					this._ParentId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Position", DbType="Int NOT NULL")]
+		public int Position
+		{
+			get
+			{
+				return this._Position;
+			}
+			set
+			{
+				if ((this._Position != value))
+				{
+					this._Position = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Visible", DbType="Bit NOT NULL")]
+		public bool Visible
+		{
+			get
+			{
+				return this._Visible;
+			}
+			set
+			{
+				if ((this._Visible != value))
+				{
+					this._Visible = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MenuType", DbType="Int")]
+		public System.Nullable<int> MenuType
+		{
+			get
+			{
+				return this._MenuType;
+			}
+			set
+			{
+				if ((this._MenuType != value))
+				{
+					this._MenuType = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Link", DbType="VarChar(255)")]
+		public string Link
+		{
+			get
+			{
+				return this._Link;
+			}
+			set
+			{
+				if ((this._Link != value))
+				{
+					this._Link = value;
+				}
 			}
 		}
 	}
@@ -12162,6 +12381,8 @@ namespace PMS.DataAccess.Models
 		
 		private string _Name;
 		
+		private bool _ForDiocese;
+		
 		private EntitySet<Account> _Accounts;
 		
     #region Extensibility Method Definitions
@@ -12172,6 +12393,8 @@ namespace PMS.DataAccess.Models
     partial void OnIdChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
+    partial void OnForDioceseChanging(bool value);
+    partial void OnForDioceseChanged();
     #endregion
 		
 		public Role()
@@ -12220,6 +12443,26 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ForDiocese", DbType="Bit NOT NULL")]
+		public bool ForDiocese
+		{
+			get
+			{
+				return this._ForDiocese;
+			}
+			set
+			{
+				if ((this._ForDiocese != value))
+				{
+					this.OnForDioceseChanging(value);
+					this.SendPropertyChanging();
+					this._ForDiocese = value;
+					this.SendPropertyChanged("ForDiocese");
+					this.OnForDioceseChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Role_Account", Storage="_Accounts", ThisKey="Id", OtherKey="RoleId")]
 		public EntitySet<Account> Accounts
 		{
@@ -12263,6 +12506,116 @@ namespace PMS.DataAccess.Models
 		{
 			this.SendPropertyChanging();
 			entity.Role = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.RolePermission")]
+	public partial class RolePermission : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _ScreenId;
+		
+		private int _RoleId;
+		
+		private int _Permission;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnScreenIdChanging(string value);
+    partial void OnScreenIdChanged();
+    partial void OnRoleIdChanging(int value);
+    partial void OnRoleIdChanged();
+    partial void OnPermissionChanging(int value);
+    partial void OnPermissionChanged();
+    #endregion
+		
+		public RolePermission()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ScreenId", DbType="VarChar(255) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string ScreenId
+		{
+			get
+			{
+				return this._ScreenId;
+			}
+			set
+			{
+				if ((this._ScreenId != value))
+				{
+					this.OnScreenIdChanging(value);
+					this.SendPropertyChanging();
+					this._ScreenId = value;
+					this.SendPropertyChanged("ScreenId");
+					this.OnScreenIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int RoleId
+		{
+			get
+			{
+				return this._RoleId;
+			}
+			set
+			{
+				if ((this._RoleId != value))
+				{
+					this.OnRoleIdChanging(value);
+					this.SendPropertyChanging();
+					this._RoleId = value;
+					this.SendPropertyChanged("RoleId");
+					this.OnRoleIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Permission", DbType="Int NOT NULL")]
+		public int Permission
+		{
+			get
+			{
+				return this._Permission;
+			}
+			set
+			{
+				if ((this._Permission != value))
+				{
+					this.OnPermissionChanging(value);
+					this.SendPropertyChanging();
+					this._Permission = value;
+					this.SendPropertyChanged("Permission");
+					this.OnPermissionChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -12926,6 +13279,116 @@ namespace PMS.DataAccess.Models
 		{
 			this.SendPropertyChanging();
 			entity.SacramentGroup = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ScreenAction")]
+	public partial class ScreenAction : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _Id;
+		
+		private string _Name;
+		
+		private bool _Enabled;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(string value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnEnabledChanging(bool value);
+    partial void OnEnabledChanged();
+    #endregion
+		
+		public ScreenAction()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="NVarChar(100) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Enabled", DbType="Bit NOT NULL")]
+		public bool Enabled
+		{
+			get
+			{
+				return this._Enabled;
+			}
+			set
+			{
+				if ((this._Enabled != value))
+				{
+					this.OnEnabledChanging(value);
+					this.SendPropertyChanging();
+					this._Enabled = value;
+					this.SendPropertyChanged("Enabled");
+					this.OnEnabledChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -13700,7 +14163,7 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayMat", DbType="Date NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayMat", DbType="DateTime NOT NULL")]
 		public System.DateTime NgayMat
 		{
 			get

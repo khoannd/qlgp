@@ -24,6 +24,12 @@ namespace PMS.Web.Controllers
         private readonly FamilyBusiness _familyBusiness;
         private readonly ParishionerBusiness _parishionerBusiness;
 
+        private readonly ParishBusiness _parishBusiness;
+        private readonly DioceseBusiness _dioceseBusiness;
+        private readonly CommunityBusiness _communityBusiness;
+        private readonly VicariateBusiness _vicariateBusiness;
+
+
         public SacramentController()
         {
             _sacramentGroupBusiness = new SacramentGroupBusiness(DbConfig.GetConnectionString());
@@ -32,6 +38,11 @@ namespace PMS.Web.Controllers
             _configurationBusiness = new ConfigurationBusiness(DbConfig.GetConnectionString());
             _familyBusiness = new FamilyBusiness(DbConfig.GetConnectionString());
             _parishionerBusiness = new ParishionerBusiness(DbConfig.GetConnectionString());
+
+            _vicariateBusiness = new VicariateBusiness(DbConfig.GetConnectionString());
+            _parishBusiness = new ParishBusiness(DbConfig.GetConnectionString());
+            _dioceseBusiness = new DioceseBusiness(DbConfig.GetConnectionString());
+            _communityBusiness = new CommunityBusiness(DbConfig.GetConnectionString());
         }
 
         [SessionExpireFilter]
@@ -45,6 +56,17 @@ namespace PMS.Web.Controllers
                 int parishId = (int)Session["ParishId"];   
                 Configuration familyConfig = _configurationBusiness.GetConfigurationByParishId(parishId);
                 ViewBag.FamilyConfig = familyConfig.FamilyCodeGeneration;
+                List<Community> communities = _communityBusiness.GetCommunitiesByParishId(parishId);
+                List<Community> parishDivisions = _communityBusiness.GetParishDivisionsByParishId(parishId);
+                List<Vicariate> vicariates = _vicariateBusiness.getAllVicariate().ToList();
+                List<Parish> parishs = _parishBusiness.GetAllParish().ToList();
+                List<Diocese> dioceses = _dioceseBusiness.GetAllDioceses();
+
+                ViewBag.Communities = communities;
+                ViewBag.ParishDivisions = parishDivisions;
+                ViewBag.Parishes = parishs;
+                ViewBag.Vicariates = vicariates;
+                ViewBag.Dioceses = dioceses;
 
                 return View();
             }
