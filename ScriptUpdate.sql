@@ -3,6 +3,7 @@
 -- comment exaple: 2016-04-10 VuongMV add table ValueSet
 
 -- 2016-06-08 KhoanND add tables RolePermission, Menu
+-- This table allow a role accesses menu/screen,  contains actions which have SessionFilterExpired
 CREATE TABLE [RolePermission](
 	[ScreenId] [varchar](255) NOT NULL,
 	[RoleId] [int] NOT NULL,
@@ -16,7 +17,7 @@ CREATE TABLE [RolePermission](
 ) ON [PRIMARY]
 
 GO
-
+-- Define menu for diocese (MenuType=1) or parish (MenuType=2), associate with table RolePermission to display menu for each role
 CREATE TABLE [Menu](
 	[Id] [int] NOT NULL,
 	[ScreenId] [varchar](255) NULL,
@@ -40,7 +41,7 @@ UPDATE Diocese SET Code=N'HCM' Where ID=2
 GO
 ALTER TABLE Diocese
 ALTER COLUMN Code nvarchar(10) NOT NULL
--- 2016-06-20 KhoanND add table ScreenAction - this table contains actions which have SessionFilterExpired indicator
+-- 2016-06-20 KhoanND add table ScreenAction - List all screens and actions in system which need to check permission for specific role, this table allows user manages permission on screen
 GO
 CREATE TABLE [dbo].[ScreenAction](
 	[Id] [nvarchar](100) NOT NULL,
@@ -113,6 +114,7 @@ INSERT [dbo].[ScreenAction] ([Id], [Name], [Enabled]) VALUES (N'Sacrament', N'S�
 INSERT [dbo].[ScreenAction] ([Id], [Name], [Enabled]) VALUES (N'Search', N'Tìm kiếm', 1)
 INSERT [dbo].[ScreenAction] ([Id], [Name], [Enabled]) VALUES (N'Seminary', N'Chủng viện', 1)
 INSERT [dbo].[ScreenAction] ([Id], [Name], [Enabled]) VALUES (N'Statistic', N'Thống kê', 1)
+INSERT [dbo].[ScreenAction] ([Id], [Name], [Enabled]) VALUES (N'/BanHanhGiao/Index', N'Ban hành giáo', 1)
 GO
 
 INSERT [dbo].[Menu] ([Id], [ScreenId], [Text], [NewWindow], [IconClass], [ParentId], [Position], [Visible], [MenuType], [Link]) VALUES (1, N'/Diocese/Index', N'Trang chủ', 0, N'fa-home', 0, 100, 1, 1, N'/Diocese/Index')
@@ -177,6 +179,7 @@ INSERT [dbo].[Menu] ([Id], [ScreenId], [Text], [NewWindow], [IconClass], [Parent
 INSERT [dbo].[Menu] ([Id], [ScreenId], [Text], [NewWindow], [IconClass], [ParentId], [Position], [Visible], [MenuType], [Link]) VALUES (57, N'/Diocese/List', N'Danh sách Giáo phận', 0, NULL, 2, 201, 1, 1, N'/Diocese/List')
 INSERT [dbo].[Menu] ([Id], [ScreenId], [Text], [NewWindow], [IconClass], [ParentId], [Position], [Visible], [MenuType], [Link]) VALUES (58, N'/ThuyenChuyenLinhMuc/Index', N'Thuyên chuyển Linh Mục', 0, N'fa-gavel', 5, 503, 1, 1, N'/ThuyenChuyenLinhMuc/Index')
 INSERT [dbo].[Menu] ([Id], [ScreenId], [Text], [NewWindow], [IconClass], [ParentId], [Position], [Visible], [MenuType], [Link]) VALUES (59, N'/RolePermission/Index', N'Phân quyền', 0, N'fa-user', 4, 401, 1, 1, N'/RolePermission/Index')
+INSERT [dbo].[Menu] ([Id], [ScreenId], [Text], [NewWindow], [IconClass], [ParentId], [Position], [Visible], [MenuType], [Link]) VALUES (60, N'/BanHanhGiao/Index', N'Ban hành giáo', 0, N'fa-user', 20, 1005, 1, 1, N'/BanHanhGiao/Index')
 GO
 SET IDENTITY_INSERT [dbo].[Role] ON 
 UPDATE Role SET ForDiocese=1 WHERE Id=1
@@ -340,5 +343,47 @@ INSERT [dbo].[RolePermission] ([ScreenId], [RoleId], [Permission]) VALUES (N'Sta
 INSERT [dbo].[RolePermission] ([ScreenId], [RoleId], [Permission]) VALUES (N'Statistic', 2, 1)
 INSERT [dbo].[RolePermission] ([ScreenId], [RoleId], [Permission]) VALUES (N'Statistic', 3, 1)
 INSERT [dbo].[RolePermission] ([ScreenId], [RoleId], [Permission]) VALUES (N'Statistic', 5, 1)
+GO
+-- 2016/07/01 Khoan add tables: BanHanhGiao, BanHanhGiaoMember
+GO
+CREATE TABLE [dbo].[BanHanhGiao](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
+	[FromDate] [datetime] NULL,
+	[ToDate] [datetime] NULL,
+	[ParishId] [int] NOT NULL,
+ CONSTRAINT [PK_BanHanhGiao] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+CREATE TABLE [dbo].[BanHanhGiaoMember](
+	[BanHanhGiaoId] [int] NOT NULL,
+	[ParishionerId] [int] NOT NULL,
+	[RoleId] [int] NULL,
+ CONSTRAINT [PK_BanHanhGiaoMember] PRIMARY KEY CLUSTERED 
+(
+	[BanHanhGiaoId] ASC,
+	[ParishionerId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+-- 2016/07/01 Khoan insert data into ValueSet table for BanHanGiaoMember.RoleId
+SET IDENTITY_INSERT [dbo].[ValueSet] ON
+INSERT [dbo].[ValueSet] ([Id], [Code], [Definition], [Note], [Category]) VALUES (28, N'1', N'Chủ tịch', NULL, N'BHG_Role')
+INSERT [dbo].[ValueSet] ([Id], [Code], [Definition], [Note], [Category]) VALUES (29, N'2', N'Phó chủ tịch', NULL, N'BHG_Role')
+INSERT [dbo].[ValueSet] ([Id], [Code], [Definition], [Note], [Category]) VALUES (30, N'3', N'Thư ký', NULL, N'BHG_Role')
+INSERT [dbo].[ValueSet] ([Id], [Code], [Definition], [Note], [Category]) VALUES (31, N'4', N'Thủ quỹ', NULL, N'BHG_Role')
+INSERT [dbo].[ValueSet] ([Id], [Code], [Definition], [Note], [Category]) VALUES (32, N'5', N'Thành viên', NULL, N'BHG_Role')
+SET IDENTITY_INSERT [dbo].[ValueSet] OFF
+GO
+INSERT [dbo].[Menu] ([Id], [ScreenId], [Text], [NewWindow], [IconClass], [ParentId], [Position], [Visible], [MenuType], [Link]) VALUES (60, N'/BanHanhGiao/Index', N'Ban hành giáo', 0, N'fa-user', 20, 1005, 1, 1, N'/BanHanhGiao/Index')
+GO
+INSERT [dbo].[ScreenAction] ([Id], [Name], [Enabled]) VALUES (N'/BanHanhGiao/Index', N'Ban hành giáo', 1)
+GO
+Update Community SET Name=N'Mặc định' WHERE IsDefault=1;
 
 

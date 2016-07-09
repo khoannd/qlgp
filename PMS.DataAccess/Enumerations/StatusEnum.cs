@@ -146,4 +146,20 @@ namespace PMS.DataAccess.Enumerations
         Disapproved = -1
     }
 
+    public enum BanHanhGiaoRoleEnum
+    {
+        ChuTich = 1,
+        PhoChuTich = 2,
+        ThuKy = 3,
+        ThuQuy = 4,
+        ThanhVien = 5
+    }
+
+    public enum ParishManagerStatusEnum
+    {
+        None = 0,
+        DaGoiGiayMoi = 1,
+        DaGoiQuyetDinh = 2,
+        DaNhanNhiemVu = 3
+    }
 }

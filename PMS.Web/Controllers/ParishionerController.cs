@@ -161,7 +161,7 @@ namespace PMS.Web.Controllers
             if(//communityId == 0 && parishDivisionId == 0 && sacramentType == 0 &&
                 deadParishioner == 0 && changeParishParishioner == 0
                 && (param.sSearch == null || param.sSearch == "")
-                && (param.parishId == null || param.parishId == "" || param.parishId == "0"))
+                && (parishId == 0))
             {
                 return Json(new
                 {

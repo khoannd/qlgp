@@ -1,4 +1,11 @@
-﻿function convertDateObjectToString(oDate) {
+﻿$(document).ready(function () {
+    $('body').bind('ajaxSuccess', function (event, request, settings) {
+        if (request.status == 401) {
+            window.location.href = "/?logout=1";
+        };
+    });
+});
+function convertDateObjectToString(oDate) {
     return oDate.getDate() + "/" + (oDate.getMonth() + 1) + "/" + oDate.getFullYear();
 }
 function validateEmail(email) {
@@ -296,4 +303,307 @@ function autocomplete(selector, url, selectedCallback, renderCallback) {
         }
     };
 }
+
+function showConfirm(message, okCallback, cancelCallback, title) {
+    bootbox.dialog({
+        closeButton: false,
+        message: message,
+        title: (title ? title : "Xác nhận"),
+        buttons: {
+            danger: {
+                label: " Xóa",
+                className: "ace-icon fa fa-trash-o btn-danger",
+                callback: okCallback
+            },
+            main: {
+                label: " Đóng",
+                className: "ace-icon fa fa-times btn-default",
+                callback: cancelCallback
+            }
+        }
+    });
+}
+function showAlert(message, title) {
+    bootbox.dialog({
+        closeButton: false,
+        message: message,
+        title: (title ? title : "Thông báo"),
+        buttons: {
+            main: {
+                label: " Đóng",
+                className: "ace-icon fa fa-times btn-default",
+            }
+        }
+    });
+}
+function convertVnDate2NumberFormat(vnDate) {
+    if (!vnDate || vnDate == "") return vnDate;
+    if (vnDate.indexOf(" ") > 0) {
+        vnDate = vnDate.substr(0, vnDate.indexOf(" "));
+    }
+
+    var dateFormat = /^\d{1,2}[\.|\/|-]\d{1,2}[\.|\/|-]\d{1,4}$/;
+
+    if (dateFormat.test(vnDate)) {
+        // remove any leading zeros from date values
+        vnDate = vnDate.replace(/0*(\d*)/gi, "$1");
+        var dateArray = vnDate.split(/[\.|\/|-]/);
+        if (dateArray.length < 3) {
+            return false;
+        }
+
+        // correct month value
+        dateArray[1] = dateArray[1] - 1;
+
+        // correct year value
+        if (dateArray[2].length < 4) {
+            // correct year value
+            dateArray[2] = (parseInt(dateArray[2]) < 50) ? 2000 + parseInt(dateArray[2]) : 1900 + parseInt(dateArray[2]);
+        }
+
+        var d = new Date(dateArray[2], dateArray[1], dateArray[0]);
+        return d.getFullYear().toString() + padDigits((d.getMonth() + 1), 2) + padDigits(d.getDate(), 2);
+    } else {
+        return "00000000";
+    }
+}
+function convertVnDate2DateObject(vnDate) {
+    if (!vnDate || vnDate == "") return vnDate;
+    if (vnDate.indexOf(" ") > 0) {
+        vnDate = vnDate.substr(0, vnDate.indexOf(" "));
+    }
+
+    var dateFormat = /^\d{1,2}[\.|\/|-]\d{1,2}[\.|\/|-]\d{1,4}$/;
+
+    if (dateFormat.test(vnDate)) {
+        // remove any leading zeros from date values
+        vnDate = vnDate.replace(/0*(\d*)/gi, "$1");
+        var dateArray = vnDate.split(/[\.|\/|-]/);
+        if (dateArray.length < 3) {
+            return false;
+        }
+
+        // correct month value
+        dateArray[1] = dateArray[1] - 1;
+
+        // correct year value
+        if (dateArray[2].length < 4) {
+            // correct year value
+            dateArray[2] = (parseInt(dateArray[2]) < 50) ? 2000 + parseInt(dateArray[2]) : 1900 + parseInt(dateArray[2]);
+        }
+
+        var d = new Date(dateArray[2], dateArray[1], dateArray[0]);
+        return d;
+    } else {
+        return new Date();
+    }
+}
+function convertVnDate2EnDate(vnDate) {
+    if (!vnDate || vnDate == "") return vnDate;
+    if (vnDate.indexOf(" ") > 0) {
+        vnDate = vnDate.substr(0, vnDate.indexOf(" "));
+    }
+
+    var dateFormat = /^\d{1,2}[\.|\/|-]\d{1,2}[\.|\/|-]\d{1,4}$/;
+
+    if (dateFormat.test(vnDate)) {
+        // remove any leading zeros from date values
+        vnDate = vnDate.replace(/0*(\d*)/gi, "$1");
+        var dateArray = vnDate.split(/[\.|\/|-]/);
+        if (dateArray.length < 3) {
+            return false;
+        }
+
+        // correct month value
+        dateArray[1] = dateArray[1] - 1;
+
+        // correct year value
+        if (dateArray[2].length < 4) {
+            // correct year value
+            dateArray[2] = (parseInt(dateArray[2]) < 50) ? 2000 + parseInt(dateArray[2]) : 1900 + parseInt(dateArray[2]);
+        }
+
+        var d = new Date(dateArray[2], dateArray[1], dateArray[0]);
+        return padDigits((d.getMonth() + 1), 2) + '/' + padDigits(d.getDate(), 2) + '/' + d.getFullYear().toString();
+    } else {
+        return null;
+    }
+}
+function convertEnDate2VnDate(vnDate) {
+    if (!vnDate || vnDate == "") return vnDate;
+    if (vnDate.indexOf(" ") > 0) {
+        vnDate = vnDate.substr(0, vnDate.indexOf(" "));
+    }
+
+    var dateFormat = /^\d{1,2}[\.|\/|-]\d{1,2}[\.|\/|-]\d{1,4}$/;
+
+    if (dateFormat.test(vnDate)) {
+        // remove any leading zeros from date values
+        vnDate = vnDate.replace(/0*(\d*)/gi, "$1");
+        var dateArray = vnDate.split(/[\.|\/|-]/);
+        if (dateArray.length < 3) {
+            return false;
+        }
+
+        // correct month value
+        dateArray[0] = dateArray[0] - 1;
+
+        // correct year value
+        if (dateArray[2].length < 4) {
+            // correct year value
+            dateArray[2] = (parseInt(dateArray[2]) < 50) ? 2000 + parseInt(dateArray[2]) : 1900 + parseInt(dateArray[2]);
+        }
+
+        var d = new Date(dateArray[2], dateArray[0], dateArray[1]);
+        return formatDate2VnDate(d);
+    } else {
+        return null;
+    }
+}
+
+function convertServerDate2VnDate(value) {
+    if (value) {
+        var pattern = /Date\(([^)]+)\)/;
+        var results = pattern.exec(value);
+        var d = new Date(parseFloat(results[1]));
+        return formatDate2VnDate(d);
+    }
+    return "";
+}
+//all parameters are passed into functions in this class using dd/mm/yyyy format, except the convert function
+var dates = {
+    convert: function (d) {
+        // Converts the date in d to a date-object. The input can be:
+        //   a date object: returned without modification
+        //  an array      : Interpreted as [year,month,day]. NOTE: month is 0-11.
+        //   a number     : Interpreted as number of milliseconds
+        //                  since 1 Jan 1970 (a timestamp) 
+        //   a string     : Any format supported by the javascript engine, like
+        //                  "YYYY/MM/DD", "MM/DD/YYYY", "Jan 31 2009" etc.
+        //  an object     : Interpreted as an object with year, month and date
+        //                  attributes.  **NOTE** month is 0-11.
+        return (
+            d.constructor === Date ? d :
+            d.constructor === Array ? new Date(d[0], d[1], d[2]) :
+            d.constructor === Number ? new Date(d) :
+            d.constructor === String ? new Date(d) :
+            typeof d === "object" ? new Date(d.year, d.month, d.date) :
+            NaN
+        );
+    },
+    compare: function (a, b) {
+        a = convertVnDate2DateObject(a);
+        b = convertVnDate2DateObject(b);
+        // Compare two dates (could be of any type supported by the convert
+        // function above) and returns:
+        //  -1 : if a < b
+        //   0 : if a = b
+        //   1 : if a > b
+        // NaN : if a or b is an illegal date
+        // NOTE: The code inside isFinite does an assignment (=).
+        return (
+            isFinite(a = this.convert(a).valueOf()) &&
+            isFinite(b = this.convert(b).valueOf()) ?
+            (a > b) - (a < b) :
+            NaN
+        );
+    },
+    add: function (d, i) {
+        var day, month, year;
+        d = convertVnDate2EnDate(d);
+        if (!isNaN(i)) {
+            day = parseInt(i);
+        }
+        else if (i.indexOf(' ') >= 0) {
+            var s = i.substr(i.indexOf(' '));
+            s = $.trim(s).toLowerCase();
+            var v = i.substr(0, i.indexOf(' '));
+            if (s.indexOf('day') == 0)
+                day = parseInt($.trim(v));
+            else if (s.indexOf('month') == 0)
+                month = parseInt($.trim(v));
+            else if (s.indexOf('year') == 0)
+                year = parseInt($.trim(v));
+        }
+
+        var date = new Date(d);
+        if (day)
+            date.setDate(date.getDate() + day);
+        else if (month)
+            date.setMonth(date.getMonth() + month);
+        else if (year)
+            date.setYear(date.getFullYear() + year);
+        return formatDate2VnDate(date);
+    },
+    inRange: function (d, start, end) {
+        // Checks if date in d is between dates in start and end.
+        // Returns a boolean or NaN:
+        //    true  : if d is between start and end (inclusive)
+        //    false : if d is before start or after end
+        //    NaN   : if one or more of the dates is illegal.
+        // NOTE: The code inside isFinite does an assignment (=).
+        d = convertVnDate2EnDate(d);
+        start = convertVnDate2EnDate(start);
+        end = convertVnDate2EnDate(end);
+        return (
+             isFinite(d = this.convert(d).valueOf()) &&
+             isFinite(start = this.convert(start).valueOf()) &&
+             isFinite(end = this.convert(end).valueOf()) ?
+             start <= d && d <= end :
+             NaN
+         );
+    },
+    isInFuture: function (d1) {
+        // return true if d <= today
+        // return falase if d > today
+        var d = new Date();
+        today = formatDate2VnDate(d);
+        var r = this.compare(d1, today);
+        return (r > 0);
+    }
+}
+function formatDate2VnDate(d) {
+    if (!d) d = new Date();
+    return padDigits(d.getDate(), 2) + '/' + padDigits((d.getMonth() + 1), 2) + '/' + d.getFullYear().toString();
+}
+function padDigits(number, digits) {
+    return Array(Math.max(digits - String(number).length + 1, 0)).join(0) + number;
+}
+String.prototype.paddingLeft = function (paddingValue) {
+    return String(paddingValue + this).slice(-paddingValue.length);
+};
+//like string.format of C#
+String.prototype.format = function () {
+    var args = arguments;
+    return this.replace(/{(\d+)}/g, function (match, number) {
+        return typeof args[number] != 'undefined' ? args[number] : match;
+    });
+};
+function upperCaseFirstChar(str) {
+    if (!str) return str;
+    var parts = str.split(" ");
+    for (var i in parts) {
+        parts[i] = parts[i].substr(0, 1).toUpperCase() + parts[i].substr(1).toLowerCase();
+    }
+    return parts.join(" ");
+}
+$(function () {
+    $('input.datetime, input.date-picker').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        forceParse: false,
+    }).next().on(ace.click_event, function () {
+        $(this).prev().focus();
+    });
+    $('input.datetime, input.date-picker').mask("99/99/9999");
+    $("input.select-all").click(function () {
+        $(this).closest("table").find("tr > td:first-child input[type='checkbox'].sItem").attr("checked", this.checked);
+    });
+    $(".phone").mask("9999 999 999?9");
+    $('input.normal-name').blur(function () {
+        $(this).val(upperCaseFirstChar($(this).val()));
+    });
+    //$(".number").number();
+
+});
 // Khoan add end

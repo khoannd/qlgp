@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApproveRequestData.cs" />
+    <Compile Include="BanHanhGiaoData.cs" />
     <Compile Include="ChangeCommunityData.cs" />
     <Compile Include="ChangeParishData.cs" />
     <Compile Include="ChartData.cs" />
@@ -106,6 +108,8 @@
     <Compile Include="Utilities\CodeConverter.cs" />
     <Compile Include="ValueSetData.cs" />
     <Compile Include="VicariateData.cs" />
+    <Compile Include="ViewModels\BanHanhGiaoMemberViewModel.cs" />
+    <Compile Include="ViewModels\BanHanhGiaoViewModel.cs" />
     <Compile Include="ViewModels\ChartBasicComponentViewModel.cs" />
     <Compile Include="ViewModels\ChartCommunityViewModel.cs" />
     <Compile Include="ViewModels\ChartViewModel.cs" />

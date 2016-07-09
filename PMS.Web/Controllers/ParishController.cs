@@ -34,23 +34,22 @@ namespace PMS.Web.Controllers
         public ActionResult Index()
         {
             //int dioceseId = (int)Session["DioceseId"];
-            List<Vicariate> vicariates = _vicariateBusiness.getAllVicariate().ToList();
-            ViewBag.Vicariates = vicariates;
+            ViewBag.Vicariates = _vicariateBusiness.getAllVicariate().ToList();
             ViewBag.Dioceses = _dioceseBusiness.GetAllDioceses();
+            ViewBag.Parishes = _parishBusiness.GetAllParish().ToList();
             return View();
         }
 
-        public ActionResult LoadParishDatatables(jQueryDataTableParamModel param, int vicariateId)
+        public ActionResult LoadParishDatatables(jQueryDataTableParam param, int vicariateId)
         {
             int dioceseId = (int)Session["DioceseId"];
             int totalRecords = 0;
             int totalDisplayRecords = 0;
-            var result = _parishBusiness.GetOrderedParishesByParamsAndPaging(dioceseId, vicariateId, param.sSearch,
-                param.iSortCol_0, param.sSortDir_0, param.iDisplayStart, param.iDisplayLength, out totalRecords,
+            var result = _parishBusiness.GetOrderedParishesByParamsAndPaging(dioceseId, vicariateId, param.search["value"],
+                Convert.ToInt32(param.order[0]["column"]), param.order[0]["dir"], param.start, param.length, out totalRecords,
                 out totalDisplayRecords);
             return Json(new
                 {
-                    sEcho = param.sEcho,
                     iTotalRecords = totalRecords,
                     iTotalDisplayRecords = totalDisplayRecords,
                     aaData = result
@@ -110,7 +109,7 @@ namespace PMS.Web.Controllers
 
                     var community = new Community()
                     {
-                        Name = "Ngoài xứ",
+                        Name = "Chưa rõ",
                         IsDefault = true,
                         ParishId = result
                     };
@@ -166,10 +165,12 @@ namespace PMS.Web.Controllers
             model.District = parish.District;
             model.Province = parish.Province;
             model.Priest = parish.Priest;
+            model.PriestId = parish.PriestId;
             model.Website = parish.Website;
             model.Phone = parish.Phone;
             model.Email = parish.Email;
             model.VicariateId = parish.VicariateId;
+            model.DioceseId = parish.Vicariate.DioceseId;
             model.ImageUrl = parish.ImageUrl;
             model.Patron = parish.Patron;
             model.PatronDate = parish.PatronDate;

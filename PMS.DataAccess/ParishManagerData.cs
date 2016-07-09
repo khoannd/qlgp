@@ -138,6 +138,28 @@ namespace PMS.DataAccess
                 item.Position = parishManager.Position;
                 item.PositionName = parishManager.PositionName;
                 item.IdThuyenChuyenLinhMuc = parishManager.IdThuyenChuyenLinhMuc;
+
+                if(parishManager.ParishId != null && parishManager.ParishId != 0 
+                    && parishManager.Position == 1
+                    && parishManager.StatusId == (int)ParishManagerStatusEnum.DaNhanNhiemVu)
+                {
+                    var parishOld = _db.Parishes.SingleOrDefault(d => d.PriestId == parishManager.PriestId && d.Id != parishManager.ParishId);
+                    if(parishOld!=null)
+                    {
+                        parishOld.PriestId = null;
+                        parishOld.Priest = "";
+                    }
+
+                    var parish = _db.Parishes.SingleOrDefault(d => d.Id == parishManager.ParishId);
+                    if (parish == null)
+                    {
+                        return 0;
+                    }
+
+                    parish.Priest = item.Priest.ChristianName + " " + item.Priest.Name;
+                    parish.PriestId = item.PriestId;
+                }
+
                 _db.SubmitChanges();
                 return 1;
             }

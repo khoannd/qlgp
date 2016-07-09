@@ -90,9 +90,9 @@ namespace PMS.Web.Controllers
                 string s = giayMoi.Mau;
                 s = s.Replace("[TenKhachMoi]", khach.HoTen);
                 s = s.Replace("[ChucDanh]", khach.ChucDanh);
-                s = s.Replace("[DiaChi]", khach.DiaChi);
-                s = s.Replace("[SoDienThoai]", khach.SoDienThoai);
-                s = s.Replace("[Email]", khach.Email);
+                s = s.Replace("[DiaChiKhach]", khach.DiaChi);
+                s = s.Replace("[SoDienThoaiKhach]", khach.SoDienThoai);
+                s = s.Replace("[EmailKhach]", khach.Email);
 
                 reports.Add(s);
             }

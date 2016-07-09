@@ -78,7 +78,7 @@
                         <option value="0">Tất cả</option>
                         @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
                         {
-                            <option value="@item.Id" dioceseId="@Html.Raw(item.DioceseId)" @if ((int)Session["DioceseId"] != item.DioceseId) { @Html.Raw(" style='display:none;'")  ; }>@item.Name</option>
+                            <option value="@item.Id" dioceseId="@Html.Raw(item.DioceseId)" @if ((int)Session["DioceseId"] != item.DioceseId) { @Html.Raw(" style='display:none;'")  ; } @(item.Id == (int)Session["VicariateId"] ? " selected" : "")>@item.Name</option>
                         }
                     </select>
                 </div>

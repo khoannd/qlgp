@@ -138,36 +138,7 @@
     }
 
     $("#btnCreateParishioner").click(function () {
-        '<%Session["ImageName"] = "";%>';
-        @if(account.IsDioceseRole((int)Session["RoleId"]))
-        {
-        <text>
-        $("#cbbParishionerDiocese").val($("#cbbDiocese").val());
-        $("#cbbParishionerVicariate").val($("#cbbVicariate").val());
-        $("#cbbParishionerParish").val($("#cbbParish").val());
-        </text>
-        }
-        else
-        {
-            @:$("#cbbParishionerParish").prop("disabled", true);
-            @:$("#cbbParishionerCommunity").val($("#cbbCommunity").val());
-        }
-
-        $("#homeLink").tab('show');
-        $("#txtHiddenParishionerId").val(0);
-        $("#ParishionerThumbnail").hide();
         $("#parishionerInformationModal").modal('show');
-
-        var parishDivision = $("#cbbParishDivision").val();
-        if (parishDivision == 0) {
-
-            //Cho nay co change
-            $("#cbbParishionerCommunity").val($("#cbbCommunity").val());
-            $("#cbbParishionerCommunity").change();
-
-        } else {
-            $("#cbbParishionerCommunity").val(parishDivision);
-        }
     });
 
     $(document).on('click', 'th input:checkbox', function () {
@@ -181,16 +152,16 @@
 
     //Thay doi trang thai thong ke
     $("#cbbParishionerCommunity").change(function () {
-        var defaultId = $("#defaultCommunity").val();
-        var value = $(this).val();
+        //var defaultId = $("#defaultCommunity").val();
+        //var value = $(this).val();
 
-        if (value == defaultId) {
-            $("#cbIsCounted").prop("checked", true);
-            $("#cbIsCounted").attr("disabled", true);
-        } else {
-            $("#cbIsCounted").attr("disabled", false);
-            $("#cbIsCounted").prop("checked", false);
-        }
+        //if (value == defaultId) {
+        //    $("#cbIsCounted").prop("checked", true);
+        //    $("#cbIsCounted").attr("disabled", true);
+        //} else {
+        //    $("#cbIsCounted").attr("disabled", false);
+        //    $("#cbIsCounted").prop("checked", false);
+        //}
     });
 
     $("#cbbCommunity").change(function () {

@@ -1,6 +1,9 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
+<script>
+    
+</script>
 <!-- Page Header -->
 <div class="page-header">
     <h1>Danh sách linh mục</h1>
@@ -117,7 +120,7 @@
                                 <div class="form-group align-left" id="ChristianNameModal">
                                     <label class="col-sm-3 control-label no-padding-right">Tên thánh&nbsp;(<span style="color: red">*</span>)</label>
                                     <div class="col-sm-6">
-                                        <input type="text" id="txtChristianNameModal" value="" class="form-control christian">
+                                        <input type="text" id="txtChristianNameModal" value="" class="form-control christian normal-name">
                                         <label class="text-danger" id="lbChristianNameErrorModal" hidden=""></label>
                                     </div>
                                 </div>
@@ -126,7 +129,7 @@
                                 <div class="form-group align-left" id="FullNameModal">
                                     <label class="col-sm-3 control-label no-padding-right">Họ tên&nbsp;(<span style="color: red">*</span>)</label>
                                     <div class="col-sm-6">
-                                        <input type="text" id="txtFullNameModal" value="" class="form-control parishionerName">
+                                        <input type="text" id="txtFullNameModal" value="" class="form-control parishionerName normal-name">
                                         <label class="text-danger" id="lbFullNameErrorModal" hidden=""></label>
                                     </div>
                                 </div>
@@ -166,11 +169,11 @@
                                                     <div class="form-group">
                                                         <div class="space-10"></div>
                                                         <div class="col-sm-12" id="newPriestImageModal">
-                                                            @using (Html.BeginForm("UploadPriestImage", "Priest", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImgForm", name = "ImgForm", target = "UploadTarget" }))
+                                                            @using (Html.BeginForm("UploadPriestImage", "Priest", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImgFormPriest", name = "ImgFormPriest", target = "UploadPriestTarget" }))
                                                             {
                                                                 <input multiple="" name="inputFile" type="file" id="inputFile" />
                                                             }
-                                                            <iframe id="UploadTarget" name="UploadTarget" onload="UploadImage_Complete();" style="position: absolute; left: -999em; top: -999em;"></iframe>
+                                                            <iframe id="UploadPriestTarget" name="UploadPriestTarget" style="position: absolute; left: -999em; top: -999em;"></iframe>
                                                             <label class="text-danger" id="priestImageValidate" hidden=""></label>
                                                         </div>
                                                     </div>
@@ -188,16 +191,16 @@
                                     <div class="col-xs-12">
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="form-group align-right">
-                                                <!-- Modal Button Add New Priest -->
-                                                <button id="btnResetPriestModal" class="btn btn-primary" data-toggle="modal" onclick="clearModalPriest()">
-                                                    <i class="ace-icon fa fa-refresh"></i> Thiết lập lại
+                                                <!-- Modal Button Add View Parishioner info -->
+                                                <button id="btnViewParishionerModal" class="btn btn-primary" data-toggle="modal" onclick="showParishionerInfo()">
+                                                    <i class="ace-icon fa fa-refresh"></i> Thông tin cá nhân
                                                 </button>
                                                 <!-- Modal Button Add New Priest -->
-                                                <button id="btnCreatePriestModal" class="btn btn-primary" data-toggle="modal" onclick="UploadImage()">
+                                                <button id="btnCreatePriestModal" class="btn btn-primary" data-toggle="modal" onclick="UploadPriestImage()">
                                                     <i class="ace-icon fa fa-save"></i> Lưu
                                                 </button>
                                                 <!-- Modal Button Update Priest -->
-                                                <button id="btnUpdatePriestModal" class="btn btn-primary" data-toggle="modal" onclick="UploadImage()">
+                                                <button id="btnUpdatePriestModal" class="btn btn-primary" data-toggle="modal" onclick="UploadPriestImage()">
                                                     <i class="ace-icon fa fa-save"></i> Cập Nhật
                                                 </button>
                                                 <!-- Modal Button Close Modal Priest -->
@@ -221,10 +224,11 @@
 </div>
 <!-- End Popup Priest Modal -->
 <!-- Modal -->
-<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="background-color: rgba(0,0,0,0.9);position: fixed;padding-top: 100px;">
+<div class="modal fade" id="imagePriestModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="background-color: rgba(0,0,0,0.9);position: fixed;padding-top: 100px;">
     <img id="imgPriestImage" src="" style="margin:auto; margin-left:40%;margin-right:40%">
-    <div id="ImageName" style="margin:auto; margin-left:40%;width:300px; text-align:center;color: #ccc; padding: 10px 0; height: 150px;"></div>
+    <div id="ImageNamePriest" style="margin:auto; margin-left:40%;width:300px; text-align:center;color: #ccc; padding: 10px 0; height: 150px;"></div>
 </div><!-- /.modal -->
+@Html.Partial("_ParishionerInformation")
 <!-- Khoan add start -->
 <style>
     .ui-autocomplete {
@@ -244,15 +248,8 @@
     //    });
     //}
     //Upload Images
-    function UploadImage() {
-        if (!checkValidate()) {
-            return;
-        }
-        $("#ImgForm").submit();
-    }
-
-    function UploadImage_Complete() {
-        var url = $("#UploadTarget").contents().find('body').html();
+    function UploadImagePriestImage_Complete() {
+        var url = $("#UploadPriestTarget").contents().find('body').html();
         if (url.substring(0, 4) == "<pre") {
             url = "";
         }
@@ -263,6 +260,28 @@
             updatePriest(url);
         }
     }
+    function UploadPriestImage() {
+        if (!checkValidate()) {
+            return;
+        }
+        $("#ImgFormPriest").submit();
+    }
+    function showParishionerInfo() {
+        var id = $("#txtParishionerId").val();
+        loadFullParishionerInfo(id);
+        $("#parishionerInformationModal").on("hidden.bs.modal", function () {
+            //$(".modal-backdrop.fade.in").hide();
+            //refeshTable();
+            fillPriestModalInfo($("#txtIdModal").val());
+        });
+        //$("#PriestModal").hide();
+        
+        $("#parishionerInformationModal").modal('show');
+    }
+    $("#PriestModal").on('show.bs.modal', function () {
+        
+    });;
+    
     jQuery(function ($) {
         $('#inputFile').ace_file_input({
             style: 'well',
@@ -369,14 +388,13 @@
 
     //Button Create Priest Event
     $("#btnCreatePriest").click(function () {
-        '<%Session["ImageName"] = "";%>';
-
         $("#PriestModalTitle").html("Thêm mới linh mục");
         $("#ParishionerCodeModal").hide();
         $("#priestImageModal").hide();
         $("#btnCreatePriestModal").show();
         $("#btnResetPriestModal").show();
         $("#btnUpdatePriestModal").hide();
+        $("#btnViewParishionerModal").hide();
         $("#PriestModal").modal('show');
     });
 
@@ -575,9 +593,14 @@
 
     //Fuction Load Priest By Id to Update
     function LoadPriestByPriestId(id) {
+        $("#btnViewParishionerModal").show();
         $("#ParishionerCodeModal").show();
         $("#priestImageModal").show();
         $("#newImageModal").show();
+        fillPriestModalInfo(id);
+    }
+
+    function fillPriestModalInfo(id) {
         $.ajax({
             url: "/Priest/LoadPriestById",
             type: "POST",
@@ -588,7 +611,7 @@
                 $("#txtParishionerCodeModal").val(item.Code);
                 $("#txtChristianNameModal").val(item.ChristianName);
                 $("#txtFullNameModal").val(item.Name);
-                document.getElementById("ImageName").innerHTML = item.Name;
+                document.getElementById("ImageNamePriest").innerHTML = item.Name;
                 $('#txtFullNameModal').autocomplete("option", "disabled", true);
                 $("#txtBirthDateModal").val(item.BirthDate);
                 $("#txtPhoneModal").val(item.Phone);
@@ -703,7 +726,8 @@
 
     //Function refesh Table
     function refeshTable() {
-        $("#priestTable").dataTable()._fnAjaxUpdate();
+        //$("#priestTable").dataTable()._fnAjaxUpdate();
+        updateTableContent("priestTable");
     }
 
     //Function Clear Modal Priest
@@ -757,8 +781,10 @@
             showMessage("Vui lòng chọn ít nhất một giáo dân để thực hiện in chứng nhận", -1);
         }
     }
-
     $('img').on('click', function () {
-        $('#imageModal').modal('show');
+        $('#' + this.id.replace("Thumbnail", "Modal")).modal('show');
+    });
+    $("#UploadPriestTarget").on("load", function () {
+        UploadImagePriestImage_Complete();
     });
 </script>

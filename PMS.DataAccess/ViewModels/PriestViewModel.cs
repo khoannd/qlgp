@@ -14,7 +14,7 @@ namespace PMS.DataAccess.ViewModels
         public string BirthDate { get; set; }
         public int DioceseId { get; set; }
         public string Phone { get; set; }
-        public int ParishionerId { get; set; }
+        public int? ParishionerId { get; set; }
         public string Code { get; set; }
         public string ImageURL { get; set; }
         public string ThumbnailURL { get; set; }

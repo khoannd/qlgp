@@ -36,6 +36,12 @@ namespace PMS.DataAccess.Models
     partial void InsertVocationSeminaryYear(VocationSeminaryYear instance);
     partial void UpdateVocationSeminaryYear(VocationSeminaryYear instance);
     partial void DeleteVocationSeminaryYear(VocationSeminaryYear instance);
+    partial void InsertBanHanhGiao(BanHanhGiao instance);
+    partial void UpdateBanHanhGiao(BanHanhGiao instance);
+    partial void DeleteBanHanhGiao(BanHanhGiao instance);
+    partial void InsertBanHanhGiaoMember(BanHanhGiaoMember instance);
+    partial void UpdateBanHanhGiaoMember(BanHanhGiaoMember instance);
+    partial void DeleteBanHanhGiaoMember(BanHanhGiaoMember instance);
     partial void InsertChristianSuggestion(ChristianSuggestion instance);
     partial void UpdateChristianSuggestion(ChristianSuggestion instance);
     partial void DeleteChristianSuggestion(ChristianSuggestion instance);
@@ -234,6 +240,22 @@ namespace PMS.DataAccess.Models
 			get
 			{
 				return this.GetTable<VocationSeminaryYear>();
+			}
+		}
+		
+		public System.Data.Linq.Table<BanHanhGiao> BanHanhGiaos
+		{
+			get
+			{
+				return this.GetTable<BanHanhGiao>();
+			}
+		}
+		
+		public System.Data.Linq.Table<BanHanhGiaoMember> BanHanhGiaoMembers
+		{
+			get
+			{
+				return this.GetTable<BanHanhGiaoMember>();
 			}
 		}
 		
@@ -1298,6 +1320,274 @@ namespace PMS.DataAccess.Models
 						this._VocationId = default(int);
 					}
 					this.SendPropertyChanged("Vocation");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.BanHanhGiao")]
+	public partial class BanHanhGiao : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private string _Name;
+		
+		private System.Nullable<System.DateTime> _FromDate;
+		
+		private System.Nullable<System.DateTime> _ToDate;
+		
+		private int _ParishId;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnFromDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnFromDateChanged();
+    partial void OnToDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnToDateChanged();
+    partial void OnParishIdChanging(int value);
+    partial void OnParishIdChanged();
+    #endregion
+		
+		public BanHanhGiao()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FromDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> FromDate
+		{
+			get
+			{
+				return this._FromDate;
+			}
+			set
+			{
+				if ((this._FromDate != value))
+				{
+					this.OnFromDateChanging(value);
+					this.SendPropertyChanging();
+					this._FromDate = value;
+					this.SendPropertyChanged("FromDate");
+					this.OnFromDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ToDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> ToDate
+		{
+			get
+			{
+				return this._ToDate;
+			}
+			set
+			{
+				if ((this._ToDate != value))
+				{
+					this.OnToDateChanging(value);
+					this.SendPropertyChanging();
+					this._ToDate = value;
+					this.SendPropertyChanged("ToDate");
+					this.OnToDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int NOT NULL")]
+		public int ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.BanHanhGiaoMember")]
+	public partial class BanHanhGiaoMember : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _BanHanhGiaoId;
+		
+		private int _ParishionerId;
+		
+		private System.Nullable<int> _RoleId;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnBanHanhGiaoIdChanging(int value);
+    partial void OnBanHanhGiaoIdChanged();
+    partial void OnParishionerIdChanging(int value);
+    partial void OnParishionerIdChanged();
+    partial void OnRoleIdChanging(System.Nullable<int> value);
+    partial void OnRoleIdChanged();
+    #endregion
+		
+		public BanHanhGiaoMember()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BanHanhGiaoId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int BanHanhGiaoId
+		{
+			get
+			{
+				return this._BanHanhGiaoId;
+			}
+			set
+			{
+				if ((this._BanHanhGiaoId != value))
+				{
+					this.OnBanHanhGiaoIdChanging(value);
+					this.SendPropertyChanging();
+					this._BanHanhGiaoId = value;
+					this.SendPropertyChanged("BanHanhGiaoId");
+					this.OnBanHanhGiaoIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishionerId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ParishionerId
+		{
+			get
+			{
+				return this._ParishionerId;
+			}
+			set
+			{
+				if ((this._ParishionerId != value))
+				{
+					this.OnParishionerIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishionerId = value;
+					this.SendPropertyChanged("ParishionerId");
+					this.OnParishionerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RoleId", DbType="Int")]
+		public System.Nullable<int> RoleId
+		{
+			get
+			{
+				return this._RoleId;
+			}
+			set
+			{
+				if ((this._RoleId != value))
+				{
+					this.OnRoleIdChanging(value);
+					this.SendPropertyChanging();
+					this._RoleId = value;
+					this.SendPropertyChanged("RoleId");
+					this.OnRoleIdChanged();
 				}
 			}
 		}

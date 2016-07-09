@@ -229,5 +229,10 @@ namespace PMS.BusinessLogic
         {
             return _priestData.GetPriestAndParishionerInfoByPriestId(id);
         }
+
+        public IEnumerable<Priest> GetPriestsByName(int dioceseId, string name)
+        {
+            return _priestData.GetPriestsByName(dioceseId, name);
+        }
     }
 }

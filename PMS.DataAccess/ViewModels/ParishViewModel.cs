@@ -19,8 +19,9 @@ namespace PMS.DataAccess.ViewModels
         public string Email { get; set; }
         public string ImageUrl { get; set; }
         public int VicariateId { get; set; }
-
+        public int DioceseId { get; set; }
         public string VicariateName { get; set; }
+        public int? PriestId { get; set; }
         public string Priest { get; set; }
         public string Patron { get; set; }
         public string PatronDate { get; set; }

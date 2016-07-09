@@ -41,6 +41,32 @@ namespace PMS.Web.Controllers
             return View();
         }
 
+        public ActionResult LoadDioceses()
+        {
+            List<Diocese> dioceses = _dioceseBusiness.GetAllDioceses();
+
+            List<DioceseViewModel> result = new List<DioceseViewModel>();
+            foreach (var item in dioceses)
+            {
+                DioceseViewModel model = new DioceseViewModel();
+                model.Id = item.Id;
+                model.Name = item.Name;
+                model.Church = item.Church;
+                model.Phone = item.Phone;
+                model.ImageUrl = item.ImageUrl;
+                model.Bishop = item.Bishop;
+                model.Code = item.Code;
+                model.Email = item.Email;
+                model.Website = item.Website;
+                result.Add(model);
+            }
+
+            return Json(new
+            {
+                result = result
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult LoadDioceseDatatables(jQueryDataTableParamModel param)
         {
             int totalRecords = 0;

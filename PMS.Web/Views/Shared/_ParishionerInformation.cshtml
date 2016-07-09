@@ -30,27 +30,7 @@
     }
 }
 <script>
-    //Upload Images
-    function UploadImage() {
-        if (!checkValidParishionerInformation()) {
-            return;
-        }
-        $("#ImgForm").submit();
-    }
-
-    function UploadImage_Complete() {
-        var url = $("#UploadTarget").contents().find('body').html();
-        if (url.substring(0, 4) == "<pre") {
-            url = "";
-        }
-
-        if ($("#btnUpdateParishionerInformation").css('display') == 'none') {
-            addParishionerInformation(url);
-        }
-        if ($("#btnAddParishionerInformation").css('display') == 'none') {
-            updateParishionerInformation(url);
-        }
-    }
+    
 </script>
 <div id="parishionerInformationModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -120,7 +100,7 @@
                                                                     <option value="0">Vui lòng chọn</option>
                                                                     @foreach (var item in ((List<Diocese>)ViewBag.Dioceses))
                                                                     {
-                                                                        <option value="@item.Id">@item.Name</option>
+                                                                        <option value="@item.Id" @(item.Id == (int)Session["DioceseId"] ? " selected" :"")>@item.Name</option>
                                                                     }
 
                                                                 </select>
@@ -135,7 +115,7 @@
                                                                     <option value="0">Vui lòng chọn</option>
                                                                     @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
                                                                     {
-                                                                        <option value="@item.Id" dioceseId="@item.DioceseId">@item.Name</option>
+                                                                        <option value="@item.Id" dioceseId="@item.DioceseId" @(item.Id == (int)Session["VicariateId"] ? " selected" :"")>@item.Name</option>
                                                                     }
 
                                                                 </select>
@@ -150,7 +130,7 @@
                                                                     <option value="0">Vui lòng chọn</option>
                                                                     @foreach (var item in ((List<Parish>)ViewBag.Parishes))
                                                                     {
-                                                                        <option value="@item.Id" vicariateId="@item.VicariateId" @if (item.Id.ToString() == Session["ParishId"].ToString()) { @Html.Raw("selected") }>@item.Name</option>
+                                                                        <option value="@item.Id" vicariateId="@item.VicariateId" @(item.Id == (int)Session["ParishId"] ? " selected" :"")>@item.Name</option>
                                                                     }
 
                                                                 </select>
@@ -176,12 +156,12 @@
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right">
+                                                            <label class="col-sm-4 control-label no-padding-right normal-name">
                                                                 Tên thánh
                                                             </label>
 
                                                             <div class="col-sm-8">
-                                                                <input id="txtChristianName" type="text" class="form-control christian">
+                                                                <input id="txtChristianName" type="text" class="form-control christian normal-name">
                                                             </div>
                                                         </div>
 
@@ -191,7 +171,7 @@
                                                             </label>
 
                                                             <div class="col-sm-8">
-                                                                <input type="text" id="txtParishionerName" class="form-control">
+                                                                <input type="text" id="txtParishionerName" class="form-control normal-name">
                                                                 <label id="lbParishionerNameError" class="text-danger" hidden=""></label>
                                                             </div>
                                                         </div>
@@ -247,7 +227,7 @@
                                                             <label class="col-sm-4 control-label no-padding-right"> Nơi sinh </label>
 
                                                             <div class="col-sm-8">
-                                                                <input id="txtBirthPlace" type="text" class="form-control place">
+                                                                <input id="txtBirthPlace" type="text" class="form-control place normal-name">
                                                             </div>
                                                         </div>
 
@@ -256,7 +236,7 @@
 
                                                             <div class="col-sm-8">
                                                                 <div class="input-group">
-                                                                    <input type="text" id="txtFatherName" class="form-control maleParishioner">
+                                                                    <input type="text" id="txtFatherName" class="form-control maleParishioner normal-name">
                                                                     <span class="input-group-btn">
                                                                         <button id="btnMale" class="btn btn-info btn-sm">
                                                                             <i class="ace-icon fa fa-search"></i>
@@ -272,7 +252,7 @@
 
                                                             <div class="col-sm-8">
                                                                 <div class="input-group">
-                                                                    <input type="text" id="txtMotherName" class="form-control femaleParishioner">
+                                                                    <input type="text" id="txtMotherName" class="form-control femaleParishioner normal-name">
                                                                     <span class="input-group-btn">
                                                                         <button id="btnFemale" class="btn btn-info btn-sm">
                                                                             <i class="ace-icon fa fa-search"></i>
@@ -297,11 +277,11 @@
                                                                                     <img class="" id="imgParishionerThumbnail" src="" />
                                                                                 </div>
                                                                                 <div class="col-sm-12" id="newParishionerImageModal">
-                                                                                    @using (Html.BeginForm("UploadParishionerImage", "Parishioner", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImgForm", name = "ImgForm", target = "UploadTarget" }))
+                                                                                    @using (Html.BeginForm("UploadParishionerImage", "Parishioner", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImgFormParishioner", name = "ImgFormParishioner", target = "UploadTarget" }))
                                                                                     {
                                                                                         <input multiple="" name="inputFile" type="file" id="inputFile" />
                                                                                     }
-                                                                                    <iframe id="UploadTarget" name="UploadTarget" onload="UploadImage_Complete();" style="position: absolute; left: -999em; top: -999em;"></iframe>
+                                                                                    <iframe id="UploadTarget" name="UploadTarget" style="position: absolute; left: -999em; top: -999em;"></iframe>
                                                                                     <label class="text-danger" id="parishionerImageValidate" hidden=""></label>
                                                                                 </div>
                                                                             </div>
@@ -350,7 +330,7 @@
                                                             <label class="col-sm-4 control-label no-padding-right"> Giáo xứ </label>
 
                                                             <div class="col-sm-8">
-                                                                <input type="text" id="txtDomicilePlace" class="form-control parishName">
+                                                                <input type="text" id="txtDomicilePlace" class="form-control parishName normal-name">
                                                             </div>
 
                                                         </div>
@@ -602,13 +582,13 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Người đỡ đầu </label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" id="txtBaptismPatron" class="form-control priest">
+                                                                <input type="text" id="txtBaptismPatron" class="form-control normal-name">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Người ban bí tích  </label>
+                                                            <label class="col-sm-4 control-label no-padding-right"> Người ban bí tích</label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" id="txtBaptismGiver" class="form-control priest">
+                                                                <input type="text" id="txtBaptismGiver" class="form-control priest normal-name">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -651,7 +631,7 @@
                                                             <label class="col-sm-4 control-label no-padding-right"> Nơi xưng tội rước lễ </label>
 
                                                             <div class="col-sm-8">
-                                                                <input type="text" id="txtHolyCommunionPlace" class="form-control">
+                                                                <input type="text" id="txtHolyCommunionPlace" class="form-control normal-name">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -659,7 +639,7 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Người ban bí tích  </label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" id="txtHolyCommunionGiver" class="form-control priest">
+                                                                <input type="text" id="txtHolyCommunionGiver" class="form-control priest normal-name">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -709,13 +689,13 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Người đỡ đầu </label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" id="txtConfirmationPatron" class="form-control priest">
+                                                                <input type="text" id="txtConfirmationPatron" class="form-control normal-name">
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Người ban bí tích  </label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" id="txtConfirmationGiver" class="form-control priest">
+                                                                <input type="text" id="txtConfirmationGiver" class="form-control priest normal-name">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -890,7 +870,7 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Dòng tu/chủng viện </label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" id="txtSeminary" class="form-control">
+                                                                <input type="text" id="txtSeminary" class="form-control normal-name">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -994,7 +974,7 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Nơi phục vụ </label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" id="txtServedPlace" class="form-control">
+                                                                <input type="text" id="txtServedPlace" class="form-control normal-name">
                                                             </div>
                                                         </div>
 
@@ -1114,15 +1094,37 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="background-color: rgba(0,0,0,0.9);position: fixed;padding-top: 100px;">
+<div class="modal fade" id="imageParishionerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="background-color: rgba(0,0,0,0.9);position: fixed;padding-top: 100px;">
     <img id="imgParishionerImage" src="" style="margin:auto; margin-left:40%;margin-right:40%">
-    <div id="ImageName" style="margin:auto; margin-left:40%;width:300px; text-align:center;color: #ccc; padding: 10px 0; height: 150px;">abc</div>
+    <div id="ImageNameParishioner" style="margin:auto; margin-left:40%;width:300px; text-align:center;color: #ccc; padding: 10px 0; height: 150px;">abc</div>
 </div><!-- /.modal -->
-
-@Html.Partial("_CreateParishionerModal")
-
+@Html.Partial("_LookupParishionerModal")
 <script>
+    //Upload Images
+    function UploadParishionerImage() {
+        if (!checkValidParishionerInformation()) {
+            return;
+        }
+        $("#ImgFormParishioner").submit();
+    }
 
+    function UploadParishionerImage_Complete() {
+        var url = $("#UploadTarget").contents().find('body').html();
+        if (url.substring(0, 4) == "<pre") {
+            url = "";
+        }
+        if ($("#btnUpdateParishionerInformation").css('display') == 'none') {
+            addParishionerInformation(url);
+        }
+        if ($("#btnAddParishionerInformation").css('display') == 'none') {
+            updateParishionerInformation(url);
+        }
+    }
+    var onSaveParishionerCallback = null;
+    function openParishionerFullModal(gender, okCallback) {
+        onSaveParishionerCallback = okCallback;
+        $("#parishionerInformationModal").modal('show');
+    }
     jQuery(function ($) {
         $('#inputFile').ace_file_input({
             style: 'well',
@@ -1203,6 +1205,7 @@
 
     //-----------------
     $("#btnUpdateParishionerInformation").hide();
+    var isLoadedcbbParish = false;
     @if (!accountBusiness.IsDioceseRole(roleId))
     {
         @:$("#cbbParishionerParish").val(@Html.Raw(Session["ParishId"].ToString()));
@@ -1213,8 +1216,8 @@
         if(ViewBag.Dioceses != null)
         {
         @:loadParishionerDiocese();
-            @:loadParishionerVicariate();
-            }
+        @:loadParishionerVicariate();
+        }
         @:loadParishionerParish();
         }
     var currentCommunityId = '';
@@ -1637,6 +1640,7 @@
                         //    $("#isLoadedParishionerInformationModal").val(0);
                         document.getElementById("parishionerInformationTitle").scrollIntoView();
                     } else {
+                        if(onSaveParishionerCallback) onSaveParishionerCallback(id);
                         $("#parishionerInformationModal").modal('hide');
                     }
 
@@ -1670,8 +1674,42 @@
                 checkParishionerCodeGeneration();
             }
             $("#isLoadedParishionerInformationModal").val(1);
+
+            @if (accountBusiness.IsDioceseRole((int)Session["RoleId"]))
+            {
+            <text>
+            $("#cbbParishionerVicariate option").show();
+            $("#cbbParishionerParish option").show();
+            //currentCommunityId = $("#cbbCommunity").val();
+            if ($("#cbbDiocese").length !== 0)
+                $("#cbbParishionerDiocese").val($("#cbbDiocese").val());
+            else
+                $("#cbbParishionerDiocese").val(@Session["DioceseId"]);
+
+            if ($("#cbbVicariate").length !== 0)
+                $("#cbbParishionerVicariate").val($("#cbbVicariate").val());
+            else
+                $("#cbbParishionerVicariate").val(@Session["VicariateId"]);
+
+            if ($("#cbbParish").length !== 0)
+                $("#cbbParishionerParish").val($("#cbbParish").val());
+            else
+                $("#cbbParishionerParish").val(@Session["ParishId"]);
+            </text>
+            }
+            if (!currentCommunityId && $("#cbbCommunity").length !== 0 && ($("#cbbParishionerCommunity").val() == null || $("#cbbParishionerCommunity").val() == "0")) {
+                var parishDivision = $("#cbbParishDivision").val();
+                if (!parishDivision) {
+                    currentCommunityId = $("#cbbCommunity").val();
+                } else {
+                    currentCommunityId = $("#cbbParishionerCommunity").val();
+                }
+            }
             loadParishionerCommunity();
         }
+        $("#homeLink").tab('show');
+        if ($("#txtHiddenParishionerId").val() == "0")
+            $("#ParishionerThumbnail").hide();
 
     });
 
@@ -1679,7 +1717,8 @@
         clearMatrimonyTable();
         refreshMatrimony();
         refreshMainParishionerModal();
-        $("#isLoadedParishionerInformationModal").val(0);
+        onSaveParishionerCallback = null;
+        //$("#isLoadedParishionerInformationModal").val(0);
 
         //Check to make scroll
         var tbl = $("#tblFamilyMember");
@@ -1724,9 +1763,8 @@
         $("#cbGender").val(-1);
         $("#txtBirthDate").val("");
         $("#txtBirthPlace").val("");
-
-        $("#cbbParishionerCommunity").val($("#cbbCommunity").val());
-        //$("#cbbParishionerCommunity").change();
+        @*if ($("#cbbCommunity").length !== 0 && $("#isLoadedParishionerInformationModal").val() == 0)
+            $("#cbbParishionerCommunity").val($("#cbbCommunity").val());
 
         @if(accountBusiness.IsDioceseRole(roleId))
         {
@@ -1734,11 +1772,14 @@
         $("#cbbParishionerVicariate option").show();
         $("#cbbParishionerParish option").show();
         //currentCommunityId = $("#cbbCommunity").val();
-        $("#cbbParishionerDiocese").val($("#cbbDiocese").val());
-        $("#cbbParishionerVicariate").val($("#cbbVicariate").val());
-        $("#cbbParishionerParish").val($("#cbbParish").val());
+        if ($("#cbbParishionerDiocese").length !== 0)
+            $("#cbbParishionerDiocese").val($("#cbbDiocese").val());
+        if ($("#cbbParishionerVicariate").length !== 0)
+            $("#cbbParishionerVicariate").val($("#cbbVicariate").val());
+        if ($("#cbbParishionerParish").length !== 0)
+            $("#cbbParishionerParish").val($("#cbbParish").val());
         </text>
-        }
+        }*@
 
         currentCommunityId = "";
         $("#cbIsCounted").prop("checked", false);
@@ -1911,7 +1952,7 @@
                                     if ($("#cbbDomicileStatus").val() == 2) {
                                         checkTransferParish();
                                     } else {
-                                        UploadImage();
+                                        UploadParishionerImage();
                                     }
                                     setTimeout(function () {
                                         makeScrollForModal();
@@ -1947,7 +1988,7 @@
                     if ($("#cbbDomicileStatus").val() == 2) {
                         checkTransferParish();
                     } else {
-                        UploadImage();
+                        UploadParishionerImage();
                     }
 
                 }
@@ -1957,7 +1998,7 @@
                 if ($("#cbbDomicileStatus").val() == 2) {
                     checkTransferParish();
                 } else {
-                    UploadImage();
+                    UploadParishionerImage();
                 }
 
             }
@@ -1966,7 +2007,7 @@
             if ($("#cbbDomicileStatus").val() == 2) {
                 checkTransferParish();
             } else {
-                UploadImage();
+                UploadParishionerImage();
             }
         }
 
@@ -1991,7 +2032,7 @@
                         label: " Có",
                         className: "ace-icon fa fa-check btn-info",
                         callback: function () {
-                            UploadImage();
+                            UploadParishionerImage();
                             setTimeout(function () {
                                 makeScrollForModal();
                             }, 500);
@@ -2035,7 +2076,7 @@
                         label: " Có",
                         className: "ace-icon fa fa-check btn-info",
                         callback: function () {
-                            UploadImage();
+                            UploadParishionerImage();
                             setTimeout(function () {
                                 makeScrollForModal();
                             }, 500);
@@ -2055,7 +2096,7 @@
             });
 
         } else {
-            UploadImage();
+            UploadParishionerImage();
         }
 
     }
@@ -2068,6 +2109,7 @@
         startLoading();
         $.ajax({
             url: "/Parishioner/UpdateParishioner",
+            method: "POST",
             data: {
                 Id: $("#txtHiddenParishionerId").val(),
                 Code: $("#txtParishionerCode").val(),
@@ -2971,7 +3013,7 @@
                 var confirmation = data.confirmation;
                 var vocation = data.vocation;
 
-                document.getElementById("ImageName").innerHTML = parishioner.Name;
+                document.getElementById("ImageNameParishioner").innerHTML = parishioner.Name;
                 $("#imgParishionerImage").attr('src', parishionerViewModel.ImageURL);
                 if (parishionerViewModel.ImageURL == null) {
                     //$("#ParishionerThumbnail").hide();
@@ -3014,6 +3056,7 @@
                 currentCommunityId = data.communityId;
                 $("#cbbParishionerCommunity").val(data.communityId);
                 $("#cbbParishionerCommunity").change();
+                $("#cbbParishionerCommunity").val(data.communityId);
                 $("#cbIsCounted").prop("checked", !parishioner.IsCounted);
 
                 $("#txtFatherName").val(parishioner.FatherName);
@@ -3108,7 +3151,11 @@
     });
 
     $('img').on('click', function () {
-        $('#imageModal').modal('show');
+        $('#' + this.id.replace("Thumbnail", "Modal")).modal('show');
+    });
+
+    $("#UploadTarget").on("load", function () {
+        UploadParishionerImage_Complete();
     });
 
 </script>

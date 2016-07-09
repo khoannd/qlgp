@@ -129,6 +129,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="AuthorizationChecking.cs" />
     <Compile Include="Controllers\ApproveRequestController.cs" />
+    <Compile Include="Controllers\BanHanhGiaoController.cs" />
     <Compile Include="Controllers\ChangeCommunityController.cs" />
     <Compile Include="Controllers\ChangeParishController.cs" />
     <Compile Include="Controllers\ChartController.cs" />
@@ -457,6 +458,7 @@
     <Content Include="Views\Donation\Index.cshtml" />
     <Content Include="Views\Diocese\List.cshtml" />
     <Content Include="Views\RolePermission\Index.cshtml" />
+    <Content Include="Views\BanHanhGiao\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PMS.BusinessLogic\PMS.BusinessLogic.csproj">

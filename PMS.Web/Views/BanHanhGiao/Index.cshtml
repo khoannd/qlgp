@@ -1,0 +1,747 @@
+﻿@using PMS.DataAccess.Models;
+<link rel="stylesheet" href="/Content/assets/css/chosen.css" />
+<input type="hidden" id="vicariateId" />
+<div class="page-header">
+    <h1>Ban hành giáo</h1>
+</div>
+<div class="page-header">
+    <div class="row">
+        <div class="col-xs-3">
+            Giáo hạt
+            <select id="cbbVicariate" class="form-control">
+                <option value="0">Tất cả</option>
+                @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
+                {
+                    <option value="@item.Id" dioceseId="@Html.Raw(item.DioceseId)" @(item.DioceseId != (int)Session["DioceseId"] ? " hidden=''" : "") @if ((int)Session["VicariateId"] == item.Id) { @Html.Raw(" selected"); }>@item.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col-xs-3">
+            Giáo xứ
+            <select id="cbbParish" class="form-control">
+                <option value="0">Tất cả</option>
+                @foreach (var item in ((List<Parish>)ViewBag.Parishes))
+                {
+                    <option value="@item.Id" vicariateId="@Html.Raw(item.VicariateId)" @(item.VicariateId != (int)Session["VicariateId"] ? " hidden=''" : "")> @item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="space-4"></div>
+    <div class="col-xs-12">
+        <div class="col-sm-12">
+            <button id="btnCreateBanHanhGiao" class="btn btn-success" data-toggle="modal">
+                <i class="ace-icon fa fa-plus"></i> Thêm Ban hành giáo
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="col-xs-12">
+    <div class="space-8"></div>
+    <table id="banHanhGiaoTable" class="table table-hover">
+        <thead>
+            <tr>
+                <th style="width: 30px;">
+                    <label class="position-relative">
+                        <input type="checkbox" class="ace select-all" />
+                        <span class="lbl"></span>
+                    </label>
+                </th>
+                <th>Tên nhiệm Kỳ</th>
+                <th>Từ ngày</th>
+                <th>Đến ngày</th>
+                <th>Giáo xứ</th>
+				<th>Thao tác</th>
+            </tr>
+        </thead>
+
+        <tbody></tbody>
+    </table>
+</div>
+<!--BanHanhGiao Modal-->
+<div id="createBanHanhGiaoModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<input type="hidden" id="banHanhGiaoId" data-key="Id"/>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+         
+                        <h4 class="widget-title lighter" id="banHanhGiaoModalTitle"></h4>
+                        <div class="widget-toolbar no-border">
+                            <a href="#" onclick="$('#btnCloseBanHanhGiaoModal').click()">
+                                <i class="ace-icon fa fa-times"></i>
+                            </a>
+                        </div>
+
+                </div>
+                <div class="widget-body">
+					<div class="space-10"></div>
+					<div class="col-sm-offset-1 col-sm-10">
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Giáo xứ&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <select id="BanHanhGiaoParishIdModal" class="form-control" data-key="ParishId" >
+                                        <option value="0">Tất cả</option>
+                                        @foreach (var item in ((List<Parish>)ViewBag.Parishes))
+                                        {
+                                            <option value="@item.Id" vicariateId="@Html.Raw(item.VicariateId)"> @item.Name</option>
+                                        }
+                                    </select>
+                                    <label class="text-danger" id="lblBanHanhGiaoParishIdValidate" hidden=""></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Tên nhiệm kỳ&nbsp;(<span style="color: red">*</span>)</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="BanHanhGiaoNameModal" value="" class="form-control textbox" data-key="Name" maxlength="100"/>
+                                    <label class="text-danger" id="lblBanHanhGiaoNameValidate" hidden=""></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Từ ngày&nbsp;</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="BanHanhGiaoFromDateModal" value="" class="form-control datetime" data-key="FromDate"/>
+                                    <label class="text-danger" id="lblBanHanhGiaoFromDateValidate" hidden=""></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right">Đến ngày&nbsp;</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="BanHanhGiaoToDateModal" value="" class="form-control datetime" data-key="ToDate"/>
+                                    <label class="text-danger" id="lblBanHanhGiaoToDateValidate" hidden=""></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-10"></div>
+
+						<div id="divBanHanhGiaoMember" >
+							<input type="hidden" id="banHanhGiaoMemberId" data-key="ParishionerId"/>
+                            <div class="row col-xs-12">
+                                <div class="row col-md-12">
+                                    <h5 class="page-header" style="color: #4383b4">Danh sách Thành viên</h5>
+                                </div>
+                            </div> 
+                            <div class="space-10"></div>
+                            <div class="row col-xs-12">
+                                <div class="form-group">
+                                    <div class="col-sm-12">
+                                        <button id="btnAddBanHanhGiaoMember" class="btn btn-primary btn-sm" data-toggle="modal" onclick="selectBanHanhGiaoMember();">
+                                            <i class="ace-icon glyphicon glyphicon-search"></i> Chọn thành viên
+                                        </button>
+                                        <button id="btnAddNewBanHanhGiaoMember" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addNewBanHanhGiaoMember();">
+                                            <i class="ace-icon fa fa-plus"></i> Thêm mới
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>                            
+                            <div class="space-10"></div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped" id="tblBanHanhGiaoMember">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <label class="position-relative">
+                                                            <span class="lbl">STT</span>
+                                                        </label>
+                                                    </th>
+                                                    <th>Ông/Bà</th>
+                                                    <th>Tên Thành Viên</th>
+                                                    <th>Ngày Sinh</th>
+                                                    <th>Vai trò</th>
+                                                    <th>Thao tác</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="col-xs-12 col-sm-12">
+								<div class="align-right">
+									<div class="space-6"></div>
+									<button id="btnCreateBanHanhGiaoModal" class="btn btn-primary" data-toggle="modal">
+										<i class="ace-icon fa fa-save"></i> Lưu
+									</button>
+									<button id="btnUpdateBanHanhGiaoModal" class="btn btn-primary" data-toggle="modal">
+										<i class="ace-icon fa fa-save"></i> Cập Nhật
+									</button>
+									<button id="btnCloseBanHanhGiaoModal" class="btn btn-grey" data-toggle="modal">
+										<i class="ace-icon fa fa-times"></i> Đóng
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="space-6"></div>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>
+<!--End BanHanhGiao Modal-->
+
+@Html.Partial("_ParishionerInformation")
+<script>
+    $("#cbbVicariate").change(function () {
+        var vicariateId = $("#cbbVicariate").val();
+        $("#cbbVicariate").val(vicariateId);
+        $("#cbbParish option").show();
+        $("#cbbParish option[vicariateId!='" + vicariateId + "']").hide();
+        $("#cbbParish option[value='0']").show();
+        $("#cbbParish").val("0");
+    });
+    $("#cbbParish").change(function () {
+        var vicariateId = $("#cbbParish option:selected").attr('vicariateId');
+        $("#cbbVicariate").val(vicariateId);
+        updateTableContent("banHanhGiaoTable");
+    });
+    InitBanHanhGiaoDataTable();
+    function InitBanHanhGiaoDataTable() {
+
+        $('#banHanhGiaoTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "bRetrieve": true,
+            "bScrollCollapse": true,
+            "bAutoWidth": false,
+            "ajax": {
+                "url": "/BanHanhGiao/LoadBanHanhGiaoDatatables",
+                "data": function (d) {
+                    if ($('#cbbDiocese').length !== 0) d.dioceseId = $('#cbbDiocese').val();
+                    if ($('#cbbVicariate').length !== 0) d.vicariateId = $('#cbbVicariate').val();
+                    if ($('#cbbParish').length !== 0) d.ParishId = $('#cbbParish').val();
+                    d.columns = null;
+                }
+            },
+            "language": {
+                "sSearch": "Tên nhiệm kỳ",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "columns": [
+                { "data": "Id", "orderable" : false, "searchable": false, "render": function (data, type, full, meta) {
+                            var content = '<label class="position-relative">' +
+                                '<input type="checkbox" class="ace sItems" value="' + full.Id + '"/>' +
+                                '<span class="lbl"></span> </label>';
+                            return content;
+                      },
+                },
+                { "data": "Name" },
+                { "data": "FromDate", "render": function (data, type, full, meta) {
+                        return convertServerDate2VnDate(full.FromDate);
+                    } 
+                },
+                { "data": "ToDate", "render": function (data, type, full, meta) {
+                        return convertServerDate2VnDate(full.ToDate);
+                    } 
+                },
+                { "data": "ParishName" },
+                {
+                    "data": null, "searchable": false, "render": function (data, type, full, meta) {
+                            var content = '<button class="btn btn-minier btn-primary" onclick="loadBanHanhGiaoDataModal(' + full.Id + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                                '<button class="btn btn-minier btn-danger" onclick="deleteBanHanhGiaoConfirm(' + full.Id + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                            return content;
+                        },
+                }
+            ]
+        });
+
+    }
+
+    $("#btnCreateBanHanhGiao").click(function () {
+        $("#createBanHanhGiaoModal").modal('show');
+        $("#btnCreateBanHanhGiaoModal").show();
+        $("#btnUpdateBanHanhGiaoModal").hide();
+        $("#banHanhGiaoModalTitle").html("Thêm mới Ban hành giáo");
+        $("#banHanhGiaoId").val(0);
+
+    });
+	$("#btnCreateBanHanhGiaoModal").click(function () {
+		addBanHanhGiao();
+	});
+	$("#btnUpdateBanHanhGiaoModal").click(function () {
+		updateBanHanhGiao();
+	});
+
+    $("#createBanHanhGiaoModal").on('shown.bs.modal', function () {
+        //on dialog shown
+        if ($("#banHanhGiaoId").val() == "") {
+            $("#BanHanhGiaoParishIdModal").val($("#cbbParish").val());
+        }
+        
+        var isFocused = false;
+        $("#createBanHanhGiaoModal input, #createBanHanhGiaoModal select").each(function () {
+            if (isFocused) return;
+            if ($(this).is(":visible")) {
+                $(this).focus();
+                isFocused = true;
+                return;
+            }
+        });
+        InitBanHanhGiaoMemberDataTable();
+    });
+
+	$("#createBanHanhGiaoModal").on('hidden.bs.modal', function () {
+	    clearBanHanhGiaoForm();
+	    refeshTable();
+    });
+
+    $("#btnCloseBanHanhGiaoModal").click(function () {
+        $("#createBanHanhGiaoModal").modal('hide');
+    });
+
+    function editBanHanhGiao() {
+        $("#createBanHanhGiaoModal").modal('show');
+        $("#btnUpdateBanHanhGiaoModal").show();
+        $("#btnCreateBanHanhGiaoModal").hide();
+    }
+
+    function refeshTable() {
+        updateTableContent("banHanhGiaoTable");
+    }
+
+    function checkValidate() {
+        var isError = false;
+        if ($("#BanHanhGiaoParishIdModal").val() == "0" || !$("#BanHanhGiaoParishIdModal").val()) {
+            $("#lblBanHanhGiaoParishIdValidate").html("Hãy chọn giáo xứ.");
+            $("#lblBanHanhGiaoParishIdValidate").show();
+            isError = true;
+        } else {
+            $("#lblBanHanhGiaoParishIdValidate").html("");
+            $("#lblBanHanhGiaoParishIdValidate").hide();
+        }
+        var name = $("#BanHanhGiaoNameModal").val();
+        if (!name) {
+            $("#lblBanHanhGiaoNameValidate").html("Tên nhiệm kỳ ban hành giáo không thể để trống.");
+            $("#lblBanHanhGiaoNameValidate").show();
+            isError = true;
+        } else {
+            $("#lblBanHanhGiaoNameValidate").html("");
+            $("#lblBanHanhGiaoNameValidate").hide();
+        }
+        var fromDate = $("#BanHanhGiaoFromDateModal").val();
+        var toDate = $("#BanHanhGiaoToDateModal").val();
+        if(dates.compare(fromDate, toDate) > 0) {
+            $("#lblBanHanhGiaoFromDateValidate").html("Từ ngày không thể sau đến ngày");
+            $("#lblBanHanhGiaoFromDateValidate").show();
+            isError = true;
+        }
+        else {
+            $("#lblBanHanhGiaoFromDateValidate").html("");
+            $("#lblBanHanhGiaoFromDateValidate").hide();
+        }
+		// add more input validation
+
+        if (!validateUnique()) {
+            isError = true;
+        }
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateUnique() {
+        var banHanhGiaoId = $("#banHanhGiaoId").val();
+        var name = $("#BanHanhGiaoNameModal").val();
+        var result = true;
+
+        $.ajax({
+            url: "/BanHanhGiao/CheckUniqueBanHanhGiao",
+            type: "POST",
+            data: {
+                banHanhGiaoId: banHanhGiaoId,
+                name: name
+            },
+            async: false,
+            success: function (data) {
+                if (data.result <= 0) {
+                    $("#lblBanHanhGiaoNameValidate").html("Tên Ban hành giáo đã tồn tại. Vui lòng nhập tên khác!");
+                    $("#lblBanHanhGiaoNameValidate").show();
+                    result = false;
+                } else {
+                    if (!name) {
+                        return true;
+                    }
+                    $("#lblBanHanhGiaoNameValidate").html("");
+                    $("#lblBanHanhGiaoNameValidate").hide();
+                    result = true;
+                }
+
+            }
+        });
+
+        return result;
+    }
+
+    function clearBanHanhGiaoForm() {
+		$("#createBanHanhGiaoModal input, #createBanHanhGiaoModal select").each(function () {
+            var key = $(this).attr("id");
+            if (key) {
+                $(this).val("");
+                var key2 = key.replace("Modal", "Validate").replace("", "lbl");
+                if ($("#" + key2).length !== 0) {
+                    $("#" + key2).html("");
+                    $("#" + key2).hide();
+                }
+            }
+        });
+		$("#tblBanHanhGiaoMember").dataTable().fnDestroy();
+		$("#tblBanHanhGiaoMember tbody").html("");
+    }
+
+    function addBanHanhGiao() {
+        if (!checkValidate()) {
+            return;
+        }
+        var data = {};
+        $("#createBanHanhGiaoModal input, #createBanHanhGiaoModal select").each(function() {
+            var key  =$(this).attr("data-key");
+            if(key) {
+                if(key == "FromDate" || key == "ToDate") {
+                    data[key] = convertVnDate2EnDate($(this).val());
+                }
+                else {
+                    data[key] = $(this).val();
+                }
+		    }
+		});
+        startLoading();
+        $.ajax({
+            url: "/BanHanhGiao/AddBanHanhGiao",
+            type: "POST",
+            data: data,
+            async: false,
+            success: function (data) {
+                if (data <= 0) {
+                    showMessage("Thêm Ban hành giáo thất bại", 0);
+                } else {
+                    showMessage("Thêm Ban hành giáo thành công", 1);
+                    $("#banHanhGiaoId").val(data);
+                    $("#btnCreateBanHanhGiaoModal").hide();
+                    $("#btnUpdateBanHanhGiaoModal").show();
+					$("#divBanHanhGiaoMember").show();
+                    updateTableContent("tblBanHanhGiaoMember");
+                    //refeshTable();
+					//$("#btnUpdateBanHanhGiaoModal").show();
+                    //$("#btnCreateBanHanhGiaoModal").hide();
+                }
+            },
+        });
+    }
+
+    function updateBanHanhGiao() {
+        if (!checkValidate()) {
+            return;
+        }
+        var data = {};
+		$("#createBanHanhGiaoModal input, #createBanHanhGiaoModal select").each(function() {
+			if($(this).attr("data-key")) data[$(this).attr("data-key")] = $(this).val();
+		});
+
+		childs = new Array();
+		$("#tblBanHanhGiaoMember >tbody >tr").each(function() {
+			var dataChild = {
+				"BanHanhGiaoId" : $("#banHanhGiaoId").val()
+			};
+			$(this).find("input, select").each(function() {
+				if($(this).attr("data-key")) dataChild[$(this).attr("data-key")] = $(this).val();
+			});
+			
+			childs.push(dataChild);
+		});
+		
+		data = JSON.stringify({ 'banHanhGiao': data, 'banHanhGiaoMembers': childs });
+
+        startLoading();
+        $.ajax({
+            url: "/BanHanhGiao/UpdateBanHanhGiao",
+            type: "POST",
+            data: data,
+			contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Cập nhật thất bại", 0);
+                } else {
+                    showMessage("Cập nhật thông tin Ban hành giáo thành công", 1);
+                    $("#createBanHanhGiaoModal").modal('hide');
+                    refeshTable();
+                }
+            },
+        });
+    }
+
+    function loadBanHanhGiaoDataModal(id) {
+        $("#banHanhGiaoId").val(id);
+        $.ajax({
+            url: "/BanHanhGiao/LoadBanHanhGiaoById",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                var item = data.result;
+				$(item).each(function (k, v) {
+				    for (var k1 in v) {
+				        if(k1 == "FromDate" || k1 == "ToDate") {
+				            $("#createBanHanhGiaoModal [data-key='" + k1 + "']").val(convertServerDate2VnDate(v[k1]));
+				        }
+                        else if ($("#createBanHanhGiaoModal [data-key='" + k1 + "']").length !== 0) {
+                            $("#createBanHanhGiaoModal [data-key='" + k1 + "']").val(v[k1]);
+                        }
+                    }
+                });
+
+                $("#banHanhGiaoModalTitle").html("Chỉnh sửa Ban hành giáo");
+
+                $("#createBanHanhGiaoModal").modal('show');
+                $("#btnUpdateBanHanhGiaoModal").show();
+                $("#btnCreateBanHanhGiaoModal").hide();
+            },
+        });
+		InitBanHanhGiaoMemberDataTable();
+    }
+    function deleteBanHanhGiaoConfirm(id) {
+        showConfirm("Bạn có chắc muốn xóa Ban hành giáo này không?",
+        function () { // OK
+            deleteBanHanhGiao(id);
+            refeshTable();
+        });
+    }
+    function deleteBanHanhGiao(id) {
+        startLoading();
+        $.ajax({
+            url: "/BanHanhGiao/DeleteBanHanhGiao",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                if (data.result == -1) {
+                    showAlert("Có lỗi khi xóa dữ liệu. Xin vui lòng thử lại hoặc liên hệ ban quản trị phần mềm!");
+                    result = false;
+                }
+                else if (data.result == 0) {
+                    showMessage("Xóa thất bại. Vui lòng xóa hết thông tin liên quan trong Ban hành giáo trước", 0);
+                } else {
+                    showMessage("Xóa Ban hành giáo thành công", 1);
+                    refeshTable();
+                }
+
+            },
+        });
+    }
+    
+	// For child
+    function selectBanHanhGiaoMember() {
+        if(!checkValidate()) {
+            return false;
+        }
+	    openLookupParishionerModal(function (button, selectedId) {
+	        if (selectedId) {
+	            if(button) $(button).attr('disabled', true); 
+
+	            $("#banHanhGiaoMemberId").val(selectedId);
+	            return AddBanHanhGiaoMember(selectedId);
+	        }
+		}, false);
+	}
+    function addNewBanHanhGiaoMember() {
+        if(!checkValidate()) {
+            return false;
+        }
+	    openParishionerFullModal(-1, function (selectedId) {
+	        $("#banHanhGiaoMemberId").val(selectedId);
+	        return AddBanHanhGiaoMember(selectedId);
+	    });
+	}
+	function EditBanHanhGiaoMember(id) {
+	    loadFullParishionerInfo(id);
+	    $("#parishionerInformationModal").modal('show');
+	}
+
+	function validateChildUnique(banHanhGiaoId, parishionerId) {
+	    var result = true;
+
+	    $.ajax({
+	        url: "/BanHanhGiao/CheckUniqueBanHanhGiaoMember",
+	        type: "POST",
+	        data: {
+	            banHanhGiaoId: banHanhGiaoId,
+	            parishionerId: parishionerId
+	        },
+	        async: false,
+	        success: function (data) {
+	            if (data.result == -1) {
+	                showAlert("Có lỗi khi kiểm tra dữ liệu. Xin vui lòng thử lại hoặc liên hệ ban quản trị phần mềm!");
+	                result = false;
+	            }
+	            else if (data.result == 0) {
+	                showAlert("Thành viên này đã có tên trong ban hành giáo đang xem. Vui lòng nhập tên khác!");
+	                result = false;
+	            } else {
+	                result = true;
+	            }
+	        }
+	    });
+
+	    return result;
+	}
+	function loadBanHanhGiaoMemberRoleDropDown(selectedId) {
+	    var content = '<select data-key="RoleId" class="position-relative"><option value="">--</option>';
+        @foreach(var role in (List<ValueSet>)ViewBag.BHGRoles)
+        {
+            @:content += '<option value="@Html.Raw(role.Code)" ' + (selectedId == @Html.Raw(role.Code) ? "selected" : "") + '>@Html.Raw(role.Definition)</option>';
+	    }
+	    return content;
+	}
+	function InitBanHanhGiaoMemberDataTable()
+	{
+	    var count = 0;
+		$('#tblBanHanhGiaoMember').DataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "bPaginate": false,
+            "bFilter": false,
+            "bInfo": false,
+			"bAutoWidth": false,
+            "ajax": {
+                "url": "/BanHanhGiao/LoadBanHanhGiaoMemberDataTable",
+                "data": function (d) {
+                    d.Id = $("#banHanhGiaoId").val();
+                    d.columns = null;
+                }
+            },
+            "language": {
+                "sZeroRecords": "Không có dữ liệu",
+                "sEmptyTable": "Không có dữ liệu",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": ""
+            },
+            "columns": [
+                { "data": "Id", "orderable" : false, "searchable": false, "render": function (data, type, full, meta) {
+                            count++;
+                            var content = '<label class="position-relative">' +
+								'<input type="hidden" value="' + full.ParishionerId + '" data-key="ParishionerId"/>' +
+								'<span class="lbl"></span>'+count+'</label>';
+							return content;
+                      },
+                },
+                { "data": "Title" },
+                { "data": "ParishionerName" },
+                { "data": "BirthDate", "render": function (data, type, full, meta) {
+                    var content = convertStringToDate(full.BirthDate);
+                    return content;
+                } },
+                {
+                    "data": "RoleId", "render": function (data, type, full, meta) {
+                        var content = loadBanHanhGiaoMemberRoleDropDown(full.RoleId);
+                        return content;
+                    }
+                },
+                {
+                    "data": null, "searchable": false, "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" onclick="EditBanHanhGiaoMember(' + full.ParishionerId + ')">' + '<i class="ace-icon fa fa-pencil"></i>Edit</button>' +
+                            '<button class="btn btn-minier btn-danger" onclick="DeleteBanHanhGiaoMemberConfirm(' + full.BanHanhGiaoId + ',' + full.ParishionerId + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+						return content;
+                    },
+                }
+            ]
+        });
+	}
+	
+
+	function DeleteBanHanhGiaoMemberConfirm(id, banHanhGiaoId) {
+	    showConfirm("Bạn có chắc muốn xóa người nhận này không?",
+        function () { // OK
+	        DeleteBanHanhGiaoMember(id, banHanhGiaoId);
+        });
+    }
+
+    function DeleteBanHanhGiaoMember(id, parishionerId) {
+        //startLoading();
+        $.ajax({
+            url: "/BanHanhGiao/DeleteBanHanhGiaoMember",
+            type: "POST",
+            data: {
+                banHanhGiaoId: id,
+                parishionerId: parishionerId
+            },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Xóa thất bại.", 0);
+                } else {
+                    showMessage("Xóa thành viên thành công", 1);
+                    updateTableContent("tblBanHanhGiaoMember");
+                }
+
+            },
+        });
+    }
+    function AddBanHanhGiaoMember(parishionerId) {
+        
+        if(!$("#banHanhGiaoId").val() || $("#banHanhGiaoId").val() == "0") {
+            addBanHanhGiao();
+        }
+		var id = $("#banHanhGiaoId").val();
+
+		if (parishionerId == '' || id == '') return false;
+
+		if (!validateChildUnique(id, parishionerId)) {
+		    return false;
+		}
+
+        //startLoading();
+        $.ajax({
+            url: "/BanHanhGiao/AddBanHanhGiaoMember",
+            type: "POST",
+            data: {
+                BanHanhGiaoId: id,
+                ParishionerId: parishionerId
+            },
+            success: function (data) {
+				if(data > 0) {
+					$("#banHanhGiaoMemberId").val('');
+				    updateTableContent("tblBanHanhGiaoMember");
+					//InitBanHanhGiaoMemberDataTable();
+					showMessage("Thêm Thành viên thành công.", 1);
+				}
+                else {
+					showMessage("Thêm Thành viên thất bại.", 0);
+				}
+            },
+
+        });
+    }
+</script>

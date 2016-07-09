@@ -49,4 +49,43 @@ namespace PMS.DataAccess.ViewModels
         public string sSortDir_0 { get; set; }
         public string parishId { get; set; }
     }
+
+    public class jQueryDataTableParam
+    {
+        /// <summary>
+        /// Text used for filtering
+        /// </summary>
+        public Dictionary<string, string> search { get; set; }
+
+        /// <summary>
+        /// First record that should be shown(used for paging)
+        /// </summary>
+        public int start { get; set; }
+
+        /// <summary>
+        /// Number of records that should be shown in table
+        /// </summary>
+        public int length { get; set; }
+
+        /// <summary>
+        /// Column list
+        /// </summary>
+        public List<Dictionary<string, object>> columns { get; set; }
+
+        /// <summary>
+        /// unknown
+        /// </summary>
+        public int draw { get; set; }
+
+        /// <summary>
+        /// Number of columns that are used in sorting
+        /// </summary>
+        public List<Dictionary<string, string>> order { get; set; }
+
+        public int? DioceseId { get; set; }
+        public int? VicariateId { get; set; }
+        public int? ParishId { get; set; }
+
+        public Dictionary<string, object> data { get; set; }
+    }
 }

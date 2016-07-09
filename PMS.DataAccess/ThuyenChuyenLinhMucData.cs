@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PMS.DataAccess.Models;
 using PMS.DataAccess.ViewModels;
+using PMS.DataAccess.Enumerations;
 
 namespace PMS.DataAccess
 {
@@ -58,6 +59,26 @@ namespace PMS.DataAccess
                 foreach (var parishManager in parishManagers)
                 {
                     parishManager.StartDate = thuyenChuyenLinhMuc.NgayHieuLuc;
+                    if (parishManager.ParishId != null && parishManager.ParishId != 0
+                    && parishManager.Position == 1
+                    && parishManager.StatusId == (int)ParishManagerStatusEnum.DaNhanNhiemVu)
+                    {
+                        var parishOld = _db.Parishes.SingleOrDefault(d => d.PriestId == parishManager.PriestId);
+                        if (parishOld != null)
+                        {
+                            parishOld.PriestId = null;
+                            parishOld.Priest = "";
+                        }
+
+                        var parish = _db.Parishes.SingleOrDefault(d => d.Id == parishManager.ParishId);
+                        if (parish == null)
+                        {
+                            return 0;
+                        }
+
+                        parish.Priest = parishManager.Priest.ChristianName + " " + parishManager.Priest.Name;
+                        parish.PriestId = parishManager.PriestId;
+                    }
                 }
 
                 item.NgayQuyetDinh = thuyenChuyenLinhMuc.NgayQuyetDinh;
@@ -215,6 +236,28 @@ namespace PMS.DataAccess
                         parishManager.TakenDate = DateTime.Now;
                     }
                 }
+
+                if (parishManager.ParishId != null && parishManager.ParishId != 0
+                    && parishManager.Position == 1
+                    && parishManager.StatusId == (int)ParishManagerStatusEnum.DaNhanNhiemVu)
+                {
+                    var parishOld = _db.Parishes.SingleOrDefault(d => d.PriestId == parishManager.PriestId && d.Id != parishManager.ParishId);
+                    if (parishOld != null)
+                    {
+                        parishOld.PriestId = null;
+                        parishOld.Priest = "";
+                    }
+
+                    var parish = _db.Parishes.SingleOrDefault(d => d.Id == parishManager.ParishId);
+                    if (parish == null)
+                    {
+                        return 0;
+                    }
+
+                    parish.Priest = parishManager.Priest.ChristianName + " " + parishManager.Priest.Name;
+                    parish.PriestId = parishManager.PriestId;
+                }
+
                 _db.SubmitChanges();
                 return 1;
             }

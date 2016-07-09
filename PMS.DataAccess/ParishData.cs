@@ -105,7 +105,17 @@ namespace PMS.DataAccess
                 {
                     item.ImageUrl = parish.ImageUrl;
                 }
-                
+
+                //if(item.PriestId != null && item.PriestId != 0)
+                //{
+                //    var parishOld = _db.Parishes.SingleOrDefault(d => d.PriestId == parish.PriestId && d.Id != parish.Id);
+                //    if (parishOld != null)
+                //    {
+                //        parishOld.PriestId = null;
+                //        parishOld.Priest = "";
+                //    }
+                //}
+
                 _db.SubmitChanges();
                 return parish.Id;
             }

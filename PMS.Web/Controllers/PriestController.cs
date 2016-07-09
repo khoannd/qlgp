@@ -27,6 +27,9 @@ namespace PMS.Web.Controllers
         private readonly ParishionerBusiness _parishionerBusiness;
         private readonly VocationBusiness _vocationBusiness;
         private readonly ConfigurationBusiness _configurationBusiness;
+        private readonly DioceseBusiness _dioceseBusiness = new DioceseBusiness(DbConfig.GetConnectionString());
+        private readonly VicariateBusiness _vicariateBusiness = new VicariateBusiness(DbConfig.GetConnectionString());
+        private readonly ParishBusiness _parishBusiness = new ParishBusiness(DbConfig.GetConnectionString());
 
         public PriestController()
         {
@@ -39,6 +42,9 @@ namespace PMS.Web.Controllers
         [SessionExpireFilter]
         public ActionResult Index()
         {
+            ViewBag.Vicariates = _vicariateBusiness.getAllVicariate().ToList();
+            ViewBag.Dioceses = _dioceseBusiness.GetAllDioceses();
+            ViewBag.Parishes = _parishBusiness.GetAllParish().ToList();
             return View();
         }
 
@@ -106,6 +112,32 @@ namespace PMS.Web.Controllers
 
             return Json(new { result = priest }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult LoadPriestsByName(int dioceseId, string name)
+        {
+            var result = new List<PriestViewModel>();
+            if (!string.IsNullOrEmpty(name) && name.Trim() != "")
+            {
+                var priests = _priestBusiness.GetPriestsByName(dioceseId, name);
+                if(priests != null)
+                {
+                    foreach(var item in priests)
+                    {
+                        result.Add(new PriestViewModel()
+                        {
+                            Id = item.Id,
+                            ChristianName = item.ChristianName,
+                            Name = item.Name,
+                            BirthDate = item.BirthDate,
+                            DioceseId = item.DioceseId,
+                            Phone = item.Phone,
+                            ParishionerId = item.ParishionerId
+                        });
+                    }
+                }
+            }
+            return Json(new { result = result }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult AddPriest(PriestViewModel priestViewModel)
         {
             var result = addPriest(priestViewModel);
@@ -127,7 +159,7 @@ namespace PMS.Web.Controllers
             priest.BirthDate = converter.ConvertDateToString(priest.BirthDate);
             if (priest.BirthDate.Length > 8) priest.BirthDate = priest.BirthDate.Substring(0, 8);
             int result = 0;
-            if (priestViewModel.ParishionerId == 0)
+            if (priestViewModel.ParishionerId == 0 || priestViewModel.ParishionerId == null)
             {
                 Parishioner parishioner = new Parishioner();
                 var maxcode = _parishionerBusiness.getMaxCode("LM");
@@ -208,7 +240,7 @@ namespace PMS.Web.Controllers
             if (priestId > 0 && (parishionerId == 0 || parishionerId == priestViewModel.ParishionerId))
             {
                 Parishioner parishioner = new Parishioner();
-                parishioner = _parishionerBusiness.getParishionerById(priestViewModel.ParishionerId);
+                parishioner = _parishionerBusiness.getParishionerById((int)priestViewModel.ParishionerId);
                 parishioner.Code = priestViewModel.Code;
                 if(priestViewModel.ImageURL != null && priestViewModel.ImageURL != "")
                 {

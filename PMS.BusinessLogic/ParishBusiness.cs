@@ -17,7 +17,7 @@ namespace PMS.BusinessLogic
             _parishData = new ParishData(connection);
         }
 
-        public IEnumerable<IConvertible[]> GetOrderedParishesByParamsAndPaging(int dioceseId, int vicariateId, string searchValue, int sortColumnIndex, string sortDirection,
+        public List<Parish> GetOrderedParishesByParamsAndPaging(int dioceseId, int vicariateId, string searchValue, int sortColumnIndex, string sortDirection,
                             int displayStart, int displayLength, out int totalRecords, out int totalDisplayRecords)
         {
             //Load Data
@@ -70,25 +70,46 @@ namespace PMS.BusinessLogic
 
             //Paging
             var list = filteredListItems.ToList();
-            int records = list.Count;
-            var displayedList = list.Skip(displayStart).Take(displayLength);
-            var result = from c in displayedList
-                         select new IConvertible[]
-                       {
-                           c.Id,
-                           c.Id,
-                           c.Name,
-                           c.Address,
-                           c.Priest,
-                           c.Website,
-                           c.Email ,
-                           c.Phone,
-                           c.Id
-                       };
-            totalRecords = records;
-            totalDisplayRecords = records;
 
-            return result;
+            totalRecords = list.Count;
+
+            list = list.Skip(displayStart).Take(displayLength).ToList();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i].Accounts = null;
+                list[i].ClassGroups = null;
+                list[i].Communities = null;
+                list[i].ConstructionPermits = null;
+                list[i].DeaconRequisitionComments = null;
+                list[i].FamilyMigrationRequests = null;
+                list[i].Messages = null;
+                list[i].ParishionerMigrationRequests = null;
+                list[i].ParishManagers = null;
+                list[i].ReligiousCommunityBases = null;
+                list[i].SacramentGroups = null;
+                list[i].Societies = null;
+                list[i].Vicariates = null;
+                list[i].Priest1 = null;
+                list[i].Vicariate = null;
+            }
+            //var displayedList = list.Skip(displayStart).Take(displayLength);
+            //var result = from c in displayedList
+            //             select new IConvertible[]
+            //           {
+            //               c.Id,
+            //               c.Id,
+            //               c.Name,
+            //               c.Address,
+            //               c.Priest,
+            //               c.Website,
+            //               c.Email ,
+            //               c.Phone,
+            //               c.Id
+            //           };
+            totalDisplayRecords = totalRecords;
+
+            return list;
         }
 
         public int CheckUniqueParish(string name, int parishId, int dioceseId)

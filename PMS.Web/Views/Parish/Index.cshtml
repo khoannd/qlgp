@@ -5,7 +5,6 @@
 }
 @using PMS.DataAccess.Models;
 <link rel="stylesheet" href="/Content/assets/css/chosen.css" />
-<input type="hidden" id="parishId" />
 <input type="hidden" id="vicariateId" />
 <div class="page-header">
     <h1>Danh sách giáo xứ</h1>
@@ -74,6 +73,7 @@
 </div>
 <!--Parish Modal-->
 <div id="createParishModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <input type="hidden" id="parishId" data-key="Id"/>
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="widget-box transparent">
@@ -94,7 +94,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right" for="cbbDioceseModal">Giáo phận&nbsp;(<span style="color: red">*</span>)</label>
                                 <div class="col-sm-9">
-                                    <select id="cbbDioceseModal" class="form-control" style="width: 250px;">
+                                    <select id="cbbDioceseModal" class="form-control" style="width: 250px;" data-key="DioceseId">
                                         <option value="0">Tất cả</option>
                                         @foreach (var item in ((List<Diocese>)ViewBag.Dioceses))
                                         {
@@ -108,9 +108,9 @@
                         <div class="row">
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label no-padding-right" for="modalVicariate">Giáo hạt&nbsp;(<span style="color: red">*</span>)</label>
+                                <label class="col-sm-3 control-label no-padding-right" for="modalVicariate" data-key="VicariateId">Giáo hạt&nbsp;(<span style="color: red">*</span>)</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" id="modalVicariate">
+                                    <select class="form-control" id="modalVicariate" data-key="VicariateId">
                                         <option value="0"></option>
                                         @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
                                         {
@@ -124,15 +124,13 @@
                         </div>
                         <div class="space-10"></div>
                         <div class="row">
-
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Tên giáo xứ&nbsp;(<span style="color: red">*</span>)</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="parishNameModal" value="" class="form-control">
+                                    <input type="text" id="parishNameModal" value="" class="form-control normal-name" data-key="Name">
                                     <label class="text-danger" id="parishNameValidate" hidden=""></label>
                                 </div>
                             </div>
-
                         </div>
                         <div class="space-10"></div>
                         <div class="row">
@@ -140,7 +138,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Địa chỉ</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="parishAddressModal" value="" class="form-control">
+                                    <input type="text" id="parishAddressModal" value="" class="form-control" data-key="Address">
                                 </div>
                             </div>
 
@@ -151,7 +149,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Phường/Xã</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="parishWardModal" value="" class="form-control">
+                                    <input type="text" id="parishWardModal" value="" class="form-control normal-name" data-key="Ward">
                                 </div>
                             </div>
 
@@ -162,7 +160,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Quận/Huyện</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="parishDistrictModal" value="" class="form-control">
+                                    <input type="text" id="parishDistrictModal" value="" class="form-control normal-name" data-key="District">
                                 </div>
                             </div>
 
@@ -173,7 +171,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Tỉnh/Thành phố</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="parishProvinceModal" value="" class="form-control">
+                                    <input type="text" id="parishProvinceModal" value="" class="form-control normal-name" data-key="Province">
                                 </div>
                             </div>
 
@@ -184,8 +182,8 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Chánh xứ</label>
                                 <div class="col-sm-9">
-                                    <input type="hidden" id="priestId" />
-                                    <input type="text" id="parishPriestModal" value="" class="form-control priest">
+                                    <input type="hidden" id="priestId" data-key="PriestId"/>
+                                    <input type="text" id="parishPriestModal" value="" class="form-control priest normal-name" data-key="Priest">
                                 </div>
                             </div>
 
@@ -200,7 +198,7 @@
                                         <span class="input-group-addon">
                                             <i class="ace-icon fa fa-globe"></i>
                                         </span>
-                                        <input type="text" id="parishWebsiteModal" value="" class="form-control website">
+                                        <input type="text" id="parishWebsiteModal" value="" class="form-control website" data-key="Website">
                                     </div>
                                     <label class="text-danger" id="parishWebsiteValidate" hidden=""></label>
                                 </div>
@@ -217,7 +215,7 @@
                                         <span class="input-group-addon">
                                             <i class="ace-icon fa fa-phone"></i>
                                         </span>
-                                        <input type="text" id="parishPhoneModal" value="" class="form-control input-mask-phone">
+                                        <input type="text" id="parishPhoneModal" value="" class="form-control input-mask-phone" data-key="Phone">
                                     </div>
                                     <label class="text-danger" id="parishPhoneValidate" hidden=""></label>
                                 </div>
@@ -234,7 +232,7 @@
                                         <span class="input-group-addon">
                                             <i class="ace-icon fa fa-envelope"></i>
                                         </span>
-                                        <input type="text" id="parishEmailModal" value="" class="form-control email">
+                                        <input type="text" id="parishEmailModal" value="" class="form-control email" data-key="Email">
                                     </div>
                                     <label class="text-danger" id="parishEmailValidate" hidden=""></label>
                                 </div>
@@ -246,7 +244,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Bổn mạng</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="parishPatronModal" value="" class="form-control" />
+                                    <input type="text" id="parishPatronModal" value="" class="form-control normal-name" data-key="Patron"/>
                                 </div>
                             </div>
                         </div>
@@ -255,7 +253,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Ngày kính Bổn mạng</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="parishPatronDateModal" value="" class="form-control" />
+                                    <input type="text" id="parishPatronDateModal" value="" class="form-control" data-key="PatronDate"/>
                                 </div>
                             </div>
                         </div>
@@ -264,7 +262,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Ngày chầu lượt</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="parishChauLuotModal" value="" class="form-control" />
+                                    <input type="text" id="parishChauLuotModal" value="" class="form-control" data-key="ChauLuot"/>
                                 </div>
                             </div>
                         </div>
@@ -315,7 +313,7 @@ new
                                                         {
                                                             <input multiple="" name="inputFile" type="file" id="inputFile" />
                                                         }
-                                                        <iframe id="UploadTarget" name="UploadTarget" onload="UploadImage_Complete();" style="position: absolute; left: -999em; top: -999em;"></iframe>
+                                                        <iframe id="UploadTarget" name="UploadTarget" style="position: absolute; left: -999em; top: -999em;"></iframe>
                                                         <label class="text-danger" id="parishImageValidate" hidden=""></label>
                                                     </div>
                                                 </div>
@@ -331,31 +329,29 @@ new
                         </div>
                     </div>
 
-                            <!--end row-->
+                    <!--end row-->
 
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="col-xs-12 col-sm-12">
-                                        <div class="align-right">
-                                            <div class="space-6"></div>
-                                            <button id="btnCreateParishModal" class="btn btn-primary" data-toggle="modal" onclick="UploadImage()">
-                                                <i class="ace-icon fa fa-save"></i> Lưu
-                                            </button>
-                                            <button id="btnUpdateParishModal" class="btn btn-primary" data-toggle="modal" onclick="UploadImage()">
-                                                <i class="ace-icon fa fa-save"></i> Cập Nhật
-                                            </button>
-                                            <button id="btnCloseParishModal" class="btn btn-grey" data-toggle="modal">
-                                                <i class="ace-icon fa fa-times"></i> Đóng
-                                            </button>
-                                        </div>
-                                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-xs-12 col-sm-12">
+                                <div class="align-right">
+                                    <div class="space-6"></div>
+                                    <button id="btnCreateParishModal" class="btn btn-primary" data-toggle="modal" onclick="UploadImage()">
+                                        <i class="ace-icon fa fa-save"></i> Lưu
+                                    </button>
+                                    <button id="btnUpdateParishModal" class="btn btn-primary" data-toggle="modal" onclick="UploadImage()">
+                                        <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                    </button>
+                                    <button id="btnCloseParishModal" class="btn btn-grey" data-toggle="modal">
+                                        <i class="ace-icon fa fa-times"></i> Đóng
+                                    </button>
                                 </div>
                             </div>
-                            <div class="space-6"></div>
                         </div>
-
                     </div>
-
+                    <div class="space-6"></div>
+                </div>
+             </div>
         </div>
     </div>
 </div>
@@ -381,19 +377,78 @@ new
         }
 
     }
+    $("#UploadTarget").on("load", function () {
+        UploadImage_Complete();
+    });
     InitDatatable();
     function InitDatatable() {
 
-        $("#parishTable").dataTable({
+        //$("#parishTable").dataTable({
+        //    "bRetrieve": true,
+        //    "bServerSide": true,
+        //    "bScrollCollapse": true,
+        //    "sAjaxSource": "/Parish/LoadParishDatatables",
+        //    //"bProcessing": true,
+        //    "fnServerParams": function (aoData) {
+        //        aoData.push({ "name": "vicariateId", "value": $("#cbbVicariate").val() });
+        //    },
+        //    "oLanguage": {
+        //        "sSearch": "Tên giáo xứ",
+        //        "sZeroRecords": "Không có dữ liệu phù hợp",
+        //        "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+        //        "sEmptyTable": "Không có dữ liệu",
+        //        "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+        //        "sLengthMenu": "Hiển thị _MENU_ dòng",
+        //        "sProcessing": "Đang xử lý...",
+        //        "sInfoEmpty": "",
+        //        "oPaginate": {
+        //            "sPrevious": "Trước",
+        //            "sNext": "Sau"
+        //        }
+        //    },
+        //    "aoColumnDefs": [
+        //        {
+        //            "aTargets": [0, 1],
+        //            "bVisible": false,
+        //        },
+        //        {
+        //            "aTargets": [1],
+        //            "render": function (data, type, full, meta) {
+        //                var content = '<label class="position-relative">' +
+        //                    '<input type="checkbox" class="ace" value="' + data + '"/>' +
+        //                    '<span class="lbl"></span> </label>';
+        //                return content;
+        //            },
+        //            "bSortable": false
+        //        },
+        //        {
+        //            "aTargets": [8],
+        //            "render": function (data, type, full, meta) {
+        //                var content = '<button class="btn btn-minier btn-primary" onclick="LoadDataModal(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+        //                    '<button class="btn btn-minier btn-danger" onclick="DeleteConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+        //                return content;
+        //            },
+        //            "bSortable": false
+        //        }
+        //    ],
+        //    "bAutoWidth": false,
+        //});
+
+        $('#parishTable').DataTable({
+            "processing": true,
+            "serverSide": true,
             "bRetrieve": true,
-            "bServerSide": true,
             "bScrollCollapse": true,
-            "sAjaxSource": "/Parish/LoadParishDatatables",
-            //"bProcessing": true,
-            "fnServerParams": function (aoData) {
-                aoData.push({ "name": "vicariateId", "value": $("#cbbVicariate").val() });
+            "bAutoWidth": false,
+            "ajax": {
+                "url": "/Parish/LoadParishDatatables",
+                "data": function (d) {
+                    d.vicariateId = $('#cbbVicariate').val();
+                    d.dioceseId = $('#cbbDiocese').val();
+                    d.columns = null;
+                }
             },
-            "oLanguage": {
+            "language": {
                 "sSearch": "Tên giáo xứ",
                 "sZeroRecords": "Không có dữ liệu phù hợp",
                 "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
@@ -407,32 +462,29 @@ new
                     "sNext": "Sau"
                 }
             },
-            "aoColumnDefs": [
-                {
-                    "aTargets": [0, 1],
-                    "bVisible": false,
+            "columns": [
+                { "data": "Id", "visible": false },
+                { "data": "Id", "render": function (data, type, full, meta) {
+                            var content = '<label class="position-relative">' +
+                                '<input type="checkbox" class="ace" value="' + data.Id + '"/>' +
+                                '<span class="lbl"></span> </label>';
+                            return content;
+                      },
                 },
+                { "data": "Name" },
+                { "data": "Address" },
+                { "data": "Priest" },
+                { "data": "Website" },
+                { "data": "Email" },
+                { "data": "Phone" },
                 {
-                    "aTargets": [1],
-                    "render": function (data, type, full, meta) {
-                        var content = '<label class="position-relative">' +
-                            '<input type="checkbox" class="ace" value="' + data + '"/>' +
-                            '<span class="lbl"></span> </label>';
-                        return content;
-                    },
-                    "bSortable": false
-                },
-                {
-                    "aTargets": [8],
-                    "render": function (data, type, full, meta) {
-                        var content = '<button class="btn btn-minier btn-primary" onclick="LoadDataModal(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
-                            '<button class="btn btn-minier btn-danger" onclick="DeleteConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
-                        return content;
-                    },
-                    "bSortable": false
+                    "data": null, "searchable": false, "render": function (data, type, full, meta) {
+                            var content = '<button class="btn btn-minier btn-primary" onclick="LoadDataModal(' + data.Id + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                                '<button class="btn btn-minier btn-danger" onclick="DeleteConfirm(' + data.Id + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                            return content;
+                        },
                 }
-            ],
-            "bAutoWidth": false,
+            ]
         });
 
     }
@@ -657,7 +709,7 @@ new
     }
 
     function ClearParish() {
-        $("#parishNameModal").val("");
+        /*$("#parishNameModal").val("");
         $("#parishAddressModal").val("");
         $("#parishWardModal").val("");
         $("#parishDistrictModal").val("");
@@ -680,45 +732,63 @@ new
         $("#parishImageValidate").hide();
         $("#lbVicariateErrorModal").html("");
         $("#lbVicariateErrorModal").hide();
+        */
+        $("#createParishModal input, #createParishModal select").each(function () {
+            var key = $(this).attr("data-key");
+            if (key) {
+                $(this).val("");
+                var key2 = key.replace("Modal", "Validate");
+                if ($("#" + key2).length !== 0) {
+                    $("#" + key2).html("");
+                    $("#" + key2).hide();
+                }
+            }
+        });
+        $("#parishImageValidate").hide();
     }
 
     function AddParish(url) {
         if (!checkValidate()) {
             return;
         }
-        var name = $("#parishNameModal").val();
-        var address = $("#parishAddressModal").val();
-        var ward = $("#parishWardModal").val();
-        var district = $("#parishDistrictModal").val();
-        var province = $("#parishProvinceModal").val();
-        var priest = $("#parishPriestModal").val();
-        var website = $("#parishWebsiteModal").val();
-        var phone = $("#parishPhoneModal").val();
-        var email = $("#parishEmailModal").val();
-        var vicariateId = $("#modalVicariate").val();
-        var patron = $("#parishPatronModal").val();
-        var patronDate = $("#parishPatronDateModal").val();
-        var chauLuot = $("#parishChauLuotModal").val();
-        var imageUrl = url;
+        var data = {};
+        $("#createParishModal input, #createParishModal select").each(function () {
+            if ($(this).attr("data-key")) data[$(this).attr("data-key")] = $(this).val();
+        });
+        //var name = $("#parishNameModal").val();
+        //var address = $("#parishAddressModal").val();
+        //var ward = $("#parishWardModal").val();
+        //var district = $("#parishDistrictModal").val();
+        //var province = $("#parishProvinceModal").val();
+        //var priest = $("#parishPriestModal").val();
+        //var website = $("#parishWebsiteModal").val();
+        //var phone = $("#parishPhoneModal").val();
+        //var email = $("#parishEmailModal").val();
+        //var vicariateId = $("#modalVicariate").val();
+        //var patron = $("#parishPatronModal").val();
+        //var patronDate = $("#parishPatronDateModal").val();
+        //var chauLuot = $("#parishChauLuotModal").val();
+        //var imageUrl = url;
         startLoading();
         $.ajax({
             url: "/Parish/AddParish",
             type: "POST",
-            data: {
-                Name: name,
-                Address: address,
-                Ward: ward,
-                District: district,
-                Province: province,
-                Priest: priest,
-                Website: website,
-                Phone: phone,
-                Email: email,
-                VicariateId: vicariateId,
-                Patron: patron,
-                PatronDate: patronDate,
-                ChauLuot: chauLuot
-            },
+            //data: {
+            //    Name: name,
+            //    Address: address,
+            //    Ward: ward,
+            //    District: district,
+            //    Province: province,
+            //    Priest: priest,
+            //    Website: website,
+            //    Phone: phone,
+            //    Email: email,
+            //    VicariateId: vicariateId,
+            //    Patron: patron,
+            //    PatronDate: patronDate,
+            //    ChauLuot: chauLuot
+            //},
+            data: data,
             success: function (data) {
                 if (data <= 0) {
                     showMessage("Thêm giáo xứ thất bại", 0);
@@ -736,43 +806,49 @@ new
         if (!checkValidate()) {
             return;
         }
-        var id = $("#parishId").val();
-        var name = $("#parishNameModal").val();
-        var address = $("#parishAddressModal").val();
-        var ward = $("#parishWardModal").val();
-        var district = $("#parishDistrictModal").val();
-        var province = $("#parishProvinceModal").val();
-        var priest = $("#parishPriestModal").val();
-        var website = $("#parishWebsiteModal").val();
-        var phone = $("#parishPhoneModal").val();
-        var email = $("#parishEmailModal").val();
-        var vicariateId = $("#modalVicariate").val();
-        var patron = $("#parishPatronModal").val();
-        var patronDate = $("#parishPatronDateModal").val();
-        var chauLuot = $("#parishChauLuotModal").val();
-        var imageUrl = url;
+        var data = {};
+        $("#createParishModal input, #createParishModal select").each(function () {
+            if ($(this).attr("data-key")) data[$(this).attr("data-key")] = $(this).val();
+        });
+        data["imageUrl"] = url;
+        //var id = $("#parishId").val();
+        //var name = $("#parishNameModal").val();
+        //var address = $("#parishAddressModal").val();
+        //var ward = $("#parishWardModal").val();
+        //var district = $("#parishDistrictModal").val();
+        //var province = $("#parishProvinceModal").val();
+        //var priest = $("#parishPriestModal").val();
+        //var website = $("#parishWebsiteModal").val();
+        //var phone = $("#parishPhoneModal").val();
+        //var email = $("#parishEmailModal").val();
+        //var vicariateId = $("#modalVicariate").val();
+        //var patron = $("#parishPatronModal").val();
+        //var patronDate = $("#parishPatronDateModal").val();
+        //var chauLuot = $("#parishChauLuotModal").val();
+        //var imageUrl = url;
         startLoading();
         $.ajax({
             url: "/Parish/UpdateParish",
             type: "POST",
-            data: {
-                Id: id,
-                Name: name,
-                Address: address,
-                Ward: ward,
-                District: district,
-                Province: province,
-                Priest: priest,
-                PriestId: priestId,
-                Website: website,
-                Phone: phone,
-                Email: email,
-                VicariateId: vicariateId,
-                ImageUrl: imageUrl,
-                Patron: patron,
-                PatronDate: patronDate,
-                ChauLuot: chauLuot
-            },
+            //data: {
+            //    Id: id,
+            //    Name: name,
+            //    Address: address,
+            //    Ward: ward,
+            //    District: district,
+            //    Province: province,
+            //    Priest: priest,
+            //    PriestId: priestId,
+            //    Website: website,
+            //    Phone: phone,
+            //    Email: email,
+            //    VicariateId: vicariateId,
+            //    ImageUrl: imageUrl,
+            //    Patron: patron,
+            //    PatronDate: patronDate,
+            //    ChauLuot: chauLuot
+            //},
+            data: data,
             success: function (data) {
 
                 if (data.result <= 0) {
@@ -794,22 +870,27 @@ new
             type: "POST",
             data: { id: id },
             success: function (data) {
-
-
                 var item = data.result;
-                $("#parishNameModal").val(item.Name);
-                $("#parishAddressModal").val(item.Address);
-                $("#parishWardModal").val(item.Ward);
-                $("#parishDistrictModal").val(item.District);
-                $("#parishProvinceModal").val(item.Province);
-                $("#parishPriestModal").val(item.Priest);
-                $("#parishWebsiteModal").val(item.Website);
-                $("#parishPhoneModal").val(item.Phone);
-                $("#parishEmailModal").val(item.Email);
-                $("#parishPatronModal").val(item.Patron);
-                $("#parishPatronDateModal").val(item.PatronDate);
-                $("#parishChauLuotModal").val(item.ChauLuot);
-                $("#modalVicariate").val(item.VicariateId);
+                $(item).each(function (k, v) {
+                    for (var k1 in v) {
+                        if ($("#createParishModal [data-key='" + k1 + "']").length !== 0) {
+                            $("#createParishModal [data-key='" + k1 + "']").val(v[k1]);
+                        }
+                    }
+                });
+                //$("#parishNameModal").val(item.Name);
+                //$("#parishAddressModal").val(item.Address);
+                //$("#parishWardModal").val(item.Ward);
+                //$("#parishDistrictModal").val(item.District);
+                //$("#parishProvinceModal").val(item.Province);
+                //$("#parishPriestModal").val(item.Priest);
+                //$("#parishWebsiteModal").val(item.Website);
+                //$("#parishPhoneModal").val(item.Phone);
+                //$("#parishEmailModal").val(item.Email);
+                //$("#parishPatronModal").val(item.Patron);
+                //$("#parishPatronDateModal").val(item.PatronDate);
+                //$("#parishChauLuotModal").val(item.ChauLuot);
+                //$("#modalVicariate").val(item.VicariateId);
                 $("#parishImageModal").attr('src', item.ImageUrl);;
 
                 if (!item.ImageUrl) {
@@ -883,18 +964,19 @@ new
             autoFocus: !isForce,
             source: function (request, response) {
                 $.ajax({
-                    url: "/Parishioner/LoadPriest",
+                    url: "/Priest/LoadPriestsByName",
                     dataType: "json",
                     data: {
+                        dioceseId: @Session["DioceseId"],
                         name: request.term
                     },
                     success: function (data) {
                         //response(data.result);
                         //data = JSON.parse(data.result);
-                        response($.map(JSON.parse(data.result), function (item) {
+                        response($.map(data.result, function (item) {
                             return {
-                                label: item.Priest,
-                                value: item.PriestId
+                                label: item.ChristianName + " " + item.Name,
+                                value: item.Id
                             }
                         }));
                     }
@@ -905,8 +987,8 @@ new
                 //    $(element).val(ui.item.label);
                 //    return false;
                 //}
-                $(element).val(ui.item.label);
-                priestId = ui.item.value;
+                //$(element).val(ui.item.label);
+                //priestId = ui.item.value;
             },
             select: function (event, ui) {
                 //if (isForce) {                    
@@ -917,6 +999,7 @@ new
                 $(this).data("uiItem", ui.item.label);
                 $(element).val(ui.item.label);
                 priestId = ui.item.value;
+                $("#priestId").val(priestId);
                 return false;
             },
             minLength: 1

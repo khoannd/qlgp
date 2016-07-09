@@ -182,7 +182,7 @@
                             <div class="col-xs-12">
                                 <div class="form-group">
                                     <label class="col-sm-1 control-label padding-right">Địa điểm</label>
-                                    <div class="col-sm-11">
+                                    <div class="col-sm-7">
                                         <div class="input-group">
                                             <input type="text" id="DiaDiem" value="" class="form-control">
                                             <span class="input-group-addon">
@@ -238,7 +238,7 @@
                                     <div class="col-sm-12">
                                         <div style="width: 702.2756px; max-height: 841.8898px !important; height: 841.8898px !important;" class="wysiwyg-editor center-block template" id="txtTemplate">
                                         </div>
-                                        <div style="font-style:italic;text-align:center">Có thể dùng các mục thay thế sau: [TenDucGiamMuc], [TenNguoiGoi], [NgayMoi], [NgaySuKien], [ThoiGianSuKien], [DiaDiem], [NgayHienTai]</div>
+                                        <div style="font-style:italic;text-align:center">Có thể dùng các mục thay thế sau: [TenDucGiamMuc], [TenNguoiGoi], [NgayMoi], [NgaySuKien], [ThoiGianSuKien], [DiaDiem], [NgayHienTai], [TenKhachMoi], [ChucDanh], [DiaChiKhach], [SoDienThoaiKhach], [EmailKhach]</div>
                                     </div>
                                 </div>
                             </div>
@@ -458,8 +458,6 @@
 
 
 <script type="text/javascript">
-    var idGiayMoi;
-
     $(function () {
         $('#createTCLMModal').find('.modal-dialog.modal-lg').css('width', '95%');
 
@@ -525,13 +523,15 @@
     }
     //su kien button
     $("#btnCreateGiayMoi").click(function () {
-
         clearGiayMoi();
         $("#GiayMoiModalTitle").html("Thêm giấy mời");
         $("#createGiayMoiModal").modal('show');
         $("#btnGiayMoiModal").show();
         $("#btnUpdateGiayMoiModal").hide();
         $("#btnHoanTatGiayMoiModal").hide();
+    });
+    $("#createGiayMoiModal").on("hidden.bs.modal", function () {
+        clearGiayMoi();
     });
 
     $("#btnLookupKhachMoiModal").click(function () {
@@ -549,12 +549,10 @@
 
     $("#btnCloseGiayMoiModal").click(function () {
         $("#createGiayMoiModal").modal('hide');
-        clearGiayMoi();
     });
 
     $("#btnHoanTatGiayMoiModal").click(function () {
         $("#createGiayMoiModal").modal('hide');
-        clearGiayMoi();
     });
 
     $("#btnCloseKhachMoiModal").click(function () {
@@ -714,7 +712,6 @@
 
     //clear khach moi popup
     function clearKhachMoi() {
-        idGiayMoi = 0;
         $("#HoTenKhachMoi").val("");
         $("#lbErrorHoTenKhachMoi").val("");
         $("#lbErrorHoTenKhachMoi").hide();
@@ -746,7 +743,6 @@
         //var Email = $("#Email").val();
         //var GhiChu = $("#GhiChuKhachMoi").val();
         //
-        var idGiayMoi = $("#Id").val();
         var TenGiayMoi = $("#TenGiayMoi").val();
         var LoaiGiayMoi = $("#LoaiGiayMoi").val();
         var NguoiGoi = $("#NguoiGoi").val();
@@ -761,7 +757,7 @@
             url: "/GiayMoi/AddGiayMoi",
             type: "POST",
             data: {
-                Id: idGiayMoi,
+                Id: $("#Id").val(),
                 Ten: TenGiayMoi,
                 Loai: LoaiGiayMoi,
                 Mau: Mau,
@@ -782,8 +778,7 @@
                     //refreshKhachMoiTable();
                     //clearKhachMoi();
                     $("#Id").val(data);
-                    idGiayMoi = data;
-                    AddKhachMoi(idGiayMoi);
+                    AddKhachMoi($("#Id").val());
 
                 }
             },
@@ -824,11 +819,10 @@
                     showMessage("Thêm giấy mời thất bại", 0);
                 } else {
                     $("#Id").val(data);
-                    idGiayMoi = data;
 
                     showMessage("Thêm giấy mời thành công", 1);
                     $("#createGiayMoiModal").modal('hide');
-                    clearGiayMoi();
+                    //clearGiayMoi();
                     refreshGiayMoiTable();
 
                     //$("#btnGiayMoiModal").hide();
@@ -845,7 +839,6 @@
         if (!CheckValidGiayMoi()) {
             return;
         }
-        idGiayMoi = id;
         var HoTen = $("#HoTenKhachMoi").val();
         var ChucDanh = $("#ChucDanh").val();
         var DiaChi = $("#DiaChi").val();
@@ -863,7 +856,7 @@
                 SoDienThoai: SoDienThoai,
                 Email: Email,
                 GhiChu: GhiChu,
-                GiayMoiId: idGiayMoi
+                GiayMoiId: id
             },
             success: function (data) {
                 if (data.result <= 0) {
@@ -931,7 +924,7 @@
                     showMessage("Cập nhật thông tin giấy mời thành công", 1);
                     $("#createGiayMoiModal").modal('hide');
                     refreshGiayMoiTable();
-                    clearGiayMoi();
+                    //clearGiayMoi();
                 }
             },
 
@@ -962,7 +955,7 @@
                 SoDienThoai: SoDienThoai,
                 Email: Email,
                 GhiChu: GhiChu,
-                GiayMoiId: idGiayMoi
+                GiayMoiId: id
             },
 
             success: function (data) {
@@ -986,7 +979,6 @@
 
     //load giay moi to edit
     function LoadGiayMoiByGiayMoitId(id) {
-        idGiayMoi = id;
         $.ajax({
             url: "/GiayMoi/LoadGiayMoiById",
             type: "POST",
@@ -1012,7 +1004,7 @@
                 $("#btnHoanTatGiayMoiModal").hide();
                 $("#btnCloseGiayMoiModal").show();
                 $("#btnGiayMoiModal").hide();
-                LoadKhachMoi(idGiayMoi);
+                LoadKhachMoi(id);
             },
         });
     }
@@ -1116,7 +1108,7 @@
     //refesh khach moi modal
     function refreshKhachMoiTable() {
         //$("#KhachMoiTable").dataTable()._fnAjaxUpdate();
-        LoadKhachMoi(idGiayMoi);
+        LoadKhachMoi($("#Id").val());
     }
 
 
@@ -1199,32 +1191,32 @@
         return true;
     }
 
-    $(".nguoiGoi").autocomplete({
-        autoFocus: true,
-        source: function (request, response) {
-            $.ajax({
-                url: "/Parishioner/LoadParishionerName",
-                dataType: "json",
-                data: {
-                    name: request.term
-                },
-                success: function (data) {
-                    response($.map(data.result, function (v, k) {
-                        return {
-                            label: v.Name,
-                            Id: v.Id
-                        };
-                    }));
-                }
-            });
-        },
-        minLength: 0,
-        select: function (event, ui) {
-            //$('#NguoiGoi').val(ui.item.ChristianName + " " + ui.item.Name);
-        }
-    }).focus(function () {
-        $(this).autocomplete("search");
-    });
+    //$(".nguoiGoi").autocomplete({
+    //    autoFocus: true,
+    //    source: function (request, response) {
+    //        $.ajax({
+    //            url: "/Parishioner/LoadParishionerName",
+    //            dataType: "json",
+    //            data: {
+    //                name: request.term
+    //            },
+    //            success: function (data) {
+    //                response($.map(data.result, function (v, k) {
+    //                    return {
+    //                        label: v.Name,
+    //                        Id: v.Id
+    //                    };
+    //                }));
+    //            }
+    //        });
+    //    },
+    //    minLength: 0,
+    //    select: function (event, ui) {
+    //        //$('#NguoiGoi').val(ui.item.ChristianName + " " + ui.item.Name);
+    //    }
+    //}).focus(function () {
+    //    $(this).autocomplete("search");
+    //});
     // Khoan add start
     function printAppointmentAll() {
         var members = "";
@@ -1245,7 +1237,7 @@
         }
         
         var url = "@Html.Raw(Url.Action("InGiayMoi", "GiayMoi", new { id = "param1", members = "param2" }))";
-        url = url.replace("param1", idGiayMoi);
+        url = url.replace("param1", $("#Id").val());
         url = url.replace("param2", members);
         window.open(url, '_blank');
     }

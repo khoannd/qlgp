@@ -20,7 +20,7 @@ namespace PMS.DataAccess
         public List<RolePermissionViewModel> GetScreenPermissionByRole(int roleId)
         {
             string query = "SELECT a.Id AS ScreenId, a.Name AS ScreenName, b.Permission, " + roleId.ToString() + " AS RoleId " +
-                " FROM ScreenAction a LEFT JOIN RolePermission b ON a.Id = b.ScreenId AND b.RoleId = {0}";
+                " FROM ScreenAction a LEFT JOIN RolePermission b ON a.Id = b.ScreenId AND b.RoleId = {0} Order By a.Name ASC";
             return _db.ExecuteQuery<RolePermissionViewModel>(query, roleId).ToList();
         }
         public List<RolePermission> GetScreenPermissionByScreen(int screenId)

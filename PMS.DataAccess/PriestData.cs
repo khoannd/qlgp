@@ -113,6 +113,17 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<string>(query, dioceseId, "%" + name + "%");
         }
 
+        public IEnumerable<Priest> GetPriestsByName(int dioceseId, string name)
+        {
+            const string query = "SELECT P.* " +
+                                 "FROM Priest AS P " +
+                                 "WHERE P.DioceseId = {0} AND (P.ChristianName + ' ' + P.Name) LIKE {1} " +
+                                 "ORDER BY P.ChristianName, P.Name";
+
+            name = name.Trim();
+            return _db.ExecuteQuery<Priest>(query, dioceseId, "%" + name + "%");
+        }
+
         public IEnumerable<Priest> GetAllPriests()
         {
             string query = "SELECT * FROM Priest ORDER BY ChristianName";

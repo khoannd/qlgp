@@ -2371,6 +2371,17 @@ namespace PMS.DataAccess
                 parishioner.LastUpdatedBy = updatedParishioner.LastUpdatedBy;
                 parishioner.Status = updatedParishioner.Status;
 
+                //update for priest
+                var priest = _db.Priests.FirstOrDefault(p => p.ParishionerId == updatedParishioner.Id);
+                if(priest != null)
+                {
+                    priest.ChristianName = parishioner.ChristianName;
+                    priest.Name = parishioner.Name;
+                    priest.BirthDate = parishioner.BirthDate;
+                    priest.Phone = parishioner.Phone;
+                    priest.DioceseId = parishioner.Community.Parish.Vicariate.DioceseId;
+                }
+
                 _db.SubmitChanges();
                 return 1;
             }
