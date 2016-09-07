@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLGP" Class="PMSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLExpress;Initial Catalog=QLGP;Integrated Security=True;MultipleActiveResultSets=True" SettingsObjectName="PMS.DataAccess.Properties.Settings" SettingsPropertyName="QLGPConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLGP_Test" Class="PMSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLExpress;Initial Catalog=QLGP_Test;Integrated Security=True;MultipleActiveResultSets=True" SettingsObjectName="PMS.DataAccess.Properties.Settings" SettingsPropertyName="QLGP_TestConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Account" Member="Accounts">
     <Type Name="Account">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -446,6 +446,9 @@
       <Column Name="Title" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Column Name="PatronDate" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
       <Column Name="ParishId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IDNo" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="IDDate" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="IDPlace" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Association Name="Parishioner_ClassGroup" Member="ClassGroups" ThisKey="Id" OtherKey="ManagedBy" Type="ClassGroup" />
       <Association Name="Parishioner_ClassMember" Member="ClassMembers" ThisKey="Id" OtherKey="ParishionerId" Type="ClassMember" />
       <Association Name="Parishioner_DeaconRequisitionComment" Member="DeaconRequisitionComments" ThisKey="Id" OtherKey="ParishionerId" Type="DeaconRequisitionComment" />
@@ -572,7 +575,7 @@
     <Type Name="RolePermission">
       <Column Name="ScreenId" Type="System.String" DbType="VarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="RoleId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Permission" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Permission" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.Sacrament" Member="Sacraments">
@@ -649,7 +652,7 @@
     <Type Name="ThuPhanUu">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="MaGiaoDan" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="NgayMat" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="NgayMat" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="ChucVu" Type="System.String" DbType="NVarChar(25) NOT NULL" CanBeNull="false" />
       <Column Name="MauThu" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>

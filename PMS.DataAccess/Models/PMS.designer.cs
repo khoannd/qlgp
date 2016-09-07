@@ -22,7 +22,7 @@ namespace PMS.DataAccess.Models
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="QLGP")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="QLGP_Test")]
 	public partial class PMSDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -198,7 +198,7 @@ namespace PMS.DataAccess.Models
     #endregion
 		
 		public PMSDataContext() : 
-				base(global::PMS.DataAccess.Properties.Settings.Default.QLGPConnectionString, mappingSource)
+				base(global::PMS.DataAccess.Properties.Settings.Default.QLGP_TestConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -9401,6 +9401,12 @@ namespace PMS.DataAccess.Models
 		
 		private System.Nullable<int> _ParishId;
 		
+		private string _IDNo;
+		
+		private string _IDDate;
+		
+		private string _IDPlace;
+		
 		private EntitySet<ClassGroup> _ClassGroups;
 		
 		private EntitySet<ClassMember> _ClassMembers;
@@ -9497,6 +9503,12 @@ namespace PMS.DataAccess.Models
     partial void OnPatronDateChanged();
     partial void OnParishIdChanging(System.Nullable<int> value);
     partial void OnParishIdChanged();
+    partial void OnIDNoChanging(string value);
+    partial void OnIDNoChanged();
+    partial void OnIDDateChanging(string value);
+    partial void OnIDDateChanged();
+    partial void OnIDPlaceChanging(string value);
+    partial void OnIDPlaceChanged();
     #endregion
 		
 		public Parishioner()
@@ -10196,6 +10208,66 @@ namespace PMS.DataAccess.Models
 					this._ParishId = value;
 					this.SendPropertyChanged("ParishId");
 					this.OnParishIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDNo", DbType="NVarChar(20)")]
+		public string IDNo
+		{
+			get
+			{
+				return this._IDNo;
+			}
+			set
+			{
+				if ((this._IDNo != value))
+				{
+					this.OnIDNoChanging(value);
+					this.SendPropertyChanging();
+					this._IDNo = value;
+					this.SendPropertyChanged("IDNo");
+					this.OnIDNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDDate", DbType="NVarChar(20)")]
+		public string IDDate
+		{
+			get
+			{
+				return this._IDDate;
+			}
+			set
+			{
+				if ((this._IDDate != value))
+				{
+					this.OnIDDateChanging(value);
+					this.SendPropertyChanging();
+					this._IDDate = value;
+					this.SendPropertyChanged("IDDate");
+					this.OnIDDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDPlace", DbType="NVarChar(20)")]
+		public string IDPlace
+		{
+			get
+			{
+				return this._IDPlace;
+			}
+			set
+			{
+				if ((this._IDPlace != value))
+				{
+					this.OnIDPlaceChanging(value);
+					this.SendPropertyChanging();
+					this._IDPlace = value;
+					this.SendPropertyChanged("IDPlace");
+					this.OnIDPlaceChanged();
 				}
 			}
 		}
@@ -13060,7 +13132,7 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Permission", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Permission", DbType="Int NOT NULL")]
 		public int Permission
 		{
 			get
@@ -14645,7 +14717,7 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayMat", DbType="Date NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayMat", DbType="DateTime NOT NULL")]
 		public System.DateTime NgayMat
 		{
 			get
