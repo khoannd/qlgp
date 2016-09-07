@@ -54,21 +54,48 @@
     <table id="priestTable" class="table table-hover">
         <thead>
             <tr>
-                <th></th>
                 <th>
                     <label class="position-relative">
                         <input type="checkbox" class="ace" />
                         <span class="lbl"></span>
                     </label>
                 </th>
-                <th>Tên thánh</th>
-                <th>Họ tên</th>
-                <th>Hình ảnh</th>
-                <th>Ngày sinh</th>
-                <th>Số điện thoại</th>
-                <th>Thao tác</th>
+                <th filter-type="text" datakey="Code">Mã</th>
+                <th filter-type="text" datakey="Title">Danh xưng</th>
+                <th filter-type="text" datakey="PatronDate">Ngày mừng</th>
+                <th filter-type="select" datakey="ChristianName">Tên thánh</th>
+                <th filter-type="text" datakey="LastName">Họ lót</th>
+                <th filter-type="text" datakey="FirstName">Tên</th>
+                <th datakey="ImageUrl">Hình ảnh</th>
+                <th filter-type="text" datakey="BirthDay">Ngày sinh</th>
+                <th filter-type="text" datakey="BirthYear">Năm sinh</th>
+                <th filter-type="text" datakey="Age">Tuổi</th>
+                <th filter-type="select" datakey="TypeCode">Mã nhóm</th>
+                <th filter-type="select" datakey="TypeName">Tên nhóm</th>
+                <th filter-type="text" datakey="Seminary">Nhà Dòng</th>
+                <th filter-type="select" datakey="Role">Hiện tại</th>
+                <th filter-type="select" datakey="ServedPlace">Giáo xứ</th>
+                <th filter-type="select" datakey="VicariateName">Giáo hạt</th>
+                <th filter-type="text" datakey="StartDate">Ngày nhận nhiệm vụ</th>
+                <th filter-type="select" datakey="IsRetired">Hưu/M.vụ</th>
+                <th filter-type="text" datakey="ServedPhone">Điện thoại bàn</th>
+                <th filter-type="text" datakey="Phone">Điện thoại DĐ</th>
+                <th filter-type="text" datakey="ServedAddress">Địa chỉ</th>
+                <th filter-type="text" datakey="Email">Email</th>
+                <th filter-type="select" datakey="Diocesan">Dòng/Triều</th>
+                <th filter-type="text" datakey="Note">Ghi chú</th>
+                <th filter-type="text" datakey="OrdinationDate">Ngày chịu chức</th>
+                <th filter-type="text" datakey="OrdinationPlace">Tại</th>
+                <th filter-type="text" datakey="OrdinationBy">Do ĐGM</th>
+                <th filter-type="text">Thao tác</th>
             </tr>
+            
         </thead>
+        <tfoot>
+            <tr class="filter-row">
+                
+            </tr>
+        </tfoot>
         <tbody></tbody>
     </table>
     <!-- End Table View Priest -->
@@ -193,7 +220,7 @@
                                             <div class="form-group align-right">
                                                 <!-- Modal Button Add View Parishioner info -->
                                                 <button id="btnViewParishionerModal" class="btn btn-primary" data-toggle="modal" onclick="showParishionerInfo()">
-                                                    <i class="ace-icon fa fa-refresh"></i> Thông tin cá nhân
+                                                    <i class="ace-icon fa fa-pencil"></i> Thông tin cá nhân
                                                 </button>
                                                 <!-- Modal Button Add New Priest -->
                                                 <button id="btnCreatePriestModal" class="btn btn-primary" data-toggle="modal" onclick="UploadPriestImage()">
@@ -240,6 +267,43 @@
     .ui-menu .ui-menu-item {
         white-space: nowrap;
     }
+    #priestTable tfoot {
+        display: table-header-group !important;
+    }
+    tr.filter-row input, tr.filter-row select {
+        width: 70px;
+    }
+    #filter_Title {
+        width: 50px;
+    }
+    #filter_ServedAddress {
+        width: 200px;
+    }
+    #filter_TypeName {
+        width: 150px;
+    }
+    #filter_Note {
+        width: 200px;
+    }
+    #filter_LastName {
+        width: 100px;
+    }
+    #filter_ServedPhone, #filter_Phone {
+        width: 100px;
+    }
+    #filter_PatronDate, #filter_BirthYear, #filter_Age {
+        width: 40px;
+    }
+    #filter_ChristianName {
+        width: 100px;
+    }
+    #filter_undefined {
+        width: 120px;
+        visibility: hidden;
+    }
+    #filter_OrdinationBy {
+        width: 150px;
+    }
 </style>
 <script>
     //function addParishoner() {
@@ -283,6 +347,10 @@
     });;
     
     jQuery(function ($) {
+        $(document).ready(function () {
+            
+        });
+
         $('#inputFile').ace_file_input({
             style: 'well',
             btn_choose: 'Thả hình vào đây hoặc click vào để chọn',
@@ -318,14 +386,52 @@
     });
 
     InitDatatable();
-
+    initializeFilter("#priestTable");
+    function getFilterGridData(d) {
+        var data = {};
+        $(d.columns).each(function (i, v) {
+            if (typeof v["search"]["value"] != 'undefined' && v["search"]["value"]) {
+                //data.push(v["data"], v["search"]["value"]);
+                //data.push({[v["data"]]: v["search"]["value"]});
+                if (v["data"] == "PatronDate") {
+                    data[v["data"]] = v["search"]["value"].replace("/", "");
+                }
+                else {
+                    data[v["data"]] = v["search"]["value"];
+                }
+                
+            }
+            if (d.order && v["data"]) {
+                if (d.order[0]["column"] == i) {
+                    data["__sort"] = v["data"] + "|" + d.order[0]["dir"];
+                }
+            }
+        });
+        return data;
+    }
     //Function LoadDataTable
+    function addEditLink(id, text) {
+        var content = '<a class="pointer bold" onclick="LoadPriestByPriestId(' + id + ')">' + text + '</a>';
+        return content;
+    }
     function InitDatatable() {
-        $("#priestTable").dataTable({
+        var table = $("#priestTable").dataTable({
             "bRetrieve": true,
             "bServerSide": true,
             "bScrollCollapse": true,
-            "sAjaxSource": "/Priest/LoadParishDatatable",
+            "pageLength": 100,
+            "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "Tất cả"] ],
+            "ajax": {
+                "url": "/Priest/LoadParishDatatable",
+                "type": "POST",
+                "data": function (d) {
+                    if ($('#cbbDiocese').length !== 0) d.dioceseId = $('#cbbDiocese').val();
+                    if ($('#cbbVicariate').length !== 0) d.vicariateId = $('#cbbVicariate').val();
+                    if ($('#cbbParish').length !== 0) d.ParishId = $('#cbbParish').val();
+                    d.data = getFilterGridData(d);
+                    //d.columns = null;
+                }
+            },
             "oLanguage": {
                 "sSearch": "Tên linh mục",
                 "sZeroRecords": "Không có dữ liệu phù hợp",
@@ -343,10 +449,6 @@
             "columns": [
             {
                 "data": "Id",
-                "bVisible": false,
-            },
-            {
-                "data": "ParishionerId",
                 "render": function (data, type, full, meta) {
                     var content = '<label class="position-relative">' +
                         '<input type="checkbox" class="ace pItem" value="' + data + '" stype=""/>' +
@@ -355,8 +457,29 @@
                 },
                 "bSortable": false
             },
-            { "data": "ChristianName" },
-            { "data": "Name" },
+            {
+                "data": "Code"
+            },
+            { "data": "Title", "bSortable": false },
+            { "data": "PatronDate" },
+            {
+                "data": "ChristianName", "render": function (data, type, full, meta) {
+                    var content = addEditLink(full.Id, data);
+                    return content;
+                }
+            },
+            {
+                "data": "LastName", "render": function (data, type, full, meta) {
+                    var content = addEditLink(full.Id, data);
+                    return content;
+                }
+            },
+            {
+                "data": "FirstName", "render": function (data, type, full, meta) {
+                    var content = addEditLink(full.Id, data);
+                    return content;
+                }
+            },
             {
                 "data": "ThumbnailURL",
                 "render": function (data, type, full, meta) {
@@ -366,11 +489,40 @@
                     }
                     return "[No Image]";
                 },
-                "bSortable": false,
+                "sortable": false,
                 "sWidth": "15%"
             },
             { "data": "BirthDate" },
-            { "data": "Phone" },
+            { "data": "BirthYear", "bSearchable": true },
+            { "data": "Age" },
+            { "data": "TypeCode" },
+            { "data": "TypeName" },
+            
+            { "data": "Seminary" },
+            { "data": "Role" },
+            { "data": "ServedPlace" },
+            { "data": "VicariateName" },
+            { "data": "StartDate" },
+            {
+                "data": "IsRetired", "render": function (data, type, full, meta) {
+                    var content = (data == 1 ? 'Hưu' : 'Mục vụ');
+                    return content;
+                }
+            },
+            { "data": "ServedPhone", "bSortable": false },
+            { "data": "Phone", "bSortable": false },
+            { "data": "ServedAddress" },
+            { "data": "Email" },
+            {
+                "data": "Diocesan", "render": function (data, type, full, meta) {
+                    var content = (data == 1 ? 'Triều' : 'Dòng');
+                    return content;
+                }
+            },
+            { "data": "Note" },
+            { "data": "OrdinationDate" },
+            { "data": "OrdinationPlace" },
+            { "data": "OrdinationBy" },
             {
                 "data": "Id",
                 "render": function (data, type, full, meta) {
@@ -383,6 +535,91 @@
             },
             ],
             "bAutoWidth": false,
+            initComplete: function () {
+                
+            }
+        });
+    }
+
+    function initializeFilter(tableSelector) {
+        // DataTable
+        var table = $(tableSelector).DataTable();
+
+        // Setup - add a text input to each footer cell
+        $(tableSelector + ' thead th').each(function () {
+            var th = $("<th></th>");
+            $(tableSelector + ' tfoot tr.filter-row').append(th);
+            var title = $(this).text();
+            var type = $(this).attr('filter-type');
+            var key = $(this).attr('datakey');
+            if (!type) {
+                return;
+            }
+            if (type == 'select') {
+                var column = this;
+                var select = $('<select id="filter_' + key + '" title="Lọc theo ' + title + '"><option value=""></option></select>');
+                th.html(select);
+            }
+            else {
+                th.html('<input type="text" id="filter_' + key + '" title="Lọc theo ' + title + '" />');
+            }
+        });
+        
+        // fill data for filter dropdowns
+        // cha dong, cha trieu
+        
+        $("#filter_Diocesan").html('<option value=""></option><option value="1">Cha triều</option><option value="0">Cha dòng</option>');
+        $("#filter_IsRetired").html('<option value=""></option><option value="1">Nghỉ hưu</option><option value="0">Mục vụ</option>');
+        // fill data for other dropdown
+        $.get("/Priest/GetFilterParams", function (res) {
+            if (res.positions) {
+                $("#filter_Role").html('<option value=""></option>');
+                $(res.positions).each(function (k, v) {
+                    $("#filter_Role").append('<option value="'+v+'">'+v+'</option>');
+                });
+            }
+            if (res.christianNames) {
+                $("#filter_ChristianName").html('<option value=""></option>');
+                $(res.christianNames).each(function (k, v) {
+                    $("#filter_ChristianName").append('<option value="' + v + '">' + v + '</option>');
+                });
+            }
+            if (res.parishes) {
+                $("#filter_ServedPlace").html('<option value=""></option>');
+                $(res.parishes).each(function (k, v) {
+                    $("#filter_ServedPlace").append('<option value="' + v.Name + '">' + v.Name + '</option>');
+                });
+            }
+            if (res.vicariates) {
+                $("#filter_VicariateName").html('<option value=""></option>');
+                $(res.vicariates).each(function (k, v) {
+                    $("#filter_VicariateName").append('<option value="' + v.Name + '">' + v.Name + '</option>');
+                });
+            }
+            if (res.typeCodes) {
+                $("#filter_TypeCode").html('<option value=""></option>');
+                $(res.typeCodes).each(function (k, v) {
+                    $("#filter_TypeCode").append('<option value="' + v.Code + '">' + v.Code + '</option>');
+                });
+                $("#filter_TypeName").html('<option value=""></option>');
+                $(res.typeCodes).each(function (k, v) {
+                    $("#filter_TypeName").append('<option value="' + v.Definition + '">' + v.Definition + '</option>');
+                });
+            }
+        }, 'json');
+
+        // Apply the search
+        table.columns().each(function () {
+            var that = this;
+
+            $(tableSelector + ' tfoot tr.filter-row th input').on('change', function () {
+                var col = table.column($(this).parent().index() + ':visible');
+                col.search(this.value).draw();
+            });
+            $(tableSelector + ' tfoot tr.filter-row th select').on('change', function () {
+                var col = table.column($(this).parent().index() + ':visible');
+                col.search(this.value).draw();
+            });
         });
     }
 

@@ -47,19 +47,19 @@ namespace PMS.Web
                 }
                 Response.Redirect("/", false);
             }
-            if(!isUnauthorizePage() && (Session["AccountId"] == null || string.IsNullOrEmpty(Session["AccountId"].ToString())))
-            {
-                if ((new HttpRequestWrapper(Request)).IsAjaxRequest())
-                {
-                    Response.StatusCode = 401;
-                    Response.End();
-                }
-                else
-                {
-                    Response.Redirect("/", false);
-                    Response.End();
-                }
-            }
+            //if(!isUnauthorizePage() && Session != null && (Session["AccountId"] == null || string.IsNullOrEmpty(Session["AccountId"].ToString())))
+            //{
+            //    if ((new HttpRequestWrapper(Request)).IsAjaxRequest())
+            //    {
+            //        Response.StatusCode = 401;
+            //        Response.End();
+            //    }
+            //    else
+            //    {
+            //        Response.Redirect("/", false);
+            //        Response.End();
+            //    }
+            //}
         }
         private bool isUnauthorizePage()
         {

@@ -49,15 +49,18 @@ namespace PMS.BusinessLogic
         {
             return _parishManagerData.GetParishManagerByPriestId(priestId).ToList();
         }
-
+        public ParishManager GetParishManagerByPriestIdAndDate(int priestId, string startDate)
+        {
+            return _parishManagerData.GetParishManagerByPriestIdAndDate(priestId, startDate);
+        }
         public bool CheckExistPriest(int idTCLM, int priestID)
         {
             return _parishManagerData.CheckExistPriest(idTCLM, priestID);
         }
 
-        public void UpdateEndDateParishManager(ParishManager parishManager)
+        public int UpdateEndDateParishManager(ParishManager parishManager)
         {
-            _parishManagerData.UpdateEndDateParishManager(parishManager);
+            return _parishManagerData.UpdateEndDateParishManager(parishManager);
         }
 
         public int GetCurrentParishIdByParishManagerId(int parishManagerId)

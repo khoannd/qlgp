@@ -790,7 +790,7 @@ namespace PMS.DataAccess
                     parishioner.IsCounted = true;
                 }
 
-                int oldValue = parishioner.CommunityId;
+                int? oldValue = parishioner.CommunityId;
 
                 parishioner.CommunityId = family.CommunityId;
 

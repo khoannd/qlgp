@@ -80,7 +80,10 @@ namespace PMS.BusinessLogic
         {
             return _vicariateData.GetVicariateByVicariateId(id);
         }
-
+        public Vicariate GetVicariateByVicariateName(string name)
+        {
+            return _vicariateData.GetVicariateByVicariateName(name);
+        }
 
         // Thêm xóa sửa giáo hạt
         public int AddVicariate(Vicariate vicariate)

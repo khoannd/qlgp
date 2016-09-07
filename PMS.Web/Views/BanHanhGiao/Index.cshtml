@@ -112,7 +112,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Từ ngày&nbsp;</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="BanHanhGiaoFromDateModal" value="" class="form-control datetime" data-key="FromDate"/>
+                                    <input type="text" id="BanHanhGiaoFromDateModal" value="" class="form-control date-picker" data-key="FromDate"/>
                                     <label class="text-danger" id="lblBanHanhGiaoFromDateValidate" hidden=""></label>
                                 </div>
                             </div>
@@ -123,7 +123,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label no-padding-right">Đến ngày&nbsp;</label>
                                 <div class="col-sm-9">
-                                    <input type="text" id="BanHanhGiaoToDateModal" value="" class="form-control datetime" data-key="ToDate"/>
+                                    <input type="text" id="BanHanhGiaoToDateModal" value="" class="form-control date-picker" data-key="ToDate"/>
                                     <label class="text-danger" id="lblBanHanhGiaoToDateValidate" hidden=""></label>
                                 </div>
                             </div>
@@ -429,7 +429,7 @@
         }
         var data = {};
         $("#createBanHanhGiaoModal input, #createBanHanhGiaoModal select").each(function() {
-            var key  =$(this).attr("data-key");
+            var key = $(this).attr("data-key");
             if(key) {
                 if(key == "FromDate" || key == "ToDate") {
                     data[key] = convertVnDate2EnDate($(this).val());
@@ -698,8 +698,11 @@
                 parishionerId: parishionerId
             },
             success: function (data) {
-
-                if (data.result <= 0) {
+				if (data.result == -1) {
+	                showAlert("Có lỗi khi xóa dữ liệu. Xin vui lòng thử lại hoặc liên hệ ban quản trị phần mềm!");
+	                result = false;
+	            }
+	            else if (data.result == 0) {
                     showMessage("Xóa thất bại.", 0);
                 } else {
                     showMessage("Xóa thành viên thành công", 1);

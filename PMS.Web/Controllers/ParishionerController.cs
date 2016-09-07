@@ -1212,7 +1212,7 @@ namespace PMS.Web.Controllers
                 return null;
             }
             Session["ImageName"] = parishioner.ImageUrl;
-            int communityIdTemp;
+            int? communityIdTemp;
             //Get Sacrament Information
             var sacraments = _sacramentBusiness.GetSacramentsByParishionerId(id);
             //Get Vocation Information

@@ -1752,6 +1752,14 @@ namespace PMS.DataAccess
 
             return _db.ExecuteQuery<ParishionerViewModel>(query, "%" + name + "%");
         }
+        public Parishioner GetParishionerByForCheck(string name, string christianName, string birthDate)
+        {
+            string query = "SELECT * " +
+                    "FROM Parishioner " +
+                    "WHERE Name = {0} AND ChristianName={1} AND BirthDate={2} ";
+
+            return _db.ExecuteQuery<Parishioner>(query, name.Trim(), christianName.Trim(), birthDate.Trim()).SingleOrDefault();
+        }
         public IEnumerable<ParishionerViewModel> GetParishionerViewModelsByNameForPriest(string name)
         {
             string query = "SELECT Pa.*, C.Name AS CommunityName " +
@@ -2281,12 +2289,16 @@ namespace PMS.DataAccess
                 return null;
             }
         }
-
         public int UpdateParishioner(Parishioner updatedParishioner)
         {
+            return UpdateParishioner(updatedParishioner, true);
+        }
+        public int UpdateParishioner(Parishioner updatedParishioner, bool updatePriest)
+        {
+            Parishioner parishioner = null;
             try
             {
-                Parishioner parishioner = _db.Parishioners.FirstOrDefault(p => p.Id == updatedParishioner.Id);
+                parishioner = _db.Parishioners.FirstOrDefault(p => p.Id == updatedParishioner.Id);
 
                 if (parishioner == null)
                 {
@@ -2305,18 +2317,19 @@ namespace PMS.DataAccess
                         request.FromCommunityId = updatedParishioner.CommunityId;
                     }
                 }
+                Tools.CopyPropertiesTo(updatedParishioner, parishioner);
 
                 //parishioner.Code = updatedParishioner.Code;
-                parishioner.ChristianName = updatedParishioner.ChristianName;
-                parishioner.Name = updatedParishioner.Name;
-                parishioner.ImageUrl = updatedParishioner.ImageUrl;
-                parishioner.Gender = updatedParishioner.Gender;
-                parishioner.BirthDate = updatedParishioner.BirthDate;
-                parishioner.BirthPlace = updatedParishioner.BirthPlace;
-                parishioner.FatherName = updatedParishioner.FatherName;
-                parishioner.MotherName = updatedParishioner.MotherName;
-                parishioner.IsCounted = updatedParishioner.IsCounted;
-                parishioner.DomicileStatus = updatedParishioner.DomicileStatus;
+                //parishioner.ChristianName = updatedParishioner.ChristianName;
+                //parishioner.Name = updatedParishioner.Name;
+                //parishioner.ImageUrl = updatedParishioner.ImageUrl;
+                //parishioner.Gender = updatedParishioner.Gender;
+                //parishioner.BirthDate = updatedParishioner.BirthDate;
+                //parishioner.BirthPlace = updatedParishioner.BirthPlace;
+                //parishioner.FatherName = updatedParishioner.FatherName;
+                //parishioner.MotherName = updatedParishioner.MotherName;
+                //parishioner.IsCounted = updatedParishioner.IsCounted;
+                //parishioner.DomicileStatus = updatedParishioner.DomicileStatus;
 
                 if (updatedParishioner.DomicileStatus != 0)
                 {
@@ -2327,16 +2340,16 @@ namespace PMS.DataAccess
                     parishioner.DomicilePlace = "";
                 }
 
-                parishioner.Education = updatedParishioner.Education;
-                parishioner.IsStudying = updatedParishioner.IsStudying;
-                parishioner.Career = updatedParishioner.Career;
-                parishioner.Address = updatedParishioner.Address;
-                parishioner.Phone = updatedParishioner.Phone;
-                parishioner.MobilePhone = updatedParishioner.MobilePhone;
-                parishioner.Email = updatedParishioner.Email;
-                parishioner.Note = updatedParishioner.Note;
-                parishioner.IsCatechumen = updatedParishioner.IsCatechumen;
-                parishioner.IsDead = updatedParishioner.IsDead;
+                //parishioner.Education = updatedParishioner.Education;
+                //parishioner.IsStudying = updatedParishioner.IsStudying;
+                //parishioner.Career = updatedParishioner.Career;
+                //parishioner.Address = updatedParishioner.Address;
+                //parishioner.Phone = updatedParishioner.Phone;
+                //parishioner.MobilePhone = updatedParishioner.MobilePhone;
+                //parishioner.Email = updatedParishioner.Email;
+                //parishioner.Note = updatedParishioner.Note;
+                //parishioner.IsCatechumen = updatedParishioner.IsCatechumen;
+                //parishioner.IsDead = updatedParishioner.IsDead;
 
                 var member =
                         parishioner.FamilyMembers.FirstOrDefault(fm => fm.Status == (int)FamilyMemberStatusEnum.Main);
@@ -2364,22 +2377,25 @@ namespace PMS.DataAccess
                     }
                 }
 
-                parishioner.IsMarried = updatedParishioner.IsMarried;
-                parishioner.IsSingle = updatedParishioner.IsSingle;
-                parishioner.CommunityId = updatedParishioner.CommunityId;
+                //parishioner.IsMarried = updatedParishioner.IsMarried;
+                //parishioner.IsSingle = updatedParishioner.IsSingle;
+                //parishioner.CommunityId = updatedParishioner.CommunityId;
 
-                parishioner.LastUpdatedBy = updatedParishioner.LastUpdatedBy;
-                parishioner.Status = updatedParishioner.Status;
+                //parishioner.LastUpdatedBy = updatedParishioner.LastUpdatedBy;
+                //parishioner.Status = updatedParishioner.Status;
 
                 //update for priest
-                var priest = _db.Priests.FirstOrDefault(p => p.ParishionerId == updatedParishioner.Id);
-                if(priest != null)
+                if(updatePriest)
                 {
-                    priest.ChristianName = parishioner.ChristianName;
-                    priest.Name = parishioner.Name;
-                    priest.BirthDate = parishioner.BirthDate;
-                    priest.Phone = parishioner.Phone;
-                    priest.DioceseId = parishioner.Community.Parish.Vicariate.DioceseId;
+                    var priest = _db.Priests.FirstOrDefault(p => p.ParishionerId == updatedParishioner.Id);
+                    if (priest != null)
+                    {
+                        priest.ChristianName = parishioner.ChristianName;
+                        priest.Name = parishioner.Name;
+                        priest.BirthDate = parishioner.BirthDate;
+                        priest.Phone = parishioner.MobilePhone;
+                        priest.DioceseId = parishioner.Community.Parish.Vicariate.DioceseId;
+                    }
                 }
 
                 _db.SubmitChanges();
@@ -2387,6 +2403,11 @@ namespace PMS.DataAccess
             }
             catch (Exception e)
             {
+                if(parishioner != null)
+                {
+                    _db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, parishioner);
+                }
+                
                 return -1;
             }
         }

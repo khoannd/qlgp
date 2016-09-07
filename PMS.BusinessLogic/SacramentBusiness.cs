@@ -62,7 +62,11 @@ namespace PMS.BusinessLogic
             return sacraments;
         }
 
-       
+        public Sacrament GetSacramentsByParishionerIdAndType(int parishionerId, int type)
+        {
+            return _sacramentData.GetSacramentsByParishionerIdAndType(parishionerId, type);
+        }
+
         public int UpdateEditableNumber(Sacrament sacrament)
         {
             return _sacramentData.UpdateEditableNumber(sacrament);

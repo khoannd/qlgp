@@ -588,14 +588,7 @@ function upperCaseFirstChar(str) {
     return parts.join(" ");
 }
 $(function () {
-    $('input.datetime, input.date-picker').datepicker({
-        autoclose: true,
-        todayHighlight: true,
-        forceParse: false,
-    }).next().on(ace.click_event, function () {
-        $(this).prev().focus();
-    });
-    $('input.datetime, input.date-picker').mask("99/99/9999");
+    $('input.date-picker').mask("99/99/9999");
     $("input.select-all").click(function () {
         $(this).closest("table").find("tr > td:first-child input[type='checkbox'].sItem").attr("checked", this.checked);
     });

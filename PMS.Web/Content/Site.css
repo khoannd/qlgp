@@ -88,3 +88,18 @@ input.form-control, select.form-control {
 #tblPriestLookup_filter input[type='search'] {
     width: 300px;
 }
+.dataTable {
+    background-color: #fff !important;
+}
+.dataTable input {
+    padding: 2px 4px 6px !important;
+}
+.pointer {
+    cursor: pointer;
+}
+.bold {
+    font-weight: bold;
+}
+.underline {
+    text-decoration: underline;
+}

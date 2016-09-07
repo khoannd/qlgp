@@ -22,7 +22,7 @@ namespace PMS.DataAccess.Models
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="QLGP_Test")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="QLGP")]
 	public partial class PMSDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -198,7 +198,7 @@ namespace PMS.DataAccess.Models
     #endregion
 		
 		public PMSDataContext() : 
-				base(global::PMS.DataAccess.Properties.Settings.Default.QLGP_TestConnectionString, mappingSource)
+				base(global::PMS.DataAccess.Properties.Settings.Default.QLGPConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -5093,7 +5093,9 @@ namespace PMS.DataAccess.Models
 		
 		private int _Status;
 		
-		private int _CommunityId;
+		private System.Nullable<int> _CommunityId;
+		
+		private System.Nullable<int> _ParishId;
 		
 		private EntitySet<FamilyMember> _FamilyMembers;
 		
@@ -5125,8 +5127,10 @@ namespace PMS.DataAccess.Models
     partial void OnIsCountedChanged();
     partial void OnStatusChanging(int value);
     partial void OnStatusChanged();
-    partial void OnCommunityIdChanging(int value);
+    partial void OnCommunityIdChanging(System.Nullable<int> value);
     partial void OnCommunityIdChanged();
+    partial void OnParishIdChanging(System.Nullable<int> value);
+    partial void OnParishIdChanged();
     #endregion
 		
 		public Family()
@@ -5337,8 +5341,8 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityId", DbType="Int NOT NULL")]
-		public int CommunityId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityId", DbType="Int")]
+		public System.Nullable<int> CommunityId
 		{
 			get
 			{
@@ -5357,6 +5361,26 @@ namespace PMS.DataAccess.Models
 					this._CommunityId = value;
 					this.SendPropertyChanged("CommunityId");
 					this.OnCommunityIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int")]
+		public System.Nullable<int> ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
 				}
 			}
 		}
@@ -5414,7 +5438,7 @@ namespace PMS.DataAccess.Models
 					}
 					else
 					{
-						this._CommunityId = default(int);
+						this._CommunityId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Community");
 				}
@@ -5744,7 +5768,7 @@ namespace PMS.DataAccess.Models
 		
 		private System.DateTime _CreatedDate;
 		
-		private int _FromCommunityId;
+		private System.Nullable<int> _FromCommunityId;
 		
 		private int _Status;
 		
@@ -5766,7 +5790,7 @@ namespace PMS.DataAccess.Models
     partial void OnToParishIdChanged();
     partial void OnCreatedDateChanging(System.DateTime value);
     partial void OnCreatedDateChanged();
-    partial void OnFromCommunityIdChanging(int value);
+    partial void OnFromCommunityIdChanging(System.Nullable<int> value);
     partial void OnFromCommunityIdChanged();
     partial void OnStatusChanging(int value);
     partial void OnStatusChanged();
@@ -5868,8 +5892,8 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FromCommunityId", DbType="Int NOT NULL")]
-		public int FromCommunityId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FromCommunityId", DbType="Int")]
+		public System.Nullable<int> FromCommunityId
 		{
 			get
 			{
@@ -5939,7 +5963,7 @@ namespace PMS.DataAccess.Models
 					}
 					else
 					{
-						this._FromCommunityId = default(int);
+						this._FromCommunityId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Community");
 				}
@@ -8425,6 +8449,10 @@ namespace PMS.DataAccess.Models
 		
 		private string _ChauLuot;
 		
+		private int _Category;
+		
+		private int _DioceseId;
+		
 		private EntitySet<Account> _Accounts;
 		
 		private EntitySet<ClassGroup> _ClassGroups;
@@ -8491,6 +8519,10 @@ namespace PMS.DataAccess.Models
     partial void OnPatronDateChanged();
     partial void OnChauLuotChanging(string value);
     partial void OnChauLuotChanged();
+    partial void OnCategoryChanging(int value);
+    partial void OnCategoryChanged();
+    partial void OnDioceseIdChanging(int value);
+    partial void OnDioceseIdChanged();
     #endregion
 		
 		public Parish()
@@ -8837,6 +8869,46 @@ namespace PMS.DataAccess.Models
 					this._ChauLuot = value;
 					this.SendPropertyChanged("ChauLuot");
 					this.OnChauLuotChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Category", DbType="Int NOT NULL")]
+		public int Category
+		{
+			get
+			{
+				return this._Category;
+			}
+			set
+			{
+				if ((this._Category != value))
+				{
+					this.OnCategoryChanging(value);
+					this.SendPropertyChanging();
+					this._Category = value;
+					this.SendPropertyChanged("Category");
+					this.OnCategoryChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DioceseId", DbType="Int NOT NULL")]
+		public int DioceseId
+		{
+			get
+			{
+				return this._DioceseId;
+			}
+			set
+			{
+				if ((this._DioceseId != value))
+				{
+					this.OnDioceseIdChanging(value);
+					this.SendPropertyChanging();
+					this._DioceseId = value;
+					this.SendPropertyChanged("DioceseId");
+					this.OnDioceseIdChanged();
 				}
 			}
 		}
@@ -9315,13 +9387,19 @@ namespace PMS.DataAccess.Models
 		
 		private bool _IsSingle;
 		
-		private int _CommunityId;
+		private System.Nullable<int> _CommunityId;
 		
 		private System.DateTime _CreatedDate;
 		
 		private string _CreatedBy;
 		
 		private string _LastUpdatedBy;
+		
+		private string _Title;
+		
+		private string _PatronDate;
+		
+		private System.Nullable<int> _ParishId;
 		
 		private EntitySet<ClassGroup> _ClassGroups;
 		
@@ -9405,7 +9483,7 @@ namespace PMS.DataAccess.Models
     partial void OnIsMarriedChanged();
     partial void OnIsSingleChanging(bool value);
     partial void OnIsSingleChanged();
-    partial void OnCommunityIdChanging(int value);
+    partial void OnCommunityIdChanging(System.Nullable<int> value);
     partial void OnCommunityIdChanged();
     partial void OnCreatedDateChanging(System.DateTime value);
     partial void OnCreatedDateChanged();
@@ -9413,6 +9491,12 @@ namespace PMS.DataAccess.Models
     partial void OnCreatedByChanged();
     partial void OnLastUpdatedByChanging(string value);
     partial void OnLastUpdatedByChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnPatronDateChanging(string value);
+    partial void OnPatronDateChanged();
+    partial void OnParishIdChanging(System.Nullable<int> value);
+    partial void OnParishIdChanged();
     #endregion
 		
 		public Parishioner()
@@ -9972,8 +10056,8 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityId", DbType="Int NOT NULL")]
-		public int CommunityId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityId", DbType="Int")]
+		public System.Nullable<int> CommunityId
 		{
 			get
 			{
@@ -10052,6 +10136,66 @@ namespace PMS.DataAccess.Models
 					this._LastUpdatedBy = value;
 					this.SendPropertyChanged("LastUpdatedBy");
 					this.OnLastUpdatedByChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(20)")]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PatronDate", DbType="VarChar(4)")]
+		public string PatronDate
+		{
+			get
+			{
+				return this._PatronDate;
+			}
+			set
+			{
+				if ((this._PatronDate != value))
+				{
+					this.OnPatronDateChanging(value);
+					this.SendPropertyChanging();
+					this._PatronDate = value;
+					this.SendPropertyChanged("PatronDate");
+					this.OnPatronDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishId", DbType="Int")]
+		public System.Nullable<int> ParishId
+		{
+			get
+			{
+				return this._ParishId;
+			}
+			set
+			{
+				if ((this._ParishId != value))
+				{
+					this.OnParishIdChanging(value);
+					this.SendPropertyChanging();
+					this._ParishId = value;
+					this.SendPropertyChanged("ParishId");
+					this.OnParishIdChanged();
 				}
 			}
 		}
@@ -10242,7 +10386,7 @@ namespace PMS.DataAccess.Models
 					}
 					else
 					{
-						this._CommunityId = default(int);
+						this._CommunityId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Community");
 				}
@@ -10404,7 +10548,7 @@ namespace PMS.DataAccess.Models
 		
 		private System.DateTime _CreatedDate;
 		
-		private int _FromCommunityId;
+		private System.Nullable<int> _FromCommunityId;
 		
 		private int _Status;
 		
@@ -10426,7 +10570,7 @@ namespace PMS.DataAccess.Models
     partial void OnToParishIdChanged();
     partial void OnCreatedDateChanging(System.DateTime value);
     partial void OnCreatedDateChanged();
-    partial void OnFromCommunityIdChanging(int value);
+    partial void OnFromCommunityIdChanging(System.Nullable<int> value);
     partial void OnFromCommunityIdChanged();
     partial void OnStatusChanging(int value);
     partial void OnStatusChanged();
@@ -10528,8 +10672,8 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FromCommunityId", DbType="Int NOT NULL")]
-		public int FromCommunityId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FromCommunityId", DbType="Int")]
+		public System.Nullable<int> FromCommunityId
 		{
 			get
 			{
@@ -10599,7 +10743,7 @@ namespace PMS.DataAccess.Models
 					}
 					else
 					{
-						this._FromCommunityId = default(int);
+						this._FromCommunityId = default(Nullable<int>);
 					}
 					this.SendPropertyChanged("Community");
 				}
@@ -10723,6 +10867,8 @@ namespace PMS.DataAccess.Models
 		
 		private string _Code;
 		
+		private string _ParishName;
+		
 		private EntityRef<GeneralStatus> _GeneralStatus;
 		
 		private EntityRef<Parish> _Parish;
@@ -10759,6 +10905,8 @@ namespace PMS.DataAccess.Models
     partial void OnStatusIdChanged();
     partial void OnCodeChanging(string value);
     partial void OnCodeChanged();
+    partial void OnParishNameChanging(string value);
+    partial void OnParishNameChanged();
     #endregion
 		
 		public ParishManager()
@@ -11007,6 +11155,26 @@ namespace PMS.DataAccess.Models
 					this._Code = value;
 					this.SendPropertyChanged("Code");
 					this.OnCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ParishName", DbType="NVarChar(255)")]
+		public string ParishName
+		{
+			get
+			{
+				return this._ParishName;
+			}
+			set
+			{
+				if ((this._ParishName != value))
+				{
+					this.OnParishNameChanging(value);
+					this.SendPropertyChanging();
+					this._ParishName = value;
+					this.SendPropertyChanged("ParishName");
+					this.OnParishNameChanged();
 				}
 			}
 		}
@@ -11308,6 +11476,8 @@ namespace PMS.DataAccess.Models
 		
 		private System.Nullable<int> _ParishionerId;
 		
+		private bool _Diocesan;
+		
 		private EntitySet<DeaconRequisitionComment> _DeaconRequisitionComments;
 		
 		private EntitySet<HDLMMember> _HDLMMembers;
@@ -11336,6 +11506,8 @@ namespace PMS.DataAccess.Models
     partial void OnPhoneChanged();
     partial void OnParishionerIdChanging(System.Nullable<int> value);
     partial void OnParishionerIdChanged();
+    partial void OnDiocesanChanging(bool value);
+    partial void OnDiocesanChanged();
     #endregion
 		
 		public Priest()
@@ -11488,6 +11660,26 @@ namespace PMS.DataAccess.Models
 					this._ParishionerId = value;
 					this.SendPropertyChanged("ParishionerId");
 					this.OnParishionerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Diocesan", DbType="Bit NOT NULL")]
+		public bool Diocesan
+		{
+			get
+			{
+				return this._Diocesan;
+			}
+			set
+			{
+				if ((this._Diocesan != value))
+				{
+					this.OnDiocesanChanging(value);
+					this.SendPropertyChanging();
+					this._Diocesan = value;
+					this.SendPropertyChanged("Diocesan");
+					this.OnDiocesanChanged();
 				}
 			}
 		}
@@ -12868,7 +13060,7 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Permission", DbType="Int NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Permission", DbType="Int NOT NULL", IsPrimaryKey=true)]
 		public int Permission
 		{
 			get
@@ -14453,7 +14645,7 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayMat", DbType="DateTime NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayMat", DbType="Date NOT NULL")]
 		public System.DateTime NgayMat
 		{
 			get
@@ -15390,6 +15582,54 @@ namespace PMS.DataAccess.Models
 		
 		private bool _IsLeft;
 		
+		private bool _IsRetired;
+		
+		private string _TypeCode;
+		
+		private System.Nullable<int> _ServedId;
+		
+		private System.Nullable<int> _ServedType;
+		
+		private string _Place1;
+		
+		private string _Place2;
+		
+		private string _Place3;
+		
+		private string _Place4;
+		
+		private string _Place5;
+		
+		private string _Place6;
+		
+		private string _Place7;
+		
+		private string _Place8;
+		
+		private string _Place9;
+		
+		private string _Giver1;
+		
+		private string _Giver2;
+		
+		private string _Giver3;
+		
+		private string _Giver4;
+		
+		private string _Giver5;
+		
+		private string _Giver6;
+		
+		private string _Giver7;
+		
+		private string _Giver8;
+		
+		private string _Giver9;
+		
+		private System.Nullable<int> _ServedRole;
+		
+		private string _ServedStartDate;
+		
 		private EntitySet<VocationSeminaryYear> _VocationSeminaryYears;
 		
 		private EntitySet<LeaveVocationRequisition> _LeaveVocationRequisitions;
@@ -15450,6 +15690,54 @@ namespace PMS.DataAccess.Models
     partial void OnNoteChanged();
     partial void OnIsLeftChanging(bool value);
     partial void OnIsLeftChanged();
+    partial void OnIsRetiredChanging(bool value);
+    partial void OnIsRetiredChanged();
+    partial void OnTypeCodeChanging(string value);
+    partial void OnTypeCodeChanged();
+    partial void OnServedIdChanging(System.Nullable<int> value);
+    partial void OnServedIdChanged();
+    partial void OnServedTypeChanging(System.Nullable<int> value);
+    partial void OnServedTypeChanged();
+    partial void OnPlace1Changing(string value);
+    partial void OnPlace1Changed();
+    partial void OnPlace2Changing(string value);
+    partial void OnPlace2Changed();
+    partial void OnPlace3Changing(string value);
+    partial void OnPlace3Changed();
+    partial void OnPlace4Changing(string value);
+    partial void OnPlace4Changed();
+    partial void OnPlace5Changing(string value);
+    partial void OnPlace5Changed();
+    partial void OnPlace6Changing(string value);
+    partial void OnPlace6Changed();
+    partial void OnPlace7Changing(string value);
+    partial void OnPlace7Changed();
+    partial void OnPlace8Changing(string value);
+    partial void OnPlace8Changed();
+    partial void OnPlace9Changing(string value);
+    partial void OnPlace9Changed();
+    partial void OnGiver1Changing(string value);
+    partial void OnGiver1Changed();
+    partial void OnGiver2Changing(string value);
+    partial void OnGiver2Changed();
+    partial void OnGiver3Changing(string value);
+    partial void OnGiver3Changed();
+    partial void OnGiver4Changing(string value);
+    partial void OnGiver4Changed();
+    partial void OnGiver5Changing(string value);
+    partial void OnGiver5Changed();
+    partial void OnGiver6Changing(string value);
+    partial void OnGiver6Changed();
+    partial void OnGiver7Changing(string value);
+    partial void OnGiver7Changed();
+    partial void OnGiver8Changing(string value);
+    partial void OnGiver8Changed();
+    partial void OnGiver9Changing(string value);
+    partial void OnGiver9Changed();
+    partial void OnServedRoleChanging(System.Nullable<int> value);
+    partial void OnServedRoleChanged();
+    partial void OnServedStartDateChanging(string value);
+    partial void OnServedStartDateChanged();
     #endregion
 		
 		public Vocation()
@@ -15846,6 +16134,486 @@ namespace PMS.DataAccess.Models
 					this._IsLeft = value;
 					this.SendPropertyChanged("IsLeft");
 					this.OnIsLeftChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsRetired", DbType="Bit NOT NULL")]
+		public bool IsRetired
+		{
+			get
+			{
+				return this._IsRetired;
+			}
+			set
+			{
+				if ((this._IsRetired != value))
+				{
+					this.OnIsRetiredChanging(value);
+					this.SendPropertyChanging();
+					this._IsRetired = value;
+					this.SendPropertyChanged("IsRetired");
+					this.OnIsRetiredChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TypeCode", DbType="VarChar(50)")]
+		public string TypeCode
+		{
+			get
+			{
+				return this._TypeCode;
+			}
+			set
+			{
+				if ((this._TypeCode != value))
+				{
+					this.OnTypeCodeChanging(value);
+					this.SendPropertyChanging();
+					this._TypeCode = value;
+					this.SendPropertyChanged("TypeCode");
+					this.OnTypeCodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ServedId", DbType="Int")]
+		public System.Nullable<int> ServedId
+		{
+			get
+			{
+				return this._ServedId;
+			}
+			set
+			{
+				if ((this._ServedId != value))
+				{
+					this.OnServedIdChanging(value);
+					this.SendPropertyChanging();
+					this._ServedId = value;
+					this.SendPropertyChanged("ServedId");
+					this.OnServedIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ServedType", DbType="Int")]
+		public System.Nullable<int> ServedType
+		{
+			get
+			{
+				return this._ServedType;
+			}
+			set
+			{
+				if ((this._ServedType != value))
+				{
+					this.OnServedTypeChanging(value);
+					this.SendPropertyChanging();
+					this._ServedType = value;
+					this.SendPropertyChanged("ServedType");
+					this.OnServedTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Place1", DbType="NVarChar(100)")]
+		public string Place1
+		{
+			get
+			{
+				return this._Place1;
+			}
+			set
+			{
+				if ((this._Place1 != value))
+				{
+					this.OnPlace1Changing(value);
+					this.SendPropertyChanging();
+					this._Place1 = value;
+					this.SendPropertyChanged("Place1");
+					this.OnPlace1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Place2", DbType="NVarChar(100)")]
+		public string Place2
+		{
+			get
+			{
+				return this._Place2;
+			}
+			set
+			{
+				if ((this._Place2 != value))
+				{
+					this.OnPlace2Changing(value);
+					this.SendPropertyChanging();
+					this._Place2 = value;
+					this.SendPropertyChanged("Place2");
+					this.OnPlace2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Place3", DbType="NVarChar(100)")]
+		public string Place3
+		{
+			get
+			{
+				return this._Place3;
+			}
+			set
+			{
+				if ((this._Place3 != value))
+				{
+					this.OnPlace3Changing(value);
+					this.SendPropertyChanging();
+					this._Place3 = value;
+					this.SendPropertyChanged("Place3");
+					this.OnPlace3Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Place4", DbType="NVarChar(100)")]
+		public string Place4
+		{
+			get
+			{
+				return this._Place4;
+			}
+			set
+			{
+				if ((this._Place4 != value))
+				{
+					this.OnPlace4Changing(value);
+					this.SendPropertyChanging();
+					this._Place4 = value;
+					this.SendPropertyChanged("Place4");
+					this.OnPlace4Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Place5", DbType="NVarChar(100)")]
+		public string Place5
+		{
+			get
+			{
+				return this._Place5;
+			}
+			set
+			{
+				if ((this._Place5 != value))
+				{
+					this.OnPlace5Changing(value);
+					this.SendPropertyChanging();
+					this._Place5 = value;
+					this.SendPropertyChanged("Place5");
+					this.OnPlace5Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Place6", DbType="NVarChar(100)")]
+		public string Place6
+		{
+			get
+			{
+				return this._Place6;
+			}
+			set
+			{
+				if ((this._Place6 != value))
+				{
+					this.OnPlace6Changing(value);
+					this.SendPropertyChanging();
+					this._Place6 = value;
+					this.SendPropertyChanged("Place6");
+					this.OnPlace6Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Place7", DbType="NVarChar(100)")]
+		public string Place7
+		{
+			get
+			{
+				return this._Place7;
+			}
+			set
+			{
+				if ((this._Place7 != value))
+				{
+					this.OnPlace7Changing(value);
+					this.SendPropertyChanging();
+					this._Place7 = value;
+					this.SendPropertyChanged("Place7");
+					this.OnPlace7Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Place8", DbType="NVarChar(100)")]
+		public string Place8
+		{
+			get
+			{
+				return this._Place8;
+			}
+			set
+			{
+				if ((this._Place8 != value))
+				{
+					this.OnPlace8Changing(value);
+					this.SendPropertyChanging();
+					this._Place8 = value;
+					this.SendPropertyChanged("Place8");
+					this.OnPlace8Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Place9", DbType="NVarChar(100)")]
+		public string Place9
+		{
+			get
+			{
+				return this._Place9;
+			}
+			set
+			{
+				if ((this._Place9 != value))
+				{
+					this.OnPlace9Changing(value);
+					this.SendPropertyChanging();
+					this._Place9 = value;
+					this.SendPropertyChanged("Place9");
+					this.OnPlace9Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Giver1", DbType="NVarChar(100)")]
+		public string Giver1
+		{
+			get
+			{
+				return this._Giver1;
+			}
+			set
+			{
+				if ((this._Giver1 != value))
+				{
+					this.OnGiver1Changing(value);
+					this.SendPropertyChanging();
+					this._Giver1 = value;
+					this.SendPropertyChanged("Giver1");
+					this.OnGiver1Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Giver2", DbType="NVarChar(100)")]
+		public string Giver2
+		{
+			get
+			{
+				return this._Giver2;
+			}
+			set
+			{
+				if ((this._Giver2 != value))
+				{
+					this.OnGiver2Changing(value);
+					this.SendPropertyChanging();
+					this._Giver2 = value;
+					this.SendPropertyChanged("Giver2");
+					this.OnGiver2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Giver3", DbType="NVarChar(100)")]
+		public string Giver3
+		{
+			get
+			{
+				return this._Giver3;
+			}
+			set
+			{
+				if ((this._Giver3 != value))
+				{
+					this.OnGiver3Changing(value);
+					this.SendPropertyChanging();
+					this._Giver3 = value;
+					this.SendPropertyChanged("Giver3");
+					this.OnGiver3Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Giver4", DbType="NVarChar(100)")]
+		public string Giver4
+		{
+			get
+			{
+				return this._Giver4;
+			}
+			set
+			{
+				if ((this._Giver4 != value))
+				{
+					this.OnGiver4Changing(value);
+					this.SendPropertyChanging();
+					this._Giver4 = value;
+					this.SendPropertyChanged("Giver4");
+					this.OnGiver4Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Giver5", DbType="NVarChar(100)")]
+		public string Giver5
+		{
+			get
+			{
+				return this._Giver5;
+			}
+			set
+			{
+				if ((this._Giver5 != value))
+				{
+					this.OnGiver5Changing(value);
+					this.SendPropertyChanging();
+					this._Giver5 = value;
+					this.SendPropertyChanged("Giver5");
+					this.OnGiver5Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Giver6", DbType="NVarChar(100)")]
+		public string Giver6
+		{
+			get
+			{
+				return this._Giver6;
+			}
+			set
+			{
+				if ((this._Giver6 != value))
+				{
+					this.OnGiver6Changing(value);
+					this.SendPropertyChanging();
+					this._Giver6 = value;
+					this.SendPropertyChanged("Giver6");
+					this.OnGiver6Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Giver7", DbType="NVarChar(100)")]
+		public string Giver7
+		{
+			get
+			{
+				return this._Giver7;
+			}
+			set
+			{
+				if ((this._Giver7 != value))
+				{
+					this.OnGiver7Changing(value);
+					this.SendPropertyChanging();
+					this._Giver7 = value;
+					this.SendPropertyChanged("Giver7");
+					this.OnGiver7Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Giver8", DbType="NVarChar(100)")]
+		public string Giver8
+		{
+			get
+			{
+				return this._Giver8;
+			}
+			set
+			{
+				if ((this._Giver8 != value))
+				{
+					this.OnGiver8Changing(value);
+					this.SendPropertyChanging();
+					this._Giver8 = value;
+					this.SendPropertyChanged("Giver8");
+					this.OnGiver8Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Giver9", DbType="NVarChar(100)")]
+		public string Giver9
+		{
+			get
+			{
+				return this._Giver9;
+			}
+			set
+			{
+				if ((this._Giver9 != value))
+				{
+					this.OnGiver9Changing(value);
+					this.SendPropertyChanging();
+					this._Giver9 = value;
+					this.SendPropertyChanged("Giver9");
+					this.OnGiver9Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ServedRole", DbType="Int")]
+		public System.Nullable<int> ServedRole
+		{
+			get
+			{
+				return this._ServedRole;
+			}
+			set
+			{
+				if ((this._ServedRole != value))
+				{
+					this.OnServedRoleChanging(value);
+					this.SendPropertyChanging();
+					this._ServedRole = value;
+					this.SendPropertyChanged("ServedRole");
+					this.OnServedRoleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ServedStartDate", DbType="NVarChar(8)")]
+		public string ServedStartDate
+		{
+			get
+			{
+				return this._ServedStartDate;
+			}
+			set
+			{
+				if ((this._ServedStartDate != value))
+				{
+					this.OnServedStartDateChanging(value);
+					this.SendPropertyChanging();
+					this._ServedStartDate = value;
+					this.SendPropertyChanged("ServedStartDate");
+					this.OnServedStartDateChanged();
 				}
 			}
 		}

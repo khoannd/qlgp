@@ -41,6 +41,14 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<Sacrament>(query, parishionerId);
         }
 
+        public Sacrament GetSacramentsByParishionerIdAndType(int parishionerId, int type)
+        {
+            const string query = "SELECT * " +
+                                 "FROM Sacrament " +
+                                 "WHERE ParishionerId = {0} AND [Type]={1}";
+            return _db.ExecuteQuery<Sacrament>(query, parishionerId, type).SingleOrDefault();
+        }
+
         public int CheckSacrament(int parishionerId, int type)
         {
             try
@@ -109,13 +117,15 @@ namespace PMS.DataAccess
                     return 0;
                 }
 
+                Tools.CopyPropertiesTo(sacrament, item);
+
                 // item.ParishionerId = sacrament.ParishionerId;
-                item.Number = sacrament.Number;
-                item.Patron = sacrament.Patron;
-                //  item.Note = sacrament.Note;
-                item.Date = sacrament.Date;
-                item.Giver = sacrament.Giver;
-                item.ReceivedPlace = sacrament.ReceivedPlace;
+                //item.Number = sacrament.Number;
+                //item.Patron = sacrament.Patron;
+                //item.Note = sacrament.Note;
+                //item.Date = sacrament.Date;
+                //item.Giver = sacrament.Giver;
+                //item.ReceivedPlace = sacrament.ReceivedPlace;
                 _db.SubmitChanges();
                 return 1;
             }

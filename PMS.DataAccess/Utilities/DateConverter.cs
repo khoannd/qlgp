@@ -78,7 +78,7 @@ namespace PMS.DataAccess.Utilities
                 return "";
             }
 
-            string[] dateParts = date.Split('/');
+            string[] dateParts = date.Split('/', '-');
 
             if (dateParts.Count() == 3)
             {
@@ -103,7 +103,7 @@ namespace PMS.DataAccess.Utilities
                 return "";
             }
 
-            return year + month + day;
+            return year.Trim() + month.Trim() + day.Trim();
         }
 
         private string ConvertStringForDateAndMonth(string s)
@@ -120,6 +120,24 @@ namespace PMS.DataAccess.Utilities
             }
 
             return result;
+        }
+
+        public static string GetYear(string strDate)
+        {
+            if(string.IsNullOrEmpty(strDate) || strDate.Length < 4)
+            {
+                return "";
+            }
+            return strDate.Substring(0, 4);
+        }
+
+        public static int CalCulateAgeInt(string strDate) {
+            string year = GetYear(strDate);
+            if(year != "")
+            {
+                return DateTime.Now.Year - int.Parse(year);
+            }
+            return 0;
         }
 
     }

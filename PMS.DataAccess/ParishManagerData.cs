@@ -65,7 +65,16 @@ namespace PMS.DataAccess
                                     order by ParishManager.StartDate
                                 ";
             return _db.ExecuteQuery<ParishManager>(query, priestId);
-        } 
+        }
+        public ParishManager GetParishManagerByPriestIdAndDate(int priestId, string startDate)
+        {
+            const string query = @" select *
+                                    from ParishManager
+                                    where PriestId = {0}
+                                    AND StartDate = {1}
+                                ";
+            return _db.ExecuteQuery<ParishManager>(query, priestId, startDate).SingleOrDefault();
+        }
         public int CheckExistedParishManager(string date, int parishId, int priestId, int idTCLM)
         {
             try
@@ -105,19 +114,24 @@ namespace PMS.DataAccess
             }
         }
 
-        public void UpdateEndDateParishManager(ParishManager parishManager)
+        public int UpdateEndDateParishManager(ParishManager parishManager)
         {
             try
-            {                
-                ParishManager prePM = _db.ExecuteQuery<ParishManager>("select top 1 * from ParishManager where Id <> {0} and PriestId = {1} order by StartDate, Id desc", parishManager.Id, parishManager.PriestId).FirstOrDefault();
-                if (prePM != null)
+            {
+                if(!string.IsNullOrEmpty(parishManager.StartDate))
                 {
-                    prePM.EndDate = parishManager.StartDate;
-                    _db.SubmitChanges();
+                    ParishManager prePM = _db.ExecuteQuery<ParishManager>("select top 1 * from ParishManager where Id <> {0} and PriestId = {1} AND StartDate < {2} order by StartDate desc", parishManager.Id, parishManager.PriestId, parishManager.StartDate).FirstOrDefault();
+                    if (prePM != null)
+                    {
+                        prePM.EndDate = parishManager.StartDate;
+                        _db.SubmitChanges();
+                    }
                 }
+                return 1;
             }
             catch (Exception e)
             {
+                return -1;
             }
         }
 
@@ -133,6 +147,7 @@ namespace PMS.DataAccess
 
                 item.ParishId = parishManager.ParishId;
                 item.PriestId = parishManager.PriestId;
+                item.ParishName = parishManager.ParishName;
                 item.StartDate = parishManager.StartDate;
                 item.EndDate = parishManager.EndDate;
                 item.Position = parishManager.Position;

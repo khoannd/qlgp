@@ -17,7 +17,10 @@ namespace PMS.BusinessLogic
         {
             _vocationData = new VocationData(connection);    
         }
-
+        public IEnumerable<ValueSet> GetTypeCodes()
+        {
+            return _vocationData.GetTypeCodes();
+        }
         public Vocation GetVocationByParishionerId(int parishionerId)
         {
             var vocation = _vocationData.GetVocationByParishionerId(parishionerId);

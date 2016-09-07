@@ -372,7 +372,7 @@ namespace PMS.Web.Controllers
         {
             var family = _familyBusiness.GetFamilyById(id);
 
-            int communityId = 0;
+            int? communityId = 0;
             string communityName = null;
             string parishName = "";
             if (family != null)

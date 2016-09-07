@@ -38,6 +38,12 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<Vicariate>(query, id).SingleOrDefault();
         }
 
+        public Vicariate GetVicariateByVicariateName(string name)
+        {
+            const string query = "SELECT * FROM Vicariate WHERE Name = {0}";
+            return _db.ExecuteQuery<Vicariate>(query, name.Trim()).SingleOrDefault();
+        }
+
         //Thêm xóa sửa giáo hạt
         public int AddVicariate(Vicariate vicariate)
         {

@@ -16,6 +16,7 @@ using System.Configuration;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using PMS.DataAccess.Enumerations;
 
 namespace PMS.Web.Controllers
 {
@@ -30,6 +31,7 @@ namespace PMS.Web.Controllers
         private readonly DioceseBusiness _dioceseBusiness = new DioceseBusiness(DbConfig.GetConnectionString());
         private readonly VicariateBusiness _vicariateBusiness = new VicariateBusiness(DbConfig.GetConnectionString());
         private readonly ParishBusiness _parishBusiness = new ParishBusiness(DbConfig.GetConnectionString());
+        private readonly ParishManagerBusiness _parishManagerBusiness = new ParishManagerBusiness(DbConfig.GetConnectionString());
 
         public PriestController()
         {
@@ -48,14 +50,17 @@ namespace PMS.Web.Controllers
             return View();
         }
 
-        public ActionResult LoadParishDatatable(jQueryDataTableParamModel param)
+        public ActionResult LoadParishDatatable(jQueryDataTableParam param)
         {
             int dioceseId = (int)Session["DioceseId"];
             int totalRecords = 0;
             int totalDisplayRecords = 0;
-            var result = _priestBusiness.GetOrderedPriestsByParamsAndPaging(dioceseId, param.sSearch,
-               param.iSortCol_0, param.sSortDir_0, param.iDisplayStart, param.iDisplayLength, out totalRecords,
-               out totalDisplayRecords);
+            //var result = _priestBusiness.GetOrderedPriestsByParamsAndPaging(dioceseId, param.sSearch,
+            //   param.iSortCol_0, param.sSortDir_0, param.iDisplayStart, param.iDisplayLength, out totalRecords,
+            //   out totalDisplayRecords);
+            param.DioceseId = dioceseId;
+
+            var result = _priestBusiness.GetOrderedPriestsByParamsAndPaging(param, out totalRecords, out totalDisplayRecords);
 
             var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
             for (int i = 0; i < result.Count; i++)
@@ -64,12 +69,52 @@ namespace PMS.Web.Controllers
                 result[i].ThumbnailURL = _parishionerBusiness.GetImageUrl(string.Concat(fileThumbPath, result[i].ImageURL), (int)PMS.DataAccess.Enumerations.GenderEnum.Male);
             }
 
+            //return Json(new
+            //{
+            //    sEcho = param.sEcho,
+            //    iTotalRecords = totalRecords,
+            //    iTotalDisplayRecords = totalDisplayRecords,
+            //    aaData = result
+            //}, JsonRequestBehavior.AllowGet);
+
             return Json(new
             {
-                sEcho = param.sEcho,
                 iTotalRecords = totalRecords,
                 iTotalDisplayRecords = totalDisplayRecords,
                 aaData = result
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetFilterParams(jQueryDataTableParam param)
+        {
+            IEnumerable<Parish> parishes = _parishBusiness.GetAllParish();
+            List<ParishViewModel> parishViewModels = new List<ParishViewModel>();
+            Tools.CopyPropertiesTo(parishes, parishViewModels);
+            //foreach(var p in parishes)
+            //{
+            //    var model = new ParishViewModel();
+            //    Tools.CopyPropertiesTo(p, model);
+            //    parishViewModels.Add(model);
+            //}
+            IEnumerable<Vicariate> vicariates = _vicariateBusiness.getAllVicariate().ToList();
+            List<VicariateViewModel> vicariatesModels = new List<VicariateViewModel>();
+            Tools.CopyPropertiesTo(vicariates, vicariatesModels);
+            IEnumerable<string> christianNames = _priestBusiness.GetChristianList();
+            IEnumerable<VaiTro> vaitro = _priestBusiness.GetPositionList();
+            List<string> positions = new List<string>();
+            foreach (var item in vaitro)
+            {
+                positions.Add(item.Name);
+            }
+            IEnumerable<ValueSet> typeCodes = _vocationBusiness.GetTypeCodes();
+
+            return Json(new
+            {
+                parishes = parishViewModels,
+                vicariates = vicariatesModels,
+                christianNames = christianNames,
+                positions = positions,
+                typeCodes = typeCodes
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -146,79 +191,309 @@ namespace PMS.Web.Controllers
 
         private int addPriest(PriestViewModel priestViewModel)
         {
-            int dioceseId = (int)Session["DioceseId"];
-
-            var priest = new Priest();
-            priest.ChristianName = priestViewModel.ChristianName;
-            priest.Name = priestViewModel.Name;
-            priest.BirthDate = priestViewModel.BirthDate;
-            priest.Phone = priestViewModel.Phone;
-            priest.ParishionerId = priestViewModel.ParishionerId;
-            priest.DioceseId = dioceseId;
-            var converter = new DateConverter();
-            priest.BirthDate = converter.ConvertDateToString(priest.BirthDate);
-            if (priest.BirthDate.Length > 8) priest.BirthDate = priest.BirthDate.Substring(0, 8);
             int result = 0;
-            if (priestViewModel.ParishionerId == 0 || priestViewModel.ParishionerId == null)
+            try
             {
-                Parishioner parishioner = new Parishioner();
-                var maxcode = _parishionerBusiness.getMaxCode("LM");
-                if (maxcode == null)
+                int dioceseId = (int)Session["DioceseId"];
+
+                var priest = new Priest();
+                //priest.ChristianName = priestViewModel.ChristianName;
+                //priest.Name = priestViewModel.Name;
+                //priest.BirthDate = priestViewModel.BirthDate;
+                //priest.Phone = priestViewModel.Phone;
+                //priest.ParishionerId = priestViewModel.ParishionerId;
+                //priest.DioceseId = dioceseId;
+                Tools.CopyPropertiesTo(priestViewModel, priest);
+
+                var converter = new DateConverter();
+                priest.BirthDate = converter.ConvertDateToString(priest.BirthDate);
+                if (priest.BirthDate.Length > 8) priest.BirthDate = priest.BirthDate.Substring(0, 8);
+
+                if (priestViewModel.ParishionerId == 0 || priestViewModel.ParishionerId == null)
                 {
-                    parishioner.Code = "LM00001";
+                    Parishioner parishioner = new Parishioner();
+                    if(string.IsNullOrEmpty(priestViewModel.Code))
+                    {
+                        var maxcode = _parishionerBusiness.getMaxCode("LM");
+                        if (maxcode == null)
+                        {
+                            parishioner.Code = "LM00001";
+                        }
+                        else
+                        {
+                            String[] splitString = maxcode.Split('M');
+                            var code = String.Format("{0:00000}", Int32.Parse(splitString[1]) + 1);
+                            parishioner.Code = String.Concat("LM", code);
+                        }
+                    }
+                    else
+                    {
+                        parishioner.Code = priestViewModel.Code;
+                    }
+
+                    parishioner.ImageUrl = priestViewModel.ImageURL;
+                    assignParishionerProp(parishioner, priestViewModel);
+
+                    priest.ParishionerId = _parishionerBusiness.AddParishioner(parishioner);
+                    if(priest.ParishionerId > 0)
+                    {
+                        priestViewModel.ParishionerId = priest.ParishionerId;
+                        importBaptism(priestViewModel);
+
+                        Vocation vocation = new Vocation();
+                        assignVocationProp(vocation, priestViewModel);
+
+                        var vocationParishionerId = _vocationBusiness.AddVocation(vocation);
+
+                        if (vocationParishionerId == priest.ParishionerId)
+                        {
+                            result = _priestBusiness.AddPriest(priest);
+                            priestViewModel.Id = result;
+                        }
+                        else result = 0;
+                    }
+                    else
+                    {
+                        writeLog(string.Concat(priestViewModel.Name, ": insert parishioner fail"));
+                    }
                 }
                 else
                 {
-                    String[] splitString = maxcode.Split('M');
-                    var code = String.Format("{0:00000}", Int32.Parse(splitString[1]) + 1);
-                    parishioner.Code = String.Concat("LM", code);
+                    Vocation vocation = null;
+
+                    Parishioner parishioner = _parishionerBusiness.getParishionerById((int)priestViewModel.ParishionerId);
+                    if (parishioner.Vocation != null)
+                    {
+                        vocation = parishioner.Vocation;
+                        assignVocationProp(vocation, priestViewModel);
+                        //_vocationBusiness.UpdateVocation(vocation);
+
+                    }
+                    else
+                    {
+                        vocation = new Vocation();
+                        assignVocationProp(vocation, priestViewModel);
+                        _vocationBusiness.AddVocation(vocation);
+                    }
+                    assignParishionerProp(parishioner, priestViewModel);
+                    result = _parishionerBusiness.UpdateParishioner(parishioner, false);
+                    if(result > 0)
+                    {
+                        importBaptism(priestViewModel);
+                        var priestCheck = _priestBusiness.GetPriestByParishionerId((int)priest.ParishionerId);
+                        if (priestCheck != null)
+                        {
+                            priest.Id = priestCheck.Id;
+                            priestViewModel.Id = priest.Id;
+                            result = _priestBusiness.UpdatePriest(priest);
+                        }
+                        else
+                        {
+                            result = _priestBusiness.AddPriest(priest);
+                            priestViewModel.Id = result;
+                        }
+                    }
+                    else
+                    {
+                        writeLog(string.Concat(priestViewModel.Name, ": update parishioner fail"));
+                    }
                 }
-                parishioner.ImageUrl = priestViewModel.ImageURL;
-                parishioner.ChristianName = priest.ChristianName;
-                parishioner.Name = priest.Name;
-                parishioner.Gender = 1;
-                parishioner.BirthDate = priest.BirthDate;
-                parishioner.IsCounted = false;
-                parishioner.Status = 1;
-                parishioner.DomicileStatus = 0;
-                parishioner.IsStudying = false;
-                parishioner.MobilePhone = priest.Phone;
-                parishioner.IsCatechumen = false;
-                parishioner.IsDead = false;
-                parishioner.IsMarried = false;
-                parishioner.IsSingle = true;
-                parishioner.CommunityId = 1;
-                parishioner.CreatedDate = DateTime.Now;
-                priest.ParishionerId = _parishionerBusiness.AddParishioner(parishioner);
-
-                Vocation vocation = new Vocation();
-                vocation.ParishionerId = priest.ParishionerId.GetValueOrDefault();
-                vocation.Position = 4;
-                vocation.IsLeft = false;
-                var vocationParishionerId = _vocationBusiness.AddVocation(vocation);
-
-                if (vocationParishionerId == priest.ParishionerId)
+                if(result <= 0)
                 {
-                    result = _priestBusiness.AddPriest(priest);
+                    writeLog(string.Concat(priestViewModel.Name, ": add priest failed: "));
                 }
-                else result = 0;
+                else
+                {
+                    int resultParishManager = addParishManager(priestViewModel);
+                    if(resultParishManager <= 0)
+                    {
+                        writeLog(string.Concat(priestViewModel.Name, ": update parish manager fail"));
+                    }
+                }
+                return result;
             }
-            else
+            catch (Exception ex)
             {
-                Vocation vocation = new Vocation();
-                vocation.ParishionerId = priest.ParishionerId.GetValueOrDefault();
-                vocation.Position = 4;
-                vocation.IsLeft = false;
-                var vocationParishionerId = _vocationBusiness.AddVocation(vocation);
-
-                if (vocationParishionerId == priest.ParishionerId)
+                writeLog(string.Concat(priestViewModel.Name, ": add priest exception: ", ex.Message));
+                return 0;
+            }
+        }
+        /// <summary>
+        /// Add division history
+        /// </summary>
+        /// <returns></returns>
+        private int addParishManager(PriestViewModel priest) {
+            int result = 0;
+            try
+            {
+                if(priest.Additional != null && priest.Additional is List<Dictionary<string, string>> 
+                    && (priest.Additional as List<Dictionary<string, string>>).Count > 0)
                 {
-                    result = _priestBusiness.AddPriest(priest);
+                    List<Dictionary<string, string>> history = (List<Dictionary<string, string>>)priest.Additional;
+                    foreach(var item in history)
+                    {
+                        if(item["nam"] != "")
+                        {
+                            ParishManager parishManager = null;
+                            bool exists = false;
+                            //Check exists
+                            parishManager = _parishManagerBusiness.GetParishManagerByPriestIdAndDate(priest.Id, item["nam"]);
+                            if (parishManager == null)
+                            {
+                                parishManager = new ParishManager();
+                                parishManager.PriestId = priest.Id;
+                            }
+                            else
+                            {
+                                exists = true;
+                            }
+
+                            //set ParishId
+                            Parish parish = _parishBusiness.GetParishesByParishName(item["noi"], 0);
+                            if(parish != null)
+                            {
+                                parishManager.ParishId = parish.Id;
+                            }
+
+                            //Set StartDate
+                            parishManager.StartDate = item["nam"];
+
+                            //Set ParishName
+                            if (item["noi"] != "")
+                            {
+                                parishManager.ParishName = item["noi"];
+                            }
+
+                            //Set position and position name
+                            if(item["chucvu"] != "")
+                            {
+                                parishManager.PositionName = item["chucvu"];
+                                parishManager.Position = getRoleId(parishManager.PositionName);
+                            }
+                            parishManager.StatusId = (int)ParishManagerStatusEnum.DaNhanNhiemVu;
+                            if(exists)
+                            {
+                                result = _parishManagerBusiness.UpdateParishManager(parishManager);
+                            }
+                            else
+                            {
+                                result = _parishManagerBusiness.AddParishManager(parishManager);
+                            }
+                        }
+                    }
                 }
-                else result = 0;
+                else
+                {
+                    result = 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                writeLog(string.Concat(priest.Name, ": add parish manager exception: ", ex.Message));
             }
             return result;
         }
+        
+        private void assignVocationProp(Vocation vocation, PriestViewModel priest)
+        {
+            vocation.ParishionerId = priest.ParishionerId.GetValueOrDefault();
+            vocation.Position = 4; // Linh mục
+            vocation.IsLeft = false;
+            vocation.IsRetired = priest.IsRetired == 1 ? true : false;
+            vocation.TypeCode = priest.TypeCode;
+            vocation.ServedId = priest.ServedPlaceId;
+            vocation.Seminary = priest.Seminary;
+            vocation.ServedAddress = priest.ServedAddress;
+            vocation.ServedPlace = priest.ServedPlace;
+            vocation.ServedStartDate = priest.StartDate;
+            vocation.Phone = priest.ServedPhone;
+            vocation.Email = priest.ServedEmail;
+            vocation.Date8 = priest.OrdinationDate; // ngay thu phong LM
+            vocation.Place8 = priest.OrdinationPlace; // noi thu phong
+            vocation.Giver8 = priest.OrdinationBy; // DGM thu phong
+            vocation.ServedType = priest.ParishTypeCode;
+            vocation.Note = priest.Note;
+            vocation.ServedRole = priest.RoleId;
+            //if (priest.ParishId != null)
+            //{
+            //    Parish parish = _parishBusiness.GetParishesByParishId((int)priest.ParishId);
+            //    vocation.ServedType = parish.Category;
+            //}
+        }
+        private void assignParishionerProp(Parishioner parishioner, PriestViewModel priest)
+        {
+            if(!string.IsNullOrEmpty(priest.Code))
+            {
+                parishioner.Code = priest.Code;
+            }
+            parishioner.ChristianName = priest.ChristianName;
+            parishioner.Name = priest.Name;
+            parishioner.Gender = 1;
+            parishioner.BirthDate = priest.BirthDate;
+            parishioner.IsCounted = false;
+            parishioner.Status = 1;
+            parishioner.DomicileStatus = 0;
+            parishioner.IsStudying = false;
+            parishioner.MobilePhone = priest.Phone;
+            parishioner.IsCatechumen = false;
+            parishioner.IsDead = false;
+            parishioner.IsMarried = false;
+            parishioner.IsSingle = true;
+            parishioner.ParishId = 1;
+
+            parishioner.Title = priest.Title;
+            parishioner.PatronDate = priest.PatronDate;
+            parishioner.Email = priest.Email;
+
+            parishioner.CreatedDate = DateTime.Now;
+        }
+
+        private bool importBaptism(PriestViewModel priest)
+        {
+            try
+            {
+                if(priest.ParishionerId != null && priest.ParishionerId != 0 && !string.IsNullOrEmpty(priest.BaptismDate))
+                {
+                    SacramentBusiness sacramentBusiness = new SacramentBusiness(DbConfig.GetConnectionString());
+                    Sacrament sacramentCheck = sacramentBusiness.GetSacramentsByParishionerIdAndType((int)priest.ParishionerId, (int)PMS.DataAccess.Enumerations.SacramentEnum.Baptism);
+                    Sacrament sacrament = null;
+                    if (sacramentCheck == null)
+                    {
+                        sacrament = new Sacrament();
+                    }
+                    else
+                    {
+                        sacrament = sacramentCheck;
+                    }
+                    sacrament.ParishionerId = (int)priest.ParishionerId;
+                    sacrament.Type = (int)PMS.DataAccess.Enumerations.SacramentEnum.Baptism;
+                    sacrament.Date = convertDateForImport(priest.BaptismDate);
+                    sacrament.Giver = priest.BaptismPriest;
+                    sacrament.ReceivedPlace = priest.BaptismPlace;
+                    int result = 0;
+                    if (sacramentCheck == null)
+                    {
+                        result = sacramentBusiness.AddSacrament(sacrament);
+                    }
+                    else
+                    {
+                        result = sacramentBusiness.UpdateSacrament(sacrament);
+                    }
+                    if (result <= 0)
+                    {
+                        writeLog(string.Concat(priest.Name, ": add sacrament failed: "));
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                writeLog(string.Concat(priest.Name, ": exception when inport baptism: ", ex.Message));
+                return false;
+            }
+        }
+
         [ValidateInput(false)]
         public ActionResult UpdatePriest(PriestViewModel priestViewModel)
         {
@@ -255,7 +530,7 @@ namespace PMS.Web.Controllers
                 parishioner.Name = priestViewModel.Name;
                 parishioner.BirthDate = priestViewModel.BirthDate;
                 parishioner.MobilePhone = priestViewModel.Phone;
-                result = _parishionerBusiness.UpdateParishioner(parishioner);
+                result = _parishionerBusiness.UpdateParishioner(parishioner, false);
             }
             else
             {
@@ -273,7 +548,7 @@ namespace PMS.Web.Controllers
                 Parishioner parishioner = _parishionerBusiness.getParishionerById((int)priest.ParishionerId);
                 parishioner.Status = (int)PMS.DataAccess.Enumerations.ParishionerStatusEnum.Deleted;
                 parishioner.IsCounted = false;
-                _parishionerBusiness.UpdateParishioner(parishioner);
+                _parishionerBusiness.UpdateParishioner(parishioner, false);
             }
             
             int result = _priestBusiness.DeletePriest(id);
@@ -364,26 +639,353 @@ namespace PMS.Web.Controllers
                     ds.ReadXml(xmlreader);
                     xmlreader.Close();
                 }
-
+                List<PriestViewModel> listPriests = new List<PriestViewModel>();
                 for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                 {
-                    //insert to db
-                    PriestViewModel priest = new PriestViewModel();
-                    priest.ChristianName = ds.Tables[0].Rows[i]["ChristianName"].ToString();
-                    priest.Name = ds.Tables[0].Rows[i]["Name"].ToString();
-                    priest.BirthDate = ds.Tables[0].Rows[i]["BirthDate"].ToString();
-                    priest.DioceseId = Convert.ToInt16(ds.Tables[0].Rows[i]["DioceseId"]);
-                    //_priestBusiness.AddPriest(priest); Khoan del
+                    try
+                    {
+                        //insert to db
+                        PriestViewModel priest = new PriestViewModel();
+                        if (ds.Tables[0].Columns.Contains("ChristianName"))
+                        {
+                            priest.ChristianName = ds.Tables[0].Rows[i]["ChristianName"].ToString();
+                            priest.Name = ds.Tables[0].Rows[i]["Name"].ToString();
+                            priest.BirthDate = ds.Tables[0].Rows[i]["BirthDate"].ToString();
+                            priest.DioceseId = Convert.ToInt16(ds.Tables[0].Rows[i]["DioceseId"]);
+                            //_priestBusiness.AddPriest(priest); Khoan del
+                        }
+                        else if (ds.Tables[0].Columns.Contains("T#Thánh"))
+                        {
+                            priest.Code = string.Concat(ds.Tables[0].Rows[i]["Mã"].ToString().Trim().Replace(" ", ""));
+                            priest.ChristianName = ds.Tables[0].Rows[i]["T#Thánh"].ToString().Trim();
+                            priest.Name = normalizeVnSign(string.Concat(ds.Tables[0].Rows[i]["Họ và"].ToString().Trim(), " ", ds.Tables[0].Rows[i]["Tên"].ToString().Trim()));
+                            priest.BirthDate = convertDateForImport(ds.Tables[0].Rows[i]["Sinh"]);
+                            priest.BirthPlace = ds.Tables[0].Rows[i]["Nơi sinh"].ToString().Trim();
+                            priest.Phone = ds.Tables[0].Rows[i]["Di động "].ToString().Trim();
+                            priest.Email = ds.Tables[0].Rows[i]["Email"].ToString().Trim();
+                            
+                            priest.ParishName = normalizeVnSign(ds.Tables[0].Rows[i]["Giáo xứ "].ToString().Trim());
+                            if (priest.ParishName == "HongKong") priest.ParishName = "Hong Kong";
+                            if (priest.ParishName == "Chánh Tòa") priest.ParishName = "Chính Tòa";
+                            if (priest.ParishName == "Đức Mẹ VNNT") priest.ParishName = "Đức Mẹ Vô Nhiễm Nguyên Tội";
+                            if (priest.ParishName == "Xuân Thanh") priest.ParishName = "Xuân Thành";
+                            //if (priest.ParishName == "Đan Kar") priest.ParishName = "Đankar";
+                            //if (priest.ParishName == "Na Goa") priest.ParishName = "Nagoa";
+                            if (priest.ParishName == "ĐakLua") priest.ParishName = "Đắc Lua";
+                            if (priest.ParishName == "Phaolô") priest.ParishName = "Thánh Phaolô";
+                            if (priest.ParishName == "Cha Rang") priest.ParishName = "Chà Rang";
 
-                    // Khoan add start
-                    addPriest(priest);
-                    // Khoan add end
+                            priest.PatronDate = ds.Tables[0].Rows[i]["Mừng "].ToString().Trim().Replace("-", "").Replace(".", "").Replace(" ", "");
+                            priest.Title = ds.Tables[0].Rows[i]["D#xưng"].ToString().Trim();
+                            priest.Seminary = normalizeVnSign(ds.Tables[0].Rows[i]["Dòng"].ToString().Trim());
+                            priest.VicariateName = normalizeVnSign(ds.Tables[0].Rows[i]["Giáo hạt"].ToString().Trim());
+                            priest.TypeCode = ds.Tables[0].Rows[i]["Note"].ToString().Trim().Replace(" ", "");
+                            priest.Note = ds.Tables[0].Rows[i]["Ghi chú"].ToString().Trim();
+                            priest.IsRetired = ds.Tables[0].Rows[i]["Hưu"].ToString().Trim() != "" ? 1 : 0;
+                            priest.Diocesan = ds.Tables[0].Rows[i]["Dòng"].ToString().Trim() != "" ? false : true;
+                            priest.ServedPlace = priest.ParishName;
+                            priest.ServedAddress = ds.Tables[0].Rows[i]["Địa chỉ"].ToString().Trim();
+                            priest.ServedPhone = ds.Tables[0].Rows[i]["Đ Thoại bàn"].ToString().Trim();
+                            priest.BaptismDate = convertDateForImport(ds.Tables[0].Rows[i]["Rửa tội"]);
+                            priest.BaptismPlace = normalizeVnSign(ds.Tables[0].Rows[i]["Nơi RT"].ToString().Trim());
+                            priest.OrdinationDate = convertDateForImport(ds.Tables[0].Rows[i]["Chịu Chức"]);
+                            priest.OrdinationPlace = normalizeVnSign(ds.Tables[0].Rows[i]["Tại"].ToString().Trim());
+                            priest.OrdinationBy = normalizeVnSign(ds.Tables[0].Rows[i]["Do ĐGM#"].ToString().Trim());
+                            //priest.StartDate = convertDateForImport(ds.Tables[0].Rows[i]["Rửa tội"]);
+
+                            string hienNay = ds.Tables[0].Rows[i]["Hiện nay"].ToString().Trim();
+
+                            priest.RoleId = getRoleId(hienNay);
+                            priest.Role = hienNay;
+                            string roleNote = getRoleNote(hienNay);
+                            if(!string.IsNullOrEmpty(priest.Note))
+                            {
+                                priest.Note = string.Concat(priest.Note, ". ", roleNote);
+                            }
+                            else
+                            {
+                                priest.Note = roleNote;
+                            }
+
+                            //get vicariate and diocese
+                            Vicariate vicariate = _vicariateBusiness.GetVicariateByVicariateName(priest.VicariateName);
+                            if (vicariate != null)
+                            {
+                                priest.VicariateId = vicariate.Id;
+                                priest.DioceseId = vicariate.DioceseId;
+                                addParishIfNotExist(priest, vicariate.Id);
+                            }
+                            else
+                            {
+                                priest.DioceseId = (int)Session["DioceseId"];
+                                addParishIfNotExist(priest, 0);
+                                //writeLog(string.Concat(priest.Name, ": Vicariate is not found, ", priest.VicariateName));
+                            }
+
+                            priest.Additional = getDivisionHistory(ds.Tables[0].Rows[i]);
+                            priest.StartDate = getStartDate((List<Dictionary<string, string>>)priest.Additional);
+
+                            //find existing parishioner
+                            Parishioner parishioner = _parishionerBusiness.GetParishionerByForCheck(priest.Name, priest.ChristianName, priest.BirthDate);
+                            if (parishioner != null)
+                            {
+                                priest.ParishionerId = parishioner.Id;
+                            }
+                            else
+                            {
+                                writeLog(string.Concat("\tParishioner not found: ", "\t", priest.Name, "\t", priest.ParishName, "\t", priest.Role, "\t", priest.VicariateName));
+                            }
+                        }
+                        listPriests.Add(priest);
+                        // Khoan add start
+                        addPriest(priest);
+                        // Khoan add end
+                    }
+                    catch (Exception ex)
+                    {
+                        writeLog(string.Concat(ds.Tables[0].Rows[i]["Mã"], ": exception when inport: ", ex.Message)); 
+                    }
                 }
 
             }
             return RedirectToAction("Index");
         }
 
+        private string normalizeVnSign(string s)
+        {
+            // replace oà into òa, aò into ào (Hòa, Hào)
+            string[] ss = s.Split(' ');
+            for(int i = 0; i < ss.Length; i++)
+            {
+                if(ss[i].EndsWith("oà"))
+                {
+                    ss[i] = ss[i].Replace("oà", "òa");
+                }
+                else if (ss[i].EndsWith("aò"))
+                {
+                    ss[i] = ss[i].Replace("òa", "ào");
+                }
+            }
+            return string.Join(" ", ss);
+        }
+
+        private string getStartDate(List<Dictionary<string, string>> divisionHistory)
+        {
+            string lastDate = "";
+            if (divisionHistory != null && divisionHistory.Count > 0)
+            {
+                foreach(var item in divisionHistory)
+                {
+                    if(item["nam"] != "")
+                    {
+                        lastDate = item["nam"];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            return lastDate;
+        }
+
+        private List<Dictionary<string, string>> getDivisionHistory(DataRow row)
+        {
+            DateConverter dateConverter = new DateConverter();
+            List<Dictionary<string, string>> thuyenChuyen = new List<Dictionary<string, string>>();
+            string nam = "Năm ";
+            string giup = "Giúp ";
+            string chucvu = "Chuc vu ";
+            string noi = "Noi ";
+            for(int i=1; i<=10; i++)
+            {
+                string nam_i = string.Concat(nam, i);
+                string chucvu_i = string.Concat(chucvu, i);
+                string noi_i = string.Concat(noi, i);
+                string giup_i = string.Concat(giup, i);
+
+                Dictionary<string, string> data = new Dictionary<string, string>();
+                data["nam"] = "";
+                data["chucvu"] = "";
+                data["noi"] = "";
+                if (row.Table.Columns.Contains(nam_i))
+                {
+                    data["nam"] = dateConverter.ConvertDateToString(row[nam_i].ToString().Trim()).Trim();
+                    if(data["nam"].Length > 8)
+                    {
+                        data["nam"] = data["nam"].Substring(data["nam"].Length - 8);
+                    }
+                    if(!string.IsNullOrEmpty(data["nam"]))
+                    {
+                        if (row.Table.Columns.Contains(chucvu_i))
+                        {
+                            data["chucvu"] = row[chucvu_i].ToString().Trim();
+                        }
+                        if (row.Table.Columns.Contains(noi_i))
+                        {
+                            data["noi"] = row[noi_i].ToString().Trim();
+                        }
+                        else if (row.Table.Columns.Contains(giup_i))
+                        {
+                            data["noi"] = row[giup_i].ToString().Trim();
+                        }
+                        thuyenChuyen.Add(data);
+                    }
+                }
+            }
+            return thuyenChuyen;
+        }
+
+        private static Dictionary<string, int> roleData = new Dictionary<string, int>();
+        private Dictionary<string, int> getMappingForRole() {
+            if(roleData.Count == 0)
+            {
+                roleData.Add("du học", 4);
+                roleData.Add("bề trên cđ. vinhsơn túc trưng -", 5);
+                roleData.Add("bề trên cộng đoàn đaminh -", 5);
+                roleData.Add("bê trên đan viện biển đức -", 5);
+                roleData.Add("bề trên đan viện xitô an phước -", 5);
+                roleData.Add("chánh xứ", 1);
+                roleData.Add("cộng đoàn", 6);
+                roleData.Add("cộng đoàn đaminh -", 6);
+                roleData.Add("cộng đoàn don bosco -", 6);
+                roleData.Add("cộng đoàn đồng công -", 6);
+                roleData.Add("cộng đoàn dòng tên -", 6);
+                roleData.Add("cộng đoàn gioan tc -", 6);
+                roleData.Add("cộng đoàn nhà chúa -", 6);
+                roleData.Add("cộng đoàn thánh gia -", 6);
+                roleData.Add("cộng đoàn thánh tâm huế -", 6);
+                roleData.Add("cộng đoàn thánh thể -", 6);
+                roleData.Add("cộng đoàn vinhsơn -", 6);
+                roleData.Add("cộng đoàn vinhsơn túc trưng -", 6);
+                roleData.Add("đặc trách", 7);
+                roleData.Add("đan viện biển đức -", 7);
+                roleData.Add("đan viện xitô an phước -", 7);
+                roleData.Add("đan viện xitô phước lý -", 7);
+                roleData.Add("dòng thánh gioan tc -", 7);
+                roleData.Add("giám đốc", 8);
+                roleData.Add("giáo xứ", 16);
+                roleData.Add("linh phụ", 10);
+                roleData.Add("nhà riêng", 17);
+                roleData.Add("phó ht", 11);
+                roleData.Add("hiệu trưởng", 9);
+                roleData.Add("phó xứ", 2);
+                roleData.Add("phụ tá", 2);
+                roleData.Add("phụ trách", 12);
+                roleData.Add("quản nhiệm", 13);
+                roleData.Add("tổng đại diện gp. xuân lộc", 14);
+                roleData.Add("truyền giáo", 3);
+                roleData.Add("viện phụ đv. xitô phước lý", 15);
+            }
+            
+            return roleData;
+        }
+
+        private int getRoleId(string name)
+        {
+            var roleMapping = getMappingForRole();
+            name = name.Trim().ToLower();
+            if (roleMapping.ContainsKey(name))
+            {
+                return roleMapping[name];
+            }
+            return -1;
+        }
+
+
+        private static Dictionary<string, string> roleNoteData = new Dictionary<string, string>();
+        private Dictionary<string, string> getMappingForRoleNote()
+        {
+            if (roleNoteData.Count == 0)
+            {
+                roleNoteData.Add("bề trên cđ. vinhsơn túc trưng -", "Cộng đoàn Vinhsơn Túc Trưng");
+                roleNoteData.Add("bề trên cộng đoàn đaminh -", "Cộng đoàn Đaminh");
+                roleNoteData.Add("bê trên đan viện biển đức -", "Đan viện Biển Đức");
+                roleNoteData.Add("bề trên đan viện xitô an phước -", "Đan viện Xitô An Phước");
+                roleNoteData.Add("cộng đoàn đaminh -", "Cộng đoàn Đaminh");
+                roleNoteData.Add("cộng đoàn don bosco -", "Cộng đoàn Don Bosco");
+                roleNoteData.Add("cộng đoàn đồng công -", "Cộng đoàn Đồng Công");
+                roleNoteData.Add("cộng đoàn dòng tên -", "Cộng đoàn Dòng Tên");
+                roleNoteData.Add("cộng đoàn gioan tc -", "Cộng đoàn Gioan TC");
+                roleNoteData.Add("cộng đoàn nhà chúa -", "Cộng đoàn Nhà Chúa");
+                roleNoteData.Add("cộng đoàn thánh gia -", "Cộng đoàn Thánh Gia");
+                roleNoteData.Add("cộng đoàn thánh tâm huế -", "Cộng đoàn Thánh Tâm Huế");
+                roleNoteData.Add("cộng đoàn thánh thể -", "Cộng đoàn Thánh Thể");
+                roleNoteData.Add("cộng đoàn vinhsơn -", "Cộng đoàn Vinhsơn");
+                roleNoteData.Add("cộng đoàn vinhsơn túc trưng -", "Cộng đoàn Vinhsơn Túc Trưng");
+                roleNoteData.Add("đan viện biển đức -", "Đan viện Biển Đức");
+                roleNoteData.Add("đan viện xitô an phước -", "Đan viện Xitô An Phước");
+                roleNoteData.Add("đan viện xitô phước lý -", "Đan viện Xitô Phước Lý");
+                roleNoteData.Add("dòng thánh gioan tc -", "Dòng Thánh Gioan TC");
+            }
+
+            return roleNoteData;
+        }
+
+        private string getRoleNote(string name)
+        {
+            var roleMapping = getMappingForRoleNote();
+            name = name.Trim().ToLower();
+            if (roleMapping.ContainsKey(name))
+            {
+                return roleMapping[name];
+            }
+            return "";
+        }
+
+        private void addParishIfNotExist(PriestViewModel priest, int vicariateId)
+        {
+            Parish parish = _parishBusiness.GetParishesByParishName(priest.ParishName, 0);
+            if (parish != null)
+            {
+                priest.ParishId = parish.Id;
+                priest.ServedPlaceId = parish.Id;
+                priest.ParishTypeCode = parish.Category;
+            }
+            else
+            {
+                //writeLog(string.Concat(priest.Name, ": Parish is not found, ", priest.ParishName, ", role: ", priest.Role, ", vicariate: ", priest.VicariateName));
+                writeLog(string.Concat("\tParish not found: ", "\t", priest.Name, "\t", priest.ParishName, "\t", priest.Role, "\t", priest.VicariateName));
+                ////Add parish if not exists
+                //Parish newParish = new Parish();
+                //newParish.Name = priest.ParishName;
+                //newParish.DioceseId = priest.DioceseId;
+                //newParish.VicariateId = vicariateId;
+                //if(priest.Role == "Chánh xứ" || priest.Role == "Phó xứ")
+                //{
+                //    newParish.Category = 2;//Nhà thờ giáo xứ
+                //}
+                //else
+                //{
+                //    newParish.Category = -1;//Không xác định
+                //}
+                //int parishId = _parishBusiness.AddParish(parish);
+                //if (parishId > 0)
+                //{
+                //    priest.ParishId = parishId;
+                //    priest.ServedPlaceId = parishId;
+                //    priest.ParishTypeCode = newParish.Category;
+                //    writeLog(string.Concat(priest.Name, ": Add Parish successful, ", priest.ParishName));
+                //}
+                //else
+                //{
+                //    writeLog(string.Concat(priest.Name, ": Add Parish failed, ", priest.ParishName));
+                //}
+            }
+        }
+        private void writeLog(string log)
+        {
+            System.IO.File.AppendAllText(Server.MapPath(@"/log.txt"), string.Concat(Environment.NewLine, DateTime.Now, ": ", log), System.Text.Encoding.UTF8);
+        }
+        private string convertDateForImport(object date)
+        {
+            if(date != null && date is DateTime)
+            {
+                return ((DateTime)date).ToString("yyyyMMdd");
+            }
+            return "";
+        }
+        
         //VuongVM - Load priest for HDLM Members
         public ActionResult LoadParishDatatableForHDLM(jQueryDataTableParamModel param)
         {

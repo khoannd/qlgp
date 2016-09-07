@@ -32,6 +32,21 @@ namespace PMS.DataAccess
             }
         }
 
+        public IEnumerable<ValueSet> GetTypeCodes()
+        {
+            try
+            {
+                const string query = "SELECT * " +
+                                        "FROM ValueSet " +
+                                        "WHERE Category = 'SEMINARYTAG'";
+                return _db.ExecuteQuery<ValueSet>(query);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
         public int AddVocation(Vocation vocation)
         {
             try
@@ -57,25 +72,27 @@ namespace PMS.DataAccess
                     return 0;
                 }
 
-                item.Date1 = vocation.Date1;
-                item.Date2 = vocation.Date2;
-                item.Date3 = vocation.Date3;
-                item.Date4 = vocation.Date4;
-                item.Date5 = vocation.Date5;
-                item.Date6 = vocation.Date6;
-                item.Date7 = vocation.Date7;
-                item.Date8 = vocation.Date8;
-                item.Date9 = vocation.Date9;
+                //item.Date1 = vocation.Date1;
+                //item.Date2 = vocation.Date2;
+                //item.Date3 = vocation.Date3;
+                //item.Date4 = vocation.Date4;
+                //item.Date5 = vocation.Date5;
+                //item.Date6 = vocation.Date6;
+                //item.Date7 = vocation.Date7;
+                //item.Date8 = vocation.Date8;
+                //item.Date9 = vocation.Date9;
 
-                item.Position = vocation.Position;
-                item.Seminary = vocation.Seminary;
-                item.SeminaryAddress = vocation.SeminaryAddress;
-                item.ServedPlace = vocation.ServedPlace;
-                item.ServedAddress = vocation.ServedAddress;
-                item.Phone = vocation.Phone;
-                item.Email = vocation.Email;
-                item.Note = vocation.Note;
-                item.IsLeft = vocation.IsLeft;
+                //item.Position = vocation.Position;
+                //item.Seminary = vocation.Seminary;
+                //item.SeminaryAddress = vocation.SeminaryAddress;
+                //item.ServedPlace = vocation.ServedPlace;
+                //item.ServedAddress = vocation.ServedAddress;
+                //item.Phone = vocation.Phone;
+                //item.Email = vocation.Email;
+                //item.Note = vocation.Note;
+                //item.IsLeft = vocation.IsLeft;
+
+                PMS.DataAccess.Utilities.Tools.CopyPropertiesTo(vocation, item);
 
                 _db.SubmitChanges();
                 return 1;

@@ -18,12 +18,33 @@ namespace PMS.DataAccess
             _db = new PMSDataContext(connection);
         }
 
-        public IEnumerable<PriestViewModel> GetPriestByDioceseId(int dioceseId)
+        public IEnumerable<PriestViewModel> GetPriestByDioceseId(string conditionString, List<object> args, string orderBy, string orderDir)
         {
-            const string query = "SELECT * FROM Priest " +
-                                 "WHERE DioceseId = {0} " +
-                                 "ORDER By Id DESC";
-            return _db.ExecuteQuery<PriestViewModel>(query, dioceseId);
+            string query = @"SELECT a.*
+FROM (
+	SELECT pr.*, pa.Code, pa.PatronDate, pa.Email,
+    LEFT(pr.Name, LEN(pr.Name) - CHARINDEX(' ',REVERSE(pr.Name))) AS LastName, 
+	IIF(CHARINDEX(' ', pr.Name) <> 0, RIGHT(pr.Name, CHARINDEX(' ', REVERSE(pr.Name)) - 1), '') AS FirstName,
+	pa.Title, v.Seminary, v.TypeCode, vs1.Definition AS TypeName, IIF(v.IsRetired IS NULL, 0, v.IsRetired) AS IsRetired,
+	p.Id AS ParishId, p.Name AS ParishName, p.Category AS ParishTypeCode, vs.Definition AS ParishType,
+    v.ServedId AS ServedPlaceId, v.ServedPlace, v.ServedStartDate AS StartDate, v.ServedAddress, v.Phone AS ServedPhone, v.Email AS ServedEmail,
+	vi.Name AS VicariateName, vi.Id AS VicariateId,
+    IIF(LEN(pa.BirthDate) >= 4, YEAR(GETDATE()) - CAST(LEFT(pa.BirthDate, 4) AS INT), '') AS Age,
+	IIF(LEN(pa.BirthDate) >= 4, LEFT(pa.BirthDate, 4), '') AS BirthYear,
+	v.ServedRole AS RoleId, vt.Name AS Role, v.Note, v.Date8 AS OrdinationDate, v.Place8 AS OrdinationPlace, v.Giver8 AS OrdinationBy
+	FROM Priest pr
+	LEFT JOIN Parishioner pa ON pr.ParishionerId = pa.Id
+	LEFT JOIN Vocation v ON pr.ParishionerId = v.ParishionerId
+	LEFT JOIN ValueSet vs1 ON vs1.Code = v.TypeCode AND vs1.Category = 'SEMINARYTAG'
+	LEFT JOIN VaiTro vt ON v.ServedRole = vt.Id
+	LEFT JOIN Parish p ON v.ServedId = p.Id
+    LEFT JOIN ValueSet vs ON CAST(vs.Code AS INT) = p.Category AND vs.Category = 'PARISHTYPE'
+	LEFT JOIN Vicariate vi ON p.VicariateId = vi.Id
+) AS a
+
+WHERE 1=1 " + (!string.IsNullOrEmpty(conditionString) ? conditionString : "") + (orderBy != "" ? " ORDER BY " + orderBy + " " + orderDir : "")
+;
+            return _db.ExecuteQuery<PriestViewModel>(query, args.ToArray());
         }
 
         public IEnumerable<Priest> GetPriestForTCLM(int tclmId)
@@ -45,13 +66,19 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<Priest>(query, id).SingleOrDefault();
         }
 
+        public Priest GetPriestByParishionerId(int id)
+        {
+            const string query = "SELECT * FROM Priest WHERE ParishionerId = {0}";
+            return _db.ExecuteQuery<Priest>(query, id).SingleOrDefault();
+        }
+
         public int AddPriest(Priest priest)
         {
             try
             {
                 _db.Priests.InsertOnSubmit(priest);
                 _db.SubmitChanges();
-                return 1;
+                return priest.Id;
             }
             catch (Exception e)
             {
@@ -60,24 +87,30 @@ namespace PMS.DataAccess
         }
         public int UpdatePriest(Priest priest)
         {
+            Priest item = null;
             try
             {
-                var item = _db.Priests.SingleOrDefault(d => d.Id == priest.Id);
+                item = _db.Priests.SingleOrDefault(d => d.Id == priest.Id);
                 if (item == null)
                 {
                     return 0;
                 }
-                item.ChristianName = priest.ChristianName;
-                item.Name = priest.Name;
-                item.BirthDate = priest.BirthDate;
-                item.Phone = priest.Phone;
+                //item.ChristianName = priest.ChristianName;
+                //item.Name = priest.Name;
+                //item.BirthDate = priest.BirthDate;
+                //item.Phone = priest.Phone;
+
+                Tools.CopyPropertiesTo(priest, item);
 
                 _db.SubmitChanges();
                 return priest.Id;
             }
             catch (Exception e)
             {
-
+                if (item != null)
+                {
+                    _db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, item);
+                }
                 return -1;
             }
         }
@@ -126,7 +159,8 @@ namespace PMS.DataAccess
 
         public IEnumerable<Priest> GetAllPriests()
         {
-            string query = "SELECT * FROM Priest ORDER BY ChristianName";
+            string query = @"SELECT *, LEFT(Name, LEN(Name) - CHARINDEX(' ',REVERSE(Name))) AS LastName, 
+IIF(CHARINDEX(' ', Name) <> 0, RIGHT(Name, CHARINDEX(' ',REVERSE(Name))-1), '') AS FirstName FROM Priest ORDER BY FirstName ASC";
             return _db.ExecuteQuery<Priest>(query, 0);
         }
 
@@ -151,13 +185,23 @@ namespace PMS.DataAccess
         }
         public IEnumerable<PriestViewModel> getParishionerByDioceseId(int dioceseId)
         {
-            const string query = "SELECT p.*, pa.Code, pa.ImageUrl " +
+            const string query = @"SELECT p.*, pa.Code, pa.ImageUrl, LEFT(p.Name, LEN(p.Name) - CHARINDEX(' ',REVERSE(p.Name))) AS LastName, 
+IIF(CHARINDEX(' ', p.Name) <> 0, RIGHT(p.Name, CHARINDEX(' ', REVERSE(p.Name)) - 1), '') AS FirstName " +
                 "FROM Priest p " +
                 "INNER JOIN Parishioner pa " +
                 "ON p.ParishionerId = pa.Id " +
                 "WHERE DioceseId = {0} " +
                 "ORDER By Id DESC";
             return _db.ExecuteQuery<PriestViewModel>(query, dioceseId);
+        }
+        public IEnumerable<string> GetChristianList() {
+            string query = @"SELECT DISTINCT ChristianName FROM Priest WHERE ChristianName IS NOT NULL AND ChristianName<>'' ORDER BY ChristianName ASC";
+            return _db.ExecuteQuery<string>(query);
+        }
+        public IEnumerable<VaiTro> GetPositionList()
+        {
+            string query = @"SELECT * FROM VaiTro ";
+            return _db.ExecuteQuery<VaiTro>(query);
         }
     }
 }

@@ -277,11 +277,11 @@
                                                                                     <img class="" id="imgParishionerThumbnail" src="" />
                                                                                 </div>
                                                                                 <div class="col-sm-12" id="newParishionerImageModal">
-                                                                                    @using (Html.BeginForm("UploadParishionerImage", "Parishioner", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImgFormParishioner", name = "ImgFormParishioner", target = "UploadTarget" }))
+                                                                                    @using (Html.BeginForm("UploadParishionerImage", "Parishioner", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImgFormParishioner", name = "ImgFormParishioner", target = "UploadParishinerTarget" }))
                                                                                     {
                                                                                         <input multiple="" name="inputFile" type="file" id="inputFile" />
                                                                                     }
-                                                                                    <iframe id="UploadTarget" name="UploadTarget" style="position: absolute; left: -999em; top: -999em;"></iframe>
+                                                                                    <iframe id="UploadParishinerTarget" name="UploadParishinerTarget" style="position: absolute; left: -999em; top: -999em;"></iframe>
                                                                                     <label class="text-danger" id="parishionerImageValidate" hidden=""></label>
                                                                                 </div>
                                                                             </div>
@@ -1109,7 +1109,7 @@
     }
 
     function UploadParishionerImage_Complete() {
-        var url = $("#UploadTarget").contents().find('body').html();
+        var url = $("#UploadParishinerTarget").contents().find('body').html();
         if (url.substring(0, 4) == "<pre") {
             url = "";
         }
@@ -1406,9 +1406,13 @@
 
                     $("#lbBaptismDateError").text(baptismError);
                     $("#lbBaptismDateError").show();
-
-                    document.getElementById("txtBaptismDate").scrollIntoView();
-                    isDateError = true;
+                    if (!confirm(baptismError+"\r\nBạn có muốn tiếp tục lưu trường hợp đặc biệt này không?")) {
+                        document.getElementById("txtBaptismDate").scrollIntoView();
+                        isDateError = true;
+                    }
+                    else {
+                        baptismError = "";
+                    }
                 } else {
                     $("#lbBaptismDateError").hide();
                     $("#lbBaptismDateError").html("");
@@ -1561,10 +1565,10 @@
     }
 
     function addParishionerInformation(url) {
-        //Validation
-        if (!checkValidParishionerInformation()) {
-            return -2;
-        }
+        //Validation - has been checked in UploadImageFunction
+        //if (!checkValidParishionerInformation()) {
+        //    return -2;
+        //}
 
         var id = 0;
         //Get Data From Input
@@ -1706,11 +1710,11 @@
                 }
             }
             loadParishionerCommunity();
-        }
-        $("#homeLink").tab('show');
-        if ($("#txtHiddenParishionerId").val() == "0")
-            $("#ParishionerThumbnail").hide();
 
+            $("#homeLink").tab('show');
+            if ($("#txtHiddenParishionerId").val() == "0")
+                $("#ParishionerThumbnail").hide();
+        }
     });
 
     $("#parishionerInformationModal").on('hidden.bs.modal', function () {
@@ -2102,10 +2106,10 @@
     }
 
     function updateParishionerInformation(url) {
-
-        if (!checkValidParishionerInformation()) {
-            return;
-        }
+        // has been checked in UploadParishionerImage function
+        //if (!checkValidParishionerInformation()) {
+        //    return;
+        //}
         startLoading();
         $.ajax({
             url: "/Parishioner/UpdateParishioner",
@@ -3142,19 +3146,19 @@
         });
     }
 
-    $("#parishionerInformationModal").on('show.bs.modal', function () {
-        $("#parishionerInformationModalLoading").fadeIn();
-    });
+    //$("#parishionerInformationModal").on('show.bs.modal', function () {
+    //    $("#parishionerInformationModalLoading").fadeIn();
+    //});
 
-    $("#parishionerInformationModal").on('hidden.bs.modal', function () {
-        $("#parishionerInformationModalLoading").fadeOut();
-    });
+    //$("#parishionerInformationModal").on('hidden.bs.modal', function () {
+    //    $("#parishionerInformationModalLoading").fadeOut();
+    //});
 
     $('img').on('click', function () {
         $('#' + this.id.replace("Thumbnail", "Modal")).modal('show');
     });
 
-    $("#UploadTarget").on("load", function () {
+    $("#UploadParishinerTarget").on("load", function () {
         UploadParishionerImage_Complete();
     });
 

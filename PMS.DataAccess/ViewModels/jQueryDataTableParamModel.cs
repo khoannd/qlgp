@@ -70,7 +70,7 @@ namespace PMS.DataAccess.ViewModels
         /// <summary>
         /// Column list
         /// </summary>
-        public List<Dictionary<string, object>> columns { get; set; }
+        public List<Dictionary<string, string>> columns { get; set; }
 
         /// <summary>
         /// unknown
@@ -86,6 +86,21 @@ namespace PMS.DataAccess.ViewModels
         public int? VicariateId { get; set; }
         public int? ParishId { get; set; }
 
-        public Dictionary<string, object> data { get; set; }
+        public Dictionary<string, string> data { get; set; }
+    }
+
+    public class jQueryDataTableColumn
+    {
+        public string data { get; set; }
+        public string name { get; set; }
+        public string searchable { get; set; }
+        public string orderable { get; set; }
+        public jQueryDataTableSearch search { get; set; }
+        
+    }
+    public class jQueryDataTableSearch
+    {
+        public string value { get; set; }
+        public string regex { get; set; }
     }
 }

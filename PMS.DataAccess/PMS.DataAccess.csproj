@@ -88,6 +88,7 @@
     <Compile Include="SeminarianData.cs" />
     <Compile Include="SeminaryYearData.cs" />
     <Compile Include="ThuPhanUuData.cs" />
+    <Compile Include="Utilities\Tools.cs" />
     <Compile Include="VaiTroData.cs" />
     <Compile Include="ThuyenChuyenLinhMucData.cs" />
     <Compile Include="PriestData.cs" />

@@ -216,6 +216,11 @@ namespace PMS.BusinessLogic
             return _parishionerData.UpdateParishioner(parishioner);
         }
 
+        public int UpdateParishioner(Parishioner parishioner, bool updatePriest)
+        {
+            return _parishionerData.UpdateParishioner(parishioner, updatePriest);
+        }
+
         public string LoadParishionerCode(int parishId, string prefix, int characterNumber)
         {
             return _parishionerData.LoadParishionerCode(parishId, prefix, characterNumber);
@@ -503,6 +508,10 @@ namespace PMS.BusinessLogic
             }
 
             return parishioners;
+        }
+        public Parishioner GetParishionerByForCheck(string name, string christianName, string birthDate)
+        {
+            return _parishionerData.GetParishionerByForCheck(name, christianName, birthDate);
         }
         public List<ParishionerViewModel> LoadParishionerByNameForPriest(string name)
         {

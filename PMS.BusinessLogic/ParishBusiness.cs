@@ -142,6 +142,11 @@ namespace PMS.BusinessLogic
             return _parishData.GetParishesByParishId(id);
         }
 
+        public Parish GetParishesByParishName(string name, int vicariateId)
+        {
+            return _parishData.GetParishesByParishName(name, vicariateId);
+        }
+
         public IEnumerable<Parish> GetAllParish()
         {
             return _parishData.GetAllParish();

@@ -53,6 +53,21 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<Parish>(query, id).SingleOrDefault();
         }
 
+        public Parish GetParishesByParishName(string name, int vicariateId)
+        {
+            string query = "";
+            if(vicariateId == 0)
+            {
+                query = "SELECT * FROM Parish  WHERE Name = {0}";
+                return _db.ExecuteQuery<Parish>(query, name.Trim()).SingleOrDefault();
+            }
+            else
+            {
+                query = "SELECT * FROM Parish  WHERE Name = {0} AND VicariateId={1}";
+                return _db.ExecuteQuery<Parish>(query, name.Trim(), vicariateId).SingleOrDefault();
+            }
+        }
+
         public IEnumerable<Parish> GetAllParish()
         {
             string query = "SELECT * FROM Parish ORDER BY Name";
@@ -87,24 +102,31 @@ namespace PMS.DataAccess
                 {
                     return 0;
                 }
-                item.Name = parish.Name;
-                item.Address = parish.Address;
-                item.Ward = parish.Ward;
-                item.District = parish.District;
-                item.Province = parish.Province;
-                item.Priest = parish.Priest;
-                item.PriestId = parish.PriestId;
-                item.Website = parish.Website;
-                item.Phone = parish.Phone;
-                item.Email = parish.Email;
-                item.VicariateId = parish.VicariateId;
-                item.Patron = parish.Patron;
-                item.PatronDate = parish.PatronDate;
-                item.ChauLuot = parish.ChauLuot;
+                //item.Name = parish.Name;
+                //item.Address = parish.Address;
+                //item.Ward = parish.Ward;
+                //item.District = parish.District;
+                //item.Province = parish.Province;
+                //item.Priest = parish.Priest;
+                //item.PriestId = parish.PriestId;
+                //item.Website = parish.Website;
+                //item.Phone = parish.Phone;
+                //item.Email = parish.Email;
+                //item.VicariateId = parish.VicariateId;
+                //item.Patron = parish.Patron;
+                //item.PatronDate = parish.PatronDate;
+                //item.ChauLuot = parish.ChauLuot;
+
                 if (!string.IsNullOrEmpty(parish.ImageUrl))
                 {
                     item.ImageUrl = parish.ImageUrl;
                 }
+                else
+                {
+                    parish.ImageUrl = item.ImageUrl;
+                }
+
+                PMS.DataAccess.Utilities.Tools.CopyPropertiesTo(parish, item);
 
                 //if(item.PriestId != null && item.PriestId != 0)
                 //{
@@ -135,20 +157,32 @@ namespace PMS.DataAccess
                 {
                     return 0;
                 }
-                item.Name = parish.Name;
-                item.Address = parish.Address;
-                item.Ward = parish.Ward;
-                item.District = parish.District;
-                item.Province = parish.Province;
-                item.Priest = parish.Priest;                
-                item.Website = parish.Website;
-                item.Phone = parish.Phone;
-                item.Email = parish.Email;
+                //item.Name = parish.Name;
+                //item.Address = parish.Address;
+                //item.Ward = parish.Ward;
+                //item.District = parish.District;
+                //item.Province = parish.Province;
+                //item.Priest = parish.Priest;                
+                //item.Website = parish.Website;
+                //item.Phone = parish.Phone;
+                //item.Email = parish.Email;
+                //if (!string.IsNullOrEmpty(parish.ImageUrl))
+                //{
+                //    item.ImageUrl = parish.ImageUrl;
+                //}
+
                 if (!string.IsNullOrEmpty(parish.ImageUrl))
                 {
                     item.ImageUrl = parish.ImageUrl;
                 }
-               
+                else
+                {
+                    parish.ImageUrl = item.ImageUrl;
+                }
+
+                PMS.DataAccess.Utilities.Tools.CopyPropertiesTo(parish, item);
+
+
                 _db.SubmitChanges();
                 return parish.Id;
             }
