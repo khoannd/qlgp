@@ -3138,6 +3138,7 @@ namespace PMS.DataAccess
             {
                 int id = Int32.Parse(i);
                 var parishioner = _db.Parishioners.FirstOrDefault(p => p.Id == id);
+                var vocation = _db.Vocations.FirstOrDefault(p => p.ParishionerId == id);
 
                 if (parishioner == null)
                 {
@@ -3153,6 +3154,13 @@ namespace PMS.DataAccess
                 priest.Code = parishioner.Code;
                 priest.Address = parishioner.Address;
                 priest.Phone = parishioner.Phone;
+
+                priest.BirthPlace = parishioner.BirthPlace;
+
+                priest.IDNo = parishioner.IDNo;
+                priest.IDDate = converter.ConvertStringToDate(parishioner.IDDate);
+                priest.IDPlace = parishioner.IDPlace;
+                priest.Date8 = (vocation != null) ? vocation.Date8 : "";
 
                 result.Add(priest);
             }

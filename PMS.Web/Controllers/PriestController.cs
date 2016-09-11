@@ -17,6 +17,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using PMS.DataAccess.Enumerations;
+using Excel = Microsoft.Office.Interop.Excel;
+using ExcelAutoFormat = Microsoft.Office.Interop.Excel.XlRangeAutoFormat;
 
 namespace PMS.Web.Controllers
 {
@@ -163,9 +165,9 @@ namespace PMS.Web.Controllers
             if (!string.IsNullOrEmpty(name) && name.Trim() != "")
             {
                 var priests = _priestBusiness.GetPriestsByName(dioceseId, name);
-                if(priests != null)
+                if (priests != null)
                 {
-                    foreach(var item in priests)
+                    foreach (var item in priests)
                     {
                         result.Add(new PriestViewModel()
                         {
@@ -212,7 +214,7 @@ namespace PMS.Web.Controllers
                 if (priestViewModel.ParishionerId == 0 || priestViewModel.ParishionerId == null)
                 {
                     Parishioner parishioner = new Parishioner();
-                    if(string.IsNullOrEmpty(priestViewModel.Code))
+                    if (string.IsNullOrEmpty(priestViewModel.Code))
                     {
                         var maxcode = _parishionerBusiness.getMaxCode("LM");
                         if (maxcode == null)
@@ -235,7 +237,7 @@ namespace PMS.Web.Controllers
                     assignParishionerProp(parishioner, priestViewModel);
 
                     priest.ParishionerId = _parishionerBusiness.AddParishioner(parishioner);
-                    if(priest.ParishionerId > 0)
+                    if (priest.ParishionerId > 0)
                     {
                         priestViewModel.ParishionerId = priest.ParishionerId;
                         importBaptism(priestViewModel);
@@ -277,7 +279,7 @@ namespace PMS.Web.Controllers
                     }
                     assignParishionerProp(parishioner, priestViewModel);
                     result = _parishionerBusiness.UpdateParishioner(parishioner, false);
-                    if(result > 0)
+                    if (result > 0)
                     {
                         importBaptism(priestViewModel);
                         var priestCheck = _priestBusiness.GetPriestByParishionerId((int)priest.ParishionerId);
@@ -298,14 +300,14 @@ namespace PMS.Web.Controllers
                         writeLog(string.Concat(priestViewModel.Name, ": update parishioner fail"));
                     }
                 }
-                if(result <= 0)
+                if (result <= 0)
                 {
                     writeLog(string.Concat(priestViewModel.Name, ": add priest failed: "));
                 }
                 else
                 {
                     int resultParishManager = addParishManager(priestViewModel);
-                    if(resultParishManager <= 0)
+                    if (resultParishManager <= 0)
                     {
                         writeLog(string.Concat(priestViewModel.Name, ": update parish manager fail"));
                     }
@@ -322,17 +324,18 @@ namespace PMS.Web.Controllers
         /// Add division history
         /// </summary>
         /// <returns></returns>
-        private int addParishManager(PriestViewModel priest) {
+        private int addParishManager(PriestViewModel priest)
+        {
             int result = 0;
             try
             {
-                if(priest.Additional != null && priest.Additional is List<Dictionary<string, string>> 
+                if (priest.Additional != null && priest.Additional is List<Dictionary<string, string>>
                     && (priest.Additional as List<Dictionary<string, string>>).Count > 0)
                 {
                     List<Dictionary<string, string>> history = (List<Dictionary<string, string>>)priest.Additional;
-                    foreach(var item in history)
+                    foreach (var item in history)
                     {
-                        if(item["nam"] != "")
+                        if (item["nam"] != "")
                         {
                             ParishManager parishManager = null;
                             bool exists = false;
@@ -350,7 +353,7 @@ namespace PMS.Web.Controllers
 
                             //set ParishId
                             Parish parish = _parishBusiness.GetParishesByParishName(item["noi"], 0);
-                            if(parish != null)
+                            if (parish != null)
                             {
                                 parishManager.ParishId = parish.Id;
                             }
@@ -365,13 +368,13 @@ namespace PMS.Web.Controllers
                             }
 
                             //Set position and position name
-                            if(item["chucvu"] != "")
+                            if (item["chucvu"] != "")
                             {
                                 parishManager.PositionName = item["chucvu"];
                                 parishManager.Position = getRoleId(parishManager.PositionName);
                             }
                             parishManager.StatusId = (int)ParishManagerStatusEnum.DaNhanNhiemVu;
-                            if(exists)
+                            if (exists)
                             {
                                 result = _parishManagerBusiness.UpdateParishManager(parishManager);
                             }
@@ -393,7 +396,7 @@ namespace PMS.Web.Controllers
             }
             return result;
         }
-        
+
         private void assignVocationProp(Vocation vocation, PriestViewModel priest)
         {
             vocation.ParishionerId = priest.ParishionerId.GetValueOrDefault();
@@ -422,7 +425,7 @@ namespace PMS.Web.Controllers
         }
         private void assignParishionerProp(Parishioner parishioner, PriestViewModel priest)
         {
-            if(!string.IsNullOrEmpty(priest.Code))
+            if (!string.IsNullOrEmpty(priest.Code))
             {
                 parishioner.Code = priest.Code;
             }
@@ -452,7 +455,7 @@ namespace PMS.Web.Controllers
         {
             try
             {
-                if(priest.ParishionerId != null && priest.ParishionerId != 0 && !string.IsNullOrEmpty(priest.BaptismDate))
+                if (priest.ParishionerId != null && priest.ParishionerId != 0 && !string.IsNullOrEmpty(priest.BaptismDate))
                 {
                     SacramentBusiness sacramentBusiness = new SacramentBusiness(DbConfig.GetConnectionString());
                     Sacrament sacramentCheck = sacramentBusiness.GetSacramentsByParishionerIdAndType((int)priest.ParishionerId, (int)PMS.DataAccess.Enumerations.SacramentEnum.Baptism);
@@ -517,7 +520,7 @@ namespace PMS.Web.Controllers
                 Parishioner parishioner = new Parishioner();
                 parishioner = _parishionerBusiness.getParishionerById((int)priestViewModel.ParishionerId);
                 parishioner.Code = priestViewModel.Code;
-                if(priestViewModel.ImageURL != null && priestViewModel.ImageURL != "")
+                if (priestViewModel.ImageURL != null && priestViewModel.ImageURL != "")
                 {
                     parishioner.ImageUrl = System.IO.Path.GetFileName(priestViewModel.ImageURL);
                 }
@@ -525,7 +528,7 @@ namespace PMS.Web.Controllers
                 {
                     parishioner.ImageUrl = priestViewModel.ImageURL;
                 }
-                
+
                 parishioner.ChristianName = priestViewModel.ChristianName;
                 parishioner.Name = priestViewModel.Name;
                 parishioner.BirthDate = priestViewModel.BirthDate;
@@ -543,14 +546,14 @@ namespace PMS.Web.Controllers
         public ActionResult DeletePriest(int id)
         {
             Priest priest = _priestBusiness.GetPriestByPriestId(id);
-            if(priest.ParishionerId != null && priest.ParishionerId != 0)
+            if (priest.ParishionerId != null && priest.ParishionerId != 0)
             {
                 Parishioner parishioner = _parishionerBusiness.getParishionerById((int)priest.ParishionerId);
                 parishioner.Status = (int)PMS.DataAccess.Enumerations.ParishionerStatusEnum.Deleted;
                 parishioner.IsCounted = false;
                 _parishionerBusiness.UpdateParishioner(parishioner, false);
             }
-            
+
             int result = _priestBusiness.DeletePriest(id);
             return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }
@@ -663,7 +666,7 @@ namespace PMS.Web.Controllers
                             priest.BirthPlace = ds.Tables[0].Rows[i]["Nơi sinh"].ToString().Trim();
                             priest.Phone = ds.Tables[0].Rows[i]["Di động "].ToString().Trim();
                             priest.Email = ds.Tables[0].Rows[i]["Email"].ToString().Trim();
-                            
+
                             priest.ParishName = normalizeVnSign(ds.Tables[0].Rows[i]["Giáo xứ "].ToString().Trim());
                             if (priest.ParishName == "HongKong") priest.ParishName = "Hong Kong";
                             if (priest.ParishName == "Chánh Tòa") priest.ParishName = "Chính Tòa";
@@ -698,7 +701,7 @@ namespace PMS.Web.Controllers
                             priest.RoleId = getRoleId(hienNay);
                             priest.Role = hienNay;
                             string roleNote = getRoleNote(hienNay);
-                            if(!string.IsNullOrEmpty(priest.Note))
+                            if (!string.IsNullOrEmpty(priest.Note))
                             {
                                 priest.Note = string.Concat(priest.Note, ". ", roleNote);
                             }
@@ -743,7 +746,7 @@ namespace PMS.Web.Controllers
                     }
                     catch (Exception ex)
                     {
-                        writeLog(string.Concat(ds.Tables[0].Rows[i]["Mã"], ": exception when inport: ", ex.Message)); 
+                        writeLog(string.Concat(ds.Tables[0].Rows[i]["Mã"], ": exception when inport: ", ex.Message));
                     }
                 }
 
@@ -755,9 +758,9 @@ namespace PMS.Web.Controllers
         {
             // replace oà into òa, aò into ào (Hòa, Hào)
             string[] ss = s.Split(' ');
-            for(int i = 0; i < ss.Length; i++)
+            for (int i = 0; i < ss.Length; i++)
             {
-                if(ss[i].EndsWith("oà"))
+                if (ss[i].EndsWith("oà"))
                 {
                     ss[i] = ss[i].Replace("oà", "òa");
                 }
@@ -774,9 +777,9 @@ namespace PMS.Web.Controllers
             string lastDate = "";
             if (divisionHistory != null && divisionHistory.Count > 0)
             {
-                foreach(var item in divisionHistory)
+                foreach (var item in divisionHistory)
                 {
-                    if(item["nam"] != "")
+                    if (item["nam"] != "")
                     {
                         lastDate = item["nam"];
                     }
@@ -797,7 +800,7 @@ namespace PMS.Web.Controllers
             string giup = "Giúp ";
             string chucvu = "Chuc vu ";
             string noi = "Noi ";
-            for(int i=1; i<=10; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 string nam_i = string.Concat(nam, i);
                 string chucvu_i = string.Concat(chucvu, i);
@@ -811,11 +814,11 @@ namespace PMS.Web.Controllers
                 if (row.Table.Columns.Contains(nam_i))
                 {
                     data["nam"] = dateConverter.ConvertDateToString(row[nam_i].ToString().Trim()).Trim();
-                    if(data["nam"].Length > 8)
+                    if (data["nam"].Length > 8)
                     {
                         data["nam"] = data["nam"].Substring(data["nam"].Length - 8);
                     }
-                    if(!string.IsNullOrEmpty(data["nam"]))
+                    if (!string.IsNullOrEmpty(data["nam"]))
                     {
                         if (row.Table.Columns.Contains(chucvu_i))
                         {
@@ -837,8 +840,9 @@ namespace PMS.Web.Controllers
         }
 
         private static Dictionary<string, int> roleData = new Dictionary<string, int>();
-        private Dictionary<string, int> getMappingForRole() {
-            if(roleData.Count == 0)
+        private Dictionary<string, int> getMappingForRole()
+        {
+            if (roleData.Count == 0)
             {
                 roleData.Add("du học", 4);
                 roleData.Add("bề trên cđ. vinhsơn túc trưng -", 5);
@@ -877,7 +881,7 @@ namespace PMS.Web.Controllers
                 roleData.Add("truyền giáo", 3);
                 roleData.Add("viện phụ đv. xitô phước lý", 15);
             }
-            
+
             return roleData;
         }
 
@@ -979,13 +983,13 @@ namespace PMS.Web.Controllers
         }
         private string convertDateForImport(object date)
         {
-            if(date != null && date is DateTime)
+            if (date != null && date is DateTime)
             {
                 return ((DateTime)date).ToString("yyyyMMdd");
             }
             return "";
         }
-        
+
         //VuongVM - Load priest for HDLM Members
         public ActionResult LoadParishDatatableForHDLM(jQueryDataTableParamModel param)
         {
@@ -1026,7 +1030,7 @@ namespace PMS.Web.Controllers
 
             var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
 
-            for(int i = 0; i< result.Count; i++)
+            for (int i = 0; i < result.Count; i++)
             {
                 result[i].ImageURL = string.Concat(fileThumbPath, result[i].ImageURL);
             }
@@ -1035,7 +1039,8 @@ namespace PMS.Web.Controllers
             {
                 result = result,
                 template = template,
-                now = DateTime.Now.ToString("dd/MM/yyyy")
+                now = DateTime.Now.ToString("dd/MM/yyyy"),
+                threeYear = DateTime.Now.AddYears(3).ToString("dd/MM/yyyy")
             }, JsonRequestBehavior.AllowGet);
         }
 
@@ -1070,7 +1075,7 @@ namespace PMS.Web.Controllers
             Image imageUpload = Image.FromStream(inputFile.InputStream);
             // Khoan mod start
             //Image image = ResizeImage(imageUpload, 300, 400);
-            int width = (int)((400f/(float)imageUpload.Height) * imageUpload.Width);
+            int width = (int)((400f / (float)imageUpload.Height) * imageUpload.Width);
             Image image = ResizeImage(imageUpload, width, 400);
             // Khoan mod end
             image.Save(imagePath, ImageFormat.Jpeg);
@@ -1115,6 +1120,103 @@ namespace PMS.Web.Controllers
                 }
             }
             return destImage;
+        }
+
+        public ActionResult ExportExcel(int? ParishId, int? VicariateId, List<Dictionary<string, string>> Columns, Dictionary<string, string> Data,
+            int Draw, int Length, List<Dictionary<string, string>> Order, Dictionary<string, string> Search, int Start)
+        {
+            int DioceseId = (int)Session["DioceseId"];
+            int totalRecords = 0;
+            int totalDisplayRecords = 0;
+            jQueryDataTableParam param = new jQueryDataTableParam();
+
+            param.DioceseId = DioceseId;
+            param.ParishId = ParishId;
+            param.VicariateId = VicariateId;
+            param.columns = Columns;
+            param.data = Data;
+            param.draw = Draw;
+            param.length = Length;
+            param.order = Order;
+            param.search = Search;
+            param.start = Start;
+
+            var result = _priestBusiness.GetOrderedPriestsByParamsAndPaging(param, out totalRecords, out totalDisplayRecords);
+
+            Excel.Application exApp = new Excel.Application();
+            Excel.Workbook exBook = exApp.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
+
+            //get sheet 1
+            Excel.Worksheet exSheet = (Excel.Worksheet)exBook.Worksheets[1];
+            //Range is [1,1] (A1)
+            Excel.Range r = (Excel.Range)exSheet.Cells[1, 1];
+            //write data
+            exSheet.Cells[1, 1].Value2 = "Mã";
+            exSheet.Cells[1, 2].Value2 = "Mừng";
+            exSheet.Cells[1, 3].Value2 = "D.xưng";
+            exSheet.Cells[1, 4].Value2 = "T.Thánh";
+            exSheet.Cells[1, 5].Value2 = "Họ và";
+            exSheet.Cells[1, 6].Value2 = "Tên";
+            exSheet.Cells[1, 7].Value2 = "Dòng";
+            exSheet.Cells[1, 8].Value2 = "Chức vụ";
+            exSheet.Cells[1, 9].Value2 = "Giáo xứ";
+            exSheet.Cells[1, 10].Value2 = "Giáo hạt";
+            exSheet.Cells[1, 11].Value2 = "Mã Nhóm";
+            exSheet.Cells[1, 12].Value2 = "Tên Nhóm";
+            exSheet.Cells[1, 13].Value2 = "Ghi chú";
+            exSheet.Cells[1, 14].Value2 = "M.vụ";
+            exSheet.Cells[1, 15].Value2 = "Hưu";
+            exSheet.Cells[1, 16].Value2 = "Địa chỉ";
+            exSheet.Cells[1, 17].Value2 = "Đ Thoại bàn";
+            exSheet.Cells[1, 18].Value2 = "Di động";
+            exSheet.Cells[1, 19].Value2 = "Email";
+            exSheet.Cells[1, 20].Value2 = "Sinh";
+            exSheet.Cells[1, 21].Value2 = "Năm sinh";
+            exSheet.Cells[1, 22].Value2 = "Tuổi";
+            exSheet.Cells[1, 23].Value2 = "Nơi sinh";
+            exSheet.Cells[1, 24].Value2 = "Rửa tội";
+            exSheet.Cells[1, 25].Value2 = "Nơi RT";
+            exSheet.Cells[1, 26].Value2 = "Chịu Chức";
+            exSheet.Cells[1, 27].Value2 = "Tại";
+            exSheet.Cells[1, 28].Value2 = "Do ĐGM.";
+
+            for (int i = 0; i < result.Count; i++)
+            {
+                exSheet.Cells[i + 2, 1].Value2 = result[i].Code;
+                exSheet.Cells[i + 2, 2].Value2 = result[i].PatronDate;
+                exSheet.Cells[i + 2, 3].Value2 = result[i].Title;
+                exSheet.Cells[i + 2, 4].Value2 = result[i].ChristianName;
+                exSheet.Cells[i + 2, 5].Value2 = result[i].LastName;
+                exSheet.Cells[i + 2, 6].Value2 = result[i].FirstName;
+                exSheet.Cells[i + 2, 7].Value2 = result[i].Seminary;
+                exSheet.Cells[i + 2, 8].Value2 = result[i].Role;
+                exSheet.Cells[i + 2, 9].Value2 = result[i].ParishName;
+                exSheet.Cells[i + 2, 10].Value2 = result[i].VicariateName;
+                exSheet.Cells[i + 2, 11].Value2 = result[i].TypeCode;
+                exSheet.Cells[i + 2, 12].Value2 = result[i].TypeName;
+                exSheet.Cells[i + 2, 13].Value2 = result[i].Note;
+                exSheet.Cells[i + 2, 14].Value2 = result[i].IsRetired;
+                exSheet.Cells[i + 2, 15].Value2 = result[i].IsRetired;
+                exSheet.Cells[i + 2, 16].Value2 = result[i].ServedAddress;
+                exSheet.Cells[i + 2, 17].Value2 = result[i].ServedPhone;
+                exSheet.Cells[i + 2, 18].Value2 = result[i].Phone;
+                exSheet.Cells[i + 2, 19].Value2 = result[i].Email;
+                exSheet.Cells[i + 2, 20].Value2 = result[i].BirthDate;
+                exSheet.Cells[i + 2, 21].Value2 = result[i].BirthYear;
+                exSheet.Cells[i + 2, 22].Value2 = result[i].Age;
+                exSheet.Cells[i + 2, 23].Value2 = result[i].BirthPlace;
+                exSheet.Cells[i + 2, 24].Value2 = result[i].BaptismDate;
+                exSheet.Cells[i + 2, 25].Value2 = result[i].BaptismPlace;
+                exSheet.Cells[i + 2, 26].Value2 = result[i].OrdinationDate;
+                exSheet.Cells[i + 2, 27].Value2 = result[i].OrdinationPlace;
+                exSheet.Cells[i + 2, 28].Value2 = result[i].OrdinationBy;
+            }
+
+            exApp.Visible = true;
+
+            exApp.Quit();
+
+            return RedirectToAction("Index");
         }
     }
 }

@@ -262,6 +262,7 @@ namespace PMS.Web.Controllers
             var converter = new DateConverter();
             parishioner.BirthDate = converter.ConvertDateToString(parishioner.BirthDate);
             parishioner.DeadDate = converter.ConvertDateToString(parishioner.DeadDate);
+            parishioner.IDDate = converter.ConvertDateToString(parishioner.IDDate);
             baptismDate = converter.ConvertDateToString(baptismDate);
             holyCommunionDate = converter.ConvertDateToString(holyCommunionDate);
             confirmationDate = converter.ConvertDateToString(confirmationDate);
@@ -492,6 +493,7 @@ namespace PMS.Web.Controllers
             var converter = new DateConverter();
             parishioner.BirthDate = converter.ConvertDateToString(parishioner.BirthDate);
             parishioner.DeadDate = converter.ConvertDateToString(parishioner.DeadDate);
+            parishioner.IDDate = converter.ConvertDateToString(parishioner.IDDate);
             baptismDate = converter.ConvertDateToString(baptismDate);
             holyCommunionDate = converter.ConvertDateToString(holyCommunionDate);
             confirmationDate = converter.ConvertDateToString(confirmationDate);

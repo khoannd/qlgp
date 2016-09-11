@@ -165,6 +165,40 @@
                                                             </div>
                                                         </div>
 
+                                                        <div class="form-group" id="ParishionerNewImage">
+                                                            <label class="col-sm-4 control-label no-padding-right">
+                                                                Hình đại diện
+                                                            </label>
+
+                                                            <div class="col-sm-8">
+                                                                <div class="widget-box">
+                                                                    <div class="widget-body">
+                                                                        <div class="widget-main">
+                                                                            <div class="form-group">
+                                                                                <div class="space-10"></div>
+                                                                                <div class="col-sm-8" id="divImgParishionerThumbnail">
+                                                                                    <img class="" id="imgParishionerThumbnail" src="" />
+                                                                                </div>
+                                                                                <div class="col-sm-12" id="newParishionerImageModal">
+                                                                                    @using (Html.BeginForm("UploadParishionerImage", "Parishioner", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImgFormParishioner", name = "ImgFormParishioner", target = "UploadParishinerTarget" }))
+                                                                                    {
+                                                                                        <input multiple="" name="inputFile" type="file" id="inputFile" />
+                                                                                    }
+                                                                                    <iframe id="UploadParishinerTarget" name="UploadParishinerTarget" style="position: absolute; left: -999em; top: -999em;"></iframe>
+                                                                                    <label class="text-danger" id="parishionerImageValidate" hidden=""></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <label>
+                                                                                <span class="lbl"></span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-xs-6">
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right">
                                                                 Họ tên  (<span style="color:red">*</span>)
@@ -176,21 +210,6 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> </label>
-
-                                                            <div class="col-sm-8">
-
-                                                                <label class="position-relative">
-                                                                    <input type="checkbox" class="ace" id="cbIsCounted" />
-                                                                    <span class="lbl" style="color: blue"> Là người không được thống kê</span>
-                                                                </label>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-xs-6">
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Giới tính (<span style="color:red">*</span>)  </label>
 
@@ -262,37 +281,52 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group" id="ParishionerNewImage">
-                                                            <label class="col-sm-4 control-label no-padding-right">
-                                                                Hình đại diện
-                                                            </label>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> CMND </label>
 
                                                             <div class="col-sm-8">
-                                                                <div class="widget-box">
-                                                                    <div class="widget-body">
-                                                                        <div class="widget-main">
-                                                                            <div class="form-group">
-                                                                                <div class="space-10"></div>
-                                                                                <div class="col-sm-8" id="divImgParishionerThumbnail">
-                                                                                    <img class="" id="imgParishionerThumbnail" src="" />
-                                                                                </div>
-                                                                                <div class="col-sm-12" id="newParishionerImageModal">
-                                                                                    @using (Html.BeginForm("UploadParishionerImage", "Parishioner", FormMethod.Post, new { enctype = "multipart/form-data", id = "ImgFormParishioner", name = "ImgFormParishioner", target = "UploadParishinerTarget" }))
-                                                                                    {
-                                                                                        <input multiple="" name="inputFile" type="file" id="inputFile" />
-                                                                                    }
-                                                                                    <iframe id="UploadParishinerTarget" name="UploadParishinerTarget" style="position: absolute; left: -999em; top: -999em;"></iframe>
-                                                                                    <label class="text-danger" id="parishionerImageValidate" hidden=""></label>
-                                                                                </div>
-                                                                            </div>
-                                                                            <label>
-                                                                                <span class="lbl"></span>
-                                                                            </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                                <input id="txtIDNo" type="text" class="form-control place normal-name" onkeypress="return isNumber(event)">
                                                             </div>
                                                         </div>
+
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right"> Ngày cấp  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input class="form-control date-picker" id="txtIDDate" type="text" data-date-format="dd/mm/yyyy" placeholder="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                                <label id="lbBirthDateError" class="text-danger" hidden=""></label>
+                                                            </div>
+
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Nơi cấp </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input id="txtIDPlace" type="text" class="form-control place normal-name">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <label class="position-relative">
+                                                                    <input type="checkbox" class="ace" id="cbIsCounted" />
+                                                                    <span class="lbl" style="color: blue"> Là người không được thống kê</span>
+                                                                </label>
+
+                                                            </div>
+                                                        </div>
+                                                        
                                                     </div>
                                                     <hr />
                                                 </div>
@@ -1605,6 +1639,10 @@
                 IsDead: $("#cbIsDead").is(':checked'),
                 DeadDate: $("#txtDeadDate").val(),
 
+                IDNo: $("#txtIDNo").val(),
+                IDDate: $("#txtIDDate").val(),
+                IDPlace: $("#txtIDPlace").val(),
+
                 baptismDate: $("#txtBaptismDate").val(),
                 baptismNumber: $("#txtBaptismNumber").val(),
                 baptismPlace: $("#txtBaptismPlace").val(),
@@ -2142,6 +2180,10 @@
                 IsSingle: $("#cbIsSingle").is(':checked'),
                 IsDead: $("#cbIsDead").is(':checked'),
                 DeadDate: $("#txtDeadDate").val(),
+
+                IDNo: $("#txtIDNo").val(),
+                IDDate: $("#txtIDDate").val(),
+                IDPlace: $("#txtIDPlace").val(),
 
                 baptismId: $("#txtHiddenBaptismId").val(),
                 baptismDate: $("#txtBaptismDate").val(),
@@ -3161,5 +3203,14 @@
     $("#UploadParishinerTarget").on("load", function () {
         UploadParishionerImage_Complete();
     });
+
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
 
 </script>

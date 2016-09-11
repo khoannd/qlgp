@@ -31,6 +31,10 @@ namespace PMS.DataAccess.ViewModels
         public int DioceseId { get; set; }
         public int VicariateId { get; set; }
         public string ParishName { get; set; }
+        public string IDNo { get; set; }
+        public string IDDate { get; set; }
+        public string IDPlace { get; set; }
+        public string Date8 { get; set; }
 
     }
 }

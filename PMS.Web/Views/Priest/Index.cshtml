@@ -2,7 +2,7 @@
     ViewBag.Title = "Index";
 }
 <script>
-    
+
 </script>
 <!-- Page Header -->
 <div class="page-header">
@@ -31,8 +31,8 @@
                         <input type="file" name="file" id="selectExcelFile" accept=".xls,.xlsx" />
                     </div>
                     @*<button id="btnImportPriest" type="submit" class="btn btn-info">
-                        <i class="ace-icon fa fa-plus"></i> Bắt đầu Import
-                    </button>*@
+                            <i class="ace-icon fa fa-plus"></i> Bắt đầu Import
+                        </button>*@
                 }
                 <script>
                     $("#selectExcelFile").change(function () {
@@ -45,10 +45,14 @@
                 </script>
             </div>
             <!-- End Import Priest Infomation with EXCEL -->
+            <!-- Export Priests Information to EXCEL -->
+            <button id="btnExportPriests" class="btn btn-info" data-toggle="modal">
+                <i class="ace-icon "></i> Xuất ra Excel
+            </button>
         </div>
     </div>
 </div>
-<div class="col-xs-12">
+<div id="priestData" class="col-xs-12">
     <div class="space-8"></div>
     <!-- Table View Priest -->
     <table id="priestTable" class="table table-hover">
@@ -89,12 +93,10 @@
                 <th filter-type="text" datakey="OrdinationBy">Do ĐGM</th>
                 <th filter-type="text">Thao tác</th>
             </tr>
-            
+
         </thead>
         <tfoot>
-            <tr class="filter-row">
-                
-            </tr>
+            <tr class="filter-row"></tr>
         </tfoot>
         <tbody></tbody>
     </table>
@@ -267,40 +269,52 @@
     .ui-menu .ui-menu-item {
         white-space: nowrap;
     }
+
     #priestTable tfoot {
         display: table-header-group !important;
     }
+
     tr.filter-row input, tr.filter-row select {
         width: 70px;
     }
+
     #filter_Title {
         width: 50px;
     }
+
     #filter_ServedAddress {
         width: 200px;
     }
+
     #filter_TypeName {
         width: 150px;
     }
+
     #filter_Note {
         width: 200px;
     }
+
     #filter_LastName {
         width: 100px;
     }
+
     #filter_ServedPhone, #filter_Phone {
         width: 100px;
     }
+
     #filter_PatronDate, #filter_BirthYear, #filter_Age {
         width: 40px;
     }
+
     #filter_ChristianName {
         width: 100px;
     }
+
     #filter_undefined {
         width: 120px;
         visibility: hidden;
     }
+
     #filter_OrdinationBy {
         width: 150px;
     }
@@ -308,7 +322,7 @@
 <script>
     //function addParishoner() {
     //    openParishionerModal(-1, -1, function (id) {
-            
+
     //    });
     //}
     //Upload Images
@@ -339,16 +353,16 @@
             fillPriestModalInfo($("#txtIdModal").val());
         });
         //$("#PriestModal").hide();
-        
+
         $("#parishionerInformationModal").modal('show');
     }
     $("#PriestModal").on('show.bs.modal', function () {
-        
+
     });;
-    
+
     jQuery(function ($) {
         $(document).ready(function () {
-            
+
         });
 
         $('#inputFile').ace_file_input({
@@ -399,7 +413,7 @@
                 else {
                     data[v["data"]] = v["search"]["value"];
                 }
-                
+
             }
             if (d.order && v["data"]) {
                 if (d.order[0]["column"] == i) {
@@ -414,17 +428,19 @@
         var content = '<a class="pointer bold" onclick="LoadPriestByPriestId(' + id + ')">' + text + '</a>';
         return content;
     }
+    var d2;
     function InitDatatable() {
         var table = $("#priestTable").dataTable({
             "bRetrieve": true,
             "bServerSide": true,
             "bScrollCollapse": true,
-            "pageLength": 100,
-            "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "Tất cả"] ],
+            "pageLength": 25,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Tất cả"]],
             "ajax": {
                 "url": "/Priest/LoadParishDatatable",
                 "type": "POST",
                 "data": function (d) {
+                    d2 = d;
                     if ($('#cbbDiocese').length !== 0) d.dioceseId = $('#cbbDiocese').val();
                     if ($('#cbbVicariate').length !== 0) d.vicariateId = $('#cbbVicariate').val();
                     if ($('#cbbParish').length !== 0) d.ParishId = $('#cbbParish').val();
@@ -448,7 +464,7 @@
             },
             "columns": [
             {
-                "data": "Id",
+                "data": "ParishionerId",
                 "render": function (data, type, full, meta) {
                     var content = '<label class="position-relative">' +
                         '<input type="checkbox" class="ace pItem" value="' + data + '" stype=""/>' +
@@ -483,7 +499,7 @@
             {
                 "data": "ThumbnailURL",
                 "render": function (data, type, full, meta) {
-                    if(data && data.lastIndexOf("/") != data.length - 1) {
+                    if (data && data.lastIndexOf("/") != data.length - 1) {
                         var content = '<img class="" src="' + data + '" style="width: 35px;height:45px" />';
                         return content;
                     }
@@ -497,7 +513,7 @@
             { "data": "Age" },
             { "data": "TypeCode" },
             { "data": "TypeName" },
-            
+
             { "data": "Seminary" },
             { "data": "Role" },
             { "data": "ServedPlace" },
@@ -536,7 +552,7 @@
             ],
             "bAutoWidth": false,
             initComplete: function () {
-                
+
             }
         });
     }
@@ -564,10 +580,10 @@
                 th.html('<input type="text" id="filter_' + key + '" title="Lọc theo ' + title + '" />');
             }
         });
-        
+
         // fill data for filter dropdowns
         // cha dong, cha trieu
-        
+
         $("#filter_Diocesan").html('<option value=""></option><option value="1">Cha triều</option><option value="0">Cha dòng</option>');
         $("#filter_IsRetired").html('<option value=""></option><option value="1">Nghỉ hưu</option><option value="0">Mục vụ</option>');
         // fill data for other dropdown
@@ -575,7 +591,7 @@
             if (res.positions) {
                 $("#filter_Role").html('<option value=""></option>');
                 $(res.positions).each(function (k, v) {
-                    $("#filter_Role").append('<option value="'+v+'">'+v+'</option>');
+                    $("#filter_Role").append('<option value="' + v + '">' + v + '</option>');
                 });
             }
             if (res.christianNames) {
@@ -702,6 +718,14 @@
     //Check Priest Yearold
     function checkYearOldPriest() {
         var date = $("#txtBirthDateModal").val();
+        if (!date) {
+            $("#lbBirthDateErrorModal").html("Vui lòng nhập ngày tháng năm sinh của linh mục");
+            $("#lbBirthDateErrorModal").show();
+            return;
+        } else {
+            $("#lbBirthDateErrorModal").hide();
+            $("#lbBirthDateErrorModal").html("");
+        }
         var result = true;
         $.ajax({
             url: "/Priest/CheckYearOld",
@@ -801,7 +825,6 @@
         if (!checkValidate()) {
             return;
         }
-        startLoading();
         var ImageURL = url;
         $.ajax({
             url: "/Priest/AddPriest",
@@ -1024,4 +1047,23 @@
     $("#UploadPriestTarget").on("load", function () {
         UploadImagePriestImage_Complete();
     });
+
+    $("#btnExportPriests").click(function (e) {
+        $.ajax({
+            url: "/Priest/ExportExcel",
+            type: "POST",
+            data: {
+                ParishId: d2.ParishId,
+                VicariateId: d2.VicariateId,
+                Columns: d2.columns,
+                Data: d2.data,
+                Draw: d2.draw,
+                Length: -1,
+                Order: d2.order,
+                Search: d2.search,
+                Start: d2.start,
+            },
+        });
+    });
+
 </script>
