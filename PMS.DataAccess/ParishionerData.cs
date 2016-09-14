@@ -2317,6 +2317,7 @@ namespace PMS.DataAccess
                         request.FromCommunityId = updatedParishioner.CommunityId;
                     }
                 }
+                updatedParishioner.CreatedDate = parishioner.CreatedDate;
                 Tools.CopyPropertiesTo(updatedParishioner, parishioner);
 
                 //parishioner.Code = updatedParishioner.Code;
@@ -2407,7 +2408,7 @@ namespace PMS.DataAccess
                 {
                     _db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, parishioner);
                 }
-                
+                Console.WriteLine(e.Source);
                 return -1;
             }
         }
@@ -3150,7 +3151,7 @@ namespace PMS.DataAccess
                 priest.ChristianName = parishioner.ChristianName;
                 priest.ImageURL = parishioner.ImageUrl;
                 priest.Name = parishioner.Name;
-                priest.BirthDate =converter.ConvertStringToDate(parishioner.BirthDate);
+                priest.BirthDate =converter.ConvertStringToDate2(parishioner.BirthDate);
                 priest.Code = parishioner.Code;
                 priest.Address = parishioner.Address;
                 priest.Phone = parishioner.Phone;
@@ -3158,7 +3159,7 @@ namespace PMS.DataAccess
                 priest.BirthPlace = parishioner.BirthPlace;
 
                 priest.IDNo = parishioner.IDNo;
-                priest.IDDate = converter.ConvertStringToDate(parishioner.IDDate);
+                priest.IDDate = converter.ConvertStringToDate2(parishioner.IDDate);
                 priest.IDPlace = parishioner.IDPlace;
                 priest.Date8 = (vocation != null) ? vocation.Date8 : "";
 

@@ -18,7 +18,6 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using PMS.DataAccess.Enumerations;
 using Excel = Microsoft.Office.Interop.Excel;
-using ExcelAutoFormat = Microsoft.Office.Interop.Excel.XlRangeAutoFormat;
 
 namespace PMS.Web.Controllers
 {

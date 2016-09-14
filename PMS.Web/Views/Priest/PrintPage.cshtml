@@ -14,13 +14,13 @@
         body {
             font-family: "UTM Times";
         }
-        /*.background-image {
-            background-image: url(../../Content/Logo.png);
+        .background-image {
+            background-image: url(../../Images/Logo.png);
             background-repeat: no-repeat;
             background-position: center;
             background-attachment: local;
             background-size: 200px;
-        }*/
+        }
 
         /*.span {
             font-size: xx-large;
@@ -637,7 +637,6 @@
                         temp = temp.replace(/\[ImageURL]/g, item.ImageURL);
                         temp = temp.replace(/\[ImageName]/g, "Avatar " + item.Name);
                         temp = temp.replace(/\[PriestName]/g, item.ChristianName + " " + item.Name);
-                        temp = temp.replace(/\[BirthDate]/g, item.BirthDate);
                         temp = temp.replace(/\[Code]/g, item.Code);
                         if (item.Address == null) {
                             temp = temp.replace(/\[Address]/g, "");
@@ -652,13 +651,12 @@
                         }
 
                         if (item.IDNo == null) {
-                            temp = temp.replace(/\[IDNo]/g, "");
+                            temp = temp.replace(/\[IDNo]/g, "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                         } else {
                             temp = temp.replace(/\[IDNo]/g, item.IDNo);
                         }
-
-                        if (item.IDDate == null) {
-                            temp = temp.replace(/\[IDDate]/g, "");
+                        if (item.IDDate == null || item.IDDate == "") {
+                            temp = temp.replace(/\[IDDate]/g, "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                         } else {
                             temp = temp.replace(/\[IDDate]/g, item.IDDate);
                         }
@@ -676,9 +674,9 @@
                         }
 
                         if (item.BirthPlace == null) {
-                            temp = temp.replace(/\[BirthPlace]/g, "");
+                            temp = temp.replace(/\[Birth]/g, item.BirthDate);
                         } else {
-                            temp = temp.replace(/\[BirthPlace]/g, item.BirthPlace);
+                            temp = temp.replace(/\[Birth]/g, item.BirthDate + " - " + item.BirthPlace);
                         }
 
                         if (item.Bishop == null) {

@@ -43,6 +43,40 @@ namespace PMS.DataAccess.Utilities
             return result;
         }
 
+        public string ConvertStringToDate2(string date)
+        {
+            if (date == null)
+            {
+                return "";
+            }
+
+            date = date.Trim();
+            if (string.IsNullOrEmpty(date))
+            {
+                return "";
+            }
+
+            string year = date.Substring(0, 4);
+            string month = date.Substring(4, 2);
+            string day = date.Substring(6, 2);
+
+            string result = "";
+
+            if (!day.Equals("00"))
+            {
+                result += day + ".";
+            }
+
+            if (!month.Equals("00"))
+            {
+                result += month + ".";
+            }
+
+            result += year;
+
+            return result;
+        }
+
         public DateTime ConvertStringToDateObject(string date)
         {
             string strDate = ConvertStringToDate(date);
