@@ -79,6 +79,21 @@ namespace PMS.DataAccess.Utilities
             return regex.IsMatch(n);
         }
 
+        public static bool IsNullOrZero(int? i)
+        {
+            return (i == null || i == 0);
+        }
+
+        public static bool IsNullOrZero(double? i)
+        {
+            return (i == null || i == 0);
+        }
+
+        public static bool IsNullOrEmpty(object i)
+        {
+            return (i == null || i.ToString() == "");
+        }
+
         public static string ConvertVnDateToDBString(string n)
         {
             Regex regex = new Regex("^([0-9]{1,2}[-|/])?([0-9]{1,2}[-|/])?([0-9]{4})$");

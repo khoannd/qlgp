@@ -109,7 +109,7 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Giáo họ/khu  (<span style="color:red">*</span>) </label>
+                                                            <label class="col-sm-4 control-label no-padding-right"> Giáo họ/khu</label>
 
                                                             <div class="col-sm-8">
                                                                 <select class="form-control" id="cbbCommunityModal">
@@ -1087,7 +1087,7 @@
         //
 
         //
-        if (communityId == 0 || communityId == null) {
+        /*if (communityId == 0 || communityId == null) {
             $("#lbCommunityErrorMessage").html("Hãy chọn giáo họ/khu");
             $("#lbCommunityErrorMessage").show();
 
@@ -1098,7 +1098,7 @@
         } else {
             $("#lbCommunityErrorMessage").hide();
             $("#lbCommunityErrorMessage").html("");
-        }
+        }*/
 
         if (!name) {
             $("#lbParishionerNameErrorMessage").html("Họ tên không được để trống");
@@ -1355,6 +1355,7 @@
                 IsSingle: $("#cbIsSingleModal").is(':checked'),
                 IsDead: $("#cbIsDeadModal").is(':checked'),
                 DeadDate: $("#txtDeadDateModal").val(),
+                ParishId: $("#cbbParishionerParish").val(),
 
                 baptismDate: $("#txtBaptismDateModal").val(),
                 baptismNumber: $("#txtBaptismNumberModal").val(),

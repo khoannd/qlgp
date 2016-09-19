@@ -168,6 +168,7 @@ namespace PMS.BusinessLogic
                 displayedList.ToList()[i].BirthDate = converter.ConvertStringToDate(displayedList.ToList()[i].BirthDate);
                 displayedList.ToList()[i].StartDate = converter.ConvertStringToDate(displayedList.ToList()[i].StartDate);
                 displayedList.ToList()[i].OrdinationDate = converter.ConvertStringToDate(displayedList.ToList()[i].OrdinationDate);
+                displayedList.ToList()[i].BaptismDate = converter.ConvertStringToDate(displayedList.ToList()[i].BaptismDate);
                 //displayedList.ToList()[i].Age = DateConverter.CalCulateAgeInt(displayedList.ToList()[i].BirthDate);
                 if (displayedList.ToList()[i].Age == 0) displayedList.ToList()[i].Age = null;
                 if (displayedList.ToList()[i].PatronDate != null && displayedList.ToList()[i].PatronDate.Length > 2)

@@ -51,6 +51,7 @@ namespace PMS.DataAccess
         {
             const string query = "SELECT * FROM Parish  WHERE Id = {0}";
             return _db.ExecuteQuery<Parish>(query, id).SingleOrDefault();
+            //return _db.Parishes.SingleOrDefault(d => d.Id == id);
         }
 
         public Parish GetParishesByParishName(string name, int vicariateId)
@@ -102,6 +103,19 @@ namespace PMS.DataAccess
                 {
                     return 0;
                 }
+                if(!item.Equals(parish))
+                {
+                    if (!string.IsNullOrEmpty(parish.ImageUrl))
+                    {
+                        item.ImageUrl = parish.ImageUrl;
+                    }
+                    else
+                    {
+                        parish.ImageUrl = item.ImageUrl;
+                    }
+
+                    PMS.DataAccess.Utilities.Tools.CopyPropertiesTo(parish, item);
+                }
                 //item.Name = parish.Name;
                 //item.Address = parish.Address;
                 //item.Ward = parish.Ward;
@@ -116,17 +130,7 @@ namespace PMS.DataAccess
                 //item.Patron = parish.Patron;
                 //item.PatronDate = parish.PatronDate;
                 //item.ChauLuot = parish.ChauLuot;
-
-                if (!string.IsNullOrEmpty(parish.ImageUrl))
-                {
-                    item.ImageUrl = parish.ImageUrl;
-                }
-                else
-                {
-                    parish.ImageUrl = item.ImageUrl;
-                }
-
-                PMS.DataAccess.Utilities.Tools.CopyPropertiesTo(parish, item);
+                
 
                 //if(item.PriestId != null && item.PriestId != 0)
                 //{

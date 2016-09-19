@@ -31,9 +31,11 @@ FROM (
 	vi.Name AS VicariateName, vi.Id AS VicariateId,
     IIF(LEN(pa.BirthDate) >= 4, YEAR(GETDATE()) - CAST(LEFT(pa.BirthDate, 4) AS INT), '') AS Age,
 	IIF(LEN(pa.BirthDate) >= 4, LEFT(pa.BirthDate, 4), '') AS BirthYear,
-	v.ServedRole AS RoleId, vt.Name AS Role, v.Note, v.Date8 AS OrdinationDate, v.Place8 AS OrdinationPlace, v.Giver8 AS OrdinationBy
+	v.ServedRole AS RoleId, vt.Name AS Role, v.Note, v.Date8 AS OrdinationDate, v.Place8 AS OrdinationPlace, v.Giver8 AS OrdinationBy,
+    sa.Date AS BaptismDate, sa.ReceivedPlace AS BaptismPlace
 	FROM Priest pr
 	LEFT JOIN Parishioner pa ON pr.ParishionerId = pa.Id
+	LEFT JOIN Sacrament sa ON sa.ParishionerId = pa.Id AND sa.Type=1
 	LEFT JOIN Vocation v ON pr.ParishionerId = v.ParishionerId
 	LEFT JOIN ValueSet vs1 ON vs1.Code = v.TypeCode AND vs1.Category = 'SEMINARYTAG'
 	LEFT JOIN VaiTro vt ON v.ServedRole = vt.Id

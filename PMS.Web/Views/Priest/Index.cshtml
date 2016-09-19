@@ -88,6 +88,8 @@
                 <th filter-type="text" datakey="Email">Email</th>
                 <th filter-type="select" datakey="Diocesan">Dòng/Triều</th>
                 <th filter-type="text" datakey="Note">Ghi chú</th>
+                <th filter-type="text" datakey="BaptismPlace">Ngày Rửa tội</th>
+                <th filter-type="text" datakey="BaptismDate">Nơi rửa tội</th>
                 <th filter-type="text" datakey="OrdinationDate">Ngày chịu chức</th>
                 <th filter-type="text" datakey="OrdinationPlace">Tại</th>
                 <th filter-type="text" datakey="OrdinationBy">Do ĐGM</th>
@@ -536,6 +538,8 @@
                 }
             },
             { "data": "Note" },
+            { "data": "BaptismDate" },
+            { "data": "BaptismPlace" },
             { "data": "OrdinationDate" },
             { "data": "OrdinationPlace" },
             { "data": "OrdinationBy" },
@@ -1063,6 +1067,11 @@
                 Search: d2.search,
                 Start: d2.start,
             },
+            success: function (res) {
+                if (res && res.fileName) {
+                    window.location.href = "/exports/" + res.fileName;
+                }
+            }
         });
     });
 

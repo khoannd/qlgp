@@ -17,7 +17,8 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using PMS.DataAccess.Enumerations;
-using Excel = Microsoft.Office.Interop.Excel;
+//using Excel = Microsoft.Office.Interop.Excel;
+using OfficeOpenXml;
 
 namespace PMS.Web.Controllers
 {
@@ -310,6 +311,16 @@ namespace PMS.Web.Controllers
                     {
                         writeLog(string.Concat(priestViewModel.Name, ": update parish manager fail"));
                     }
+                    if (!Tools.IsNullOrZero(priestViewModel.ServedPlaceId) //co noi phuc vu (giao xu)
+                        && !Tools.IsNullOrZero(priestViewModel.RoleId) // co vai tro
+                        && (int)priestViewModel.RoleId == 1 // vai tro la chanh xu
+                        )
+                    {
+                        Parish parish = _parishBusiness.GetParishesByParishId((int)priestViewModel.ServedPlaceId);
+                        parish.Priest = string.Format("{0} {1} {2}", priest.ChristianName, priestViewModel.LastName, priestViewModel.FirstName);
+                        parish.PriestId = priest.Id;
+                        _parishBusiness.UpdateParish(parish);
+                    }
                 }
                 return result;
             }
@@ -469,7 +480,7 @@ namespace PMS.Web.Controllers
                     }
                     sacrament.ParishionerId = (int)priest.ParishionerId;
                     sacrament.Type = (int)PMS.DataAccess.Enumerations.SacramentEnum.Baptism;
-                    sacrament.Date = convertDateForImport(priest.BaptismDate);
+                    sacrament.Date = Tools.ConvertVnDateToDBString(priest.BaptismDate);
                     sacrament.Giver = priest.BaptismPriest;
                     sacrament.ReceivedPlace = priest.BaptismPlace;
                     int result = 0;
@@ -1142,80 +1153,138 @@ namespace PMS.Web.Controllers
 
             var result = _priestBusiness.GetOrderedPriestsByParamsAndPaging(param, out totalRecords, out totalDisplayRecords);
 
-            Excel.Application exApp = new Excel.Application();
-            Excel.Workbook exBook = exApp.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
+            //Excel.Application exApp = new Excel.Application();
+            //Excel.Workbook exBook = exApp.Workbooks.Add(Excel.XlWBATemplate.xlWBATWorksheet);
 
-            //get sheet 1
-            Excel.Worksheet exSheet = (Excel.Worksheet)exBook.Worksheets[1];
-            //Range is [1,1] (A1)
-            Excel.Range r = (Excel.Range)exSheet.Cells[1, 1];
+            ////get sheet 1
+            //Excel.Worksheet exSheet = (Excel.Worksheet)exBook.Worksheets[1];
+            ////Range is [1,1] (A1)
+            //Excel.Range r = (Excel.Range)exSheet.Cells[1, 1];
+
+            
+            string sheetName = "Danh sách Linh Mục";
+            ExcelPackage p = new ExcelPackage();
+            p.Workbook.Worksheets.Add(sheetName);
+            ExcelWorksheet exSheet = p.Workbook.Worksheets[1];
+            exSheet.Name = sheetName; //Setting Sheet's name
+
             //write data
-            exSheet.Cells[1, 1].Value2 = "Mã";
-            exSheet.Cells[1, 2].Value2 = "Mừng";
-            exSheet.Cells[1, 3].Value2 = "D.xưng";
-            exSheet.Cells[1, 4].Value2 = "T.Thánh";
-            exSheet.Cells[1, 5].Value2 = "Họ và";
-            exSheet.Cells[1, 6].Value2 = "Tên";
-            exSheet.Cells[1, 7].Value2 = "Dòng";
-            exSheet.Cells[1, 8].Value2 = "Chức vụ";
-            exSheet.Cells[1, 9].Value2 = "Giáo xứ";
-            exSheet.Cells[1, 10].Value2 = "Giáo hạt";
-            exSheet.Cells[1, 11].Value2 = "Mã Nhóm";
-            exSheet.Cells[1, 12].Value2 = "Tên Nhóm";
-            exSheet.Cells[1, 13].Value2 = "Ghi chú";
-            exSheet.Cells[1, 14].Value2 = "M.vụ";
-            exSheet.Cells[1, 15].Value2 = "Hưu";
-            exSheet.Cells[1, 16].Value2 = "Địa chỉ";
-            exSheet.Cells[1, 17].Value2 = "Đ Thoại bàn";
-            exSheet.Cells[1, 18].Value2 = "Di động";
-            exSheet.Cells[1, 19].Value2 = "Email";
-            exSheet.Cells[1, 20].Value2 = "Sinh";
-            exSheet.Cells[1, 21].Value2 = "Năm sinh";
-            exSheet.Cells[1, 22].Value2 = "Tuổi";
-            exSheet.Cells[1, 23].Value2 = "Nơi sinh";
-            exSheet.Cells[1, 24].Value2 = "Rửa tội";
-            exSheet.Cells[1, 25].Value2 = "Nơi RT";
-            exSheet.Cells[1, 26].Value2 = "Chịu Chức";
-            exSheet.Cells[1, 27].Value2 = "Tại";
-            exSheet.Cells[1, 28].Value2 = "Do ĐGM.";
+            string[] captions = new string[] {
+              "Mã",
+              "Mừng",
+              "D.xưng",
+              "T.Thánh",
+              "Họ và",
+              "Tên",
+              "Dòng",
+              "Chức vụ",
+              "Giáo xứ",
+              "Giáo hạt",
+              "Mã Nhóm",
+              "Tên Nhóm",
+              "Ghi chú",
+              "M.vụ/Hưu",
+              "Địa chỉ",
+              "Đ Thoại bàn",
+              "Di động",
+              "Email",
+              "Ngày Sinh",
+              "Năm sinh",
+              "Tuổi",
+              "Nơi sinh",
+              "Rửa tội",
+              "Nơi RT",
+              "Chịu Chức",
+              "Tại",
+              "Do ĐGM."
+            };
+            for(int i = 0; i < captions.Length; i++)
+            {
+                exSheet.Cells[1, i+1].Value = captions[i];
+            }
+            exSheet.Cells[1, 1, 1, captions.Length].Style.Font.Bold = true;
+
+            //exSheet.Cells[1, 1].Value = "Mã";
+            //exSheet.Cells[1, 2].Value = "Mừng";
+            //exSheet.Cells[1, 3].Value = "D.xưng";
+            //exSheet.Cells[1, 4].Value = "T.Thánh";
+            //exSheet.Cells[1, 5].Value = "Họ và";
+            //exSheet.Cells[1, 6].Value = "Tên";
+            //exSheet.Cells[1, 7].Value = "Dòng";
+            //exSheet.Cells[1, 8].Value = "Chức vụ";
+            //exSheet.Cells[1, 9].Value = "Giáo xứ";
+            //exSheet.Cells[1, 10].Value = "Giáo hạt";
+            //exSheet.Cells[1, 11].Value = "Mã Nhóm";
+            //exSheet.Cells[1, 12].Value = "Tên Nhóm";
+            //exSheet.Cells[1, 13].Value = "Ghi chú";
+            //exSheet.Cells[1, 14].Value = "M.vụ";
+            //exSheet.Cells[1, 15].Value = "Hưu";
+            //exSheet.Cells[1, 16].Value = "Địa chỉ";
+            //exSheet.Cells[1, 17].Value = "Đ Thoại bàn";
+            //exSheet.Cells[1, 18].Value = "Di động";
+            //exSheet.Cells[1, 19].Value = "Email";
+            //exSheet.Cells[1, 20].Value = "Ngày Sinh";
+            //exSheet.Cells[1, 21].Value = "Năm sinh";
+            //exSheet.Cells[1, 22].Value = "Tuổi";
+            //exSheet.Cells[1, 23].Value = "Nơi sinh";
+            //exSheet.Cells[1, 24].Value = "Rửa tội";
+            //exSheet.Cells[1, 25].Value = "Nơi RT";
+            //exSheet.Cells[1, 26].Value = "Chịu Chức";
+            //exSheet.Cells[1, 27].Value = "Tại";
+            //exSheet.Cells[1, 28].Value = "Do ĐGM.";
+
 
             for (int i = 0; i < result.Count; i++)
             {
-                exSheet.Cells[i + 2, 1].Value2 = result[i].Code;
-                exSheet.Cells[i + 2, 2].Value2 = result[i].PatronDate;
-                exSheet.Cells[i + 2, 3].Value2 = result[i].Title;
-                exSheet.Cells[i + 2, 4].Value2 = result[i].ChristianName;
-                exSheet.Cells[i + 2, 5].Value2 = result[i].LastName;
-                exSheet.Cells[i + 2, 6].Value2 = result[i].FirstName;
-                exSheet.Cells[i + 2, 7].Value2 = result[i].Seminary;
-                exSheet.Cells[i + 2, 8].Value2 = result[i].Role;
-                exSheet.Cells[i + 2, 9].Value2 = result[i].ParishName;
-                exSheet.Cells[i + 2, 10].Value2 = result[i].VicariateName;
-                exSheet.Cells[i + 2, 11].Value2 = result[i].TypeCode;
-                exSheet.Cells[i + 2, 12].Value2 = result[i].TypeName;
-                exSheet.Cells[i + 2, 13].Value2 = result[i].Note;
-                exSheet.Cells[i + 2, 14].Value2 = result[i].IsRetired;
-                exSheet.Cells[i + 2, 15].Value2 = result[i].IsRetired;
-                exSheet.Cells[i + 2, 16].Value2 = result[i].ServedAddress;
-                exSheet.Cells[i + 2, 17].Value2 = result[i].ServedPhone;
-                exSheet.Cells[i + 2, 18].Value2 = result[i].Phone;
-                exSheet.Cells[i + 2, 19].Value2 = result[i].Email;
-                exSheet.Cells[i + 2, 20].Value2 = result[i].BirthDate;
-                exSheet.Cells[i + 2, 21].Value2 = result[i].BirthYear;
-                exSheet.Cells[i + 2, 22].Value2 = result[i].Age;
-                exSheet.Cells[i + 2, 23].Value2 = result[i].BirthPlace;
-                exSheet.Cells[i + 2, 24].Value2 = result[i].BaptismDate;
-                exSheet.Cells[i + 2, 25].Value2 = result[i].BaptismPlace;
-                exSheet.Cells[i + 2, 26].Value2 = result[i].OrdinationDate;
-                exSheet.Cells[i + 2, 27].Value2 = result[i].OrdinationPlace;
-                exSheet.Cells[i + 2, 28].Value2 = result[i].OrdinationBy;
+                int j = 1;
+                exSheet.Cells[i + 2, j++].Value = result[i].Code;
+                exSheet.Cells[i + 2, j++].Value = result[i].PatronDate;
+                exSheet.Cells[i + 2, j++].Value = result[i].Title;
+                exSheet.Cells[i + 2, j++].Value = result[i].ChristianName;
+                exSheet.Cells[i + 2, j++].Value = result[i].LastName;
+                exSheet.Cells[i + 2, j++].Value = result[i].FirstName;
+                exSheet.Cells[i + 2, j++].Value = result[i].Seminary;
+                exSheet.Cells[i + 2, j++].Value = result[i].Role;
+                exSheet.Cells[i + 2, j++].Value = result[i].ParishName;
+                exSheet.Cells[i + 2, j++].Value = result[i].VicariateName;
+                exSheet.Cells[i + 2, j++].Value = result[i].TypeCode;
+                exSheet.Cells[i + 2, j++].Value = result[i].TypeName;
+                exSheet.Cells[i + 2, j++].Value = result[i].Note;
+                exSheet.Cells[i + 2, j++].Value = result[i].IsRetired == 1 ? "Hưu" : "Mục vụ";
+                exSheet.Cells[i + 2, j++].Value = result[i].ServedAddress;
+                exSheet.Cells[i + 2, j++].Value = result[i].ServedPhone;
+                exSheet.Cells[i + 2, j++].Value = result[i].Phone;
+                exSheet.Cells[i + 2, j++].Value = result[i].Email;
+                exSheet.Cells[i + 2, j++].Value = result[i].BirthDate;
+                exSheet.Cells[i + 2, j++].Value = result[i].BirthYear;
+                exSheet.Cells[i + 2, j++].Value = result[i].Age;
+                exSheet.Cells[i + 2, j++].Value = result[i].BirthPlace;
+                exSheet.Cells[i + 2, j++].Value = result[i].BaptismDate;
+                exSheet.Cells[i + 2, j++].Value = result[i].BaptismPlace;
+                exSheet.Cells[i + 2, j++].Value = result[i].OrdinationDate;
+                exSheet.Cells[i + 2, j++].Value = result[i].OrdinationPlace;
+                exSheet.Cells[i + 2, j++].Value = result[i].OrdinationBy;
             }
 
-            exApp.Visible = true;
+            exSheet.Cells.AutoFitColumns();
 
-            exApp.Quit();
+            //exApp.Visible = true;
 
-            return RedirectToAction("Index");
+            //exApp.Quit();
+            Byte[] bin = p.GetAsByteArray();
+            string fileName = Server.MapPath("/exports");
+            if(!Directory.Exists(fileName))
+            {
+                Directory.CreateDirectory(fileName);
+            }
+
+            fileName += "/danh_sach_LM_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xlsx";
+
+            System.IO.File.WriteAllBytes(fileName, bin);
+
+            p.Dispose();
+
+            return Json(new { fileName = Path.GetFileName(fileName)}, JsonRequestBehavior.AllowGet);
         }
     }
 }
