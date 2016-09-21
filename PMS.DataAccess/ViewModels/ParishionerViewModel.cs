@@ -35,6 +35,7 @@ namespace PMS.DataAccess.ViewModels
         public string IDDate { get; set; }
         public string IDPlace { get; set; }
         public string Date8 { get; set; }
+        public string PatronDate { get; set; }
 
     }
 }

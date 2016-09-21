@@ -152,10 +152,12 @@ namespace PMS.Web.Controllers
 
             var imageName = priest.ImageURL;
             var fileImagePath = ConfigurationManager.AppSettings["ParishionerImageUrl"];
-            priest.ImageURL = string.Concat(fileImagePath, imageName);
-
-            var fileThumbnailPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
-            priest.ThumbnailURL = string.Concat(fileThumbnailPath, imageName);
+            if(!Tools.IsNullOrEmpty(imageName))
+            {
+                priest.ImageURL = string.Concat(fileImagePath, imageName);
+                var fileThumbnailPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
+                priest.ThumbnailURL = string.Concat(fileThumbnailPath, imageName);
+            }
 
             return Json(new { result = priest }, JsonRequestBehavior.AllowGet);
         }

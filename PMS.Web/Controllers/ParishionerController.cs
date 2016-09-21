@@ -1214,29 +1214,42 @@ namespace PMS.Web.Controllers
                 return null;
             }
             Session["ImageName"] = parishioner.ImageUrl;
-            int? communityIdTemp;
+            int? communityIdTemp = 0;
             //Get Sacrament Information
             var sacraments = _sacramentBusiness.GetSacramentsByParishionerId(id);
             //Get Vocation Information
             var vocation = _vocationBusiness.GetVocationByParishionerId(id);
+            string communityName = "";
+            string parishName = "";
 
-            string communityName = (parishioner.Community.ParentId != null) ? parishioner.Community.Community1.Name : parishioner.Community.Name;
-            string parishName = parishioner.Community.Parish.Name;
-            int parishId = parishioner.Community.Parish.Id;
+            var parishionerViewModel = new ParishionerViewModel();
+            if (parishioner.Community != null)
+            {
+                communityName = ((parishioner.Community.ParentId != null) ? parishioner.Community.Community1.Name : parishioner.Community.Name);
+                parishName = parishioner.Community.Parish.Name;
+                
+                communityIdTemp = parishioner.CommunityId;
+                parishionerViewModel.VicariateId = parishioner.Community.Parish.VicariateId;
+                parishionerViewModel.DioceseId = parishioner.Community.Parish.Vicariate.DioceseId;
+                
+            }
 
-            communityIdTemp = parishioner.CommunityId;
+            int parishId = parishioner.ParishId.GetValueOrDefault();
+            if(parishId != 0)
+            {
+                Parish parish = _parishBusiness.GetParishesByParishId(parishId);
+                parishionerViewModel.ParishId = parishId;
+                parishionerViewModel.ParishName = parishName = parish.Name;
+            }
 
             var fileImagePath = ConfigurationManager.AppSettings["ParishionerImageUrl"];
             var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
-            var parishionerViewModel = new ParishionerViewModel();
-            parishionerViewModel.ImageURL = _parishionerBusiness.GetImageUrl(string.Concat(fileImagePath, parishioner.ImageUrl), parishioner.Gender);
-            parishionerViewModel.ThumbnailURL = _parishionerBusiness.GetImageUrl(string.Concat(fileThumbPath, parishioner.ImageUrl), parishioner.Gender);
-
-            parishionerViewModel.ParishId = parishId;
-            parishionerViewModel.ParishName = parishName;
-            parishionerViewModel.VicariateId = parishioner.Community.Parish.VicariateId;
-            parishionerViewModel.DioceseId = parishioner.Community.Parish.Vicariate.DioceseId;
-
+            if(!Tools.IsNullOrEmpty(parishioner.ImageUrl))
+            {
+                parishionerViewModel.ImageURL = _parishionerBusiness.GetImageUrl(string.Concat(fileImagePath, parishioner.ImageUrl), parishioner.Gender);
+                parishionerViewModel.ThumbnailURL = _parishionerBusiness.GetImageUrl(string.Concat(fileThumbPath, parishioner.ImageUrl), parishioner.Gender);
+            }
+            parishionerViewModel.PatronDate = string.Concat(parishioner.PatronDate.Substring(0, 2), "/", parishioner.PatronDate.Substring(2));
             int vocationIdTemp = 0;
             //Remove Vocation Reference
             if (vocation != null)
