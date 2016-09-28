@@ -14,7 +14,7 @@
     <div class="col-xs-12">
         <div class="col-sm-12">
             <!-- Button Show Popup To Add New Priest -->
-            <button id="btnCreatePriest" class="btn btn-success" data-toggle="modal">
+            <button id="btnCreatePriest" class="btn btn-success" data-toggle="modal" onclick="AddNewPriestToParishioner()">
                 <i class="ace-icon fa fa-plus"></i> Thêm linh mục
             </button>
             <!-- End Button Show Popup To Add New Priest -->
@@ -223,9 +223,9 @@
                                         <div class="col-xs-12 col-sm-12">
                                             <div class="form-group align-right">
                                                 <!-- Modal Button Add View Parishioner info -->
-                                                <button id="btnViewParishionerModal" class="btn btn-primary" data-toggle="modal" onclick="showParishionerInfo()">
+                                                @*<button id="btnViewParishionerModal" class="btn btn-primary" data-toggle="modal" onclick="showParishionerInfo()">
                                                     <i class="ace-icon fa fa-pencil"></i> Thông tin cá nhân
-                                                </button>
+                                                </button>*@
                                                 <!-- Modal Button Add New Priest -->
                                                 <button id="btnCreatePriestModal" class="btn btn-primary" data-toggle="modal" onclick="UploadPriestImage()">
                                                     <i class="ace-icon fa fa-save"></i> Lưu
@@ -346,16 +346,28 @@
         }
         $("#ImgFormPriest").submit();
     }
-    function showParishionerInfo() {
-        var id = $("#txtParishionerId").val();
-        loadFullParishionerInfo(id);
+    function showParishionerInfo(priestId) {
+        var id = priestId;
+        loadFullParishionerInfo(id, 'priest');
         $("#parishionerInformationModal").on("hidden.bs.modal", function () {
             //$(".modal-backdrop.fade.in").hide();
             //refeshTable();
-            fillPriestModalInfo($("#txtIdModal").val());
+            //fillPriestModalInfo($("#txtIdModal").val());
         });
         //$("#PriestModal").hide();
-
+    }
+    function showAddNewParishioner() {
+        $("#parishionerInformationTitle").html("Thêm mới linh mục");
+        $("#matrimony").hide();
+        $("#ParishionerIsCounted").hide();
+        $("#ChangeInfo").hide();
+        $("#Education").hide();
+        $("#Career").hide();
+        $("#Address").hide();
+        $("#IsStudying").hide();
+        $("#IsCatechumen").hide();
+        $("#IsMarried").hide();
+        $("#IsSingle").hide();
         $("#parishionerInformationModal").modal('show');
     }
     $("#PriestModal").on('show.bs.modal', function () {
@@ -482,19 +494,19 @@
             { "data": "PatronDate" },
             {
                 "data": "ChristianName", "render": function (data, type, full, meta) {
-                    var content = addEditLink(full.Id, data);
+                    var content = addEditLink(full.ParishionerId, data);
                     return content;
                 }
             },
             {
                 "data": "LastName", "render": function (data, type, full, meta) {
-                    var content = addEditLink(full.Id, data);
+                    var content = addEditLink(full.ParishionerId, data);
                     return content;
                 }
             },
             {
                 "data": "FirstName", "render": function (data, type, full, meta) {
-                    var content = addEditLink(full.Id, data);
+                    var content = addEditLink(full.ParishionerId, data);
                     return content;
                 }
             },
@@ -544,7 +556,7 @@
             { "data": "OrdinationPlace" },
             { "data": "OrdinationBy" },
             {
-                "data": "Id",
+                "data": "ParishionerId",
                 "render": function (data, type, full, meta) {
                     var content = '<button class="btn btn-minier btn-primary" onclick="LoadPriestByPriestId(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
                         '<button class="btn btn-minier btn-danger" onclick="DeleteConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
@@ -644,16 +656,16 @@
     }
 
     //Button Create Priest Event
-    $("#btnCreatePriest").click(function () {
-        $("#PriestModalTitle").html("Thêm mới linh mục");
-        $("#ParishionerCodeModal").hide();
-        $("#priestImageModal").hide();
-        $("#btnCreatePriestModal").show();
-        $("#btnResetPriestModal").show();
-        $("#btnUpdatePriestModal").hide();
-        $("#btnViewParishionerModal").hide();
-        $("#PriestModal").modal('show');
-    });
+    //$("#btnCreatePriest").click(function () {
+    //    $("#PriestModalTitle").html("Thêm mới linh mục");
+    //    $("#ParishionerCodeModal").hide();
+    //    $("#priestImageModal").hide();
+    //    $("#btnCreatePriestModal").show();
+    //    $("#btnResetPriestModal").show();
+    //    $("#btnUpdatePriestModal").hide();
+    //    $("#btnViewParishionerModal").hide();
+    //    $("#PriestModal").modal('show');
+    //});
 
     //Button Close Modal Priest Event
     $("#btnClosePriestModal").click(function () {
@@ -857,44 +869,51 @@
 
     //Fuction Load Priest By Id to Update
     function LoadPriestByPriestId(id) {
-        $("#btnViewParishionerModal").show();
-        $("#ParishionerCodeModal").show();
-        $("#priestImageModal").show();
-        $("#newImageModal").show();
-        fillPriestModalInfo(id);
+        //$("#btnViewParishionerModal").show();
+        //$("#ParishionerCodeModal").show();
+        //$("#priestImageModal").show();
+        //$("#newImageModal").show();
+        //fillPriestModalInfo(id);
+        showParishionerInfo(id);
     }
 
-    function fillPriestModalInfo(id) {
-        $.ajax({
-            url: "/Priest/LoadPriestById",
-            type: "POST",
-            data: { id: id },
-            success: function (data) {
-                var item = data.result;
-                $("#txtIdModal").val(item.Id);
-                $("#txtParishionerCodeModal").val(item.Code);
-                $("#txtChristianNameModal").val(item.ChristianName);
-                $("#txtFullNameModal").val(item.Name);
-                document.getElementById("ImageNamePriest").innerHTML = item.Name;
-                $('#txtFullNameModal').autocomplete("option", "disabled", true);
-                $("#txtBirthDateModal").val(item.BirthDate);
-                $("#txtPhoneModal").val(item.Phone);
-                $("#txtParishionerId").val(item.ParishionerId);
-                $("#imgPriestImage").attr('src', item.ImageURL);
-                if (item.ImageURL == null) {
-                    $("#priestImageModal").hide();
-                } else {
-                    $("#imgPriestThumbnail").attr('src', item.ThumbnailURL);
-                    $("#priestImageModal").show();
-                }
-                $("#PriestModalTitle").html("Chỉnh sửa linh mục");
-                $("#PriestModal").modal('show');
-                $("#btnUpdatePriestModal").show();
-                $("#btnCreatePriestModal").hide();
-                $("#btnResetPriestModal").hide();
-            },
-        });
+    //Function Add New Priest
+    function AddNewPriestToParishioner()
+    {
+        showAddNewParishioner();
     }
+
+    //function fillPriestModalInfo(id) {
+    //    $.ajax({
+    //        url: "/Priest/LoadPriestById",
+    //        type: "POST",
+    //        data: { id: id },
+    //        success: function (data) {
+    //            var item = data.result;
+    //            $("#txtIdModal").val(item.Id);
+    //            $("#txtParishionerCodeModal").val(item.Code);
+    //            $("#txtChristianNameModal").val(item.ChristianName);
+    //            $("#txtFullNameModal").val(item.Name);
+    //            document.getElementById("ImageNamePriest").innerHTML = item.Name;
+    //            $('#txtFullNameModal').autocomplete("option", "disabled", true);
+    //            $("#txtBirthDateModal").val(item.BirthDate);
+    //            $("#txtPhoneModal").val(item.Phone);
+    //            $("#txtParishionerId").val(item.ParishionerId);
+    //            $("#imgPriestImage").attr('src', item.ImageURL);
+    //            if (item.ImageURL == null) {
+    //                $("#priestImageModal").hide();
+    //            } else {
+    //                $("#imgPriestThumbnail").attr('src', item.ThumbnailURL);
+    //                $("#priestImageModal").show();
+    //            }
+    //            $("#PriestModalTitle").html("Chỉnh sửa linh mục");
+    //            $("#PriestModal").modal('show');
+    //            $("#btnUpdatePriestModal").show();
+    //            $("#btnCreatePriestModal").hide();
+    //            $("#btnResetPriestModal").hide();
+    //        },
+    //    });
+    //}
 
     //Update Priest
     function updatePriest(url) {

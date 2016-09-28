@@ -38,6 +38,8 @@ namespace PMS.Web.Controllers
         private readonly MessageBusiness _messageBusiness;
         private readonly DioceseBusiness _dioceseBusiness;
 
+        private readonly VaiTroBusiness _vaitroBusiness;
+
         public ParishionerController()
         {
             _communityBusiness = new CommunityBusiness(DbConfig.GetConnectionString());
@@ -54,6 +56,8 @@ namespace PMS.Web.Controllers
             _changeParishBusiness = new ChangeParishBusiness(DbConfig.GetConnectionString());
             _messageBusiness = new MessageBusiness(DbConfig.GetConnectionString());
             _dioceseBusiness = new DioceseBusiness(DbConfig.GetConnectionString());
+
+            _vaitroBusiness = new VaiTroBusiness(DbConfig.GetConnectionString());
         }
 
         [SessionExpireFilter]
@@ -74,6 +78,9 @@ namespace PMS.Web.Controllers
             ViewBag.Parishes = parishs;
             ViewBag.Vicariates = vicariates;
             ViewBag.Dioceses = dioceses;
+
+            ViewBag.VaiTro = _vaitroBusiness.GetAllVaiTro().ToList();
+            ViewBag.TypeCode = _vocationBusiness.GetTypeCodes().ToList();
 
             return View();
         }
@@ -508,6 +515,9 @@ namespace PMS.Web.Controllers
             vocation.Date8 = converter.ConvertDateToString(vocation.Date8);
             vocation.Date9 = converter.ConvertDateToString(vocation.Date9);
 
+            vocation.ServedStartDate = converter.ConvertDateToString(vocation.ServedStartDate);
+            parishioner.PatronDate = converter.ConvertDateToString2(parishioner.PatronDate);
+
             //Add Parishioner - Using Transaction
             string username = (string)Session["Username"];
             parishioner.LastUpdatedBy = username;
@@ -521,6 +531,23 @@ namespace PMS.Web.Controllers
             {
                 parishioner.Status = (int)ParishionerStatusEnum.Available;
             }
+
+            //Check parish id - Using parsish name
+            Parish parish = new Parish();
+            if (!Tools.IsNullOrEmpty(vocation.ServedPlace))
+            {
+                parish = _parishBusiness.GetParishesByParishName(vocation.ServedPlace, 0);
+            }
+
+            if(parish == null)
+            {
+                vocation.ServedId = 0;
+            }
+            else
+            {
+                vocation.ServedId = parish.Id;
+            }
+
 
             int parishId = (int)Session["ParishId"];
             int dioceseId = (int)Session["DioceseId"];
@@ -1249,7 +1276,10 @@ namespace PMS.Web.Controllers
                 parishionerViewModel.ImageURL = _parishionerBusiness.GetImageUrl(string.Concat(fileImagePath, parishioner.ImageUrl), parishioner.Gender);
                 parishionerViewModel.ThumbnailURL = _parishionerBusiness.GetImageUrl(string.Concat(fileThumbPath, parishioner.ImageUrl), parishioner.Gender);
             }
-            parishionerViewModel.PatronDate = string.Concat(parishioner.PatronDate.Substring(0, 2), "/", parishioner.PatronDate.Substring(2));
+            if (!Tools.IsNullOrEmpty(parishioner.PatronDate))
+            {
+                parishionerViewModel.PatronDate = string.Concat(parishioner.PatronDate.Substring(0, 2), "/", parishioner.PatronDate.Substring(2));
+            }
             int vocationIdTemp = 0;
             //Remove Vocation Reference
             if (vocation != null)

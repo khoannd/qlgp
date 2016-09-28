@@ -35,12 +35,16 @@ namespace PMS.Web.Controllers
         private readonly ParishBusiness _parishBusiness = new ParishBusiness(DbConfig.GetConnectionString());
         private readonly ParishManagerBusiness _parishManagerBusiness = new ParishManagerBusiness(DbConfig.GetConnectionString());
 
+        private readonly VaiTroBusiness _vaitroBusiness;
+
         public PriestController()
         {
             _priestBusiness = new PriestBusiness(DbConfig.GetConnectionString());
             _parishionerBusiness = new ParishionerBusiness(DbConfig.GetConnectionString());
             _vocationBusiness = new VocationBusiness(DbConfig.GetConnectionString());
             _configurationBusiness = new ConfigurationBusiness(DbConfig.GetConnectionString());
+
+            _vaitroBusiness = new VaiTroBusiness(DbConfig.GetConnectionString());
         }
 
         [SessionExpireFilter]
@@ -49,6 +53,9 @@ namespace PMS.Web.Controllers
             ViewBag.Vicariates = _vicariateBusiness.getAllVicariate().ToList();
             ViewBag.Dioceses = _dioceseBusiness.GetAllDioceses();
             ViewBag.Parishes = _parishBusiness.GetAllParish().ToList();
+
+            ViewBag.VaiTro = _vaitroBusiness.GetAllVaiTro().ToList();
+            ViewBag.TypeCode = _vocationBusiness.GetTypeCodes().ToList();
             return View();
         }
 

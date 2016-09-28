@@ -30,7 +30,7 @@
     }
 }
 <script>
-    
+
 </script>
 <div id="parishionerInformationModal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -65,7 +65,7 @@
                                     </a>
                                 </li>
 
-                                <li>
+                                <li id="matrimony">
                                     <a id="matrimonyLink" onclick="messageToAdd(0)" data-toggle="tab" href="#matrimonyTab">
                                         <i class="ace-icon fa fa-heart bigger-120"></i>
                                         Hôn phối
@@ -92,36 +92,65 @@
                                             <div class="widget-body">
                                                 <div class="form-horizontal">
                                                     <div class="col-xs-6">
-                                                        @if(ViewBag.Dioceses != null && accountBusiness.IsDioceseRole(roleId)) {
-                                                        <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Giáo phận  (<span style="color:red">*</span>) </label>
-                                                            <div class="col-sm-8">
-                                                                <select id="cbbParishionerDiocese" class="form-control">
-                                                                    <option value="0">Vui lòng chọn</option>
-                                                                    @foreach (var item in ((List<Diocese>)ViewBag.Dioceses))
-                                                                    {
-                                                                        <option value="@item.Id" @(item.Id == (int)Session["DioceseId"] ? " selected" :"")>@item.Name</option>
-                                                                    }
+                                                        @if (ViewBag.Dioceses != null && accountBusiness.IsDioceseRole(roleId))
+                                                        {
+                                                            <div class="form-group">
+                                                                <label class="col-sm-4 control-label no-padding-right normal-name">
+                                                                    Mã
+                                                                </label>
 
-                                                                </select>
-                                                                <label id="lbParishError" class="text-danger" hidden=""></label>
+                                                                <div class="col-sm-8">
+                                                                    <input id="txtParishionerCode" type="text" class="form-control normal-name">
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        
-                                                        <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Giáo hạt  (<span style="color:red">*</span>) </label>
-                                                            <div class="col-sm-8">
-                                                                <select id="cbbParishionerVicariate" class="form-control">
-                                                                    <option value="0">Vui lòng chọn</option>
-                                                                    @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
-                                                                    {
-                                                                        <option value="@item.Id" dioceseId="@item.DioceseId" @(item.Id == (int)Session["VicariateId"] ? " selected" :"")>@item.Name</option>
-                                                                    }
+                                                            <div class="form-group">
+                                                                <label class="col-sm-4 control-label no-padding-right normal-name">
+                                                                    Danh xưng
+                                                                </label>
+                                                                <div class="col-sm-8">
+                                                                    <select id="cbbParishionerTitle" class="form-control">
+                                                                        <option value="Cha">Cha</option>
+                                                                        <option value="Ông">Ông</option>
+                                                                        <option value="Bà">Bà</option>
+                                                                        <option value="Anh">Anh</option>
+                                                                        <option value="Chị">Chị</option>
+                                                                        <option value="Ông Cố">Ông Cố</option>
+                                                                        <option value="Bà Cố">Bà Cố</option>
+                                                                        <option value="Sơ">Sơ</option>
+                                                                        <option value="Dì">Dì</option>
+                                                                    </select>
+                                                                    <label id="lbParishError" class="text-danger" hidden=""></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-4 control-label no-padding-right"> Giáo phận  (<span style="color:red">*</span>) </label>
+                                                                <div class="col-sm-8">
+                                                                    <select id="cbbParishionerDiocese" class="form-control">
+                                                                        <option value="0">Vui lòng chọn</option>
+                                                                        @foreach (var item in ((List<Diocese>)ViewBag.Dioceses))
+                                                                        {
+                                                                            <option value="@item.Id" @(item.Id == (int)Session["DioceseId"] ? " selected" : "")>@item.Name</option>
+                                                                        }
 
-                                                                </select>
-                                                                <label id="lbParishError" class="text-danger" hidden=""></label>
+                                                                    </select>
+                                                                    <label id="lbParishError" class="text-danger" hidden=""></label>
+                                                                </div>
                                                             </div>
-                                                        </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-sm-4 control-label no-padding-right"> Giáo hạt  (<span style="color:red">*</span>) </label>
+                                                                <div class="col-sm-8">
+                                                                    <select id="cbbParishionerVicariate" class="form-control">
+                                                                        <option value="0">Vui lòng chọn</option>
+                                                                        @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
+                                                                        {
+                                                                            <option value="@item.Id" dioceseId="@item.DioceseId" @(item.Id == (int)Session["VicariateId"] ? " selected" : "")>@item.Name</option>
+                                                                        }
+
+                                                                    </select>
+                                                                    <label id="lbParishError" class="text-danger" hidden=""></label>
+                                                                </div>
+                                                            </div>
                                                         }
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Giáo xứ  (<span style="color:red">*</span>) </label>
@@ -130,7 +159,7 @@
                                                                     <option value="0">Vui lòng chọn</option>
                                                                     @foreach (var item in ((List<Parish>)ViewBag.Parishes))
                                                                     {
-                                                                        <option value="@item.Id" vicariateId="@item.VicariateId" @(item.Id == (int)Session["ParishId"] ? " selected" :"")>@item.Name</option>
+                                                                        <option value="@item.Id" vicariateId="@item.VicariateId" @(item.Id == (int)Session["ParishId"] ? " selected" : "")>@item.Name</option>
                                                                     }
 
                                                                 </select>
@@ -146,16 +175,16 @@
                                                                 <label id="lbCommunityError" class="text-danger" hidden=""></label>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group" id="divParishionerCode">
+                                                        @*<div class="form-group" id="divParishionerCode">
 
-                                                            <label class="col-sm-4 control-label no-padding-right"> Mã giáo dân (<span style="color:red">*</span>)</label>
+                                                                <label class="col-sm-4 control-label no-padding-right"> Mã giáo dân (<span style="color:red">*</span>)</label>
 
-                                                            <div class="col-sm-8">
-                                                                <input readonly="" type="text" id="txtParishionerCode" class="form-control">
-                                                                <label id="lbCodeError" class="text-danger" hidden=""></label>
-                                                            </div>
-                                                        </div>
-                                                        
+                                                                <div class="col-sm-8">
+                                                                    <input readonly="" type="text" id="txtParishionerCode" class="form-control">
+                                                                    <label id="lbCodeError" class="text-danger" hidden=""></label>
+                                                                </div>
+                                                            </div>*@
+
                                                         <div class="form-group" id="ParishionerNewImage">
                                                             <label class="col-sm-4 control-label no-padding-right">
                                                                 Hình đại diện
@@ -198,6 +227,22 @@
                                                             <div class="col-sm-8">
                                                                 <input id="txtChristianName" type="text" class="form-control christian normal-name">
                                                             </div>
+                                                        </div>
+                                                        <div class="form-group">
+
+                                                            <label class="col-sm-4 control-label no-padding-right"> Ngày mừng  </label>
+
+                                                            <div class="col-sm-8">
+
+                                                                <div class="input-group">
+                                                                    <input class="form-control date-picker4" id="txtPatronDate" type="text" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+                                                                <label id="lbPatronDateError" class="text-danger" hidden=""></label>
+                                                            </div>
+
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right">
@@ -314,7 +359,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group">
+                                                        <div class="form-group" id="ParishionerIsCounted">
                                                             <label class="col-sm-4 control-label no-padding-right"> </label>
 
                                                             <div class="col-sm-8">
@@ -326,7 +371,7 @@
 
                                                             </div>
                                                         </div>
-                                                        
+
                                                     </div>
                                                     <hr />
                                                 </div>
@@ -335,7 +380,7 @@
                                     </div>
                                     <!-- Kết thúc thông tin cá nhân-->
                                     <!-- Thông tin chuyển xứ-->
-                                    <div class="col-sm-12  ui-sortable">
+                                    <div class="col-sm-12  ui-sortable" id="ChangeInfo">
                                         <div class="widget-box transparent ui-sortable-handle">
                                             <div class="widget-header">
                                                 <h4 class="widget-title lighter">Thông tin chuyển xứ</h4>
@@ -394,7 +439,7 @@
                                                     <div class="col-xs-6">
 
 
-                                                        <div class="form-group">
+                                                        <div class="form-group" id="Education">
                                                             <label class="col-sm-4 control-label no-padding-right"> Trình độ văn hóa  </label>
 
                                                             <div class="col-sm-8">
@@ -402,7 +447,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group">
+                                                        <div class="form-group" id="Career">
                                                             <label class="col-sm-4 control-label no-padding-right"> Nghề nghiệp </label>
 
                                                             <div class="col-sm-8">
@@ -413,7 +458,7 @@
                                                         </div>
 
 
-                                                        <div class="form-group">
+                                                        <div class="form-group" id="Address">
                                                             <label class="col-sm-4 control-label no-padding-right"> Địa chỉ </label>
 
                                                             <div class="col-sm-8">
@@ -474,7 +519,7 @@
                                                     </div>
                                                     <div class="col-xs-6">
 
-                                                        <div class="form-group">
+                                                        <div class="form-group" id="IsStudying">
                                                             <label class="col-sm-4 control-label no-padding-right"> </label>
 
                                                             <div class="col-sm-8">
@@ -487,7 +532,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group">
+                                                        <div class="form-group" id="IsCatechumen">
                                                             <label class="col-sm-4 control-label no-padding-right"> </label>
 
                                                             <div class="col-sm-8">
@@ -500,7 +545,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group">
+                                                        <div class="form-group" id="IsMarried">
                                                             <label class="col-sm-4 control-label no-padding-right"> </label>
 
                                                             <div class="col-sm-8">
@@ -513,7 +558,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group">
+                                                        <div class="form-group" id="IsSingle">
                                                             <label class="col-sm-4 control-label no-padding-right"> </label>
 
                                                             <div class="col-sm-8">
@@ -889,22 +934,46 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Ngày mừng bổn mạng  </label>
+                                                            <label class="col-sm-4 control-label no-padding-right"> Nơi chịu chức </label>
                                                             <div class="col-sm-8">
-                                                                <div class="input-group">
-                                                                    <input id="txtDate9" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
-                                                                    <span class="input-group-addon">
-                                                                        <i class="fa fa-calendar bigger-110"></i>
-                                                                    </span>
-                                                                </div>
-
+                                                                <select class="form-control" id="cbbVocationPlace8">
+                                                                    <option value=""></option>
+                                                                    @foreach (var item in ((List<Diocese>)ViewBag.Dioceses))
+                                                                    {
+                                                                        <option value="@item.Name">@item.Name</option>
+                                                                    }
+                                                                </select>
                                                             </div>
                                                         </div>
+
+                                                        @*<div class="form-group">
+                                                                <label class="col-sm-4 control-label no-padding-right"> Ngày mừng bổn mạng  </label>
+                                                                <div class="col-sm-8">
+                                                                    <div class="input-group">
+                                                                        <input id="txtDate9" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
+                                                                        <span class="input-group-addon">
+                                                                            <i class="fa fa-calendar bigger-110"></i>
+                                                                        </span>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>*@
 
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Dòng tu/chủng viện </label>
                                                             <div class="col-sm-8">
                                                                 <input type="text" id="txtSeminary" class="form-control normal-name">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Dòng / Triều </label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control" id="cbbVocationDiocesan">
+                                                                    <option value="-1"></option>
+                                                                    <option value="0">Cha Dòng</option>
+                                                                    <option value="1">Cha Triều</option>
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -965,6 +1034,13 @@
                                                         </div>
 
                                                         <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Do ĐGM </label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtVocationGiven8" class="form-control normal-name">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
 
                                                             <label class="col-sm-4 control-label no-padding-right"> Chức vụ </label>
                                                             <div class="col-sm-8">
@@ -983,9 +1059,15 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Địa chỉ </label>
+                                                            <label class="col-sm-4 control-label no-padding-right"> Phân nhóm </label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" id="txtSeminaryAddress" class="form-control">
+                                                                <select id="cbbVocationTypeCode" class="form-control">
+                                                                    <option value="0">Vui lòng chọn</option>
+                                                                    @foreach (var item in ((List<ValueSet>)ViewBag.TypeCode))
+                                                                    {
+                                                                        <option value="@item.Code">@item.Code</option>
+                                                                    }
+                                                                </select>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1008,20 +1090,40 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Nơi phục vụ </label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" id="txtServedPlace" class="form-control normal-name">
+                                                                <select id="cbbServedPlace" class="form-control">
+                                                                    <option value="0"></option>
+                                                                    @foreach (var item in ((List<Parish>)ViewBag.Parishes))
+                                                                    {
+                                                                        <option value="@item.Id">@item.Name</option>
+                                                                    }
+                                                                </select>
                                                             </div>
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Điện thoại </label>
+                                                            <label class="col-sm-4 control-label no-padding-right"> Vai trò </label>
+                                                            <div class="col-sm-8">
+                                                                <select id="cbbVocationServedRole" class="form-control">
+                                                                    <option value="0">Vui lòng chọn</option>
+                                                                    @foreach (var item in ((List<VaiTro>)ViewBag.VaiTro))
+                                                                    {
+                                                                        <option value="@item.Id">@item.Name</option>
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Ngày nhận nhiệm vụ  </label>
+
                                                             <div class="col-sm-8">
                                                                 <div class="input-group">
+                                                                    <input id="txtVoCationServedStartDate" class="form-control date-picker6" type="text"/>
                                                                     <span class="input-group-addon">
-                                                                        <i class="ace-icon fa fa-phone"></i>
+                                                                        <i class="fa fa-calendar bigger-110"></i>
                                                                     </span>
-
-                                                                    <input class="form-control input-mask-phone" type="text" id="txtServedPhone" />
                                                                 </div>
+
                                                             </div>
                                                         </div>
 
@@ -1050,6 +1152,19 @@
                                                             </div>
                                                         </div>
 
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Điện thoại </label>
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-addon">
+                                                                        <i class="ace-icon fa fa-phone"></i>
+                                                                    </span>
+
+                                                                    <input class="form-control input-mask-phone" type="text" id="txtServedPhone" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
 
                                                     <div class="col-xs-12">
@@ -1073,6 +1188,11 @@
                                                                 <label class="position-relative">
                                                                     <input type="checkbox" class="ace" id="cbIsLeft" />
                                                                     <span class="lbl"> Đã hồi tục</span>
+                                                                </label>
+
+                                                                <label class="position-relative">
+                                                                    <input type="checkbox" class="ace" id="cbIsRetired" />
+                                                                    <span class="lbl"> Đã nghỉ hưu</span>
                                                                 </label>
 
                                                             </div>
@@ -1243,17 +1363,17 @@
     @if (!accountBusiness.IsDioceseRole(roleId))
     {
         @:$("#cbbParishionerParish").val(@Html.Raw(Session["ParishId"].ToString()));
-        @:loadParishionerCommunity();
-    }
+                    @:loadParishionerCommunity();
+                }
     else
     {
         if(ViewBag.Dioceses != null)
         {
         @:loadParishionerDiocese();
-        @:loadParishionerVicariate();
-        }
+                    @:loadParishionerVicariate();
+                    }
         @:loadParishionerParish();
-        }
+                    }
     var currentCommunityId = '';
     function loadParishionerCommunity() {
         $.ajax({
@@ -1440,7 +1560,7 @@
 
                     $("#lbBaptismDateError").text(baptismError);
                     $("#lbBaptismDateError").show();
-                    if (!confirm(baptismError+"\r\nBạn có muốn tiếp tục lưu trường hợp đặc biệt này không?")) {
+                    if (!confirm(baptismError + "\r\nBạn có muốn tiếp tục lưu trường hợp đặc biệt này không?")) {
                         document.getElementById("txtBaptismDate").scrollIntoView();
                         isDateError = true;
                     }
@@ -1660,6 +1780,18 @@
                 confirmationPlace: $("#txtConfirmationPlace").val(),
                 confirmationPatron: $("#txtConfirmationPatron").val(),
                 confirmationGiver: $("#txtConfirmationGiver").val(),
+
+                //update
+                IsRetired: $("#cbIsRetired").is(':checked'),
+                Title: $("#txtParishionerTitle").val(),
+                PatronDate: $("#txtPatronDate").val(),
+                Place8: $("#cbbVocationPlace8").val(),
+                Giver8: $("#txtVocationGiven8").val(),
+                TypeCode: $("#cbbVocationTypeCode").val(),
+                ServedStartDate: $("#txtVoCationServedStartDate").val(),
+                ServedPlace: $("#txtServedPlace").val(),
+                ServedId: $("#cbbServedPlace").val(),
+                Diocesan: ($("#cbbVocationDiocesan").val() == 1) ? true : false,
             },
             success: function (data) {
                 if (data > 0) {
@@ -1683,7 +1815,7 @@
                         //    $("#isLoadedParishionerInformationModal").val(0);
                         document.getElementById("parishionerInformationTitle").scrollIntoView();
                     } else {
-                        if(onSaveParishionerCallback) onSaveParishionerCallback(id);
+                        if (onSaveParishionerCallback) onSaveParishionerCallback(id);
                         $("#parishionerInformationModal").modal('hide');
                     }
 
@@ -1798,7 +1930,7 @@
         $("#cbGender").attr('disabled', false);
 
         $("#txtParishionerCode").val("");
-        $("#txtParishionerCode").attr('readonly', true);
+        //$("#txtParishionerCode").attr('readonly', true);
         $("#divParishionerCode").hide();
 
         $("#txtChristianName").val("");
@@ -1916,6 +2048,20 @@
         $('#inputFile').ace_file_input('reset_input');
         $("#imgParishionerThumbnail").attr("src", "");
         $("#imgParishionerThumbnail").hide();
+
+        //update
+        $("#cbIsRetired").prop("checked", false);
+        $("#txtParishionerTitle").val("");
+        $("#txtPatronDate").val("");
+        $("#cbbVocationPlace8").val(0);
+        $("#cbbVocationPlace8").change();
+        $("#txtVocationGiven8").val("");
+        $("#cbbVocationTypeCode").val(0);
+        $("#cbbVocationTypeCode").change();
+        $("#txtVoCationServedStartDate").val("");
+        $("#txtServedPlace").val("");
+        $("#cbbServedPlace").val("");
+        $("#cbbVocationDiocesan").val("");
     }
 
     function checkParishionerCodeGeneration() {
@@ -2225,6 +2371,18 @@
                 servedPhone: $("#txtServedPhone").val(),
                 servedEmail: $("#txtServedEmail").val(),
                 servedNote: $("#txtServedNote").val(),
+
+                //update
+                IsRetired: $("#cbIsRetired").is(':checked'),
+                Title: $("#txtParishionerTitle").val(),
+                PatronDate: $("#txtPatronDate").val(),
+                Place8: $("#cbbVocationPlace8").val(),
+                Giver8: $("#txtVocationGiven8").val(),
+                TypeCode: $("#cbbVocationTypeCode").val(),
+                ServedStartDate: $("#txtVoCationServedStartDate").val(),
+                ServedPlace: $("#txtServedPlace").val(),
+                ServedId: $("#cbbServedPlace").val(),
+                Diocesan: ($("#cbbVocationDiocesan").val() == 1) ? true : false,
             },
             success: function (data) {
 
@@ -3044,7 +3202,7 @@
 
     }
 
-    function loadFullParishionerInfo(id) {
+    function loadFullParishionerInfo(id, page) {
         //$("#ParishionerThumbnail").show();
         //$("#ParishionerNewImage").show();
         startLoading();
@@ -3071,13 +3229,16 @@
                     $("#imgParishionerThumbnail").show();
                 }
 
+                $("#txtParishionerCode").val(parishioner.Code);
+                $("#cbbParishionerTitle").val(parishioner.Title);
+
                 $("#txtHiddenParishionerId").val(parishioner.Id);
                 $("#txtHiddenGender").val(parishioner.Gender);
 
-                $("#txtParishionerCode").val(parishioner.Code);
+                //$("#txtParishionerCode").val(parishioner.Code);
 
-                $("#txtParishionerCode").attr('readonly', true);
-                $("#divParishionerCode").show();
+                //$("#txtParishionerCode").attr('readonly', true);
+                //$("#divParishionerCode").show();
 
                 $("#txtChristianName").val(parishioner.ChristianName);
                 $("#txtParishionerName").val(parishioner.Name);
@@ -3085,6 +3246,9 @@
 
                 $("#txtBirthDate").val(parishioner.BirthDate);
                 $("#txtBirthPlace").val(parishioner.BirthPlace);
+
+                $("#txtParishionerTitle").val(parishioner.Title);
+                $("#txtPatronDate").val(parishionerViewModel.PatronDate);
 
                 $("#cbbParishionerDiocese").val(data.parishionerViewModel.DioceseId);
                 $("#cbbParishionerDiocese").change();
@@ -3177,11 +3341,46 @@
                     $("#txtServedEmail").val(vocation.Email);
                     $("#txtServedNote").val(vocation.Note);
                     $("#cbIsLeft").prop("checked", vocation.IsLeft);
+
+                    $("#cbbVocationPlace8").val(vocation.Place8);
+                    $("#cbbVocationPlace8").change();
+                    $("#txtVocationGiven8").val(vocation.Giver8);
+
+                    $("#cbbVocationTypeCode").val(vocation.TypeCode);
+                    $("#cbbVocationTypeCode").change();
+                    $("#txtVoCationServedStartDate").val(vocation.ServedStartDate);
+
+                    if (data.vocation.Diocesan) {
+                        $("#cbbVocationDiocesan").val(1);
+                        $("#cbbVocationDiocesan").change();
+                    } else {
+                        $("#cbbVocationDiocesan").val(0);
+                        $("#cbbVocationDiocesan").change();
+                    }
+                    $("#cbbVocationServedRole").val(data.vocation.ServedRole);
+                    $("#cbbVocationServedRole").change();
+
+                    $("#cbIsRetired").prop("checked", vocation.IsRetired);
                 }
 
                 $("#btnAddParishionerInformation").hide();
                 $("#btnUpdateParishionerInformation").show();
                 $("#parishionerInformationTitle").html("Chỉnh sửa giáo dân");
+
+                if (page == 'priest') {
+                    $("#parishionerInformationTitle").html("Chỉnh sửa linh mục");
+                    $("#matrimony").hide();
+                    $("#ParishionerIsCounted").hide();
+                    $("#ChangeInfo").hide();
+                    $("#Education").hide();
+                    $("#Career").hide();
+                    $("#Address").hide();
+                    $("#IsStudying").hide();
+                    $("#IsCatechumen").hide();
+                    $("#IsMarried").hide();
+                    $("#IsSingle").hide();
+                }
+
                 $("#parishionerInformationModal").modal('show');
 
                 refreshMatrimonyTable();
@@ -3214,4 +3413,183 @@
         return true;
     }
 
+    //auto complete Parishioner Title
+    $.widget("custom.combobox", {
+        _create: function () {
+            this.wrapper = $("<div>")
+              .addClass("input-group")
+              .insertAfter(this.element);
+
+            this.element.hide();
+            this._createAutocomplete();
+            this._createShowAllButton();
+        },
+
+        _createAutocomplete: function () {
+            var selected = this.element.children(":selected"),
+              value = selected.val() ? selected.text() : "";
+
+            this.input = $("<input>")
+              .appendTo(this.wrapper)
+              .val(value)
+              .addClass("form-control")
+              .attr("id", "txtParishionerTitle")
+              .autocomplete({
+                  delay: 0,
+                  minLength: 0,
+                  source: $.proxy(this, "_source")
+              })
+              .tooltip({
+                  classes: {
+                      "ui-tooltip": "ui-state-highlight"
+                  }
+              });
+
+            this._on(this.input, {
+                autocompleteselect: function (event, ui) {
+                    ui.item.option.selected = true;
+                    this._trigger("select", event, {
+                        item: ui.item.option
+                    });
+                }
+            });
+        },
+
+        _createShowAllButton: function () {
+            var input = this.input,
+              wasOpen = false;
+
+            $("<span>")
+                .appendTo(this.wrapper)
+                .addClass("input-group-addon")
+                .append("<i class='fa fa-caret-down bigger-110'></i>")
+                .on("mousedown", function () {
+                    wasOpen = input.autocomplete("widget").is(":visible");
+                })
+                .on("click", function () {
+                      input.trigger("focus");
+
+                      // Close if already visible
+                      if (wasOpen) {
+                          return;
+                      }
+
+                      // Pass empty string as value to search for, displaying all results
+                      input.autocomplete("search", "");
+                });
+        },
+
+        _source: function (request, response) {
+            var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+            response(this.element.children("option").map(function () {
+                var text = $(this).text();
+                if (this.value && (!request.term || matcher.test(text)))
+                    return {
+                        label: text,
+                        value: text,
+                        option: this
+                    };
+            }));
+        },
+    });
+    $("#cbbParishionerTitle").combobox();
+
+    //auto complete Parishioner Served Place
+    $.widget("custom.combobox", {
+        _create: function () {
+            this.wrapper = $("<div>")
+              .addClass("input-group")
+              .insertAfter(this.element);
+
+            this.element.hide();
+            this._createAutocomplete();
+            this._createShowAllButton();
+        },
+
+        _createAutocomplete: function () {
+            var selected = this.element.children(":selected"),
+              value = selected.val() ? selected.text() : "";
+
+            this.input = $("<input>")
+              .appendTo(this.wrapper)
+              .val(value)
+              .addClass("form-control")
+              .attr("id", "txtServedPlace")
+              .autocomplete({
+                  delay: 0,
+                  minLength: 0,
+                  source: $.proxy(this, "_source")
+              })
+              .tooltip({
+                  classes: {
+                      "ui-tooltip": "ui-state-highlight"
+                  }
+              });
+
+            this._on(this.input, {
+                autocompleteselect: function (event, ui) {
+                    ui.item.option.selected = true;
+                    this._trigger("select", event, {
+                        item: ui.item.option
+                    });
+                }
+            });
+        },
+
+        _createShowAllButton: function () {
+            var input = this.input,
+              wasOpen = false;
+
+            $("<span>")
+                .appendTo(this.wrapper)
+                .addClass("input-group-addon")
+                .append("<i class='fa fa-caret-down bigger-110'></i>")
+                .on("mousedown", function () {
+                    wasOpen = input.autocomplete("widget").is(":visible");
+                })
+                .on("click", function () {
+                    input.trigger("focus");
+
+                    // Close if already visible
+                    if (wasOpen) {
+                        return;
+                    }
+
+                    // Pass empty string as value to search for, displaying all results
+                    input.autocomplete("search", "");
+                });
+        },
+
+        _source: function (request, response) {
+            var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+            response(this.element.children("option").map(function () {
+                var text = $(this).text();
+                if (this.value && (!request.term || matcher.test(text)))
+                    return {
+                        label: text,
+                        value: text,
+                        option: this
+                    };
+            }));
+        },
+    });
+    $("#cbbServedPlace").combobox();
+
+    jQuery(function ($) {
+        $('.date-picker4').datepicker({
+            format: 'dd/mm',
+            autoclose: true,
+            todayHighlight: true,
+            forceParse: false
+        });
+    });
+
+    jQuery(function ($) {
+        $('.date-picker6').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true,
+            todayHighlight: true,
+            forceParse: false
+        });
+    });
 </script>

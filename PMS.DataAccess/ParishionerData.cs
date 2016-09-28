@@ -2318,6 +2318,8 @@ namespace PMS.DataAccess
                     }
                 }
                 updatedParishioner.CreatedDate = parishioner.CreatedDate;
+                updatedParishioner.ParishId = parishioner.ParishId;
+                updatedParishioner.CommunityId = null;
                 Tools.CopyPropertiesTo(updatedParishioner, parishioner);
 
                 //parishioner.Code = updatedParishioner.Code;
@@ -2395,7 +2397,9 @@ namespace PMS.DataAccess
                         priest.Name = parishioner.Name;
                         priest.BirthDate = parishioner.BirthDate;
                         priest.Phone = parishioner.MobilePhone;
-                        priest.DioceseId = parishioner.Community.Parish.Vicariate.DioceseId;
+                        var parish = _db.Parishes.FirstOrDefault(p => p.Id == updatedParishioner.ParishId);
+                        //priest.DioceseId = parishioner.Community.Parish.Vicariate.DioceseId;
+                        priest.DioceseId = parish.DioceseId;
                     }
                 }
 

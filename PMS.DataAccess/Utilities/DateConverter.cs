@@ -140,6 +140,36 @@ namespace PMS.DataAccess.Utilities
             return year.Trim() + month.Trim() + day.Trim();
         }
 
+        public string ConvertDateToString2(string date)
+        {
+            string day;
+            string month;
+
+            if (string.IsNullOrEmpty(date))
+            {
+                return "";
+            }
+
+            string[] dateParts = date.Split('/', '-');
+
+            if (dateParts.Count() == 2)
+            {
+                day = ConvertStringForDateAndMonth(dateParts[0]);
+                month = dateParts[1];
+            }
+            else if (dateParts.Count() == 1)
+            {
+                day = "00";
+                month = dateParts[0];
+            }
+            else
+            {
+                return "";
+            }
+
+            return month.Trim() + day.Trim();
+        }
+
         private string ConvertStringForDateAndMonth(string s)
         {
             string result;

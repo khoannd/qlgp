@@ -41,6 +41,8 @@ namespace PMS.BusinessLogic
             vocation.Date8 = converter.ConvertStringToDate(vocation.Date8);
             vocation.Date9 = converter.ConvertStringToDate(vocation.Date9);
 
+            vocation.ServedStartDate = converter.ConvertStringToDate(vocation.ServedStartDate);
+
             return vocation;
         }
 

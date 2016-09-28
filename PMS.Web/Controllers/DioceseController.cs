@@ -85,6 +85,10 @@ namespace PMS.Web.Controllers
 
         public int Add(Diocese diocese)
         {
+            if (diocese.ImageUrl == null)
+            {
+                diocese.ImageUrl = "";
+            }
             return _dioceseBusiness.AddDiocese(diocese);
         }
 
