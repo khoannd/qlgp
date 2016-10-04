@@ -60,14 +60,14 @@ namespace PMS.DataAccess
                 {
                     return 0;
                 }
-                item.Code = diocese.Code;
-                item.Name = diocese.Name;
-                item.Church = diocese.Church;
-                item.Address = diocese.Address;
-                item.Bishop = diocese.Bishop;
-                item.Website = diocese.Website;
-                item.Phone = diocese.Phone;
-                item.Email = diocese.Email;
+                item.Code = diocese.Code.Trim();
+                item.Name = diocese.Name.Trim();
+                item.Church = diocese.Church.Trim();
+                item.Address = diocese.Address.Trim();
+                item.Bishop = diocese.Bishop.Trim();
+                item.Website = diocese.Website.Trim();
+                item.Phone = diocese.Phone.Trim();
+                item.Email = diocese.Email.Trim();
                 if (!string.IsNullOrEmpty(diocese.ImageUrl))
                 {
                     item.ImageUrl = diocese.ImageUrl;

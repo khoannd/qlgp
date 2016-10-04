@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PMS.DataAccess;
 using PMS.DataAccess.Models;
+using PMS.DataAccess.ViewModels;
 
 namespace PMS.BusinessLogic
 {
@@ -112,6 +113,11 @@ namespace PMS.BusinessLogic
             return list;
         }
 
+        public IEnumerable<PriestViewModel> GetPriestsManageParish(int parishId)
+        {
+            return _parishData.GetPriestsManageParish(parishId);
+        }
+
         public int CheckUniqueParish(string name, int parishId, int dioceseId)
         {
             return _parishData.CheckUniqueParish(name, parishId, dioceseId);
@@ -124,7 +130,9 @@ namespace PMS.BusinessLogic
 
         public int UpdateParish(Parish parish)
         {
-            return _parishData.UpdateParish(parish);
+            int result = _parishData.UpdateParish(parish);
+            
+            return result;
         }
 
         public int UpdateParishManager(Parish parish)
@@ -140,6 +148,11 @@ namespace PMS.BusinessLogic
         public Parish GetParishesByParishId(int id)
         {
             return _parishData.GetParishesByParishId(id);
+        }
+
+        public Parish GetParishByParishId(int id)
+        {
+            return _parishData.GetParishByParishId(id);
         }
 
         public Parish GetParishesByParishName(string name, int vicariateId)

@@ -634,7 +634,14 @@
                     for (i in result) {
                         var item = result[i];
                         var temp = template;
-                        temp = temp.replace(/\[ImageURL]/g, item.ImageURL);
+                        if (item.ImageURL && item.ImageURL.indexOf(".") > 0) {
+                            temp = temp.replace(/\[ImageURL]/g, item.ImageURL);
+                        }
+                        else {
+                            temp = temp.replace(/\[ImageURL]/g, "/Images/no-img-profile-male.jpg");
+                        }
+
+                        
                         temp = temp.replace(/\[ImageName]/g, "Avatar " + item.Name);
                         temp = temp.replace(/\[PriestName]/g, item.ChristianName + " " + item.Name);
                         temp = temp.replace(/\[Code]/g, item.Code);
@@ -667,10 +674,10 @@
                             temp = temp.replace(/\[IDPlace]/g, item.IDPlace);
                         }
 
-                        if (item.Date8 == null) {
-                            temp = temp.replace(/\[Date8]/g, "");
+                        if (item.OrdinationDate == null) {
+                            temp = temp.replace(/\[OrdinationDate]/g, "");
                         } else {
-                            temp = temp.replace(/\[Date8]/g, item.Date8);
+                            temp = temp.replace(/\[OrdinationDate]/g, item.OrdinationDate);
                         }
 
                         if (item.BirthPlace == null) {

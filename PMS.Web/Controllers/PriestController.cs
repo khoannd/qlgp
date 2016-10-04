@@ -325,10 +325,13 @@ namespace PMS.Web.Controllers
                         && (int)priestViewModel.RoleId == 1 // vai tro la chanh xu
                         )
                     {
-                        Parish parish = _parishBusiness.GetParishesByParishId((int)priestViewModel.ServedPlaceId);
-                        parish.Priest = string.Format("{0} {1} {2}", priest.ChristianName, priestViewModel.LastName, priestViewModel.FirstName);
-                        parish.PriestId = priest.Id;
-                        _parishBusiness.UpdateParish(parish);
+                        Parish parish = _parishBusiness.GetParishByParishId((int)priestViewModel.ServedPlaceId);
+                        if(parish != null)
+                        {
+                            parish.Priest = string.Format("{0} {1}", priest.ChristianName, priest.Name);
+                            parish.PriestId = priest.Id;
+                            _parishBusiness.UpdateParish(parish);
+                        }
                     }
                 }
                 return result;
@@ -604,6 +607,10 @@ namespace PMS.Web.Controllers
                     if (System.IO.File.Exists(fileLocation))
                     {
                         System.IO.File.Delete(fileLocation);
+                    }
+                    if(!Directory.Exists(Path.GetDirectoryName(fileLocation)))
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(fileLocation));
                     }
                     Request.Files["file"].SaveAs(fileLocation);
                     string excelConnectionString = string.Empty;
@@ -1036,8 +1043,7 @@ namespace PMS.Web.Controllers
         {
             int parishId = (int)Session["ParishId"];
 
-            List<ParishionerViewModel> result;
-            result = _parishionerBusiness.PrintPriest(parishId, ids);
+            List<PriestViewModel> result = _parishionerBusiness.PrintPriest(parishId, ids);
 
             StreamReader reader = new StreamReader(Server.MapPath("\\Views\\Priest\\_templatePriestCard.html"));
             string readFile = reader.ReadToEnd();

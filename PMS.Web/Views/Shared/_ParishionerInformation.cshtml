@@ -65,7 +65,7 @@
                                     </a>
                                 </li>
 
-                                <li id="matrimony">
+                                <li class="not-priest">
                                     <a id="matrimonyLink" onclick="messageToAdd(0)" data-toggle="tab" href="#matrimonyTab">
                                         <i class="ace-icon fa fa-heart bigger-120"></i>
                                         Hôn phối
@@ -359,7 +359,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group" id="ParishionerIsCounted">
+                                                        <div class="form-group not-priest" id="ParishionerIsCounted">
                                                             <label class="col-sm-4 control-label no-padding-right"> </label>
 
                                                             <div class="col-sm-8">
@@ -380,7 +380,7 @@
                                     </div>
                                     <!-- Kết thúc thông tin cá nhân-->
                                     <!-- Thông tin chuyển xứ-->
-                                    <div class="col-sm-12  ui-sortable" id="ChangeInfo">
+                                    <div class="col-sm-12  ui-sortable not-priest" id="ChangeInfo">
                                         <div class="widget-box transparent ui-sortable-handle">
                                             <div class="widget-header">
                                                 <h4 class="widget-title lighter">Thông tin chuyển xứ</h4>
@@ -439,7 +439,7 @@
                                                     <div class="col-xs-6">
 
 
-                                                        <div class="form-group" id="Education">
+                                                        <div class="form-group not-priest" id="Education">
                                                             <label class="col-sm-4 control-label no-padding-right"> Trình độ văn hóa  </label>
 
                                                             <div class="col-sm-8">
@@ -447,7 +447,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group" id="Career">
+                                                        <div class="form-group not-priest" id="Career">
                                                             <label class="col-sm-4 control-label no-padding-right"> Nghề nghiệp </label>
 
                                                             <div class="col-sm-8">
@@ -458,7 +458,7 @@
                                                         </div>
 
 
-                                                        <div class="form-group" id="Address">
+                                                        <div class="form-group not-priest" id="Address">
                                                             <label class="col-sm-4 control-label no-padding-right"> Địa chỉ </label>
 
                                                             <div class="col-sm-8">
@@ -519,7 +519,7 @@
                                                     </div>
                                                     <div class="col-xs-6">
 
-                                                        <div class="form-group" id="IsStudying">
+                                                        <div class="form-group not-priest" id="IsStudying">
                                                             <label class="col-sm-4 control-label no-padding-right"> </label>
 
                                                             <div class="col-sm-8">
@@ -532,7 +532,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group" id="IsCatechumen">
+                                                        <div class="form-group not-priest" id="IsCatechumen">
                                                             <label class="col-sm-4 control-label no-padding-right"> </label>
 
                                                             <div class="col-sm-8">
@@ -545,7 +545,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group" id="IsMarried">
+                                                        <div class="form-group not-priest" id="IsMarried">
                                                             <label class="col-sm-4 control-label no-padding-right"> </label>
 
                                                             <div class="col-sm-8">
@@ -558,7 +558,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group" id="IsSingle">
+                                                        <div class="form-group not-priest" id="IsSingle">
                                                             <label class="col-sm-4 control-label no-padding-right"> </label>
 
                                                             <div class="col-sm-8">
@@ -886,6 +886,20 @@
                                                 <div class="form-horizontal">
                                                     <div class="col-xs-6">
                                                         <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Phân nhóm </label>
+                                                            <div class="col-sm-8">
+                                                                <select id="cbbVocationTypeCode" class="form-control">
+                                                                    <option value="">Vui lòng chọn</option>
+                                                                    @foreach (var item in ((List<ValueSet>)ViewBag.TypeCode))
+                                                                    {
+                                                                        <option value="@item.Code">@item.Definition</option>
+                                                                    }
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        
+                                                        <div class="form-group not-priest">
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày nhập dòng  </label>
                                                             <div class="col-sm-8">
                                                                 <div class="input-group">
@@ -897,7 +911,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group">
+                                                        <div class="form-group not-priest">
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày vào nhà thử  </label>
                                                             <div class="col-sm-8">
                                                                 <div class="input-group">
@@ -909,7 +923,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group">
+                                                        <div class="form-group not-priest">
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày khấn lần đầu  </label>
                                                             <div class="col-sm-8">
                                                                 <div class="input-group">
@@ -920,12 +934,11 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Ngày lãnh chức phó tế  </label>
+                                                            <label class="col-sm-4 control-label no-padding-right"> Ngày vào dòng/ĐCV  </label>
                                                             <div class="col-sm-8">
                                                                 <div class="input-group">
-                                                                    <input id="txtDate7" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <input id="txtDate2" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-calendar bigger-110"></i>
                                                                     </span>
@@ -933,6 +946,20 @@
                                                             </div>
                                                         </div>
 
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Ngày thụ phong LM  </label>
+
+                                                            <div class="col-sm-8">
+                                                                <div class="input-group">
+                                                                    <input id="txtDate8" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <span class="input-group-addon">
+                                                                        <i class="fa fa-calendar bigger-110"></i>
+                                                                    </span>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Nơi chịu chức </label>
                                                             <div class="col-sm-8">
@@ -959,40 +986,12 @@
                                                                 </div>
                                                             </div>*@
 
-                                                        <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Dòng tu/chủng viện </label>
-                                                            <div class="col-sm-8">
-                                                                <input type="text" id="txtSeminary" class="form-control normal-name">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Dòng / Triều </label>
-                                                            <div class="col-sm-8">
-                                                                <select class="form-control" id="cbbVocationDiocesan">
-                                                                    <option value="-1"></option>
-                                                                    <option value="0">Cha Dòng</option>
-                                                                    <option value="1">Cha Triều</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
                                                     </div>
 
                                                     <div class="col-xs-6">
-
-                                                        <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Ngày vào ĐCV  </label>
-                                                            <div class="col-sm-8">
-                                                                <div class="input-group">
-                                                                    <input id="txtDate2" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
-                                                                    <span class="input-group-addon">
-                                                                        <i class="fa fa-calendar bigger-110"></i>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group">
+                                                        
+                                                        
+                                                        <div class="form-group not-priest">
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày vào nhà tập  </label>
 
                                                             <div class="col-sm-8">
@@ -1006,7 +1005,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="form-group">
+                                                        <div class="form-group not-priest">
                                                             <label class="col-sm-4 control-label no-padding-right"> Ngày khấn vĩnh viễn  </label>
 
                                                             <div class="col-sm-8">
@@ -1020,16 +1019,21 @@
                                                         </div>
 
                                                         <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Ngày thụ phong LM  </label>
+                                                            <label class="col-sm-4 control-label no-padding-right"> Dòng tu/ĐCV </label>
+                                                            <div class="col-sm-8">
+                                                                <input type="text" id="txtSeminary" class="form-control normal-name">
+                                                            </div>
+                                                        </div>
 
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Ngày lãnh chức p.tế  </label>
                                                             <div class="col-sm-8">
                                                                 <div class="input-group">
-                                                                    <input id="txtDate8" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
+                                                                    <input id="txtDate7" class="form-control date-picker" type="text" data-date-format="dd/mm/yyyy" />
                                                                     <span class="input-group-addon">
                                                                         <i class="fa fa-calendar bigger-110"></i>
                                                                     </span>
                                                                 </div>
-
                                                             </div>
                                                         </div>
 
@@ -1039,10 +1043,19 @@
                                                                 <input type="text" id="txtVocationGiven8" class="form-control normal-name">
                                                             </div>
                                                         </div>
-
                                                         <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right"> Dòng / Triều </label>
+                                                            <div class="col-sm-8">
+                                                                <select class="form-control" id="cbbVocationDiocesan">
+                                                                    <option value="-1"></option>
+                                                                    <option value="0">Cha Dòng</option>
+                                                                    <option value="1">Cha Triều</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group not-priest">
 
-                                                            <label class="col-sm-4 control-label no-padding-right"> Chức vụ </label>
+                                                            <label class="col-sm-4 control-label no-padding-right"> Chức thánh </label>
                                                             <div class="col-sm-8">
                                                                 <select class="form-control" id="cbbSeminaryPosition">
                                                                     <option value="0"></option>
@@ -1056,19 +1069,6 @@
                                                                 </select>
                                                             </div>
 
-                                                        </div>
-
-                                                        <div class="form-group">
-                                                            <label class="col-sm-4 control-label no-padding-right"> Phân nhóm </label>
-                                                            <div class="col-sm-8">
-                                                                <select id="cbbVocationTypeCode" class="form-control">
-                                                                    <option value="0">Vui lòng chọn</option>
-                                                                    @foreach (var item in ((List<ValueSet>)ViewBag.TypeCode))
-                                                                    {
-                                                                        <option value="@item.Code">@item.Code</option>
-                                                                    }
-                                                                </select>
-                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -1759,6 +1759,7 @@
                 IsDead: $("#cbIsDead").is(':checked'),
                 DeadDate: $("#txtDeadDate").val(),
                 ParishId: $("#cbbParishionerParish").val(),
+                DioceseId: $("#cbbParishionerDiocese").val(),
 
                 IDNo: $("#txtIDNo").val(),
                 IDDate: $("#txtIDDate").val(),
@@ -1791,11 +1792,12 @@
                 ServedStartDate: $("#txtVoCationServedStartDate").val(),
                 ServedPlace: $("#txtServedPlace").val(),
                 ServedId: $("#cbbServedPlace").val(),
+                Position: $("#cbbSeminaryPosition").val(),
                 Diocesan: ($("#cbbVocationDiocesan").val() == 1) ? true : false,
             },
             success: function (data) {
                 if (data > 0) {
-
+                    $("#txtHiddenParishionerId").val(data);
                     showMessage("Thêm giáo dân thành công", 1);
 
                     updateTableContent("parishionerTable");
@@ -1807,6 +1809,8 @@
 
                     if (change == 1) {
                         //  refreshMainParishionerModal();
+                        $("#btnAddParishionerInformation").hide();
+                        $("#btnUpdateParishionerInformation").show();
                     } else if (multiple == 1) {
                         $("#homeLink").tab('show');
                         //    clearMatrimonyTable();
@@ -2090,7 +2094,10 @@
     }
 
     function checkVocationInformation() {
-
+        if (!checkParishManager()) {
+            $("#vocationLink").tab('show');
+            return false;
+        }
         var vocationId = $("#txtHiddenVocationId").val();
         var date1 = $("#txtDate1").val();
         var date2 = $("#txtDate2").val();
@@ -2290,6 +2297,30 @@
 
     }
 
+    function checkParishManager() {
+        if ($("#cbbServedPlace").val() !== "" && $("#cbbServedPlace").val() !== "0"
+            && $("#txtHiddenParishionerId").val() !== "" && $("#txtHiddenParishionerId").val() !== "0"
+            && $("#cbbSeminaryPosition").val() == 4 && $("#cbbVocationServedRole").val() == 1) {
+            $.ajax({
+                url: "/Parish/LoadParishById",
+                data: { id: $("#cbbServedPlace").val() },
+                async: false,
+                success: function (res) {
+                    var model = res.result;
+                    var currentName = ($("#txtChristianName").val() != "" ? $.trim($("#txtChristianName").val()) + " " : "") + $("#txtParishionerName").val();
+                    if (model && model.Priest
+                        && $.trim(model.Priest).toLowerCase() != $.trim(currentName).toLowerCase()) {
+                        return confirm("Giáo xứ được chọn cho Linh Mục này đang được quản nhiệm bởi " + model.Priest
+                            + ".\r\nBạn nên dùng chức năng Thuyên chuyển Linh Mục để thuyên chuyển."
+                            + "\r\nBạn có chắc muốn tiếp tục việc chuyển đổi quản nhiệm cho giáo xứ " + $("#txtServedPlace").val() + " sang Linh Mục hiện tại hay không?");
+
+                    }
+                }
+            });
+        }
+        return true;
+    }
+
     function updateParishionerInformation(url) {
         // has been checked in UploadParishionerImage function
         //if (!checkValidParishionerInformation()) {
@@ -2382,6 +2413,7 @@
                 ServedStartDate: $("#txtVoCationServedStartDate").val(),
                 ServedPlace: $("#txtServedPlace").val(),
                 ServedId: $("#cbbServedPlace").val(),
+                ServedRole: $("#cbbVocationServedRole").val(),
                 Diocesan: ($("#cbbVocationDiocesan").val() == 1) ? true : false,
             },
             success: function (data) {
@@ -3202,7 +3234,7 @@
 
     }
 
-    function loadFullParishionerInfo(id, page) {
+    function loadFullParishionerInfo(id) {
         //$("#ParishionerThumbnail").show();
         //$("#ParishionerNewImage").show();
         startLoading();
@@ -3336,6 +3368,7 @@
                     $("#cbbSeminaryPosition").val(vocation.Position);
                     $("#txtSeminaryAddress").val(vocation.SeminaryAddress);
                     $("#txtServedPlace").val(vocation.ServedPlace);
+                    $("#cbbServedPlace").val(vocation.ServedId);
                     $("#txtServedPhone").val(vocation.Phone);
                     $("#txtServedAddress").val(vocation.ServedAddress);
                     $("#txtServedEmail").val(vocation.Email);
@@ -3366,20 +3399,6 @@
                 $("#btnAddParishionerInformation").hide();
                 $("#btnUpdateParishionerInformation").show();
                 $("#parishionerInformationTitle").html("Chỉnh sửa giáo dân");
-
-                if (page == 'priest') {
-                    $("#parishionerInformationTitle").html("Chỉnh sửa linh mục");
-                    $("#matrimony").hide();
-                    $("#ParishionerIsCounted").hide();
-                    $("#ChangeInfo").hide();
-                    $("#Education").hide();
-                    $("#Career").hide();
-                    $("#Address").hide();
-                    $("#IsStudying").hide();
-                    $("#IsCatechumen").hide();
-                    $("#IsMarried").hide();
-                    $("#IsSingle").hide();
-                }
 
                 $("#parishionerInformationModal").modal('show');
 

@@ -26,5 +26,6 @@ namespace PMS.DataAccess.ViewModels
         public string Patron { get; set; }
         public string PatronDate { get; set; }
         public string ChauLuot { get; set; }
+        public int? PriestParishionerId { get; set; }
     }
 }

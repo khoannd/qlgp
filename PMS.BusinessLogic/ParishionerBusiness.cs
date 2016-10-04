@@ -108,7 +108,7 @@ namespace PMS.BusinessLogic
             }
             else if (sortColumnIndex == 8)
             {
-                filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => p.Community.Name) : filteredListItems.OrderByDescending(p => p.Community.Name);
+                filteredListItems = sortDirection == "asc" ? filteredListItems.OrderBy(p => (p.Community != null ? p.Community.Name : "")) : filteredListItems.OrderByDescending(p => (p.Community != null ? p.Community.Name : ""));
             }
             else
             {
@@ -147,8 +147,8 @@ namespace PMS.BusinessLogic
                                c.ImageUrl = GetImageUrl(string.Concat(fileThumbPath, c.ImageUrl), c.Gender),
                                c.Gender == 0 ? "Nữ" : "Nam",
                                conveter.ConvertStringToDate(c.BirthDate),
-                               (c.Community.ParentId != null) ? c.Community.Name : "",
-                               (c.Community.ParentId != null) ? c.Community.Community1.Name : c.Community.Name,
+                               c.Community == null ? "" : (c.Community.ParentId != null) ? c.Community.Name : "",
+                               c.Community == null ? "" : (c.Community.ParentId != null) ? c.Community.Community1.Name : c.Community.Name,
                                c.Id
                            };
             }
@@ -170,9 +170,9 @@ namespace PMS.BusinessLogic
                                c.ImageUrl = GetImageUrl(string.Concat(fileThumbPath, c.ImageUrl), c.Gender),
                                c.Gender == 0 ? "Nữ" : "Nam",
                                conveter.ConvertStringToDate(c.BirthDate),
-                               (request == null || approved == -1) ? ((c.Community.ParentId != null) ? c.Community.Name : "")
+                               request.Community == null || c.Community == null ? "" : (request == null || approved == -1) ? ((c.Community.ParentId != null) ? c.Community.Name : "")
                                : ((request.Community.ParentId != null) ? request.Community.Name : ""),
-                               (request == null || approved == -1) ? ((c.Community.ParentId != null) ? c.Community.Community1.Name : c.Community.Name)
+                               request.Community == null || c.Community == null ? "" : (request == null || approved == -1) ? ((c.Community.ParentId != null) ? c.Community.Community1.Name : c.Community.Name)
                                : ((request.Community.ParentId != null) ? request.Community.Community1.Name : request.Community.Name)  ,
                                c.Id
                            };
@@ -743,7 +743,7 @@ namespace PMS.BusinessLogic
             return _parishionerData.checkExistsCodeOrNot(code);
         }
 
-        public List<ParishionerViewModel> PrintPriest(int parishId, string[] ids)
+        public List<PriestViewModel> PrintPriest(int parishId, string[] ids)
         {
             return _parishionerData.PrintPriest(parishId, ids);
         }

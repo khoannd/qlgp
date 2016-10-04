@@ -21,7 +21,8 @@ namespace PMS.Web.Controllers
         private readonly CommunityBusiness _communityBusiness;
         private readonly ConfigurationBusiness _configurationBusiness;
         private readonly DioceseBusiness _dioceseBusiness;
-
+        private readonly PriestBusiness _priestBusiness;
+        private readonly VocationBusiness _vocationBusiness;
         public ParishController()
         {
             _parishBusiness = new ParishBusiness(DbConfig.GetConnectionString());
@@ -29,6 +30,8 @@ namespace PMS.Web.Controllers
             _communityBusiness = new CommunityBusiness(DbConfig.GetConnectionString());
             _configurationBusiness = new ConfigurationBusiness(DbConfig.GetConnectionString());
             _dioceseBusiness = new DioceseBusiness(DbConfig.GetConnectionString());
+            _vocationBusiness = new VocationBusiness(DbConfig.GetConnectionString());
+            _priestBusiness = new PriestBusiness(DbConfig.GetConnectionString());
         }
         [SessionExpireFilter]
         public ActionResult Index()
@@ -125,11 +128,45 @@ namespace PMS.Web.Controllers
             }
             
         }
+        public ActionResult CheckParishAndPriest(int priestId, int parishId)
+        {
+            string currentParishOfPriest = ""; // Ten giao xu ma LM dang xet dang quan nhiem
 
+            //tim ten giao xu ma LM dang xet dang quan nhiem
+            var vocation = findPriestVocation(priestId);
+            if (vocation != null && !string.IsNullOrWhiteSpace(vocation.ServedPlace) && vocation.ServedRole == 1)
+            {
+                currentParishOfPriest = vocation.ServedPlace;
+            }
+
+            //tim ten LM hien tai dang quan nhiem giao xu dang xet
+            var priests = _parishBusiness.GetPriestsManageParish(parishId);
+
+            return Json(new { parishName = currentParishOfPriest, managers = priests }, JsonRequestBehavior.AllowGet);
+        }
+        private Vocation findPriestVocation(int priestId)
+        {
+            var priest = _priestBusiness.GetPriestAndParishionerInfoByPriestId(priestId);
+            if (priest != null)
+            {
+                return _vocationBusiness.GetVocationByParishionerId(priest.ParishionerId.GetValueOrDefault());
+            }
+            return null;
+        }
         public ActionResult UpdateParish(Parish parish)
         {
             string url = _parishBusiness.GetImageUrlByParishId(parish.Id);
             int result = _parishBusiness.UpdateParish(parish);
+            if (result > 0)
+            {
+                var vocation = findPriestVocation(parish.PriestId.GetValueOrDefault());
+                if (vocation != null)
+                {
+                    vocation.ServedId = parish.Id;
+                    vocation.ServedPlace = parish.Name;
+                    _vocationBusiness.UpdateVocation(vocation);
+                }
+            }
 
             if (!string.IsNullOrEmpty(parish.ImageUrl))
             {
@@ -166,6 +203,10 @@ namespace PMS.Web.Controllers
             model.Province = parish.Province;
             model.Priest = parish.Priest;
             model.PriestId = parish.PriestId;
+            if(parish.Priest1 != null)
+            {
+                model.PriestParishionerId = parish.Priest1.ParishionerId;
+            }
             model.Website = parish.Website;
             model.Phone = parish.Phone;
             model.Email = parish.Email;

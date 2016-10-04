@@ -359,9 +359,9 @@ new
 <script>
     function UploadImage() {
         $("#ImgForm").submit();
-        if (!checkValidate()) {
-            return false;
-        }
+        //if (!checkValidate()) {
+        //    return false;
+        //}
     }
 
     function UploadImage_Complete() {
@@ -440,6 +440,8 @@ new
             "bRetrieve": true,
             "bScrollCollapse": true,
             "bAutoWidth": false,
+            "pageLength": 100,
+            "lengthMenu": [[10, 25, 50, 100, 200], [10, 25, 50, 100, 200]],
             "ajax": {
                 "url": "/Parish/LoadParishDatatables",
                 "data": function (d) {
@@ -663,7 +665,9 @@ new
                 $("#parishEmailValidate").hide();
                 
             }
-        } 
+        }
+
+        if(!isError) isError = !checkParishManager();
 
         if (isError) {
             return false;
@@ -745,6 +749,27 @@ new
             }
         });
         $("#parishImageValidate").hide();
+    }
+
+    function checkParishManager() {
+        var ok = true;
+        if ($("#priestId").val() !== "" && $("#priestId").val() !== "0"
+            && $("#parishId").val() !== "" && $("#parishId").val() !== "0") {
+            $.ajax({
+                url: "/Parish/CheckParishAndPriest",
+                data: { priestId: $("#priestId").val(), parishId: $("#parishId").val() },
+                async: false,
+                success: function (res) {
+                    var currentName = res.parishName;
+                    if ($.trim($("#parishNameModal").val()).toLowerCase() != $.trim(currentName).toLowerCase()) {
+                        ok = confirm("Linh Mục "+$("#parishPriestModal").val()+" đang quản nhiệm giáo xứ " + currentName
+                            + "\r\nBạn có chắc muốn tiếp tục ghi nhận Linh Mục "+$("#parishPriestModal").val()+" quản nhiệm thêm giáo xứ " + $("#parishNameModal").val() + " hay không?");
+
+                    }
+                }
+            });
+        }
+        return ok;
     }
 
     function AddParish(url) {

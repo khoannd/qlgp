@@ -27,9 +27,11 @@ namespace PMS.DataAccess
 
             if (isCounted.HasValue)
             {
-                string query = "SELECT Pa.* " +
-                                 "FROM Parishioner AS Pa LEFT JOIN (Community AS C INNER JOIN Parish AS P ON C.ParishId = P.Id) ON Pa.CommunityId = C.Id " +
-                                 "WHERE P.Id = {0} AND Pa.IsCounted = {1} ";
+                string query = @"SELECT Pa.* 
+                                 FROM Parishioner AS Pa 
+                                    LEFT JOIN Parish AS P ON Pa.ParishId = P.Id
+                                    LEFT JOIN Community AS C ON C.ParishId = P.Id 
+                                 WHERE P.Id = {0} AND Pa.IsCounted = {1} ";
 
                 if (status == (int)ParishionerStatusEnum.AvailableAndSaved)
                 {
@@ -97,9 +99,11 @@ namespace PMS.DataAccess
             }
             else
             {
-                string query = "SELECT Pa.* " +
-                                 "FROM Parishioner AS Pa LEFT JOIN (Community AS C INNER JOIN Parish AS P ON C.ParishId = P.Id) ON Pa.CommunityId = C.Id " +
-                                 "WHERE P.Id = {0} ";
+                string query = @"SELECT Pa.* 
+                                 FROM Parishioner AS Pa 
+                                    LEFT JOIN Parish AS P ON Pa.ParishId = P.Id
+                                    LEFT JOIN Community AS C ON C.ParishId = P.Id 
+                                 WHERE P.Id = {0} ";
 
                 if (status == (int)ParishionerStatusEnum.AvailableAndSaved)
                 {
@@ -2268,6 +2272,12 @@ namespace PMS.DataAccess
         {
             try
             {
+                if(!string.IsNullOrWhiteSpace(parishioner.PatronDate) && parishioner.PatronDate.Length > 2)
+                    parishioner.PatronDate = parishioner.PatronDate.Replace("/", "").Replace("-", "");
+                if(parishioner.CommunityId == 0)
+                {
+                    parishioner.CommunityId = null;
+                }
                 _db.Parishioners.InsertOnSubmit(parishioner);
                 _db.SubmitChanges();
                 return parishioner.Id;
@@ -2303,6 +2313,11 @@ namespace PMS.DataAccess
                 if (parishioner == null)
                 {
                     return 0;
+                }
+
+                if (parishioner.CommunityId == 0)
+                {
+                    parishioner.CommunityId = null;
                 }
 
                 //Kiem tra coi co don nao khong
@@ -2387,7 +2402,7 @@ namespace PMS.DataAccess
                 //parishioner.LastUpdatedBy = updatedParishioner.LastUpdatedBy;
                 //parishioner.Status = updatedParishioner.Status;
 
-                //update for priest
+                //update for priest, useful for import priest function
                 if(updatePriest)
                 {
                     var priest = _db.Priests.FirstOrDefault(p => p.ParishionerId == updatedParishioner.Id);
@@ -3125,9 +3140,9 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<int>(query, code).SingleOrDefault();
         }
         
-        public List<ParishionerViewModel> PrintPriest(int parishId, string[] ids)
+        public List<PriestViewModel> PrintPriest(int parishId, string[] ids)
         {
-            var result = new List<ParishionerViewModel>();
+            var result = new List<PriestViewModel>();
             var converter = new DateConverter();
 
             var parish = _db.Parishes.FirstOrDefault(p => p.Id == parishId);
@@ -3150,22 +3165,22 @@ namespace PMS.DataAccess
                     return null;
                 }
 
-                var priest = new ParishionerViewModel();
+                var priest = new PriestViewModel();
                 priest.DioceseName = diocese.Bishop;
                 priest.ChristianName = parishioner.ChristianName;
                 priest.ImageURL = parishioner.ImageUrl;
                 priest.Name = parishioner.Name;
                 priest.BirthDate =converter.ConvertStringToDate2(parishioner.BirthDate);
+                priest.OrdinationDate = converter.ConvertStringToDate2(vocation.Date8);
                 priest.Code = parishioner.Code;
-                priest.Address = parishioner.Address;
-                priest.Phone = parishioner.Phone;
+                priest.Address = vocation.ServedAddress;
+                priest.Phone = !string.IsNullOrWhiteSpace(parishioner.MobilePhone) ? parishioner.MobilePhone : vocation.Phone;
 
                 priest.BirthPlace = parishioner.BirthPlace;
 
                 priest.IDNo = parishioner.IDNo;
                 priest.IDDate = converter.ConvertStringToDate2(parishioner.IDDate);
                 priest.IDPlace = parishioner.IDPlace;
-                priest.Date8 = (vocation != null) ? vocation.Date8 : "";
 
                 result.Add(priest);
             }

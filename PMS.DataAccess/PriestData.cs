@@ -22,7 +22,7 @@ namespace PMS.DataAccess
         {
             string query = @"SELECT a.*
 FROM (
-	SELECT pr.*, pa.Code, pa.PatronDate, pa.Email,
+	SELECT pr.*, pa.Code, pa.PatronDate, pa.Email, pa.ImageUrl,
     LEFT(pr.Name, LEN(pr.Name) - CHARINDEX(' ',REVERSE(pr.Name))) AS LastName, 
 	IIF(CHARINDEX(' ', pr.Name) <> 0, RIGHT(pr.Name, CHARINDEX(' ', REVERSE(pr.Name)) - 1), '') AS FirstName,
 	pa.Title, v.Seminary, v.TypeCode, vs1.Definition AS TypeName, IIF(v.IsRetired IS NULL, 0, v.IsRetired) AS IsRetired,

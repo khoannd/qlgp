@@ -91,6 +91,16 @@ namespace PMS.DataAccess
                 //item.Email = vocation.Email;
                 //item.Note = vocation.Note;
                 //item.IsLeft = vocation.IsLeft;
+                if (vocation.Date1.IndexOf('/') >= 0) vocation.Date1 = PMS.DataAccess.Utilities.DateConverter.GetInstance().ConvertDateToString(vocation.Date1);
+                if (vocation.Date2.IndexOf('/') >= 0) vocation.Date2 = PMS.DataAccess.Utilities.DateConverter.GetInstance().ConvertDateToString(vocation.Date2);
+                if (vocation.Date3.IndexOf('/') >= 0) vocation.Date3 = PMS.DataAccess.Utilities.DateConverter.GetInstance().ConvertDateToString(vocation.Date3);
+                if (vocation.Date4.IndexOf('/') >= 0) vocation.Date4 = PMS.DataAccess.Utilities.DateConverter.GetInstance().ConvertDateToString(vocation.Date4);
+                if (vocation.Date5.IndexOf('/') >= 0) vocation.Date5 = PMS.DataAccess.Utilities.DateConverter.GetInstance().ConvertDateToString(vocation.Date5);
+                if (vocation.Date6.IndexOf('/') >= 0) vocation.Date6 = PMS.DataAccess.Utilities.DateConverter.GetInstance().ConvertDateToString(vocation.Date6);
+                if (vocation.Date7.IndexOf('/') >= 0) vocation.Date7 = PMS.DataAccess.Utilities.DateConverter.GetInstance().ConvertDateToString(vocation.Date7);
+                if (vocation.Date8.IndexOf('/') >= 0) vocation.Date8 = PMS.DataAccess.Utilities.DateConverter.GetInstance().ConvertDateToString(vocation.Date8);
+                if (vocation.Date9.IndexOf('/') >= 0) vocation.Date9 = PMS.DataAccess.Utilities.DateConverter.GetInstance().ConvertDateToString(vocation.Date9);
+                if (vocation.ServedStartDate.IndexOf('/') >= 0) vocation.ServedStartDate = PMS.DataAccess.Utilities.DateConverter.GetInstance().ConvertDateToString(vocation.ServedStartDate);
 
                 PMS.DataAccess.Utilities.Tools.CopyPropertiesTo(vocation, item);
 

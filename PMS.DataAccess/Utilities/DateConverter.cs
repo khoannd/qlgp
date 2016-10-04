@@ -9,6 +9,12 @@ namespace PMS.DataAccess.Utilities
 {
     public class DateConverter
     {
+        static DateConverter instance = null;
+        public static DateConverter GetInstance()
+        {
+            if(instance == null) instance = new DateConverter();
+            return instance;
+        }
         public string ConvertStringToDate(string date)
         {
             if (date == null)
@@ -45,16 +51,12 @@ namespace PMS.DataAccess.Utilities
 
         public string ConvertStringToDate2(string date)
         {
-            if (date == null)
+            if (string.IsNullOrWhiteSpace(date))
             {
                 return "";
             }
 
             date = date.Trim();
-            if (string.IsNullOrEmpty(date))
-            {
-                return "";
-            }
 
             string year = date.Substring(0, 4);
             string month = date.Substring(4, 2);

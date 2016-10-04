@@ -11,15 +11,30 @@ namespace PMS.BusinessLogic
     public class ConfigurationBusiness
     {
         private readonly ConfigurationData _configurationData;
+        private string connectionString = "";
 
         public ConfigurationBusiness(string connection)
         {
             _configurationData = new ConfigurationData(connection);
+            connectionString = connection;
         }
-
         public Configuration GetConfigurationByParishId(int parishId)
         {
-            return _configurationData.GetConfigurationByParishId(parishId);
+            return GetConfigurationByParishId(parishId, -1);
+        }
+        public Configuration GetConfigurationByParishId(int parishId, int roleId)
+        {
+            var configuration = _configurationData.GetConfigurationByParishId(parishId);
+            if(roleId != -1)
+            {
+                AccountBusiness accountBusiness = new AccountBusiness(connectionString);
+                if (accountBusiness.IsDioceseRole(roleId))
+                {
+                    configuration.ParishionerCodeGeneration = 0;
+                }
+            }
+            
+            return configuration;
         }
 
         public int AddConfiguration(Configuration config)

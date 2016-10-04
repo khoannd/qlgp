@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PMS.DataAccess.Models;
+using PMS.DataAccess.ViewModels;
 
 namespace PMS.DataAccess
 {
@@ -45,13 +46,26 @@ namespace PMS.DataAccess
             const string query = "SELECT * FROM Parish " +
                                  "WHERE VicariateId = {0} AND Id != {1} ";
             return _db.ExecuteQuery<Parish>(query, vicariateId, parishId);
-        } 
-
+        }
+        /// <summary>
+        /// Get Parish Object based on query from SQL Server database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Parish GetParishesByParishId(int id)
         {
             const string query = "SELECT * FROM Parish  WHERE Id = {0}";
             return _db.ExecuteQuery<Parish>(query, id).SingleOrDefault();
             //return _db.Parishes.SingleOrDefault(d => d.Id == id);
+        }
+        /// <summary>
+        /// Get Parish Object from DB Model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Parish GetParishByParishId(int id)
+        {
+            return _db.Parishes.SingleOrDefault(d => d.Id == id);
         }
 
         public Parish GetParishesByParishName(string name, int vicariateId)
@@ -73,6 +87,14 @@ namespace PMS.DataAccess
         {
             string query = "SELECT * FROM Parish ORDER BY Name";
             return _db.ExecuteQuery<Parish>(query, 0);
+        }
+
+        public IEnumerable<PriestViewModel> GetPriestsManageParish(int parishId)
+        {
+            string query = @"SELECT p.* 
+FROM Priest p INNER JOIN Vocation v on v.ParishionerId = p.ParishionerId
+WHERE v.ServedRole = 1 AND v.ServedId = {0}";
+            return _db.ExecuteQuery<PriestViewModel>(query, parishId);
         }
 
         public string GetImageUrlByParishId(int parishId)
@@ -103,34 +125,37 @@ namespace PMS.DataAccess
                 {
                     return 0;
                 }
-                if(!item.Equals(parish))
-                {
-                    if (!string.IsNullOrEmpty(parish.ImageUrl))
-                    {
-                        item.ImageUrl = parish.ImageUrl;
-                    }
-                    else
-                    {
-                        parish.ImageUrl = item.ImageUrl;
-                    }
+                //if(!item.Equals(parish))
+                //{
+                //    if (!string.IsNullOrEmpty(parish.ImageUrl))
+                //    {
+                //        item.ImageUrl = parish.ImageUrl;
+                //    }
+                //    else
+                //    {
+                //        parish.ImageUrl = item.ImageUrl;
+                //    }
 
-                    PMS.DataAccess.Utilities.Tools.CopyPropertiesTo(parish, item);
-                }
-                //item.Name = parish.Name;
-                //item.Address = parish.Address;
-                //item.Ward = parish.Ward;
-                //item.District = parish.District;
-                //item.Province = parish.Province;
-                //item.Priest = parish.Priest;
-                //item.PriestId = parish.PriestId;
-                //item.Website = parish.Website;
-                //item.Phone = parish.Phone;
-                //item.Email = parish.Email;
-                //item.VicariateId = parish.VicariateId;
-                //item.Patron = parish.Patron;
-                //item.PatronDate = parish.PatronDate;
-                //item.ChauLuot = parish.ChauLuot;
-                
+                //    PMS.DataAccess.Utilities.Tools.CopyPropertiesTo(parish, item);
+                //}
+
+                item.Name = parish.Name;
+                item.Address = parish.Address;
+                item.Ward = parish.Ward;
+                item.District = parish.District;
+                item.Province = parish.Province;
+                item.Priest = parish.Priest;
+                item.PriestId = parish.PriestId;
+                item.Website = parish.Website;
+                item.Phone = parish.Phone;
+                item.Email = parish.Email;
+                item.VicariateId = parish.VicariateId;
+                item.Patron = parish.Patron;
+                item.PatronDate = parish.PatronDate;
+                item.ChauLuot = parish.ChauLuot;
+                item.Category = parish.Category;
+                item.DioceseId = parish.DioceseId;
+
 
                 //if(item.PriestId != null && item.PriestId != 0)
                 //{
@@ -141,13 +166,13 @@ namespace PMS.DataAccess
                 //        parishOld.Priest = "";
                 //    }
                 //}
+                _db.SubmitChanges(System.Data.Linq.ConflictMode.ContinueOnConflict);
 
-                _db.SubmitChanges();
                 return parish.Id;
             }
             catch (Exception e)
             {
-
+                _db.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, parish);
                 return -1;
             }
         }

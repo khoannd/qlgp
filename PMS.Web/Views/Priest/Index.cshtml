@@ -88,8 +88,8 @@
                 <th filter-type="text" datakey="Email">Email</th>
                 <th filter-type="select" datakey="Diocesan">Dòng/Triều</th>
                 <th filter-type="text" datakey="Note">Ghi chú</th>
-                <th filter-type="text" datakey="BaptismPlace">Ngày Rửa tội</th>
-                <th filter-type="text" datakey="BaptismDate">Nơi rửa tội</th>
+                <th filter-type="text" datakey="BaptismDate">Ngày Rửa tội</th>
+                <th filter-type="text" datakey="BaptismPlace">Nơi rửa tội</th>
                 <th filter-type="text" datakey="OrdinationDate">Ngày chịu chức</th>
                 <th filter-type="text" datakey="OrdinationPlace">Tại</th>
                 <th filter-type="text" datakey="OrdinationBy">Do ĐGM</th>
@@ -318,6 +318,15 @@
     }
 
     #filter_OrdinationBy {
+        width: 200px;
+    }
+    #filter_Email {
+        width: 150px;
+    }
+    #filter_BaptismPlace {
+        width: 150px;
+    }
+    #filter_OrdinationPlace {
         width: 150px;
     }
 </style>
@@ -348,30 +357,39 @@
     }
     function showParishionerInfo(priestId) {
         var id = priestId;
-        loadFullParishionerInfo(id, 'priest');
+        loadFullParishionerInfo(id);
         $("#parishionerInformationModal").on("hidden.bs.modal", function () {
-            //$(".modal-backdrop.fade.in").hide();
-            //refeshTable();
-            //fillPriestModalInfo($("#txtIdModal").val());
+            refeshTable();
         });
-        //$("#PriestModal").hide();
+        $("#parishionerInformationModal").on("shown.bs.modal", function () {
+            $("#parishionerInformationTitle").html("Chỉnh sửa linh mục");
+            $("#vocationLink").html("<span class=\"bigger-120 bolde\">†</span>Thông tin Linh Mục");
+            $(".not-priest").hide();
+            $("#vocationLink").tab('show');
+        });
     }
     function showAddNewParishioner() {
-        $("#parishionerInformationTitle").html("Thêm mới linh mục");
-        $("#matrimony").hide();
-        $("#ParishionerIsCounted").hide();
-        $("#ChangeInfo").hide();
-        $("#Education").hide();
-        $("#Career").hide();
-        $("#Address").hide();
-        $("#IsStudying").hide();
-        $("#IsCatechumen").hide();
-        $("#IsMarried").hide();
-        $("#IsSingle").hide();
+        
         $("#parishionerInformationModal").modal('show');
+        $("#parishionerInformationModal").on("hidden.bs.modal", function () {
+            refeshTable();
+        });
+        $("#parishionerInformationModal").on("shown.bs.modal", function () {
+            $("#parishionerInformationTitle").html("Thêm mới linh mục");
+            var parishionerId = $("#txtHiddenParishionerId").val();
+            if (parishionerId == "0" || parishionerId == "") {
+                $("#vocationLink").html("<span class=\"bigger-120 bolder\">†</span>Thông tin Linh Mục");
+                $("#cbGender").val(1);
+                $("#cbbSeminaryPosition").val(4); // Linh Mục
+                $("#txtParishionerCode").focus();
+                $("#txtParishionerTitle").val("Cha");
+                $("#cbIsCounted").attr("checked", true);
+            }
+            $(".not-priest").hide();
+        });
     }
     $("#PriestModal").on('show.bs.modal', function () {
-
+        
     });;
 
     jQuery(function ($) {
@@ -448,7 +466,7 @@
             "bRetrieve": true,
             "bServerSide": true,
             "bScrollCollapse": true,
-            "pageLength": 25,
+            "pageLength": 100,
             "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Tất cả"]],
             "ajax": {
                 "url": "/Priest/LoadParishDatatable",
@@ -652,6 +670,10 @@
                 var col = table.column($(this).parent().index() + ':visible');
                 col.search(this.value).draw();
             });
+        });
+
+        $(tableSelector + " input.ace").click(function () {
+            $(tableSelector + " input.pItem").attr("checked", this.checked);
         });
     }
 

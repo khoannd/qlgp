@@ -39,6 +39,7 @@ namespace PMS.Web.Controllers
         private readonly DioceseBusiness _dioceseBusiness;
 
         private readonly VaiTroBusiness _vaitroBusiness;
+        private readonly AccountBusiness accountBusiness = new AccountBusiness(DbConfig.GetConnectionString());
 
         public ParishionerController()
         {
@@ -65,7 +66,7 @@ namespace PMS.Web.Controllers
         {
             int parishId = (int)Session["ParishId"];
 
-            var configuration = _configurationBusiness.GetConfigurationByParishId(parishId);
+            var configuration = _configurationBusiness.GetConfigurationByParishId(parishId, (int)Session["RoleId"]);
             List<Community> communities = _communityBusiness.GetCommunitiesByParishId(parishId);
             List<Community> parishDivisions = _communityBusiness.GetParishDivisionsByParishId(parishId);
             List<Vicariate> vicariates = _vicariateBusiness.getAllVicariate().ToList();
@@ -121,7 +122,7 @@ namespace PMS.Web.Controllers
                 result = _parishionerBusiness.PrintMatrimony(parishId, ids);
             }
 
-            var config = _configurationBusiness.GetConfigurationByParishId(parishId);
+            var config = _configurationBusiness.GetConfigurationByParishId(parishId, (int)Session["RoleId"]);
 
             string template = "";
 
@@ -263,7 +264,9 @@ namespace PMS.Web.Controllers
         public int AddParishioner(Parishioner parishioner,
                                           string baptismDate, string baptismNumber, string baptismPlace, string baptismPatron, string baptismGiver,
                                           string holyCommunionDate, string holyCommunionNumber, string holyCommunionPlace, string holyCommunionGiver,
-                                          string confirmationDate, string confirmationNumber, string confirmationPlace, string confirmationPatron, string confirmationGiver)
+                                          string confirmationDate, string confirmationNumber, string confirmationPlace, string confirmationPatron, string confirmationGiver, 
+                                          int? DioceseId,
+                                          Vocation vocation)
         {
             //Convert Date
             var converter = new DateConverter();
@@ -294,14 +297,15 @@ namespace PMS.Web.Controllers
             int parishId = (int)Session["ParishId"];
             int dioceseId = (int)Session["DioceseId"];
 
+            
             // Code Generation       
-            DataAccess.Models.Configuration config = _configurationBusiness.GetConfigurationByParishId(parishId);
-            if (config == null)
-            {
-                return 0;
-            }
+            DataAccess.Models.Configuration config = _configurationBusiness.GetConfigurationByParishId(parishId, (int)Session["RoleId"]);
+            //if (config == null)
+            //{
+            //    return 0;
+            //}
 
-            if (config.ParishionerCodeGeneration != 0)
+            if (config != null && config.ParishionerCodeGeneration != 0)
             {
                 //Generate Code
                 parishioner.Code = _parishionerBusiness.LoadParishionerCode(parishId, config.ParishionerPrefix, config.ParishionerCharacterNumber);
@@ -475,6 +479,51 @@ namespace PMS.Web.Controllers
                             return confirmationId;
                         }
                     }
+                    
+                    //if current parishioner is priest, add priest and update parish manager for the parish which this parishioner serves
+                    if (vocation.Position == (int)PMS.DataAccess.Enumerations.VocationEnum.Priest)
+                    {
+                        if (vocation.ParishionerId == 0)
+                        {
+                            //Add new
+                            vocation.ParishionerId = parishioner.Id;
+                            int added = _vocationBusiness.AddVocation(vocation);
+                            if (added <= 0)
+                            {
+                                return added;
+                            }
+
+                        }
+                        else
+                        {
+                            //Update
+                            int updated = _vocationBusiness.UpdateVocation(vocation);
+                            if (updated <= 0)
+                            {
+                                return updated;
+                            }
+                        }
+
+                        var priest = _priestBusiness.GetPriestByParishionerId(parishioner.Id);
+                        if (priest == null)
+                        {
+                            priest = new Priest()
+                            {
+                                ChristianName = parishioner.ChristianName,
+                                Name = parishioner.Name,
+                                BirthDate = parishioner.BirthDate,
+                                DioceseId = dioceseId,
+                                Phone = parishioner.MobilePhone,
+                                ParishionerId = parishioner.Id
+                            };
+                            int priestId = _priestBusiness.AddPriest(priest);
+                            if (priestId <= 0)
+                            {
+                                return priestId;
+                            }
+
+                        }
+                    }
 
                     //If success all
                     scope.Complete();
@@ -534,20 +583,18 @@ namespace PMS.Web.Controllers
 
             //Check parish id - Using parsish name
             Parish parish = new Parish();
-            if (!Tools.IsNullOrEmpty(vocation.ServedPlace))
+            if (!Tools.IsNullOrEmpty(vocation.ServedPlace) && Tools.IsNullOrZero(vocation.ServedId))
             {
                 parish = _parishBusiness.GetParishesByParishName(vocation.ServedPlace, 0);
+                if (parish != null)
+                {
+                    vocation.ServedId = parish.Id;
+                }
             }
-
-            if(parish == null)
+            else if(Tools.IsNullOrEmpty(vocation.ServedPlace))
             {
                 vocation.ServedId = 0;
             }
-            else
-            {
-                vocation.ServedId = parish.Id;
-            }
-
 
             int parishId = (int)Session["ParishId"];
             int dioceseId = (int)Session["DioceseId"];
@@ -561,7 +608,16 @@ namespace PMS.Web.Controllers
                 //If success
                 if (result > 0)
                 {
+                    int parishionerDiocese = 0;
 
+                    if(!Tools.IsNullOrZero(parishioner.ParishId))
+                    {
+                        var parishObj = _parishBusiness.GetParishesByParishId((int)parishioner.ParishId);
+                        if(parishObj != null)
+                        {
+                            parishionerDiocese = parishObj.DioceseId;
+                        }
+                    }
                     //Thuc hien chuyen xu neu co
                     if (parishioner.DomicileStatus == (int)DomicileStatusEnum.TransferredToAnotherParish)
                     {
@@ -753,7 +809,8 @@ namespace PMS.Web.Controllers
                         && string.IsNullOrEmpty(vocation.ServedAddress) && string.IsNullOrEmpty(vocation.Phone) &&
                         string.IsNullOrEmpty(vocation.Email)
                         && string.IsNullOrEmpty(vocation.Note) && vocation.Position == (int)VocationEnum.None &&
-                        !vocation.IsLeft)
+                        !vocation.IsLeft
+                        && string.IsNullOrEmpty(vocation.ServedPlace))
                     {
                         if (vocation.ParishionerId != 0)
                         {
@@ -776,6 +833,7 @@ namespace PMS.Web.Controllers
                             {
                                 return added;
                             }
+                            
                         }
                         else
                         {
@@ -784,6 +842,43 @@ namespace PMS.Web.Controllers
                             if (updated <= 0)
                             {
                                 return updated;
+                            }
+                        }
+                        //if current parishioner is priest, add priest and update parish manager for the parish which this parishioner serves
+                        if (vocation.Position == (int)PMS.DataAccess.Enumerations.VocationEnum.Priest)
+                        {
+                            var priest = _priestBusiness.GetPriestByParishionerId(parishioner.Id);
+                            if (priest == null)
+                            {
+                                priest = new Priest()
+                                {
+                                    ChristianName = parishioner.ChristianName,
+                                    Name = parishioner.Name,
+                                    BirthDate = parishioner.BirthDate,
+                                    DioceseId = parishionerDiocese,
+                                    Phone = parishioner.MobilePhone,
+                                    ParishionerId = parishioner.Id
+                                };
+                                int priestId = _priestBusiness.AddPriest(priest);
+                                if (priestId <= 0)
+                                {
+                                    return priestId;
+                                }
+
+                            }
+                            if (!Tools.IsNullOrZero(vocation.ServedId) && !Tools.IsNullOrZero(priest.Id) && vocation.ServedRole == 1)
+                            {
+                                var servedParish = _parishBusiness.GetParishesByParishId(vocation.ServedId.GetValueOrDefault());
+                                if (servedParish != null)
+                                {
+                                    servedParish.Priest = string.Concat(!string.IsNullOrWhiteSpace(parishioner.ChristianName) ? parishioner.ChristianName + " " : "", parishioner.Name);
+                                    servedParish.PriestId = priest.Id;
+                                    int updateParishManagerResult = _parishBusiness.UpdateParish(servedParish);
+                                    if (updateParishManagerResult <= 0)
+                                    {
+                                        return updateParishManagerResult;
+                                    }
+                                }
                             }
                         }
                     }
@@ -854,7 +949,7 @@ namespace PMS.Web.Controllers
         public int CheckParishionerCode()
         {
             int parishId = (int)Session["ParishId"];
-            DataAccess.Models.Configuration config = _configurationBusiness.GetConfigurationByParishId(parishId);
+            DataAccess.Models.Configuration config = _configurationBusiness.GetConfigurationByParishId(parishId, (int)Session["RoleId"]);
 
             if (config == null)
             {

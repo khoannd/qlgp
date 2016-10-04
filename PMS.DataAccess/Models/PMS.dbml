@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLGP_Test" Class="PMSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLExpress;Initial Catalog=QLGP_Test;Integrated Security=True;MultipleActiveResultSets=True" SettingsObjectName="PMS.DataAccess.Properties.Settings" SettingsPropertyName="QLGP_TestConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QLGP" Class="PMSDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLExpress;Initial Catalog=QLGP;Integrated Security=True;MultipleActiveResultSets=True" SettingsObjectName="PMS.DataAccess.Properties.Settings" SettingsPropertyName="QLGPConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Account" Member="Accounts">
     <Type Name="Account">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -447,8 +447,8 @@
       <Column Name="PatronDate" Type="System.String" DbType="VarChar(4)" CanBeNull="true" />
       <Column Name="ParishId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="IDNo" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
-      <Column Name="IDDate" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
-      <Column Name="IDPlace" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="IDDate" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="IDPlace" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
       <Association Name="Parishioner_ClassGroup" Member="ClassGroups" ThisKey="Id" OtherKey="ManagedBy" Type="ClassGroup" />
       <Association Name="Parishioner_ClassMember" Member="ClassMembers" ThisKey="Id" OtherKey="ParishionerId" Type="ClassMember" />
       <Association Name="Parishioner_DeaconRequisitionComment" Member="DeaconRequisitionComments" ThisKey="Id" OtherKey="ParishionerId" Type="DeaconRequisitionComment" />
@@ -490,6 +490,7 @@
       <Column Name="StatusId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Code" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="ParishName" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ReportType" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Association Name="GeneralStatus_ParishManager" Member="GeneralStatus" ThisKey="StatusId" OtherKey="Id" Type="GeneralStatus" IsForeignKey="true" />
       <Association Name="Parish_ParishManager" Member="Parish" ThisKey="ParishId" OtherKey="Id" Type="Parish" IsForeignKey="true" />
       <Association Name="Priest_ParishManager" Member="Priest" ThisKey="PriestId" OtherKey="Id" Type="Priest" IsForeignKey="true" />
@@ -512,7 +513,6 @@
       <Column Name="DioceseId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Phone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Column Name="ParishionerId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Diocesan" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="Priest_DeaconRequisitionComment" Member="DeaconRequisitionComments" ThisKey="Id" OtherKey="PriestId" Type="DeaconRequisitionComment" />
       <Association Name="Priest_HDLMMember" Member="HDLMMembers" ThisKey="Id" OtherKey="PriestID" Type="HDLMMember" />
       <Association Name="Priest_Parish" Member="Parishes" ThisKey="Id" OtherKey="PriestId" Type="Parish" />
@@ -575,7 +575,7 @@
     <Type Name="RolePermission">
       <Column Name="ScreenId" Type="System.String" DbType="VarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="RoleId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Permission" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Permission" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
     </Type>
   </Table>
   <Table Name="dbo.Sacrament" Member="Sacraments">
@@ -652,7 +652,7 @@
     <Type Name="ThuPhanUu">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="MaGiaoDan" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="NgayMat" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="NgayMat" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
       <Column Name="ChucVu" Type="System.String" DbType="NVarChar(25) NOT NULL" CanBeNull="false" />
       <Column Name="MauThu" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
@@ -746,6 +746,7 @@
       <Column Name="Giver9" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="ServedRole" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="ServedStartDate" Type="System.String" DbType="NVarChar(8)" CanBeNull="true" />
+      <Column Name="Diocesan" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="Vocation_VocationSeminaryYear" Member="VocationSeminaryYears" ThisKey="ParishionerId" OtherKey="VocationId" Type="VocationSeminaryYear" />
       <Association Name="Vocation_LeaveVocationRequisition" Member="LeaveVocationRequisitions" ThisKey="ParishionerId" OtherKey="VocationId" Type="LeaveVocationRequisition" />
       <Association Name="Vocation_ReligiousCommunity" Member="ReligiousCommunities" ThisKey="ParishionerId" OtherKey="DirectorId" Type="ReligiousCommunity" />

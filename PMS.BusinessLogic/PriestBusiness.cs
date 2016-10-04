@@ -101,6 +101,17 @@ namespace PMS.BusinessLogic
                             strCondition = string.Concat(strCondition, " AND ", item.Key, " = {", index, "}");
                             args.Add(item.Value);
                         }
+                        else if(item.Key == "TypeCode"
+                            || item.Key == "TypeName"
+                             || item.Key == "Role"
+                              || item.Key == "ServedPlace"
+                               || item.Key == "VicariateName"
+                                || item.Key == "ChristianName"
+                                 || item.Key == "IsRetired")
+                        {
+                            strCondition = string.Concat(strCondition, " AND ", item.Key, " LIKE {", index, "}");
+                            args.Add(item.Value);
+                        }
                         else if (Tools.IsDate(item.Value))
                         {
                             strCondition = string.Concat(strCondition, " AND ", item.Key, " = {", index, "}");
@@ -108,7 +119,7 @@ namespace PMS.BusinessLogic
                         }
                         else {
                             strCondition = string.Concat(strCondition, " AND ", item.Key, " LIKE {", index, "}");
-                            args.Add(string.Concat("", item.Value, "%"));
+                            args.Add(string.Concat("%", item.Value, "%"));
                         }
                         
                         index++;

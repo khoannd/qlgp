@@ -22,7 +22,7 @@ namespace PMS.DataAccess.Models
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="QLGP_Test")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="QLGP")]
 	public partial class PMSDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -198,7 +198,7 @@ namespace PMS.DataAccess.Models
     #endregion
 		
 		public PMSDataContext() : 
-				base(global::PMS.DataAccess.Properties.Settings.Default.QLGP_TestConnectionString, mappingSource)
+				base(global::PMS.DataAccess.Properties.Settings.Default.QLGPConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -10232,7 +10232,7 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDDate", DbType="NVarChar(20)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDDate", DbType="NVarChar(8)")]
 		public string IDDate
 		{
 			get
@@ -10252,7 +10252,7 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDPlace", DbType="NVarChar(20)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IDPlace", DbType="NVarChar(200)")]
 		public string IDPlace
 		{
 			get
@@ -10941,6 +10941,8 @@ namespace PMS.DataAccess.Models
 		
 		private string _ParishName;
 		
+		private string _ReportType;
+		
 		private EntityRef<GeneralStatus> _GeneralStatus;
 		
 		private EntityRef<Parish> _Parish;
@@ -10979,6 +10981,8 @@ namespace PMS.DataAccess.Models
     partial void OnCodeChanged();
     partial void OnParishNameChanging(string value);
     partial void OnParishNameChanged();
+    partial void OnReportTypeChanging(string value);
+    partial void OnReportTypeChanged();
     #endregion
 		
 		public ParishManager()
@@ -11247,6 +11251,26 @@ namespace PMS.DataAccess.Models
 					this._ParishName = value;
 					this.SendPropertyChanged("ParishName");
 					this.OnParishNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportType", DbType="NVarChar(20)")]
+		public string ReportType
+		{
+			get
+			{
+				return this._ReportType;
+			}
+			set
+			{
+				if ((this._ReportType != value))
+				{
+					this.OnReportTypeChanging(value);
+					this.SendPropertyChanging();
+					this._ReportType = value;
+					this.SendPropertyChanged("ReportType");
+					this.OnReportTypeChanged();
 				}
 			}
 		}
@@ -11548,8 +11572,6 @@ namespace PMS.DataAccess.Models
 		
 		private System.Nullable<int> _ParishionerId;
 		
-		private bool _Diocesan;
-		
 		private EntitySet<DeaconRequisitionComment> _DeaconRequisitionComments;
 		
 		private EntitySet<HDLMMember> _HDLMMembers;
@@ -11578,8 +11600,6 @@ namespace PMS.DataAccess.Models
     partial void OnPhoneChanged();
     partial void OnParishionerIdChanging(System.Nullable<int> value);
     partial void OnParishionerIdChanged();
-    partial void OnDiocesanChanging(bool value);
-    partial void OnDiocesanChanged();
     #endregion
 		
 		public Priest()
@@ -11732,26 +11752,6 @@ namespace PMS.DataAccess.Models
 					this._ParishionerId = value;
 					this.SendPropertyChanged("ParishionerId");
 					this.OnParishionerIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Diocesan", DbType="Bit NOT NULL")]
-		public bool Diocesan
-		{
-			get
-			{
-				return this._Diocesan;
-			}
-			set
-			{
-				if ((this._Diocesan != value))
-				{
-					this.OnDiocesanChanging(value);
-					this.SendPropertyChanging();
-					this._Diocesan = value;
-					this.SendPropertyChanged("Diocesan");
-					this.OnDiocesanChanged();
 				}
 			}
 		}
@@ -13132,7 +13132,7 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Permission", DbType="Int NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Permission", DbType="Int NOT NULL", IsPrimaryKey=true)]
 		public int Permission
 		{
 			get
@@ -14717,7 +14717,7 @@ namespace PMS.DataAccess.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayMat", DbType="DateTime NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayMat", DbType="Date NOT NULL")]
 		public System.DateTime NgayMat
 		{
 			get
@@ -15702,6 +15702,8 @@ namespace PMS.DataAccess.Models
 		
 		private string _ServedStartDate;
 		
+		private bool _Diocesan;
+		
 		private EntitySet<VocationSeminaryYear> _VocationSeminaryYears;
 		
 		private EntitySet<LeaveVocationRequisition> _LeaveVocationRequisitions;
@@ -15810,6 +15812,8 @@ namespace PMS.DataAccess.Models
     partial void OnServedRoleChanged();
     partial void OnServedStartDateChanging(string value);
     partial void OnServedStartDateChanged();
+    partial void OnDiocesanChanging(bool value);
+    partial void OnDiocesanChanged();
     #endregion
 		
 		public Vocation()
@@ -16686,6 +16690,26 @@ namespace PMS.DataAccess.Models
 					this._ServedStartDate = value;
 					this.SendPropertyChanged("ServedStartDate");
 					this.OnServedStartDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Diocesan", DbType="Bit NOT NULL")]
+		public bool Diocesan
+		{
+			get
+			{
+				return this._Diocesan;
+			}
+			set
+			{
+				if ((this._Diocesan != value))
+				{
+					this.OnDiocesanChanging(value);
+					this.SendPropertyChanging();
+					this._Diocesan = value;
+					this.SendPropertyChanged("Diocesan");
+					this.OnDiocesanChanged();
 				}
 			}
 		}

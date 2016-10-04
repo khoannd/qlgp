@@ -55,6 +55,12 @@ namespace PMS.DataAccess.ViewModels
 
         public string Note { get; set; }
 
+        public string DioceseName { get; set; }
+        public string Address { get; set; }
+        public string IDNo { get; set; }
+        public string IDDate { get; set; }
+        public string IDPlace { get; set; }
+
         public object Additional { get; set; }
     }
 }
