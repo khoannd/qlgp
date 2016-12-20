@@ -57,11 +57,11 @@ INNER JOIN Vicariate v ON p.VicariateId = v.Id WHERE p.Id={0}";
             }
         }
 
-        public int UpdateBanHanhGiao(BanHanhGiao banHanhGiao, List<BanHanhGiaoMember> banHanhGiaoMembers)
+        public int UpdateBanHanhGiao(BanHanhGiao banHanhGiao, List<BanHanhGiaoMember> banHanhGiaoMembers, bool useTransaction)
         {
             try
             {
-                using (var scope = new TransactionScope())
+                using (var scope = new TransactionScope((useTransaction ? TransactionScopeOption.Required : TransactionScopeOption.Suppress)))
                 {
                     var item = _db.BanHanhGiaos.SingleOrDefault(d => d.Id == banHanhGiao.Id);
                     if (item == null)

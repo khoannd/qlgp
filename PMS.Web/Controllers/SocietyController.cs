@@ -109,7 +109,7 @@ namespace PMS.Web.Controllers
             int societyId = society.Id;
 
             society.EstablishedDate = converter.ConvertDateToString(society.EstablishedDate);
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
             {
                 if (societyId == 0)
                 {

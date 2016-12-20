@@ -59,7 +59,7 @@ namespace PMS.Web.Controllers
         public int AddHDLM(HoiDongLinhMuc hdlm, int priestId)
         {
             int id = hdlm.Id;
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
             {
                 if (id == 0)
                 {

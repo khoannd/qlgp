@@ -162,14 +162,16 @@ namespace PMS.Web.Controllers
                                                                                int sacramentType, bool isCounted, int status,
                                                                                int deadParishioner = 0, int changeParishParishioner = 0)
         {
-            int parishId = (param.parishId != null && param.parishId != "" && param.parishId != "0") ? int.Parse(param.parishId) : (int)Session["ParishId"];
+            int dioceseId = (param.dioceseId != null && param.dioceseId != "" && param.dioceseId != "0") ? int.Parse(param.dioceseId) : (int)Session["DioceseId"];
+            int vicariateId = (param.vicariateId != null && param.vicariateId != "" && param.vicariateId != "0") ? int.Parse(param.vicariateId) : 0;
+            int parishId = (param.parishId != null && param.parishId != "" && param.parishId != "0") ? int.Parse(param.parishId) : (accountBusiness.IsDioceseRole((int)Session["RoleId"]) ? 0 : (int)Session["ParishId"]);
             int totalRecords = 0;
             int totalDisplayRecords = 0;
 
             if(//communityId == 0 && parishDivisionId == 0 && sacramentType == 0 &&
                 deadParishioner == 0 && changeParishParishioner == 0
                 && (param.sSearch == null || param.sSearch == "")
-                && (parishId == 0))
+                && (parishId == 0 && dioceseId == 0 && vicariateId == 0))
             {
                 return Json(new
                 {
@@ -180,7 +182,7 @@ namespace PMS.Web.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
 
-            var result = _parishionerBusiness.GetOrderedParishionersByParamsAndPaging(parishId, communityId, parishDivisionId, sacramentType, isCounted, status,
+            var result = _parishionerBusiness.GetOrderedParishionersByParamsAndPaging(dioceseId, vicariateId, parishId, communityId, parishDivisionId, sacramentType, isCounted, status,
                                                                          param.sSearch, deadParishioner, changeParishParishioner, param.iSortCol_0, param.sSortDir_0, param.iDisplayStart,
                                                                          param.iDisplayLength, out totalRecords, out totalDisplayRecords);
 
@@ -329,7 +331,7 @@ namespace PMS.Web.Controllers
                 return 0;
             }
 
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
             {   // Add Basic information     
                 //Add Parishioner
                 int id = _parishionerBusiness.AddParishioner(parishioner);
@@ -599,7 +601,7 @@ namespace PMS.Web.Controllers
             int parishId = (int)Session["ParishId"];
             int dioceseId = (int)Session["DioceseId"];
 
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
             {
                 // Update Basic information
                 //Update Parishioner
@@ -610,10 +612,10 @@ namespace PMS.Web.Controllers
                 {
                     int parishionerDiocese = 0;
 
-                    if(!Tools.IsNullOrZero(parishioner.ParishId))
+                    if (!Tools.IsNullOrZero(parishioner.ParishId))
                     {
                         var parishObj = _parishBusiness.GetParishesByParishId((int)parishioner.ParishId);
-                        if(parishObj != null)
+                        if (parishObj != null)
                         {
                             parishionerDiocese = parishObj.DioceseId;
                         }
@@ -810,7 +812,8 @@ namespace PMS.Web.Controllers
                         string.IsNullOrEmpty(vocation.Email)
                         && string.IsNullOrEmpty(vocation.Note) && vocation.Position == (int)VocationEnum.None &&
                         !vocation.IsLeft
-                        && string.IsNullOrEmpty(vocation.ServedPlace))
+                        && string.IsNullOrEmpty(vocation.ServedPlace)
+                        && string.IsNullOrEmpty(vocation.TypeCode))
                     {
                         if (vocation.ParishionerId != 0)
                         {
@@ -833,7 +836,7 @@ namespace PMS.Web.Controllers
                             {
                                 return added;
                             }
-                            
+
                         }
                         else
                         {
@@ -1462,7 +1465,7 @@ namespace PMS.Web.Controllers
                 }
             }
 
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
             {
                 var username = (string)Session["Username"];
                 //Update gender

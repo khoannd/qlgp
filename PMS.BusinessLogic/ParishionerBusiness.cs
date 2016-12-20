@@ -25,7 +25,7 @@ namespace PMS.BusinessLogic
             _doctrineCourseData = new DoctrineCourseData(connection);
         }
 
-        public IEnumerable<IConvertible[]> GetOrderedParishionersByParamsAndPaging(int parishId, int communityId, int parishDivisionId, int sacramentType,
+        public IEnumerable<IConvertible[]> GetOrderedParishionersByParamsAndPaging(int dioceseId, int vicariateId, int parishId, int communityId, int parishDivisionId, int sacramentType,
                             bool isCounted, int status, string searchValue, int deadParishioner, int changeParishParishioner, int sortColumnIndex, string sortDirection,
                             int displayStart, int displayLength, out int totalRecords, out int totalDisplayRecords)
         {
@@ -43,18 +43,40 @@ namespace PMS.BusinessLogic
                 parishioners = _parishionerData.GetParishionersBySacramentTypeAndParishDivisionId(parishDivisionId,
                     sacramentType, isCounted, status);
             }
-            else if (communityId == 0 && sacramentType == (int)SacramentEnum.All)
+            //else if (communityId == 0 && sacramentType == (int)SacramentEnum.All)
+            //{
+            //    parishioners = _parishionerData.GetParishionersByParishId(parishId, isCounted, status, gender);
+            //}
+            //else if (communityId == 0 && sacramentType != (int)SacramentEnum.All)
+            //{
+            //    parishioners = _parishionerData.GetParishionersBySacramentTypeAndParishId(parishId, sacramentType,
+            //        isCounted, status);
+            //}
+            else if (communityId != 0 && sacramentType == (int)SacramentEnum.All)
+            {
+                parishioners = _parishionerData.GetParishionersByCommunityId(communityId, isCounted, status, gender);
+            }
+            else if (parishId != 0 && sacramentType == (int)SacramentEnum.All)
             {
                 parishioners = _parishionerData.GetParishionersByParishId(parishId, isCounted, status, gender);
             }
-            else if (communityId == 0 && sacramentType != (int)SacramentEnum.All)
+            else if (parishId != 0 && sacramentType != (int)SacramentEnum.All)
             {
                 parishioners = _parishionerData.GetParishionersBySacramentTypeAndParishId(parishId, sacramentType,
                     isCounted, status);
             }
-            else if (communityId != 0 && sacramentType == (int)SacramentEnum.All)
+            else if (vicariateId != 0 && sacramentType == (int)SacramentEnum.All)
             {
-                parishioners = _parishionerData.GetParishionersByCommunityId(communityId, isCounted, status, gender);
+                parishioners = _parishionerData.GetParishionersByVicariateId(vicariateId, isCounted, status, gender);
+            }
+            else if (vicariateId != 0 && sacramentType != (int)SacramentEnum.All)
+            {
+                parishioners = _parishionerData.GetParishionersBySacramentTypeAndVicariateId(vicariateId, sacramentType,
+                    isCounted, status);
+            }
+            else if (dioceseId != 0 && sacramentType == (int)SacramentEnum.All)
+            {
+                parishioners = _parishionerData.GetParishionersByDioceseId(dioceseId, isCounted, status, gender);
             }
             else
             {

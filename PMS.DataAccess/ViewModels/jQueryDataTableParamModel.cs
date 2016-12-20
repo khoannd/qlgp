@@ -48,6 +48,9 @@ namespace PMS.DataAccess.ViewModels
 
         public string sSortDir_0 { get; set; }
         public string parishId { get; set; }
+        public string dioceseId { get; set; }
+        public string vicariateId { get; set; }
+        public string communityId { get; set; }
     }
 
     public class jQueryDataTableParam

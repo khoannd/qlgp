@@ -30,7 +30,7 @@ namespace PMS.DataAccess
                 string query = @"SELECT Pa.* 
                                  FROM Parishioner AS Pa 
                                     LEFT JOIN Parish AS P ON Pa.ParishId = P.Id
-                                    LEFT JOIN Community AS C ON C.ParishId = P.Id 
+                                    -- LEFT JOIN Community AS C ON C.ParishId = P.Id 
                                  WHERE P.Id = {0} AND Pa.IsCounted = {1} ";
 
                 if (status == (int)ParishionerStatusEnum.AvailableAndSaved)
@@ -102,7 +102,7 @@ namespace PMS.DataAccess
                 string query = @"SELECT Pa.* 
                                  FROM Parishioner AS Pa 
                                     LEFT JOIN Parish AS P ON Pa.ParishId = P.Id
-                                    LEFT JOIN Community AS C ON C.ParishId = P.Id 
+                                    -- LEFT JOIN Community AS C ON C.ParishId = P.Id 
                                  WHERE P.Id = {0} ";
 
                 if (status == (int)ParishionerStatusEnum.AvailableAndSaved)
@@ -616,11 +616,9 @@ namespace PMS.DataAccess
         {
             if (isCounted.HasValue)
             {
-                string query = "SELECT Pa.* " +
-                           "FROM Parishioner AS Pa LEFT JOIN (Community AS C INNER JOIN (Parish AS P INNER JOIN " +
-                           "(Vicariate AS V INNER JOIN Diocese AS D ON V.DioceseId = D.Id) ON P.VicariateId = V.Id) " +
-                           "ON C.ParishId = P.Id) ON Pa.CommunityId = C.Id " +
-                           "WHERE D.Id = {0} AND Pa.IsCounted = {1} ";
+                string query = @"SELECT Pa.* 
+                           FROM Parishioner AS Pa LEFT JOIN Parish AS P ON Pa.ParishId = P.Id 
+                           WHERE P.DioceseId = {0} AND Pa.IsCounted = {1} ";
 
                 if (status == (int)ParishionerStatusEnum.AvailableAndSaved)
                 {
@@ -691,11 +689,9 @@ namespace PMS.DataAccess
             }
             else
             {
-                string query = "SELECT Pa.* " +
-                           "FROM Parishioner AS Pa LEFT JOIN (Community AS C INNER JOIN (Parish AS P INNER JOIN " +
-                           "(Vicariate AS V INNER JOIN Diocese AS D ON V.DioceseId = D.Id) ON P.VicariateId = V.Id) " +
-                           "ON C.ParishId = P.Id) ON Pa.CommunityId = C.Id " +
-                           "WHERE D.Id = {0} ";
+                string query = @"SELECT Pa.* 
+                           FROM Parishioner AS Pa LEFT JOIN Parish AS P ON Pa.ParishId = P.Id 
+                           WHERE P.DioceseId = {0} AND Pa.IsCounted = {1} ";
 
                 if (status == (int)ParishionerStatusEnum.AvailableAndSaved)
                 {
@@ -2142,6 +2138,68 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<Parishioner>(query, sacramentType, isCounted, status, parishId);
         }
 
+        public IEnumerable<Parishioner> GetParishionersBySacramentTypeAndVicariateId(int vicariateId, int sacramentType,
+            bool isCounted, int status)
+        {
+            string query = "";
+
+            if (sacramentType == (int)SacramentEnum.Matrimony)
+            {
+                query = "SELECT Pa.* " +
+                        "FROM Parishioner AS Pa LEFT JOIN Parish AS P ON Pa.ParishId = P.Id " +
+                        "WHERE Pa.IsMarried = {0} AND Pa.IsSingle = {1} AND Pa.IsCounted = {2} AND Pa.Status = {3} AND P.VicariateId = {4}";
+
+                if (status == (int)ParishionerStatusEnum.Saved)
+                {
+                    query += " UNION " +
+                                 "SELECT Pa.* " +
+                                 "FROM Parishioner AS Pa INNER JOIN ParishionerMigrationRequest AS PMR " +
+                                 "ON Pa.Id = PMR.ParishionerId INNER JOIN Community AS C " +
+                                 "ON PMR.FromCommunityId = C.Id INNER JOIN Parish P ON C.ParishId = P.ParishId " +
+                                 "WHERE P.VicariateId = {4} AND Pa.IsMarried = {0} AND Pa.IsSingle = {1} AND Pa.IsCounted = {2} ";
+                }
+
+                return _db.ExecuteQuery<Parishioner>(query, true, false, isCounted, status, vicariateId);
+            }
+
+            if (sacramentType == (int)SacramentEnum.Vocation)
+            {
+                query = "SELECT Pa.* " +
+                        "FROM (Parishioner AS Pa INNER JOIN Vocation AS V " +
+                        "ON Pa.Id = V.ParishionerId) LEFT JOIN Parish AS P ON Pa.ParishId = P.Id " +
+                        "WHERE Pa.IsCounted = {0} AND Pa.Status = {1} AND P.VicariateId = {2}";
+
+                if (status == (int)ParishionerStatusEnum.Saved)
+                {
+                    query += " UNION " +
+                                 "SELECT Pa.* " +
+                                 "FROM Parishioner AS Pa INNER JOIN ParishionerMigrationRequest AS PMR " +
+                                 "ON Pa.Id = PMR.ParishionerId INNER JOIN Community AS C " +
+                                 "ON PMR.FromCommunityId = C.Id INNER JOIN Vocation AS V ON Pa.Id = V.ParishionerId INNER JOIN Parish P ON C.ParishId = P.Id " +
+                                 "WHERE P.VicariateId = {2} AND Pa.IsCounted = {0}";
+                }
+
+                return _db.ExecuteQuery<Parishioner>(query, isCounted, status, vicariateId);
+            }
+
+            query = "SELECT Pa.* " +
+                    "FROM (Parishioner AS Pa INNER JOIN Sacrament AS S " +
+                    "ON Pa.Id = S.ParishionerId) LEFT JOIN Parish AS P ON C.ParishId = P.Id " +
+                    "WHERE S.Type = {0} AND Pa.IsCounted = {1} AND Pa.Status = {2} AND P.VicariateId = {3}";
+
+            if (status == (int)ParishionerStatusEnum.Saved)
+            {
+                query += " UNION " +
+                             "SELECT Pa.* " +
+                             "FROM Parishioner AS Pa INNER JOIN ParishionerMigrationRequest AS PMR " +
+                             "ON Pa.Id = PMR.ParishionerId INNER JOIN Community AS C " +
+                             "ON PMR.FromCommunityId = C.Id INNER JOIN Sacrament AS S ON Pa.Id = S.ParishionerId INNER JOIN Parish P ON C.ParishId = P.Id " +
+                             "WHERE P.VicariateId = {3} AND S.Type = {0} AND Pa.IsCounted = {1}";
+            }
+
+            return _db.ExecuteQuery<Parishioner>(query, sacramentType, isCounted, status, vicariateId);
+        }
+
         //Them chuyen xu
         public IEnumerable<Parishioner> GetParishionersBySacramentTypeAndCommunityId(int communityId, int sacramentType,
             bool isCounted, int status)
@@ -2333,8 +2391,15 @@ namespace PMS.DataAccess
                     }
                 }
                 updatedParishioner.CreatedDate = parishioner.CreatedDate;
-                updatedParishioner.ParishId = parishioner.ParishId;
-                updatedParishioner.CommunityId = null;
+                if(updatedParishioner.ParishId == 0)
+                {
+                    updatedParishioner.ParishId = null;
+                }
+                //updatedParishioner.ParishId = parishioner.ParishId;
+                if(updatedParishioner.CommunityId == 0)
+                {
+                    updatedParishioner.CommunityId = null;
+                }
                 Tools.CopyPropertiesTo(updatedParishioner, parishioner);
 
                 //parishioner.Code = updatedParishioner.Code;
@@ -2412,9 +2477,15 @@ namespace PMS.DataAccess
                         priest.Name = parishioner.Name;
                         priest.BirthDate = parishioner.BirthDate;
                         priest.Phone = parishioner.MobilePhone;
-                        var parish = _db.Parishes.FirstOrDefault(p => p.Id == updatedParishioner.ParishId);
-                        //priest.DioceseId = parishioner.Community.Parish.Vicariate.DioceseId;
-                        priest.DioceseId = parish.DioceseId;
+                        if(updatedParishioner.ParishId != null)
+                        {
+                            var parish = _db.Parishes.FirstOrDefault(p => p.Id == updatedParishioner.ParishId);
+                            //priest.DioceseId = parishioner.Community.Parish.Vicariate.DioceseId;
+                            if (parish != null)
+                            {
+                                priest.DioceseId = parish.DioceseId;
+                            }
+                        }
                     }
                 }
 

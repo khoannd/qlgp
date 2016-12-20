@@ -20,6 +20,10 @@ namespace PMS.Web.Controllers
         private readonly ConfigurationBusiness _configurationBusiness;
         private readonly ChangeParishBusiness _changeParishBusiness;
         private readonly ParishBusiness _parishBusiness;
+        private readonly VocationBusiness _vocationBusiness;
+        private readonly VaiTroBusiness _vaitroBusiness;
+        private readonly DioceseBusiness _dioceseBusiness = new DioceseBusiness(DbConfig.GetConnectionString());
+        private readonly VicariateBusiness _vicariateBusiness = new VicariateBusiness(DbConfig.GetConnectionString());
 
         public FamilyController()
         {
@@ -27,6 +31,8 @@ namespace PMS.Web.Controllers
             _familyBusiness = new FamilyBusiness(DbConfig.GetConnectionString());
             _configurationBusiness = new ConfigurationBusiness(DbConfig.GetConnectionString());
             _parishBusiness = new ParishBusiness(DbConfig.GetConnectionString());
+            _vocationBusiness = new VocationBusiness(DbConfig.GetConnectionString());
+            _vaitroBusiness = new VaiTroBusiness(DbConfig.GetConnectionString());
         }
         //
         // GET: /Family/
@@ -34,14 +40,22 @@ namespace PMS.Web.Controllers
         public ActionResult Index()
         {
             int parishId = (int)Session["ParishId"];
-            var parish = _parishBusiness.GetAllParish().ToList();
 
             List<Community> communities = _communityBusiness.GetCommunitiesByParishId(parishId);
             List<Community> parishDivisions = _communityBusiness.GetParishDivisionsByParishId(parishId);
 
+            List<Vicariate> vicariates = _vicariateBusiness.getAllVicariate().ToList();
+            List<Parish> parishs = _parishBusiness.GetAllParish().ToList();
+            List<Diocese> dioceses = _dioceseBusiness.GetAllDioceses();
+
             ViewBag.Communities = communities;
             ViewBag.ParishDivisions = parishDivisions;
-            ViewBag.Parishes = parish;
+            ViewBag.Parishes = parishs;
+            ViewBag.Vicariates = vicariates;
+            ViewBag.Dioceses = dioceses;
+
+            ViewBag.VaiTro = _vaitroBusiness.GetAllVaiTro().ToList();
+            ViewBag.TypeCode = _vocationBusiness.GetTypeCodes().ToList();
 
             return View();
         }
@@ -146,7 +160,7 @@ namespace PMS.Web.Controllers
         {
 
             //Them Family vao neu chua co
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
             {
 
                 if (family.Id == 0)

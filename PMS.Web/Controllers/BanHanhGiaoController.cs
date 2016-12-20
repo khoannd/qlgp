@@ -64,7 +64,7 @@ namespace PMS.Web.Controllers
 
         public int AddBanHanhGiao(BanHanhGiao banHanhGiao)
         {
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
             {
                 int result = _banHanhGiaoBusiness.AddBanHanhGiao(banHanhGiao);
 				
@@ -75,7 +75,7 @@ namespace PMS.Web.Controllers
 
         public ActionResult UpdateBanHanhGiao(BanHanhGiao banHanhGiao, List<BanHanhGiaoMember> banHanhGiaoMembers)
         {
-            int result = _banHanhGiaoBusiness.UpdateBanHanhGiao(banHanhGiao, banHanhGiaoMembers);
+            int result = _banHanhGiaoBusiness.UpdateBanHanhGiao(banHanhGiao, banHanhGiaoMembers, PMS.Web.Utilities.PMSCommon.AllowTransaction());
 
             return Json(new { result = result }, JsonRequestBehavior.AllowGet);
         }

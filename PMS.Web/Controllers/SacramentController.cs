@@ -97,7 +97,7 @@ namespace PMS.Web.Controllers
             sacramentGroup.Date = converter.ConvertDateToString(sacramentGroup.Date);
             sacramentGroup.ParishId = parishId;
             int id = sacramentGroup.Id;
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
             {
                 if (id == 0)
                 {
@@ -139,7 +139,7 @@ namespace PMS.Web.Controllers
             sacramentGroup.Date = converter.ConvertDateToString(sacramentGroup.Date);
             sacramentGroup.ParishId = parishId;
             int id = sacramentGroup.Id;
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
             {
                 if (id == 0)
                 {
@@ -185,7 +185,7 @@ namespace PMS.Web.Controllers
         {
 
             //Them Family vao neu chua co
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
             {
                 Matrimony matrimony = _matrimonyBusiness.GetMatrimonyById(matrimonyId);
                 if (matrimony == null)

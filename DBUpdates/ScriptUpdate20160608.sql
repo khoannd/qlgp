@@ -381,8 +381,8 @@ INSERT [dbo].[ValueSet] ([Id], [Code], [Definition], [Note], [Category]) VALUES 
 SET IDENTITY_INSERT [dbo].[ValueSet] OFF
 GO
 INSERT [dbo].[Menu] ([Id], [ScreenId], [Text], [NewWindow], [IconClass], [ParentId], [Position], [Visible], [MenuType], [Link]) VALUES (60, N'/BanHanhGiao/Index', N'Ban hành giáo', 0, N'fa-user', 20, 1005, 1, 1, N'/BanHanhGiao/Index')
-GO
-INSERT [dbo].[ScreenAction] ([Id], [Name], [Enabled]) VALUES (N'/BanHanhGiao/Index', N'Ban hành giáo', 1)
+-- GO
+-- INSERT [dbo].[ScreenAction] ([Id], [Name], [Enabled]) VALUES (N'/BanHanhGiao/Index', N'Ban hành giáo', 1)
 GO
 Update Community SET Name=N'Mặc định' WHERE IsDefault=1;
 

@@ -117,7 +117,7 @@ namespace PMS.Web.Controllers
             thuyenChuyenLinhMuc.NgayHieuLuc = converter.ConvertDateToString(thuyenChuyenLinhMuc.NgayHieuLuc);
             //thuyenChuyenLinhMuc.ParishId = parishId;
             int id = thuyenChuyenLinhMuc.Id;
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
             {
                 if (id == 0)
                 {

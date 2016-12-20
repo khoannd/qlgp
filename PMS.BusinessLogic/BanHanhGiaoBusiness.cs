@@ -81,9 +81,9 @@ namespace PMS.BusinessLogic
             return _banHanhGiaoData.AddBanHanhGiao(banHanhGiao);
         }
 
-        public int UpdateBanHanhGiao(BanHanhGiao banHanhGiao, List<BanHanhGiaoMember> banHanhGiaoMembers)
+        public int UpdateBanHanhGiao(BanHanhGiao banHanhGiao, List<BanHanhGiaoMember> banHanhGiaoMembers, bool useTransaction)
         {
-            return _banHanhGiaoData.UpdateBanHanhGiao(banHanhGiao, banHanhGiaoMembers);
+            return _banHanhGiaoData.UpdateBanHanhGiao(banHanhGiao, banHanhGiaoMembers, useTransaction);
         }
 
         public int DeleteBanHanhGiao(int id)

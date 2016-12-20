@@ -84,7 +84,7 @@ namespace PMS.Web.Controllers
         public int AddParish(Parish parish)
         {
             
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
             {
                 int result = _parishBusiness.AddParish(parish);
 

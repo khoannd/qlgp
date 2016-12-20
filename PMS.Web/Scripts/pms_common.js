@@ -588,7 +588,7 @@ function upperCaseFirstChar(str) {
     return parts.join(" ");
 }
 $(function () {
-    $('input.date-picker').mask("99/99/9999");
+    //$('input.date-picker').mask("99/99/9999");
     $('input.date-picker4').mask("99/99");
     $("input.select-all").click(function () {
         $(this).closest("table").find("tr > td:first-child input[type='checkbox'].sItem").attr("checked", this.checked);

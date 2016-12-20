@@ -69,7 +69,7 @@ namespace PMS.Web.Controllers
 
             //Final value caculation
             float finalValue = InputValue * ExchangeRate;
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
             {
                 //add donation
                 if (donationId == 0)

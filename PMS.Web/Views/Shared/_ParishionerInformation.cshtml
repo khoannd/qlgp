@@ -92,36 +92,36 @@
                                             <div class="widget-body">
                                                 <div class="form-horizontal">
                                                     <div class="col-xs-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right normal-name">
+                                                                Mã
+                                                            </label>
+
+                                                            <div class="col-sm-8">
+                                                                <input id="txtParishionerCode" type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label no-padding-right normal-name">
+                                                                Danh xưng
+                                                            </label>
+                                                            <div class="col-sm-8">
+                                                                <select id="cbbParishionerTitle" class="form-control">
+                                                                    <option value="Cha">Cha</option>
+                                                                    <option value="Ông">Ông</option>
+                                                                    <option value="Bà">Bà</option>
+                                                                    <option value="Anh">Anh</option>
+                                                                    <option value="Chị">Chị</option>
+                                                                    <option value="Ông Cố">Ông Cố</option>
+                                                                    <option value="Bà Cố">Bà Cố</option>
+                                                                    <option value="Sơ">Sơ</option>
+                                                                    <option value="Dì">Dì</option>
+                                                                </select>
+                                                                <label id="lbParishError" class="text-danger" hidden=""></label>
+                                                            </div>
+                                                        </div>
                                                         @if (ViewBag.Dioceses != null && accountBusiness.IsDioceseRole(roleId))
                                                         {
-                                                            <div class="form-group">
-                                                                <label class="col-sm-4 control-label no-padding-right normal-name">
-                                                                    Mã
-                                                                </label>
-
-                                                                <div class="col-sm-8">
-                                                                    <input id="txtParishionerCode" type="text" class="form-control normal-name">
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="col-sm-4 control-label no-padding-right normal-name">
-                                                                    Danh xưng
-                                                                </label>
-                                                                <div class="col-sm-8">
-                                                                    <select id="cbbParishionerTitle" class="form-control">
-                                                                        <option value="Cha">Cha</option>
-                                                                        <option value="Ông">Ông</option>
-                                                                        <option value="Bà">Bà</option>
-                                                                        <option value="Anh">Anh</option>
-                                                                        <option value="Chị">Chị</option>
-                                                                        <option value="Ông Cố">Ông Cố</option>
-                                                                        <option value="Bà Cố">Bà Cố</option>
-                                                                        <option value="Sơ">Sơ</option>
-                                                                        <option value="Dì">Dì</option>
-                                                                    </select>
-                                                                    <label id="lbParishError" class="text-danger" hidden=""></label>
-                                                                </div>
-                                                            </div>
                                                             <div class="form-group">
                                                                 <label class="col-sm-4 control-label no-padding-right"> Giáo phận  (<span style="color:red">*</span>) </label>
                                                                 <div class="col-sm-8">
@@ -965,9 +965,12 @@
                                                             <div class="col-sm-8">
                                                                 <select class="form-control" id="cbbVocationPlace8">
                                                                     <option value=""></option>
-                                                                    @foreach (var item in ((List<Diocese>)ViewBag.Dioceses))
+                                                                    @if (ViewBag.Dioceses != null)
                                                                     {
-                                                                        <option value="@item.Name">@item.Name</option>
+                                                                        foreach (var item in ((List<Diocese>)ViewBag.Dioceses))
+                                                                        {
+                                                                            <option value="@item.Name">@item.Name</option>
+                                                                        }
                                                                     }
                                                                 </select>
                                                             </div>
@@ -1367,7 +1370,7 @@
                 }
     else
     {
-        if(ViewBag.Dioceses != null)
+        if(accountBusiness.IsDioceseRole(roleId))
         {
         @:loadParishionerDiocese();
                     @:loadParishionerVicariate();
@@ -1661,18 +1664,22 @@
             $("#lbParishionerNameError").hide();
             $("#lbParishionerNameError").html("");
         }
-
-        if (!$("#txtParishionerCode").prop("readonly") && !code) {
+        @if (accountBusiness.IsDioceseRole(roleId))
+        {
+            <text>
+            if (!$("#txtParishionerCode").prop("readonly") && !code) {
             $("#lbCodeError").html("Mã giáo dân không được để trống");
             $("#lbCodeError").show();
 
-            document.getElementById("txtParishionerCode").scrollIntoView();
+                document.getElementById("txtParishionerCode").scrollIntoView();
             $("#txtParishionerCode").focus();
 
-            isError = true;
-        } else {
+                isError = true;
+            } else {
             $("#lbCodeError").hide();
             $("#lbCodeError").html("");
+            }
+        </text>
         }
 
         //
@@ -2340,6 +2347,7 @@
                 BirthDate: $("#txtBirthDate").val(),
                 BirthPlace: $("#txtBirthPlace").val(),
                 CommunityId: $("#cbbParishionerCommunity").val(),
+                ParishId: $("#cbbParishionerParish").val(),
                 IsCounted: (!$("#cbIsCounted").is(':checked')),
                 FatherName: $("#txtFatherName").val(),
                 MotherName: $("#txtMotherName").val(),

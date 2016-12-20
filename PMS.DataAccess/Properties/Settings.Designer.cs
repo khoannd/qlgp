@@ -93,7 +93,7 @@ namespace PMS.DataAccess.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.\\SQLExpress;Initial Catalog=QLGP;Integrated Security=True;MultipleAc" +
-            "tiveResultSets=True")]
+            "tiveResultSets=False")]
         public string QLGPConnectionString {
             get {
                 return ((string)(this["QLGPConnectionString"]));

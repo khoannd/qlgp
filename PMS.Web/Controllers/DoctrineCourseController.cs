@@ -162,7 +162,7 @@ namespace PMS.Web.Controllers
         {
             int classId = class1.Id;
 
-            using (var scope = new TransactionScope())
+            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
             {
                 if (classId == 0)
                 {
