@@ -3426,10 +3426,15 @@
     $('img').on('click', function () {
         $('#' + this.id.replace("Thumbnail", "Modal")).modal('show');
     });
-
-    $("#UploadParishinerTarget").on("load", function () {
-        UploadParishionerImage_Complete();
+    var imgLoaded = false;
+    $(document).ready(function () {
+        $("#UploadParishinerTarget").on("load", function () {
+            if (imgLoaded)
+                UploadParishionerImage_Complete();
+            imgLoaded = true;
+        });
     });
+    
 
     function isNumber(evt) {
         evt = (evt) ? evt : window.event;
