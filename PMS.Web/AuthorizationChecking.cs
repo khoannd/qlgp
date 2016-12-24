@@ -25,7 +25,8 @@ namespace PMS.Web
                             /Search/Parishioner, /SearchFamily/Family, /Statistic/Index, /Chart/Index, /Message/CreateMessage,
                             /ParishHome/Index, /Community/Index, /Society/Index,
                             /Parishioner/Index, /Family/Index, /Parishioner/SaveStorage, /Parishioner/PrintPage, /Family/SaveStorage,
-                            /ThuyenChuyenLinhMuc/Index, /ConstructionPermit/Index, /Seminary/Index, /Seminarian/Index, /DeaconRequisition/Index, /Priest/PrintPage";
+                            /ThuyenChuyenLinhMuc/Index, /ConstructionPermit/Index, /Seminary/Index, /Seminarian/Index, /DeaconRequisition/Index, /Priest/PrintPage,
+                            /NewParishioner/Index";
 
             _urlWithIdForAdmin = @"/DeaconRequisitionComment/Index/{Id}";
 

@@ -168,7 +168,7 @@ namespace PMS.Web.Controllers
             int totalRecords = 0;
             int totalDisplayRecords = 0;
 
-            if(//communityId == 0 && parishDivisionId == 0 && sacramentType == 0 &&
+            if (//communityId == 0 && parishDivisionId == 0 && sacramentType == 0 &&
                 deadParishioner == 0 && changeParishParishioner == 0
                 && (param.sSearch == null || param.sSearch == "")
                 && (parishId == 0 && dioceseId == 0 && vicariateId == 0))
@@ -266,7 +266,7 @@ namespace PMS.Web.Controllers
         public int AddParishioner(Parishioner parishioner,
                                           string baptismDate, string baptismNumber, string baptismPlace, string baptismPatron, string baptismGiver,
                                           string holyCommunionDate, string holyCommunionNumber, string holyCommunionPlace, string holyCommunionGiver,
-                                          string confirmationDate, string confirmationNumber, string confirmationPlace, string confirmationPatron, string confirmationGiver, 
+                                          string confirmationDate, string confirmationNumber, string confirmationPlace, string confirmationPatron, string confirmationGiver,
                                           int? DioceseId,
                                           Vocation vocation)
         {
@@ -299,7 +299,7 @@ namespace PMS.Web.Controllers
             int parishId = (int)Session["ParishId"];
             int dioceseId = (int)Session["DioceseId"];
 
-            
+
             // Code Generation       
             DataAccess.Models.Configuration config = _configurationBusiness.GetConfigurationByParishId(parishId, (int)Session["RoleId"]);
             //if (config == null)
@@ -481,7 +481,7 @@ namespace PMS.Web.Controllers
                             return confirmationId;
                         }
                     }
-                    
+
                     //if current parishioner is priest, add priest and update parish manager for the parish which this parishioner serves
                     if (vocation.Position == (int)PMS.DataAccess.Enumerations.VocationEnum.Priest)
                     {
@@ -585,17 +585,19 @@ namespace PMS.Web.Controllers
 
             //Check parish id - Using parsish name
             Parish parish = new Parish();
-            if (!Tools.IsNullOrEmpty(vocation.ServedPlace) && Tools.IsNullOrZero(vocation.ServedId))
+            if (!Tools.IsNullOrEmpty(vocation.ServedPlace) && !Tools.IsNullOrZero(vocation.ServedId))
             {
                 parish = _parishBusiness.GetParishesByParishName(vocation.ServedPlace, 0);
                 if (parish != null)
                 {
                     vocation.ServedId = parish.Id;
+                    vocation.ServedType = parish.Category;
                 }
             }
-            else if(Tools.IsNullOrEmpty(vocation.ServedPlace))
+            else if (Tools.IsNullOrEmpty(vocation.ServedPlace))
             {
                 vocation.ServedId = 0;
+                vocation.ServedType = 0;
             }
 
             int parishId = (int)Session["ParishId"];
@@ -1352,15 +1354,15 @@ namespace PMS.Web.Controllers
             {
                 communityName = ((parishioner.Community.ParentId != null) ? parishioner.Community.Community1.Name : parishioner.Community.Name);
                 parishName = parishioner.Community.Parish.Name;
-                
+
                 communityIdTemp = parishioner.CommunityId;
                 parishionerViewModel.VicariateId = parishioner.Community.Parish.VicariateId;
                 parishionerViewModel.DioceseId = parishioner.Community.Parish.Vicariate.DioceseId;
-                
+
             }
 
             int parishId = parishioner.ParishId.GetValueOrDefault();
-            if(parishId != 0)
+            if (parishId != 0)
             {
                 Parish parish = _parishBusiness.GetParishesByParishId(parishId);
                 parishionerViewModel.ParishId = parishId;
@@ -1369,7 +1371,7 @@ namespace PMS.Web.Controllers
 
             var fileImagePath = ConfigurationManager.AppSettings["ParishionerImageUrl"];
             var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
-            if(!Tools.IsNullOrEmpty(parishioner.ImageUrl))
+            if (!Tools.IsNullOrEmpty(parishioner.ImageUrl))
             {
                 parishionerViewModel.ImageURL = _parishionerBusiness.GetImageUrl(string.Concat(fileImagePath, parishioner.ImageUrl), parishioner.Gender);
                 parishionerViewModel.ThumbnailURL = _parishionerBusiness.GetImageUrl(string.Concat(fileThumbPath, parishioner.ImageUrl), parishioner.Gender);

@@ -71,6 +71,7 @@
     <Compile Include="KhachMoiData.cs" />
     <Compile Include="LetterAndReportData.cs" />
     <Compile Include="MatrimonyData.cs" />
+    <Compile Include="NewParishionerData.cs" />
     <Compile Include="RoleData.cs" />
     <Compile Include="RolePermissionData.cs" />
     <Compile Include="MenuData.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="ViewModels\HDLMViewModel.cs" />
     <Compile Include="ViewModels\KhachMoiViewModel.cs" />
     <Compile Include="ViewModels\LetterAndReportViewModel.cs" />
+    <Compile Include="ViewModels\NewParishionerViewModel.cs" />
     <Compile Include="ViewModels\PriestViewModel.cs" />
     <Compile Include="ViewModels\PrintParishManagerViewModel.cs" />
     <Compile Include="ViewModels\RolePermissionViewModel.cs" />

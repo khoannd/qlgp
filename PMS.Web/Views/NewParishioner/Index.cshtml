@@ -1,0 +1,622 @@
+﻿@using PMS.DataAccess.Models;
+@{
+    ViewBag.Title = "Index";
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <h1>Danh sách giáo dân</h1>
+</div>
+<!-- End Page Header -->
+<!-- Filter -->
+<div class="page-header">
+    <div>
+        <div class="row">
+            <div class="col-xs-2">
+                Dòng tu
+                <select id="cbbVocation_Seminary" class="form-control">
+                    <option value="%">Tất cả</option>
+                </select>
+            </div>
+
+            <div class="col-xs-2">
+                Chức thánh
+                <select id="cbbVocation_SeminaryPosition" class="form-control">
+                    <option value="%">Tất cả</option>
+                    <option value="1">Tu sĩ</option>
+                    <option value="2">Chủng sinh</option>
+                    <option value="3">Phó tế</option>
+                    <option value="4">Linh mục</option>
+                    <option value="5">Giám mục</option>
+                    <option value="6">Khấn trọn</option>
+                    <option value="7">Khác</option>
+                </select>
+            </div>
+            <div class="col-xs-2">
+                Nơi Phục Vụ
+                <select id="cbbVocation_ServedPlace" class="form-control">
+                    <option value="%">Tất cả</option>
+                    @foreach (var item in ((List<Parish>)ViewBag.Parishes))
+            {
+                        <option value="@item.Name">@item.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-xs-2">
+                Vai trò
+                <select id="cbbVocation_ServedRole" class="form-control">
+                    <option value="%">Tất cả</option>
+                    @foreach (var item in ((List<VaiTro>)ViewBag.VaiTro))
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Filter -->
+<!-- Action Menu -->
+<div class="page-header">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="col-sm-12">
+                <!-- Button Show Popup To Add New Parisioner -->
+                <button id="btnCreateParishioner" class="btn btn-success" data-toggle="modal">
+                    <i class="ace-icon fa fa-plus"></i> Thêm giáo dân
+                </button>
+                <!-- End Button Show Popup To Add New Parisioner -->
+                <!-- Button Print Parishioner Card -->
+                <button class="btn btn-info" onclick="printParishioner()">
+                    <i class="ace-icon fa fa-print"></i> In thẻ
+                </button>
+                <!-- End Button Print Parishioner Card -->
+                <!-- Export Priests Information to EXCEL -->
+                <button id="btnExportToExcel" class="btn btn-info" data-toggle="modal">
+                    <i class="ace-icon "></i> Xuất ra Excel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Action Menu -->
+<!-- Page Content -->
+<div class="row">
+    <div class="space-4"></div>
+    <div class="col-xs-12">
+        <div class="space-8"></div>
+        <!-- Table View Parishioner-->
+        <table id="parishionerTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        <label class="position-relative">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </th>
+                    <th filter-type="text" datakey="Code">Mã</th>
+                    <th filter-type="text" datakey="Title">Danh xưng</th>
+                    <th filter-type="text" datakey="PatronDate">Ngày mừng</th>
+                    <th filter-type="select" datakey="ChristianName">Tên thánh</th>
+                    <th filter-type="text" datakey="LastName">Họ lót</th>
+                    <th filter-type="text" datakey="FirstName">Tên</th>
+                    <th datakey="ImageUrl">Hình ảnh</th>
+                    <th filter-type="text" datakey="BirthDay">Ngày sinh</th>
+                    <th filter-type="text" datakey="BirthYear">Năm sinh</th>
+                    <th filter-type="text" datakey="Age">Tuổi</th>
+                    <th filter-type="select" datakey="TypeCode">Mã nhóm</th>
+                    <th filter-type="select" datakey="TypeName">Tên nhóm</th>
+                    <th filter-type="text" datakey="Seminary">Nhà Dòng</th>
+                    <th filter-type="select" datakey="Role">Hiện tại</th>
+                    <th filter-type="select" datakey="ServedPlace">Giáo xứ</th>
+                    <th filter-type="select" datakey="VicariateName">Giáo hạt</th>
+                    <th filter-type="text" datakey="StartDate">Ngày nhận nhiệm vụ</th>
+                    <th filter-type="select" datakey="IsRetired">Hưu/M.vụ</th>
+                    <th filter-type="text" datakey="ServedPhone">Điện thoại bàn</th>
+                    <th filter-type="text" datakey="Phone">Điện thoại DĐ</th>
+                    <th filter-type="text" datakey="ServedAddress">Địa chỉ</th>
+                    <th filter-type="text" datakey="Email">Email</th>
+                    <th filter-type="select" datakey="Diocesan">Dòng/Triều</th>
+                    <th filter-type="text" datakey="Note">Ghi chú</th>
+                    <th filter-type="text" datakey="BaptismDate">Ngày Rửa tội</th>
+                    <th filter-type="text" datakey="BaptismPlace">Nơi rửa tội</th>
+                    <th filter-type="text" datakey="OrdinationDate">Ngày chịu chức</th>
+                    <th filter-type="text" datakey="OrdinationPlace">Tại</th>
+                    <th filter-type="text" datakey="OrdinationBy">Do ĐGM</th>
+                    <th filter-type="text">Thao tác</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr class="filter-row"></tr>
+            </tfoot>
+            <tbody></tbody>
+        </table>
+        <!-- End Table View Parishioner-->
+    </div>
+</div>
+<!-- End Page Content -->
+@Html.Partial("_ParishionerInformation")
+
+<style>
+    .ui-menu .ui-menu-item {
+        white-space: nowrap;
+    }
+
+    #parishionerTable tfoot {
+        display: table-header-group !important;
+    }
+
+    tr.filter-row input, tr.filter-row select {
+        width: 70px;
+    }
+
+    #filter_Title {
+        width: 50px;
+    }
+
+    #filter_ServedAddress {
+        width: 200px;
+    }
+
+    #filter_TypeName {
+        width: 150px;
+    }
+
+    #filter_Note {
+        width: 200px;
+    }
+
+    #filter_LastName {
+        width: 100px;
+    }
+
+    #filter_ServedPhone, #filter_Phone {
+        width: 100px;
+    }
+
+    #filter_PatronDate, #filter_BirthYear, #filter_Age {
+        width: 40px;
+    }
+
+    #filter_ChristianName {
+        width: 100px;
+    }
+
+    #filter_undefined {
+        width: 120px;
+        visibility: hidden;
+    }
+
+    #filter_OrdinationBy {
+        width: 200px;
+    }
+
+    #filter_Email {
+        width: 150px;
+    }
+
+    #filter_BaptismPlace {
+        width: 150px;
+    }
+
+    #filter_OrdinationPlace {
+        width: 150px;
+    }
+</style>
+
+<script>
+    $("#cbbVocation_Seminary").change(function () {
+        updateTableContent("parishionerTable");
+    });
+    $("#cbbVocation_SeminaryPosition").change(function () {
+        updateTableContent("parishionerTable");
+    });
+    $("#cbbVocation_ServedPlace").change(function () {
+        updateTableContent("parishionerTable");
+    });
+    $("#cbbVocation_ServedRole").change(function () {
+        updateTableContent("parishionerTable");
+    });
+
+
+    InitDatatable();
+    initializeFilter("#parishionerTable");
+    function getFilterGridData(d) {
+        var data = {};
+        $(d.columns).each(function (i, v) {
+            if (typeof v["search"]["value"] != 'undefined' && v["search"]["value"]) {
+                //data.push(v["data"], v["search"]["value"]);
+                //data.push({[v["data"]]: v["search"]["value"]});
+                if (v["data"] == "PatronDate") {
+                    data[v["data"]] = v["search"]["value"].replace("/", "");
+                }
+                else {
+                    data[v["data"]] = v["search"]["value"];
+                }
+
+            }
+            if (d.order && v["data"]) {
+                if (d.order[0]["column"] == i) {
+                    data["__sort"] = v["data"] + "|" + d.order[0]["dir"];
+                }
+            }
+        });
+        return data;
+    }
+    //Function LoadDataTable
+    function addEditLink(id, text) {
+        var content = '<a class="pointer bold" onclick="loadParishionerById(' + id + ')">' + text + '</a>';
+        return content;
+    }
+    var d2;
+    function InitDatatable() {
+        var table = $("#parishionerTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "pageLength": 10,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Tất cả"]],
+            "ajax": {
+                "url": "/NewParishioner/LoadParishionerDatatable",
+                "type": "POST",
+                "data": function (d) {
+                    d2 = d;
+                    if ($('#cbbDiocese').length !== 0) d.dioceseId = $('#cbbDiocese').val();
+                    if ($('#cbbVicariate').length !== 0) d.vicariateId = $('#cbbVicariate').val();
+                    if ($('#cbbParish').length !== 0) d.ParishId = $('#cbbParish').val();
+                    d.seminary = $('#cbbVocation_Seminary').val();
+                    d.seminaryPosition = $('#cbbVocation_SeminaryPosition').val();
+                    d.servedPlace = $('#cbbVocation_ServedPlace').val();
+                    d.vocationServedRole = $('#cbbVocation_ServedRole').val();
+                    d.data = getFilterGridData(d);
+                }
+            },
+            "oLanguage": {
+                "sSearch": "Tên linh mục",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "columns": [
+            {
+                "data": "ParishionerId",
+                "render": function (data, type, full, meta) {
+                    var content = '<label class="position-relative">' +
+                        '<input type="checkbox" class="ace pItem" value="' + data + '" stype=""/>' +
+                        '<span class="lbl"></span> </label>';
+                    return content;
+                },
+                "bSortable": false
+            },
+            {
+                "data": "Code"
+            },
+            { "data": "Title", "bSortable": false },
+            { "data": "PatronDate" },
+            {
+                "data": "ChristianName", "render": function (data, type, full, meta) {
+                    var content = addEditLink(full.ParishionerId, data);
+                    return content;
+                }
+            },
+            {
+                "data": "LastName", "render": function (data, type, full, meta) {
+                    var content = addEditLink(full.ParishionerId, data);
+                    return content;
+                }
+            },
+            {
+                "data": "FirstName", "render": function (data, type, full, meta) {
+                    var content = addEditLink(full.ParishionerId, data);
+                    return content;
+                }
+            },
+            {
+                "data": "ThumbnailURL",
+                "render": function (data, type, full, meta) {
+                    if (data && data.lastIndexOf("/") != data.length - 1) {
+                        var content = '<img class="" src="' + data + '" style="width: 35px;height:45px" />';
+                        return content;
+                    }
+                    return "[No Image]";
+                },
+                "sortable": false,
+                "sWidth": "15%"
+            },
+            { "data": "BirthDate" },
+            { "data": "BirthYear", "bSearchable": true },
+            { "data": "Age" },
+            { "data": "TypeCode" },
+            { "data": "TypeName" },
+
+            { "data": "Seminary" },
+            { "data": "Role" },
+            { "data": "ServedPlace" },
+            { "data": "VicariateName" },
+            { "data": "StartDate" },
+            {
+                "data": "IsRetired", "render": function (data, type, full, meta) {
+                    var content = (data == 1 ? 'Hưu' : 'Mục vụ');
+                    return content;
+                }
+            },
+            { "data": "ServedPhone", "bSortable": false },
+            { "data": "Phone", "bSortable": false },
+            { "data": "ServedAddress" },
+            { "data": "Email" },
+            {
+                "data": "Diocesan", "render": function (data, type, full, meta) {
+                    var content = (data == 1 ? 'Triều' : 'Dòng');
+                    return content;
+                }
+            },
+            { "data": "Note" },
+            { "data": "BaptismDate" },
+            { "data": "BaptismPlace" },
+            { "data": "OrdinationDate" },
+            { "data": "OrdinationPlace" },
+            { "data": "OrdinationBy" },
+            {
+                "data": "ParishionerId",
+                "render": function (data, type, full, meta) {
+                    var content = '<button class="btn btn-minier btn-primary" onclick="loadParishionerById(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                        '<button class="btn btn-minier btn-danger" onclick="deleteParishioner(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                    return content;
+                },
+                "bSortable": false,
+                "sWidth": "15%"
+            },
+            ],
+            "bAutoWidth": false,
+            initComplete: function () {
+
+            }
+        });
+    }
+
+    function initializeFilter(tableSelector) {
+        // DataTable
+        var table = $(tableSelector).DataTable();
+
+        // Setup - add a text input to each footer cell
+        $(tableSelector + ' thead th').each(function () {
+            var th = $("<th></th>");
+            $(tableSelector + ' tfoot tr.filter-row').append(th);
+            var title = $(this).text();
+            var type = $(this).attr('filter-type');
+            var key = $(this).attr('datakey');
+            if (!type) {
+                return;
+            }
+            if (type == 'select') {
+                var column = this;
+                var select = $('<select id="filter_' + key + '" title="Lọc theo ' + title + '"><option value=""></option></select>');
+                th.html(select);
+            }
+            else {
+                th.html('<input type="text" id="filter_' + key + '" title="Lọc theo ' + title + '" />');
+            }
+        });
+
+        // fill data for filter dropdowns
+        // cha dong, cha trieu
+
+        $("#filter_Diocesan").html('<option value=""></option><option value="1">Cha triều</option><option value="0">Cha dòng</option>');
+        $("#filter_IsRetired").html('<option value=""></option><option value="1">Nghỉ hưu</option><option value="0">Mục vụ</option>');
+        // fill data for other dropdown
+        $.get("/Priest/GetFilterParams", function (res) {
+            if (res.positions) {
+                $("#filter_Role").html('<option value=""></option>');
+                $(res.positions).each(function (k, v) {
+                    $("#filter_Role").append('<option value="' + v + '">' + v + '</option>');
+                });
+            }
+            if (res.christianNames) {
+                $("#filter_ChristianName").html('<option value=""></option>');
+                $(res.christianNames).each(function (k, v) {
+                    $("#filter_ChristianName").append('<option value="' + v + '">' + v + '</option>');
+                });
+            }
+            if (res.parishes) {
+                $("#filter_ServedPlace").html('<option value=""></option>');
+                $(res.parishes).each(function (k, v) {
+                    $("#filter_ServedPlace").append('<option value="' + v.Name + '">' + v.Name + '</option>');
+                });
+            }
+            if (res.vicariates) {
+                $("#filter_VicariateName").html('<option value=""></option>');
+                $(res.vicariates).each(function (k, v) {
+                    $("#filter_VicariateName").append('<option value="' + v.Name + '">' + v.Name + '</option>');
+                });
+            }
+            if (res.typeCodes) {
+                $("#filter_TypeCode").html('<option value=""></option>');
+                $(res.typeCodes).each(function (k, v) {
+                    $("#filter_TypeCode").append('<option value="' + v.Code + '">' + v.Code + '</option>');
+                });
+                $("#filter_TypeName").html('<option value=""></option>');
+                $(res.typeCodes).each(function (k, v) {
+                    $("#filter_TypeName").append('<option value="' + v.Definition + '">' + v.Definition + '</option>');
+                });
+            }
+        }, 'json');
+
+        // Apply the search
+        table.columns().each(function () {
+            var that = this;
+
+            $(tableSelector + ' tfoot tr.filter-row th input').on('change', function () {
+                var col = table.column($(this).parent().index() + ':visible');
+                col.search(this.value).draw();
+            });
+            $(tableSelector + ' tfoot tr.filter-row th select').on('change', function () {
+                var col = table.column($(this).parent().index() + ':visible');
+                col.search(this.value).draw();
+            });
+        });
+
+        $(tableSelector + " input.ace").click(function () {
+            $(tableSelector + " input.pItem").attr("checked", this.checked);
+        });
+    }
+
+    //Fuction Load Parishioner By Id to Update
+    function loadParishionerById(id) {
+        showParishionerInfo(id);
+    }
+
+    function showParishionerInfo(id) {
+        loadFullParishionerInfo(id);
+        $("#parishionerInformationModal").on("hidden.bs.modal", function () {
+            refeshTable();
+        });
+    }
+    //Function refesh Table
+    function refeshTable() {
+        updateTableContent("parishionerTable");
+    }
+
+    //Function Delete Confirm Priest
+    function deleteParishioner(id) {
+        var message = "<p>Bạn muốn xóa vĩnh viễn giáo dân được chọn không?</p>";
+        bootbox.dialog({
+            closeButton: false,
+            message: message,
+            title: "Xác nhận xóa",
+            buttons: {
+                save: {
+                    label: " Đưa vào hồ sơ lưu trữ",
+                    className: "ace-icon fa fa-save btn-primary",
+                    callback: function () {
+                        changeParishionerStatus(id, 0, false);
+                    }
+                },
+                danger: {
+                    label: " Xóa vĩnh viễn",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        changeParishionerStatus(id, -1, false);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+
+                    }
+                }
+            }
+        });
+    }
+
+    //Function Change Parishioner Status
+    function changeParishionerStatus(id, status, isForced) {
+        startLoading();
+        $.ajax({
+            url: "/Parishioner/ChangeParishionerStatus",
+            type: "POST",
+            data: {
+                id: id,
+                status: status,
+                isForced: isForced
+            },
+            success: function (data) {
+                if (data > 0) {
+                    if (status == 0) {
+                        showMessage("Đưa giáo dân vào hồ sơ lưu trữ thành công", 1);
+                    } else if (status == -1) {
+                        showMessage("Xóa giáo dân thành công", 1);
+                    } else {
+                        showMessage("Phục hồi giáo dân thành công", 1);
+                    }
+                    updateTableContent("parishionerTable");
+                } else {
+
+                    if (status == 0) {
+                        showMessage("Đưa giáo dân vào hồ sơ lưu trữ thất bại, vui lòng thử lại sau", 0);
+                    }
+                    else if (data == -3) {
+                        ////Cho nay xem coi phai manager ko thi confirm lan nua con ko thi thoi
+                        showMessage("Không thể xóa giáo dân đang được sử dụng ở những thông tin khác (hội đoàn, gia đình, giáo lý, hôn phối)", -1, 6000);
+                    }
+                    else if (data == -2) {
+                        confirmAgainToSureRestore(id);
+                    }
+                    else if (data == -4) {
+                        showMessage("Không thể phục hồi giáo dân đang chờ chuyển xứ, vui lòng hủy thông tin chuyển xứ để có thể phục hồi giáo dân này", -1, 6000);
+                    }
+                    else if (data == -5) {
+                        showMessage("Không thể xóa giáo dân đang chờ chuyển xứ, vui lòng hủy thông tin chuyển xứ để có thể xóa giáo dân này", -1, 6000);
+                    }
+                    else {
+                        showMessage("Xóa giáo dân thất bại, vui lòng thử lại sau", 0);
+                    }
+                }
+            },
+        });
+    }
+
+    //Function Add New Parishioner
+    $("#btnCreateParishioner").click(function () {
+        $("#parishionerInformationModal").modal('show');
+    });
+
+    //Function Export To Excel
+    $("#btnExportToExcel").click(function (e) {
+        $.ajax({
+            url: "/NewParishioner/ExportExcel",
+            type: "POST",
+            data: {
+                ParishId: d2.ParishId,
+                VicariateId: d2.VicariateId,
+                Columns: d2.columns,
+                Data: d2.data,
+                Draw: d2.draw,
+                Length: -1,
+                Order: d2.order,
+                Search: d2.search,
+                Start: d2.start,
+                seminary : $('#cbbVocation_Seminary').val(),
+                seminaryPosition : $('#cbbVocation_SeminaryPosition').val(),
+                servedPlace : $('#cbbVocation_ServedPlace').val(),
+                vocationServedRole : $('#cbbVocation_ServedRole').val(),
+            },
+            success: function (res) {
+                if (res && res.fileName) {
+                    window.location.href = "/exports/" + res.fileName;
+                }
+            }
+        });
+    });
+
+    //Function Print Priest
+    function printParishioner() {
+        var checks = new Array();
+        $(".pItem:checked").each(function () {
+            if ($(this).is(':checked')) {
+                checks.push($(this).val());
+            }
+        });
+        if (checks.length > 0) {
+            var ids = sessionStorage.getItem("ids");
+            if (ids == null) {
+                sessionStorage.setItem("ids", JSON.stringify(checks));
+            } else {
+                sessionStorage.setItem("ids", JSON.stringify(checks));
+            }
+            var url = "/NewParishioner/PrintPage";
+            window.open(url, '_blank');
+        } else {
+            showMessage("Vui lòng chọn ít nhất một giáo dân để thực hiện in chứng nhận", -1);
+        }
+    }
+</script>
