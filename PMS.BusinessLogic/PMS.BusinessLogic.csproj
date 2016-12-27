@@ -54,7 +54,6 @@
     <Compile Include="ChangeParishBusiness.cs" />
     <Compile Include="ChartBusiness.cs" />
     <Compile Include="ChristianNameBusiness.cs" />
-    <Compile Include="NewParishionerBusiness.cs" />
     <Compile Include="RoleBusiness.cs" />
     <Compile Include="RolePermissionBusiness.cs" />
     <Compile Include="MenuBusiness.cs" />
@@ -100,6 +99,7 @@
     <Compile Include="ValueSetBusiness.cs" />
     <Compile Include="VicariateBusiness.cs" />
     <Compile Include="VocationBusiness.cs" />
+    <Compile Include="VocationFilterBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PMS.DataAccess\PMS.DataAccess.csproj">

@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace PMS.BusinessLogic
 {
-    public class NewParishionerBusiness
+    public class VocationFilterBusiness
     {
-        private readonly NewParishionerData _newParishionerData;
+        private readonly VocationFilterData _vocationFilterData;
         private string connectionString = "";
 
-        public NewParishionerBusiness(string connection)
+        public VocationFilterBusiness(string connection)
         {
-            _newParishionerData = new NewParishionerData(connection);
+            _vocationFilterData = new VocationFilterData(connection);
             connectionString = connection;
         }
 
-        public List<NewParishionerViewModel> GetOrderedParishionersByParamsAndPaging(jQueryDataTableParam param, out int totalRecords, out int totalDisplayRecords,
+        public List<VocationFilterViewModel> GetOrderedParishionersByParamsAndPaging(jQueryDataTableParam param, out int totalRecords, out int totalDisplayRecords,
                                                                                         string seminary, string seminaryPosition, string servedPlace, string vocationServedRole)
         {
             string searchValue = param.search["value"];
@@ -88,17 +88,17 @@ namespace PMS.BusinessLogic
                     }
                 }
             }
-            strCondition = string.Concat(strCondition, " AND ", "Seminary", " LIKE '", seminary, "'");
+            strCondition = string.Concat(strCondition, " AND ", "Seminary", " LIKE N'", seminary, "'");
             strCondition = string.Concat(strCondition, " AND ", "Position", " LIKE '", seminaryPosition, "'");
-            strCondition = string.Concat(strCondition, " AND ", "ServedPlace", " LIKE '", servedPlace, "'");
+            strCondition = string.Concat(strCondition, " AND ", "ServedPlace", " LIKE N'", servedPlace, "'");
             strCondition = string.Concat(strCondition, " AND ", "RoleId", " LIKE '", vocationServedRole, "'");
 
             //Load Data
-            IEnumerable<NewParishionerViewModel> parishioners;
-            parishioners = _newParishionerData.GetParishionersByDioceseId(strCondition, args, orderBy, orderDir).ToList();
+            IEnumerable<VocationFilterViewModel> parishioners;
+            parishioners = _vocationFilterData.GetParishionersByDioceseId(strCondition, args, orderBy, orderDir).ToList();
 
 
-            IEnumerable<NewParishionerViewModel> filteredListItems;
+            IEnumerable<VocationFilterViewModel> filteredListItems;
             if (!string.IsNullOrEmpty(searchValue))
             {
                 searchValue = searchValue.Trim().ToLower();
@@ -109,7 +109,7 @@ namespace PMS.BusinessLogic
                 filteredListItems = parishioners;
             }
             //Paging
-            IEnumerable<NewParishionerViewModel> displayedList = null;
+            IEnumerable<VocationFilterViewModel> displayedList = null;
             var list = filteredListItems.ToList();
             int records = list.Count;
             if (displayLength > 0)

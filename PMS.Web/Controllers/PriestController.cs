@@ -53,6 +53,7 @@ namespace PMS.Web.Controllers
             ViewBag.Vicariates = _vicariateBusiness.getAllVicariate().ToList();
             ViewBag.Dioceses = _dioceseBusiness.GetAllDioceses();
             ViewBag.Parishes = _parishBusiness.GetAllParish().ToList();
+            ViewBag.Seminary = _parishBusiness.GetParishFilter().ToList();
 
             ViewBag.VaiTro = _vaitroBusiness.GetAllVaiTro().ToList();
             ViewBag.TypeCode = _vocationBusiness.GetTypeCodes().ToList();

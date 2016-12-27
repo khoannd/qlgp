@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PMS.DataAccess.ViewModels
 {
-    public class NewParishionerViewModel
+    public class VocationFilterViewModel
     {
         public int Id { get; set; }
         public string ChristianName { get; set; }

@@ -200,5 +200,9 @@ namespace PMS.BusinessLogic
             return _parishData.SearchParishByKeyword(keyword, start, length);
         }
 
+        public IEnumerable<Parish> GetParishFilter()
+        {
+            return _parishData.GetParishFilter();
+        }
     }
 }

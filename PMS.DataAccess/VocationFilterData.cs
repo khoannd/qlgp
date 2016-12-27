@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace PMS.DataAccess
 {
-    public class NewParishionerData
+    public class VocationFilterData
     {
         private readonly PMSDataContext _db;
 
-        public NewParishionerData(string connection)
+        public VocationFilterData(string connection)
         {
             _db = new PMSDataContext(connection);
         }
 
-        public IEnumerable<NewParishionerViewModel> GetParishionersByDioceseId(string conditionString, List<object> args, string orderBy, string orderDir)
+        public IEnumerable<VocationFilterViewModel> GetParishionersByDioceseId(string conditionString, List<object> args, string orderBy, string orderDir)
         {
             string query = @"SELECT a.*
 FROM (
-	SELECT pa.Id, pa.ChristianName, pa.Name, pa.BirthDate, pa.MobilePhone AS Phone, pa.Id AS ParishionerId, pa.Code, pa.PatronDate, pa.Email, pa.ImageUrl,
+	SELECT pa.Id, pa.Title, pa.ChristianName, pa.Name, pa.BirthDate, pa.MobilePhone AS Phone, pa.Id AS ParishionerId, pa.Code, pa.PatronDate, pa.Email, pa.ImageUrl,
     LEFT(pa.Name, LEN(pa.Name) - CHARINDEX(' ',REVERSE(pa.Name))) AS LastName, 
 	IIF(CHARINDEX(' ', pa.Name) <> 0, RIGHT(pa.Name, CHARINDEX(' ', REVERSE(pa.Name)) - 1), '') AS FirstName,
 	v.Seminary, v.TypeCode, vs1.Definition AS TypeName, IIF(v.IsRetired IS NULL, 0, v.IsRetired) AS IsRetired,
@@ -33,8 +33,8 @@ FROM (
 	v.ServedRole AS RoleId, v.Position, vt.Name AS Role, v.Note, v.Date8 AS OrdinationDate, v.Place8 AS OrdinationPlace, v.Giver8 AS OrdinationBy,
     sa.Date AS BaptismDate, sa.ReceivedPlace AS BaptismPlace
 	FROM Parishioner pa
+	INNER JOIN Vocation v ON pa.Id = v.ParishionerId
 	LEFT JOIN Sacrament sa ON sa.ParishionerId = pa.Id AND sa.Type=1
-	LEFT JOIN Vocation v ON pa.Id = v.ParishionerId
 	LEFT JOIN ValueSet vs1 ON vs1.Code = v.TypeCode AND vs1.Category = 'SEMINARYTAG'
 	LEFT JOIN VaiTro vt ON v.ServedRole = vt.Id
 	LEFT JOIN Parish p ON v.ServedId = p.Id
@@ -44,7 +44,8 @@ FROM (
 
 WHERE 1=1 " + (!string.IsNullOrEmpty(conditionString) ? conditionString : "") + (orderBy != "" ? " ORDER BY " + orderBy + " " + orderDir : "")
     ;
-            return _db.ExecuteQuery<NewParishionerViewModel>(query, args.ToArray());
+            return _db.ExecuteQuery<VocationFilterViewModel>(query, args.ToArray());
         }
     }
+    
 }

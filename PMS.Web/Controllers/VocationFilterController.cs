@@ -1,6 +1,5 @@
 ﻿using OfficeOpenXml;
 using PMS.BusinessLogic;
-using PMS.DataAccess.Models;
 using PMS.DataAccess.ViewModels;
 using PMS.Web.Filters;
 using System;
@@ -13,28 +12,37 @@ using System.Web.Mvc;
 
 namespace PMS.Web.Controllers
 {
-    public class NewParishionerController : Controller
+    public class VocationFilterController : Controller
     {
-        // GET: NewParishioner
+        // GET: VocationFilter
         private readonly ParishBusiness _parishBusiness;
         private readonly VaiTroBusiness _vaitroBusiness;
-        private readonly NewParishionerBusiness _newParishionerBusiness;
+        private readonly VocationFilterBusiness _vocationFilterBusiness;
         private readonly ParishionerBusiness _parishionerBusiness;
         private readonly VocationBusiness _vocationBusiness;
+        private readonly DioceseBusiness _dioceseBusiness;
+        private readonly VicariateBusiness _vicariateBusiness;
+        private readonly ValueSetBusiness _valuesetBusiness;
 
-        public NewParishionerController()
+        public VocationFilterController()
         {
             _parishBusiness = new ParishBusiness(DbConfig.GetConnectionString());
             _vaitroBusiness = new VaiTroBusiness(DbConfig.GetConnectionString());
-            _newParishionerBusiness = new NewParishionerBusiness(DbConfig.GetConnectionString());
+            _vocationFilterBusiness = new VocationFilterBusiness(DbConfig.GetConnectionString());
             _parishionerBusiness = new ParishionerBusiness(DbConfig.GetConnectionString());
             _vocationBusiness = new VocationBusiness(DbConfig.GetConnectionString());
+            _dioceseBusiness = new DioceseBusiness(DbConfig.GetConnectionString());
+            _vicariateBusiness = new VicariateBusiness(DbConfig.GetConnectionString());
+            _valuesetBusiness = new ValueSetBusiness(DbConfig.GetConnectionString());
         }
         public ActionResult Index()
         {
             ViewBag.Parishes = _parishBusiness.GetAllParish().ToList();
             ViewBag.VaiTro = _vaitroBusiness.GetAllVaiTro().ToList();
             ViewBag.TypeCode = _vocationBusiness.GetTypeCodes().ToList();
+            ViewBag.Dioceses = _dioceseBusiness.GetAllDioceses().ToList();
+            ViewBag.Vicariates = _vicariateBusiness.getAllVicariate().ToList();
+            ViewBag.Seminary = _parishBusiness.GetParishFilter().ToList();
             return View();
         }
 
@@ -45,7 +53,7 @@ namespace PMS.Web.Controllers
             int totalDisplayRecords = 0;
             param.DioceseId = dioceseId;
 
-            var result = _newParishionerBusiness.GetOrderedParishionersByParamsAndPaging(param, out totalRecords, out totalDisplayRecords,
+            var result = _vocationFilterBusiness.GetOrderedParishionersByParamsAndPaging(param, out totalRecords, out totalDisplayRecords,
                                 seminary, seminaryPosition, servedPlace, vocationServedRole);
 
             var fileThumbPath = ConfigurationManager.AppSettings["ParishionerThumbnailUrl"];
@@ -82,7 +90,7 @@ namespace PMS.Web.Controllers
             param.search = Search;
             param.start = Start;
 
-            var result = _newParishionerBusiness.GetOrderedParishionersByParamsAndPaging(param, out totalRecords, out totalDisplayRecords,
+            var result = _vocationFilterBusiness.GetOrderedParishionersByParamsAndPaging(param, out totalRecords, out totalDisplayRecords,
                                 seminary, seminaryPosition, servedPlace, vocationServedRole);
             string sheetName = "Danh sách Linh Mục";
             ExcelPackage p = new ExcelPackage();
@@ -188,7 +196,7 @@ namespace PMS.Web.Controllers
 
             List<PriestViewModel> result = _parishionerBusiness.PrintPriest(parishId, ids);
 
-            StreamReader reader = new StreamReader(Server.MapPath("\\Views\\Priest\\_templateParishionerCard.html"));
+            StreamReader reader = new StreamReader(Server.MapPath("\\Views\\VocationFilter\\_templateParishionerCard.html"));
             string readFile = reader.ReadToEnd();
             reader.Close();
 

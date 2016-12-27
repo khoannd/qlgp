@@ -89,6 +89,12 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<Parish>(query, 0);
         }
 
+        public IEnumerable<Parish> GetParishFilter()
+        {
+            const string query = "SELECT * FROM Parish p WHERE p.Category IN ('1', '4', '5', '9', '11') ORDER BY p.Name";
+            return _db.ExecuteQuery<Parish>(query, 0);
+        }
+
         public IEnumerable<PriestViewModel> GetPriestsManageParish(int parishId)
         {
             string query = @"SELECT p.* 

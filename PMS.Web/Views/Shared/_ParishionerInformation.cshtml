@@ -65,7 +65,7 @@
                                     </a>
                                 </li>
 
-                                <li class="not-priest">
+                                <li class="not-priest not-vocation-filter">
                                     <a id="matrimonyLink" onclick="messageToAdd(0)" data-toggle="tab" href="#matrimonyTab">
                                         <i class="ace-icon fa fa-heart bigger-120"></i>
                                         Hôn phối
@@ -1024,7 +1024,14 @@
                                                         <div class="form-group">
                                                             <label class="col-sm-4 control-label no-padding-right"> Dòng tu/ĐCV </label>
                                                             <div class="col-sm-8">
-                                                                <input type="text" id="txtSeminary" class="form-control normal-name">
+                                                                <select id="cbbSeminary" class="form-control">
+                                                                    <option value="0"></option>
+                                                                    @foreach (var item in ((List<Parish>)ViewBag.Seminary))
+                                                                    {
+                                                                        <option value="@item.Id">@item.Name</option>
+                                                                    }
+                                                                </select>
+
                                                             </div>
                                                         </div>
 
@@ -1801,6 +1808,8 @@
                 ServedId: $("#cbbServedPlace").val(),
                 Position: $("#cbbSeminaryPosition").val(),
                 Diocesan: ($("#cbbVocationDiocesan").val() == 1) ? true : false,
+                Seminary: $("#txtSeminary").val(),
+                SeminaryId: $("#cbbSeminary").val(),
             },
             success: function (data) {
                 if (data > 0) {
@@ -2073,6 +2082,8 @@
         $("#txtServedPlace").val("");
         $("#cbbServedPlace").val("");
         $("#cbbVocationDiocesan").val("");
+        $("#txtSeminary").val("");
+        $("#cbbSeminary").val("");
     }
 
     function checkParishionerCodeGeneration() {
@@ -2402,6 +2413,7 @@
                 Date8: $("#txtDate8").val(),
                 Date9: $("#txtDate9").val(),
                 Seminary: $("#txtSeminary").val(),
+                SeminaryId: $("#cbbSeminaryId").val(),
                 SeminaryAddress: $("#txtSeminaryAddress").val(),
                 Position: $("#cbbSeminaryPosition").val(),
                 ServedPlace: $("#txtServedPlace").val(),
@@ -3372,7 +3384,7 @@
                     $("#txtDate8").val(vocation.Date8);
                     $("#txtDate9").val(vocation.Date9);
 
-                    $("#txtSeminary").val(vocation.Seminary);
+                    $("#cbbSeminary").val(vocation.Seminary);
                     $("#cbbSeminaryPosition").val(vocation.Position);
                     $("#txtSeminaryAddress").val(vocation.SeminaryAddress);
                     $("#txtServedPlace").val(vocation.ServedPlace);
@@ -3390,6 +3402,9 @@
                     $("#cbbVocationTypeCode").val(vocation.TypeCode);
                     $("#cbbVocationTypeCode").change();
                     $("#txtVoCationServedStartDate").val(vocation.ServedStartDate);
+
+                    $("#txtSeminary").val(vocation.Seminary);
+                    $("#cbbSeminary").val(vocation.SeminaryId);
 
                     if (data.vocation.Diocesan) {
                         $("#cbbVocationDiocesan").val(1);
@@ -3606,6 +3621,87 @@
         },
     });
     $("#cbbServedPlace").combobox();
+
+    //auto complete Parishioner Seminary
+    $.widget("custom.combobox", {
+        _create: function () {
+            this.wrapper = $("<div>")
+              .addClass("input-group")
+              .insertAfter(this.element);
+
+            this.element.hide();
+            this._createAutocomplete();
+            this._createShowAllButton();
+        },
+
+        _createAutocomplete: function () {
+            var selected = this.element.children(":selected"),
+              value = selected.val() ? selected.text() : "";
+
+            this.input = $("<input>")
+              .appendTo(this.wrapper)
+              .val(value)
+              .addClass("form-control")
+              .attr("id", "txtSeminary")
+              .autocomplete({
+                  delay: 0,
+                  minLength: 0,
+                  source: $.proxy(this, "_source")
+              })
+              .tooltip({
+                  classes: {
+                      "ui-tooltip": "ui-state-highlight"
+                  }
+              });
+
+            this._on(this.input, {
+                autocompleteselect: function (event, ui) {
+                    ui.item.option.selected = true;
+                    this._trigger("select", event, {
+                        item: ui.item.option
+                    });
+                }
+            });
+        },
+
+        _createShowAllButton: function () {
+            var input = this.input,
+              wasOpen = false;
+
+            $("<span>")
+                .appendTo(this.wrapper)
+                .addClass("input-group-addon")
+                .append("<i class='fa fa-caret-down bigger-110'></i>")
+                .on("mousedown", function () {
+                    wasOpen = input.autocomplete("widget").is(":visible");
+                })
+                .on("click", function () {
+                    input.trigger("focus");
+
+                    // Close if already visible
+                    if (wasOpen) {
+                        return;
+                    }
+
+                    // Pass empty string as value to search for, displaying all results
+                    input.autocomplete("search", "");
+                });
+        },
+
+        _source: function (request, response) {
+            var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), "i");
+            response(this.element.children("option").map(function () {
+                var text = $(this).text();
+                if (this.value && (!request.term || matcher.test(text)))
+                    return {
+                        label: text,
+                        value: text,
+                        option: this
+                    };
+            }));
+        },
+    });
+    $("#cbbSeminary").combobox();
 
     jQuery(function ($) {
         $('.date-picker4').datepicker({

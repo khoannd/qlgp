@@ -71,7 +71,6 @@
     <Compile Include="KhachMoiData.cs" />
     <Compile Include="LetterAndReportData.cs" />
     <Compile Include="MatrimonyData.cs" />
-    <Compile Include="NewParishionerData.cs" />
     <Compile Include="RoleData.cs" />
     <Compile Include="RolePermissionData.cs" />
     <Compile Include="MenuData.cs" />
@@ -124,7 +123,6 @@
     <Compile Include="ViewModels\HDLMViewModel.cs" />
     <Compile Include="ViewModels\KhachMoiViewModel.cs" />
     <Compile Include="ViewModels\LetterAndReportViewModel.cs" />
-    <Compile Include="ViewModels\NewParishionerViewModel.cs" />
     <Compile Include="ViewModels\PriestViewModel.cs" />
     <Compile Include="ViewModels\PrintParishManagerViewModel.cs" />
     <Compile Include="ViewModels\RolePermissionViewModel.cs" />
@@ -146,7 +144,9 @@
     <Compile Include="ViewModels\SocietyViewModel.cs" />
     <Compile Include="ViewModels\TreeViewItem.cs" />
     <Compile Include="ViewModels\VicariateViewModel.cs" />
+    <Compile Include="ViewModels\VocationFilterViewModel.cs" />
     <Compile Include="VocationData.cs" />
+    <Compile Include="VocationFilterData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

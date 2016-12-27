@@ -72,6 +72,7 @@ namespace PMS.Web.Controllers
             List<Vicariate> vicariates = _vicariateBusiness.getAllVicariate().ToList();
             List<Parish> parishs = _parishBusiness.GetAllParish().ToList();
             List<Diocese> dioceses = _dioceseBusiness.GetAllDioceses();
+            List<Parish> seminaries = _parishBusiness.GetParishFilter().ToList();
 
             ViewBag.Configuration = configuration.MultipleParishionerAdding;
             ViewBag.Communities = communities;
@@ -79,6 +80,7 @@ namespace PMS.Web.Controllers
             ViewBag.Parishes = parishs;
             ViewBag.Vicariates = vicariates;
             ViewBag.Dioceses = dioceses;
+            ViewBag.Seminary = seminaries;
 
             ViewBag.VaiTro = _vaitroBusiness.GetAllVaiTro().ToList();
             ViewBag.TypeCode = _vocationBusiness.GetTypeCodes().ToList();
@@ -585,7 +587,7 @@ namespace PMS.Web.Controllers
 
             //Check parish id - Using parsish name
             Parish parish = new Parish();
-            if (!Tools.IsNullOrEmpty(vocation.ServedPlace) && !Tools.IsNullOrZero(vocation.ServedId))
+            if (!Tools.IsNullOrEmpty(vocation.ServedPlace) && Tools.IsNullOrZero(vocation.ServedId))
             {
                 parish = _parishBusiness.GetParishesByParishName(vocation.ServedPlace, 0);
                 if (parish != null)
@@ -597,6 +599,22 @@ namespace PMS.Web.Controllers
             else if (Tools.IsNullOrEmpty(vocation.ServedPlace))
             {
                 vocation.ServedId = 0;
+                vocation.ServedType = 0;
+            }
+
+            Parish parish2 = new Parish();
+            if(!Tools.IsNullOrEmpty(vocation.Seminary) && Tools.IsNullOrZero(vocation.SeminaryId))
+            {
+                parish2 = _parishBusiness.GetParishesByParishName(vocation.Seminary, 0);
+                if(parish2 != null)
+                {
+                    vocation.SeminaryId = parish2.Id;
+                    vocation.SeminaryType = parish2.Category;
+                }
+            }
+            else if (Tools.IsNullOrEmpty(vocation.Seminary))
+            {
+                vocation.SeminaryId = 0;
                 vocation.ServedType = 0;
             }
 

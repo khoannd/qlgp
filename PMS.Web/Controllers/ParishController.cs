@@ -23,6 +23,7 @@ namespace PMS.Web.Controllers
         private readonly DioceseBusiness _dioceseBusiness;
         private readonly PriestBusiness _priestBusiness;
         private readonly VocationBusiness _vocationBusiness;
+        private readonly ValueSetBusiness _valuesetBusiness;
         public ParishController()
         {
             _parishBusiness = new ParishBusiness(DbConfig.GetConnectionString());
@@ -32,6 +33,7 @@ namespace PMS.Web.Controllers
             _dioceseBusiness = new DioceseBusiness(DbConfig.GetConnectionString());
             _vocationBusiness = new VocationBusiness(DbConfig.GetConnectionString());
             _priestBusiness = new PriestBusiness(DbConfig.GetConnectionString());
+            _valuesetBusiness = new ValueSetBusiness(DbConfig.GetConnectionString());
         }
         [SessionExpireFilter]
         public ActionResult Index()
@@ -40,6 +42,7 @@ namespace PMS.Web.Controllers
             ViewBag.Vicariates = _vicariateBusiness.getAllVicariate().ToList();
             ViewBag.Dioceses = _dioceseBusiness.GetAllDioceses();
             ViewBag.Parishes = _parishBusiness.GetAllParish().ToList();
+            ViewBag.Categories = _valuesetBusiness.getCategoryForParish();
             return View();
         }
 
@@ -216,6 +219,7 @@ namespace PMS.Web.Controllers
             model.Patron = parish.Patron;
             model.PatronDate = parish.PatronDate;
             model.ChauLuot = parish.ChauLuot;
+            model.Category = parish.Category;
 
             return Json(new { result = model }, JsonRequestBehavior.AllowGet);
         }

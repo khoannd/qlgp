@@ -32,5 +32,11 @@ namespace PMS.DataAccess
             const string query = "SELECT * FROM ValueSet WHERE Category = {0}";
             return _db.ExecuteQuery<ValueSet>(query, categoryHDLM);
         }
+
+        public IEnumerable<ValueSet> getCategoryForParish()
+        {
+            const string query = "SELECT * FROM ValueSet WHERE Category = 'PARISHTYPE'";
+            return _db.ExecuteQuery<ValueSet>(query, 0);
+        }
     }
 }

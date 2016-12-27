@@ -16,6 +16,10 @@
                 Dòng tu
                 <select id="cbbVocation_Seminary" class="form-control">
                     <option value="%">Tất cả</option>
+                    @foreach (var item in ((List<Parish>)ViewBag.Seminary))
+                    {
+                        <option value="@item.Name">@item.Name</option>
+                    }
                 </select>
             </div>
 
@@ -37,7 +41,7 @@
                 <select id="cbbVocation_ServedPlace" class="form-control">
                     <option value="%">Tất cả</option>
                     @foreach (var item in ((List<Parish>)ViewBag.Parishes))
-            {
+                    {
                         <option value="@item.Name">@item.Name</option>
                     }
                 </select>
@@ -63,7 +67,7 @@
             <div class="col-sm-12">
                 <!-- Button Show Popup To Add New Parisioner -->
                 <button id="btnCreateParishioner" class="btn btn-success" data-toggle="modal">
-                    <i class="ace-icon fa fa-plus"></i> Thêm giáo dân
+                    <i class="ace-icon fa fa-plus"></i> Thêm Tu Sĩ
                 </button>
                 <!-- End Button Show Popup To Add New Parisioner -->
                 <!-- Button Print Parishioner Card -->
@@ -258,7 +262,7 @@
             "pageLength": 10,
             "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Tất cả"]],
             "ajax": {
-                "url": "/NewParishioner/LoadParishionerDatatable",
+                "url": "/VocationFilter/LoadParishionerDatatable",
                 "type": "POST",
                 "data": function (d) {
                     d2 = d;
@@ -568,12 +572,16 @@
     //Function Add New Parishioner
     $("#btnCreateParishioner").click(function () {
         $("#parishionerInformationModal").modal('show');
+        $("#parishionerInformationModal").on("shown.bs.modal", function () {
+            $("#parishionerInformationTitle").html("Thêm mới tu sĩ");
+            $(".not-vocation-filter").hide();
+        });
     });
 
     //Function Export To Excel
     $("#btnExportToExcel").click(function (e) {
         $.ajax({
-            url: "/NewParishioner/ExportExcel",
+            url: "/VocationFilter/ExportExcel",
             type: "POST",
             data: {
                 ParishId: d2.ParishId,
@@ -613,7 +621,7 @@
             } else {
                 sessionStorage.setItem("ids", JSON.stringify(checks));
             }
-            var url = "/NewParishioner/PrintPage";
+            var url = "/VocationFilter/PrintPage";
             window.open(url, '_blank');
         } else {
             showMessage("Vui lòng chọn ít nhất một giáo dân để thực hiện in chứng nhận", -1);

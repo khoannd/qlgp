@@ -30,5 +30,10 @@ namespace PMS.BusinessLogic
         {
             return _valueSetData.GetAllValueSet().ToList();
         }
+
+        public List<ValueSet> getCategoryForParish()
+        {
+            return _valueSetData.getCategoryForParish().ToList();
+        }
     }
 }
