@@ -1,0 +1,455 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<!-- Page Header -->
+<div class="page-header">
+    <h1>Quản lý chức năng</h1>
+</div>
+<!-- End Page Header -->
+<!-- Action Menu -->
+<div class="row">
+    <div class="col-xs-12">
+        <div class="col-sm-12">
+            <!-- Button Show Popup To Add New -->
+            <button id="btnCreateMenu" class="btn btn-success" data-toggle="modal">
+                <i class="ace-icon fa fa-plus"></i> Thêm chức năng mới
+            </button>
+            <!-- End Button Show Popup To Add New -->
+        </div>
+    </div>
+</div>
+<!-- End Action Menu -->
+<!-- Page Content -->
+<div class="row">
+    <div class="space-4"></div>
+    <div class="col-xs-12">
+        <div class="space-8"></div>
+        <!-- Table View -->
+        <table id="menuTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        <label class="position-relative">
+                            <input type="checkbox" class="ace" />
+                            <span class="lbl"></span>
+                        </label>
+                    </th>
+                    <th>Mã màn hình</th>
+                    <th>Tên</th>
+                    <th>Thuộc chức năng</th>
+                    <th>Vị trí</th>
+                    <th>Loại chức năng</th>
+                    <th>Đường dẫn</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+
+            <tbody></tbody>
+        </table>
+        <!-- End Table View -->
+    </div>
+</div>
+<!-- End Page Content -->
+<!-- Modal -->
+<div id="menuModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="widget-box transparent">
+                <div class="widget-header center">
+                    <h3 class="widget-title lighter" id="menuModalTitle"></h3>
+
+                    <div class="widget-toolbar no-border">
+                        <a href="" onclick="$('#btnCloseMenuModal').click()">
+                            <i class="ace-icon fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- Modal Body -->
+                <div class="widget-body">
+                    <div class="space-10"></div>
+                    <div class="col-sm-12  ui-sortable">
+                        <div class="widget-box transparent ui-sortable-handle">
+                            <div class="form-horizontal">
+                                <input type="hidden" id="MenuId" data-key="Id" />
+
+                                <div class="form-group align-left" id="ScreenIdModal">
+                                    <label class="col-sm-3 control-label no-padding-right" for="modalScreenId" data-key="ScreenId">Mã màn hình&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="modalScreenId" value="" class="form-control" data-key="ScreenId">
+                                    </div>
+                                </div>
+
+                                <div class="form-group align-left" id="TextModal">
+                                    <label class="col-sm-3 control-label no-padding-right" for="modalText" data-key="Text">Tên&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="modalText" value="" class="form-control" data-key="Text">
+                                    </div>
+                                </div>
+
+                                <div class="form-group align-left" id="MenuTypeModal">
+                                    <label class="col-sm-3 control-label no-padding-right" for="modalMenuType" data-key="MenuType">Loại chức năng&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-6">
+                                        <select id="cbbMenuTypeModal" class="form-control" style="width: 250px;" data-key="MenuType" onchange="GetParent(this.value, 0);">
+                                            <option value="">Chọn loại chức năng</option>
+                                            <option value="1">Quản lý giáo phận</option>
+                                            <option value="2">Quản lý giáo xứ</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group align-left" id="ParentIdModal">
+                                    <label class="col-sm-3 control-label no-padding-right" for="modalParentId" data-key="ParentId">Thuộc chức năng&nbsp;(<span style="color: red">*</span>)</label>
+                                    <div class="col-sm-6">
+                                        <select id="cbbParentModal" class="form-control" style="width: 250px;" data-key="ParentId"></select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group align-left" id="LinkModal">
+                                    <label class="col-sm-3 control-label no-padding-right" for="modalLink" data-key="Link">Đường dẫn</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="modalLink" value="" class="form-control" data-key="Link">
+                                    </div>
+                                </div>
+
+                                <div class="form-group align-left" id="PositionModal">
+                                    <label class="col-sm-3 control-label no-padding-right" for="modalPosition" data-key="Position">Vị trí</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="modalPosition" value="" class="form-control" data-key="Position">
+                                    </div>
+                                </div>
+
+                                <div class="form-group align-left" id="IconClassModal">
+                                    <label class="col-sm-3 control-label no-padding-right" for="modalIconClass" data-key="IconClass">Biểu tượng</label>
+                                    <div class="col-sm-6">
+                                        <input type="text" id="modalIconClass" value="" class="form-control" data-key="IconClass">
+                                    </div>
+                                </div>
+
+                                <div class="form-group align-left" id="NewWindowModal">
+                                    <label class="col-sm-3 control-label no-padding-right"></label>
+                                    <div class="col-sm-6">
+                                        <input type="checkbox" class="ace" id="cbIsNewWindow" data-key="NewWindow" />
+                                        <span class="lbl"> Mở trên cửa sổ mới</span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-12 col-sm-12">
+                                            <div class="form-group align-right">
+                                                <button id="btnCreateMenuModal" class="btn btn-primary" data-toggle="modal" onclick="CreateMenu()">
+                                                    <i class="ace-icon fa fa-save"></i> Lưu
+                                                </button>
+
+                                                <button id="btnUpdateMenuModal" class="btn btn-primary" data-toggle="modal" onclick="UpdateMenu()">
+                                                    <i class="ace-icon fa fa-save"></i> Cập Nhật
+                                                </button>
+
+                                                <button id="btnCloseMenuModal" class="btn btn-grey" data-toggle="modal">
+                                                    <i class="ace-icon fa fa-times"></i> Đóng
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal -->
+
+<script>
+    InitDatatable();
+    function InitDatatable() {
+        $('#menuTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "bRetrieve": true,
+            "bScrollCollapse": true,
+            "bAutoWidth": false,
+            "pageLength": 25,
+            "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+            "ajax": {
+                "url": "/MenuManagement/LoadMenuDatatables",
+                "data": function (d) {
+                    d.columns = null;
+                }
+            },
+            "language": {
+                "sSearch": "Tên",
+                "sZeroRecords": "Không có dữ liệu phù hợp",
+                "sInfo": "Hiển thị từ _START_ đến _END_ trên tổng số _TOTAL_ dòng",
+                "sEmptyTable": "Không có dữ liệu",
+                "sInfoFiltered": " - lọc ra từ _MAX_ dòng",
+                "sLengthMenu": "Hiển thị _MENU_ dòng",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": "",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Sau"
+                }
+            },
+            "columns": [
+                { "data": "Id", "visible": false },
+                {
+                    "data": "Id", "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                },
+                { "data": "ScreenId" },
+                { "data": "Text" },
+                { "data": "Parent" },
+                { "data": "Position" },
+                {
+                    "data": "MenuType", "render": function (data, type, full, meta) {
+                        var content = "";
+                        if (data == 1) {
+                            content = 'Quản lý giáo phận';
+                        }
+                        if (data == 2) {
+                            content = 'Quản lý giáo xứ';
+                        }
+                        return content;
+                    },
+                },
+                { "data": "Link" },
+                {
+                    "data": null, "searchable": false, "render": function (data, type, full, meta) {
+                        var content = "";
+                        if (data.Visible) {
+                            content = '<button class="btn btn-minier btn-success" onclick="confirmChange(' + data.Id + ', 0)">' + '<i class="ace-icon fa fa-eye"></i>&nbsp;Hiện</button>';
+                        } else {
+                            content = '<button class="btn btn-minier btn-inverse" onclick="confirmChange(' + data.Id + ', 0)">' + '<i class="ace-icon fa fa-eye-slash"></i>&nbsp;Ẩn</button>';
+                        }
+
+                        if (data.Enabled) {
+                            content += '&nbsp;<button class="btn btn-minier btn-success" onclick="confirmChange(' + data.Id + ', 1)">' + '<i class="ace-icon fa fa-circle-o-notch"></i>&nbsp;Hoạt động</button>';
+                        } else {
+                            content += '&nbsp;<button class="btn btn-minier btn-inverse" onclick="confirmChange(' + data.Id + ', 1)">' + '<i class="ace-icon fa fa-power-off"></i>&nbsp;Tạm dừng</button>';
+                        }
+                        return content;
+                    },
+                },
+                {
+                    "data": "Id", "searchable": false, "render": function (data, type, full, meta) {
+                        var content = '<button class="btn btn-minier btn-primary" onclick="LoadDataMenuModal(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>';
+                        return content;
+                    },
+                }
+            ]
+        });
+    }
+
+    //Open Modal
+    $('#btnCreateMenu').click(function () {
+        $("#btnUpdateMenuModal").hide();
+        $("#btnCreateMenuModal").show();
+        $('#menuModalTitle').html("Thêm mới chức năng");
+        $('#menuModal').modal('show');
+    });
+
+    //Function get Parent by Menu Type
+    function GetParent(menuType, index) {
+        if (menuType != 0) {
+            $.ajax({
+                url: "/MenuManagement/GetParentByMenuType",
+                data: { menuType: menuType },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var markup = "<option value='0'>Khác</option>";;
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Id + ">" + data[x].Text + "</option>";
+                    }
+                    $("#cbbParentModal").html(markup).show();
+                    $("#cbbParentModal").val(index);
+                },
+                error: function (reponse) {
+                    alert("error : " + reponse);
+                }
+            });
+        }
+    }
+
+    function LoadDataMenuModal(id) {
+        $("#MenuId").val(id);
+        $.ajax({
+            url: "/MenuManagement/LoadMenuById",
+            type: "POST",
+            data: { id: id },
+            success: function (data) {
+                var item = data.result;
+                GetParent(item.MenuType, item.ParentId);
+                $(item).each(function (k, v) {
+                    for (var k1 in v) {
+                        if ($("#menuModal [data-key='" + k1 + "']").length !== 0) {
+                            $("#menuModal [data-key='" + k1 + "']").val(v[k1]);
+                        }
+                    }
+                });
+                if (item.NewWindow) {
+                    $('#cbIsNewWindow').prop("checked", true);
+                } else {
+                    $('#cbIsNewWindow').prop("checked", false);
+                }
+                $("#cbbParentModal").val(item.ParentId);
+                $("#menuModalTitle").html("Chỉnh sửa chức năng");
+
+                $("#menuModal").modal('show');
+                $("#btnUpdateMenuModal").show();
+                $("#btnCreateMenuModal").hide();
+            },
+        });
+    }
+
+    //Function Confirm Change
+    function confirmChange(id, db) {
+        var message = "Bạn có chắc muốn thực hiện thay đổi này không ?";
+
+        bootbox.dialog({
+            closeButton: false,
+            message: message,
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Có",
+                    className: "ace-icon fa fa-check btn-info",
+                    callback: function () {
+                        changeStatus(id, db);
+                    }
+                },
+                main: {
+                    label: " Không",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    //Function Submit Change
+    function changeStatus(id, db) {
+        startLoading();
+        //Menu
+        if (db == 0) {
+            $.ajax({
+                url: "/MenuManagement/ChangeMenuVisible",
+                type: "POST",
+                data: {
+                    Id: id
+                },
+                success: function (data) {
+                    if (data > 0) {
+                        updateTableContent("menuTable");
+                        showMessage("Thay đổi thành công", 1);
+                    } else {
+                        showMessage("Thay đổi thất bại, vui lòng thử lại sau", 0);
+                    }
+                }
+            });
+        }
+
+        //Screen Action
+        if (db == 1) {
+            $.ajax({
+                url: "/MenuManagement/ChangeScreenActionEnabled",
+                type: "POST",
+                data: {
+                    Id: id
+                },
+                success: function (data) {
+                    if (data > 0) {
+                        updateTableContent("menuTable");
+                        showMessage("Thay đổi thành công", 1);
+                    } else {
+                        showMessage("Thay đổi thất bại, vui lòng thử lại sau", 0);
+                    }
+                }
+            });
+        }
+    }
+
+    //Function Update Menu Information
+    function UpdateMenu() {
+        var data = {};
+        $("#menuModal input, #menuModal select").each(function () {
+            if ($(this).attr("data-key")) data[$(this).attr("data-key")] = $(this).val();
+        });
+        data["NewWindow"] = $('#cbIsNewWindow').is(':checked');
+        startLoading();
+        $.ajax({
+            url: "/MenuManagement/UpdateMenu",
+            type: "POST",
+            data: data,
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Cập nhật thất bại", 0);
+                } else {
+                    showMessage("Cập nhật thông tin chức năng thành công", 1);
+                    $("#menuModal").modal('hide');
+                    updateTableContent("menuTable");
+                    ClearMenuModal();
+                }
+            }
+        });
+    }
+
+    //Function Create Menu Modal
+    function CreateMenu() {
+        var data = {};
+        $("#menuModal input, #menuModal select").each(function () {
+            if ($(this).attr("data-key")) data[$(this).attr("data-key")] = $(this).val();
+        });
+        data["NewWindow"] = $('#cbIsNewWindow').is(':checked');
+        startLoading();
+        $.ajax({
+            url: "/MenuManagement/InsertMenu",
+            type: "POST",
+            data: data,
+            success: function (data) {
+                if (data.result <= 0) {
+                    showMessage("Thêm mới thất bại", 0);
+                } else {
+                    showMessage("Thêm mới thông tin chức năng thành công", 1);
+                    $("#menuModal").modal('hide');
+                    updateTableContent("menuTable");
+                    ClearMenuModal();
+                }
+            }
+        });
+    }
+
+    //Function Clear Modal
+    function ClearMenuModal() {
+        $("#menuModal input, #menuModal select").each(function () {
+            var key = $(this).attr("data-key");
+            if (key) {
+                $(this).val("");
+                $(this).prop('checked', false);
+                var key2 = key.replace("Modal", "Validate");
+                if ($("#" + key2).length !== 0) {
+                    $("#" + key2).html("");
+                    $("#" + key2).hide();
+                }
+            }
+        });
+    }
+
+    //Button Close modal
+    $('#btnCloseMenuModal').click(function () {
+        $('#menuModal').modal('hide');
+        ClearMenuModal();
+    });
+</script>

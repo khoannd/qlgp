@@ -54,6 +54,7 @@
     <Compile Include="ChangeParishBusiness.cs" />
     <Compile Include="ChartBusiness.cs" />
     <Compile Include="ChristianNameBusiness.cs" />
+    <Compile Include="MenuManagmentBusiness.cs" />
     <Compile Include="RoleBusiness.cs" />
     <Compile Include="RolePermissionBusiness.cs" />
     <Compile Include="MenuBusiness.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="PlaceBusiness.cs" />
     <Compile Include="ParishManagerBusiness.cs" />
     <Compile Include="GeneralStatusBusiness.cs" />
+    <Compile Include="ScreenActionBusiness.cs" />
     <Compile Include="SeminarianBusiness.cs" />
     <Compile Include="SeminaryYearBusiness.cs" />
     <Compile Include="ThuPhanUuBusiness.cs" />

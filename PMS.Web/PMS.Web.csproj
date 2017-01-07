@@ -154,6 +154,7 @@
     <Compile Include="Controllers\HoiDongLinhMucController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LetterAndReportController.cs" />
+    <Compile Include="Controllers\MenuManagementController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\ParishController.cs" />
     <Compile Include="Controllers\ParishHomeController.cs" />
@@ -471,6 +472,7 @@
     <Content Include="Views\BanHanhGiao\Index.cshtml" />
     <Content Include="Views\VocationFilter\Index.cshtml" />
     <Content Include="Views\VocationFilter\PrintPage.cshtml" />
+    <Content Include="Views\MenuManagement\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PMS.BusinessLogic\PMS.BusinessLogic.csproj">
