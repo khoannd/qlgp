@@ -90,6 +90,8 @@ namespace PMS.DataAccess.ViewModels
         public int? ParishId { get; set; }
 
         public Dictionary<string, string> data { get; set; }
+        public int? CommunityId { get; set; }
+
     }
 
     public class jQueryDataTableColumn

@@ -83,7 +83,10 @@
                                 <div class="row col-sm-4 text-left">
                                     <button id="btnChooseDeathMan" class="btn btn-primary btn-sm" onclick="SelectDeathMan();">
                                         <i class="ace-icon fa fa-search"></i>
-                                        Tìm
+                                        Chọn
+                                    </button>
+                                    <button id="btnAddNewDeathMan" class="btn btn-primary btn-sm" data-toggle="modal" onclick="addNewDeathMan();">
+                                        <i class="ace-icon fa fa-plus"></i> Thêm mới
                                     </button>
                                     <input type="hidden" id="txtDeathManId">
                                 </div>
@@ -182,7 +185,7 @@
     </div>
 </div>
 
-@Html.Partial("_LookupParishionerModal")
+@*@Html.Partial("_LookupParishionerModal")*@
 @Html.Partial("_ParishionerInformation")
 <script type="text/javascript">
     var selectType = 0; //1 : select death man, 2 : select receiver letter
@@ -268,6 +271,33 @@
     {
         selectType = 1;
         openLookupModal(9, "", -1, 0, 0, 0, "");
+    }
+
+    function addNewDeathMan() {
+        openParishionerFullModal(-1, function (selectedId) {
+            $("#txtDeathManId").val(selectedId);
+            return GetDeathManInfo(selectedId);
+        });
+    }
+
+    function GetDeathManInfo(parishionerId) {
+        if (parishionerId == '') return false;
+        //startLoading();
+        $.ajax({
+            url: "/ThuPhanUu/GetDeathManInfo",
+            type: "POST",
+            data: {
+                deathManID: parishionerId
+            },
+            success: function (data) {
+                if (data == null) {
+                    showMessage("Thêm mới thất bại.", 0);
+                    return;
+                }
+                $("#tenNguoiMat").val(data.ChristianName + ' ' + data.Name);
+                $("#txtDeathManId").val(data.Id);
+            },
+        });
     }
 
     function SelectSendTo() {

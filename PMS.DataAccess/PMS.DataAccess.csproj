@@ -120,6 +120,7 @@
     <Compile Include="ViewModels\ClassGroupViewModel.cs" />
     <Compile Include="ViewModels\ConstructionPermitViewModel.cs" />
     <Compile Include="ViewModels\DonationViewModel.cs" />
+    <Compile Include="ViewModels\DonorsViewModel.cs" />
     <Compile Include="ViewModels\GiayMoiViewModel.cs" />
     <Compile Include="ViewModels\HDLMMemberViewModel.cs" />
     <Compile Include="ViewModels\HDLMViewModel.cs" />

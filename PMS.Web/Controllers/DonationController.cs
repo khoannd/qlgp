@@ -8,6 +8,7 @@ using PMS.DataAccess.ViewModels;
 using PMS.DataAccess.Models;
 using System.Transactions;
 using PMS.DataAccess.Utilities;
+using PMS.Web.Filters;
 
 namespace PMS.Web.Controllers
 {
@@ -27,7 +28,8 @@ namespace PMS.Web.Controllers
             _vicariateBusiness = new VicariateBusiness(DbConfig.GetConnectionString());
             _sessionBusiness = new DonationSessionBusiness(DbConfig.GetConnectionString());
         }
-        // GET: Donation
+
+        [SessionExpireFilter]
         public ActionResult Index()
         {
             var community = _communityBusiness.getAllCommunity().ToList();
@@ -40,40 +42,67 @@ namespace PMS.Web.Controllers
             return View();
         }
 
-        public ActionResult LoadAllDonation(jQueryDataTableParamModel param)
+        public ActionResult LoadAllDonation(jQueryDataTableParam param, int parishId, int communityId)
         {
             int totalRecords = 0;
             int totalDisplayRecords = 0;
-            var result = _donationBusiness.LoadAllDonation(param.sSearch,
-                param.iSortCol_0, param.sSortDir_0, param.iDisplayStart,
-                param.iDisplayLength, out totalRecords, out totalDisplayRecords);
+            var result = _donationBusiness.LoadAllDonation(param, out totalRecords, out totalDisplayRecords);
             return Json(new
             {
-                sEcho = param.sEcho,
                 iTotalRecords = totalRecords,
                 iTotalDisplayRecords = totalDisplayRecords,
                 aaData = result
             }, JsonRequestBehavior.AllowGet);
         }
 
-        public int AddDonation(Donation donation, DonationSession session, int parishionerID, int Type, float InputValue, float ExchangeRate)
+        public ActionResult LoadDonationSession(int DonationID)
         {
+            var result = _donationBusiness.LoadDonationSession(DonationID);
+            return Json(new
+            {
+                aaData = result
+            }, JsonRequestBehavior.AllowGet);
+        }
 
+        public ActionResult LoadDonationByID(int parishionerID)
+        {
+            //return string.Empty;
+            var donors = _donationBusiness.GetDonationByID(parishionerID);
+
+            JsonResult jr = Json(new { result = donors }, JsonRequestBehavior.AllowGet);
+            return jr;
+        }
+
+        public int AddDonation(int parishionerID)
+        {
+            Donation donation = new Donation();
+            donation.ParishionerID = parishionerID;
+            //add donation                    
+            return _donationBusiness.AddDonation(donation);
+        }
+
+        public int UpdateDonation(int donationId, int parishionerID)
+        {
+            var result = _donationBusiness.UpdateDonation(donationId, parishionerID);
+            return result;
+        }
+
+        public int AddDonationDetail(int donationId, string donationDate, int parishionerID, int type, float inputValue, float exchangeRate, string note)
+        {
             var converter = new DateConverter();
-            session.DonationDate = converter.ConvertDateToString(session.DonationDate);
-            session.ReceiptDate = converter.ConvertDateToString(session.ReceiptDate);
-
-            int donationId = donation.Id;
-            int sessionId = session.Id;
-            string currency = _donationBusiness.checkType(Type);
+            string currency = _donationBusiness.checkType(type);
 
             //Final value caculation
-            float finalValue = InputValue * ExchangeRate;
-            using (var scope = new TransactionScope(Utilities.PMSCommon.GetTransactionOption()))
+            float finalValue = inputValue * exchangeRate;
+
+
+            using (var scope = new TransactionScope())
             {
-                //add donation
                 if (donationId == 0)
                 {
+                    Donation donation = new Donation();
+                    donation.ParishionerID = parishionerID;
+                    //add donation                    
                     donationId = _donationBusiness.AddDonation(donation);
                     if (donationId < 0)
                     {
@@ -81,40 +110,68 @@ namespace PMS.Web.Controllers
                     }
                 }
 
-                //Check id session
-                //if null -> insert session
-                //Update donation level
-
-                //if # null -> return -1
-                if (sessionId == 0)
+                var session = new DonationSession()
                 {
-                    session = new DonationSession()
-                    {
-                        DonationID = donationId,
-                        DonationDate = session.DonationDate,
-                        ReceiptDate = session.ReceiptDate,
-                        Currency = currency,
-                        InputValue = InputValue,
-                        FinalValue = finalValue,
-                        ExchangeRate = ExchangeRate
-
-                    };
-                    int sessionStatus = _sessionBusiness.AddSession(session);
-                    if (sessionStatus < 0)
-                    {
-                        return sessionStatus;
-                    }
-                }
-                else
+                    DonationID = donationId,
+                    DonationDate = Convert.ToDateTime(donationDate),
+                    ReceiptDate = string.Empty,
+                    Currency = currency,
+                    InputValue = inputValue,
+                    FinalValue = finalValue,
+                    ExchangeRate = exchangeRate,
+                    Note = note
+                };
+                int sessionStatus = _sessionBusiness.AddSession(session);
+                if (sessionStatus < 0)
                 {
-                    return -1;
+                    return sessionStatus;
                 }
+
                 //If success all
                 scope.Complete();
                 return donationId;
-
             }
-            //return Type;
+        }
+
+        public int UpdateDonationDetail(int sessionId, string donationDate, int type, float inputValue, float exchangeRate, string note)
+        {
+            var converter = new DateConverter();
+            string currency = _donationBusiness.checkType(type);
+
+            //Final value caculation
+            float finalValue = inputValue * exchangeRate;
+
+
+            var session = new DonationSession()
+            {
+                Id = sessionId,
+                DonationDate = Convert.ToDateTime(donationDate),
+                ReceiptDate = string.Empty,
+                Currency = currency,
+                InputValue = inputValue,
+                FinalValue = finalValue,
+                ExchangeRate = exchangeRate,
+                Note = note
+            };
+            return _sessionBusiness.UpdateSession(session);
+        }
+
+        public ActionResult GetSessionDetail(int sessionId)
+        {
+            var sessionDetail = _donationBusiness.GetSessionByID(sessionId);
+
+            JsonResult jr = Json(new { result = sessionDetail }, JsonRequestBehavior.AllowGet);
+            return jr;
+        }
+
+        public int DeleteSession(int sessionId)
+        {
+            return _sessionBusiness.DeleteSession(sessionId);
+        }
+
+        public int DeleteDonation(int donationId)
+        {
+            return _donationBusiness.DeleteDonation(donationId);
         }
     }
 }

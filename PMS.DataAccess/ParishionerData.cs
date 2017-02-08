@@ -1748,7 +1748,7 @@ namespace PMS.DataAccess
                     "FROM Parishioner AS Pa INNER JOIN Community AS C ON Pa.CommunityId = C.Id " +
                     "INNER JOIN Parish AS Pr " +
                     "ON C.ParishId = Pr.Id " +
-                    "WHERE Pa.Name LIKE {0} AND Pa.Status <> "+ ((int)ParishionerStatusEnum.Deleted).ToString();
+                    "WHERE Pa.Name LIKE {0} AND Pa.Status <> " + ((int)ParishionerStatusEnum.Deleted).ToString();
 
             return _db.ExecuteQuery<ParishionerViewModel>(query, "%" + name + "%");
         }
@@ -1771,6 +1771,16 @@ namespace PMS.DataAccess
             return _db.ExecuteQuery<ParishionerViewModel>(query, "%" + name + "%");
         }
         // Khoan add end
+
+        public DonorsViewModel GetDonorsById(int id)
+        {
+            string query = "SELECT Pa.*,Pa.Id as ParishionerID, C.Name AS CommunityName " +
+                    "FROM Parishioner AS Pa INNER JOIN Community AS C ON Pa.CommunityId = C.Id " +
+                    "INNER JOIN Parish AS Pr " +
+                    "ON C.ParishId = Pr.Id " +
+                    "WHERE Pa.Id={0}";
+            return _db.ExecuteQuery<DonorsViewModel>(query, id).ToList().FirstOrDefault();
+        }
 
         public IEnumerable<ParishionerViewModel> GetParishionerViewModelsBySacramentTypeAndCommunityId(int communityId,
             int sacramentType, bool? isCounted, int status, int gender)

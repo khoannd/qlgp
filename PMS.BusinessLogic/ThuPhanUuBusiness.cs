@@ -126,5 +126,10 @@ namespace PMS.BusinessLogic
         {
             return _thuPhanUuData.PrintThuPhanUuByIds(idThuPhanUu, Ids);
         }
+
+        public Parishioner GetDeathManInfo(int deathManID)
+        {
+            return _thuPhanUuData.GetDeathManInfo(deathManID);
+        }
     }
 }

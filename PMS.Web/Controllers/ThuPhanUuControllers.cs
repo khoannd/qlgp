@@ -136,5 +136,16 @@ namespace PMS.Web.Controllers
             return PartialView("_PrintLayout");
             // Khoan mod end
         }
+
+        public ActionResult GetDeathManInfo(int deathManID)
+        {
+            Parishioner pn = _thuPhanUuBusiness.GetDeathManInfo(deathManID);
+            return Json(new
+            {
+                ChristianName = pn.ChristianName,
+                Name = pn.Name,
+                Id = pn.Id
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

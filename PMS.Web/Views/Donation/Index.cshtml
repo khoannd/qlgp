@@ -27,7 +27,7 @@
                     <option value="0">Tất cả</option>
                     @foreach (var item in ((List<Vicariate>)ViewBag.Vicariates))
                     {
-                        <option value="@item.Id">@item.Name</option>
+                        <option value="@item.Id" dioceseId="@Html.Raw(item.DioceseId)" @(item.DioceseId != (int)Session["DioceseId"] ? " hidden=''" : "") @if ((int)Session["VicariateId"] == item.Id) { @Html.Raw(" selected")  ; }>@item.Name</option>
                     }
                 </select>
             </div>
@@ -37,9 +37,8 @@
                     <option value="0">Tất cả</option>
                     @foreach (var item in ((List<Parish>)ViewBag.Parishes))
                     {
-                        <option value="@item.Id">@item.Name</option>
+                        <option value="@item.Id" vicariateId="@Html.Raw(item.VicariateId)" @(item.VicariateId != (int)Session["VicariateId"] ? " hidden=''" : "")> @item.Name</option>
                     }
-
                 </select>
             </div>
             <div class="col-xs-3">
@@ -48,7 +47,7 @@
                     <option value="0">Tất cả</option>
                     @foreach (var item in ((List<Community>)ViewBag.Communities))
                     {
-                        <option value="@item.Id">@item.Name</option>
+                        <option value="@item.Id" parishId="@Html.Raw(item.ParishId)" @(item.ParishId != (int)Session["ParishId"] ? " hidden=''" : "")>@item.Name</option>
                     }
                 </select>
             </div>
@@ -274,11 +273,18 @@
                                                 <h4 class="widget-title lighter">Lịch sử quyên góp</h4>
                                             </div>
                                             <div class="page-header">
-                                                <div>
-                                                    <button id="btnAddDonation" class="btn btn-success" data-toggle="modal">
-                                                        <i class="fa fa-plus"></i> Thêm mới
-                                                    </button>
-                                                </div>
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <button id="btnShowAddSession" class="btn btn-success" data-toggle="modal">
+                                                                <i class="fa fa-plus"></i> Thêm mới
+                                                            </button>
+                                                        </td>
+                                                        <td style="vertical-align:bottom;padding-left:5px;">
+                                                            <label id="lbNeedSessionError" class="text-danger" hidden="" style="display:none;">Vui lòng thêm quyên góp</label>
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             </div>
                                             <div class="widget-body">
                                                 <div class="row">
@@ -322,7 +328,7 @@
                                             </div>
                                             <div class="page-header">
                                                 <div>
-                                                    <button id="btnCreateDonation" class="btn btn-success" data-toggle="modal">
+                                                    <button id="btnCreateCertification" class="btn btn-success" data-toggle="modal">
                                                         <i class="fa fa-plus"></i> Thêm mới
                                                     </button>
                                                 </div>
@@ -330,7 +336,7 @@
                                             <div class="widget-body">
                                                 <div class="row">
 
-                                                    <table id="donationHistoryTable" class="table table-hover">
+                                                    <table id="donationCertificate" class="table table-hover">
                                                         <thead>
                                                             <tr>
                                                                 <th></th>
@@ -360,14 +366,14 @@
                                 <div class="col-xs-12">
                                     <div class="col-sm-12">
                                         <div class="align-right">
-                                            <button id="btnAddDonation" class="btn btn-primary" type="button">
+                                            @*<button id="btnAddCertificate" class="btn btn-primary" type="button">
+                                                    <i class="ace-icon fa fa-save bigger-110"></i>
+                                                    Lưu
+                                                </button>*@
+
+                                            <button id="btnUpdateDonation" class="btn btn-primary" type="button" onclick="UpdateDonation()">
                                                 <i class="ace-icon fa fa-save bigger-110"></i>
                                                 Lưu
-                                            </button>
-
-                                            <button id="btnUpdateDonation" class="btn btn-primary" type="button">
-                                                <i class="ace-icon fa fa-save bigger-110"></i>
-                                                Cập nhật
                                             </button>
 
                                             <button id="btnCloseDonationModal" class="btn btn-default">
@@ -377,7 +383,6 @@
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <div class="clearfix"></div>
                             </div>
@@ -439,7 +444,7 @@
                                                     <label class="col-sm-4 control-label no-padding-right"> Số tiền (<span style="color:red">*</span>) </label>
 
                                                     <div class="col-sm-5">
-                                                        <input id="txtValue" type="text" class="form-control education text-right">
+                                                        <input id="txtValue" type="text" class="form-control education text-right" />
                                                         <label id="lbValueError" class="text-danger" hidden=""></label>
                                                     </div>
                                                     <div class="col-sm-3">
@@ -578,11 +583,39 @@
 
     //Set Config
     $(function () {
-        $('#donationModal').find('.modal-dialog.modal-lg').css('width', '60%');
-        $('#sessionModal').find('.modal-dialog.modal-lg').css('width', '60%');
+        $('#donationModal').find('.modal-dialog.modal-lg').css('width', '80%');
+        $('#sessionModal').find('.modal-dialog.modal-lg').css('width', '70%');
+        //$("#txtValue").inputmask('Regex', {regex: "^[0-9]{1,6}(\\.\\d{1,2})?$"});
+        //$("#txtValue").mask('000.000.000.000.000,00', {reverse: true});
+
     });
 
-    //Button event
+    $("#txtValue").keydown(function (e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+            // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+            // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+            // let it happen, don't do anything
+            return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+
+    $("#txtValue").keyup(function (e) {
+        if (// Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+            // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+            // let it happen, don't do anything
+            return;
+        }
+        $("#txtValue").val(numberWithCommas($("#txtValue").val()));
+    });
 
     $("#cbIsReceipt").change(function () {
         if ($(this).is(":checked")) {
@@ -604,6 +637,7 @@
     });
 
     $("#btnCreateDonation").click(function () {
+        ClearDonationModal();
         $("#donationModal").modal('show');
         $("#btnUpdateDonation").hide();
 
@@ -613,13 +647,16 @@
         AddSession();
     });
 
-    $("#btnAddDonation").click(function () {
+    $("#btnUpdateSession").click(function () {
+        UpdateSession();
+    });
+
+    $("#btnShowAddSession").click(function () {
         if (!validateDonationForm()) {
             return
         }
-        var now = new Date();
-        $("#txtDonationDate").val(convertDateObjectToString(now));
-        $("#cbbCurrency").val(2);
+
+        ClearSessionModal();
         $("#sessionModal").modal('show');
         $("#btnUpdateSession").hide();
     });
@@ -675,17 +712,21 @@
             $("#txtParishionerCode").val(item.Code);
             $("#txtParishionerCommunity").val(item.CommunityName);
             $("#txtPhoneNumber").val(item.Phone);
-            $("#txtGender").val(item.Gender);
+            if (item.Gender == 1)
+                $("#txtGender").val("Nam");
+            else $("#txtGender").val("Nữ");
             $("#txtBirthDate").val(item.BirthDate);
             $("#txtBirthPlace").val(item.BirthPlace);
             $("#txtFatherName").val(item.FatherName);
-            $("#txtMotherName").val(item.MotherName );
-    });
+            $("#txtMotherName").val(item.MotherName);
+            $("#btnUpdateDonation").show();
+        });
 
     //Datatable handle
     function ClearDonationModal() {
         $("#txtParishionerName").val("");
         $("#idParishioner").val(0);
+        $("#idDonation").val(0);
         $("#txtChristianName").val("");
         $("#txtParishionerCode").val("");
         $("#txtParishionerCommunity").val("");
@@ -697,18 +738,40 @@
         $("#txtMotherName").val("");
 
         //refresh datatable
-        //$("#donationTable").dataTable().fnDestroy();
-        //$("#donationTable tbody").html("");
+        $("#donationHistoryTable").dataTable().fnDestroy();
+        $("#donationHistoryTable tbody").html("");
 
     }
 
-    function InitDatatable() {
+    function ClearSessionModal() {
+        var now = new Date();
+        $("#txtDonationDate").val(convertDateObjectToString(now));
+        $("#cbbCurrency").val(2);
+        $("#txtNote").val('');
 
+        $("#txtValue").val('');
+        $("#txtRate").val('');
+        $("#idSession").val('');
+        $("#btnAddSession").show();
+        $("#btnUpdateSession").hide();
+        $("#lbNeedSessionError").hide();
+    }
+
+    function InitDatatable() {
+        startLoading();
         $("#donationTable").dataTable({
             "bRetrieve": true,
             "bServerSide": true,
             "bSCrollCollapse": true,
-            "sAjaxSource": "/Donation/LoadAllDonation",
+            "ajax": {
+                "url": "/Donation/LoadAllDonation",
+                "data": function (d) {
+                    if ($('#cbbVicariate').length !== 0) d.VicariateId = $('#cbbVicariate').val();
+                    if ($('#cbbParish').length !== 0) d.ParishId = $('#cbbParish').val();
+                    if ($('#cbbCommunity').length !== 0) d.CommunityId = $('#cbbCommunity').val();
+                    d.columns = null;
+                }
+            },
             "oLanguage": {
                 "sSearch": "Tên giáo dân",
                 "sZeroRecords": "Không có dữ liệu phù hợp",
@@ -739,25 +802,173 @@
                     "bVisible": false,
                     "bSortable": false,
                 },
-                      {
-                          "aTargets": [6],
-                          "render": function (data, type, full, meta) {
-                              var content = '<button class="btn btn-minier btn-primary" onclick="LoadDonationByID(' + data + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
-                                    '<button class="btn btn-minier btn-danger" onclick="DeleteConfirm(' + data + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
-                              return content;
-                          },
-                          "bSortable": false,
-                          "sWidth": "15%"
-                      }
+                {
+                    "aTargets": [3],
+                    "render": function (data, type, full, meta) {
+                        return numberWithCommas(data);
+                    }
+                },
+                {
+                    "aTargets": [4],
+                    "render": function (data, type, full, meta) {
+                        return showDonationRank(data);
+                    }
+                },
+                {
+                    "aTargets": [6],
+                    "render": function (data, type, full, meta) {
+                        var param = data.split('-');
+                        var content = '<button class="btn btn-minier btn-primary" onclick="LoadDonationByID(' + param[0] + ',' + param[1] + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                            '<button class="btn btn-minier btn-danger" onclick="DeleteNguoiQuyenGopConfirm(' + param[0] + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                        return content;
+                    },
+                    "bSortable": false,
+                    "sWidth": "15%"
+                }
             ],
             "bAutoWidth": false,
         });
     }
 
+    function LoadDonationByID(donationID, parishionerID) {
+        //LoadDanationHistory(donationID);
+        startLoading();
+        $.ajax({
+            url: "/Donation/LoadDonationByID",
+            type: "POST",
+            data: { parishionerID: parishionerID },
+            success: function (data) {
+                var item = data.result;
+                $("#txtParishionerName").val(item.Name);
+                $("#idParishioner").val(parishionerID);
+                $("#txtChristianName").val(item.ChristianName);
+                $("#txtParishionerCode").val(item.Code);
+                $("#txtParishionerCommunity").val(item.CommunityName);
+                $("#txtPhoneNumber").val(item.Phone);
+                if (item.Gender == 1)
+                    $("#txtGender").val("Nam");
+                else $("#txtGender").val("Nữ");
+                $("#txtBirthDate").val(convertStringToDate(item.BirthDate));
+                $("#txtBirthPlace").val(item.BirthPlace);
+                $("#txtFatherName").val(item.FatherName);
+                $("#txtMotherName").val(item.MotherName);
+                $("#idDonation").val(donationID);
+                $("#donationModal").modal('show');
+
+                LoadDanationHistory(donationID);
+            },
+        });
+    }
+
+    function LoadDanationHistory(donationID) {
+        $("#donationHistoryTable").dataTable({
+            "bRetrieve": true,
+            "bServerSide": true,
+            "bScrollCollapse": true,
+            "bPaginate": false,
+            "bFilter": false,
+            "bInfo": false,
+            "sAjaxSource": "/Donation/LoadDonationSession",
+            //"bProcessing": true,
+            "fnServerParams": function (aoData) {
+                aoData.push({ "name": "DonationID", "value": $("#idDonation").val() });
+            },
+            "oLanguage": {
+                "sZeroRecords": "Không có dữ liệu",
+                "sEmptyTable": "Không có dữ liệu",
+                "sProcessing": "Đang xử lý...",
+                "sInfoEmpty": ""
+            },
+            "aoColumnDefs": [
+                {
+                    "aTargets": [0],
+                    "bVisible": false
+                },
+                {
+                    "aTargets": [1],
+                    "render": function (data, type, full, meta) {
+                        var content = '<label class="position-relative">' +
+                            '<input type="checkbox" class="ace sItem" value="' + data + '"/>' +
+                            '<span class="lbl"></span> </label>';
+                        return content;
+                    },
+                    "sWidth": "5%",
+                    "bSortable": false
+                },
+                {
+                    "aTargets": [2],
+                    "sWidth": "12%"
+                },
+                {
+                    "aTargets": [6],
+                    "render": function (data, type, full, meta) {
+                        return '';
+                    }
+                },
+                {
+                    "aTargets": [7],
+                    "render": function (data, type, full, meta) {
+                        var param = data;
+                        var content = '<button class="btn btn-minier btn-primary" onclick="showUpdateSession(' + param + ')"><i class="ace-icon fa fa-pencil"></i>Sửa</button>' +
+                              '<button class="btn btn-minier btn-danger" onclick="DeleteQuyenGopConfirm(' + param + ')">' + '<i class="ace-icon fa fa-trash-o"></i>Xóa</button>';
+                        return content;
+                    },
+                    "sWidth": "17%",
+                    "bSortable": false
+                }
+            ],
+            "bAutoWidth": false,
+        });
+    }
     //Data Handle
+    function UpdateDonation() {
+        //Validation
+        if (!prepareAddDonation()) {
+            return;
+        }
+        //Get Data From Input
+        startLoading();
+        $.ajax({
+            url: "/Donation/UpdateDonation",
+            async: false,
+            data: {
+                //Session
+                donationId: $("#idDonation").val(),
+                parishionerID: $("#idParishioner").val()
+            },
+            success: function (data) {
+                if (data <= 0) {
+                    if (data == -1) {
+                        showMessage("Cập nhật thất bại", 0);
+                    }
+                } else {
+                    $("#donationModal").modal('hide');
+                    refeshTable("donationTable");
+                }
+            },
+        });
+    }
+
+    function prepareAddDonation() {
+        var isError = false;
+        if ($("#donationHistoryTable tbody").html() == "") {
+            $("#lbNeedSessionError").html("Hãy thêm quyên góp");
+            $("#lbNeedSessionError").show();
+            isError = true;
+        }
+        else
+            $("#lbNeedSessionError").hide();
+
+        if (isError) {
+            return false;
+        }
+
+        return true;
+    }
+
     function prepareAddSession() {
         var currency = $("#cbbCurrency").val();
-        var valueOfMoney = $("#txtValue").val();
+        var valueOfMoney = $("#txtValue").val().replace(',', '');
         var rate = $("#txtRate").val();
         var donationDate = $("#txtDonationDate").val();
         var isReceipt = $("#cbIsReceipt");
@@ -849,19 +1060,19 @@
         //Get Data From Input
         startLoading();
         $.ajax({
-            url: "/Donation/AddDonation",
+            url: "/Donation/AddDonationDetail",
             async: false,
             data: {
                 //Session
-                DonationDate: $("#txtDonationDate").val(),
-                Note: $("#txtNote").val(),
-                DonationID: $("#idDonation").val(),
-                Type: $("#cbbCurrency").val(),
-                InputValue: $("#txtValue").val(),
-                ExchangeRate: $("#txtRate").val(),
+                donationDate: $("#txtDonationDate").val(),
+                note: $("#txtNote").val(),
+                donationId: $("#idDonation").val(),
+                type: $("#cbbCurrency").val(),
+                inputValue: $("#txtValue").val().toString().split(',').join(''),
+                exchangeRate: $("#txtRate").val(),
 
                 //Donation
-                ParishionerID: $("#idParishioner").val(),
+                parishionerID: $("#idParishioner").val(),
 
             },
             success: function (data) {
@@ -871,11 +1082,213 @@
                     }
                 } else {
                     showMessage("Thêm mới thành công", 1);
+                    $("#sessionModal").modal('hide');
+                    if ($("#idDonation").val() == 0) {
+                        $("#idDonation").val(data);
+                        LoadDanationHistory(data);
+                    }
+                    else
+                        refeshTable("donationHistoryTable");
                 }
             },
         });
         return id;
     }
 
+    function showUpdateSession(sessionId) {
+        startLoading();
+        $.ajax({
+            url: "/Donation/GetSessionDetail",
+            async: false,
+            data: {
+                //Session
+                sessionId: sessionId
+            },
+            success: function (data) {
+                var item = data.result;
+                $("#txtDonationDate").val(convertServerDate2VnDate(item.DonationDate));
+                $("#txtNote").val(item.Note);
+                if (item.ExchangeRate == 1) {
+                    $("#cbbCurrency").val(2);
+                }
+                else {
+                    $("#cbbCurrency").val(1);
+                }
+                $("#txtValue").val(numberWithCommas(item.FinalValue));
+                $("#txtRate").val(item.ExchangeRate);
+                $("#idSession").val(sessionId);
+                $("#btnAddSession").hide();
+                $("#btnUpdateSession").show();
+                $("#sessionModal").modal('show');
+            },
+        });
+    }
 
+    function UpdateSession() {
+        //Validation
+        if (!prepareAddSession()) {
+            return;
+        }
+        if (!checkRate()) {
+            $("#txtRate").val(1);
+        }
+
+        //Get Data From Input
+        startLoading();
+        $.ajax({
+            url: "/Donation/UpdateDonationDetail",
+            async: false,
+            data: {
+                //Session
+                sessionId: $("#idSession").val(),
+                donationDate: $("#txtDonationDate").val(),
+                note: $("#txtNote").val(),
+                //donationID: $("#idDonation").val(),
+                type: $("#cbbCurrency").val(),
+                inputValue: $("#txtValue").val().toString().split(',').join(''),
+                exchangeRate: $("#txtRate").val()
+
+                //Donation
+                //parishionerID: $("#idParishioner").val(),
+
+            },
+            success: function (data) {
+                if (data <= 0) {
+                    if (data == -1) {
+                        showMessage("Cập nhật quyên góp thất bại", 0);
+                    }
+                } else {
+                    showMessage("Cập nhật thành công", 1);
+                    $("#sessionModal").modal('hide');
+                    refeshTable("donationHistoryTable");
+                }
+            },
+        });
+    }
+
+    function DeleteNguoiQuyenGopConfirm(donationId) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn xóa người đóng góp này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteNguoiQuyenGop(donationId);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    function DeleteNguoiQuyenGop(donationId) {
+        //startLoading();
+        $.ajax({
+            url: "/Donation/DeleteDonation",
+            type: "POST",
+            data: {
+                donationId: donationId
+            },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Xóa thất bại.", 0);
+                } else {
+                    updateTableContent("donationTable");
+                }
+
+            },
+        });
+    }
+
+    function DeleteQuyenGopConfirm(sessionId) {
+        bootbox.dialog({
+            closeButton: false,
+            message: "Bạn có chắc muốn xóa mục quyên góp này không?",
+            title: "Xác nhận",
+            buttons: {
+                danger: {
+                    label: " Xóa",
+                    className: "ace-icon fa fa-trash-o btn-danger",
+                    callback: function () {
+                        DeleteQuyenGop(sessionId);
+                    }
+                },
+                main: {
+                    label: " Đóng",
+                    className: "ace-icon fa fa-times btn-default",
+                    callback: function () {
+                    }
+                }
+            }
+        });
+    }
+
+    function DeleteQuyenGop(sessionId) {
+        //startLoading();
+        $.ajax({
+            url: "/Donation/DeleteSession",
+            type: "POST",
+            data: {
+                sessionId: sessionId
+            },
+            success: function (data) {
+
+                if (data.result <= 0) {
+                    showMessage("Xóa thất bại.", 0);
+                } else {
+                    updateTableContent("donationHistoryTable");
+                }
+
+            },
+        });
+    }
+
+    function showDonationRank(data)
+    {
+        switch(data)
+        {
+            case "1":
+                return "Silver";
+            case "2":
+                return "Gold";
+            case "3":
+                return "Platinum";
+            case "4":
+                return "Diamond";
+            default:
+                return "";
+        }
+    }
+
+    $("#cbbVicariate").change(function () {
+        var vicariateId = $("#cbbVicariate").val();
+        $("#cbbParish option").show();
+        $("#cbbParish option[vicariateId!='" + vicariateId + "']").hide();
+        $("#cbbParish option[value='0']").show();
+        $("#cbbParish").val("0");
+        $("#cbbCommunity").val("0");
+        refeshTable("donationTable");
+    });
+
+    $("#cbbParish").change(function () {
+        var parishId = $("#cbbParish").val();
+        $("#cbbCommunity option").show();
+        $("#cbbCommunity option[parishId!='" + parishId + "']").hide();
+        $("#cbbCommunity option[value='0']").show();
+        $("#cbbCommunity").val("0");
+        refeshTable("donationTable");
+    });
+
+    $("#cbbCommunity").change(function () {
+        refeshTable("donationTable");
+    });
 </script>
