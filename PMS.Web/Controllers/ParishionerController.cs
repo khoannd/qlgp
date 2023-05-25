@@ -603,20 +603,20 @@ namespace PMS.Web.Controllers
             }
 
             Parish parish2 = new Parish();
-            if(!Tools.IsNullOrEmpty(vocation.Seminary) && Tools.IsNullOrZero(vocation.SeminaryId))
-            {
-                parish2 = _parishBusiness.GetParishesByParishName(vocation.Seminary, 0);
-                if(parish2 != null)
-                {
-                    vocation.SeminaryId = parish2.Id;
-                    vocation.SeminaryType = parish2.Category;
-                }
-            }
-            else if (Tools.IsNullOrEmpty(vocation.Seminary))
-            {
-                vocation.SeminaryId = 0;
-                vocation.ServedType = 0;
-            }
+            //if(!Tools.IsNullOrEmpty(vocation.Seminary) && Tools.IsNullOrZero(vocation.SeminaryId))
+            //{
+            //    parish2 = _parishBusiness.GetParishesByParishName(vocation.Seminary, 0);
+            //    if(parish2 != null)
+            //    {
+            //        vocation.SeminaryId = parish2.Id;
+            //        vocation.SeminaryType = parish2.Category;
+            //    }
+            //}
+            //else if (Tools.IsNullOrEmpty(vocation.Seminary))
+            //{
+            //    vocation.SeminaryId = 0;
+            //    vocation.ServedType = 0;
+            //}
 
             int parishId = (int)Session["ParishId"];
             int dioceseId = (int)Session["DioceseId"];

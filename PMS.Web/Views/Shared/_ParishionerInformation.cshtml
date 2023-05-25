@@ -890,9 +890,16 @@
                                                             <div class="col-sm-8">
                                                                 <select id="cbbVocationTypeCode" class="form-control">
                                                                     <option value="">Vui lòng chọn</option>
-                                                                    @foreach (var item in ((List<ValueSet>)ViewBag.TypeCode))
+                                                                    @if (ViewBag.TypeCode != null)
                                                                     {
-                                                                        <option value="@item.Code">@item.Definition</option>
+                                                                        foreach (var item in ((List<ValueSet>)ViewBag.TypeCode))
+                                                                        {
+                                                                            <option value="@item.Code">@item.Definition</option>
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="">--</option>
                                                                     }
                                                                 </select>
                                                             </div>
@@ -1026,9 +1033,11 @@
                                                             <div class="col-sm-8">
                                                                 <select id="cbbSeminary" class="form-control">
                                                                     <option value="0"></option>
-                                                                    @foreach (var item in ((List<Parish>)ViewBag.Seminary))
-                                                                    {
+                                                                    @if (ViewBag.Seminary != null) {
+                                                                        foreach (var item in ((List<Parish>)ViewBag.Seminary))
+                                                                        {
                                                                         <option value="@item.Id">@item.Name</option>
+                                                                        }
                                                                     }
                                                                 </select>
 
@@ -1102,9 +1111,12 @@
                                                             <div class="col-sm-8">
                                                                 <select id="cbbServedPlace" class="form-control">
                                                                     <option value="0"></option>
-                                                                    @foreach (var item in ((List<Parish>)ViewBag.Parishes))
+                                                                    @if (ViewBag.Parishes != null)
                                                                     {
+                                                                        foreach (var item in ((List<Parish>)ViewBag.Parishes))
+                                                                        {
                                                                         <option value="@item.Id">@item.Name</option>
+                                                                        }
                                                                     }
                                                                 </select>
                                                             </div>
@@ -1115,9 +1127,12 @@
                                                             <div class="col-sm-8">
                                                                 <select id="cbbVocationServedRole" class="form-control">
                                                                     <option value="0">Vui lòng chọn</option>
-                                                                    @foreach (var item in ((List<VaiTro>)ViewBag.VaiTro))
+                                                                    @if (ViewBag.VaiTro != null)
                                                                     {
+                                                                        foreach (var item in ((List<VaiTro>)ViewBag.VaiTro))
+                                                                        {
                                                                         <option value="@item.Id">@item.Name</option>
+                                                                        }
                                                                     }
                                                                 </select>
                                                             </div>
