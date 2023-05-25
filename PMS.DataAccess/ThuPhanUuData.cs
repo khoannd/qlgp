@@ -179,5 +179,11 @@ namespace PMS.DataAccess
                 return null;
             }
         }
+
+        public Parishioner GetDeathManInfo(int deathManID)
+        {
+            Parishioner pr = _db.Parishioners.SingleOrDefault(d => d.Id == deathManID);
+            return pr;
+        }
     }
 }

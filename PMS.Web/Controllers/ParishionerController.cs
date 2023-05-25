@@ -1237,7 +1237,20 @@ namespace PMS.Web.Controllers
         // Khoan add start
         public ActionResult LoadParishionerByName(string name)
         {
-            var result = _parishionerBusiness.LoadParishionerByName(name);
+            var result = _parishionerBusiness.LoadParishionerByName(name).Select(e => new
+            {
+                e.Name,
+                e.Id,
+                e.ChristianName,
+                e.Code,
+                e.CommunityName,
+                e.Phone,
+                e.Gender,
+                e.BirthDate,
+                e.BirthPlace,
+                e.FatherName,
+                e.MotherName
+            });
 
             return Json(new
             {

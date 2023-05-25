@@ -12,18 +12,23 @@ namespace PMS.BusinessLogic
     public class DonationBusiness
     {
         private readonly DonationData _donationData;
+        private readonly ParishionerData _parishionerData;
         public DonationBusiness(string connection)
         {
             _donationData = new DonationData(connection);
+            _parishionerData = new ParishionerData(connection);
         }
 
-        public IEnumerable<IConvertible[]> LoadAllDonation(string searchValue, int sortColumnIndex
-                                                                                    , string sortDirection, int displayStart, int displayLength
-                                                                                    , out int totalRecords, out int totalDisplayRecords)
+        public IEnumerable<IConvertible[]> LoadAllDonation(jQueryDataTableParam param, out int totalRecords, out int totalDisplayRecords)
         {
+            string searchValue = param.search["value"];
+            int sortColumnIndex = Convert.ToInt32(param.order[0]["column"]);
+            string sortDirection = param.order[0]["dir"];
+            int displayStart = param.start;
+            int displayLength = param.length;
             //Load Data
             IEnumerable<DonationViewModel> donation;
-            donation = _donationData.getAllDonation();
+            donation = _donationData.getAllDonation((int)param.VicariateId, (int)param.ParishId, (int)param.CommunityId);
             IEnumerable<DonationViewModel> filteredListItems;
             if (!string.IsNullOrEmpty(searchValue))
             {
@@ -54,11 +59,36 @@ namespace PMS.BusinessLogic
                            c.TotalValue,
                            c.DonationLevel,
                            c.CertificateID, //c.CertificateID != null ? c.CertificateID : -1,
-                           c.DonationID
+                           c.DonationID + "-" + c.ParishionerID
                        };
 
             totalRecords = records;
             totalDisplayRecords = records;
+
+            return result;
+        }
+
+        public IEnumerable<IConvertible[]> LoadDonationSession(int donationId)
+        {
+            var sessions = _donationData.LoadDonationSession(donationId);
+
+            //Paging
+            //var list = filteredListItems.ToList();
+            //int records = list.Count;
+            //var displayedList = list.Skip(displayStart).Take(displayLength);
+            //var converter = new DateConverter();
+            var result = from c in sessions
+                         select new IConvertible[]
+                       {
+                           c.Id,
+                           c.Id,
+                           String.Format("{0:dd/MM/yyyy}",c.DonationDate),
+                           c.FinalValue.ToString("n0"),
+                           c.InputValue == c.FinalValue ? "0" : c.InputValue.ToString("n0"),
+                           c.ReceiptID,
+                           c.Id,
+                           c.Id
+                       };
 
             return result;
         }
@@ -68,6 +98,33 @@ namespace PMS.BusinessLogic
             return _donationData.AddDonation(donation);
         }
 
+        public int UpdateDonation(int donationId, int parishionerId)
+        {
+            return _donationData.UpdateDonation(donationId, parishionerId);
+        }
+
+        public int DeleteDonation(int donationId)
+        {
+            return _donationData.DeleteDonation(donationId);
+        }
+
+        public DonationSession GetSessionByID(int sessionId)
+        {
+            return _donationData.GetSessionByID(sessionId);
+        }
+
+        public DonorsViewModel GetDonationByID(int parishionerID)
+        {
+            //var donation = _donationData.GetDonationByID(donationId);
+            //if(donation != null)                
+
+
+            //return null;
+            var donors = _parishionerData.GetDonorsById(parishionerID);
+            //if (donors != null)
+            //    donors.Gender = donors.Gender == "1" ? "Nam" : "Nữ";
+            return donors;
+        }
         //public List<string> getCurrenyByCode(string type)
         //{
         //    return _donationData.getCurrenyByCode(type).ToList();

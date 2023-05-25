@@ -72,6 +72,7 @@
     <Compile Include="KhachMoiData.cs" />
     <Compile Include="LetterAndReportData.cs" />
     <Compile Include="MatrimonyData.cs" />
+    <Compile Include="MenuManagementData.cs" />
     <Compile Include="RoleData.cs" />
     <Compile Include="RolePermissionData.cs" />
     <Compile Include="MenuData.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="PlaceData.cs" />
     <Compile Include="ParishManagerData.cs" />
     <Compile Include="GeneralStatusData.cs" />
+    <Compile Include="ScreenActionData.cs" />
     <Compile Include="SeminarianData.cs" />
     <Compile Include="SeminaryYearData.cs" />
     <Compile Include="ThuPhanUuData.cs" />
@@ -119,11 +121,13 @@
     <Compile Include="ViewModels\ClassGroupViewModel.cs" />
     <Compile Include="ViewModels\ConstructionPermitViewModel.cs" />
     <Compile Include="ViewModels\DonationViewModel.cs" />
+    <Compile Include="ViewModels\DonorsViewModel.cs" />
     <Compile Include="ViewModels\GiayMoiViewModel.cs" />
     <Compile Include="ViewModels\HDLMMemberViewModel.cs" />
     <Compile Include="ViewModels\HDLMViewModel.cs" />
     <Compile Include="ViewModels\KhachMoiViewModel.cs" />
     <Compile Include="ViewModels\LetterAndReportViewModel.cs" />
+    <Compile Include="ViewModels\MenuManagementViewModel.cs" />
     <Compile Include="ViewModels\PriestViewModel.cs" />
     <Compile Include="ViewModels\PrintParishManagerViewModel.cs" />
     <Compile Include="ViewModels\RolePermissionViewModel.cs" />

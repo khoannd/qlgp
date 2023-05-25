@@ -21,6 +21,16 @@ namespace PMS.BusinessLogic
             return _donationSessionData.AddSession(session);
         }
 
+        public int UpdateSession(DonationSession session)
+        {
+            return _donationSessionData.UpdateSession(session);
+        }
+
+        public int DeleteSession(int sessionId)
+        {
+            return _donationSessionData.DeleteSession(sessionId);
+        }
+
     }
 
 }
