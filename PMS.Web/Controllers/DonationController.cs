@@ -113,7 +113,7 @@ namespace PMS.Web.Controllers
                 var session = new DonationSession()
                 {
                     DonationID = donationId,
-                    DonationDate = Convert.ToDateTime(donationDate),
+                    DonationDate = donationDate,
                     ReceiptDate = string.Empty,
                     Currency = currency,
                     InputValue = inputValue,
@@ -145,7 +145,7 @@ namespace PMS.Web.Controllers
             var session = new DonationSession()
             {
                 Id = sessionId,
-                DonationDate = Convert.ToDateTime(donationDate),
+                DonationDate = donationDate,
                 ReceiptDate = string.Empty,
                 Currency = currency,
                 InputValue = inputValue,

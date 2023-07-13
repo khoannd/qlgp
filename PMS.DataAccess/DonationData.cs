@@ -147,7 +147,7 @@ namespace PMS.DataAccess
                 var session = _db.DonationSessions.Where(item => item.Id == sessionId).SingleOrDefault();
                 if (session != null)
                 {
-                    session.DonationDate = donationDate;
+                    session.DonationDate = donationDate.ToString("yyyy-MM-dd");
                     session.Note = note;
                     session.Currency = currency;
                     session.InputValue = inputValue;
