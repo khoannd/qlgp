@@ -226,6 +226,7 @@
     <Content Include="Content\assets\css\jquery-ui.custom.min.css" />
     <Content Include="Content\assets\css\jquery-ui.min.css" />
     <Content Include="Content\assets\css\jquery.gritter.css" />
+    <Content Include="Content\assets\css\jquery.timepicker.css" />
     <Content Include="Content\assets\css\prettify.css" />
     <Content Include="Content\assets\css\select2-spinner.gif" />
     <Content Include="Content\assets\css\select2.css" />
@@ -270,6 +271,8 @@
     <Content Include="Content\assets\js\date-time\bootstrap-datetimepicker.min.js" />
     <Content Include="Content\assets\js\date-time\bootstrap-timepicker.min.js" />
     <Content Include="Content\assets\js\date-time\daterangepicker.min.js" />
+    <Content Include="Content\assets\js\date-time\jquery.timepicker.js" />
+    <Content Include="Content\assets\js\date-time\jquery.timepicker.min.js" />
     <Content Include="Content\assets\js\date-time\moment.min.js" />
     <Content Include="Content\assets\js\dropzone.min.js" />
     <Content Include="Content\assets\js\flot\jquery.flot.min.js" />
@@ -298,6 +301,8 @@
     <Content Include="Content\assets\js\jquery.mobile.custom.min.js" />
     <Content Include="Content\assets\js\jquery.nestable.min.js" />
     <Content Include="Content\assets\js\jquery.sparkline.min.js" />
+    <Content Include="Content\assets\js\jquery.timepicker.js" />
+    <Content Include="Content\assets\js\jquery.timepicker.min.js" />
     <Content Include="Content\assets\js\jquery.ui.touch-punch.min.js" />
     <Content Include="Content\assets\js\jquery.validate.min.js" />
     <Content Include="Content\assets\js\markdown\bootstrap-markdown.min.js" />
