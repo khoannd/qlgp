@@ -28,8 +28,20 @@ namespace PMS.DataAccess
         }
         public IEnumerable<Vicariate> GetVicariateByDioceseId(int dioceseId)
         {
-            const string query = "SELECT * FROM Vicariate WHERE DioceseId = {0} ";
-            return _db.ExecuteQuery<Vicariate>(query, dioceseId);
+            string query = string.Empty;
+            IEnumerable<Vicariate> result;
+            if (dioceseId > 0)
+            {
+                query = "SELECT * FROM Vicariate WHERE DioceseId = {0} ";
+                result = _db.ExecuteQuery<Vicariate>(query, dioceseId);
+            }
+            else
+            {
+                query = "SELECT * FROM Vicariate";
+                result = _db.ExecuteQuery<Vicariate>(query);
+
+            }
+            return result;
         }
 
         public Vicariate GetVicariateByVicariateId(int id)
