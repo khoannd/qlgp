@@ -1760,6 +1760,7 @@
         $.ajax({
             url: "/Parishioner/AddParishioner",
             async: false,
+            method:'POST',
             data: {
                 Code: $("#txtParishionerCode").val(),
                 ImageUrl: ImageURL,
@@ -3459,6 +3460,7 @@
     var imgLoaded = false;
     $(document).ready(function () {
         $("#UploadParishinerTarget").on("load", function () {
+            debugger;
             if (imgLoaded)
                 UploadParishionerImage_Complete();
             imgLoaded = true;
