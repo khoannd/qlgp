@@ -192,10 +192,10 @@ namespace PMS.BusinessLogic
                                c.ImageUrl = GetImageUrl(string.Concat(fileThumbPath, c.ImageUrl), c.Gender),
                                c.Gender == 0 ? "Nữ" : "Nam",
                                conveter.ConvertStringToDate(c.BirthDate),
-                               request.Community == null || c.Community == null ? "" : (request == null || approved == -1) ? ((c.Community.ParentId != null) ? c.Community.Name : "")
-                               : ((request.Community.ParentId != null) ? request.Community.Name : ""),
-                               request.Community == null || c.Community == null ? "" : (request == null || approved == -1) ? ((c.Community.ParentId != null) ? c.Community.Community1.Name : c.Community.Name)
-                               : ((request.Community.ParentId != null) ? request.Community.Community1.Name : request.Community.Name)  ,
+                               request?.Community == null || c.Community == null ? "" : (request == null || approved == -1) ? ((c.Community.ParentId != null) ? c.Community.Name : "")
+                               : ((request?.Community.ParentId != null) ? request?.Community.Name : ""),
+                               request?.Community == null || c.Community == null ? "" : (request == null || approved == -1) ? ((c.Community.ParentId != null) ? c.Community.Community1.Name : c.Community.Name)
+                               : ((request?.Community.ParentId != null) ? request?.Community.Community1.Name : request?.Community.Name)  ,
                                c.Id
                            };
             }
