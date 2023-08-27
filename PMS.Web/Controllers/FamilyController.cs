@@ -67,7 +67,10 @@ namespace PMS.Web.Controllers
 
             List<Community> communities = _communityBusiness.GetCommunitiesByParishId(parishId);
             List<Community> parishDivisions = _communityBusiness.GetParishDivisionsByParishId(parishId);
-
+            //2023/08/27 gnguyen start add 
+            List<Parish> parishs = _parishBusiness.GetAllParish().ToList();
+            ViewBag.Parishes = parishs;
+            //2023/08/27 gnguyen end add 
             ViewBag.Communities = communities;
             ViewBag.ParishDivisions = parishDivisions;
 
@@ -129,13 +132,13 @@ namespace PMS.Web.Controllers
             }
 
             return Json(new
-                        {
-                            result = result,
-                            isHouseholder = isHouseholder,
-                            familyName = familyName,
-                            familyId = id,
-                            status = status
-                        }, JsonRequestBehavior.AllowGet);
+            {
+                result = result,
+                isHouseholder = isHouseholder,
+                familyName = familyName,
+                familyId = id,
+                status = status
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public int ChangeFamilyStatus(int id, int status, bool isForced)
@@ -279,23 +282,23 @@ namespace PMS.Web.Controllers
 
         public ActionResult SuggestMoreMember(int memberId)
         {
-            int parishId = (int) Session["ParishId"];
+            int parishId = (int)Session["ParishId"];
             var parishioner = _familyBusiness.SuggestMoreMember(memberId, parishId);
 
             if (parishioner == null)
             {
                 return Json(new
-                            {
-                                result = 0
-                            }, JsonRequestBehavior.AllowGet);
+                {
+                    result = 0
+                }, JsonRequestBehavior.AllowGet);
             }
 
             return Json(new
-                        {
-                            result = 1,
-                            parishionerId = parishioner.Id,
-                            name = string.IsNullOrEmpty(parishioner.ChristianName) ? parishioner.Name : parishioner.ChristianName + " " + parishioner.Name
-                        }, JsonRequestBehavior.AllowGet);
+            {
+                result = 1,
+                parishionerId = parishioner.Id,
+                name = string.IsNullOrEmpty(parishioner.ChristianName) ? parishioner.Name : parishioner.ChristianName + " " + parishioner.Name
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public int CheckExistedFamilyCode(string code)
@@ -327,10 +330,10 @@ namespace PMS.Web.Controllers
             int result = _familyBusiness.UpdateFamily(family);
             if (result > 0)
             {
-                int parishId = (int) Session["ParishId"];
-                int dioceseId = (int) Session["DioceseId"];
+                int parishId = (int)Session["ParishId"];
+                int dioceseId = (int)Session["DioceseId"];
 
-                if (family.DomicileStatus == (int) DomicileStatusEnum.TransferredToAnotherParish)
+                if (family.DomicileStatus == (int)DomicileStatusEnum.TransferredToAnotherParish)
                 {
                     //Tim ra giao xu can duoc chuyen
                     if (string.IsNullOrEmpty(family.DomicilePlace))
@@ -401,12 +404,12 @@ namespace PMS.Web.Controllers
             }
 
             return Json(new
-                        {
-                            result = family,
-                            communityId = communityId,
-                            communityName = communityName,
-                            parishName = parishName
-                        }, JsonRequestBehavior.AllowGet);
+            {
+                result = family,
+                communityId = communityId,
+                communityName = communityName,
+                parishName = parishName
+            }, JsonRequestBehavior.AllowGet);
         }
 
         public int ChangeFamilyPosition(int memberId, int familyId, int position)

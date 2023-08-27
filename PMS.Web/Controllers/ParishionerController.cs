@@ -95,7 +95,10 @@ namespace PMS.Web.Controllers
 
             List<Community> communities = _communityBusiness.GetCommunitiesByParishId(parishId);
             List<Community> parishDivisions = _communityBusiness.GetParishDivisionsByParishId(parishId);
-
+            //2023/08/27 gnguyen start add 
+            List<Parish> parishs = _parishBusiness.GetAllParish().ToList();
+            ViewBag.Parishes = parishs;
+            //2023/08/27 gnguyen end add 
             ViewBag.Communities = communities;
             ViewBag.ParishDivisions = parishDivisions;
 
