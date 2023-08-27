@@ -40,7 +40,7 @@
                         <div class="tabbable">
                             <ul class="nav nav-tabs" id="myTab">
                                 <li class="active">
-                                    <a id="homeLinkTab" data-toggle="tab" href="#home">
+                                    <a id="homeLinkTab" data-toggle="tab" href="#homeAddGiaoDan">
                                         <i class="ace-icon fa fa-user bigger-120"></i>
                                         Cá nhân
                                     </a>
@@ -55,7 +55,7 @@
                             </ul>
 
                             <div class="tab-content">
-                                <div id="home" class="tab-pane fade in active">
+                                <div id="homeAddGiaoDan" class="tab-pane fade in active">
 
                                     <!-- Thông tin cá nhân-->
                                     <div class="col-sm-12  ui-sortable">
@@ -1126,7 +1126,6 @@
             $("#lbCodeErrorMessage").html("");
         }
         //Check trung code
-
         if (isError) {
             $("#homeLinkTab").tab('show');
             return false;
