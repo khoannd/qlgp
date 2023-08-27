@@ -225,6 +225,7 @@
     function searchParishioner() {
         var content = $("#txtParishionerNameLookupModal").val();
         if (content.length < 2) {
+            showMessage("Nhập hơn 1 kí tự để tìm kiếm.", 0);
             return;
         }
 

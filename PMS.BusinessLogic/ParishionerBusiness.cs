@@ -471,7 +471,19 @@ namespace PMS.BusinessLogic
             //               c.Community.Name,
             //               c.Id
             //           };
-
+            //2023/08/27 gnguyen start mod
+            //var result = from c in displayedList
+            //             select new IConvertible[]
+            //           {
+            //               c.Id,
+            //               c.Code,
+            //               c.ChristianName,
+            //               c.Name,
+            //               c.Gender == 0 ? "Nữ" : "Nam",
+            //               conveter.ConvertStringToDate(c.BirthDate),
+            //               c.Community.Name,
+            //               c.Id
+            //           };
             var result = from c in displayedList
                          select new IConvertible[]
                        {
@@ -481,9 +493,11 @@ namespace PMS.BusinessLogic
                            c.Name,
                            c.Gender == 0 ? "Nữ" : "Nam",
                            conveter.ConvertStringToDate(c.BirthDate),
-                           c.Community.Name,
+                           c.Community?.Name,
                            c.Id
                        };
+            //2023/08/27 gnguyen end mod
+
 
             totalRecords = records;
             totalDisplayRecords = records;

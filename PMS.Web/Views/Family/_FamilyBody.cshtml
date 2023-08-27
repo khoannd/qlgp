@@ -31,7 +31,10 @@
 
 
 @Html.Partial("_FamilyInformation")
-@Html.Partial("_LookupParishionerModal")
+@*2023-08-27 gnguyen start mod*@
+@*remove duplicate code*@
+@*@Html.Partial("_LookupParishionerModal")*@
+@*2023-08-27 gnguyen end mod*@
 @Html.Partial("_ViewReadonlyFamilyModal")
 @Html.Partial("_ParishionerInformation")
 @Html.Partial("_CreateParishionerModal")
@@ -80,7 +83,7 @@
             },
             "aoColumnDefs": [
                 {
-                    "aTargets": [0,1,6],
+                    "aTargets": [0, 1, 6],
                     "bVisible": false,
                 },
                 {
@@ -164,22 +167,22 @@
 
         loadParishDivisionsByCommunityId();
         updateTableContent("familyTable");
-      //  $("#familyTable").dataTable()._fnAjaxUpdate();
+        //  $("#familyTable").dataTable()._fnAjaxUpdate();
     });
 
     $("#cbbParishDivision").change(function () {
         updateTableContent("familyTable");
-    //    $("#familyTable").dataTable()._fnAjaxUpdate();
+        //    $("#familyTable").dataTable()._fnAjaxUpdate();
     });
 
     $("#cbFilterIsCounted").change(function () {
         updateTableContent("familyTable");
-      //  $("#familyTable").dataTable()._fnAjaxUpdate();
+        //  $("#familyTable").dataTable()._fnAjaxUpdate();
     });
 
     $("#cbFilterSavedStatus").change(function () {
         updateTableContent("familyTable");
-    //    $("#familyTable").dataTable()._fnAjaxUpdate();
+        //    $("#familyTable").dataTable()._fnAjaxUpdate();
     });
 
     $("#btnCreateFamily").click(function () {
@@ -266,7 +269,7 @@
                     }
 
                     updateTableContent("familyTable");
-                  //  $("#familyTable").dataTable()._fnAjaxUpdate();
+                    //  $("#familyTable").dataTable()._fnAjaxUpdate();
 
                 } else {
 
@@ -292,7 +295,7 @@
                     }
                     else {
                         showMessage("Xóa gia đình thất bại, vui lòng thử lại sau", 0);
-                    }     
+                    }
 
                 }
 
@@ -304,7 +307,7 @@
     function confirmAgainToSureDelete(id) {
 
         var message = "<p>Gia đình này đang có chứa thành viên</p> " +
-                      "<p>Bạn có thực sự muốn xóa vĩnh viễn gia đình này không ?</p>";
+            "<p>Bạn có thực sự muốn xóa vĩnh viễn gia đình này không ?</p>";
 
         bootbox.dialog({
             closeButton: false,
