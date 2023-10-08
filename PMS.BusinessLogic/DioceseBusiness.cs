@@ -121,5 +121,9 @@ namespace PMS.BusinessLogic
 
             return result;
         }
+        public int DeleteDiocese(int id)
+        {
+            return _dioceseData.DeleteDiocese(id);
+        }
     }
 }

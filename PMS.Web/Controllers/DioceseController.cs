@@ -144,5 +144,21 @@ namespace PMS.Web.Controllers
 
             return Url.Content(String.Format("~/Images/Dioceses/{0}", fileName));
         }
+        public ActionResult DeleteDiocese(int id)
+        {
+            int result = -1;
+            try
+            {
+                result = _dioceseBusiness.DeleteDiocese(id);
+            }
+            catch (Exception)
+            {
+                result = -1;
+            }
+            return Json(new
+            {
+                result = result
+            }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

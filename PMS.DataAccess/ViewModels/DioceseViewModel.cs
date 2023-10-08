@@ -20,4 +20,11 @@ namespace PMS.DataAccess.ViewModels
         public string ImageUrl { get; set; }
 
     }
+    public class DioceseDeleteViewModel
+    {
+        public int? Id { get; set; }
+        public int? HasParish { get; set; }
+        public int? HasPriest { get; set; }
+        public int? HasVicariate { get; set; }
+    }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PMS.DataAccess.Models;
+using PMS.DataAccess.ViewModels;
 
 namespace PMS.DataAccess
 {
@@ -99,6 +100,44 @@ namespace PMS.DataAccess
             {
                 
                 return  -1;
+            }
+        }
+        public int DeleteDiocese(int id)
+        {
+            try
+            {
+                Diocese diocese = GetDiocesesByDioceseId(id);
+                const string query = "select Id, ( select top 1 Id from Parish where DioceseId = {0}) as HasParish, ( select top 1 Id from Priest where DioceseId = {0}) as HasPriest, ( select top 1 Id from Vicariate where DioceseId = {0}) as HasVicariate from Diocese where Id = {0}; ";
+                DioceseDeleteViewModel result = _db.ExecuteQuery<DioceseDeleteViewModel>(query, id, id, id).SingleOrDefault();
+                if (result != null)
+                {
+                    if (result.HasVicariate.HasValue && result.HasVicariate > 0)
+                    {
+                        return -1;
+                    }
+                    else if (result.HasPriest.HasValue && result.HasPriest > 0)
+                    {
+                        return -1;
+                    }
+                    else if (result.HasParish.HasValue && result.HasParish > 0)
+                    {
+                        return -1;
+                    }
+                    // deletable
+                    _db.Dioceses.DeleteOnSubmit(diocese);
+                    _db.SubmitChanges();
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+                return 1;
+            }
+            catch (Exception)
+            {
+
+                return -1;
             }
         }
 
