@@ -87,7 +87,8 @@ namespace PMS.DataAccess
                     return 0;
                 }
                 item.Name = vicariate.Name;
-                item.ParishId = vicariate.ParishId;
+                item.DioceseId = vicariate.DioceseId;
+                item.ParishId = vicariate.ParishId > 0 ? vicariate.ParishId : null;
 
                 _db.SubmitChanges();
                 return 1;
